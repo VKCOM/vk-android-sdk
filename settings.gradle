@@ -1,0 +1,1 @@
+include ':vksdk_library', ':VKTestApplication'
