@@ -184,8 +184,15 @@ request.executeWithListener(new VKRequestListener() {
         //Do error stuff
     }
     @Override
-    public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
+    public void onProgress(VKRequest.VKProgressType progressType,
+                                     long bytesLoaded,
+                                     long bytesTotal)
+    {
         //I don't really believe in progress
+    }
+    @Override
+    public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
+        //More luck next time
     }
 });
 ```
