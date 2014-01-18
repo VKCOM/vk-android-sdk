@@ -35,18 +35,29 @@ public class ApiCallActivity extends ActionBarActivity {
         request.executeWithListener(new VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
-                //Do complete stuff
+	            ((TextView)findViewById(R.id.response)).setText(response.json.toString());
             }
 
-            @Override
-            public void onError(VKError error) {
-                //Do error stuff
-            }
+	        @Override
+	        public void onError(VKError error) {
+		        if (error.apiError != null)
+			        ((TextView)findViewById(R.id.response)).setText(error.apiError.errorMessage);
+		        else
+			        ((TextView)findViewById(R.id.response)).setText(String.format("Error %d: %s", error.errorCode, error.errorMessage));
+	        }
 
-            @Override
-            public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
-                //I don't really believe in progress
-            }
+	        @Override
+	        public void onProgress(VKRequest.VKProgressType progressType,
+	                                         long bytesLoaded,
+	                                         long bytesTotal)
+	        {
+		        //
+	        }
+
+	        @Override
+	        public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
+		        ((TextView)findViewById(R.id.response)).append(String.format("Attempt %d/%d failed\n", attemptNumber, totalAttempts));
+	        }
         });
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
