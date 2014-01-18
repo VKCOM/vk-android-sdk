@@ -241,3 +241,7 @@ batch.executeWithListener(new VKBatchRequestListener() {
 });
 ```
 4) The result of each method returns to a corresponding requestListener. The <b>batch</b> VKResponse for each request in order they have been passed.
+
+Class Reference
+=========
+[See the full classes reference at GitHub pages](http://vkcom.github.io/vk-android-sdk/)
