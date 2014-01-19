@@ -1,7 +1,7 @@
 vk-android-sdk
 ==========
 
-Library for working with VK API, authorization through VK app, using VK functions.
+Library for working with VK API, authorization through VK app, using VK functions. Minimal version of Android is 2.2
 
 Prepare for Using VK SDK
 ----------
