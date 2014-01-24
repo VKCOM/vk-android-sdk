@@ -32,3 +32,8 @@ proguard/
 *.ipr
 *.iws
 .idea/
+
+#gradle wrapper
+/gradle
+/gradlew
+/gradlew.bat
