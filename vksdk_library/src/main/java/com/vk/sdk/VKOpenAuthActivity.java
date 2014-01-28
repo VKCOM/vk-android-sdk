@@ -52,7 +52,7 @@ public class VKOpenAuthActivity extends Activity {
 
     public static final String VK_RESULT_INTENT_NAME = "com.vk.auth-token";
     public static final String VK_EXTRA_TOKEN_DATA = "extra-token-data";
-	public static final String VK_EXTRA_VALIDATION_URL = "extra-validation-url";
+    public static final String VK_EXTRA_VALIDATION_URL = "extra-validation-url";
 
     private static final String REDIRECT_URL = "https://oauth.vk.com/blank.html";
 
@@ -68,25 +68,25 @@ public class VKOpenAuthActivity extends Activity {
         findViewById(android.R.id.content).setBackgroundColor(Color.rgb(240, 242, 245));
         loadPage();
     }
+
     private void loadPage() {
         try {
-	        String urlToLoad;
-	        urlToLoad = getIntent().getStringExtra(VK_EXTRA_VALIDATION_URL);
-	        if (urlToLoad == null)
-	        {
-	            int appId = getIntent().getIntExtra(VK_EXTRA_CLIENT_ID, 0);
-	            String scope = getIntent().getStringExtra(VK_EXTRA_SCOPE),
-	                    apiV = getIntent().getStringExtra(VK_EXTRA_API_VERSION);
-	            boolean revoke = getIntent().getBooleanExtra(VK_EXTRA_REVOKE, false);
-	            urlToLoad = String.format(Locale.US,
-	                    "https://oauth.vk.com/authorize?client_id=%s" +
-	                            "&scope=%s" +
-	                            "&redirect_uri=%s" +
-	                            "&display=mobile" +
-	                            "&v=%s" +
-	                            "&response_type=token&revoke=%d",
-	                    appId, scope, REDIRECT_URL, apiV, revoke ? 1 : 0);
-	        }
+            String urlToLoad;
+            urlToLoad = getIntent().getStringExtra(VK_EXTRA_VALIDATION_URL);
+            if (urlToLoad == null) {
+                int appId = getIntent().getIntExtra(VK_EXTRA_CLIENT_ID, 0);
+                String scope = getIntent().getStringExtra(VK_EXTRA_SCOPE),
+                        apiV = getIntent().getStringExtra(VK_EXTRA_API_VERSION);
+                boolean revoke = getIntent().getBooleanExtra(VK_EXTRA_REVOKE, false);
+                urlToLoad = String.format(Locale.US,
+                        "https://oauth.vk.com/authorize?client_id=%s" +
+                                "&scope=%s" +
+                                "&redirect_uri=%s" +
+                                "&display=mobile" +
+                                "&v=%s" +
+                                "&response_type=token&revoke=%d",
+                        appId, scope, REDIRECT_URL, apiV, revoke ? 1 : 0);
+            }
             mWebView = (WebView) findViewById(android.R.id.copyUrl);
             mWebView.setWebViewClient(new OAuthWebViewClient());
             WebSettings webSettings = mWebView.getSettings();
@@ -112,14 +112,15 @@ public class VKOpenAuthActivity extends Activity {
 
     private class OAuthWebViewClient extends WebViewClient {
         public boolean canShowPage = true;
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if (url.startsWith(REDIRECT_URL)) {
                 Log.d("WebView", url);
                 Intent data = new Intent(VK_RESULT_INTENT_NAME);
                 data.putExtra(VK_EXTRA_TOKEN_DATA, url.substring(url.indexOf('#') + 1));
-	            if (getIntent().hasExtra(VK_EXTRA_VALIDATION_URL))
-		            data.putExtra(VK_EXTRA_VALIDATION_URL, true);
+                if (getIntent().hasExtra(VK_EXTRA_VALIDATION_URL))
+                    data.putExtra(VK_EXTRA_VALIDATION_URL, true);
                 setResult(RESULT_OK, data);
                 finish();
                 return true;
@@ -141,7 +142,7 @@ public class VKOpenAuthActivity extends Activity {
             canShowPage = false;
             new AlertDialog.Builder(VKOpenAuthActivity.this)
                     .setMessage(description)
-                    .setPositiveButton(R.string.vk_retry, new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             loadPage();

@@ -60,6 +60,7 @@ public class TestActivity extends ActionBarActivity {
         }
         return true;
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -71,6 +72,7 @@ public class TestActivity extends ActionBarActivity {
         super.onDestroy();
         VKUIHelper.onDestroy(this);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         VKUIHelper.onActivityResult(requestCode, resultCode, data);
@@ -126,7 +128,7 @@ public class TestActivity extends ActionBarActivity {
             getView().findViewById(R.id.wall_post).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    VKRequest request = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.MESSAGE, "Привет, друзья!"));
+                    VKRequest request = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "21153043", VKApiConst.MESSAGE, "Test"));
                     request.attempts = 10;
                     startApiCall(request);
                 }
@@ -135,7 +137,7 @@ public class TestActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View view) {
                     final Bitmap photo = getPhoto();
-                    VKRequest request = VKApi.uploadAlbumPhotoRequest(new VKUploadImage(photo, VKImageParameters.pngImage()), 181808365, 60479154);
+                    VKRequest request = VKApi.uploadAlbumPhotoRequest(new VKUploadImage(photo, VKImageParameters.pngImage()), 186361428, 21153043);
                     request.executeWithListener(new VKRequestListener() {
                         @Override
                         public void onComplete(VKResponse response) {
@@ -156,7 +158,7 @@ public class TestActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View view) {
                     final Bitmap photo = getPhoto();
-                    VKRequest request = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.9f)), 0, 60479154);
+                    VKRequest request = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.9f)), 21153043, 0);
                     request.executeWithListener(new VKRequestListener() {
                         @Override
                         public void onComplete(VKResponse response) {
@@ -164,6 +166,7 @@ public class TestActivity extends ActionBarActivity {
                             VKPhoto photoModel = ((VKPhotoArray) response.parsedModel).get(0);
                             makePost(String.format("photo%s_%s", photoModel.owner_id, photoModel.id));
                         }
+
                         @Override
                         public void onError(VKError error) {
                             showError(error);
@@ -175,10 +178,10 @@ public class TestActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View view) {
                     final Bitmap photo = getPhoto();
-                    VKRequest request1 = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.9f)), 0, 60479154);
-                    VKRequest request2 = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.5f)), 0, 60479154);
-                    VKRequest request3 = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.1f)), 0, 60479154);
-                    VKRequest request4 = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.pngImage()), 0, 60479154);
+                    VKRequest request1 = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.9f)), 21153043, 0);
+                    VKRequest request2 = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.5f)), 21153043, 0);
+                    VKRequest request3 = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.1f)), 21153043, 0);
+                    VKRequest request4 = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.pngImage()), 21153043, 0);
 
                     VKBatchRequest batch = new VKBatchRequest(request1, request2, request3, request4);
                     batch.executeWithListener(new VKBatchRequestListener() {
@@ -201,12 +204,13 @@ public class TestActivity extends ActionBarActivity {
                 }
             });
         }
-        private void startApiCall(VKRequest request)
-        {
+
+        private void startApiCall(VKRequest request) {
             Intent i = new Intent(getActivity(), ApiCallActivity.class);
             i.putExtra("request", request);
             startActivity(i);
         }
+
         private void showError(VKError error) {
             new AlertDialog.Builder(getActivity())
                     .setMessage(error.errorMessage)
@@ -215,6 +219,7 @@ public class TestActivity extends ActionBarActivity {
             if (error.httpError != null)
                 Log.w("Test", "Error in request or upload", error.httpError);
         }
+
         private Bitmap getPhoto() {
             Bitmap b = null;
             try {
@@ -224,15 +229,16 @@ public class TestActivity extends ActionBarActivity {
             }
             return b;
         }
+
         private void makePost(String attachments) {
-            VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments));
+            VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "21153043", VKApiConst.ATTACHMENTS, attachments));
             post.setModelClass(VKWallPostResult.class);
             post.executeWithListener(new VKRequestListener() {
                 @Override
                 public void onComplete(VKResponse response) {
                     super.onComplete(response);
 
-                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-60479154_%s", ((VKWallPostResult)response.parsedModel).post_id) ) );
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-60479154_%s", ((VKWallPostResult) response.parsedModel).post_id)));
                     startActivity(i);
                 }
 

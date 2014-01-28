@@ -24,10 +24,11 @@ public class LoginActivity extends Activity {
 
     private static String sTokenKey = "VK_ACCESS_TOKEN";
     private static String[] sMyScope = new String[]{VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS, VKScope.NOHTTPS};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        VKSdk.initialize(sdkListener, "3974615", VKAccessToken.tokenFromSharedPreferences(this, sTokenKey));
+        VKSdk.initialize(sdkListener, "4132728", VKAccessToken.tokenFromSharedPreferences(this, sTokenKey));
         setContentView(R.layout.activity_login);
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +43,7 @@ public class LoginActivity extends Activity {
             }
         });
         String[] fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName());
-	    Log.d("Fingerprint", fingerprint[0]);
+        Log.d("Fingerprint", fingerprint[0]);
     }
 
     @Override
