@@ -251,7 +251,7 @@ public class VKSdk {
 	        if (!renew)
                 sInstance.mListener.onReceiveNewToken(token);
 	        else
-		        sInstance.mListener.onReceiveNewToken(token);
+		        sInstance.mListener.onRenewAccessToken(token);
         }
     }
 
