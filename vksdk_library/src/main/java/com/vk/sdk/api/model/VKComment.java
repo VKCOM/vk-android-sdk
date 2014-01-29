@@ -14,4 +14,6 @@ public class VKComment extends VKApiModel {
     public long reply_to_user; // идентификатор пользователя или сообщества, в ответ которому оставлен текущий комментарий (если применимо)
     public long reply_to_comment; // идентификатор комментария, в ответ на который оставлен текущий (если применимо)
     public Map<String, Object> attachments; // объект, содержащий информацию о медиавложениях в комментарии
+
+    public Map<String, Integer> likes; // for method wall.getComments
 }
