@@ -40,7 +40,7 @@ public class VKHttpOperation extends VKAbstractOperation {
 	/**
      * Request initialized this object
      */
-    private HttpUriRequest mUriRequest;
+    private final HttpUriRequest mUriRequest;
     /**
      * Last exception throws while loading or parsing
      */

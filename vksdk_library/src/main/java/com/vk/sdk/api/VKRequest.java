@@ -66,15 +66,15 @@ public class VKRequest implements Serializable {
     /**
      * Selected method name
      */
-    public String methodName;
+    public final String methodName;
     /**
      * HTTP method for loading
      */
-    public HttpMethod httpMethod;
+    public final HttpMethod httpMethod;
     /**
      * Passed parameters for method
      */
-    private VKParameters mMethodParameters;
+    private final VKParameters mMethodParameters;
     /**
      * Method parametes with common parameters
      */

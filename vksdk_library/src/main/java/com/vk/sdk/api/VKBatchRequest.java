@@ -28,8 +28,8 @@ import com.vk.sdk.api.httpClient.VKHttpClient;
  * Used for execution bunch of methods at time, and receive results of that methods in array
  */
 public class VKBatchRequest extends VKObject {
-    private VKRequest[] mRequests;
-    private VKResponse[] mResponses;
+    private final VKRequest[] mRequests;
+    private final VKResponse[] mResponses;
     private boolean mCanceled = false;
 
     /**

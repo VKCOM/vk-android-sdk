@@ -29,6 +29,7 @@ import com.vk.sdk.api.VKError;
 import com.vk.sdk.util.VKStringJoiner;
 import com.vk.sdk.util.VKUtil;
 
+import java.net.BindException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,12 +67,12 @@ public class VKSdk {
         return VKUIHelper.getTopActivity();
     }
 
-    private static void checkConditions() throws Exception {
+    private static void checkConditions() throws BindException {
         if (sInstance == null) {
-            throw new NullPointerException("VK Sdk not yet initialized");
+            throw new BindException("VK Sdk not yet initialized");
         }
         if (sInstance.getContext() == null) {
-            throw new NullPointerException("Context must not be null");
+            throw new BindException("Context must not be null");
         }
     }
 

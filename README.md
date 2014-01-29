@@ -87,7 +87,8 @@ Connecting Using Eclipse
 1) In <b>Package explorer</b> click right mouse button, then click <b>Import</b>.
 2) Select <b>Android/Existing android code into workspace</b>.
 3) Find a folder with SDK, select <b>vksdk_library</b>.
-4) In <b>Properties</b> of your app go to <b>Android</b>, add <b>vksdk_library</b> in the <b>library</b> section.
+4) Open Properties of vksdk_library, then Java build path, then Add folder and pick "java" folder
+5) In <b>Properties</b> of your app go to <b>Android</b>, add <b>vksdk_library</b> in the <b>library</b> section.
 
 Editing AndroidManifest.xml
 ----------
