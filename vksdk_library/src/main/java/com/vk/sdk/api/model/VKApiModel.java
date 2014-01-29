@@ -24,6 +24,7 @@ package com.vk.sdk.api.model;
 import com.vk.sdk.VKObject;
 import com.vk.sdk.util.VKJsonHelper;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,11 +76,13 @@ public abstract class VKApiModel extends VKObject {
                         }
                     }
 
+				} else if (fType.isArray()) {
+					field.set(this, VKJsonHelper.toArray(response.getJSONArray(fName), fType));
                 } else if (fType.isAssignableFrom(Map.class)) {
                     field.set(this, VKJsonHelper.getMap(response, fName));
                 } else if (fType.isAssignableFrom(List.class)) {
                     field.set(this, VKJsonHelper.toList(response.getJSONArray(fName) ) );
-                } else if (fType.isAssignableFrom(VKApiModel.class)) {
+                } else if (VKApiModel.class.isAssignableFrom(fType)) {
                     VKApiModel obj = (VKApiModel) field.getType().newInstance();
                     obj.parse(response.getJSONObject(fName));
                     field.set(this, obj);
