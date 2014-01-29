@@ -21,6 +21,7 @@
 
 package com.vk.sdk.api;
 
+import com.vk.sdk.api.methods.VKApiGroups;
 import com.vk.sdk.api.methods.VKApiPhotos;
 import com.vk.sdk.api.methods.VKApiUsers;
 import com.vk.sdk.api.methods.VKApiWall;
@@ -31,7 +32,7 @@ import com.vk.sdk.api.photo.VKUploadWallPhotoRequest;
 import java.io.File;
 
 /**
- Provides access for API parts.
+ * Provides access for API parts.
  */
 public class VKApi {
     /**
@@ -58,20 +59,27 @@ public class VKApi {
         return new VKApiPhotos();
     }
 
+    public static VKApiGroups groups() {
+        return new VKApiGroups();
+    }
+
     /**
      * Upload a specified file to VK servers for posting on user or group wall
-     * @param image Image file to upload. Must have extension jpg or png
-     * @param userId User wall id or 0
+     *
+     * @param image   Image file to upload. Must have extension jpg or png
+     * @param userId  User wall id or 0
      * @param groupId Group id or 0
      * @return Prepared vk request for photo upload
      */
     public static VKRequest uploadWallPhotoRequest(File image, long userId, int groupId) {
         return new VKUploadWallPhotoRequest(image, userId, groupId);
     }
+
     /**
      * Upload a specified file to VK servers for posting on user or group wall
-     * @param image Special image object to upload
-     * @param userId User wall id or 0
+     *
+     * @param image   Special image object to upload
+     * @param userId  User wall id or 0
      * @param groupId Group id or 0
      * @return Prepared vk request for photo upload
      */
@@ -81,7 +89,8 @@ public class VKApi {
 
     /**
      * Upload a specified file to VK servers and saves it into the album
-     * @param image Image file to upload. Must have extension jpg or png
+     *
+     * @param image   Image file to upload. Must have extension jpg or png
      * @param albumId Album id to upload. Must be specified
      * @param groupId Group id or 0
      * @return Prepared vk request for photo upload
@@ -89,9 +98,11 @@ public class VKApi {
     public static VKRequest uploadAlbumPhotoRequest(File image, long albumId, int groupId) {
         return new VKUploadAlbumPhotoRequest(image, albumId, groupId);
     }
+
     /**
      * Upload a specified file to VK servers and saves it into the album
-     * @param image Special image object to upload
+     *
+     * @param image   Special image object to upload
      * @param albumId Album id to upload. Must be specified
      * @param groupId Group id or 0
      * @return Prepared vk request for photo upload

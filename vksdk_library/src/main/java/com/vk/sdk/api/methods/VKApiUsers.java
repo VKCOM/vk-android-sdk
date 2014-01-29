@@ -76,14 +76,16 @@ public class VKApiUsers extends VKApiBase {
      */
     public VKRequest isAppUser(final int userID) {
         return prepareRequest("isAppUser",
-                new VKParameters() {/**
-					 * 
-					 */
-					private static final long serialVersionUID = 7458591447441581671L;
+                new VKParameters() {
+                    /**
+                     *
+                     */
+                    private static final long serialVersionUID = 7458591447441581671L;
 
-				{
-                    put(VKApiConst.USER_ID, String.valueOf(userID));
-                }});
+                    {
+                        put(VKApiConst.USER_ID, String.valueOf(userID));
+                    }
+                });
     }
 
     /**
@@ -122,5 +124,16 @@ public class VKApiUsers extends VKApiBase {
      */
     public VKRequest getFollowers(VKParameters params) {
         return prepareRequest("getFollowers", params);
+    }
+
+    /**
+     * https://vk.com/dev/users.report
+     * Created on 29.01.14.
+     *
+     * @param params use parameters from description with VKApiConst class
+     * @return Request for load
+     */
+    public VKRequest report(VKParameters params) {
+        return prepareRequest("report", params);
     }
 }

@@ -39,4 +39,6 @@ public class VKGroup extends VKApiModel {
     public long fixed_post; // идентификатор post_id закрепленного поста сообщества. Сам пост можно получить, используя wall.getById, передав в поле posts – {group_id}_{post_id}
     public boolean verified; // возвращает информацию о том, является ли сообщество верифицированным
     public String site; // адрес сайта из поля «веб-сайт» в описании сообщества
+
+    public long invited_by; // идентификатор пользователя, который отправил приглашение
 }

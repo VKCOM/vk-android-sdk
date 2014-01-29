@@ -139,9 +139,9 @@ public class VKSdk {
      * Starts authorization process. If VKapp is available in system, it will opens and requests access from user.
      * Otherwise UIWebView with standard UINavigationBar will be opened for access request.
      *
-     * @param scope array of permissions for your applications. All permissions you can
-     * @param revoke      if true, user will allow logout (to change user)
-     * @param forceOAuth  sdk will use only oauth authorization, through uiwebview
+     * @param scope      array of permissions for your applications. All permissions you can
+     * @param revoke     if true, user will allow logout (to change user)
+     * @param forceOAuth sdk will use only oauth authorization, through uiwebview
      */
     public static void authorize(String[] scope, boolean revoke, boolean forceOAuth) {
         try {
@@ -156,10 +156,10 @@ public class VKSdk {
         String[] fingerprints = VKUtil.getCertificateFingerprint(sInstance.getContext(),
                 VK_APP_PACKAGE_ID);
         Intent intent;
-        if (!forceOAuth && VKUtil.isAppInstalled(sInstance.getContext(),
-                VK_APP_PACKAGE_ID)
-                && fingerprints[0].equals(VK_APP_FINGERPRINT)
-                ) {
+        if (!forceOAuth
+                && VKUtil.isAppInstalled(sInstance.getContext(), VK_APP_PACKAGE_ID)
+                && VKUtil.isIntentAvailable(sInstance.getContext(), VK_APP_AUTH_ACTION)
+                && fingerprints[0].equals(VK_APP_FINGERPRINT)) {
             intent = new Intent(VK_APP_AUTH_ACTION, null);
         } else {
             intent = new Intent(sInstance.getContext(), VKOpenAuthActivity.class);
@@ -204,7 +204,7 @@ public class VKSdk {
                 if (result.hasExtra(VKOpenAuthActivity.VK_EXTRA_TOKEN_DATA)) {
                     String tokenInfo = result.getStringExtra(VKOpenAuthActivity.VK_EXTRA_TOKEN_DATA);
                     Map<String, String> tokenParams = VKUtil.explodeQueryString(tokenInfo);
-	                boolean renew = result.getBooleanExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_URL, false);
+                    boolean renew = result.getBooleanExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_URL, false);
                     checkAndSetToken(tokenParams, renew);
                 } else if (result.getExtras() != null) {
                     setAccessTokenError(new VKError(VKError.VK_API_CANCELED));
@@ -223,11 +223,12 @@ public class VKSdk {
         return false;
     }
 
-	/**
-	 * Check new access token and sets it as working token
-	 * @param tokenParams params of token
-	 * @param renew flag indicates token renewal
-	 */
+    /**
+     * Check new access token and sets it as working token
+     *
+     * @param tokenParams params of token
+     * @param renew       flag indicates token renewal
+     */
     private static void checkAndSetToken(Map<String, String> tokenParams, boolean renew) {
         VKAccessToken token = VKAccessToken.tokenFromParameters(tokenParams);
         if (token == null || token.accessToken == null) {
@@ -247,10 +248,10 @@ public class VKSdk {
     public static void setAccessToken(VKAccessToken token, boolean renew) {
         sInstance.mAccessToken = token;
         if (sInstance.mListener != null) {
-	        if (!renew)
+            if (!renew)
                 sInstance.mListener.onReceiveNewToken(token);
-	        else
-		        sInstance.mListener.onReceiveNewToken(token);
+            else
+                sInstance.mListener.onReceiveNewToken(token);
         }
     }
 

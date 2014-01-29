@@ -22,9 +22,11 @@
 package com.vk.sdk.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
 import android.util.Log;
 
@@ -41,6 +43,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidParameterSpecException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -139,13 +142,13 @@ public class VKUtil {
      */
     public static String[] getCertificateFingerprint(Context ctx, String packageName) {
         try {
-	        if (ctx == null || ctx.getPackageManager() == null)
-		        return null;
+            if (ctx == null || ctx.getPackageManager() == null)
+                return null;
             PackageInfo info = ctx.getPackageManager().getPackageInfo(
                     packageName,
                     PackageManager.GET_SIGNATURES);
-	        assert info.signatures != null;
-	        String[] result = new String[info.signatures.length];
+            assert info.signatures != null;
+            String[] result = new String[info.signatures.length];
             int i = 0;
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
@@ -190,11 +193,12 @@ public class VKUtil {
     /**
      * Check if package installed
      *
-     * @param uri Package of application to check
+     * @param context Context of current app
+     * @param uri     Package of application to check
      * @return true if passed package installed
      */
-    public static boolean isAppInstalled(Context ctx, String uri) {
-        PackageManager pm = ctx.getPackageManager();
+    public static boolean isAppInstalled(Context context, String uri) {
+        PackageManager pm = context.getPackageManager();
         boolean appInstalled;
         try {
             assert pm != null;
@@ -204,6 +208,23 @@ public class VKUtil {
             appInstalled = false;
         }
         return appInstalled;
+    }
+
+    /**
+     * Check if action available installed
+     *
+     * @param context Context of current app
+     * @param action  Package of application to check
+     * @return true if passed package installed
+     */
+    public static boolean isIntentAvailable(Context context, String action) {
+        final PackageManager packageManager = context.getPackageManager();
+        final Intent intent = new Intent(action);
+        assert packageManager != null;
+        List<ResolveInfo> list =
+                packageManager.queryIntentActivities(intent,
+                        PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
     }
 
     public static String getApplicationName(Context ctx) {

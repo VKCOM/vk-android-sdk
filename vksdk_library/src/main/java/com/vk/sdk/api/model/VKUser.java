@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- User type of VK API. See descriptions here https://vk.com/dev/fields
+ * User type of VK API. See descriptions here https://vk.com/dev/fields
  */
 public class VKUser extends VKApiModel {
     public long id;
@@ -47,20 +47,23 @@ public class VKUser extends VKApiModel {
     public String lists;
     public String domain;
     public long has_mobile;
-    public Map<String,String> contacts;
+    public Map<String, String> contacts;
     public String connections;
     public String site;
-    public Map<String,String> education;
-    public List<Map<String,String>> universities;
-    public List<Map<String,String>> schools;
+    public Map<String, String> education;
+    public List<Map<String, String>> universities;
+    public List<Map<String, String>> schools;
     public long can_post;
     public long can_see_all_posts;
     public long can_see_audio;
     public long can_write_private_message;
     public String status;
-    public Map<String,String> last_seen;
+    public Map<String, String> last_seen;
     public long common_count;
     public long relation;
-    public List<Map<String,String>> relatives;
-    public Map<String,String> counters;
+    public List<Map<String, String>> relatives;
+    public Map<String, String> counters;
+
+    // Added by alex_xpert for method groups.getBanned
+    public Map<String, Object> ban_info;
 }
