@@ -156,10 +156,11 @@ public class VKSdk {
         String[] fingerprints = VKUtil.getCertificateFingerprint(sInstance.getContext(),
                 VK_APP_PACKAGE_ID);
         Intent intent;
-        if (!forceOAuth && VKUtil.isAppInstalled(sInstance.getContext(),
-                VK_APP_PACKAGE_ID)
-                && fingerprints[0].equals(VK_APP_FINGERPRINT)
-                ) {
+        if (!forceOAuth
+                && VKUtil.isAppInstalled(sInstance.getContext(),VK_APP_PACKAGE_ID)
+                && VKUtil.isIntentAvailable(sInstance.getContext(), VK_APP_AUTH_ACTION)
+                && fingerprints[0].equals(VK_APP_FINGERPRINT))
+        {
             intent = new Intent(VK_APP_AUTH_ACTION, null);
         } else {
             intent = new Intent(sInstance.getContext(), VKOpenAuthActivity.class);
