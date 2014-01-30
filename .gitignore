@@ -33,7 +33,13 @@ proguard/
 *.iws
 .idea/
 
-#gradle wrapper
+# Gradle
+build/
+
+# Maven
+target/
+
+# Gradle wrapper
 /gradle
 /gradlew
 /gradlew.bat
