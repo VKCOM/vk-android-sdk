@@ -22,5 +22,8 @@
 package com.vk.sdk.api.model;
 
 public class VKUsersArray extends VKApiArray<VKUser> {
-
+    @Override
+    protected VKUser createObject() {
+        return new VKUser();
+    }
 }

@@ -25,5 +25,8 @@ package com.vk.sdk.api.model;
  * Array of API photos objects
  */
 public class VKPhotoArray extends VKApiArray<VKPhoto> {
-
+    @Override
+    protected VKPhoto createObject() {
+        return new VKPhoto();
+    }
 }
