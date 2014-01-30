@@ -63,4 +63,11 @@ public class VKUser extends VKApiModel {
     public long relation;
     public List<Map<String,String>> relatives;
     public Map<String,String> counters;
+
+    // Added by alex_xpert for method groups.getBanned
+    public Map<String, Object> ban_info;
+    // Added by alex_xpert for method friends.getByPhones
+    public String phone;
+    // Added by alex_xpert for method friends.getSuggestions
+    public String found_with;
 }
