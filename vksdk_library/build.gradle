@@ -34,10 +34,12 @@ dependencies {
     javadoc 'com.google.android:annotations:4.1.1.4@jar'
 }
 
-task apklib(type: Copy, dependsOn: rootProject.tasks.mavenBuild) {
-    from fileTree("${project.projectDir}/target") { include "*.apklib" }
-    into file("${project.buildDir}/libs")
-    rename '(.*)', "${project.name}-${project.version}.apklib"
+if (rootProject.tasks.hasProperty('mavenBuild')) {
+    task apklib(type: Copy, dependsOn: rootProject.tasks.mavenBuild) {
+        from fileTree("${project.projectDir}/target") { include "*.apklib" }
+        into file("${project.buildDir}/libs")
+        rename '(.*)', "${project.name}-${project.version}.apklib"
+    }
 }
 
 task javadoc(type: Javadoc) {
