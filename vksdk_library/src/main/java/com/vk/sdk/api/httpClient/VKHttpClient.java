@@ -193,7 +193,7 @@ public class VKHttpClient extends DefaultHttpClient {
     /**
      * Executor for performing requests in background
      */
-    private static Executor mBackgroundExecutor = Executors.newCachedThreadPool();
+    private static final Executor mBackgroundExecutor = Executors.newCachedThreadPool();
 
     /**
      * Starts operation in the one of network threads

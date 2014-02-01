@@ -30,7 +30,7 @@ import org.json.JSONObject;
  * Operation based on json operation with object-model parsing possibility
  */
 public class VKModelOperation extends VKJsonOperation {
-	protected Class<? extends VKApiModel> mModelClass;
+	protected final Class<? extends VKApiModel> mModelClass;
     public VKApiModel parsedModel;
 
     /**

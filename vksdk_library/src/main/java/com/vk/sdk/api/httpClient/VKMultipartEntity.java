@@ -42,8 +42,8 @@ public class VKMultipartEntity extends AbstractHttpEntity {
 
     private static final String VK_BOUNDARY = "Boundary(======VK_SDK_%d======)";
 
-    private String mBoundary;
-    private File[] mFiles;
+    private final String mBoundary;
+    private final File[] mFiles;
 
     public VKMultipartEntity(File[] files) {
         mBoundary = String.format(Locale.US, VK_BOUNDARY, new Random().nextInt());

@@ -116,7 +116,7 @@ public abstract class VKAbstractOperation {
      * @param state New operation state
      */
     protected void setState(VKOperationState state) {
-        if (!stateTransitionIsValid(mState, state, mCanceled)) {
+        if (isStateTransitionInvalid(mState, state, mCanceled)) {
             return;
         }
         mState = state;
@@ -133,40 +133,40 @@ public abstract class VKAbstractOperation {
      * @param isCancelled Flag of cancelation
      * @return Result of validation
      */
-    private boolean stateTransitionIsValid(VKOperationState fromState, VKOperationState toState,
-                                           boolean isCancelled) {
+    private boolean isStateTransitionInvalid(VKOperationState fromState, VKOperationState toState,
+                                             boolean isCancelled) {
         switch (fromState) {
             case Ready:
                 switch (toState) {
                     case Paused:
                     case Executing:
-                        return true;
+                        return false;
 
                     case Finished:
-                        return isCancelled;
+                        return !isCancelled;
 
                     default:
-                        return false;
+                        return true;
                 }
 
             case Executing:
                 switch (toState) {
                     case Paused:
                     case Finished:
-                        return true;
+                        return false;
 
                     default:
-                        return false;
+                        return true;
                 }
 
             case Finished:
-                return false;
+                return true;
 
             case Paused:
-                return toState == VKOperationState.Ready;
+                return toState != VKOperationState.Ready;
 
             default:
-                return true;
+                return false;
         }
     }
 

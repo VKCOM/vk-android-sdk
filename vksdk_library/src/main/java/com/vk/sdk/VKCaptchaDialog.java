@@ -47,7 +47,7 @@ import org.apache.http.client.methods.HttpGet;
  * Dialog fo displaying captcha
  */
 public class VKCaptchaDialog {
-    private VKError mCaptchaError;
+    private final VKError mCaptchaError;
     private EditText mCaptchaAnswer;
     private ImageView mCaptchaImage;
     private ProgressBar mProgressBar;

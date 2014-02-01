@@ -1,11 +1,3 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
-    }
-}
 apply plugin: 'android'
 
 repositories {
@@ -14,7 +6,7 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '19'
+    buildToolsVersion '19.0.1'
 
     defaultConfig {
         minSdkVersion 8
@@ -23,7 +15,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("../keystore.jks")
+            storeFile file("${rootProject.projectDir}/keystore.jks")
             storePassword "123456"
             keyAlias "vk sdk test"
             keyPassword "123456"
@@ -38,7 +30,6 @@ android {
 }
 
 dependencies {
-	compile 'com.android.support:appcompat-v7:+'
-	compile 'com.android.support:support-v4:18.0.0'
+    compile 'com.android.support:appcompat-v7:19.0.1'
     compile project(':vksdk_library')
 }

@@ -22,6 +22,7 @@
 package com.vk.sdk.util;
 
 import android.net.Uri;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,15 +52,7 @@ public class VKStringJoiner {
      * @return Joined string
      */
     public static String join(Collection<?> what, String glue) {
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        for (Object s : what) {
-            sb.append(s.toString());
-            if (i++ < what.size() - 1) {
-                sb.append(glue);
-            }
-        }
-        return sb.toString();
+        return TextUtils.join(glue, what);
     }
 
     /**

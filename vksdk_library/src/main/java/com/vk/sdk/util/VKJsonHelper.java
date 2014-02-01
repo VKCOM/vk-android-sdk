@@ -21,10 +21,12 @@
 
 package com.vk.sdk.util;
 
+import com.vk.sdk.api.model.VKApiModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,8 +45,8 @@ public class VKJsonHelper {
      * @return Completed json object
      * @throws JSONException
      */
-    
-	public static Object toJSON(Object object) throws JSONException {
+
+    public static Object toJSON(Object object) throws JSONException {
         if (object instanceof Map) {
             JSONObject json = new JSONObject();
             Map map = (Map) object;
@@ -110,12 +112,50 @@ public class VKJsonHelper {
      * @throws JSONException
      */
     @SuppressWarnings("unchecked")
-	public static List toList(JSONArray array) throws JSONException {
+    public static List toList(JSONArray array) throws JSONException {
         List list = new ArrayList();
         for (int i = 0; i < array.length(); i++) {
             list.add(fromJson(array.get(i)));
         }
         return list;
+    }
+
+    public static Object toArray(JSONArray array, Class arrayClass)
+    {
+        Object ret = Array.newInstance(arrayClass.getComponentType(), array.length());
+        Class<?> subType = arrayClass.getComponentType();
+
+        for (int i = 0; i < array.length(); i++)
+        {
+            try
+            {
+                Object jsonItem = array.get(i);
+                Object objItem = subType.newInstance();
+                if (jsonItem instanceof JSONObject)
+                {
+                    JSONObject jsonItem2 = (JSONObject) jsonItem;
+                    if (objItem instanceof VKApiModel)
+                    {
+                        VKApiModel objItem2 = (VKApiModel) objItem;
+                        ((VKApiModel) objItem).parse(jsonItem2);
+                        Array.set(ret, i, objItem2);
+                    }
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            catch (InstantiationException e)
+            {
+                e.printStackTrace();
+            }
+            catch (IllegalAccessException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return ret;
     }
 
     /**

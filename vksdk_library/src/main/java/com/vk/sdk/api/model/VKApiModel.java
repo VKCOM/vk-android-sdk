@@ -24,7 +24,7 @@ package com.vk.sdk.api.model;
 import com.vk.sdk.VKObject;
 import com.vk.sdk.util.VKJsonHelper;
 
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
@@ -38,10 +38,11 @@ public abstract class VKApiModel extends VKObject {
     /**
      * Fields of JSON object from original response
      */
-    public Map<String, Object> fields;
+    public JSONObject fields;
 
     /**
      * Parse json object into object model
+     *
      * @param response JSONObject to parse
      */
     public void parse(JSONObject response) {
@@ -50,51 +51,59 @@ public abstract class VKApiModel extends VKObject {
         }
         if (response == null)
             return;
-        Field[] allFields = this.getClass().getDeclaredFields();
-        for (Field field : allFields) {
+
+        for (Field field : this.getClass().getFields()) {
+            field.setAccessible(true);
             if (!response.has(field.getName()))
                 continue;
             try {
                 String fName = field.getName();
-                Class<?> fType  = field.getType();
+                Class<?> fType = field.getType();
+                Object value = response.get(fName);
+                Object result = null;
                 if (fType.isPrimitive() || fType.equals(String.class)) {
-                    Object value = response.get(fName);
                     if (value.getClass().equals(fType))
-                        field.set(this, response.get(fName));
+                        result = response.get(fName);
                     else {
+                        Number nValue = (Number) value;
                         //If primitive type is not assignable, parse it
-                        String sValue = String.valueOf(value);
                         if (fType.equals(int.class)) {
-                            field.setInt(this, Integer.parseInt(sValue));
+                            field.setInt(this, nValue.intValue());
                         } else if (fType.equals(long.class)) {
-                            field.setLong(this, Long.parseLong(sValue));
+                            field.setLong(this, nValue.longValue());
                         } else if (fType.equals(float.class)) {
-                            field.setFloat(this, Float.parseFloat(sValue));
+                            field.setFloat(this, nValue.floatValue());
                         } else if (fType.equals(double.class)) {
-                            field.setDouble(this, Double.parseDouble(sValue));
+                            field.setDouble(this, nValue.doubleValue());
                         }
+                        continue;
                     }
-
-                } else if (fType.isAssignableFrom(Map.class)) {
-                    field.set(this, VKJsonHelper.getMap(response, fName));
-                } else if (fType.isAssignableFrom(List.class)) {
-                    field.set(this, VKJsonHelper.toList(response.getJSONArray(fName) ) );
-                } else if (fType.isAssignableFrom(VKApiModel.class)) {
+                } else if (fType.isArray()) {
+                    field.set(this, VKJsonHelper.toArray(response.getJSONArray(fName), fType));
+                } else if (Map.class.isAssignableFrom(fType)) {
+                    result = VKJsonHelper.toMap((JSONObject) value);
+                } else if (List.class.isAssignableFrom(fType)) {
+                    result = VKJsonHelper.toList((JSONArray) value);
+                } else if (VKApiArray.class.isAssignableFrom(fType)) {
+                    VKApiArray<?> obj = (VKApiArray<?>) field.getType().newInstance();
+                    obj.parse(response.getJSONArray(fName));
+                    result = obj;
+                } else if (VKApiModel.class.isAssignableFrom(fType)) {
                     VKApiModel obj = (VKApiModel) field.getType().newInstance();
                     obj.parse(response.getJSONObject(fName));
-                    field.set(this, obj);
+                    result = obj;
                 }
+                field.set(this, result);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        try {
-            fields = VKJsonHelper.toMap(response);
-        } catch (JSONException ignored) {}
+        fields = response;
     }
 
     /**
      * Serialize object to JSON
+     *
      * @return Serialized JSONObject
      */
     public JSONObject serialize() {

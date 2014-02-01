@@ -29,6 +29,7 @@ import com.vk.sdk.api.VKError;
 import com.vk.sdk.util.VKStringJoiner;
 import com.vk.sdk.util.VKUtil;
 
+import java.net.BindException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,12 +67,12 @@ public class VKSdk {
         return VKUIHelper.getTopActivity();
     }
 
-    private static void checkConditions() throws Exception {
+    private static void checkConditions() throws BindException {
         if (sInstance == null) {
-            throw new NullPointerException("VK Sdk not yet initialized");
+            throw new BindException("VK Sdk not yet initialized");
         }
         if (sInstance.getContext() == null) {
-            throw new NullPointerException("Context must not be null");
+            throw new BindException("Context must not be null");
         }
     }
 
@@ -156,10 +157,11 @@ public class VKSdk {
         String[] fingerprints = VKUtil.getCertificateFingerprint(sInstance.getContext(),
                 VK_APP_PACKAGE_ID);
         Intent intent;
-        if (!forceOAuth && VKUtil.isAppInstalled(sInstance.getContext(),
-                VK_APP_PACKAGE_ID)
-                && fingerprints[0].equals(VK_APP_FINGERPRINT)
-                ) {
+        if (!forceOAuth
+                && VKUtil.isAppInstalled(sInstance.getContext(),VK_APP_PACKAGE_ID)
+                && VKUtil.isIntentAvailable(sInstance.getContext(), VK_APP_AUTH_ACTION)
+                && fingerprints[0].equals(VK_APP_FINGERPRINT))
+        {
             intent = new Intent(VK_APP_AUTH_ACTION, null);
         } else {
             intent = new Intent(sInstance.getContext(), VKOpenAuthActivity.class);
@@ -250,7 +252,7 @@ public class VKSdk {
 	        if (!renew)
                 sInstance.mListener.onReceiveNewToken(token);
 	        else
-		        sInstance.mListener.onReceiveNewToken(token);
+		        sInstance.mListener.onRenewAccessToken(token);
         }
     }
 

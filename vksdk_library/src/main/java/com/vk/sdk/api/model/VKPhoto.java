@@ -38,4 +38,6 @@ public class VKPhoto extends VKApiModel {
     public int height;
     public String text;
     public int date;
+    public VKPhotoSizesArray sizes;
+
 }

@@ -38,11 +38,11 @@ public class VKUploadImage extends VKObject {
     /**
      * Bitmap representation of image
      */
-    public Bitmap mImageData;
+    public final Bitmap mImageData;
     /**
      * Image basic info
      */
-    public VKImageParameters mParameters;
+    public final VKImageParameters mParameters;
 
     public VKUploadImage(Bitmap data, VKImageParameters params) {
         mImageData = data;

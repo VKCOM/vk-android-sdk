@@ -21,6 +21,8 @@
 
 package com.vk.sdk.api.model;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,27 +39,35 @@ public abstract class VKApiArray<T extends VKApiModel> extends VKApiModel {
     private int count;
 
     @Override
-    public void parse(JSONObject response) {
+    public void parse(JSONObject object) {
+        long timeStart = System.currentTimeMillis();
         try {
-            if (!response.has("response"))
-                return;
             JSONArray jsonArray;
-            if ((jsonArray = response.optJSONArray("response")) == null)
+            if ((jsonArray = object.optJSONArray("response")) == null)
             {
-                response    = response.getJSONObject("response");
-                count       = response.getInt("count");
-                jsonArray   = response.getJSONArray("items");
+                object    = object.getJSONObject("response");
+                count     = object.getInt("count");
+                jsonArray = object.getJSONArray("items");
             }
-            else
-                count = jsonArray.length();
+            parse(jsonArray);
 
-            items = new ArrayList<T>(jsonArray.length());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                items.add(parseNextObject(jsonArray.getJSONObject(i)));
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        fields = object;
+        Log.d("Parse complete", String.format("%s : %d msecs", this.getClass().toString(), System.currentTimeMillis() - timeStart));
+    }
+    public void parse(JSONArray jsonArray) {
+        items = new ArrayList<T>(jsonArray.length());
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                items.add(parseNextObject(jsonArray.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (count == 0)
+            count = items.size();
     }
 
     @Override
@@ -67,15 +77,7 @@ public abstract class VKApiArray<T extends VKApiModel> extends VKApiModel {
 
     protected T parseNextObject(JSONObject object) {
         try {
-            // Get the class name of this instance's type.
-            ParameterizedType pt
-                    = (ParameterizedType) getClass().getGenericSuperclass();
-            // You may need this split or not, use logging to check
-            String parameterClassName
-                    = pt.getActualTypeArguments()[0].toString().split("\\s")[1];
-            // Instantiate the Parameter and initialize it.
-            @SuppressWarnings("unchecked")
-            T model = (T) Class.forName(parameterClassName).newInstance();
+            T model = createObject();
             model.parse(object);
             return model;
         } catch (Exception ignored)
@@ -83,6 +85,7 @@ public abstract class VKApiArray<T extends VKApiModel> extends VKApiModel {
             return null;
         }
     }
+    protected abstract T createObject();
 
     public T get(int index) {
         if (items == null) return null;
