@@ -247,18 +247,12 @@ public class VKRequest implements Serializable {
 
             //Set current access token from SDK object
             VKAccessToken token = VKSdk.getAccessToken();
-            if (token == null) {
-                VKError error = new VKError(VKError.VK_API_REQUEST_NOT_PREPARED);
-                error.errorMessage = "Access token is nil";
-                provideError(error);
-                return null;
-            }
-            mPreparedParameters.put(VKApiConst.ACCESS_TOKEN, token.accessToken);
-
-            if (!(this.secure || token.secret != null) || token.httpsRequired) {
-                this.secure = true;
-            }
-
+	        if (token != null)
+                mPreparedParameters.put(VKApiConst.ACCESS_TOKEN, token.accessToken);
+            if (!this.secure)
+	            if (token != null && (token.secret != null || token.httpsRequired)) {
+                    this.secure = true;
+                }
             //Set actual version of API
             mPreparedParameters.put(VKApiConst.VERSION, VKSdkVersion.API_VERSION);
             //Set preferred language for request
@@ -268,7 +262,7 @@ public class VKRequest implements Serializable {
                 //If request is secure, we need all urls as https
                 mPreparedParameters.put(VKApiConst.HTTPS, "1");
             }
-            if (token.secret != null) {
+            if (token != null && token.secret != null) {
                 //If it not, generate signature of request
                 String sig = generateSig(token);
                 mPreparedParameters.put(VKApiConst.SIG, sig);
