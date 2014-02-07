@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingLeft="16dip"
+              android:paddingRight="16dip"
+              android:paddingTop="12dip"
+              android:paddingBottom="12dip" >
+
+    <ImageView
+            android:id="@id/vk_image"
+            android:layout_width="220dip"
+            android:layout_height="85dip"
+            android:layout_alignParentLeft="true"
+            style="@style/VK.Dialog.Captcha.Image" />
+
+    <EditText
+            android:id="@id/vk_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vk_image"
+            android:layout_alignParentLeft="true"
+            android:paddingTop="12dip"
+            android:paddingBottom="12dip"
+            style="@style/VK.Dialog.Captcha.Input"/>
+
+    <ImageButton
+            android:id="@id/vk_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="40dip"
+            android:layout_marginBottom="3dip"
+            android:layout_alignBottom="@id/vk_input"
+            android:layout_toRightOf="@id/vk_input"
+            android:layout_alignRight="@id/vk_image"
+            style="@style/VK.Dialog.Captcha.Confirm"/>
+
+</RelativeLayout>

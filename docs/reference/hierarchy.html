@@ -1,0 +1,1694 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+<style>
+    .jd-hierarchy-spacer {
+        width: 15px;
+    }
+    .jd-hierarchy-data {
+        text-align: left;
+        vertical-align: top;
+    }
+</style>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <meta name="description" content="Javadoc API documentation." />
+
+<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
+<title>
+
+  Class Hierarchy
+
+
+</title>
+<link href="./../assets/doclava-developer-docs.css" rel="stylesheet" type="text/css" />
+<link href="./../assets/customizations.css" rel="stylesheet" type="text/css" />
+<script src="./../assets/search_autocomplete.js" type="text/javascript"></script>
+<script src="./../assets/jquery-resizable.min.js" type="text/javascript"></script>
+<script src="./../assets/doclava-developer-docs.js" type="text/javascript"></script>
+<script src="./../assets/prettify.js" type="text/javascript"></script>
+<script type="text/javascript">
+  setToRoot("./", "./../assets/");
+</script>
+<script src="./../assets/doclava-developer-reference.js" type="text/javascript"></script>
+<script src="./../assets/navtree_data.js" type="text/javascript"></script>
+<script src="./../assets/customizations.js" type="text/javascript"></script>
+<noscript>
+  <style type="text/css">
+    html,body{overflow:auto;}
+    #body-content{position:relative; top:0;}
+    #doc-content{overflow:visible;border-left:3px solid #666;}
+    #side-nav{padding:0;}
+    #side-nav .toggle-list ul {display:block;}
+    #resize-packages-nav{border-bottom:3px solid #666;}
+  </style>
+</noscript>
+</head>
+
+
+<div id="header">
+    <div id="headerLeft">
+    
+    </div>
+    <div id="headerRight">
+      
+  <div id="search" >
+      <div id="searchForm">
+          <form accept-charset="utf-8" class="gsc-search-box" 
+                onsubmit="return submit_search()">
+            <table class="gsc-search-box" cellpadding="0" cellspacing="0"><tbody>
+                <tr>
+                  <td class="gsc-input">
+                    <input id="search_autocomplete" class="gsc-input" type="text" size="33" autocomplete="off"
+                      title="search developer docs" name="q"
+                      value="search developer docs"
+                      onFocus="search_focus_changed(this, true)"
+                      onBlur="search_focus_changed(this, false)"
+                      onkeydown="return search_changed(event, true, './')"
+                      onkeyup="return search_changed(event, false, './')" />
+                  <div id="search_filtered_div" class="no-display">
+                      <table id="search_filtered" cellspacing=0>
+                      </table>
+                  </div>
+                  </td>
+                  <td class="gsc-search-button">
+                    <input type="submit" value="Search" title="search" id="search-button" class="gsc-search-button" />
+                  </td>
+                  <td class="gsc-clear-button">
+                    <div title="clear results" class="gsc-clear-button">&nbsp;</div>
+                  </td>
+                </tr></tbody>
+              </table>
+          </form>
+      </div><!-- searchForm -->
+  </div><!-- search -->
+      
+    </div>
+</div><!-- header -->
+
+
+  <div class="g-section g-tpl-240" id="body-content">
+    <div class="g-unit g-first side-nav-resizable" id="side-nav">
+      <div id="swapper">
+        <div id="nav-panels">
+          <div id="resize-packages-nav">
+            <div id="packages-nav">
+              <div id="index-links">
+                <a href="./packages.html"  >Package Index</a> | 
+                <a href="./classes.html" >Class Index</a>
+              </div>
+              <ul>
+                
+    <li class="api apilevel-">
+  <a href="./com/vk/android/sdk/package-summary.html">com.vk.android.sdk</a></li>
+    <li class="api apilevel-">
+  <a href="./com/vk/android/sdk/exceptions/package-summary.html">com.vk.android.sdk.exceptions</a></li>
+    <li class="api apilevel-">
+  <a href="./com/vk/android/sdk/methods/package-summary.html">com.vk.android.sdk.methods</a></li>
+    <li class="api apilevel-">
+  <a href="./com/vk/android/sdk/models/package-summary.html">com.vk.android.sdk.models</a></li>
+              </ul><br/>
+            </div> <!-- end packages -->
+          </div> <!-- end resize-packages -->
+          <div id="classes-nav">
+              <script>
+                /*addLoadEvent(maxPackageHeight);*/
+              </script>
+              <p style="padding:10px">Select a package to view its members</p><br/>
+          </div><!-- end classes -->
+        </div><!-- end nav-panels -->
+        <div id="nav-tree" style="display:none">
+          <div id="index-links">
+            <a href="./packages.html"  >Package Index</a> | 
+            <a href="./classes.html" >Class Index</a>
+          </div>
+        </div><!-- end nav-tree -->
+      </div><!-- end swapper -->
+    </div> <!-- end side-nav -->
+    <script>
+      if (!isMobile) {
+        $("<a href='#' id='nav-swap' onclick='swapNav();return false;' style='font-size:10px;line-height:9px;margin-left:1em;text-decoration:none;'><span id='tree-link'>Use Tree Navigation</span><span id='panel-link' style='display:none'>Use Panel Navigation</span></a>").appendTo("#side-nav");
+        chooseDefaultNav();
+        if ($("#nav-tree").is(':visible')) {
+          init_default_navtree("./");
+        } else {
+          addLoadEvent(function() {
+            scrollIntoView("packages-nav");
+            scrollIntoView("classes-nav");
+          });
+        }
+        $("#swapper").css({borderBottom:"2px solid #aaa"});
+      } else {
+        swapNav(); // tree view should be used on mobile
+      }
+    </script>
+
+
+
+<div class="g-unit" id="doc-content">
+
+<div id="jd-header">
+<h1>Class Hierarchy</h1>
+</div>
+
+<div id="jd-content">
+
+<div style="margin-left: 20px; margin-right: 20px;">
+
+
+
+
+<table border="0" cellpadding="0" cellspacing="1">
+<th class="jd-hierarchy-data" colspan="5">Class</th>
+<th class="jd-hierarchy-data">Interfaces</th>
+
+
+<tr>
+    
+    <td class="jd-hierarchy-data" colspan="5">
+    
+        
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/RESTRequest.html">RESTRequest</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/VKRequest.html">VKRequest</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/Execute.html">Execute</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/ExecuteBuilder.html">ExecuteBuilder</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/StoredFunction.html">StoredFunction</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/methods/Friends.get.html">Friends.get</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/methods/Photos.getUploadServer.html">Photos.getUploadServer</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/methods/Photos.getWallUploadServer.html">Photos.getWallUploadServer</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/methods/Photos.save.html">Photos.save</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/methods/Photos.saveWallPhoto.html">Photos.saveWallPhoto</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/methods/Users.get.html">Users.get</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/methods/Users.getFollowers.html">Users.getFollowers</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/methods/Users.getSubscriptions.html">Users.getSubscriptions</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/methods/Users.isAppUser.html">Users.isAppUser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/methods/Users.search.html">Users.search</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/methods/Wall.post.html">Wall.post</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/RequestsBatch.html">RequestsBatch</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/VK.html">VK</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/VK.Codeblock.html">VK.Codeblock</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/methods/Upload.photoToAlbum.html">Upload.photoToAlbum</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/methods/Upload.photoToWall.html">Upload.photoToWall</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/VK.ReceiverCallback.html">VK.ReceiverCallback</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/VK.Callback.html">VK.Callback</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/VK.ScheduledCallback.html">VK.ScheduledCallback</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/VK.Callback.html">VK.Callback</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/VK.SimpleCallback.html">VK.SimpleCallback</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/VK.Callback.html">VK.Callback</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/methods/Friends.html">Friends</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/methods/Photos.html">Photos</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/methods/Upload.html">Upload</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/methods/Users.html">Users</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/methods/Wall.html">Wall</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/ParseUtils.html">ParseUtils</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKAudio.Genre.html">VKAudio.Genre</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKCommunity.AdminLevel.html">VKCommunity.AdminLevel</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKCommunity.Status.html">VKCommunity.Status</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKCommunity.Type.html">VKCommunity.Type</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKCommunityFull.Counters.html">VKCommunityFull.Counters</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKList.html">VKList</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            List
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKAttachments.html">VKAttachments</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKPhotoSizes.html">VKPhotoSizes</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKList.ReflectParser.html">VKList.ReflectParser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/VKList.Parser.html">VKList.Parser</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKModel.html">VKModel</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/methods/Photos.UploaderResponse.html">Photos.UploaderResponse</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKAccessToken.html">VKAccessToken</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKAttachments.VKAttachment.html">VKAttachments.VKAttachment</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKApplicationContent.html">VKApplicationContent</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKAudio.html">VKAudio</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKDocument.html">VKDocument</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKLink.html">VKLink</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKNote.html">VKNote</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKPhoto.html">VKPhoto</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="1">
+    
+        <a href="./com/vk/android/sdk/models/VKPostedPhoto.html">VKPostedPhoto</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKPhotoAlbum.html">VKPhotoAlbum</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKPoll.html">VKPoll</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKPost.html">VKPost</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKVideo.html">VKVideo</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKWikiPage.html">VKWikiPage</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKChat.html">VKChat</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKCity.html">VKCity</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKComment.html">VKComment</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKCommunityFull.Contact.html">VKCommunityFull.Contact</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKCommunityFull.Link.html">VKCommunityFull.Link</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKCountry.html">VKCountry</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKMessage.html">VKMessage</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKOwner.html">VKOwner</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKCommunity.html">VKCommunity</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="1">
+    
+        <a href="./com/vk/android/sdk/models/VKCommunityFull.html">VKCommunityFull</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="2">
+    
+        <a href="./com/vk/android/sdk/models/VKUser.html">VKUser</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="1">
+    
+        <a href="./com/vk/android/sdk/models/VKUserFull.html">VKUserFull</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKPhotoSize.html">VKPhotoSize</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+        
+            Comparable
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKPlace.html">VKPlace</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKPoll.Answer.html">VKPoll.Answer</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKSchool.html">VKSchool</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKUniversity.html">VKUniversity</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td><td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="3">
+    
+        <a href="./com/vk/android/sdk/models/VKUserFull.Relative.html">VKUserFull.Relative</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+        
+            <a href="./com/vk/android/sdk/models/Identifiable.html">Identifiable</a>
+         &nbsp;&nbsp;
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKPrivacy.html">VKPrivacy</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKScopes.html">VKScopes</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKUserFull.Attitude.html">VKUserFull.Attitude</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKUserFull.Counters.html">VKUserFull.Counters</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKUserFull.LifeMain.html">VKUserFull.LifeMain</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKUserFull.PeopleMain.html">VKUserFull.PeopleMain</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKUserFull.Political.html">VKUserFull.Political</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKUserFull.Relation.html">VKUserFull.Relation</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKUserFull.RelativeType.html">VKUserFull.RelativeType</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+<tr>
+    <td class="jd-hierarchy-spacer"></td>
+    <td class="jd-hierarchy-data" colspan="4">
+    
+        <a href="./com/vk/android/sdk/models/VKUserFull.Sex.html">VKUserFull.Sex</a>
+    
+    </td>
+    <td class="jd-hierarchy-data">
+    
+    &nbsp;
+    </td>
+</tr>
+
+
+
+
+
+
+
+</table>
+
+</div>
+
+<div id="footer">
+Generated by <a href="http://code.google.com/p/doclava/">Doclava</a>.
+</div> <!-- end footer -->
+
+</div><!-- end jd-content -->
+</div><!-- end doc-content -->
+
+</div> <!-- end body-content --> 
+
+<script type="text/javascript">
+init(); /* initialize doclava-developer-docs.js */
+</script>
+
+</body>
+</html>
+

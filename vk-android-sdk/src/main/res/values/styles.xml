@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="VK" />
+    <style name="VK.Dialog" />
+
+    <style name="VK.Dialog.Decor">
+        <item name="android:paddingLeft">16dip</item>
+        <item name="android:paddingRight">16dip</item>
+        <item name="android:paddingTop">12dip</item>
+        <item name="android:paddingBottom">12dip</item>
+    </style>
+
+    <style name="VK.Dialog.Captcha" />
+
+    <style name="VK.Dialog.Captcha.Image">
+        <item name="android:background">#CCC</item>
+    </style>
+
+    <style name="VK.Dialog.Captcha.Input">
+        <item name="android:textSize">16dip</item>
+        <item name="android:hint">@string/vk_captcha_hint</item>
+        <item name='android:background'>@drawable/vk_input</item>
+    </style>
+
+    <style name="VK.Dialog.Captcha.Confirm">
+        <item name="android:src">@drawable/vk_ic_send</item>
+        <item name="android:background">@drawable/vk_highlight</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="VK.Transparent" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--<item name="android:windowBackground">@color/vk_dialog_overlay</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <item name="android:windowContentOverlay">@color/vk_dialog_overlay</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <!--<item name="android:backgroundDimEnabled">false</item>-->
+    </style>
+
+</resources>

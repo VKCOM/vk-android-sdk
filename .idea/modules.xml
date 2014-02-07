@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Samples/Samples.iml" filepath="$PROJECT_DIR$/Samples/Samples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vk-android-sdk.iml" filepath="$PROJECT_DIR$/vk-android-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vk-android-sdk/vk-android-sdk-vk-android-sdk.iml" filepath="$PROJECT_DIR$/vk-android-sdk/vk-android-sdk-vk-android-sdk.iml" />
+    </modules>
+  </component>
+</project>
+

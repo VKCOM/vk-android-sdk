@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">vk-android-sdk</string>
+
+    <string name="vk_json_parse_error">Ошибка данных</string>
+    <string name="vk_network_error">Нет соединения с интернетом</string>
+    <string name="vk_internal_error">Внутренняя ошибка</string>
+    <string name="vk_food_control_error">Для этого действия включен флуд контроль, попробуйте позже.</string>
+
+    <string name="vk_captcha_hint">Символы с картинки</string>
+</resources>

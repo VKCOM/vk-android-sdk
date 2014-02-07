@@ -1,0 +1,7 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:exitFadeDuration="200">
+
+    <item android:state_pressed="true" android:state_focused="true" android:drawable="@color/vk_kitkat_highlight"/>
+    <item android:state_pressed="true" android:drawable="@color/vk_kitkat_highlight"/>
+    <item android:drawable="@android:color/transparent"/>
+
+</selector>

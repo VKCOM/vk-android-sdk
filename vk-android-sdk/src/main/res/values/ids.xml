@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="vk_image" />
+    <item type="id" name="vk_input" />
+    <item type="id" name="vk_confirm" />
+    <item type="id" name="vk_webview" />
+    <item type="id" name="vk_progress_horizontal" />
+    <item type="id" name="vk_progress_circle" />
+</resources>

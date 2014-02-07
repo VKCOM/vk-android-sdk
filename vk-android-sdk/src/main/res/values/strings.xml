@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">vk-android-sdk</string>
+
+    <string name="vk_json_parse_error">Error data format</string>
+    <string name="vk_network_error">No internet connection</string>
+    <string name="vk_internal_error">Internal error</string>
+    <string name="vk_food_control_error">Flood control enabled for this action, try later.</string>
+
+    <string name="vk_captcha_hint">Symbols from image</string>
+</resources>
