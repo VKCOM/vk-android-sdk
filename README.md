@@ -1,4 +1,4 @@
-vk-android-sdk 2.0
+VK SDK 2.0
 ==========
 
 Enhanced library for working with VK API, Minimal version of Android is 2.2
