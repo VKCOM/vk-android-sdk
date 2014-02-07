@@ -23,6 +23,10 @@ Overview of features:
 * Support Activity recreation when configuration is changed
 * Support for Codeblock, Execute and StoredFuctions.
 
+Documentation and samples
+==========
+Project's ''doc'' folder contains class reference in ''JavaDoc'' format. You can find sources of sample app in project's  ''Sample'' folder. Also available is a [detailed overview](http://vk.com/page-54475169_46888763) of the SDK(only russian language).
+
 Prepare for Using VK SDK
 ----------
 To use VK SDK primarily you need to create a new VK application  <b>[here](https://vk.com/editapp?act=create)</b> by choosing the Standalone application type. Choose a title and confirm the action via SMS and you will be redirected to the application settings page. 
@@ -96,4 +100,3 @@ Find a folder with SDK, select <b>vksdk_library</b>.
 Open Properties of vksdk_library, then Java build path, then Add folder and pick "java" folder
 
 In <b>Properties</b> of your app go to <b>Android</b>, add <b>vksdk_library</b> in the <b>library</b> section.
-
