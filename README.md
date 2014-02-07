@@ -94,8 +94,8 @@ In <b>Package explorer</b> click right mouse button, then click <b>Import</b>.
 
 Select <b>Android/Existing android code into workspace</b>.
 
-Find a folder with SDK, select <b>vksdk_library</b>.
+Find a folder with SDK, select <b>vk-android-sdk</b>.
 
-Open Properties of vksdk_library, then Java build path, then Add folder and pick "java" folder
+Open Properties of vk-android-sdk, then Java build path, then Add folder and pick "java" folder
 
-In <b>Properties</b> of your app go to <b>Android</b>, add <b>vksdk_library</b> in the <b>library</b> section.
+In <b>Properties</b> of your app go to <b>Android</b>, add <b>vk-android-sdk</b> in the <b>library</b> section.
