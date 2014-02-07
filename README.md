@@ -1,7 +1,27 @@
-vk-android-sdk
+vk-android-sdk 2.0
 ==========
 
-Library for working with VK API, authorization through VK app, using VK functions. Minimal version of Android is 2.2
+Enhanced library for working with VK API, Minimal version of Android is 2.2
+
+Overview of features:
+
+* Authorization via OAuth and official application
+* Async requests processing, enhanced callback
+* Errors auto handling: captcha, token expiration, validation procedure, https_only error.
+* Sync requests processing
+* Set of models, tools and classes for easy writing your own queries and parsing server response, including parsing based on reflection.
+* Adaptive issuing photos for photo_sizes
+* Requests cancelation API
+* GZIP compression and fast HTTP implementation
+* Optimized multithreading for better performance
+* HTTP mode support
+* Universal set of models allows you to store a data cache
+* File uploading to VK servers with upload listeners
+* Supports sequential request execution(RequestBatch)
+* Support for parallel request execution (automatic bonding to execute)
+* Support for delayed or periodic requests
+* Support Activity recreation when configuration is changed
+* Support for Codeblock, Execute and StoredFuctions.
 
 Prepare for Using VK SDK
 ----------
@@ -10,10 +30,7 @@ You will require your Application ID (referenced as API_ID in the documentation)
 
 Certificate Fingerprint Receiving
 ==========
-To receive your certificate's fingerprint you can use one of the following methods.
 
-Fingerprint Receiving via Keytool
-----------
 1) You need to find the keystore location for your app. The ''debug'' store is usually located in these directories:
 * ~/.android/ for OS X and Linux, 
 * C:\Documents and Settings\<user>\.android\ for Windows XP, 
@@ -26,52 +43,26 @@ You will observe a similar result:
  <blockquote>Certificate fingerprint: SHA1: DA:39:A3:EE:5E:6B:4B:0D:32:55:BF:EF:95:60:18:90:AF:D8:07:09</blockquote>
 By deleting all the colons you'll get your key's fingerprint.
 
-Fingerprint Receiveing via SDK
-----------
-If you've already added SDK to your project, you can use the following function in each Activity of your app.
-```
-String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
-```
-As a rule, fingerprints contains a single line. It's a fingerprint of your certificate (depends on the certificate used for your app's signing)
-
 <blockquote>You can add more than one fingerprint in your app settings, e.g., debug and release fingerprints.</blockquote>
 
 Connecting VK SDK to Your Android Application
 ==========
 
-Connecting in Android Studio
-----------
-
-We give preference to Android Studio and our platform is targeted firstly to this enviroment.
-
 Connecting Using Gradle
 ----------
 You can add the library to your project using Gradle.
 
-1) Copy the <b>vksdk_library</b> directory to your project's directory.
+1) Copy the <b>vk-android-sdk</b> directory to your project's directory.
 
-2) Find the <b>settings.gradle</b> file.
+2) Adding a new module to your settings.gradle (replace the app on the name of your main project):
 
-![settings.gradle](https://pp.vk.me/c412727/v412727232/8e2a/bHFxzm-XzgU.jpg "settings.gradle")
-
-Most likely, it contains something like that:
 ```
-include ':app'
+include ':vk-android-sdk', ':app' 
 ```
-Edit the line this way:
+3) Then add a dependency on the project by adding the following line to the <b>dependencies</b> of your <b>app/build.gradle<b>: 
 ```
-include ':vksdk_library',':app'
+compile project(":vk-android-sdk") 
 ```
-
-3)Now your project includes <b>vksdk_library module</b>. You need to add it like a dependency to your app. Find the build.gradle file in the subdirectory of your app's module (e.g., YOUR_PROJECT/app/build.gradle). 
-
-![build.gradle](https://pp.vk.me/c412727/v412727232/8e31/h_ysvAFuh-Y.jpg "build.gradle")
-
-Add this line to the <b>dependencies</b>.
-<blockquote>compile project(':vksdk_library')</blockquote>
-Your file can be like that:
-
-![build.gradle](https://pp.vk.me/c412727/v412727232/8e23/kZ600DN9jMc.jpg "build.gradle")
 
 Connecting Without Gradle
 ----------
