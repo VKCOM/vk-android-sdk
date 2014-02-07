@@ -27,13 +27,15 @@ Documentation and samples
 ==========
 Project's ''doc'' folder contains class reference in ''JavaDoc'' format. You can find sources of sample app in project's  ''Sample'' folder. Also available is a [detailed overview](http://vk.com/page-54475169_46888763) of the SDK(only russian language).
 
-Prepare for Using VK SDK
-----------
+
+Installation
+==========
+
 To use VK SDK primarily you need to create a new VK application  <b>[here](https://vk.com/editapp?act=create)</b> by choosing the Standalone application type. Choose a title and confirm the action via SMS and you will be redirected to the application settings page. 
 You will require your Application ID (referenced as API_ID in the documentation). Fill in the "Batch name for Android", "Main Activity for Android" and "Certificate fingerprint for Android". 
 
 Certificate Fingerprint Receiving
-==========
+----------
 
 1) You need to find the keystore location for your app. The ''debug'' store is usually located in these directories:
 * ~/.android/ for OS X and Linux, 
@@ -48,9 +50,6 @@ You will observe a similar result:
 By deleting all the colons you'll get your key's fingerprint.
 
 <blockquote>You can add more than one fingerprint in your app settings, e.g., debug and release fingerprints.</blockquote>
-
-Connecting SDK to your Application
-==========
 
 Connecting Using Gradle
 ----------
