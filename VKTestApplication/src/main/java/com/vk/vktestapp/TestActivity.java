@@ -41,25 +41,27 @@ public class TestActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        switch (itemId) {
-            case android.R.id.home:
-                finish();
-                break;
+
+        if (itemId == android.R.id.home) {
+            finish();
+            return true;
         }
-        return true;
+
+        return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -71,6 +73,7 @@ public class TestActivity extends ActionBarActivity {
         super.onDestroy();
         VKUIHelper.onDestroy(this);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         VKUIHelper.onActivityResult(requestCode, resultCode, data);
@@ -80,20 +83,16 @@ public class TestActivity extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             return inflater.inflate(R.layout.fragment_test, container, false);
         }
 
         @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-            getView().findViewById(R.id.users_get).setOnClickListener(new View.OnClickListener() {
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+
+            view.findViewById(R.id.users_get).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 //                    VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS,
@@ -108,7 +107,8 @@ public class TestActivity extends ActionBarActivity {
                     startApiCall(request);
                 }
             });
-            getView().findViewById(R.id.friends_get).setOnClickListener(new View.OnClickListener() {
+
+            view.findViewById(R.id.friends_get).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
@@ -116,14 +116,16 @@ public class TestActivity extends ActionBarActivity {
                     startApiCall(request);
                 }
             });
-            getView().findViewById(R.id.captcha_force).setOnClickListener(new View.OnClickListener() {
+
+            view.findViewById(R.id.captcha_force).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     VKRequest request = new VKApiCaptcha().force();
                     startApiCall(request);
                 }
             });
-            getView().findViewById(R.id.wall_post).setOnClickListener(new View.OnClickListener() {
+
+            view.findViewById(R.id.wall_post).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     VKRequest request = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.MESSAGE, "Привет, друзья!"));
@@ -131,7 +133,8 @@ public class TestActivity extends ActionBarActivity {
                     startApiCall(request);
                 }
             });
-            getView().findViewById(R.id.upload_photo).setOnClickListener(new View.OnClickListener() {
+
+            view.findViewById(R.id.upload_photo).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     final Bitmap photo = getPhoto();
@@ -152,7 +155,8 @@ public class TestActivity extends ActionBarActivity {
                     });
                 }
             });
-            getView().findViewById(R.id.upload_photo_to_wall).setOnClickListener(new View.OnClickListener() {
+
+            view.findViewById(R.id.upload_photo_to_wall).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     final Bitmap photo = getPhoto();
@@ -171,7 +175,8 @@ public class TestActivity extends ActionBarActivity {
                     });
                 }
             });
-            getView().findViewById(R.id.upload_several_photos_to_wall).setOnClickListener(new View.OnClickListener() {
+
+            view.findViewById(R.id.upload_several_photos_to_wall).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     final Bitmap photo = getPhoto();
@@ -201,29 +206,36 @@ public class TestActivity extends ActionBarActivity {
                 }
             });
         }
-        private void startApiCall(VKRequest request)
-        {
+
+        private void startApiCall(VKRequest request) {
             Intent i = new Intent(getActivity(), ApiCallActivity.class);
             i.putExtra("request", request);
             startActivity(i);
         }
+
         private void showError(VKError error) {
             new AlertDialog.Builder(getActivity())
                     .setMessage(error.errorMessage)
                     .setPositiveButton("OK", null)
                     .show();
-            if (error.httpError != null)
+
+            if (error.httpError != null) {
                 Log.w("Test", "Error in request or upload", error.httpError);
+            }
         }
+
         private Bitmap getPhoto() {
             Bitmap b = null;
+
             try {
                 b = BitmapFactory.decodeStream(getActivity().getAssets().open("android.jpg"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             return b;
         }
+
         private void makePost(String attachments) {
             VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments));
             post.setModelClass(VKWallPostResult.class);
@@ -243,5 +255,4 @@ public class TestActivity extends ActionBarActivity {
             });
         }
     }
-
 }
