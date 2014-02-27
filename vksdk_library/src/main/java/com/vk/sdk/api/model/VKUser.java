@@ -44,7 +44,7 @@ public class VKUser extends VKApiModel {
     public String photo_max_orig;
     public long online;
     public long online_mobile;
-    public String lists;
+    public List<Integer> lists;
     public String domain;
     public long has_mobile;
     public Map<String,String> contacts;
