@@ -127,9 +127,16 @@ public class VKSdk {
     public static void initialize(VKSdkListener listener, String appId, VKAccessToken token) {
         initialize(listener, appId);
         sInstance.mAccessToken = token;
-
-        if (token != null && !token.isExpired() && token.accessToken != null) {
-            listener.onAcceptUserToken(token);
+        if (token != null) {
+            if (token.isExpired())
+                listener.onTokenExpired(token);
+            else if (token.accessToken != null)
+                listener.onAcceptUserToken(token);
+            else {
+                VKError error = new VKError(VKError.VK_API_CANCELED);
+                error.errorMessage = "User token is invalid";
+                listener.onAccessDenied(error);
+            }
         }
     }
 
