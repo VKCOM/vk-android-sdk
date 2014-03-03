@@ -22,27 +22,46 @@ import com.vk.sdk.util.VKUtil;
  */
 public class LoginActivity extends Activity {
 
-    private static String sTokenKey = "VK_ACCESS_TOKEN";
-    private static String[] sMyScope = new String[]{VKScope.FRIENDS, VKScope.WALL, VKScope.PHOTOS, VKScope.NOHTTPS};
+    /**
+     * SharedPreferences key for VK access token
+     */
+    private static final String SP_KEY_VK_ACCESS_TOKEN = "SP_KEY_VK_ACCESS_TOKEN";
+
+    /**
+     * Scope is set of required permissions for your application
+     * @see <a href="https://vk.com/dev/permissions">vk.com api permissions documentation</a>
+     */
+    private static String[] sMyScope = new String[] {
+            VKScope.FRIENDS,
+            VKScope.WALL,
+            VKScope.PHOTOS,
+            VKScope.NOHTTPS
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        VKSdk.initialize(sdkListener, "3974615", VKAccessToken.tokenFromSharedPreferences(this, sTokenKey));
+
+        VKSdk.initialize(sdkListener, "3974615", VKAccessToken.tokenFromSharedPreferences(this, SP_KEY_VK_ACCESS_TOKEN));
         setContentView(R.layout.activity_login);
+
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 VKSdk.authorize(sMyScope, true, false);
             }
         });
+
         findViewById(R.id.force_oauth_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 VKSdk.authorize(sMyScope, true, true);
             }
         });
+
         String[] fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName());
-	    Log.d("Fingerprint", fingerprint[0]);
+
+        Log.d("Fingerprint", fingerprint[0]);
     }
 
     @Override
@@ -82,15 +101,13 @@ public class LoginActivity extends Activity {
 
         @Override
         public void onReceiveNewToken(VKAccessToken newToken) {
-            newToken.saveTokenToSharedPreferences(LoginActivity.this, sTokenKey);
-            Intent i = new Intent(LoginActivity.this, TestActivity.class);
-            startActivity(i);
+            newToken.saveTokenToSharedPreferences(LoginActivity.this, SP_KEY_VK_ACCESS_TOKEN);
+            startActivity(new Intent(LoginActivity.this, TestActivity.class));
         }
 
         @Override
         public void onAcceptUserToken(VKAccessToken token) {
-            Intent i = new Intent(LoginActivity.this, TestActivity.class);
-            startActivity(i);
+            startActivity(new Intent(LoginActivity.this, TestActivity.class));
         }
     };
 }

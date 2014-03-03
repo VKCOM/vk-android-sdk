@@ -46,15 +46,18 @@ public class VKSdk {
     /**
      * Instance of SDK
      */
-    static private VKSdk sInstance;
+    private static volatile VKSdk sInstance;
+
     /**
      * Responder for global SDK events
      */
     private VKSdkListener mListener;
+
     /**
      * Access token for API-requests
      */
     private VKAccessToken mAccessToken;
+
     /**
      * App id for current application
      */
@@ -71,6 +74,7 @@ public class VKSdk {
         if (sInstance == null) {
             throw new BindException("VK Sdk not yet initialized");
         }
+
         if (sInstance.getContext() == null) {
             throw new BindException("Context must not be null");
         }
@@ -93,12 +97,20 @@ public class VKSdk {
         if (listener == null) {
             throw new NullPointerException("VK SDK listener cannot be null");
         }
+
         if (appId == null) {
             throw new NullPointerException("Application ID cannot be null");
         }
+
+        // Double checked locking singleton, for thread safety VKSdk.initialize() calls
         if (sInstance == null) {
-            sInstance = new VKSdk();
+            synchronized (VKSdk.class) {
+                if (sInstance == null) {
+                    sInstance = new VKSdk();
+                }
+            }
         }
+
         sInstance.mListener = listener;
         sInstance.mCurrentAppId = appId;
     }
@@ -114,6 +126,7 @@ public class VKSdk {
     public static void initialize(VKSdkListener listener, String appId, VKAccessToken token) {
         initialize(listener, appId);
         sInstance.mAccessToken = token;
+
         if (token != null && !token.isExpired() && token.accessToken != null) {
             listener.onAcceptUserToken(token);
         }
@@ -148,31 +161,41 @@ public class VKSdk {
         try {
             checkConditions();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Why guys you did it? May be you should notify listener about that?
+            // also would be great to have DEBUG option, to deny logs in release build
             return;
         }
+
         if (scope == null) {
             scope = new String[]{};
         }
+
         String[] fingerprints = VKUtil.getCertificateFingerprint(sInstance.getContext(),
                 VK_APP_PACKAGE_ID);
-        Intent intent;
+
+        final Intent intent;
+
         if (!forceOAuth
                 && VKUtil.isAppInstalled(sInstance.getContext(),VK_APP_PACKAGE_ID)
                 && VKUtil.isIntentAvailable(sInstance.getContext(), VK_APP_AUTH_ACTION)
-                && fingerprints[0].equals(VK_APP_FINGERPRINT))
-        {
+                && fingerprints[0].equals(VK_APP_FINGERPRINT)) {
             intent = new Intent(VK_APP_AUTH_ACTION, null);
         } else {
             intent = new Intent(sInstance.getContext(), VKOpenAuthActivity.class);
         }
+
         intent.putExtra(VKOpenAuthActivity.VK_EXTRA_API_VERSION, VKSdkVersion.API_VERSION);
         intent.putExtra(VKOpenAuthActivity.VK_EXTRA_CLIENT_ID, Integer.parseInt(sInstance.mCurrentAppId));
-        if (revoke)
+
+        if (revoke) {
             intent.putExtra(VKOpenAuthActivity.VK_EXTRA_REVOKE, true);
+        }
+
         intent.putExtra(VKOpenAuthActivity.VK_EXTRA_SCOPE, VKStringJoiner.join(scope, ","));
-        if (VKUIHelper.getTopActivity() != null)
+
+        if (VKUIHelper.getTopActivity() != null) {
             VKUIHelper.getTopActivity().startActivityForResult(intent, VK_SDK_REQUEST_CODE);
+        }
     }
 
     /**
@@ -213,11 +236,14 @@ public class VKSdk {
                 }
                 return true;
             }
+
             if (result.getExtras() != null) {
-                HashMap<String, String> tokenParams = new HashMap<String, String>();
+                Map<String, String> tokenParams = new HashMap<String, String>();
+
                 for (String key : result.getExtras().keySet()) {
                     tokenParams.put(key, String.valueOf(result.getExtras().get(key)));
                 }
+
                 checkAndSetToken(tokenParams, false);
             }
         }
@@ -248,11 +274,13 @@ public class VKSdk {
      */
     public static void setAccessToken(VKAccessToken token, boolean renew) {
         sInstance.mAccessToken = token;
+
         if (sInstance.mListener != null) {
-	        if (!renew)
+	        if (!renew) {
                 sInstance.mListener.onReceiveNewToken(token);
-	        else
+            } else {
 		        sInstance.mListener.onRenewAccessToken(token);
+            }
         }
     }
 
@@ -263,10 +291,12 @@ public class VKSdk {
      */
     public static VKAccessToken getAccessToken() {
         if (sInstance.mAccessToken != null) {
-            if (sInstance.mAccessToken.isExpired() && sInstance.mListener != null)
+            if (sInstance.mAccessToken.isExpired() && sInstance.mListener != null) {
                 sInstance.mListener.onTokenExpired(sInstance.mAccessToken);
+            }
             return sInstance.mAccessToken;
         }
+
         return null;
     }
 
@@ -277,7 +307,9 @@ public class VKSdk {
      */
     public static void setAccessTokenError(VKError error) {
         sInstance.mAccessToken = null;
-        if (sInstance.mListener != null)
+
+        if (sInstance.mListener != null) {
             sInstance.mListener.onAccessDenied(error);
+        }
     }
 }
