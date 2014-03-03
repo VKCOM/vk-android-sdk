@@ -22,6 +22,7 @@
 package com.vk.sdk.api.model;
 
 import com.vk.sdk.VKObject;
+import com.vk.sdk.VKSdk;
 import com.vk.sdk.util.VKJsonHelper;
 
 import org.json.JSONArray;
@@ -95,7 +96,8 @@ public abstract class VKApiModel extends VKObject {
                 }
                 field.set(this, result);
             } catch (Exception e) {
-                e.printStackTrace();
+                if (VKSdk.DEBUG)
+                    e.printStackTrace();
             }
         }
         fields = response;
@@ -114,13 +116,15 @@ public abstract class VKApiModel extends VKObject {
                 try {
                     object.put(field.getName(), field.get(this));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    if (VKSdk.DEBUG)
+                        e.printStackTrace();
                 }
             } else if (field.getType().isAssignableFrom(VKApiModel.class)) {
                 try {
                     object.put(field.getName(), ((VKApiModel) field.get(this)).serialize());
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    if (VKSdk.DEBUG)
+                        e.printStackTrace();
                 }
             }
         }

@@ -38,6 +38,7 @@ import java.util.Map;
  */
 public class VKSdk {
 
+    public static final boolean DEBUG = false;
     /**
      * Start SDK activity for result with that request code
      */
@@ -161,8 +162,8 @@ public class VKSdk {
         try {
             checkConditions();
         } catch (Exception e) {
-            e.printStackTrace(); // Why guys you did it? May be you should notify listener about that?
-            // also would be great to have DEBUG option, to deny logs in release build
+            if (VKSdk.DEBUG)
+                e.printStackTrace();
             return;
         }
 

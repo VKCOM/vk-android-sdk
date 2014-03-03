@@ -21,6 +21,7 @@
 
 package com.vk.sdk.api.httpClient;
 
+import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.model.VKApiModel;
 
 import org.apache.http.client.methods.HttpUriRequest;
@@ -57,7 +58,8 @@ public class VKModelOperation extends VKJsonOperation {
                 parsedModel = model;
                 return true;
             } catch (Exception e) {
-                e.printStackTrace();
+                if (VKSdk.DEBUG)
+                    e.printStackTrace();
             }
         }
         return false;

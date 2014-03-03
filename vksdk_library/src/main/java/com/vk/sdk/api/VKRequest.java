@@ -304,7 +304,8 @@ public class VKRequest implements Serializable {
                                 if (processCommonError(error)) return;
                                 provideError(error);
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                if (VKSdk.DEBUG)
+                                    e.printStackTrace();
                             }
 
                             return;

@@ -68,6 +68,7 @@ public class VKOpenAuthActivity extends Activity {
         findViewById(android.R.id.content).setBackgroundColor(Color.rgb(240, 242, 245));
         loadPage();
     }
+
     private void loadPage() {
         try {
 	        String urlToLoad;
@@ -115,7 +116,6 @@ public class VKOpenAuthActivity extends Activity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if (url.startsWith(REDIRECT_URL)) {
-                Log.d("WebView", url);
                 Intent data = new Intent(VK_RESULT_INTENT_NAME);
                 data.putExtra(VK_EXTRA_TOKEN_DATA, url.substring(url.indexOf('#') + 1));
 	            if (getIntent().hasExtra(VK_EXTRA_VALIDATION_URL))

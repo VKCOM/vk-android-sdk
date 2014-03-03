@@ -23,6 +23,8 @@ package com.vk.sdk.api.model;
 
 import android.util.Log;
 
+import com.vk.sdk.VKSdk;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,10 +54,10 @@ public abstract class VKApiArray<T extends VKApiModel> extends VKApiModel {
             parse(jsonArray);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            if (VKSdk.DEBUG)
+                e.printStackTrace();
         }
         fields = object;
-        Log.d("Parse complete", String.format("%s : %d msecs", this.getClass().toString(), System.currentTimeMillis() - timeStart));
     }
     public void parse(JSONArray jsonArray) {
         items = new ArrayList<T>(jsonArray.length());
@@ -63,7 +65,8 @@ public abstract class VKApiArray<T extends VKApiModel> extends VKApiModel {
             try {
                 items.add(parseNextObject(jsonArray.getJSONObject(i)));
             } catch (JSONException e) {
-                e.printStackTrace();
+                if (VKSdk.DEBUG)
+                    e.printStackTrace();
             }
         }
         if (count == 0)
