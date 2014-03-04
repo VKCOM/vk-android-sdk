@@ -19,25 +19,27 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-package com.vk.sdk.api.model;
+package com.vk.sdk.api;
 
-/**
- Photo type of VK API. See descriptions here https://vk.com/dev/photo
- */
-public class VKPhoto extends VKApiModel {
-    public long id;
-    public int album_id;
-    public int owner_id;
-    public String photo_75;
-    public String photo_130;
-    public String photo_604;
-    public String photo_807;
-    public String photo_1280;
-    public String photo_2560;
-    public int width;
-    public int height;
-    public String text;
-    public int date;
-    public VKPhotoSizesArray sizes;
+import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.model.VKApiModel;
+import org.json.JSONObject;
 
+public class VKDefaultParser extends VKParser {
+    private Class<? extends VKApiModel> mModelClass;
+    public VKDefaultParser(Class<? extends VKApiModel> objectModel) {
+        mModelClass = objectModel;
+    }
+    @Override
+    public Object createModel(JSONObject object) {
+        try {
+            VKApiModel model = mModelClass.newInstance();
+            model.parse(object);
+            return model;
+        } catch (Exception e) {
+            if (VKSdk.DEBUG)
+                e.printStackTrace();
+        }
+        return null;
+    }
 }

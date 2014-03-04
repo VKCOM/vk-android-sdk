@@ -38,7 +38,7 @@ import java.util.Map;
  */
 public class VKSdk {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     /**
      * Start SDK activity for result with that request code
      */
@@ -64,8 +64,13 @@ public class VKSdk {
      */
     private String mCurrentAppId;
 
+
+
     private VKSdk() {
+
     }
+
+
 
     Context getContext() {
         return VKUIHelper.getTopActivity();
@@ -320,4 +325,5 @@ public class VKSdk {
             sInstance.mListener.onAccessDenied(error);
         }
     }
+
 }

@@ -182,9 +182,11 @@ public class VKUtil {
         }
         LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>(args.length / 2);
         for (int i = 0; i + 1 < args.length; i += 2) {
-            if (!(args[i] instanceof String))
+            if (args[i] == null || args[i + 1] == null || !(args[i] instanceof String)) {
                 if (VKSdk.DEBUG)
-                    Log.e("VK SDK", "Error while using mapFrom", new InvalidParameterSpecException("Key must be string"));
+                    Log.e("VK SDK", "Error while using mapFrom", new InvalidParameterSpecException("Key and value must be specified. Key must be string"));
+                continue;
+            }
             result.put((String) args[i], args[i + 1]);
         }
         return result;

@@ -37,8 +37,9 @@ public class ApiCallActivity extends ActionBarActivity {
     private void processRequestIfRequired() {
         VKRequest request = null;
 
-        if (getIntent() != null && getIntent().hasExtra("request")) {
-            request = (VKRequest) getIntent().getExtras().getSerializable("request");
+        if (getIntent() != null && getIntent().getExtras() != null && getIntent().hasExtra("request")) {
+            long requestId = getIntent().getExtras().getLong("request");
+            request = VKRequest.getRegisteredRequest(requestId);
         }
 
         if (request == null) return;

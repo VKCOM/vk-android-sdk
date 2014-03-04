@@ -19,41 +19,15 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-package com.vk.sdk;
+package com.vk.sdk.api;
 
-import java.util.HashMap;
-import java.util.Random;
 
-public class VKObject {
-    private static HashMap<Long, VKObject> sRegisteredObjects;
-    private long mRegisteredObjectId = 0;
-    static {
-        sRegisteredObjects = new HashMap<Long, VKObject>();
-    }
-    public static VKObject getRegisteredObject(long registeredObjectId) {
-        return sRegisteredObjects.get(registeredObjectId);
-    }
+import android.os.Parcel;
+import android.os.Parcelable;
+import org.json.JSONObject;
 
-    /**
-     * Saves object in local cache for future use
-     * @return Registered object id
-     */
-    public long registerObject() {
-        Random rand = new Random();
-        while (true) {
-            long nextRand = rand.nextLong();
-            if (sRegisteredObjects.containsKey(nextRand))
-                continue;
-            if (nextRand == 0)
-                continue;
-            sRegisteredObjects.put(nextRand, this);
-            mRegisteredObjectId = nextRand;
-            return nextRand;
-        }
+public abstract class VKParser {
+    public Object createModel(JSONObject object) {
+        return null;
     }
-    public void unregisterObject() {
-        sRegisteredObjects.remove(mRegisteredObjectId);
-        mRegisteredObjectId = 0;
-    }
-
 }

@@ -25,7 +25,8 @@ import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKRequest.VKRequestListener;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.methods.VKApiCaptcha;
-import com.vk.sdk.api.model.VKPhoto;
+import com.vk.sdk.api.methods.VKApiFriends;
+import com.vk.sdk.api.model.VKApiPhoto;
 import com.vk.sdk.api.model.VKPhotoArray;
 import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKImageParameters;
@@ -111,8 +112,7 @@ public class TestActivity extends ActionBarActivity {
             view.findViewById(R.id.friends_get).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    VKRequest request = new VKRequest("friends.get", VKParameters.from(VKApiConst.FIELDS, "id,first_name,last_name,sex,bdate,city"));
+                    VKRequest request = VKApi.friends().get(VKParameters.from(VKApiConst.FIELDS, "id,first_name,last_name,sex,bdate,city"));
                     startApiCall(request);
                 }
             });
@@ -128,9 +128,7 @@ public class TestActivity extends ActionBarActivity {
             view.findViewById(R.id.wall_post).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    VKRequest request = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.MESSAGE, "Привет, друзья!"));
-                    request.attempts = 10;
-                    startApiCall(request);
+                    makePost(null, "Привет, друзья!");
                 }
             });
 
@@ -165,7 +163,7 @@ public class TestActivity extends ActionBarActivity {
                         @Override
                         public void onComplete(VKResponse response) {
                             photo.recycle();
-                            VKPhoto photoModel = ((VKPhotoArray) response.parsedModel).get(0);
+                            VKApiPhoto photoModel = ((VKPhotoArray) response.parsedModel).get(0);
                             makePost(String.format("photo%s_%s", photoModel.owner_id, photoModel.id));
                         }
                         @Override
@@ -192,7 +190,7 @@ public class TestActivity extends ActionBarActivity {
                             super.onComplete(responses);
                             String[] photos = new String[responses.length];
                             for (int i = 0; i < responses.length; i++) {
-                                VKPhoto photoModel = ((VKPhotoArray) responses[i].parsedModel).get(0);
+                                VKApiPhoto photoModel = ((VKPhotoArray) responses[i].parsedModel).get(0);
                                 photos[i] = String.format("photo%s_%s", photoModel.owner_id, photoModel.id);
                             }
                             makePost(VKStringJoiner.join(photos, ","));
@@ -209,7 +207,7 @@ public class TestActivity extends ActionBarActivity {
 
         private void startApiCall(VKRequest request) {
             Intent i = new Intent(getActivity(), ApiCallActivity.class);
-            i.putExtra("request", request);
+            i.putExtra("request", request.registerObject());
             startActivity(i);
         }
 
@@ -235,9 +233,11 @@ public class TestActivity extends ActionBarActivity {
 
             return b;
         }
-
         private void makePost(String attachments) {
-            VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments));
+            makePost(attachments, null);
+        }
+        private void makePost(String attachments, String message) {
+            VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments, VKApiConst.MESSAGE, message));
             post.setModelClass(VKWallPostResult.class);
             post.executeWithListener(new VKRequestListener() {
                 @Override

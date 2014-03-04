@@ -23,8 +23,13 @@ package com.vk.sdk.api.methods;
 
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
+import com.vk.sdk.api.VKParser;
 import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.model.VKApiUser;
+import com.vk.sdk.api.model.VKList;
 import com.vk.sdk.api.model.VKUsersArray;
+
+import org.json.JSONObject;
 
 /**
  * Builds requests for API.users part
@@ -46,7 +51,12 @@ public class VKApiUsers extends VKApiBase {
      * @return Request for load
      */
     public VKRequest get(VKParameters params) {
-        return prepareRequest("get", params, VKRequest.HttpMethod.GET, VKUsersArray.class);
+        return prepareRequest("get", params, VKRequest.HttpMethod.GET, new VKParser() {
+            @Override
+            public Object createModel(JSONObject object) {
+                return new VKList<VKApiUser>(object, VKApiUser.class);
+            }
+        });
     }
 
     /**
