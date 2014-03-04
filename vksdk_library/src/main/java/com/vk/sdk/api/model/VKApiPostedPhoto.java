@@ -19,27 +19,49 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-package com.vk.sdk.api;
+/**
+ * PostdPhoto.java
+ * vk-android-sdk
+ *
+ * Created by Babichev Vitaly on 19.01.14.
+ * Copyright (c) 2014 VK. All rights reserved.
+ */
+package com.vk.sdk.api.model;
 
-import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.model.VKApiModel;
+import android.os.Parcel;
 import org.json.JSONObject;
+import static com.vk.sdk.api.model.VKAttachments.*;
 
-public class VKDefaultParser extends VKParser {
-    private final Class<? extends VKApiModel> mModelClass;
-    public VKDefaultParser(Class<? extends VKApiModel> objectModel) {
-        mModelClass = objectModel;
+/**
+ * Subclass to directly uploaded wall photo.
+ */
+@SuppressWarnings("unused")
+public class VKApiPostedPhoto extends VKApiPhoto {
+
+    /**
+     * Fills a PostedPhoto instance from JSONObject.
+     */
+    public VKApiPostedPhoto parse(JSONObject from) {
+        super.parse(from);
+        return this;
     }
+
+    /**
+     * Creates a PostedPhoto instance from Parcel.
+     */
+    public VKApiPostedPhoto(Parcel in) {
+        super(in);
+    }
+
+    /**
+     * Creates empty PostedPhoto instance.
+     */
+    public VKApiPostedPhoto() {
+
+    }
+
     @Override
-    public Object createModel(JSONObject object) {
-        try {
-            VKApiModel model = mModelClass.newInstance();
-            model.parse(object);
-            return model;
-        } catch (Exception e) {
-            if (VKSdk.DEBUG)
-                e.printStackTrace();
-        }
-        return null;
+    public String getType() {
+        return TYPE_POSTED_PHOTO;
     }
 }

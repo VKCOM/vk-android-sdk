@@ -19,27 +19,24 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-package com.vk.sdk.api;
+/**
+ * identifiable.java
+ * vk-android-sdk
+ *
+ * Created by Babichev Vitaly on 06.01.14.
+ * Copyright (c) 2014 VK. All rights reserved.
+ */
+package com.vk.sdk.api.model;
 
-import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.model.VKApiModel;
-import org.json.JSONObject;
+/**
+ * Describes objects that contains an "id" field.
+ */
+@SuppressWarnings("unused")
+public interface Identifiable {
 
-public class VKDefaultParser extends VKParser {
-    private final Class<? extends VKApiModel> mModelClass;
-    public VKDefaultParser(Class<? extends VKApiModel> objectModel) {
-        mModelClass = objectModel;
-    }
-    @Override
-    public Object createModel(JSONObject object) {
-        try {
-            VKApiModel model = mModelClass.newInstance();
-            model.parse(object);
-            return model;
-        } catch (Exception e) {
-            if (VKSdk.DEBUG)
-                e.printStackTrace();
-        }
-        return null;
-    }
+    /**
+     * Returns unique identifier of this object(usually it's value of JSON field "id").
+     */
+    int getId();
+
 }

@@ -19,27 +19,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-package com.vk.sdk.api;
-
-import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.model.VKApiModel;
-import org.json.JSONObject;
-
-public class VKDefaultParser extends VKParser {
-    private final Class<? extends VKApiModel> mModelClass;
-    public VKDefaultParser(Class<? extends VKApiModel> objectModel) {
-        mModelClass = objectModel;
-    }
-    @Override
-    public Object createModel(JSONObject object) {
-        try {
-            VKApiModel model = mModelClass.newInstance();
-            model.parse(object);
-            return model;
-        } catch (Exception e) {
-            if (VKSdk.DEBUG)
-                e.printStackTrace();
-        }
-        return null;
-    }
-}
+/**
+ * Contains models to represent VK objects and provides parsing.
+ */
+package com.vk.sdk.api.model;

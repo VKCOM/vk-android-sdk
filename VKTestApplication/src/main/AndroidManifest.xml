@@ -24,13 +24,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.vk.vktestapp.TestActivity"
-            android:label="@string/title_activity_test" />
+            android:name="com.vk.vktestapp.TestActivity"/>
         <activity android:name="com.vk.sdk.VKOpenAuthActivity" />
         <activity
-            android:name="com.vk.vktestapp.ApiCallActivity"
-            android:label="@string/title_activity_api_call" >
-        </activity>
+            android:name="com.vk.vktestapp.ApiCallActivity"/>
     </application>
 
 </manifest>

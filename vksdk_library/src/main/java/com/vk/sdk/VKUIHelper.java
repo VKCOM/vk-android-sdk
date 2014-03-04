@@ -35,6 +35,14 @@ public class VKUIHelper {
     }
 
     /**
+     * Call it in onCreate for of activities where you using VK SDK
+     * @param activity Your activity
+     */
+    public static void onCreate(Activity activity) {
+        if (mTopActivity != activity)
+            mTopActivity = activity;
+    }
+    /**
      * Call it in onResume for of activities where you using VK SDK
      * @param activity Your activity
      */

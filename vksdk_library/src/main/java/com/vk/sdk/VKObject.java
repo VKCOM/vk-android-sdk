@@ -25,17 +25,23 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class VKObject {
-    private static HashMap<Long, VKObject> sRegisteredObjects;
+    private static final HashMap<Long, VKObject> sRegisteredObjects;
     private long mRegisteredObjectId = 0;
     static {
         sRegisteredObjects = new HashMap<Long, VKObject>();
     }
+
+    /**
+     * Returns object saved in local cache
+     * @param registeredObjectId Registered object id
+     * @return Object which was saved with registerObject() method
+     */
     public static VKObject getRegisteredObject(long registeredObjectId) {
         return sRegisteredObjects.get(registeredObjectId);
     }
 
     /**
-     * Saves object in local cache for future use
+     * Saves object in local cache for future use. Always call unregisterObject() after use
      * @return Registered object id
      */
     public long registerObject() {
@@ -51,6 +57,10 @@ public class VKObject {
             return nextRand;
         }
     }
+
+    /**
+     * Unregister object from local cache.
+     */
     public void unregisterObject() {
         sRegisteredObjects.remove(mRegisteredObjectId);
         mRegisteredObjectId = 0;
