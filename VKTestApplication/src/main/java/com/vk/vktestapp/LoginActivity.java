@@ -39,7 +39,6 @@ public class LoginActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
         VKUIHelper.onCreate(this);
         VKSdk.initialize(sdkListener, "3974615");
         if (VKSdk.wakeUpSession()) {
@@ -114,11 +113,13 @@ public class LoginActivity extends FragmentActivity {
         }
     };
     private void startTestActivity() {
-        startActivity(new Intent(LoginActivity.this, TestActivity.class));
-
+	    startActivity(new Intent(this, TestActivity.class));
     }
 
-    private class LoginFragment extends android.support.v4.app.Fragment {
+    public static class LoginFragment extends android.support.v4.app.Fragment {
+	    public LoginFragment() {
+		    super();
+	    }
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             return inflater.inflate(R.layout.fragment_login, container, false);
@@ -127,14 +128,14 @@ public class LoginActivity extends FragmentActivity {
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
-            findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
+            getView().findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     VKSdk.authorize(sMyScope, true, false);
                 }
             });
 
-            findViewById(R.id.force_oauth_button).setOnClickListener(new View.OnClickListener() {
+	        getView().findViewById(R.id.force_oauth_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     VKSdk.authorize(sMyScope, true, true);
@@ -142,7 +143,10 @@ public class LoginActivity extends FragmentActivity {
             });
         }
     }
-    private class LogoutFragment extends android.support.v4.app.Fragment {
+	public static class LogoutFragment extends android.support.v4.app.Fragment {
+	    public LogoutFragment() {
+		    super();
+	    }
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             return inflater.inflate(R.layout.fragment_logout, container, false);
@@ -151,19 +155,19 @@ public class LoginActivity extends FragmentActivity {
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
-            findViewById(R.id.continue_button).setOnClickListener(new View.OnClickListener() {
+	        getView().findViewById(R.id.continue_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startTestActivity();
+	                ((LoginActivity)getActivity()).startTestActivity();
                 }
             });
 
-            findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
+	        getView().findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     VKSdk.logout();
                     if (!VKSdk.isLoggedIn()) {
-                        showLogin();
+	                    ((LoginActivity)getActivity()).showLogin();
                     }
                 }
             });
