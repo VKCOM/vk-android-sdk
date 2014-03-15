@@ -6,11 +6,13 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '19.0.1'
+    buildToolsVersion '19.0.3'
 
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 19
+        versionCode 1
+        versionName "1.0"
     }
 
     signingConfigs {
@@ -26,10 +28,15 @@ android {
         release {
             signingConfig signingConfigs.release
         }
+        debug {
+            debuggable true
+            jniDebugBuild true
+        }
     }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:19.0.1'
+    compile 'com.android.support:appcompat-v7:+'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':vksdk_library')
 }
