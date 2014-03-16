@@ -139,7 +139,7 @@ public class VKOpenAuthActivity extends Activity {
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
             canShowPage = false;
-            new AlertDialog.Builder(VKOpenAuthActivity.this)
+            AlertDialog.Builder builder = new AlertDialog.Builder(VKOpenAuthActivity.this)
                     .setMessage(description)
                     .setPositiveButton(R.string.vk_retry, new DialogInterface.OnClickListener() {
                         @Override
@@ -152,7 +152,13 @@ public class VKOpenAuthActivity extends Activity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             finish();
                         }
-                    }).show();
+                    });
+            try {
+                builder.show();
+            } catch (Exception e) {
+                if (VKSdk.DEBUG)
+                	e.printStackTrace();
+            }
         }
     }
 
