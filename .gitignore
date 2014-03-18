@@ -43,3 +43,4 @@ target/
 /gradle
 /gradlew
 /gradlew.bat
+gradle.properties

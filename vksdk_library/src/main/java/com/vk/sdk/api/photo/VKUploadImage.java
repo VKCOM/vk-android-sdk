@@ -25,6 +25,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.vk.sdk.VKObject;
+import com.vk.sdk.VKSdk;
 import com.vk.sdk.VKUIHelper;
 
 import java.io.File;
@@ -67,7 +68,8 @@ public class VKUploadImage extends VKObject {
                 mImageData.compress(Bitmap.CompressFormat.JPEG, (int) (mParameters.mJpegQuality * 100), fos);
             fos.close();
         } catch (IOException ignored) {
-            ignored.printStackTrace();
+            if (VKSdk.DEBUG)
+                ignored.printStackTrace();
         }
         return tmpFile;
     }

@@ -37,8 +37,10 @@ public class ApiCallActivity extends ActionBarActivity {
     private void processRequestIfRequired() {
         VKRequest request = null;
 
-        if (getIntent() != null && getIntent().hasExtra("request")) {
-            request = (VKRequest) getIntent().getExtras().getSerializable("request");
+        if (getIntent() != null && getIntent().getExtras() != null && getIntent().hasExtra("request")) {
+            long requestId = getIntent().getExtras().getLong("request");
+            request = VKRequest.getRegisteredRequest(requestId);
+            request.unregisterObject();
         }
 
         if (request == null) return;
@@ -103,7 +105,7 @@ public class ApiCallActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    private static class PlaceholderFragment extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             return inflater.inflate(R.layout.fragment_api_call, container, false);

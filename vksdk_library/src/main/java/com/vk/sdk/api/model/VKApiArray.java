@@ -21,13 +21,12 @@
 
 package com.vk.sdk.api.model;
 
-import android.util.Log;
+import com.vk.sdk.VKSdk;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +38,7 @@ public abstract class VKApiArray<T extends VKApiModel> extends VKApiModel {
     private int count;
 
     @Override
-    public void parse(JSONObject object) {
-        long timeStart = System.currentTimeMillis();
+    public VKApiModel parse(JSONObject object) {
         try {
             JSONArray jsonArray;
             if ((jsonArray = object.optJSONArray("response")) == null)
@@ -52,10 +50,11 @@ public abstract class VKApiArray<T extends VKApiModel> extends VKApiModel {
             parse(jsonArray);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            if (VKSdk.DEBUG)
+                e.printStackTrace();
         }
         fields = object;
-        Log.d("Parse complete", String.format("%s : %d msecs", this.getClass().toString(), System.currentTimeMillis() - timeStart));
+        return this;
     }
     public void parse(JSONArray jsonArray) {
         items = new ArrayList<T>(jsonArray.length());
@@ -63,16 +62,12 @@ public abstract class VKApiArray<T extends VKApiModel> extends VKApiModel {
             try {
                 items.add(parseNextObject(jsonArray.getJSONObject(i)));
             } catch (JSONException e) {
-                e.printStackTrace();
+                if (VKSdk.DEBUG)
+                    e.printStackTrace();
             }
         }
         if (count == 0)
             count = items.size();
-    }
-
-    @Override
-    public JSONObject serialize() {
-        return null;
     }
 
     protected T parseNextObject(JSONObject object) {

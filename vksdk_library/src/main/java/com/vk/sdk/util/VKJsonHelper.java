@@ -21,6 +21,7 @@
 
 package com.vk.sdk.util;
 
+import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.model.VKApiModel;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -144,15 +145,18 @@ public class VKJsonHelper {
             }
             catch (JSONException e)
             {
-                e.printStackTrace();
+                if (VKSdk.DEBUG)
+                    e.printStackTrace();
             }
             catch (InstantiationException e)
             {
-                e.printStackTrace();
+                if (VKSdk.DEBUG)
+                    e.printStackTrace();
             }
             catch (IllegalAccessException e)
             {
-                e.printStackTrace();
+                if (VKSdk.DEBUG)
+                    e.printStackTrace();
             }
         }
         return ret;

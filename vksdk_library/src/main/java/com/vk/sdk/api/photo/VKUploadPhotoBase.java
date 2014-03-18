@@ -21,6 +21,7 @@
 
 package com.vk.sdk.api.photo;
 
+import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
@@ -141,7 +142,8 @@ public abstract class VKUploadPhotoBase extends VKRequest {
                         lastOperation = postFileRequest;
                         VKHttpClient.enqueueOperation(lastOperation);
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        if (VKSdk.DEBUG)
+                            e.printStackTrace();
                         VKError error = new VKError(VKError.VK_API_JSON_FAILED);
                         error.httpError = e;
                         error.errorMessage = e.getMessage();

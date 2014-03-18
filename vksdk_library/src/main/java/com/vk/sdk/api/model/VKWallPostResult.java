@@ -21,9 +21,21 @@
 
 package com.vk.sdk.api.model;
 
+import android.os.Parcel;
+
 /**
  * Specified wall post result
  */
 public class VKWallPostResult extends VKApiModel {
     public int post_id;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.post_id);
+    }
 }

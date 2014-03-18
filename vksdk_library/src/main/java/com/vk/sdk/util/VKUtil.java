@@ -30,6 +30,7 @@ import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
 import android.util.Log;
 
+import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKParameters;
 
 import java.io.BufferedReader;
@@ -128,7 +129,8 @@ public class VKUtil {
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            if (VKSdk.DEBUG)
+                e.printStackTrace();
         }
         return "";
     }
@@ -175,12 +177,16 @@ public class VKUtil {
      */
     public static Map<String, Object> mapFrom(Object... args) {
         if (args.length % 2 != 0) {
-            Log.w("VKUtil", "Params must be paired. Last one is ignored");
+            if (VKSdk.DEBUG)
+                Log.w("VKUtil", "Params must be paired. Last one is ignored");
         }
         LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>(args.length / 2);
         for (int i = 0; i + 1 < args.length; i += 2) {
-            if (!(args[i] instanceof String))
-                Log.e("VK SDK", "Error while using mapFrom", new InvalidParameterSpecException("Key must be string"));
+            if (args[i] == null || args[i + 1] == null || !(args[i] instanceof String)) {
+                if (VKSdk.DEBUG)
+                    Log.e("VK SDK", "Error while using mapFrom", new InvalidParameterSpecException("Key and value must be specified. Key must be string"));
+                continue;
+            }
             result.put((String) args[i], args[i + 1]);
         }
         return result;

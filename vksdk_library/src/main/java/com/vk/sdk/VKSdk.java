@@ -24,6 +24,8 @@ package com.vk.sdk;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.util.VKStringJoiner;
@@ -38,6 +40,7 @@ import java.util.Map;
  */
 public class VKSdk {
 
+    public static final boolean DEBUG = true;
     /**
      * Start SDK activity for result with that request code
      */
@@ -47,6 +50,8 @@ public class VKSdk {
      * Instance of SDK
      */
     private static volatile VKSdk sInstance;
+
+    private static final String VK_SDK_ACCESS_TOKEN_PREF_KEY = "VK_SDK_ACCESS_TOKEN_PLEASE_DONT_TOUCH";
 
     /**
      * Responder for global SDK events
@@ -63,8 +68,14 @@ public class VKSdk {
      */
     private String mCurrentAppId;
 
+
+
+
     private VKSdk() {
+
     }
+
+
 
     Context getContext() {
         return VKUIHelper.getTopActivity();
@@ -126,10 +137,7 @@ public class VKSdk {
     public static void initialize(VKSdkListener listener, String appId, VKAccessToken token) {
         initialize(listener, appId);
         sInstance.mAccessToken = token;
-
-        if (token != null && !token.isExpired() && token.accessToken != null) {
-            listener.onAcceptUserToken(token);
-        }
+        sInstance.performTokenCheck(token, true);
     }
 
     /**
@@ -161,8 +169,8 @@ public class VKSdk {
         try {
             checkConditions();
         } catch (Exception e) {
-            e.printStackTrace(); // Why guys you did it? May be you should notify listener about that?
-            // also would be great to have DEBUG option, to deny logs in release build
+            if (VKSdk.DEBUG)
+                e.printStackTrace();
             return;
         }
 
@@ -282,6 +290,7 @@ public class VKSdk {
 		        sInstance.mListener.onRenewAccessToken(token);
             }
         }
+        sInstance.mAccessToken.saveTokenToSharedPreferences(VKUIHelper.getTopActivity(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
     }
 
     /**
@@ -311,5 +320,44 @@ public class VKSdk {
         if (sInstance.mListener != null) {
             sInstance.mListener.onAccessDenied(error);
         }
+    }
+    private boolean performTokenCheck(VKAccessToken token, boolean isUserToken) {
+        if (token != null) {
+            if (token.isExpired()) {
+                mListener.onTokenExpired(token);
+            }
+            else if (token.accessToken != null) {
+                if (isUserToken) mListener.onAcceptUserToken(token);
+                return true;
+            }
+            else {
+                VKError error = new VKError(VKError.VK_API_CANCELED);
+                error.errorMessage = "User token is invalid";
+                    mListener.onAccessDenied(error);
+            }
+        }
+        return false;
+    }
+    public static boolean wakeUpSession() {
+        VKAccessToken token = VKAccessToken.tokenFromSharedPreferences(VKUIHelper.getTopActivity(),
+                VK_SDK_ACCESS_TOKEN_PREF_KEY);
+
+        if (sInstance.performTokenCheck(token, false)) {
+            sInstance.mAccessToken = token;
+            return true;
+        }
+        return false;
+    }
+
+    public static void logout() {
+        CookieSyncManager.createInstance(VKUIHelper.getTopActivity());
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+
+        sInstance.mAccessToken = null;
+        VKAccessToken.removeTokenAtKey(VKUIHelper.getTopActivity(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
+    }
+    public static boolean isLoggedIn() {
+        return sInstance.mAccessToken != null && !sInstance.mAccessToken.isExpired();
     }
 }

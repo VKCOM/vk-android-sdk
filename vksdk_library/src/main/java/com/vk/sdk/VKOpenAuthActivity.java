@@ -68,6 +68,7 @@ public class VKOpenAuthActivity extends Activity {
         findViewById(android.R.id.content).setBackgroundColor(Color.rgb(240, 242, 245));
         loadPage();
     }
+
     private void loadPage() {
         try {
 	        String urlToLoad;
@@ -115,7 +116,6 @@ public class VKOpenAuthActivity extends Activity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if (url.startsWith(REDIRECT_URL)) {
-                Log.d("WebView", url);
                 Intent data = new Intent(VK_RESULT_INTENT_NAME);
                 data.putExtra(VK_EXTRA_TOKEN_DATA, url.substring(url.indexOf('#') + 1));
 	            if (getIntent().hasExtra(VK_EXTRA_VALIDATION_URL))
@@ -139,7 +139,7 @@ public class VKOpenAuthActivity extends Activity {
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
             canShowPage = false;
-            new AlertDialog.Builder(VKOpenAuthActivity.this)
+            AlertDialog.Builder builder = new AlertDialog.Builder(VKOpenAuthActivity.this)
                     .setMessage(description)
                     .setPositiveButton(R.string.vk_retry, new DialogInterface.OnClickListener() {
                         @Override
@@ -152,7 +152,13 @@ public class VKOpenAuthActivity extends Activity {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             finish();
                         }
-                    }).show();
+                    });
+            try {
+                builder.show();
+            } catch (Exception e) {
+                if (VKSdk.DEBUG)
+                	e.printStackTrace();
+            }
         }
     }
 

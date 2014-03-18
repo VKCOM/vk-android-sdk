@@ -21,7 +21,9 @@
 
 package com.vk.sdk.api.methods;
 
+import com.vk.sdk.api.VKDefaultParser;
 import com.vk.sdk.api.VKParameters;
+import com.vk.sdk.api.VKParser;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.model.VKApiModel;
 
@@ -45,12 +47,12 @@ class VKApiBase {
     }
 
     VKRequest prepareRequest(String methodName, VKParameters methodParameters) {
-        return prepareRequest(methodName, methodParameters, VKRequest.HttpMethod.GET, null);
+        return prepareRequest(methodName, methodParameters, VKRequest.HttpMethod.GET);
     }
 
     VKRequest prepareRequest(String methodName, VKParameters methodParameters,
                              VKRequest.HttpMethod httpMethod) {
-        return prepareRequest(methodName, methodParameters, httpMethod, null);
+        return prepareRequest(methodName, methodParameters, httpMethod, (VKParser)null);
     }
 
     VKRequest prepareRequest(String methodName, VKParameters methodParameters,
@@ -58,5 +60,13 @@ class VKApiBase {
                              Class<? extends VKApiModel> modelClass) {
         return new VKRequest(String.format(Locale.US, "%s.%s", mMethodGroup, methodName),
                 methodParameters, httpMethod, modelClass);
+    }
+    VKRequest prepareRequest(String methodName, VKParameters methodParameters,
+                             VKRequest.HttpMethod httpMethod,
+                             VKParser responseParser) {
+        VKRequest result = new VKRequest(String.format(Locale.US, "%s.%s", mMethodGroup, methodName),
+                methodParameters, httpMethod);
+        result.setResponseParser(responseParser);
+        return result;
     }
 }

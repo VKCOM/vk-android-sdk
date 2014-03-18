@@ -21,6 +21,9 @@
 
 package com.vk.sdk.api.httpClient;
 
+import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.VKDefaultParser;
+import com.vk.sdk.api.VKParser;
 import com.vk.sdk.api.model.VKApiModel;
 
 import org.apache.http.client.methods.HttpUriRequest;
@@ -30,8 +33,8 @@ import org.json.JSONObject;
  * Operation based on json operation with object-model parsing possibility
  */
 public class VKModelOperation extends VKJsonOperation {
-	protected final Class<? extends VKApiModel> mModelClass;
-    public VKApiModel parsedModel;
+	protected final VKParser mParser;
+    public Object parsedModel;
 
     /**
      * Create new model operation
@@ -40,7 +43,16 @@ public class VKModelOperation extends VKJsonOperation {
      */
     public VKModelOperation(HttpUriRequest uriRequest, Class<? extends VKApiModel> modelClass) {
         super(uriRequest);
-        mModelClass = modelClass;
+        mParser = new VKDefaultParser(modelClass);
+    }
+    /**
+     * Create new model operation
+     * @param uriRequest Prepared request
+     * @param parser Parser for create response
+     */
+    public VKModelOperation(HttpUriRequest uriRequest, VKParser parser) {
+        super(uriRequest);
+        mParser = parser;
     }
 
     @Override
@@ -48,16 +60,14 @@ public class VKModelOperation extends VKJsonOperation {
         if (!super.postExecution())
             return false;
 
-        if (mModelClass != null) {
+        if (mParser != null) {
             try {
                 JSONObject response = getResponseJson();
-
-                VKApiModel model = mModelClass.newInstance();
-                model.parse(response);
-                parsedModel = model;
+                parsedModel = mParser.createModel(response);
                 return true;
             } catch (Exception e) {
-                e.printStackTrace();
+                if (VKSdk.DEBUG)
+                    e.printStackTrace();
             }
         }
         return false;

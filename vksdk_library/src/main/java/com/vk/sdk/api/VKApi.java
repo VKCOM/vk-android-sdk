@@ -21,6 +21,7 @@
 
 package com.vk.sdk.api;
 
+import com.vk.sdk.api.methods.VKApiFriends;
 import com.vk.sdk.api.methods.VKApiPhotos;
 import com.vk.sdk.api.methods.VKApiUsers;
 import com.vk.sdk.api.methods.VKApiWall;
@@ -40,6 +41,13 @@ public class VKApi {
      */
     public static VKApiUsers users() {
         return new VKApiUsers();
+    }
+    /**
+     * https://vk.com/dev/users
+     * Returns object for preparing requests to users part of API
+     */
+    public static VKApiFriends friends() {
+        return new VKApiFriends();
     }
 
     /**

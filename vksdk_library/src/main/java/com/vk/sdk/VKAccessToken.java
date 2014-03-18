@@ -41,7 +41,6 @@ public class VKAccessToken {
     public static final String SECRET = "secret";
     public static final String HTTPS_REQUIRED = "https_required";
     public static final String CREATED = "created";
-    public static final String TOKEN_KEY = "VK is the best";
     /**
      * String token for use in request parameters
      */
@@ -87,6 +86,18 @@ public class VKAccessToken {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString(tokenKey, serialize());
+        edit.commit();
+    }
+
+    /**
+     * Removes token from preferences with specified key
+     * @param ctx      Context for preferences
+     * @param tokenKey Key for saving settings
+     */
+    public static void removeTokenAtKey(Context ctx, String tokenKey) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.remove(tokenKey);
         edit.commit();
     }
 

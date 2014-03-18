@@ -24,6 +24,7 @@ package com.vk.sdk.api;
 import android.content.Intent;
 
 import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKObject;
 import com.vk.sdk.VKOpenAuthActivity;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.VKSdkVersion;
@@ -41,19 +42,19 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
  * Class for execution API-requests.
  */
-public class VKRequest implements Serializable {
-	private static final long serialVersionUID = 3390183888801770378L;
+public class VKRequest extends VKObject {
 
-	public enum VKProgressType {
+
+    public enum VKProgressType {
         Download,
         Upload
     }
@@ -87,10 +88,7 @@ public class VKRequest implements Serializable {
      * How much times request was loaded
      */
     private int mAttemptsUsed;
-    /**
-     * Url for uploading files
-     */
-    private String mUploadUrl;
+
     /**
      * Requests that should be called after current request.
      */
@@ -101,15 +99,14 @@ public class VKRequest implements Serializable {
     private Class<? extends VKApiModel> mModelClass;
 
     /**
+     * Response parser
+     */
+    private VKParser mModelParser;
+
+    /**
      * Specify language for API request
      */
     private String mPreferredLang;
-
-//    NSOutputStream * outputStream;
-    /**
-     * File will be send
-     */
-    public File inputFile;
 
     /**
      * Specify listener for current request
@@ -191,8 +188,6 @@ public class VKRequest implements Serializable {
         this.mPreferredLang = "en";
         //By default we use system language.
         this.useSystemLanguage = true;
-
-
     }
 
     /**
@@ -242,7 +237,7 @@ public class VKRequest implements Serializable {
     }
 
     public VKParameters getPreparedParameters() {
-        if (mPreparedParameters == null && mUploadUrl == null) {
+        if (mPreparedParameters == null) {
             mPreparedParameters = new VKParameters(mMethodParameters);
 
             //Set current access token from SDK object
@@ -289,11 +284,15 @@ public class VKRequest implements Serializable {
     }
 
     public VKAbstractOperation getOperation() {
-        if (this.mModelClass != null && this.parseModel) {
-            mLoadingOperation = new VKModelOperation(getPreparedRequest(), this.mModelClass);
-        } else {
-            mLoadingOperation = new VKJsonOperation(getPreparedRequest());
+        if (this.parseModel) {
+            if (this.mModelClass != null) {
+                mLoadingOperation = new VKModelOperation(getPreparedRequest(), this.mModelClass);
+            } else if (this.mModelParser != null){
+                mLoadingOperation = new VKModelOperation(getPreparedRequest(), this.mModelParser);
+            }
         }
+        if (mLoadingOperation == null)
+            mLoadingOperation = new VKJsonOperation(getPreparedRequest());
         ((VKJsonOperation) mLoadingOperation).setJsonOperationListener(
                 new VKJSONOperationCompleteListener() {
                     @Override
@@ -304,7 +303,8 @@ public class VKRequest implements Serializable {
                                 if (processCommonError(error)) return;
                                 provideError(error);
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                if (VKSdk.DEBUG)
+                                    e.printStackTrace();
                             }
 
                             return;
@@ -392,7 +392,7 @@ public class VKRequest implements Serializable {
      * @param jsonResponse response from API
      * @param parsedModel  model parsed from json
      */
-    private void provideResponse(final JSONObject jsonResponse, VKApiModel parsedModel) {
+    private void provideResponse(final JSONObject jsonResponse, Object parsedModel) {
         final VKResponse response = new VKResponse();
         response.request = this;
         response.json = jsonResponse;
@@ -496,12 +496,18 @@ public class VKRequest implements Serializable {
             parseModel = true;
     }
 
+    public void setResponseParser(VKParser parser) {
+        mModelParser = parser;
+        if (mModelParser != null)
+            parseModel = true;
+    }
+
     /**
      * Extend listeners for requests from that class
      * Created by Roman Truba on 02.12.13.
      * Copyright (c) 2013 VK. All rights reserved.
      */
-    public static abstract class VKRequestListener {
+    public static abstract class VKRequestListener implements Serializable {
         /**
          * Called if there were no HTTP or API errors, returns execution result.
          *
@@ -537,5 +543,8 @@ public class VKRequest implements Serializable {
          */
         public void onProgress(VKRequest.VKProgressType progressType, long bytesLoaded, long bytesTotal) {
         }
+    }
+    public static VKRequest getRegisteredRequest(long requestId) {
+        return (VKRequest) getRegisteredObject(requestId);
     }
 }

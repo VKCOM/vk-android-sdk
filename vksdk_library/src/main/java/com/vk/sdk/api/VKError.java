@@ -23,6 +23,7 @@ package com.vk.sdk.api;
 
 import android.net.Uri;
 
+import com.vk.sdk.VKObject;
 import com.vk.sdk.util.VKJsonHelper;
 
 import org.json.JSONException;
@@ -35,8 +36,7 @@ import java.util.Map;
 /**
  * Class for presenting VK SDK and VK API errors
  */
-public class VKError implements Serializable {
-	private static final long serialVersionUID = -2244555883847360546L;
+public class VKError extends VKObject {
 	public static final int VK_API_ERROR = -101;
     public static final int VK_API_CANCELED = -102;
     public static final int VK_API_REQUEST_NOT_PREPARED = -103;
@@ -139,5 +139,8 @@ public class VKError implements Serializable {
         params.put(VKApiConst.CAPTCHA_KEY, userEnteredCode);
         request.addExtraParameters(params);
         request.repeat();
+    }
+    public static VKError getRegisteredError(long requestId) {
+        return (VKError) getRegisteredObject(requestId);
     }
 }

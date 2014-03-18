@@ -21,12 +21,16 @@
 
 package com.vk.sdk.api.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Array of API photos objects
  */
-public class VKPhotoArray extends VKApiArray<VKPhoto> {
+public class VKPhotoArray extends VKList<VKApiPhoto> {
     @Override
-    protected VKPhoto createObject() {
-        return new VKPhoto();
+    public VKApiModel parse(JSONObject response) throws JSONException {
+        fill(response, VKApiPhoto.class);
+        return this;
     }
 }

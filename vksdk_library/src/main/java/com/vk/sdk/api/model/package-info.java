@@ -19,25 +19,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-package com.vk.sdk.api.model;
-
 /**
- Photo type of VK API. See descriptions here https://vk.com/dev/photo
+ * Contains models to represent VK objects and provides parsing.
  */
-public class VKPhoto extends VKApiModel {
-    public long id;
-    public int album_id;
-    public int owner_id;
-    public String photo_75;
-    public String photo_130;
-    public String photo_604;
-    public String photo_807;
-    public String photo_1280;
-    public String photo_2560;
-    public int width;
-    public int height;
-    public String text;
-    public int date;
-    public VKPhotoSizesArray sizes;
-
-}
+package com.vk.sdk.api.model;
