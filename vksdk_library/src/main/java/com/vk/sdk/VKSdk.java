@@ -237,25 +237,21 @@ public class VKSdk {
                 if (result.hasExtra(VKOpenAuthActivity.VK_EXTRA_TOKEN_DATA)) {
                     String tokenInfo = result.getStringExtra(VKOpenAuthActivity.VK_EXTRA_TOKEN_DATA);
                     Map<String, String> tokenParams = VKUtil.explodeQueryString(tokenInfo);
-	                boolean renew = result.getBooleanExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_URL, false);
+                    boolean renew = result.getBooleanExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_URL, false);
                     checkAndSetToken(tokenParams, renew);
                 } else if (result.getExtras() != null) {
                     setAccessTokenError(new VKError(VKError.VK_API_CANCELED));
                 }
                 return true;
             }
-
-            if (result.getExtras() != null) {
-                Map<String, String> tokenParams = new HashMap<String, String>();
-
-                for (String key : result.getExtras().keySet()) {
-                    tokenParams.put(key, String.valueOf(result.getExtras().get(key)));
-                }
-
-                checkAndSetToken(tokenParams, false);
-            }
         }
-
+        if (resultCode == Activity.RESULT_CANCELED && result != null && result.getExtras() != null) {
+            Map<String, String> tokenParams = new HashMap<String, String>();
+            for (String key : result.getExtras().keySet()) {
+                tokenParams.put(key, String.valueOf(result.getExtras().get(key)));
+            }
+            return checkAndSetToken(tokenParams, false);
+        }
         return false;
     }
 
@@ -263,15 +259,22 @@ public class VKSdk {
 	 * Check new access token and sets it as working token
 	 * @param tokenParams params of token
 	 * @param renew flag indicates token renewal
+     * @return true if access token was set, or error was provided
 	 */
-    private static void checkAndSetToken(Map<String, String> tokenParams, boolean renew) {
+    private static boolean checkAndSetToken(Map<String, String> tokenParams, boolean renew) {
         VKAccessToken token = VKAccessToken.tokenFromParameters(tokenParams);
         if (token == null || token.accessToken == null) {
             VKError error = new VKError(tokenParams);
-            setAccessTokenError(error);
+            if (error.errorMessage != null || error.errorReason != null) {
+                setAccessTokenError(error);
+                return true;
+            }
+
         } else {
             setAccessToken(token, renew);
+            return true;
         }
+        return false;
     }
 
     /**
