@@ -2,4 +2,7 @@
 <resources>
     <string name="vk_enter_captcha_text">Enter captcha text here</string>
     <string name="vk_retry">Retry</string>
+    <string name="vk_auth_cancel_dialog_title">Cancel auth via vk.com?</string>
+    <string name="vk_auth_cancel_dialog_yes">Yes</string>
+    <string name="vk_auth_cancel_dialog_no">No</string>
 </resources>

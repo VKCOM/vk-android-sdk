@@ -39,6 +39,11 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+
+import java.net.URI;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -55,6 +60,8 @@ public class VKOpenAuthActivity extends Activity {
 	public static final String VK_EXTRA_VALIDATION_URL = "extra-validation-url";
 
     private static final String REDIRECT_URL = "https://oauth.vk.com/blank.html";
+
+    private static final String VK_ERROR_URL_PATTERN = "https://oauth.vk.com/error?err=";
 
     protected WebView mWebView;
 
@@ -123,8 +130,12 @@ public class VKOpenAuthActivity extends Activity {
                 setResult(RESULT_OK, data);
                 finish();
                 return true;
+            } else if (url.startsWith(VK_ERROR_URL_PATTERN)) {
+                return handleVKError(url);
             }
+
             canShowPage = true;
+
             return false;
         }
 
@@ -158,6 +169,49 @@ public class VKOpenAuthActivity extends Activity {
             } catch (Exception e) {
                 if (VKSdk.DEBUG)
                 	e.printStackTrace();
+            }
+        }
+
+        private boolean handleVKError(String url) {
+            try {
+                List<NameValuePair> urlParamsWithValues = URLEncodedUtils.parse(new URI(url), "UTF-8");
+
+                String errCode = null;
+
+                for (NameValuePair paramWithValue : urlParamsWithValues) {
+                    if (paramWithValue != null && "err".equals(paramWithValue.getName())) {
+                        errCode = paramWithValue.getValue();
+                        break;
+                    }
+                }
+
+                if (errCode == null) {
+                    // no errCode in url, do nothing
+                    return false;
+                } else {
+                    // handling error codes here
+                    if (VKSdk.DEBUG) {
+                        Log.w("VK SDK", "VKOpenAuthActivity url with error: " + url);
+                    }
+
+
+                    // error code "8" is special for issue #16
+                    // occurred when you click "Login" with empty user name and password
+                    // and then click "cancel", we should cancel authorization and finish activity
+                    if (errCode.equals("8")) {
+                        canShowPage = false;
+                        Intent data = new Intent(VK_RESULT_INTENT_NAME);
+                        setResult(RESULT_CANCELED, data);
+                        finish();
+                        return true;
+                    }
+
+                    // TODO handle other error codes as you want: may be display AlertDialog with error message or something else
+
+                    return false; // you can change this to true if you do not want display this url's content
+                }
+            } catch (Exception e) {
+                return false;
             }
         }
     }

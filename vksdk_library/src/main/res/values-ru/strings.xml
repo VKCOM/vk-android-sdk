@@ -2,4 +2,7 @@
 <resources>
     <string name="vk_enter_captcha_text">Введите текст с картинки</string>
     <string name="vk_retry">Повторить</string>
+    <string name="vk_auth_cancel_dialog_title">Прекратить вход через vk.com?</string>
+    <string name="vk_auth_cancel_dialog_yes">Да</string>
+    <string name="vk_auth_cancel_dialog_no">Нет</string>
 </resources>
