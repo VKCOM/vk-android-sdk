@@ -245,7 +245,7 @@ public class VKSdk {
                 return true;
             }
         }
-        if (resultCode == Activity.RESULT_CANCELED && result != null && result.getExtras() != null) {
+        if (result != null && result.getExtras() != null) {
             Map<String, String> tokenParams = new HashMap<String, String>();
             for (String key : result.getExtras().keySet()) {
                 tokenParams.put(key, String.valueOf(result.getExtras().get(key)));
