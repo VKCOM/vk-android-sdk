@@ -28,6 +28,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -113,19 +114,30 @@ public class VKOpenAuthActivity extends Activity {
 
     private class OAuthWebViewClient extends WebViewClient {
         public boolean canShowPage = true;
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        private boolean processUrl(String url) {
             if (url.startsWith(REDIRECT_URL)) {
                 Intent data = new Intent(VK_RESULT_INTENT_NAME);
                 data.putExtra(VK_EXTRA_TOKEN_DATA, url.substring(url.indexOf('#') + 1));
-	            if (getIntent().hasExtra(VK_EXTRA_VALIDATION_URL))
-		            data.putExtra(VK_EXTRA_VALIDATION_URL, true);
+                if (getIntent().hasExtra(VK_EXTRA_VALIDATION_URL))
+                    data.putExtra(VK_EXTRA_VALIDATION_URL, true);
                 setResult(RESULT_OK, data);
                 finish();
                 return true;
             }
+            return false;
+        }
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (processUrl(url))
+                return true;
             canShowPage = true;
             return false;
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            processUrl(url);
         }
 
         @Override
