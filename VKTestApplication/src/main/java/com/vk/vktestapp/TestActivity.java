@@ -25,7 +25,9 @@ import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKRequest.VKRequestListener;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.methods.VKApiCaptcha;
+import com.vk.sdk.api.model.VKApiLink;
 import com.vk.sdk.api.model.VKApiPhoto;
+import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKPhotoArray;
 import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKImageParameters;
@@ -134,42 +136,42 @@ public class TestActivity extends ActionBarActivity {
             view.findViewById(R.id.upload_photo).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final Bitmap photo = getPhoto();
-                    VKRequest request = VKApi.uploadAlbumPhotoRequest(new VKUploadImage(photo, VKImageParameters.pngImage()), 181808365, 60479154);
-                    request.executeWithListener(new VKRequestListener() {
-                        @Override
-                        public void onComplete(VKResponse response) {
-                            photo.recycle();
-                            VKPhotoArray photoArray = (VKPhotoArray) response.parsedModel;
-                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/photo-60479154_%s", photoArray.get(0).id)));
-                            startActivity(i);
-                        }
+                final Bitmap photo = getPhoto();
+                VKRequest request = VKApi.uploadAlbumPhotoRequest(new VKUploadImage(photo, VKImageParameters.pngImage()), 181808365, 60479154);
+                request.executeWithListener(new VKRequestListener() {
+                    @Override
+                    public void onComplete(VKResponse response) {
+                        photo.recycle();
+                        VKPhotoArray photoArray = (VKPhotoArray) response.parsedModel;
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/photo-60479154_%s", photoArray.get(0).id)));
+                        startActivity(i);
+                    }
 
-                        @Override
-                        public void onError(VKError error) {
-                            showError(error);
-                        }
-                    });
+                    @Override
+                    public void onError(VKError error) {
+                        showError(error);
+                    }
+                });
                 }
             });
 
             view.findViewById(R.id.upload_photo_to_wall).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final Bitmap photo = getPhoto();
-                    VKRequest request = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.9f)), 0, 60479154);
-                    request.executeWithListener(new VKRequestListener() {
-                        @Override
-                        public void onComplete(VKResponse response) {
-                            photo.recycle();
-                            VKApiPhoto photoModel = ((VKPhotoArray) response.parsedModel).get(0);
-                            makePost(String.format("photo%s_%s", photoModel.owner_id, photoModel.id));
-                        }
-                        @Override
-                        public void onError(VKError error) {
-                            showError(error);
-                        }
-                    });
+    final Bitmap photo = getPhoto();
+    VKRequest request = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.9f)), 0, 60479154);
+    request.executeWithListener(new VKRequestListener() {
+        @Override
+        public void onComplete(VKResponse response) {
+            photo.recycle();
+            VKApiPhoto photoModel = ((VKPhotoArray) response.parsedModel).get(0);
+            makePost(new VKAttachments(photoModel));
+        }
+        @Override
+        public void onError(VKError error) {
+            showError(error);
+        }
+    });
                 }
             });
 
@@ -187,12 +189,12 @@ public class TestActivity extends ActionBarActivity {
                         @Override
                         public void onComplete(VKResponse[] responses) {
                             super.onComplete(responses);
-                            String[] photos = new String[responses.length];
+                            VKAttachments attachments = new VKAttachments();
                             for (int i = 0; i < responses.length; i++) {
                                 VKApiPhoto photoModel = ((VKPhotoArray) responses[i].parsedModel).get(0);
-                                photos[i] = String.format("photo%s_%s", photoModel.owner_id, photoModel.id);
+                                attachments.add(photoModel);
                             }
-                            makePost(VKStringJoiner.join(photos, ","));
+                            makePost(attachments);
                         }
 
                         @Override
@@ -232,26 +234,26 @@ public class TestActivity extends ActionBarActivity {
 
             return b;
         }
-        private void makePost(String attachments) {
-            makePost(attachments, null);
-        }
-        private void makePost(String attachments, String message) {
-            VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments, VKApiConst.MESSAGE, message));
-            post.setModelClass(VKWallPostResult.class);
-            post.executeWithListener(new VKRequestListener() {
-                @Override
-                public void onComplete(VKResponse response) {
-                    super.onComplete(response);
+    private void makePost(VKAttachments attachments) {
+        makePost(attachments, null);
+    }
+    private void makePost(VKAttachments attachments, String message) {
+        VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments, VKApiConst.MESSAGE, message));
+        post.setModelClass(VKWallPostResult.class);
+        post.executeWithListener(new VKRequestListener() {
+            @Override
+            public void onComplete(VKResponse response) {
+                super.onComplete(response);
 
-                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-60479154_%s", ((VKWallPostResult)response.parsedModel).post_id) ) );
-                    startActivity(i);
-                }
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-60479154_%s", ((VKWallPostResult)response.parsedModel).post_id) ) );
+                startActivity(i);
+            }
 
-                @Override
-                public void onError(VKError error) {
-                    showError(error);
-                }
-            });
-        }
+            @Override
+            public void onError(VKError error) {
+                showError(error.apiError != null ? error.apiError : error);
+            }
+        });
+    }
     }
 }

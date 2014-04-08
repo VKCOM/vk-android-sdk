@@ -29,9 +29,14 @@
 package com.vk.sdk.api.model;
 
 import android.os.Parcel;
+
+import com.vk.sdk.util.VKStringJoiner;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -116,6 +121,10 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
         super();
     }
 
+    public VKAttachments(VKApiAttachment... data) {
+        super(Arrays.asList(data));
+    }
+
     public VKAttachments(List<? extends VKApiAttachment> data) {
         super(data);
     }
@@ -138,6 +147,13 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
         super.fill(from, parser);
     }
 
+    public String toAttachmentsString() {
+        ArrayList<CharSequence> attachments = new ArrayList<CharSequence>();
+        for (VKApiAttachment attach : this) {
+            attachments.add(attach.toAttachmentString());
+        }
+        return VKStringJoiner.join(attachments, ",");
+    }
     /**
      * Parser that's used for parsing photo sizes.
      */

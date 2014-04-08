@@ -31,6 +31,7 @@ import com.vk.sdk.VKSdkVersion;
 import com.vk.sdk.VKUIHelper;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.util.VKStringJoiner;
 import com.vk.sdk.util.VKUtil;
 
@@ -141,7 +142,10 @@ public class VKHttpClient extends DefaultHttpClient {
                 ArrayList<NameValuePair> pairs = new ArrayList<NameValuePair>(preparedParameters.size());
                 for (Map.Entry<String, Object> entry : preparedParameters.entrySet()) {
                     Object value = entry.getValue();
-                    if (value instanceof Collection) {
+                    if (value instanceof VKAttachments) {
+                        pairs.add(new BasicNameValuePair(entry.getKey(), ((VKAttachments)value).toAttachmentsString()));
+                    }
+                    else if (value instanceof Collection) {
                         Collection<?> values = (Collection<?>) value;
                         for (Object v : values) {
                             // This will add a parameter for each value in the Collection/List

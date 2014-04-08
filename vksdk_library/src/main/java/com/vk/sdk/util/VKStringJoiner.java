@@ -24,6 +24,10 @@ package com.vk.sdk.util;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.vk.sdk.api.model.VKAttachments;
+
+import org.apache.http.message.BasicNameValuePair;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -65,8 +69,12 @@ public class VKStringJoiner {
     public static String joinParams(Map<String, Object> queryParams, boolean isUri) {
         ArrayList<String> params = new ArrayList<String>(queryParams.size());
         for (Map.Entry<String, Object> entry : queryParams.entrySet()) {
+            Object value = entry.getValue();
+            if (value instanceof VKAttachments) {
+                value = ((VKAttachments)value).toAttachmentsString();
+            }
             params.add(String.format("%s=%s", entry.getKey(),
-                    isUri ? Uri.encode(String.valueOf(entry.getValue())) : String.valueOf(entry.getValue())));
+                    isUri ? Uri.encode(String.valueOf(value)) : String.valueOf(value)));
         }
         return join(params, "&");
     }
