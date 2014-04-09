@@ -238,19 +238,19 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
 
     /**
      * Views on policy.
-     * @see {@link com.vk.sdk.api.model.VKUserFull.Political}
+     * @see {@link com.vk.sdk.api.model.VKApiUserFull.Political}
      */
     public int political;
 
     /**
      * Life main stuffs.
-     * @see {@link com.vk.sdk.api.model.VKUserFull.LifeMain}
+     * @see {@link com.vk.sdk.api.model.VKApiUserFull.LifeMain}
      */
     public int life_main;
 
     /**
      * People main stuffs.
-     * @see {@link com.vk.sdk.api.model.VKUserFull.PeopleMain}
+     * @see {@link com.vk.sdk.api.model.VKApiUserFull.PeopleMain}
      */
     public int people_main;
 
@@ -318,6 +318,11 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
      * Page screen name.
      */
     public String screen_name;
+
+    /**
+     * Nickname of user.
+     */
+    public String nickname;
 
     /**
      * User's activities
@@ -401,7 +406,7 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
 
     /**
      * User sex.
-     * @see {@link com.vk.sdk.api.model.VKUserFull.Sex}
+     * @see {@link com.vk.sdk.api.model.VKApiUserFull.Sex}
      */
     public int sex;
 
@@ -412,7 +417,7 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
 
     /**
      * Relationship status.
-     * @see {@link com.vk.sdk.api.model.VKUserFull.Relation}
+     * @see {@link com.vk.sdk.api.model.VKApiUserFull.Relation}
      */
     public int relation;
 
@@ -496,6 +501,7 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
         tv = user.optString(TV);
 
         // settings
+        nickname = user.optString("nickname", null);
         can_post = parseBoolean(user, CAN_POST);
         can_see_all_posts = parseBoolean(user, CAN_SEE_ALL_POSTS);
         blacklisted_by_me = parseBoolean(user, BLACKLISTED_BY_ME);
