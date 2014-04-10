@@ -56,6 +56,7 @@ public class VKApiOwner extends VKApiModel implements Identifiable, android.os.P
      * Fills an owner from JSONObject
      */
     public VKApiOwner parse(JSONObject from) {
+        fields = from;
         id = from.optInt("id");
         return this;
     }
