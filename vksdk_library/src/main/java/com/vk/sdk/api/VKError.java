@@ -29,7 +29,6 @@ import com.vk.sdk.util.VKJsonHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -143,4 +142,45 @@ public class VKError extends VKObject {
     public static VKError getRegisteredError(long requestId) {
         return (VKError) getRegisteredObject(requestId);
     }
+
+	@Override public String toString()
+	{
+		StringBuilder errorString = new StringBuilder("VKError (");
+		switch (this.errorCode) {
+			case VK_API_ERROR:
+				errorString.append("API error: " + apiError.toString());
+				break;
+			case VK_API_CANCELED:
+				errorString.append("Canceled");
+				break;
+			case VK_API_REQUEST_NOT_PREPARED:
+				errorString.append("Request wasn't prepared");
+				break;
+			case VK_API_JSON_FAILED:
+				errorString.append("JSON failed: ");
+				if (errorReason != null)
+					errorString.append(String.format("%s; ", errorReason));
+				if (errorMessage != null)
+					errorString.append(String.format("%s; ", errorMessage));
+				break;
+			case VK_API_REQUEST_HTTP_FAILED:
+				errorString.append("HTTP failed: ");
+				if (errorReason != null)
+					errorString.append(String.format("%s; ", errorReason));
+				if (errorMessage != null)
+					errorString.append(String.format("%s; ", errorMessage));
+				break;
+
+			default:
+				errorString.append(String.format("code: %d; ", errorCode));
+				if (errorReason != null)
+					errorString.append(String.format("reason: %s; ", errorReason));
+				if (errorMessage != null)
+					errorString.append(String.format("message: %s; ", errorMessage));
+				break;
+
+		}
+		errorString.append(")");
+		return errorString.toString();
+	}
 }
