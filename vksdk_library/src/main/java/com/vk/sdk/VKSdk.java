@@ -32,6 +32,8 @@ import com.vk.sdk.util.VKStringJoiner;
 import com.vk.sdk.util.VKUtil;
 
 import java.net.BindException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,8 +69,6 @@ public class VKSdk {
      * App id for current application
      */
     private String mCurrentAppId;
-
-
 
 
     private VKSdk() {
@@ -177,6 +177,10 @@ public class VKSdk {
         if (scope == null) {
             scope = new String[]{};
         }
+	    ArrayList<String> scopeList = new ArrayList<String>(Arrays.asList(scope));
+	    if (!scopeList.contains(VKScope.OFFLINE)) {
+		    scopeList.add(VKScope.OFFLINE);
+	    }
 
         String[] fingerprints = VKUtil.getCertificateFingerprint(sInstance.getContext(),
                 VK_APP_PACKAGE_ID);
@@ -199,7 +203,7 @@ public class VKSdk {
             intent.putExtra(VKOpenAuthActivity.VK_EXTRA_REVOKE, true);
         }
 
-        intent.putExtra(VKOpenAuthActivity.VK_EXTRA_SCOPE, VKStringJoiner.join(scope, ","));
+        intent.putExtra(VKOpenAuthActivity.VK_EXTRA_SCOPE, VKStringJoiner.join(scopeList, ","));
 
         if (VKUIHelper.getTopActivity() != null) {
             VKUIHelper.getTopActivity().startActivityForResult(intent, VK_SDK_REQUEST_CODE);
