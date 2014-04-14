@@ -112,6 +112,9 @@ public class VKError extends VKObject {
             internalError.captchaImg = json.getString(VKApiConst.CAPTCHA_IMG);
             internalError.captchaSid = json.getString(VKApiConst.CAPTCHA_SID);
         }
+        if (internalError.errorCode == 17) {
+            internalError.redirectUri = json.getString(VKApiConst.REDIRECT_URI);
+        }
 
         this.errorCode = VK_API_ERROR;
         this.apiError = internalError;

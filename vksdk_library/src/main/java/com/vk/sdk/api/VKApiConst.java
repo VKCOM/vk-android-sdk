@@ -95,6 +95,7 @@ public class VKApiConst {
     public static final String CAPTCHA_IMG = "captcha_img";
     public static final String CAPTCHA_SID = "captcha_sid";
     public static final String CAPTCHA_KEY = "captcha_key";
+    public static final String REDIRECT_URI = "redirect_uri";
 
     //Photos
     public static final String PHOTO = "photo";
