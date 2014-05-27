@@ -346,7 +346,11 @@ public class VKSdk {
         return false;
     }
     public static boolean wakeUpSession() {
-        VKAccessToken token = VKAccessToken.tokenFromSharedPreferences(VKUIHelper.getTopActivity(),
+        return wakeUpSession(VKUIHelper.getTopActivity());
+    }
+
+    public static boolean wakeUpSession(Context context) {
+        VKAccessToken token = VKAccessToken.tokenFromSharedPreferences(context,
                 VK_SDK_ACCESS_TOKEN_PREF_KEY);
 
         if (sInstance.performTokenCheck(token, false)) {
