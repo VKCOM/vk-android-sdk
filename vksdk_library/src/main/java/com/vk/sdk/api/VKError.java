@@ -37,10 +37,29 @@ import java.util.Map;
  */
 public class VKError extends VKObject {
 	public static final int VK_API_ERROR = -101;
+    /**
+     * @deprecated Use VK_CANCELED instead
+     */
     public static final int VK_API_CANCELED = -102;
+    public static final int VK_CANCELED = -102;
+
+    /**
+     * @deprecated Use VK_REQUEST_NOT_PREPARED instead
+     */
     public static final int VK_API_REQUEST_NOT_PREPARED = -103;
+    public static final int VK_REQUEST_NOT_PREPARED = -103;
+
+    /**
+     * @deprecated Use VK_JSON_FAILED instead
+     */
     public static final int VK_API_JSON_FAILED = -104;
+    public static final int VK_JSON_FAILED = -104;
+
+    /**
+     * @deprecated Use VK_REQUEST_HTTP_FAILED instead
+     */
     public static final int VK_API_REQUEST_HTTP_FAILED = -105;
+    public static final int VK_REQUEST_HTTP_FAILED = -105;
 
     /**
      * Contains system HTTP error
@@ -151,22 +170,22 @@ public class VKError extends VKObject {
 		StringBuilder errorString = new StringBuilder("VKError (");
 		switch (this.errorCode) {
 			case VK_API_ERROR:
-				errorString.append("API error: " + apiError.toString());
+				errorString.append("API error: ").append(apiError.toString());
 				break;
-			case VK_API_CANCELED:
+			case VK_CANCELED:
 				errorString.append("Canceled");
 				break;
-			case VK_API_REQUEST_NOT_PREPARED:
+			case VK_REQUEST_NOT_PREPARED:
 				errorString.append("Request wasn't prepared");
 				break;
-			case VK_API_JSON_FAILED:
+			case VK_JSON_FAILED:
 				errorString.append("JSON failed: ");
 				if (errorReason != null)
 					errorString.append(String.format("%s; ", errorReason));
 				if (errorMessage != null)
 					errorString.append(String.format("%s; ", errorMessage));
 				break;
-			case VK_API_REQUEST_HTTP_FAILED:
+			case VK_REQUEST_HTTP_FAILED:
 				errorString.append("HTTP failed: ");
 				if (errorReason != null)
 					errorString.append(String.format("%s; ", errorReason));
