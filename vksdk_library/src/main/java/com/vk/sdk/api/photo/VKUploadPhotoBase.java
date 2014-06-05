@@ -144,7 +144,7 @@ public abstract class VKUploadPhotoBase extends VKRequest {
                     } catch (JSONException e) {
                         if (VKSdk.DEBUG)
                             e.printStackTrace();
-                        VKError error = new VKError(VKError.VK_API_JSON_FAILED);
+                        VKError error = new VKError(VKError.VK_JSON_FAILED);
                         error.httpError = e;
                         error.errorMessage = e.getMessage();
                         requestListener.onError(error);

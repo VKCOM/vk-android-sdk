@@ -162,7 +162,7 @@ public class VKHttpOperation extends VKAbstractOperation {
      * @return New generated error
      */
     protected VKError generateError(Exception e) {
-        VKError error = new VKError(VKError.VK_API_REQUEST_HTTP_FAILED);
+        VKError error = new VKError(VKError.VK_REQUEST_HTTP_FAILED);
         error.errorMessage = e.getMessage();
         if (error.errorMessage == null)
             error.errorMessage = e.toString();

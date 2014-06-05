@@ -205,18 +205,13 @@ public class VKHttpClient extends DefaultHttpClient {
      * @param operation Operation to start
      */
     public static void enqueueOperation(final VKAbstractOperation operation) {
-        //Check thread
-        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
-            mBackgroundExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    enqueueOperation(operation);
-                }
-            });
-            return;
-        }
-
-        operation.start();
+        mBackgroundExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                enqueueOperation(operation);
+            }
+        });
+        return;
     }
 
 

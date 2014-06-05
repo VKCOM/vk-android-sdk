@@ -64,8 +64,22 @@ public class VKUIHelper {
      * @param requestCode Request code for startActivityForResult
      * @param resultCode Result code of finished activity
      * @param data Result data
+     * @deprecated Use onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) instead
      */
     public static void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == VKSdk.VK_SDK_REQUEST_CODE) {
+            VKSdk.processActivityResult(resultCode, data);
+        }
+    }
+
+    /**
+     * Call it in onActivityResult of all activities where you using VK SDK
+     * @param requestCode Request code for startActivityForResult
+     * @param resultCode Result code of finished activity
+     * @param data Result data
+     */
+    public static void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+        mTopActivity = activity;
         if (requestCode == VKSdk.VK_SDK_REQUEST_CODE) {
             VKSdk.processActivityResult(resultCode, data);
         }

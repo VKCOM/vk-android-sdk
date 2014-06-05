@@ -45,7 +45,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -276,7 +275,7 @@ public class VKRequest extends VKObject {
     public HttpUriRequest getPreparedRequest() {
         HttpUriRequest request = VKHttpClient.requestWithVkRequest(this);
         if (request == null) {
-            VKError error = new VKError(VKError.VK_API_REQUEST_NOT_PREPARED);
+            VKError error = new VKError(VKError.VK_REQUEST_NOT_PREPARED);
             provideError(error);
             return null;
         }
@@ -367,7 +366,7 @@ public class VKRequest extends VKObject {
         if (mLoadingOperation != null)
             mLoadingOperation.cancel();
         else
-            provideError(new VKError(VKError.VK_API_CANCELED));
+            provideError(new VKError(VKError.VK_CANCELED));
     }
 
     /**

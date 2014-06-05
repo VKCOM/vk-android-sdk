@@ -244,7 +244,7 @@ public class VKSdk {
                     boolean renew = result.getBooleanExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_URL, false);
                     checkAndSetToken(tokenParams, renew);
                 } else if (result.getExtras() != null) {
-                    setAccessTokenError(new VKError(VKError.VK_API_CANCELED));
+                    setAccessTokenError(new VKError(VKError.VK_CANCELED));
                 }
                 return true;
             }
@@ -338,7 +338,7 @@ public class VKSdk {
                 return true;
             }
             else {
-                VKError error = new VKError(VKError.VK_API_CANCELED);
+                VKError error = new VKError(VKError.VK_CANCELED);
                 error.errorMessage = "User token is invalid";
                     mListener.onAccessDenied(error);
             }

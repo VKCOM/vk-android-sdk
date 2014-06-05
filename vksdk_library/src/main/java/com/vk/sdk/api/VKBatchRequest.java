@@ -42,9 +42,10 @@ public class VKBatchRequest extends VKObject {
         mResponses = new VKResponse[mRequests.length];
     }
 
+
     public void executeWithListener(VKBatchRequestListener listener) {
         if (mRequests == null) {
-            provideError(new VKError(VKError.VK_API_REQUEST_NOT_PREPARED));
+            provideError(new VKError(VKError.VK_REQUEST_NOT_PREPARED));
             return;
         }
         this.requestListener = listener;
