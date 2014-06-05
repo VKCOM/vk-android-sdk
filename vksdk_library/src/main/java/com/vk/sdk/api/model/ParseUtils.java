@@ -140,7 +140,7 @@ class ParseUtils {
      * @return initialized according with given data object
      * @throws JSONException if source object structure is invalid
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static <T> T parseViaReflection(T object, JSONObject source) throws JSONException {
         if (source.has("response")) {
             source = source.optJSONObject("response");

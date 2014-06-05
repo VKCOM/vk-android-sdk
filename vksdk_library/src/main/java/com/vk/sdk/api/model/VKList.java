@@ -25,7 +25,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.VKApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;

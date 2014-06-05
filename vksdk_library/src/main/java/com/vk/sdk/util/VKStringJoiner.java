@@ -26,8 +26,6 @@ import android.text.TextUtils;
 
 import com.vk.sdk.api.model.VKAttachments;
 
-import org.apache.http.message.BasicNameValuePair;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
