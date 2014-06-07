@@ -25,7 +25,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Looper;
 
 import com.vk.sdk.VKSdkVersion;
 import com.vk.sdk.VKUIHelper;
@@ -208,10 +207,9 @@ public class VKHttpClient extends DefaultHttpClient {
         mBackgroundExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                enqueueOperation(operation);
+	            operation.start();
             }
         });
-        return;
     }
 
 
