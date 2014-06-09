@@ -87,7 +87,7 @@ public class ApiCallActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        VKUIHelper.onActivityResult(requestCode, resultCode, data);
+        VKUIHelper.onActivityResult(this, requestCode, resultCode, data);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class ApiCallActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    private static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             return inflater.inflate(R.layout.fragment_api_call, container, false);
