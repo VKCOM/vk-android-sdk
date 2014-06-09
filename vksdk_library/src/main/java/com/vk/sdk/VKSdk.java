@@ -76,7 +76,6 @@ public class VKSdk {
     }
 
 
-
     Context getContext() {
         return VKUIHelper.getTopActivity();
     }
@@ -161,9 +160,9 @@ public class VKSdk {
      * Starts authorization process. If VKapp is available in system, it will opens and requests access from user.
      * Otherwise UIWebView with standard UINavigationBar will be opened for access request.
      *
-     * @param scope array of permissions for your applications. All permissions you can
-     * @param revoke      if true, user will allow logout (to change user)
-     * @param forceOAuth  sdk will use only oauth authorization, through uiwebview
+     * @param scope      array of permissions for your applications. All permissions you can
+     * @param revoke     if true, user will allow logout (to change user)
+     * @param forceOAuth sdk will use only oauth authorization, through uiwebview
      */
     public static void authorize(String[] scope, boolean revoke, boolean forceOAuth) {
         try {
@@ -177,10 +176,10 @@ public class VKSdk {
         if (scope == null) {
             scope = new String[]{};
         }
-	    ArrayList<String> scopeList = new ArrayList<String>(Arrays.asList(scope));
-	    if (!scopeList.contains(VKScope.OFFLINE)) {
-		    scopeList.add(VKScope.OFFLINE);
-	    }
+        ArrayList<String> scopeList = new ArrayList<String>(Arrays.asList(scope));
+        if (!scopeList.contains(VKScope.OFFLINE)) {
+            scopeList.add(VKScope.OFFLINE);
+        }
 
         String[] fingerprints = VKUtil.getCertificateFingerprint(sInstance.getContext(),
                 VK_APP_PACKAGE_ID);
@@ -188,7 +187,7 @@ public class VKSdk {
         final Intent intent;
 
         if (!forceOAuth
-                && VKUtil.isAppInstalled(sInstance.getContext(),VK_APP_PACKAGE_ID)
+                && VKUtil.isAppInstalled(sInstance.getContext(), VK_APP_PACKAGE_ID)
                 && VKUtil.isIntentAvailable(sInstance.getContext(), VK_APP_AUTH_ACTION)
                 && fingerprints[0].equals(VK_APP_FINGERPRINT)) {
             intent = new Intent(VK_APP_AUTH_ACTION, null);
@@ -234,37 +233,58 @@ public class VKSdk {
      * @param resultCode result code of activity result
      * @param result     intent passed by activity
      * @return If SDK parsed activity result properly, returns true. You can return from onActivityResult(). Otherwise, returns false.
+     * @deprecated Use processActivityResult(int requestCode, int resultCode, Intent result) instead
      */
     public static boolean processActivityResult(int resultCode, Intent result) {
-        if (result != null && resultCode == Activity.RESULT_OK) {
-            if (VKOpenAuthActivity.VK_RESULT_INTENT_NAME.equals(result.getAction())) {
+        return processActivityResult(VK_SDK_REQUEST_CODE, resultCode, result);
+    }
+
+    /**
+     * Pass data of onActivityResult() function here
+     *
+     * @param requestCode request code of activity
+     * @param resultCode result code of activity result
+     * @param result     intent passed by activity
+     * @return If SDK parsed activity result properly, returns true. You can return from onActivityResult(). Otherwise, returns false.
+     */
+    public static boolean processActivityResult(int requestCode, int resultCode, Intent result) {
+        if (requestCode != VK_SDK_REQUEST_CODE) return false;
+        if (result != null) {
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Пользователь отменил (нажал назад)
+                setAccessTokenError(new VKError(VKError.VK_CANCELED));
+                return true;
+            }
+            if (resultCode == Activity.RESULT_OK) {
+                //Получен токен
                 if (result.hasExtra(VKOpenAuthActivity.VK_EXTRA_TOKEN_DATA)) {
                     String tokenInfo = result.getStringExtra(VKOpenAuthActivity.VK_EXTRA_TOKEN_DATA);
                     Map<String, String> tokenParams = VKUtil.explodeQueryString(tokenInfo);
                     boolean renew = result.getBooleanExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_URL, false);
                     checkAndSetToken(tokenParams, renew);
                 } else if (result.getExtras() != null) {
-                    setAccessTokenError(new VKError(VKError.VK_CANCELED));
+                    //Что-то пришло от Гриши
+                    Map<String, String> tokenParams = new HashMap<String, String>();
+                    for (String key : result.getExtras().keySet()) {
+                        tokenParams.put(key, String.valueOf(result.getExtras().get(key)));
+                    }
+                    return checkAndSetToken(tokenParams, false);
                 }
                 return true;
             }
+            return false;
         }
-        if (result != null && result.getExtras() != null) {
-            Map<String, String> tokenParams = new HashMap<String, String>();
-            for (String key : result.getExtras().keySet()) {
-                tokenParams.put(key, String.valueOf(result.getExtras().get(key)));
-            }
-            return checkAndSetToken(tokenParams, false);
-        }
-        return false;
+        setAccessTokenError(new VKError(VKError.VK_CANCELED));
+        return true;
     }
 
-	/**
-	 * Check new access token and sets it as working token
-	 * @param tokenParams params of token
-	 * @param renew flag indicates token renewal
+    /**
+     * Check new access token and sets it as working token
+     *
+     * @param tokenParams params of token
+     * @param renew       flag indicates token renewal
      * @return true if access token was set, or error was provided
-	 */
+     */
     private static boolean checkAndSetToken(Map<String, String> tokenParams, boolean renew) {
         VKAccessToken token = VKAccessToken.tokenFromParameters(tokenParams);
         if (token == null || token.accessToken == null) {
@@ -291,10 +311,10 @@ public class VKSdk {
         sInstance.mAccessToken = token;
 
         if (sInstance.mListener != null) {
-	        if (!renew) {
+            if (!renew) {
                 sInstance.mListener.onReceiveNewToken(token);
             } else {
-		        sInstance.mListener.onRenewAccessToken(token);
+                sInstance.mListener.onRenewAccessToken(token);
             }
         }
         sInstance.mAccessToken.saveTokenToSharedPreferences(VKUIHelper.getTopActivity(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
@@ -328,23 +348,23 @@ public class VKSdk {
             sInstance.mListener.onAccessDenied(error);
         }
     }
+
     private boolean performTokenCheck(VKAccessToken token, boolean isUserToken) {
         if (token != null) {
             if (token.isExpired()) {
                 mListener.onTokenExpired(token);
-            }
-            else if (token.accessToken != null) {
+            } else if (token.accessToken != null) {
                 if (isUserToken) mListener.onAcceptUserToken(token);
                 return true;
-            }
-            else {
+            } else {
                 VKError error = new VKError(VKError.VK_CANCELED);
                 error.errorMessage = "User token is invalid";
-                    mListener.onAccessDenied(error);
+                mListener.onAccessDenied(error);
             }
         }
         return false;
     }
+
     public static boolean wakeUpSession() {
         VKAccessToken token = VKAccessToken.tokenFromSharedPreferences(VKUIHelper.getTopActivity(),
                 VK_SDK_ACCESS_TOKEN_PREF_KEY);
@@ -364,6 +384,7 @@ public class VKSdk {
         sInstance.mAccessToken = null;
         VKAccessToken.removeTokenAtKey(VKUIHelper.getTopActivity(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
     }
+
     public static boolean isLoggedIn() {
         return sInstance.mAccessToken != null && !sInstance.mAccessToken.isExpired();
     }

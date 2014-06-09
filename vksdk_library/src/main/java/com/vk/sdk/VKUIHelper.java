@@ -67,9 +67,7 @@ public class VKUIHelper {
      * @deprecated Use onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) instead
      */
     public static void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == VKSdk.VK_SDK_REQUEST_CODE) {
-            VKSdk.processActivityResult(resultCode, data);
-        }
+        onActivityResult(mTopActivity, requestCode, resultCode, data);
     }
 
     /**
@@ -81,7 +79,7 @@ public class VKUIHelper {
     public static void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
         mTopActivity = activity;
         if (requestCode == VKSdk.VK_SDK_REQUEST_CODE) {
-            VKSdk.processActivityResult(resultCode, data);
+            VKSdk.processActivityResult(requestCode, resultCode, data);
         }
     }
 }

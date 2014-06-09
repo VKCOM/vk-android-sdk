@@ -165,12 +165,24 @@ public class VKError extends VKObject {
         return (VKError) getRegisteredObject(requestId);
     }
 
+    private void appendFields(StringBuilder builder) {
+        if (errorReason != null)
+            builder.append(String.format("; %s", errorReason));
+        if (errorMessage != null)
+            builder.append(String.format("; %s", errorMessage));
+    }
+
 	@Override public String toString()
 	{
+
+
 		StringBuilder errorString = new StringBuilder("VKError (");
 		switch (this.errorCode) {
 			case VK_API_ERROR:
-				errorString.append("API error: ").append(apiError.toString());
+				errorString.append("API error");
+                if (apiError != null) {
+                    errorString.append(apiError.toString());
+                }
 				break;
 			case VK_CANCELED:
 				errorString.append("Canceled");
@@ -179,29 +191,18 @@ public class VKError extends VKObject {
 				errorString.append("Request wasn't prepared");
 				break;
 			case VK_JSON_FAILED:
-				errorString.append("JSON failed: ");
-				if (errorReason != null)
-					errorString.append(String.format("%s; ", errorReason));
-				if (errorMessage != null)
-					errorString.append(String.format("%s; ", errorMessage));
+				errorString.append("JSON failed");
+
 				break;
 			case VK_REQUEST_HTTP_FAILED:
-				errorString.append("HTTP failed: ");
-				if (errorReason != null)
-					errorString.append(String.format("%s; ", errorReason));
-				if (errorMessage != null)
-					errorString.append(String.format("%s; ", errorMessage));
+				errorString.append("HTTP failed");
 				break;
 
 			default:
 				errorString.append(String.format("code: %d; ", errorCode));
-				if (errorReason != null)
-					errorString.append(String.format("reason: %s; ", errorReason));
-				if (errorMessage != null)
-					errorString.append(String.format("message: %s; ", errorMessage));
 				break;
-
 		}
+        appendFields(errorString);
 		errorString.append(")");
 		return errorString.toString();
 	}
