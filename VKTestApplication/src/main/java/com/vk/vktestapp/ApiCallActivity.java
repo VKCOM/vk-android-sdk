@@ -18,6 +18,9 @@ import com.vk.sdk.api.VKResponse;
 
 public class ApiCallActivity extends ActionBarActivity {
 
+    private VKRequest myRequest;
+
+    private static final String FRAGMENT_TAG = "response_view";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,51 +30,79 @@ public class ApiCallActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new PlaceholderFragment(), FRAGMENT_TAG)
                     .commit();
         }
 
         processRequestIfRequired();
     }
-
+    private PlaceholderFragment getFragment() {
+        return (PlaceholderFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+    }
     private void processRequestIfRequired() {
         VKRequest request = null;
 
         if (getIntent() != null && getIntent().getExtras() != null && getIntent().hasExtra("request")) {
             long requestId = getIntent().getExtras().getLong("request");
             request = VKRequest.getRegisteredRequest(requestId);
-            request.unregisterObject();
+            if (request != null)
+                request.unregisterObject();
         }
 
         if (request == null) return;
-
-        request.executeWithListener(new VKRequestListener() {
-            @Override
-            public void onComplete(VKResponse response) {
-                ((TextView)findViewById(R.id.response)).setText(response.json.toString());
-            }
-
-            @Override
-            public void onError(VKError error) {
-                if (error.apiError != null)
-                    ((TextView)findViewById(R.id.response)).setText(error.apiError.errorMessage);
-                else
-                    ((TextView)findViewById(R.id.response)).setText(String.format("Error %d: %s", error.errorCode, error.errorMessage));
-            }
-
-            @Override
-            public void onProgress(VKRequest.VKProgressType progressType, long bytesLoaded,
-                                   long bytesTotal) {
-                // you can show progress of the request if you want
-            }
-
-            @Override
-            public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
-                ((TextView) findViewById(R.id.response))
-                        .append(String.format("Attempt %d/%d failed\n", attemptNumber, totalAttempts));
-            }
-        });
+        myRequest = request;
+        request.executeWithListener(mRequestListener);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putCharSequence("response", getFragment().textView.getText());
+        if (myRequest != null) {
+            outState.putLong("request", myRequest.registerObject());
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        CharSequence response = savedInstanceState.getCharSequence("response");
+        if (response != null) {
+            getFragment().textView.setText(response);
+        }
+
+        long requestId = savedInstanceState.getLong("request");
+        VKRequest request = VKRequest.getRegisteredRequest(requestId);
+        if (request != null) {
+            request.unregisterObject();
+            request.setRequestListener(mRequestListener);
+        }
+    }
+
+
+
+    VKRequestListener mRequestListener = new VKRequestListener() {
+        @Override
+        public void onComplete(VKResponse response) {
+            getFragment().textView.setText(response.json.toString());
+        }
+
+        @Override
+        public void onError(VKError error) {
+            getFragment().textView.setText(error.toString());
+        }
+
+        @Override
+        public void onProgress(VKRequest.VKProgressType progressType, long bytesLoaded,
+        long bytesTotal) {
+            // you can show progress of the request if you want
+        }
+
+        @Override
+        public void attemptFailed(VKRequest request, int attemptNumber, int totalAttempts) {
+            getFragment().textView.append(String.format("Attempt %d/%d failed\n", attemptNumber, totalAttempts));
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -106,9 +137,12 @@ public class ApiCallActivity extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+        public TextView textView;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_api_call, container, false);
+            View v = inflater.inflate(R.layout.fragment_api_call, container, false);
+            textView = (TextView)v.findViewById(R.id.response);
+            return v;
         }
     }
 }
