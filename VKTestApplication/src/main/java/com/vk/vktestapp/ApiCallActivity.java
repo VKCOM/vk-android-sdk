@@ -72,10 +72,10 @@ public class ApiCallActivity extends ActionBarActivity {
         }
 
         long requestId = savedInstanceState.getLong("request");
-        VKRequest request = VKRequest.getRegisteredRequest(requestId);
-        if (request != null) {
-            request.unregisterObject();
-            request.setRequestListener(mRequestListener);
+        myRequest = VKRequest.getRegisteredRequest(requestId);
+        if (myRequest != null) {
+            myRequest.unregisterObject();
+            myRequest.setRequestListener(mRequestListener);
         }
     }
 
