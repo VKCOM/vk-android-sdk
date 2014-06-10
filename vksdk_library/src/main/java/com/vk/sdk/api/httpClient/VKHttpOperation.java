@@ -81,6 +81,7 @@ public class VKHttpOperation extends VKAbstractOperation {
     public void start() {
         setState(VKOperationState.Executing);
         try {
+            if (mUriRequest.isAborted()) return;
             response = VKHttpClient.getClient().execute(mUriRequest);
             InputStream inputStream = response.getEntity().getContent();
             Header contentEncoding = response.getFirstHeader("Content-Encoding");
@@ -105,7 +106,7 @@ public class VKHttpOperation extends VKAbstractOperation {
         } catch (Exception e) {
             mLastException = e;
         }
-        finish();
+        setState(VKOperationState.Finished);
     }
 
     @Override
@@ -162,11 +163,18 @@ public class VKHttpOperation extends VKAbstractOperation {
      * @return New generated error
      */
     protected VKError generateError(Exception e) {
-        VKError error = new VKError(VKError.VK_REQUEST_HTTP_FAILED);
-        error.errorMessage = e.getMessage();
-        if (error.errorMessage == null)
-            error.errorMessage = e.toString();
-        error.httpError = e;
+        VKError error;
+        if (state() == VKOperationState.Canceled) {
+            error = new VKError(VKError.VK_CANCELED);
+        } else {
+            error = new VKError(VKError.VK_REQUEST_HTTP_FAILED);
+        }
+        if (e != null) {
+            error.errorMessage = e.getMessage();
+            if (error.errorMessage == null)
+                error.errorMessage = e.toString();
+            error.httpError = e;
+        }
         return error;
     }
 
@@ -178,7 +186,7 @@ public class VKHttpOperation extends VKAbstractOperation {
         this.setCompleteListener(new VKOperationCompleteListener() {
             @Override
             public void onComplete() {
-                if (mLastException != null) {
+                if (VKHttpOperation.this.state() != VKOperationState.Finished || mLastException != null) {
                     listener.onError(VKHttpOperation.this, generateError(mLastException));
                 } else {
                     listener.onComplete(VKHttpOperation.this, mResponseBytes);

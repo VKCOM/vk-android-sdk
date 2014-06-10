@@ -36,7 +36,8 @@ public abstract class VKAbstractOperation {
         Ready,
         Executing,
         Paused,
-        Finished
+        Finished,
+        Canceled
     }
 
     /**
@@ -83,14 +84,13 @@ public abstract class VKAbstractOperation {
      */
     public void cancel() {
         mCanceled = true;
-        setState(VKOperationState.Finished);
+        setState(VKOperationState.Canceled);
     }
 
     /**
      * Finishes current operation. Will call onComplete() function for completeListener
      */
     public void finish() {
-
         if (mCompleteListener != null) {
             postInMainQueue(new Runnable() {
                 @Override
@@ -111,6 +111,11 @@ public abstract class VKAbstractOperation {
     }
 
     /**
+     * Returns current operation state
+     * @return state constant from {@link VKOperationState}
+     */
+    protected VKOperationState state() { return mState; }
+    /**
      * Sets operation state. Checks validity of state transition
      *
      * @param state New operation state
@@ -120,7 +125,8 @@ public abstract class VKAbstractOperation {
             return;
         }
         mState = state;
-        if (mState == VKOperationState.Finished) {
+        if (mState == VKOperationState.Finished ||
+            mState == VKOperationState.Canceled) {
             finish();
         }
     }
@@ -140,8 +146,8 @@ public abstract class VKAbstractOperation {
                 switch (toState) {
                     case Paused:
                     case Executing:
+                    case Canceled:
                         return false;
-
                     case Finished:
                         return !isCancelled;
 
@@ -153,6 +159,7 @@ public abstract class VKAbstractOperation {
                 switch (toState) {
                     case Paused:
                     case Finished:
+                    case Canceled:
                         return false;
 
                     default:
@@ -160,10 +167,16 @@ public abstract class VKAbstractOperation {
                 }
 
             case Finished:
+            case Canceled:
                 return true;
 
             case Paused:
-                return toState != VKOperationState.Ready;
+                switch (toState) {
+                    case Canceled:
+                        return false;
+                    default:
+                        return toState != VKOperationState.Ready;
+                }
 
             default:
                 return false;

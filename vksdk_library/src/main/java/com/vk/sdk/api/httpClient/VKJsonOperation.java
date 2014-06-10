@@ -89,7 +89,7 @@ public class VKJsonOperation extends VKHttpOperation {
         this.setCompleteListener(new VKOperationCompleteListener() {
             @Override
             public void onComplete() {
-                if (mLastException != null) {
+                if (VKJsonOperation.this.state() != VKOperationState.Finished || mLastException != null) {
                     listener.onError(VKJsonOperation.this, generateError(mLastException));
                 } else {
                     listener.onComplete(VKJsonOperation.this, mResponseJson);

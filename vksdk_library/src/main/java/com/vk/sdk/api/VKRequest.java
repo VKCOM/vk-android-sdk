@@ -316,7 +316,9 @@ public class VKRequest extends VKObject {
 
                     @Override
                     public void onError(VKJsonOperation operation, VKError error) {
-                        if (error.errorCode != VKError.VK_API_ERROR &&
+                        //Хак для проверки того, что корректно распарсился ответ при заливке картинок
+                        if (    error.errorCode != VKError.VK_CANCELED  &&
+                                error.errorCode != VKError.VK_API_ERROR &&
                                 operation != null && operation.response != null &&
                                 operation.response.getStatusLine().getStatusCode() == 200) {
                             provideResponse(operation.getResponseJson(), null);
