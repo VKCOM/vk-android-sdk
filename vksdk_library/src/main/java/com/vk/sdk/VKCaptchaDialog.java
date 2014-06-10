@@ -54,6 +54,7 @@ public class VKCaptchaDialog {
     private float mDensity;
 
     public VKCaptchaDialog(VKError captchaError) {
+
         mCaptchaError = captchaError;
     }
 
@@ -83,6 +84,7 @@ public class VKCaptchaDialog {
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
                     sendAnswer();
+                    dialog.dismiss();
                     return true;
                 }
                 return false;
@@ -93,11 +95,13 @@ public class VKCaptchaDialog {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         sendAnswer();
+                        dialog.dismiss();
                     }
                 });
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
+                dialog.dismiss();
                 mCaptchaError.request.cancel();
             }
         });
