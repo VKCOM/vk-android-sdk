@@ -72,5 +72,13 @@
             android:paddingLeft="32dp"
             android:paddingRight="32dp"
             android:layout_gravity="right" />
+        <Button
+            android:id="@+id/test_validation"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/test_validation"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:layout_gravity="right" />
     </LinearLayout>
 </ScrollView>

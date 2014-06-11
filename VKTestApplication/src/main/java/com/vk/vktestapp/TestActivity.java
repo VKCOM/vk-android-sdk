@@ -76,7 +76,7 @@ public class TestActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        VKUIHelper.onActivityResult(requestCode, resultCode, data);
+        VKUIHelper.onActivityResult(this, requestCode, resultCode, data);
     }
 
     /**
@@ -150,6 +150,13 @@ public class TestActivity extends ActionBarActivity {
                         showError(error);
                     }
                 });
+                }
+            });
+            view.findViewById(R.id.test_validation).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final VKRequest test = new VKRequest("account.testValidation");
+                    startApiCall(test);
                 }
             });
 

@@ -99,7 +99,7 @@ public class LoginActivity extends FragmentActivity {
 
         @Override
         public void onAccessDenied(final VKError authorizationError) {
-            new AlertDialog.Builder(LoginActivity.this)
+            new AlertDialog.Builder(VKUIHelper.getTopActivity())
                     .setMessage(authorizationError.toString())
                     .show();
         }
