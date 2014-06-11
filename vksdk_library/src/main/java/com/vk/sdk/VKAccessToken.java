@@ -41,6 +41,8 @@ public class VKAccessToken {
     public static final String SECRET = "secret";
     public static final String HTTPS_REQUIRED = "https_required";
     public static final String CREATED = "created";
+    public static final String SUCCESS = "success";
+
     /**
      * String token for use in request parameters
      */

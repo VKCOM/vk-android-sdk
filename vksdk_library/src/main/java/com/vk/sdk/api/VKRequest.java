@@ -358,6 +358,7 @@ public class VKRequest extends VKObject {
     public void repeat() {
         this.mAttemptsUsed = 0;
         this.mPreparedParameters = null;
+        this.mLoadingOperation   = null;
         start();
     }
 
@@ -454,6 +455,7 @@ public class VKRequest extends VKObject {
             } else if (error.apiError.errorCode == 17) {
 	            Intent i = new Intent(VKUIHelper.getTopActivity(), VKOpenAuthActivity.class);
 	            i.putExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_URL, error.apiError.redirectUri);
+                i.putExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_REQUEST, this.registerObject());
 				VKUIHelper.getTopActivity().startActivityForResult(i, VKSdk.VK_SDK_REQUEST_CODE);
                 return true;
             }

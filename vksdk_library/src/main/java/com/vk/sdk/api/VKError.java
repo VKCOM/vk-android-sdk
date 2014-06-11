@@ -138,6 +138,10 @@ public class VKError extends VKObject {
         this.apiError = internalError;
     }
 
+    private static final String FAIL = "fail";
+    private static final String ERROR_REASON = "error_reason";
+    private static final String ERROR_DESCRIPTION = "error_description";
+
     /**
      * Generate API error from HTTP-query
      *
@@ -145,8 +149,15 @@ public class VKError extends VKObject {
      */
     public VKError(Map<String, String> queryParams) {
         this.errorCode = VK_API_ERROR;
-        this.errorReason = queryParams.get("error_reason");
-        this.errorMessage = Uri.decode(queryParams.get("error_description"));
+        this.errorReason = queryParams.get(ERROR_REASON);
+        this.errorMessage = Uri.decode(queryParams.get(ERROR_DESCRIPTION));
+        if (queryParams.containsKey(FAIL)) {
+            this.errorReason = "Action failed";
+        }
+        if (queryParams.containsKey("cancel")) {
+            this.errorCode   = VK_CANCELED;
+            this.errorReason = "User canceled request";
+        }
     }
 
     /**
@@ -174,8 +185,6 @@ public class VKError extends VKObject {
 
 	@Override public String toString()
 	{
-
-
 		StringBuilder errorString = new StringBuilder("VKError (");
 		switch (this.errorCode) {
 			case VK_API_ERROR:

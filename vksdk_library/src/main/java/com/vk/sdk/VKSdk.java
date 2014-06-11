@@ -28,6 +28,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
 import com.vk.sdk.api.VKError;
+import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.util.VKStringJoiner;
 import com.vk.sdk.util.VKUtil;
 
@@ -261,14 +262,19 @@ public class VKSdk {
                     String tokenInfo = result.getStringExtra(VKOpenAuthActivity.VK_EXTRA_TOKEN_DATA);
                     Map<String, String> tokenParams = VKUtil.explodeQueryString(tokenInfo);
                     boolean renew = result.getBooleanExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_URL, false);
-                    checkAndSetToken(tokenParams, renew);
+                    if (checkAndSetToken(tokenParams, renew) == CheckTokenResult.Success) {
+                        VKRequest validationRequest = VKRequest.getRegisteredRequest(result.getLongExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_REQUEST, 0));
+                        if (validationRequest != null) {
+                            validationRequest.repeat();
+                        }
+                    }
                 } else if (result.getExtras() != null) {
                     //Что-то пришло от Гриши
                     Map<String, String> tokenParams = new HashMap<String, String>();
                     for (String key : result.getExtras().keySet()) {
                         tokenParams.put(key, String.valueOf(result.getExtras().get(key)));
                     }
-                    return checkAndSetToken(tokenParams, false);
+                    return checkAndSetToken(tokenParams, false) != CheckTokenResult.None;
                 }
                 return true;
             }
@@ -278,6 +284,12 @@ public class VKSdk {
         return true;
     }
 
+    enum CheckTokenResult {
+        None,
+        Success,
+        Error
+    }
+
     /**
      * Check new access token and sets it as working token
      *
@@ -285,20 +297,24 @@ public class VKSdk {
      * @param renew       flag indicates token renewal
      * @return true if access token was set, or error was provided
      */
-    private static boolean checkAndSetToken(Map<String, String> tokenParams, boolean renew) {
+    private static CheckTokenResult checkAndSetToken(Map<String, String> tokenParams, boolean renew) {
+
         VKAccessToken token = VKAccessToken.tokenFromParameters(tokenParams);
         if (token == null || token.accessToken == null) {
+            if (tokenParams.containsKey(VKAccessToken.SUCCESS)) {
+                return CheckTokenResult.Success;
+            }
+
             VKError error = new VKError(tokenParams);
             if (error.errorMessage != null || error.errorReason != null) {
                 setAccessTokenError(error);
-                return true;
+                return CheckTokenResult.Error;
             }
-
         } else {
             setAccessToken(token, renew);
-            return true;
+            return CheckTokenResult.Success;
         }
-        return false;
+        return CheckTokenResult.None;
     }
 
     /**
@@ -342,8 +358,6 @@ public class VKSdk {
      * @param error description of error while authorizing user
      */
     public static void setAccessTokenError(VKError error) {
-        sInstance.mAccessToken = null;
-
         if (sInstance.mListener != null) {
             sInstance.mListener.onAccessDenied(error);
         }
