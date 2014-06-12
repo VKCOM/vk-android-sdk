@@ -128,9 +128,15 @@ public class VKHttpOperation extends VKAbstractOperation {
      */
     @Override
     public void cancel() {
-        mUriRequest.abort();
+        VKHttpClient.cancelHttpOperation(this);
         super.cancel();
     }
+
+	/**
+	 * Returns request associated with current operation
+	 * @return URI request
+	 */
+	public HttpUriRequest getUriRequest() { return mUriRequest; }
 
     /**
      * Get operation response data

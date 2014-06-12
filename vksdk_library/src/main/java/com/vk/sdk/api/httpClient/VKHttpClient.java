@@ -212,5 +212,18 @@ public class VKHttpClient extends DefaultHttpClient {
         });
     }
 
+	/**
+	 * Cancel http operation request on background thread (to prevent exception)
+	 * @param operation executing http operation
+	 */
+	public static void cancelHttpOperation(final VKHttpOperation operation) {
+		mBackgroundExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				operation.getUriRequest().abort();
+			}
+		});
+	}
+
 
 }
