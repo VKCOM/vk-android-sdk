@@ -43,7 +43,9 @@ import java.util.Map;
  */
 public class VKSdk {
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
+	public static final boolean DEBUG_API_ERRORS = false;
+	public static final String  SDK_TAG = "VK SDK";
     /**
      * Start SDK activity for result with that request code
      */

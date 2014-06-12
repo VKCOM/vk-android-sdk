@@ -22,6 +22,7 @@
 package com.vk.sdk.api;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKObject;
@@ -299,6 +300,9 @@ public class VKRequest extends VKObject {
                         if (response.has("error")) {
                             try {
                                 VKError error = new VKError(response.getJSONObject("error"));
+	                            if (VKSdk.DEBUG && VKSdk.DEBUG_API_ERRORS) {
+		                            Log.w(VKSdk.SDK_TAG, operation.getResponseString());
+	                            }
                                 if (processCommonError(error)) return;
                                 provideError(error);
                             } catch (JSONException e) {
@@ -324,6 +328,9 @@ public class VKRequest extends VKObject {
                             provideResponse(operation.getResponseJson(), null);
                             return;
                         }
+	                    if (VKSdk.DEBUG && VKSdk.DEBUG_API_ERRORS && operation != null) {
+		                    Log.w(VKSdk.SDK_TAG, operation.getResponseString());
+	                    }
                         if (attempts == 0 || ++mAttemptsUsed < attempts) {
                             if (requestListener != null)
                                 requestListener.attemptFailed(VKRequest.this, mAttemptsUsed, attempts);
