@@ -32,6 +32,7 @@ import com.vk.sdk.VKSdkVersion;
 import com.vk.sdk.VKUIHelper;
 import com.vk.sdk.api.httpClient.VKAbstractOperation;
 import com.vk.sdk.api.httpClient.VKHttpClient;
+import com.vk.sdk.api.httpClient.VKHttpOperation;
 import com.vk.sdk.api.httpClient.VKJsonOperation;
 import com.vk.sdk.api.httpClient.VKJsonOperation.VKJSONOperationCompleteListener;
 import com.vk.sdk.api.httpClient.VKModelOperation;
@@ -406,6 +407,9 @@ public class VKRequest extends VKObject {
         response.request = this;
         response.json = jsonResponse;
         response.parsedModel = parsedModel;
+	    if (mLoadingOperation instanceof VKHttpOperation) {
+		    response.responseString = ((VKHttpOperation)mLoadingOperation).getResponseString();
+	    }
 
         if (mPostRequestsQueue != null && mPostRequestsQueue.size() > 0) {
             for (VKRequest request : mPostRequestsQueue) {

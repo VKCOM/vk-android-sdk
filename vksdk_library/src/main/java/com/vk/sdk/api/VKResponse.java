@@ -35,6 +35,10 @@ public class VKResponse {
      * Json content of response. Can be array or object.
      */
     public JSONObject json;
+	/**
+	 * String response from API
+	 */
+	public String responseString;
     /**
      * Model parsed from response
      */
