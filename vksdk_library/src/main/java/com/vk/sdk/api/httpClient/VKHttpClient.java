@@ -90,7 +90,7 @@ public class VKHttpClient extends DefaultHttpClient {
             schemeRegistry.register(new Scheme("https",
                     SSLSocketFactory.getSocketFactory(), 443));
             HttpParams params = new BasicHttpParams();
-            Context ctx = VKUIHelper.getTopActivity();
+            Context ctx = VKUIHelper.getApplicationContext();
 
             try {
                 if (ctx != null)

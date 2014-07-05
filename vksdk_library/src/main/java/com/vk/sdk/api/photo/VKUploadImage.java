@@ -51,7 +51,7 @@ public class VKUploadImage extends VKObject {
     }
 
     public File getTmpFile() {
-        Context ctx = VKUIHelper.getTopActivity();
+        Context ctx = VKUIHelper.getApplicationContext();
         File outputDir = null;
         if (ctx != null) {
             outputDir = ctx.getExternalCacheDir();

@@ -92,12 +92,7 @@ public abstract class VKAbstractOperation {
      */
     public void finish() {
         if (mCompleteListener != null) {
-            postInMainQueue(new Runnable() {
-                @Override
-                public void run() {
-                    mCompleteListener.onComplete();
-                }
-            });
+	        mCompleteListener.onComplete();
         }
     }
 
@@ -181,15 +176,6 @@ public abstract class VKAbstractOperation {
             default:
                 return false;
         }
-    }
-
-    /**
-     * Post runnable in main loop
-     *
-     * @param r Runnable to post
-     */
-    public static void postInMainQueue(Runnable r) {
-        getMainThreadHandler().post(r);
     }
 
     /**

@@ -22,52 +22,67 @@
 package com.vk.sdk;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 /**
  * Class for VK authorization and dialogs helping
  */
 public class VKUIHelper {
-    private static Activity mTopActivity;
+	private static Activity sTopActivity;
+	private static Context  sApplicationContext;
 
-    public static Activity getTopActivity() {
-        return mTopActivity;
-    }
+	public static Activity getTopActivity()
+	{
+		return sTopActivity;
+	}
+	public static Context getApplicationContext() { return sApplicationContext; }
+	/**
+	 * Call it in onCreate for of activities where you using VK SDK
+	 * @param activity Your activity
+	 */
+	public static void onCreate(Activity activity)
+	{
+		if (sTopActivity != activity)
+			sTopActivity = activity;
+		if (sApplicationContext == null && activity != null) {
+			sApplicationContext = activity.getApplicationContext();
+		}
+	}
 
-    /**
-     * Call it in onCreate for of activities where you using VK SDK
-     * @param activity Your activity
-     */
-    public static void onCreate(Activity activity) {
-        if (mTopActivity != activity)
-            mTopActivity = activity;
-    }
-    /**
-     * Call it in onResume for of activities where you using VK SDK
-     * @param activity Your activity
-     */
-    public static void onResume(Activity activity) {
-        if (mTopActivity != activity)
-            mTopActivity = activity;
-    }
-    /**
-     * Call it in onDestroy for of activities where you using VK SDK
-     * @param activity Your activity
-     */
-    public static void onDestroy(Activity activity) {
-        if (mTopActivity == activity)
-            mTopActivity = null;
-    }
+	/**
+	 * Call it in onResume for of activities where you using VK SDK
+	 * @param activity Your activity
+	 */
+	public static void onResume(Activity activity)
+	{
+		if (sTopActivity != activity)
+			sTopActivity = activity;
+		if (sApplicationContext == null && activity != null) {
+			sApplicationContext = activity.getApplicationContext();
+		}
+	}
 
-    /**
-     * Call it in onActivityResult of all activities where you using VK SDK
-     * @param requestCode Request code for startActivityForResult
-     * @param resultCode Result code of finished activity
-     * @param data Result data
-     * @deprecated Use onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) instead
-     */
-    public static void onActivityResult(int requestCode, int resultCode, Intent data) {
-        onActivityResult(mTopActivity, requestCode, resultCode, data);
+	/**
+	 * Call it in onDestroy for of activities where you using VK SDK
+	 * @param activity Your activity
+	 */
+	public static void onDestroy(Activity activity)
+	{
+		if (sTopActivity == activity)
+			sTopActivity = null;
+	}
+
+	/**
+	 * Call it in onActivityResult of all activities where you using VK SDK
+	 * @param requestCode Request code for startActivityForResult
+	 * @param resultCode Result code of finished activity
+	 * @param data Result data
+	 * @deprecated Use onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) instead
+	 */
+	public static void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		onActivityResult(sTopActivity, requestCode, resultCode, data);
     }
 
     /**
@@ -77,7 +92,7 @@ public class VKUIHelper {
      * @param data Result data
      */
     public static void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-        mTopActivity = activity;
+        sTopActivity = activity;
         if (requestCode == VKSdk.VK_SDK_REQUEST_CODE) {
             VKSdk.processActivityResult(requestCode, resultCode, data);
         }

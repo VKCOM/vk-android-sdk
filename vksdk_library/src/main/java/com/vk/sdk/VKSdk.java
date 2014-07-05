@@ -80,7 +80,7 @@ public class VKSdk {
 
 
     Context getContext() {
-        return VKUIHelper.getTopActivity();
+        return VKUIHelper.getApplicationContext();
     }
 
     private static void checkConditions() throws BindException {
@@ -335,7 +335,7 @@ public class VKSdk {
                 sInstance.mListener.onRenewAccessToken(token);
             }
         }
-        sInstance.mAccessToken.saveTokenToSharedPreferences(VKUIHelper.getTopActivity(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
+        sInstance.mAccessToken.saveTokenToSharedPreferences(VKUIHelper.getApplicationContext(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
     }
 
     /**
@@ -393,12 +393,12 @@ public class VKSdk {
     }
 
     public static void logout() {
-        CookieSyncManager.createInstance(VKUIHelper.getTopActivity());
+        CookieSyncManager.createInstance(VKUIHelper.getApplicationContext());
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
 
         sInstance.mAccessToken = null;
-        VKAccessToken.removeTokenAtKey(VKUIHelper.getTopActivity(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
+        VKAccessToken.removeTokenAtKey(VKUIHelper.getApplicationContext(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
     }
 
     public static boolean isLoggedIn() {
