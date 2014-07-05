@@ -348,7 +348,8 @@ public class VKRequest extends VKObject {
                             provideResponse(operation.getResponseJson(), null);
                             return;
                         }
-	                    if (VKSdk.DEBUG && VKSdk.DEBUG_API_ERRORS && operation != null) {
+	                    if (VKSdk.DEBUG && VKSdk.DEBUG_API_ERRORS &&
+                            operation != null && operation.getResponseString() != null) {
 		                    Log.w(VKSdk.SDK_TAG, operation.getResponseString());
 	                    }
                         if (attempts == 0 || ++mAttemptsUsed < attempts) {

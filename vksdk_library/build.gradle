@@ -28,7 +28,7 @@ configurations {
 }
 
 dependencies {
-    externalCompile 'com.android.support:support-v4:+'
+    externalCompile 'com.android.support:support-v4:19.1.+'
 
     javadoc 'org.apache.httpcomponents:httpclient:4.0.1'
     javadoc 'org.json:json:20080701'
