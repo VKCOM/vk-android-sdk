@@ -161,12 +161,16 @@ public class VKAccessToken {
 
             if (parameters.containsKey(HTTPS_REQUIRED)) {
                 token.httpsRequired = parameters.get(HTTPS_REQUIRED).equals("1");
+            } else if (token.secret == null) {
+                token.httpsRequired = true;
             }
+
             if (parameters.containsKey(CREATED)) {
                 token.created = Long.parseLong(parameters.get(CREATED));
             } else {
                 token.created = System.currentTimeMillis();
             }
+
             return token;
         } catch (Exception e) {
             return null;
