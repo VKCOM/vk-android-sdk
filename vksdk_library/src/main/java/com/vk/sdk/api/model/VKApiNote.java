@@ -29,6 +29,8 @@
 package com.vk.sdk.api.model;
 
 import android.os.Parcel;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import static com.vk.sdk.api.model.VKAttachments.*;
 
@@ -73,6 +75,10 @@ public class VKApiNote extends VKAttachments.VKApiAttachment implements Identifi
      */
     public int read_comments;
 
+	public VKApiNote(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills a Note instance from JSONObject.
      */

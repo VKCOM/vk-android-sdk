@@ -51,7 +51,7 @@ public class VKApiCommunity extends VKApiOwner implements android.os.Parcelable,
 
     /**
      * Whether the community is closed
-     * @see {@link com.vk.sdk.api.model.VKCommunity.Status}
+     * @see {@link com.vk.sdk.api.model.VKApiCommunity.Status}
      */
     public int is_closed;
 
@@ -73,7 +73,7 @@ public class VKApiCommunity extends VKApiOwner implements android.os.Parcelable,
 
     /**
      * Community type
-     * @see {@link com.vk.sdk.api.model.VKCommunity.Type}
+     * @see {@link com.vk.sdk.api.model.VKApiCommunity.Type}
      */
     public int type;
 
@@ -97,6 +97,9 @@ public class VKApiCommunity extends VKApiOwner implements android.os.Parcelable,
      */
     public VKPhotoSizes photo = new VKPhotoSizes();
 
+	public VKApiCommunity(JSONObject from) {
+		parse(from);
+	}
     /**
      * Fills a community object from JSONObject
      * @param from JSONObject describes community object according with VK Docs.

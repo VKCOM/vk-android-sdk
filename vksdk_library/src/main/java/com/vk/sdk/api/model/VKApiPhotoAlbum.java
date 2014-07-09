@@ -24,6 +24,7 @@ package com.vk.sdk.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import static com.vk.sdk.api.model.VKAttachments.*;
 
@@ -108,6 +109,10 @@ public class VKApiPhotoAlbum extends VKAttachments.VKApiAttachment implements Pa
      */
     public VKPhotoSizes photo = new VKPhotoSizes();
 
+	public VKApiPhotoAlbum(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Creates a PhotoAlbum instance from JSONObject.
      */

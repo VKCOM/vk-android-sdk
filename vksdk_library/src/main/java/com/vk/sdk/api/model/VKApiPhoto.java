@@ -25,6 +25,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.vk.sdk.api.model.ParseUtils.parseBoolean;
@@ -137,6 +138,10 @@ public class VKApiPhoto extends VKAttachments.VKApiAttachment implements Parcela
      */
     public String access_key;
 
+	public VKApiPhoto(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills a Photo instance from JSONObject.
      */

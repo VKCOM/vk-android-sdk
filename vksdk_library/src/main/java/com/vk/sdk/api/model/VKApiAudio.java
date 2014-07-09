@@ -89,6 +89,9 @@ public class VKApiAudio extends VKApiAttachment implements Identifiable, android
      */
     public String access_key;
 
+	public VKApiAudio(JSONObject from) {
+		parse(from);
+	}
     /**
      * Fills an Audio instance from JSONObject.
      */
