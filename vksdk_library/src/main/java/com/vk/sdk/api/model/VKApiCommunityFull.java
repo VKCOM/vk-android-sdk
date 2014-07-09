@@ -222,6 +222,10 @@ public class VKApiCommunityFull extends VKApiCommunity implements Parcelable {
      */
     public boolean blacklisted;
 
+    public VKApiCommunityFull() {
+        super();
+    }
+
     public VKApiCommunityFull parse(JSONObject jo) {
         super.parse(jo);
 
