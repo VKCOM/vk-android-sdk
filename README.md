@@ -82,6 +82,12 @@ If your project doesn't support Gradle, you can add SDK by the following way:
 4) Select <b>Create module from existing sources</b>, then click <b>Next</b> two times. Rename the module from "main" to "vksdk", then click <b>Next</b>.
 5) Add the new <b>vksdk</b> module as a dependency to your app's module.
 
+Connecting With Maven
+----------
+You can add next maven dependency in your project:
+
+`com.vk:androidsdk:+`
+
 Connecting Using Eclipse
 ----------
 1) In <b>Package explorer</b> click right mouse button, then click <b>Import</b>.
