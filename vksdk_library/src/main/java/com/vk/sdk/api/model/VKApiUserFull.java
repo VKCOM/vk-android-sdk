@@ -23,6 +23,7 @@ package com.vk.sdk.api.model;
 
 import android.os.Parcel;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.vk.sdk.api.model.ParseUtils.parseBoolean;
@@ -431,6 +432,10 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
      */
     public boolean blacklisted_by_me;
 
+	public VKApiUserFull(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     public VKApiUserFull parse(JSONObject user) {
         super.parse(user);
 

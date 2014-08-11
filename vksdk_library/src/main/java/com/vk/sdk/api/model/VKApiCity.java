@@ -41,6 +41,9 @@ public class VKApiCity extends VKApiModel implements Parcelable, Identifiable {
      */
     public String title;
 
+	public VKApiCity(JSONObject from) {
+		parse(from);
+	}
     /**
      * Fills a City instance from JSONObject.
      */

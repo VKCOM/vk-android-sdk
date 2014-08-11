@@ -43,6 +43,9 @@ public class VKApiApplicationContent extends VKApiAttachment implements android.
      */
     public VKPhotoSizes photo = new VKPhotoSizes();
 
+	public VKApiApplicationContent(JSONObject source) {
+		parse(source);
+	}
     /**
      * Fills an ApplicationContent instance from JSONObject.
      */

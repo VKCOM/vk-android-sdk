@@ -63,6 +63,9 @@ public class VKApiChat extends VKApiModel implements Identifiable, android.os.Pa
      */
     public int[] users;
 
+	public VKApiChat(JSONObject from) {
+		parse(from);
+	}
     /**
      * Fills a Chat instance from JSONObject.
      */

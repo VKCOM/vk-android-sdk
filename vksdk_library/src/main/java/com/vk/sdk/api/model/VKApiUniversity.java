@@ -23,6 +23,8 @@ package com.vk.sdk.api.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import static android.text.TextUtils.isEmpty;
@@ -88,6 +90,10 @@ public class VKApiUniversity extends VKApiModel implements Parcelable, Identifia
      */
     public String education_status;
 
+	public VKApiUniversity(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills a University instance from JSONObject.
      */

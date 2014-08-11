@@ -30,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -448,7 +449,17 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
 
         @Override
         public D parseObject(JSONObject source) throws Exception {
-            return (D) clazz.newInstance().parse(source);
+	        try
+	        {
+		        Constructor<? extends D> jsonConstructor = clazz.getConstructor(JSONObject.class);
+		        if (jsonConstructor != null) {
+			        return jsonConstructor.newInstance(source);
+		        }
+	        } catch (Exception ignored) {
+		        //Ignored. Try default constructor
+	        }
+
+	        return (D) clazz.newInstance().parse(source);
         }
     }
 

@@ -93,6 +93,10 @@ public class VKApiMessage extends VKApiModel implements Identifiable, android.os
      */
     public boolean deleted;
 
+	public VKApiMessage(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills a Message instance from JSONObject.
      */

@@ -30,6 +30,7 @@ package com.vk.sdk.api.model;
 
 import android.os.Parcel;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -51,7 +52,10 @@ public class VKApiOwner extends VKApiModel implements Identifiable, android.os.P
     public VKApiOwner() {
 
     }
-
+	public VKApiOwner(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills an owner from JSONObject
      */
