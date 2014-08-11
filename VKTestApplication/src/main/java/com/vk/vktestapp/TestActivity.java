@@ -26,8 +26,10 @@ import com.vk.sdk.api.VKRequest.VKRequestListener;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.methods.VKApiCaptcha;
 import com.vk.sdk.api.model.VKApiPhoto;
+import com.vk.sdk.api.model.VKApiUser;
 import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKPhotoArray;
+import com.vk.sdk.api.model.VKUsersArray;
 import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKImageParameters;
 import com.vk.sdk.api.photo.VKUploadImage;
@@ -105,6 +107,19 @@ public class TestActivity extends ActionBarActivity {
                     request.secure = false;
                     request.useSystemLanguage = false;
                     startApiCall(request);
+
+                    VKRequest get = new VKRequest("users.get", VKParameters.from(VKApiConst.USER_IDS, "1,2,44", VKApiConst.FIELDS, "photo_50,sex"), VKRequest.HttpMethod.GET, VKUsersArray.class);
+                    get.executeWithListener(new VKRequestListener() {
+                        @Override
+                        public void onComplete(VKResponse response) {
+                            super.onComplete(response);
+                        }
+
+                        @Override
+                        public void onError(VKError error) {
+                            super.onError(error);
+                        }
+                    });
                 }
             });
 
@@ -227,7 +242,6 @@ public class TestActivity extends ActionBarActivity {
                 Log.w("Test", "Error in request or upload", error.httpError);
             }
         }
-
         private Bitmap getPhoto() {
             Bitmap b = null;
 
@@ -239,26 +253,27 @@ public class TestActivity extends ActionBarActivity {
 
             return b;
         }
-    private void makePost(VKAttachments attachments) {
-        makePost(attachments, null);
-    }
-    private void makePost(VKAttachments attachments, String message) {
-        VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments, VKApiConst.MESSAGE, message));
-        post.setModelClass(VKWallPostResult.class);
-        post.executeWithListener(new VKRequestListener() {
-            @Override
-            public void onComplete(VKResponse response) {
-                super.onComplete(response);
+        private void makePost(VKAttachments attachments) {
+            makePost(attachments, null);
+        }
+        private void makePost(VKAttachments attachments, String message) {
+            VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments, VKApiConst.MESSAGE, message));
+            post.setModelClass(VKWallPostResult.class);
+            post.executeWithListener(new VKRequestListener() {
+                @Override
+                public void onComplete(VKResponse response) {
+                    super.onComplete(response);
+                    VKWallPostResult result = (VKWallPostResult)response.parsedModel;
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-60479154_%s", result.post_id) ) );
+                    startActivity(i);
+                }
 
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-60479154_%s", ((VKWallPostResult)response.parsedModel).post_id) ) );
-                startActivity(i);
-            }
-
-            @Override
-            public void onError(VKError error) {
-                showError(error.apiError != null ? error.apiError : error);
-            }
-        });
-    }
+                @Override
+                public void onError(VKError error) {
+                    showError(error.apiError != null ? error.apiError : error);
+                }
+            });
+        }
     }
 }
+
