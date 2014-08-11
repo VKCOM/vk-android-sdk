@@ -8,8 +8,8 @@ buildscript {
 }
 
 allprojects {
-    group = 'com.vk.androidsdk'
-    version = '1.0.0-SNAPSHOT'
+    group = 'com.vk'
+    version = '1.2.2'
 
     repositories {
         mavenCentral()

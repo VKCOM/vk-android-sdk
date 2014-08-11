@@ -35,10 +35,10 @@ if (project.hasProperty('officialBuild')) {
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
                 pom.project {
-                    artifactId = 'library'
+                    artifactId = 'androidsdk'
                     name = 'VK API library'
                     packaging = 'aar'
-                    description = 'Main VK API library'
+                    description = 'Main VK Android API library'
                     url = 'https://github.com/VKCOM/vk-android-sdk'
                     scm {
                         url 'https://github.com/VKCOM/vk-android-sdk'
@@ -48,8 +48,22 @@ if (project.hasProperty('officialBuild')) {
                     licenses {
                         license {
                             name "MIT License"
-                            url 'https://github.com/Prototik/vk-android-sdk/raw/master/LICENSE'
+                            url 'https://github.com/VKCOM/vk-android-sdk/raw/master/LICENSE'
                             distribution 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id 'dreddik'
+                            name 'Roman Truba'
+                            email 'roman@vk.com'
+                            url 'http://vk.com'
+                            organization 'VK'
+                            organizationUrl 'http://vk.com'
+                            roles {
+                                role 'developer'
+                            }
+                            timezone '+4'
                         }
                     }
                 }
