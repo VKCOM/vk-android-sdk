@@ -53,23 +53,6 @@ public abstract class VKAbstractOperation {
      */
     private boolean mCanceled = false;
 
-    /**
-     * Handler for notify main thread
-     */
-    private static Handler mMainThreadHandler;
-
-    /**
-     * Return handler for main loop
-     *
-     * @return Main loop handler
-     */
-    protected static Handler getMainThreadHandler() {
-        if (mMainThreadHandler == null) {
-            mMainThreadHandler = new Handler(Looper.getMainLooper());
-        }
-        return mMainThreadHandler;
-    }
-
     public VKAbstractOperation() {
         setState(VKOperationState.Ready);
     }
@@ -176,16 +159,6 @@ public abstract class VKAbstractOperation {
             default:
                 return false;
         }
-    }
-
-    /**
-     * Post runnable in main loop with delay
-     *
-     * @param r            Runnable to post
-     *
-     */
-    public static void postInMainQueueDelayed(Runnable r) {
-        getMainThreadHandler().postDelayed(r, (long) 300);
     }
 
     public static interface VKOperationCompleteListener {

@@ -25,7 +25,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,10 +37,7 @@ import android.widget.TextView;
 
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.httpClient.VKHttpClient;
-import com.vk.sdk.api.httpClient.VKHttpOperation;
-import com.vk.sdk.api.httpClient.VKHttpOperation.VKHTTPOperationCompleteListener;
-
-import org.apache.http.client.methods.HttpGet;
+import com.vk.sdk.api.httpClient.VKImageOperation;
 
 /**
  * Dialog fo displaying captcha
@@ -113,19 +109,18 @@ public class VKCaptchaDialog {
         mCaptchaError.answerCaptcha(mCaptchaAnswer.getText() != null ? mCaptchaAnswer.getText().toString() : "");
     }
     private void loadImage() {
-        VKHttpOperation imageOperation = new VKHttpOperation(new HttpGet(mCaptchaError.captchaImg));
-        imageOperation.setHttpOperationListener(new VKHTTPOperationCompleteListener() {
+        VKImageOperation imageOperation = new VKImageOperation(mCaptchaError.captchaImg);
+        imageOperation.imageDensity     = mDensity;
+        imageOperation.setImageOperationListener(new VKImageOperation.VKImageOperationListener() {
             @Override
-            public void onComplete(VKHttpOperation operation, byte[] response) {
-                Bitmap captchaImage = BitmapFactory.decodeByteArray(response, 0, response.length);
-                captchaImage = Bitmap.createScaledBitmap(captchaImage, (int) (captchaImage.getWidth() * mDensity), (int) (captchaImage.getHeight() * mDensity), true);
-                mCaptchaImage.setImageBitmap(captchaImage);
+            public void onComplete(VKImageOperation operation, Bitmap image) {
+                mCaptchaImage.setImageBitmap(image);
                 mCaptchaImage.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onError(VKHttpOperation operation,VKError error) {
+            public void onError(VKImageOperation operation, VKError error) {
                 loadImage();
             }
         });

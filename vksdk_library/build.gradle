@@ -5,12 +5,12 @@ apply plugin: 'android-library'
 
 repositories {
     mavenCentral()
-    maven() { url "${System.env.ANDROID_HOME}/extras/android/m2repository/"}
+    maven { url 'maven() { url "${System.env.ANDROID_HOME}/extras/android/m2repository/"}' }
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 20
+    buildToolsVersion '19.1.0'
 
     defaultConfig {
         minSdkVersion 9
@@ -28,7 +28,6 @@ configurations {
 }
 
 dependencies {
-
     javadoc 'org.apache.httpcomponents:httpclient:4.0.1'
     javadoc 'org.json:json:20080701'
     javadoc 'com.google.android:annotations:4.1.1.4@jar'

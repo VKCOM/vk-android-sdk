@@ -355,12 +355,12 @@ public class VKRequest extends VKObject {
                         if (attempts == 0 || ++mAttemptsUsed < attempts) {
                             if (requestListener != null)
                                 requestListener.attemptFailed(VKRequest.this, mAttemptsUsed, attempts);
-                            VKAbstractOperation.postInMainQueueDelayed(new Runnable() {
+                            runOnLooper(new Runnable() {
                                 @Override
                                 public void run() {
                                     start();
                                 }
-                            });
+                            }, 300);
                             return;
                         }
                         provideError(error);
@@ -583,11 +583,18 @@ public class VKRequest extends VKObject {
             parseModel = true;
     }
 
-	private void runOnLooper(Runnable block) {
+    private void runOnLooper(Runnable block) {
+        runOnLooper(block, 0);
+    }
+	private void runOnLooper(Runnable block, int delay) {
 		if (mLooper == null) {
 			mLooper = Looper.getMainLooper();
 		}
-		new Handler(mLooper).post(block);
+        if (delay > 0) {
+            new Handler(mLooper).postDelayed(block, delay);
+        } else {
+            new Handler(mLooper).post(block);
+        }
 	}
 	private void runOnMainLooper(Runnable block) {
 
