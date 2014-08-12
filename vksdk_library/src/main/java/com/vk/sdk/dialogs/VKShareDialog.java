@@ -1,3 +1,24 @@
+//
+//  Copyright (c) 2014 VK.com
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy of
+//  this software and associated documentation files (the "Software"), to deal in
+//  the Software without restriction, including without limitation the rights to
+//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+//  the Software, and to permit persons to whom the Software is furnished to do so,
+//  subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+//  FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+//  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+//  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+//  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
 package com.vk.sdk.dialogs;
 
 import android.app.AlertDialog;
@@ -6,6 +27,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,8 +66,34 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by Roman Truba on 11.08.14.
- * Copyright (c) 2013 VK. All rights reserved.
+ * Share dialog for making post directly to VK.
+ * Now it supports: attaching 1 named link, attaching photos with upload,
+ * attaching photos already uploaded to VK.
+ * Example usage:
+ * <pre>
+ * {@code VKPhotoArray photos = new VKPhotoArray();
+    photos.add(new VKApiPhoto("photo-47200925_314622346"));
+    new VKShareDialog()
+        .setText("I created this post with VK Android SDK\nSee additional information below\n#vksdk")
+        .setUploadedPhotos(photos)
+        .setAttachmentImages(new VKUploadImage[]{
+            new VKUploadImage(myBitmap, VKImageParameters.pngImage())
+        })
+        .setAttachmentLink("VK Android SDK information", "https://vk.com/dev/android_sdk")
+        .setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
+        @Override
+        public void onVkShareComplete(int postId) {
+
+        }
+
+        @Override
+        public void onVkShareCancel() {
+
+        }
+        })
+        .show(getFragmentManager(), "VK_SHARE_DIALOG");
+ * }
+ * </pre>
  */
 public class VKShareDialog extends DialogFragment {
     static private final String SHARE_TEXT_KEY      = "ShareText";
@@ -61,8 +109,6 @@ public class VKShareDialog extends DialogFragment {
     private Button       mSendButton;
     private ProgressBar  mSendProgress;
     private LinearLayout mPhotoLayout;
-    private LinearLayout mAttachmentLinkLayout;
-    private View         mInternalView;
     private HorizontalScrollView mPhotoScroll;
 
     private UploadingLink   mAttachmentLink;
@@ -73,43 +119,72 @@ public class VKShareDialog extends DialogFragment {
     private VKShareDialogListener mListener;
 
 
+    /**
+     * Sets images that will be uploaded with post
+     * @param images array of VKUploadImage objects with image data and upload parameters
+     * @return Returns this dialog for chaining
+     */
     public VKShareDialog setAttachmentImages(VKUploadImage[] images) {
         mAttachmentImages = images;
         return this;
     }
 
+    /**
+     * Sets this dialog post text. User can change that text
+     * @param textToPost Text for post
+     * @return Returns this dialog for chaining
+     */
     public VKShareDialog setText(CharSequence textToPost) {
         mAttachmentText = textToPost;
         return this;
     }
 
+    /**
+     * Sets dialog link with link name
+     * @param linkTitle A small description for your link
+     * @param linkUrl Url that link follows
+     * @return Returns this dialog for chaining
+     */
     public VKShareDialog setAttachmentLink(String linkTitle, String linkUrl) {
         mAttachmentLink = new UploadingLink(linkTitle, linkUrl);
         return this;
     }
+
+    /**
+     * Sets array of already uploaded photos from VK, that will be attached to post
+     * @param photos Prepared array of {@link VKApiPhoto} objects
+     * @return Returns this dialog for chaining
+     */
     public VKShareDialog setUploadedPhotos(VKPhotoArray photos) {
         mExistingPhotos = photos;
         return this;
     }
 
+    /**
+     * Sets this dialog listener
+     * @param listener {@link VKShareDialogListener} object
+     * @return Returns this dialog for chaining
+     */
     public VKShareDialog setShareDialogListener(VKShareDialogListener listener) {
         mListener = listener;
         return this;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getActivity();
-        mInternalView   = LayoutInflater.from(context).inflate(R.layout.vk_share_dialog, null);
+        View mInternalView = LayoutInflater.from(context).inflate(R.layout.vk_share_dialog, null);
 
         assert mInternalView != null;
 
         mSendButton             = (Button) mInternalView.findViewById(R.id.sendButton);
         mSendProgress           = (ProgressBar) mInternalView.findViewById(R.id.sendProgress);
-        mAttachmentLinkLayout   = (LinearLayout) mInternalView.findViewById(R.id.attachmentLinkLayout);
         mPhotoLayout            = (LinearLayout) mInternalView.findViewById(R.id.imagesContainer);
         mShareTextField         = (EditText) mInternalView.findViewById(R.id.shareText);
         mPhotoScroll            = (HorizontalScrollView) mInternalView.findViewById(R.id.imagesScrollView);
+
+        LinearLayout mAttachmentLinkLayout = (LinearLayout) mInternalView.findViewById(R.id.attachmentLinkLayout);
 
         mSendButton.setOnClickListener(sendButtonPress);
 
@@ -126,8 +201,8 @@ public class VKShareDialog extends DialogFragment {
         //Attachment photos
         mPhotoLayout.removeAllViews();
         if (mAttachmentImages != null) {
-            for (int i = 0; i < mAttachmentImages.length; i++) {
-                addBitmapToPreview(mAttachmentImages[i].mImageData);
+            for (VKUploadImage mAttachmentImage : mAttachmentImages) {
+                addBitmapToPreview(mAttachmentImage.mImageData);
             }
             mPhotoLayout.setVisibility(View.VISIBLE);
         }
