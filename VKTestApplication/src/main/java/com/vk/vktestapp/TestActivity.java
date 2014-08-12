@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,13 +27,13 @@ import com.vk.sdk.api.VKRequest.VKRequestListener;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.methods.VKApiCaptcha;
 import com.vk.sdk.api.model.VKApiPhoto;
-import com.vk.sdk.api.model.VKApiUser;
 import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKPhotoArray;
 import com.vk.sdk.api.model.VKUsersArray;
 import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKImageParameters;
 import com.vk.sdk.api.photo.VKUploadImage;
+import com.vk.sdk.dialogs.VKShareDialog;
 
 import java.io.IOException;
 
@@ -142,7 +143,7 @@ public class TestActivity extends ActionBarActivity {
             view.findViewById(R.id.wall_post).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makePost(null, "Привет, друзья!");
+                    makePost(null, "Hello, friends!");
                 }
             });
 
@@ -167,6 +168,7 @@ public class TestActivity extends ActionBarActivity {
                 });
                 }
             });
+
             view.findViewById(R.id.test_validation).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -174,24 +176,52 @@ public class TestActivity extends ActionBarActivity {
                     startApiCall(test);
                 }
             });
+            view.findViewById(R.id.test_share).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Bitmap b = getPhoto();
+                    VKPhotoArray photos = new VKPhotoArray();
+                    photos.add(new VKApiPhoto("photo-47200925_314622346"));
+                    new VKShareDialog()
+                            .setText("I created this post with VK Android SDK\nSee additional information below\n#vksdk")
+                            .setUploadedPhotos(photos)
+                            .setAttachmentImages(new VKUploadImage[]{
+                                    new VKUploadImage(b, VKImageParameters.pngImage())
+                            })
+                            .setAttachmentLink("VK Android SDK information", "https://vk.com/dev/android_sdk")
+                            .setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
+                                @Override
+                                public void onVkShareComplete(int postId) {
+                                    b.recycle();
+                                }
+
+                                @Override
+                                public void onVkShareCancel() {
+                                    b.recycle();
+                                }
+                            })
+                            .show(getFragmentManager(), "VK_SHARE_DIALOG");
+                }
+            });
 
             view.findViewById(R.id.upload_photo_to_wall).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-    final Bitmap photo = getPhoto();
-    VKRequest request = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.9f)), 0, 60479154);
-    request.executeWithListener(new VKRequestListener() {
-        @Override
-        public void onComplete(VKResponse response) {
-            photo.recycle();
-            VKApiPhoto photoModel = ((VKPhotoArray) response.parsedModel).get(0);
-            makePost(new VKAttachments(photoModel));
-        }
-        @Override
-        public void onError(VKError error) {
-            showError(error);
-        }
-    });
+                    final Bitmap photo = getPhoto();
+                    VKRequest request = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.9f)), 0, 60479154);
+                    request.executeWithListener(new VKRequestListener() {
+                        @Override
+                        public void onComplete(VKResponse response) {
+                            photo.recycle();
+                            VKApiPhoto photoModel = ((VKPhotoArray) response.parsedModel).get(0);
+                            makePost(new VKAttachments(photoModel));
+                        }
+
+                        @Override
+                        public void onError(VKError error) {
+                            showError(error);
+                        }
+                    });
                 }
             });
 
@@ -209,6 +239,7 @@ public class TestActivity extends ActionBarActivity {
                         @Override
                         public void onComplete(VKResponse[] responses) {
                             super.onComplete(responses);
+                            photo.recycle();
                             VKAttachments attachments = new VKAttachments();
                             for (int i = 0; i < responses.length; i++) {
                                 VKApiPhoto photoModel = ((VKPhotoArray) responses[i].parsedModel).get(0);

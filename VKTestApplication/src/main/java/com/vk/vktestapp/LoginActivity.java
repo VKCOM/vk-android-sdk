@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.vk.sdk.VKAccessToken;
-import com.vk.sdk.VKCaptchaDialog;
+import com.vk.sdk.dialogs.VKCaptchaDialog;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.VKSdkListener;

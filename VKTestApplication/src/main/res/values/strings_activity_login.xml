@@ -11,5 +11,6 @@
     <string name="upload_several_photos_to_wall">upload several photos to wall</string>
     <string name="continue_using_app">Continue using test application</string>
     <string name="test_validation">Test validation</string>
+    <string name="test_share">Test share dialog</string>
     <string name="logout">Logout</string>
 </resources>
