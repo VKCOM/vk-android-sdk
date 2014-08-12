@@ -81,18 +81,15 @@ import java.util.ArrayList;
         })
         .setAttachmentLink("VK Android SDK information", "https://vk.com/dev/android_sdk")
         .setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
-        @Override
-        public void onVkShareComplete(int postId) {
+            public void onVkShareComplete(int postId) {
 
-        }
+            }
+            public void onVkShareCancel() {
 
-        @Override
-        public void onVkShareCancel() {
-
-        }
+            }
         })
         .show(getFragmentManager(), "VK_SHARE_DIALOG");
- * }
+ }
  * </pre>
  */
 public class VKShareDialog extends DialogFragment {
