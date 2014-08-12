@@ -71,7 +71,7 @@ public abstract class VKAbstractOperation {
     }
 
     /**
-     * Finishes current operation. Will call onComplete() function for completeListener
+     * Finishes current operation. Will call onVkShareComplete() function for completeListener
      */
     public void finish() {
         if (mCompleteListener != null) {

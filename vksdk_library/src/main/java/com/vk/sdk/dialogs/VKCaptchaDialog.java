@@ -19,7 +19,7 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-package com.vk.sdk;
+package com.vk.sdk.dialogs;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -35,6 +35,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.vk.sdk.R;
+import com.vk.sdk.VKUIHelper;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.httpClient.VKHttpClient;
 import com.vk.sdk.api.httpClient.VKImageOperation;
@@ -60,7 +62,7 @@ public class VKCaptchaDialog {
     public void show() {
         Context context = VKUIHelper.getTopActivity();
 	    if (context == null) return;
-        View innerView = LayoutInflater.from(context).inflate(R.layout.dialog_vkcaptcha, null);
+        View innerView = LayoutInflater.from(context).inflate(R.layout.vk_captcha_dialog, null);
         assert innerView != null;
         mCaptchaAnswer = (EditText) innerView.findViewById(R.id.captchaAnswer);
         mCaptchaImage  = (ImageView) innerView.findViewById(R.id.imageView);

@@ -24,6 +24,13 @@ package com.vk.sdk;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
 /**
  * Class for VK authorization and dialogs helping
@@ -96,5 +103,29 @@ public class VKUIHelper {
         if (requestCode == VKSdk.VK_SDK_REQUEST_CODE) {
             VKSdk.processActivityResult(requestCode, resultCode, data);
         }
+    }
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int maxHeight,  int pixels) {
+
+        float scale = bitmap.getHeight() * 1.0f / maxHeight;
+        int newWidth = (int)(bitmap.getWidth() / scale);
+
+        Bitmap output = Bitmap.createBitmap(newWidth, maxHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xffffffff;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final Rect dstRect = new Rect(0, 0, newWidth, maxHeight);
+        final RectF rectF = new RectF(dstRect);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, (float) pixels, (float) pixels, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, dstRect, paint);
+
+        return output;
     }
 }

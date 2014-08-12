@@ -25,6 +25,7 @@ import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.model.VKCommentArray;
 import com.vk.sdk.api.model.VKPostArray;
+import com.vk.sdk.api.model.VKWallPostResult;
 
 /**
  * Builds requests for API.wall part
@@ -53,7 +54,7 @@ public class VKApiWall extends VKApiBase {
 
 
     public VKRequest post(VKParameters parameters) {
-        return prepareRequest("post", parameters, VKRequest.HttpMethod.POST);
+        return prepareRequest("post", parameters, VKRequest.HttpMethod.POST, VKWallPostResult.class);
     }
 
     public VKRequest repost(VKParameters params) {
