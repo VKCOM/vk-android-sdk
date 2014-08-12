@@ -151,7 +151,8 @@ public class VKShareDialog extends DialogFragment {
             mAttachmentLinkLayout.setVisibility(View.GONE);
         }
         return new AlertDialog.Builder(context)
-                .setView(mInternalView).setCancelable(true)
+                .setView(mInternalView)
+                .setCancelable(true)
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialogInterface) {
@@ -245,33 +246,6 @@ public class VKShareDialog extends DialogFragment {
         mPhotoLayout.invalidate();
         mPhotoScroll.invalidate();
     }
-
-    View.OnClickListener sendButtonPress = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            setIsLoading(true);
-            if (mAttachmentImages != null) {
-                final Long userId = Long.parseLong(VKSdk.getAccessToken().userId);
-                VKUploadWallPhotoRequest photoRequest = new VKUploadWallPhotoRequest(mAttachmentImages, userId, 0);
-                photoRequest.executeWithListener(new VKRequest.VKRequestListener() {
-                    @Override
-                    public void onComplete(VKResponse response) {
-                        VKPhotoArray photos = (VKPhotoArray) response.parsedModel;
-                        VKAttachments attachments = new VKAttachments(photos);
-                        makePostWithAttachments(attachments);
-                    }
-
-                    @Override
-                    public void onError(VKError error) {
-                        setIsLoading(false);
-                    }
-                });
-            } else {
-                makePostWithAttachments(null);
-            }
-        }
-    };
-
     private void makePostWithAttachments(VKAttachments attachments) {
 
         if (attachments == null) {
@@ -303,6 +277,40 @@ public class VKShareDialog extends DialogFragment {
                 dismiss();
             }
         });
+    }
+
+    View.OnClickListener sendButtonPress = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            setIsLoading(true);
+            if (mAttachmentImages != null) {
+                final Long userId = Long.parseLong(VKSdk.getAccessToken().userId);
+                VKUploadWallPhotoRequest photoRequest = new VKUploadWallPhotoRequest(mAttachmentImages, userId, 0);
+                photoRequest.executeWithListener(new VKRequest.VKRequestListener() {
+                    @Override
+                    public void onComplete(VKResponse response) {
+                        VKPhotoArray photos = (VKPhotoArray) response.parsedModel;
+                        VKAttachments attachments = new VKAttachments(photos);
+                        makePostWithAttachments(attachments);
+                    }
+
+                    @Override
+                    public void onError(VKError error) {
+                        setIsLoading(false);
+                    }
+                });
+            } else {
+                makePostWithAttachments(null);
+            }
+        }
+    };
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        super.onCancel(dialog);
+        if (mListener != null) {
+            mListener.onVkShareCancel();
+        }
     }
 
     static private class UploadingLink implements Serializable {
