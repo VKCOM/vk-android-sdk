@@ -545,7 +545,7 @@ public class VKRequest extends VKObject {
     private String getLang() {
         String result = mPreferredLang;
         if (useSystemLanguage) {
-            result = Locale.getDefault().getLanguage();
+            result = VKUIHelper.getApplicationContext().getResources().getConfiguration().locale.getLanguage();
             if (result.equals("uk")) {
                 result = "ua";
             }
