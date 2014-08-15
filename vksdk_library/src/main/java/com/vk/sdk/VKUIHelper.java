@@ -105,7 +105,7 @@ public class VKUIHelper {
         }
     }
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int maxHeight,  int pixels) {
-
+        maxHeight = (int)(getApplicationContext().getResources().getDisplayMetrics().density * maxHeight);
         float scale = bitmap.getHeight() * 1.0f / maxHeight;
         int newWidth = (int)(bitmap.getWidth() / scale);
 

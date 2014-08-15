@@ -33,6 +33,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
@@ -222,19 +224,30 @@ public class VKShareDialog extends DialogFragment {
         } else {
             mAttachmentLinkLayout.setVisibility(View.GONE);
         }
-        return new AlertDialog.Builder(context)
-                .setView(mInternalView)
-                .setCancelable(true)
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        if (mListener != null) {
-                            mListener.onVkShareCancel();
-                        }
-                        VKShareDialog.this.dismiss();
-                    }
-                })
-                .create();
+        Dialog result = new Dialog(context);
+        result.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        result.setContentView(mInternalView);
+        result.setCancelable(true);
+        result.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                if (mListener != null) {
+                    mListener.onVkShareCancel();
+                }
+                VKShareDialog.this.dismiss();
+            }
+        });
+        return result;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(getDialog().getWindow().getAttributes());
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width  = WindowManager.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setAttributes(lp);
     }
 
     @Override

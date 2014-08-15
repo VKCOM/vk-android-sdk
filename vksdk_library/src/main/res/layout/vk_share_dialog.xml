@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/vk_white"
     android:orientation="vertical"
     tools:context="com.vk.sdk.dialogs.VKShareDialog"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center"
+
     >
     <View
         android:layout_width="0dp"
@@ -15,6 +17,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"/>
     <RelativeLayout
+        android:id="@+id/topBarLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/vk_share_top_panel_height"
         android:background="@color/vk_share_top_blue_color">
@@ -78,15 +81,16 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:layout_below="@+id/topBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+
         >
 
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-
             android:layout_weight="1"
             android:fillViewport="true"
             >
@@ -110,7 +114,8 @@
                     android:hint="@string/vk_new_message_text"
                     android:inputType="textCapSentences|textMultiLine"
                     android:textColorHint="@color/vk_share_link_color"
-                    android:textSize="@dimen/vk_share_title_text_size"/>
+                    android:textSize="@dimen/vk_share_title_text_size"
+                    />
 
                 <HorizontalScrollView
                     android:id="@+id/imagesScrollView"
@@ -178,6 +183,4 @@
                 android:textColor="@color/vk_share_blue_color" />
         </LinearLayout>
     </LinearLayout>
-
-
-</LinearLayout>
+</RelativeLayout>
