@@ -44,6 +44,7 @@ public class VKScope {
     public static final String ADS = "ads";
     public static final String OFFLINE = "offline";
     public static final String NOHTTPS = "nohttps";
+    public static final String DIRECT = "direct";
 
     /**
      * Converts integer value of permissions into arraylist of constants

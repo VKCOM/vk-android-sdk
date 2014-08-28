@@ -23,6 +23,8 @@ package com.vk.sdk.api.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -41,6 +43,10 @@ public class VKApiCountry extends VKApiModel implements Parcelable, Identifiable
      */
     public String title;
 
+	public VKApiCountry(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills a Country instance from JSONObject.
      */

@@ -23,10 +23,12 @@ package com.vk.sdk.api.photo;
 
 import com.vk.sdk.VKObject;
 
+import java.io.Serializable;
+
 /**
  * Parameters used for uploading image into VK servers
  */
-public class VKImageParameters extends VKObject {
+public class VKImageParameters extends VKObject implements Serializable {
     /**
      * Describes image representation type
      */

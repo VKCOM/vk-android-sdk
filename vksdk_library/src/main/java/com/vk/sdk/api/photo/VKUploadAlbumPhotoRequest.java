@@ -46,14 +46,14 @@ public class VKUploadAlbumPhotoRequest extends VKUploadPhotoBase {
         super();
         mAlbumId = albumId;
         mGroupId = groupId;
-        mImage = image;
+        mImages  = new File[]{image};
     }
 
     public VKUploadAlbumPhotoRequest(VKUploadImage image, long albumId, long groupId) {
         super();
         mAlbumId = albumId;
         mGroupId = groupId;
-        mImage = image.getTmpFile();
+        mImages = new File[]{image.getTmpFile()};
     }
 
     protected VKRequest getServerRequest() {

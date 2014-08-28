@@ -29,6 +29,8 @@
 package com.vk.sdk.api.model;
 
 import android.os.Parcel;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import static com.vk.sdk.api.model.VKAttachments.*;
 
@@ -72,6 +74,10 @@ public class VKApiLink extends VKAttachments.VKApiAttachment implements android.
         this.url = url;
     }
 
+	public VKApiLink(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills a Link instance from JSONObject.
      */

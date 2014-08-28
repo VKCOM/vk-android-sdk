@@ -22,6 +22,7 @@
 package com.vk.sdk.api;
 
 import com.vk.sdk.api.methods.VKApiFriends;
+import com.vk.sdk.api.methods.VKApiGroups;
 import com.vk.sdk.api.methods.VKApiPhotos;
 import com.vk.sdk.api.methods.VKApiUsers;
 import com.vk.sdk.api.methods.VKApiWall;
@@ -66,6 +67,11 @@ public class VKApi {
         return new VKApiPhotos();
     }
 
+    /**
+     * https://vk.com/dev/groups
+     * Returns object for preparing requests to groups part of API
+     */
+    public static VKApiGroups groups() { return new VKApiGroups(); }
     /**
      * Upload a specified file to VK servers for posting on user or group wall
      * @param image Image file to upload. Must have extension jpg or png

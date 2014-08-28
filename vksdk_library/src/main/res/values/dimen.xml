@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="vk_share_dialog_padding">10dp</dimen>
+    <dimen name="vk_share_dialog_padding_top">6dp</dimen>
+    <dimen name="vk_share_settings_button_min_height">48dp</dimen>
+    <dimen name="vk_share_top_panel_height">48dp</dimen>
+    <dimen name="vk_share_top_line_margin">8dp</dimen>
+    <dimen name="vk_share_top_image_margin">6dp</dimen>
+    <dimen name="vk_share_top_title_margin">5dp</dimen>
+    <dimen name="vk_share_top_button_padding_left">1dp</dimen>
+    <dimen name="vk_share_top_button_padding_right">14dp</dimen>
+    <dimen name="vk_share_send_button_margin">3dp</dimen>
+    <dimen name="vk_share_send_text_size">12sp</dimen>
+    <dimen name="vk_share_title_text_size">18sp</dimen>
+    <dimen name="vk_share_title_link_title_size">16sp</dimen>
+    <dimen name="vk_share_title_link_host_size">15sp</dimen>
+    <dimen name="vk_share_text_size">17sp</dimen>
+    <dimen name="vk_share_link_top_margin">2dp</dimen>
+</resources>

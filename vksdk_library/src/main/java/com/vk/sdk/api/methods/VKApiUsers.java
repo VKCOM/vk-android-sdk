@@ -25,7 +25,6 @@ import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKParser;
 import com.vk.sdk.api.VKRequest;
-import com.vk.sdk.api.model.VKApiUser;
 import com.vk.sdk.api.model.VKApiUserFull;
 import com.vk.sdk.api.model.VKList;
 import com.vk.sdk.api.model.VKUsersArray;

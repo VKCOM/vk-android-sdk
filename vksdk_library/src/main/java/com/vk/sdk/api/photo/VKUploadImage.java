@@ -31,11 +31,12 @@ import com.vk.sdk.VKUIHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * Contains image data with image description
  */
-public class VKUploadImage extends VKObject {
+public class VKUploadImage extends VKObject implements Serializable {
     /**
      * Bitmap representation of image
      */
@@ -51,7 +52,7 @@ public class VKUploadImage extends VKObject {
     }
 
     public File getTmpFile() {
-        Context ctx = VKUIHelper.getTopActivity();
+        Context ctx = VKUIHelper.getApplicationContext();
         File outputDir = null;
         if (ctx != null) {
             outputDir = ctx.getExternalCacheDir();

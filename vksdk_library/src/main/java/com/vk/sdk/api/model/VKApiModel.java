@@ -55,6 +55,12 @@ public abstract class VKApiModel implements Parcelable {
      */
     private SparseArray<Object> mKeyedTags;
 
+	/**
+	 * Creates empty model
+	 */
+	public VKApiModel() {
+
+	}
     /**
      * Returns this model's tag.
      *
@@ -110,6 +116,10 @@ public abstract class VKApiModel implements Parcelable {
         mKeyedTags.put(key, tag);
     }
 
+	public VKApiModel(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Parses object from source.
      * @param response server API object.

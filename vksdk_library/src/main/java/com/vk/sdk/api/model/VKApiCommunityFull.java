@@ -222,6 +222,10 @@ public class VKApiCommunityFull extends VKApiCommunity implements Parcelable {
      */
     public boolean blacklisted;
 
+    public VKApiCommunityFull() {
+        super();
+    }
+
     public VKApiCommunityFull parse(JSONObject jo) {
         super.parse(jo);
 
@@ -329,12 +333,16 @@ public class VKApiCommunityFull extends VKApiCommunity implements Parcelable {
         public String email;
         public String desc;
 
-        public Contact parse(JSONObject from) {
-            user_id = from.optInt("user_id");
-            desc = from.optString("desc");
-            email = from.optString("email");
-            return this;
+        public Contact(JSONObject from) {
+            parse(from);
         }
+
+	    public Contact parse(JSONObject from) {
+		    user_id = from.optInt("user_id");
+		    desc = from.optString("desc");
+		    email = from.optString("email");
+		    return this;
+	    }
 
         @Override
         public int describeContents() {
@@ -386,22 +394,25 @@ public class VKApiCommunityFull extends VKApiCommunity implements Parcelable {
         public String desc;
         public VKPhotoSizes photo = new VKPhotoSizes();
 
-        public Link parse(JSONObject from) {
-            url = from.optString("url");
-            name = from.optString("name");
-            desc = from.optString("desc");
-
-            String photo_50 = from.optString("photo_50");
-            if(!TextUtils.isEmpty(photo_50)) {
-                photo.add(VKApiPhotoSize.create(photo_50, 50));
-            }
-            String photo_100 = from.optString("photo_100");
-            if(!TextUtils.isEmpty(photo_100)) {
-                photo.add(VKApiPhotoSize.create(photo_100, 100));
-            }
-            photo.sort();
-            return this;
+        public Link(JSONObject from) {
+            parse(from);
         }
+	    public Link parse(JSONObject from) {
+		    url = from.optString("url");
+		    name = from.optString("name");
+		    desc = from.optString("desc");
+
+		    String photo_50 = from.optString("photo_50");
+		    if(!TextUtils.isEmpty(photo_50)) {
+			    photo.add(VKApiPhotoSize.create(photo_50, 50));
+		    }
+		    String photo_100 = from.optString("photo_100");
+		    if(!TextUtils.isEmpty(photo_100)) {
+			    photo.add(VKApiPhotoSize.create(photo_100, 100));
+		    }
+		    photo.sort();
+		    return this;
+	    }
 
         @Override
         public int describeContents() {

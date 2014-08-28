@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vk.vktestapp"
-    android:versionCode="1"
-    android:versionName="1.0" >
-
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="19" />
+    package="com.vk.vktestapp" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -18,6 +12,12 @@
         <activity android:name="com.vk.sdk.VKOpenAuthActivity" />
         <activity android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize|stateVisible" >
+            <intent-filter>
+                <data android:scheme="vk3974615" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -24,6 +24,8 @@ package com.vk.sdk.api.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import static com.vk.sdk.api.model.VKAttachments.*;
 
@@ -86,6 +88,10 @@ public class VKApiDocument extends VKApiAttachment implements Parcelable, Identi
     private boolean mIsGif;
     private boolean mIsImage;
 
+	public VKApiDocument(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills a Doc instance from JSONObject.
      */

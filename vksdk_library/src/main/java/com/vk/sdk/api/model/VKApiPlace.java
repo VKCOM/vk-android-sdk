@@ -23,6 +23,8 @@ package com.vk.sdk.api.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -81,6 +83,10 @@ public class VKApiPlace extends VKApiModel implements Parcelable, Identifiable {
      */
     public String address;
 
+	public VKApiPlace(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills a Place instance from JSONObject.
      */

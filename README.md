@@ -1,7 +1,7 @@
 vk-android-sdk
 ==========
 
-Library for working with VK API, authorization through VK app, using VK functions. Minimal version of Android is 2.2
+Library for working with VK API, authorization through VK app, using VK functions. Minimal version of Android is 2.3
 
 Prepare for Using VK SDK
 ----------
@@ -20,6 +20,7 @@ Fingerprint Receiving via Keytool
 * C:\Users\<user>\.android\ for Windows Vista, Windows 7 and Windows 8.
 
 The keystore for the release version is usually created by a programmer, so you should create it or recall its location. 
+
 2) After the keystore's location has been found, use keytool utilite (it is supplied with the Java SDK). You can get keys list with the following command:
 <blockquote>keytool -exportcert -alias androiddebugkey -keystore path-to-debug-or-production-keystore -list -v</blockquote>
 You will observe a similar result:
@@ -76,11 +77,22 @@ Your file can be like that:
 Connecting Without Gradle
 ----------
 If your project doesn't support Gradle, you can add SDK by the following way:
+
 1) Open <b>Project Settings</b> and select <b>Modules</b>.
+
 2) Click the <b>Add</b> (+) button and select <b>Import module</b>
+
 3) Find the directory with VK SDK and select <b>vksdk_library</b>, click <b>Add</b>.
+
 4) Select <b>Create module from existing sources</b>, then click <b>Next</b> two times. Rename the module from "main" to "vksdk", then click <b>Next</b>.
+
 5) Add the new <b>vksdk</b> module as a dependency to your app's module.
+
+Connecting With Maven
+----------
+You can add next maven dependency in your project:
+
+`com.vk:androidsdk:+`
 
 Connecting Using Eclipse
 ----------

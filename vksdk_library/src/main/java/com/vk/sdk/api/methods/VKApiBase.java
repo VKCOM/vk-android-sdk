@@ -21,7 +21,6 @@
 
 package com.vk.sdk.api.methods;
 
-import com.vk.sdk.api.VKDefaultParser;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKParser;
 import com.vk.sdk.api.VKRequest;

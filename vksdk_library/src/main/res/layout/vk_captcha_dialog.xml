@@ -39,5 +39,5 @@
         android:textColor="@color/vk_color"
         android:textColorHint="@color/vk_light_color"
         android:imeOptions="actionSend"
-        android:inputType="textVisiblePassword"/>
+        android:inputType="textNoSuggestions"/>
 </RelativeLayout>

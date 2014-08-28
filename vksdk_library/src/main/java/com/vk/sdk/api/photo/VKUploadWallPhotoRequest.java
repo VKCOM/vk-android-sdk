@@ -43,14 +43,23 @@ public class VKUploadWallPhotoRequest extends VKUploadPhotoBase {
         super();
         mUserId = userId;
         mGroupId = groupId;
-        mImage = image;
+        mImages = new File[]{image};
     }
 
     public VKUploadWallPhotoRequest(VKUploadImage image, long userId, int groupId) {
         super();
         mUserId = userId;
         mGroupId = groupId;
-        mImage = image.getTmpFile();
+        mImages = new File[]{image.getTmpFile()};
+    }
+    public VKUploadWallPhotoRequest(VKUploadImage[] images, long userId, int groupId) {
+        super();
+        mUserId = userId;
+        mGroupId = groupId;
+        mImages = new File[images.length];
+        for (int i = 0; i < images.length; i++) {
+            mImages[i] = images[i].getTmpFile();
+        }
     }
 
     @Override

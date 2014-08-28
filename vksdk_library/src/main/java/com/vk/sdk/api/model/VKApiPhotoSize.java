@@ -32,6 +32,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -214,6 +215,10 @@ public class VKApiPhotoSize extends VKApiModel implements Comparable<VKApiPhotoS
         }
     };
 
+	public VKApiPhotoSize(JSONObject from) throws JSONException
+	{
+		parse(from, 0, 0);
+	}
     /**
      * Creates dimension from {@code source}. Used in parsing.
      * If size is not specified copies calculates them based on internal algorithms.

@@ -1,39 +1,30 @@
-import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
-
-apply plugin: 'android-library'
-
-repositories {
-    mavenCentral()
-    maven() { url "${System.env.ANDROID_HOME}/extras/android/m2repository/"}
-}
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 19
+        minSdkVersion 9
+        targetSdkVersion 20
     }
 }
 
 configurations {
-    // Dependencies in this scope will be installed under maven build
-    externalCompile
-    compile.extendsFrom externalCompile
-
     // Used for correct javadoc generation
     javadoc.extendsFrom compile
 }
 
 dependencies {
-    externalCompile 'com.android.support:support-v4:19.0.1'
-    
     javadoc 'org.apache.httpcomponents:httpclient:4.0.1'
     javadoc 'org.json:json:20080701'
     javadoc 'com.google.android:annotations:4.1.1.4@jar'
+    compile 'com.android.support:support-v4:20.0.0'
 }
 
+<<<<<<< HEAD
 if (rootProject.tasks.hasProperty('mavenBuild')) {
     task apklib(type: Copy, dependsOn: rootProject.tasks.mavenBuild) {
         from fileTree("${project.projectDir}/target") { include "*.apklib" }
@@ -64,6 +55,9 @@ if(project.hasProperty('officialBuild')) {
     apply plugin: 'maven'
     apply plugin: 'signing'
     
+=======
+if (project.hasProperty('officialBuild')) {
+>>>>>>> 83435b20fbf3e1de780a43ca54ba5d399d23dcce
     def String releaseRepositoryUrl = hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL : 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
     def String snapshotRepositoryUrl = hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL : 'https://oss.sonatype.org/content/repositories/snapshots/'
     def String repositoryUsername = hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ''
@@ -75,10 +69,10 @@ if(project.hasProperty('officialBuild')) {
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
                 pom.project {
-                    artifactId = 'library'
+                    artifactId = 'androidsdk'
                     name = 'VK API library'
                     packaging = 'aar'
-                    description = 'Main VK API library'
+                    description = 'Main VK Android API library'
                     url = 'https://github.com/VKCOM/vk-android-sdk'
                     scm {
                         url 'https://github.com/VKCOM/vk-android-sdk'
@@ -87,12 +81,30 @@ if(project.hasProperty('officialBuild')) {
                     }
                     licenses {
                         license {
-                            name 'MIT License'
-                            url 'https://github.com/Prototik/vk-android-sdk/raw/master/LICENSE'
+                            name "MIT License"
+                            url 'https://github.com/VKCOM/vk-android-sdk/raw/master/LICENSE'
                             distribution 'repo'
                         }
                     }
+<<<<<<< HEAD
                 }>
+=======
+                    developers {
+                        developer {
+                            id 'dreddik'
+                            name 'Roman Truba'
+                            email 'roman@vk.com'
+                            url 'http://vk.com'
+                            organization 'VK'
+                            organizationUrl 'http://vk.com'
+                            roles {
+                                role 'developer'
+                            }
+                            timezone '+4'
+                        }
+                    }
+                }
+>>>>>>> 83435b20fbf3e1de780a43ca54ba5d399d23dcce
 
                 repository(url: releaseRepositoryUrl) {
                     authentication(userName: repositoryUsername, password: repositoryPassword)
@@ -104,14 +116,31 @@ if(project.hasProperty('officialBuild')) {
         }
     }
 
+    task javadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.sourceFiles
+        classpath = project.files(configurations.javadoc,
+                "${buildDir}/classes/release",
+                project.fileTree("${buildDir}/exploded-bundles") { include '*/classes.jar' },
+                new File((File) (android.plugin.sdkFolder), "platforms/${android.compileSdkVersion}/android.jar"))
+    }
+
+    task javadocJar(type: Jar, dependsOn: tasks.javadoc) {
+        from tasks.javadoc.destinationDir
+        classifier = 'javadoc'
+    }
+
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.sourceFiles
+        classifier = 'sources'
+    }
+
     signing {
         required true
         sign configurations.archives
     }
-    
+
     artifacts {
         archives tasks.javadocJar
         archives tasks.sourcesJar
-        archives new DefaultPublishArtifact(project.name, 'apklib', 'apklib', '', new Date(), file("${project.buildDir}/libs/${project.name}-${project.version}.apklib"), tasks.apklib)
     }
 }

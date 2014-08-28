@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/vk_white"
+    android:orientation="vertical"
+    tools:context="com.vk.sdk.dialogs.VKShareDialog"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center"
+
+    >
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+    <RelativeLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vk_share_top_panel_height"
+        android:background="@color/vk_share_top_blue_color">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/sendButtonLayout"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_ab_app"
+                android:layout_marginLeft="@dimen/vk_share_top_image_margin"
+                android:scaleType="fitCenter"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/vk_share"
+                android:gravity="center_vertical"
+                android:textColor="@color/vk_white"
+                android:textSize="@dimen/vk_share_title_text_size"
+                android:layout_marginLeft="@dimen/vk_share_top_title_margin"/>
+            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/sendButtonLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/vk_share_top_line_margin"
+                android:background="#3fff" />
+
+            <ProgressBar
+                android:id="@+id/sendProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:indeterminate="true"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/sendButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/vk_share_send_button_background"
+                android:drawableLeft="@drawable/ic_ab_done"
+                android:drawablePadding="3dp"
+                android:text="@string/vk_send"
+                android:textAllCaps="true"
+                android:textSize="@dimen/vk_share_send_text_size"
+                android:textStyle="bold"
+                android:paddingLeft="@dimen/vk_share_top_button_padding_left"
+                android:paddingRight="@dimen/vk_share_top_button_padding_right"
+                android:textColor="@color/vk_white"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/topBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        >
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            >
+
+            <LinearLayout
+                android:id="@+id/postContentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/vk_share_dialog_padding"
+                android:paddingRight="@dimen/vk_share_dialog_padding"
+                android:paddingBottom="@dimen/vk_share_dialog_padding"
+                android:paddingTop="@dimen/vk_share_dialog_padding_top">
+
+                <EditText
+                    android:id="@+id/shareText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/vk_clear"
+                    android:textColor="@color/vk_black"
+                    android:hint="@string/vk_new_message_text"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:textColorHint="@color/vk_share_link_color"
+                    android:textSize="@dimen/vk_share_title_text_size"
+                    />
+
+                <HorizontalScrollView
+                    android:id="@+id/imagesScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vk_share_dialog_padding">
+
+                    <LinearLayout
+                        android:id="@+id/imagesContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        />
+                </HorizontalScrollView>
+                <LinearLayout
+                    android:id="@+id/attachmentLinkLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/vk_share_top_image_margin"
+                    android:layout_marginBottom="@dimen/vk_share_link_top_margin"
+                    android:visibility="gone"
+                    >
+                    <TextView
+                        android:id="@+id/linkTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/vk_share_link_title_color"
+                        android:textSize="@dimen/vk_share_title_link_title_size"
+                        android:lines="1"
+                        android:ellipsize="end"/>
+                    <TextView
+                        android:id="@+id/linkHost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/vk_share_link_color"
+                        android:lines="1"
+                        android:textSize="@dimen/vk_share_title_link_host_size"
+                        android:ellipsize="end"
+                        android:layout_marginTop="-1dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/postSettingsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/vk_share_settings_button_min_height"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/vk_share_gray_line"
+                android:layout_marginLeft="@dimen/vk_share_dialog_padding"
+                android:layout_marginRight="@dimen/vk_share_dialog_padding"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/vk_share_send_button_background"
+                android:text="@string/vk_new_post_settings"
+                android:textColor="@color/vk_share_blue_color" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

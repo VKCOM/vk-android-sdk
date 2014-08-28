@@ -55,7 +55,7 @@ public abstract class VKUploadPhotoBase extends VKRequest {
     /**
      * Image to upload
      */
-    protected File mImage;
+    protected File[] mImages;
 
     protected abstract VKRequest getServerRequest();
 
@@ -110,7 +110,7 @@ public abstract class VKUploadPhotoBase extends VKRequest {
                 public void onComplete(VKResponse response) {
                     try {
                         VKJsonOperation postFileRequest = new VKJsonOperation(
-                                VKHttpClient.fileUploadRequest(response.json.getJSONObject("response").getString("upload_url"), mImage));
+                                VKHttpClient.fileUploadRequest(response.json.getJSONObject("response").getString("upload_url"), mImages));
                         postFileRequest.setJsonOperationListener(new VKJSONOperationCompleteListener() {
                             @Override
                             public void onComplete(VKJsonOperation operation,
@@ -144,7 +144,7 @@ public abstract class VKUploadPhotoBase extends VKRequest {
                     } catch (JSONException e) {
                         if (VKSdk.DEBUG)
                             e.printStackTrace();
-                        VKError error = new VKError(VKError.VK_API_JSON_FAILED);
+                        VKError error = new VKError(VKError.VK_JSON_FAILED);
                         error.httpError = e;
                         error.errorMessage = e.getMessage();
                         requestListener.onError(error);

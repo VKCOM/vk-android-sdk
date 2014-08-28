@@ -32,7 +32,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -54,6 +53,7 @@ public class VKOpenAuthActivity extends Activity {
     public static final String VK_RESULT_INTENT_NAME = "com.vk.auth-token";
     public static final String VK_EXTRA_TOKEN_DATA = "extra-token-data";
 	public static final String VK_EXTRA_VALIDATION_URL = "extra-validation-url";
+    public static final String VK_EXTRA_VALIDATION_REQUEST = "extra-validation-reques";
 
     private static final String REDIRECT_URL = "https://oauth.vk.com/blank.html";
 
@@ -120,6 +120,8 @@ public class VKOpenAuthActivity extends Activity {
                 data.putExtra(VK_EXTRA_TOKEN_DATA, url.substring(url.indexOf('#') + 1));
                 if (getIntent().hasExtra(VK_EXTRA_VALIDATION_URL))
                     data.putExtra(VK_EXTRA_VALIDATION_URL, true);
+                if (getIntent().hasExtra(VK_EXTRA_VALIDATION_REQUEST))
+                    data.putExtra(VK_EXTRA_VALIDATION_REQUEST, getIntent().getLongExtra(VK_EXTRA_VALIDATION_REQUEST,0));
                 setResult(RESULT_OK, data);
                 finish();
                 return true;

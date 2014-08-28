@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,14 +26,14 @@ import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKRequest.VKRequestListener;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.methods.VKApiCaptcha;
-import com.vk.sdk.api.model.VKApiLink;
 import com.vk.sdk.api.model.VKApiPhoto;
 import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKPhotoArray;
+import com.vk.sdk.api.model.VKUsersArray;
 import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKImageParameters;
 import com.vk.sdk.api.photo.VKUploadImage;
-import com.vk.sdk.util.VKStringJoiner;
+import com.vk.sdk.dialogs.VKShareDialog;
 
 import java.io.IOException;
 
@@ -78,7 +79,7 @@ public class TestActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        VKUIHelper.onActivityResult(requestCode, resultCode, data);
+        VKUIHelper.onActivityResult(this, requestCode, resultCode, data);
     }
 
     /**
@@ -97,16 +98,29 @@ public class TestActivity extends ActionBarActivity {
             view.findViewById(R.id.users_get).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS,
-//                            "id,first_name,last_name,sex,bdate,city,country,photo_50,photo_100," +
-//                            "photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online," +
-//                            "online_mobile,lists,domain,has_mobile,contacts,connections,site,education," +
-//                            "universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message," +
-//                            "status,last_seen,common_count,relation,relatives,counters"));
-                    VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.USER_IDS, "1,2"));
+                    VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS,
+                            "id,first_name,last_name,sex,bdate,city,country,photo_50,photo_100," +
+                            "photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online," +
+                            "online_mobile,lists,domain,has_mobile,contacts,connections,site,education," +
+                            "universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message," +
+                            "status,last_seen,common_count,relation,relatives,counters"));
+//                    VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.USER_IDS, "1,2"));
                     request.secure = false;
                     request.useSystemLanguage = false;
                     startApiCall(request);
+
+                    VKRequest get = new VKRequest("users.get", VKParameters.from(VKApiConst.USER_IDS, "1,2,44", VKApiConst.FIELDS, "photo_50,sex"), VKRequest.HttpMethod.GET, VKUsersArray.class);
+                    get.executeWithListener(new VKRequestListener() {
+                        @Override
+                        public void onComplete(VKResponse response) {
+                            super.onComplete(response);
+                        }
+
+                        @Override
+                        public void onError(VKError error) {
+                            super.onError(error);
+                        }
+                    });
                 }
             });
 
@@ -129,7 +143,7 @@ public class TestActivity extends ActionBarActivity {
             view.findViewById(R.id.wall_post).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    makePost(null, "Привет, друзья!");
+                    makePost(null, "Hello, friends!");
                 }
             });
 
@@ -155,23 +169,59 @@ public class TestActivity extends ActionBarActivity {
                 }
             });
 
+            view.findViewById(R.id.test_validation).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final VKRequest test = new VKRequest("account.testValidation");
+                    startApiCall(test);
+                }
+            });
+            view.findViewById(R.id.test_share).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final Bitmap b = getPhoto();
+                    VKPhotoArray photos = new VKPhotoArray();
+                    photos.add(new VKApiPhoto("photo-47200925_314622346"));
+                    new VKShareDialog()
+                            .setText("I created this post with VK Android SDK\nSee additional information below\n#vksdk")
+                            .setUploadedPhotos(photos)
+                            .setAttachmentImages(new VKUploadImage[]{
+                                    new VKUploadImage(b, VKImageParameters.pngImage())
+                            })
+                            .setAttachmentLink("VK Android SDK information", "https://vk.com/dev/android_sdk")
+                            .setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
+                                @Override
+                                public void onVkShareComplete(int postId) {
+                                    b.recycle();
+                                }
+
+                                @Override
+                                public void onVkShareCancel() {
+                                    b.recycle();
+                                }
+                            })
+                            .show(getFragmentManager(), "VK_SHARE_DIALOG");
+                }
+            });
+
             view.findViewById(R.id.upload_photo_to_wall).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-    final Bitmap photo = getPhoto();
-    VKRequest request = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.9f)), 0, 60479154);
-    request.executeWithListener(new VKRequestListener() {
-        @Override
-        public void onComplete(VKResponse response) {
-            photo.recycle();
-            VKApiPhoto photoModel = ((VKPhotoArray) response.parsedModel).get(0);
-            makePost(new VKAttachments(photoModel));
-        }
-        @Override
-        public void onError(VKError error) {
-            showError(error);
-        }
-    });
+                    final Bitmap photo = getPhoto();
+                    VKRequest request = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo, VKImageParameters.jpgImage(0.9f)), 0, 60479154);
+                    request.executeWithListener(new VKRequestListener() {
+                        @Override
+                        public void onComplete(VKResponse response) {
+                            photo.recycle();
+                            VKApiPhoto photoModel = ((VKPhotoArray) response.parsedModel).get(0);
+                            makePost(new VKAttachments(photoModel));
+                        }
+
+                        @Override
+                        public void onError(VKError error) {
+                            showError(error);
+                        }
+                    });
                 }
             });
 
@@ -189,6 +239,7 @@ public class TestActivity extends ActionBarActivity {
                         @Override
                         public void onComplete(VKResponse[] responses) {
                             super.onComplete(responses);
+                            photo.recycle();
                             VKAttachments attachments = new VKAttachments();
                             for (int i = 0; i < responses.length; i++) {
                                 VKApiPhoto photoModel = ((VKPhotoArray) responses[i].parsedModel).get(0);
@@ -222,7 +273,6 @@ public class TestActivity extends ActionBarActivity {
                 Log.w("Test", "Error in request or upload", error.httpError);
             }
         }
-
         private Bitmap getPhoto() {
             Bitmap b = null;
 
@@ -234,26 +284,27 @@ public class TestActivity extends ActionBarActivity {
 
             return b;
         }
-    private void makePost(VKAttachments attachments) {
-        makePost(attachments, null);
-    }
-    private void makePost(VKAttachments attachments, String message) {
-        VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments, VKApiConst.MESSAGE, message));
-        post.setModelClass(VKWallPostResult.class);
-        post.executeWithListener(new VKRequestListener() {
-            @Override
-            public void onComplete(VKResponse response) {
-                super.onComplete(response);
+        private void makePost(VKAttachments attachments) {
+            makePost(attachments, null);
+        }
+        private void makePost(VKAttachments attachments, String message) {
+            VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments, VKApiConst.MESSAGE, message));
+            post.setModelClass(VKWallPostResult.class);
+            post.executeWithListener(new VKRequestListener() {
+                @Override
+                public void onComplete(VKResponse response) {
+                    super.onComplete(response);
+                    VKWallPostResult result = (VKWallPostResult)response.parsedModel;
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-60479154_%s", result.post_id) ) );
+                    startActivity(i);
+                }
 
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-60479154_%s", ((VKWallPostResult)response.parsedModel).post_id) ) );
-                startActivity(i);
-            }
-
-            @Override
-            public void onError(VKError error) {
-                showError(error.apiError != null ? error.apiError : error);
-            }
-        });
-    }
+                @Override
+                public void onError(VKError error) {
+                    showError(error.apiError != null ? error.apiError : error);
+                }
+            });
+        }
     }
 }
+

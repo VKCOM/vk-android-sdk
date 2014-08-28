@@ -143,6 +143,10 @@ public class VKApiPost extends VKAttachments.VKApiAttachment implements Identifi
      */
     public VKList<VKApiPost> copy_history;
 
+	public VKApiPost(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills a Post instance from JSONObject.
      */

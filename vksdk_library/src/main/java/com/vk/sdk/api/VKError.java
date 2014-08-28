@@ -37,10 +37,29 @@ import java.util.Map;
  */
 public class VKError extends VKObject {
 	public static final int VK_API_ERROR = -101;
+    /**
+     * @deprecated Use VK_CANCELED instead
+     */
     public static final int VK_API_CANCELED = -102;
+    public static final int VK_CANCELED = -102;
+
+    /**
+     * @deprecated Use VK_REQUEST_NOT_PREPARED instead
+     */
     public static final int VK_API_REQUEST_NOT_PREPARED = -103;
+    public static final int VK_REQUEST_NOT_PREPARED = -103;
+
+    /**
+     * @deprecated Use VK_JSON_FAILED instead
+     */
     public static final int VK_API_JSON_FAILED = -104;
+    public static final int VK_JSON_FAILED = -104;
+
+    /**
+     * @deprecated Use VK_REQUEST_HTTP_FAILED instead
+     */
     public static final int VK_API_REQUEST_HTTP_FAILED = -105;
+    public static final int VK_REQUEST_HTTP_FAILED = -105;
 
     /**
      * Contains system HTTP error
@@ -119,6 +138,10 @@ public class VKError extends VKObject {
         this.apiError = internalError;
     }
 
+    private static final String FAIL = "fail";
+    private static final String ERROR_REASON = "error_reason";
+    private static final String ERROR_DESCRIPTION = "error_description";
+
     /**
      * Generate API error from HTTP-query
      *
@@ -126,8 +149,15 @@ public class VKError extends VKObject {
      */
     public VKError(Map<String, String> queryParams) {
         this.errorCode = VK_API_ERROR;
-        this.errorReason = queryParams.get("error_reason");
-        this.errorMessage = Uri.decode(queryParams.get("error_description"));
+        this.errorReason = queryParams.get(ERROR_REASON);
+        this.errorMessage = Uri.decode(queryParams.get(ERROR_DESCRIPTION));
+        if (queryParams.containsKey(FAIL)) {
+            this.errorReason = "Action failed";
+        }
+        if (queryParams.containsKey("cancel")) {
+            this.errorCode   = VK_CANCELED;
+            this.errorReason = "User canceled request";
+        }
     }
 
     /**
@@ -146,43 +176,42 @@ public class VKError extends VKObject {
         return (VKError) getRegisteredObject(requestId);
     }
 
+    private void appendFields(StringBuilder builder) {
+        if (errorReason != null)
+            builder.append(String.format("; %s", errorReason));
+        if (errorMessage != null)
+            builder.append(String.format("; %s", errorMessage));
+    }
+
 	@Override public String toString()
 	{
 		StringBuilder errorString = new StringBuilder("VKError (");
 		switch (this.errorCode) {
 			case VK_API_ERROR:
-				errorString.append("API error: " + apiError.toString());
+				errorString.append("API error");
+                if (apiError != null) {
+                    errorString.append(apiError.toString());
+                }
 				break;
-			case VK_API_CANCELED:
+			case VK_CANCELED:
 				errorString.append("Canceled");
 				break;
-			case VK_API_REQUEST_NOT_PREPARED:
+			case VK_REQUEST_NOT_PREPARED:
 				errorString.append("Request wasn't prepared");
 				break;
-			case VK_API_JSON_FAILED:
-				errorString.append("JSON failed: ");
-				if (errorReason != null)
-					errorString.append(String.format("%s; ", errorReason));
-				if (errorMessage != null)
-					errorString.append(String.format("%s; ", errorMessage));
+			case VK_JSON_FAILED:
+				errorString.append("JSON failed");
+
 				break;
-			case VK_API_REQUEST_HTTP_FAILED:
-				errorString.append("HTTP failed: ");
-				if (errorReason != null)
-					errorString.append(String.format("%s; ", errorReason));
-				if (errorMessage != null)
-					errorString.append(String.format("%s; ", errorMessage));
+			case VK_REQUEST_HTTP_FAILED:
+				errorString.append("HTTP failed");
 				break;
 
 			default:
 				errorString.append(String.format("code: %d; ", errorCode));
-				if (errorReason != null)
-					errorString.append(String.format("reason: %s; ", errorReason));
-				if (errorMessage != null)
-					errorString.append(String.format("message: %s; ", errorMessage));
 				break;
-
 		}
+        appendFields(errorString);
 		errorString.append(")");
 		return errorString.toString();
 	}

@@ -41,6 +41,8 @@ public class VKAccessToken {
     public static final String SECRET = "secret";
     public static final String HTTPS_REQUIRED = "https_required";
     public static final String CREATED = "created";
+    public static final String SUCCESS = "success";
+
     /**
      * String token for use in request parameters
      */
@@ -159,12 +161,16 @@ public class VKAccessToken {
 
             if (parameters.containsKey(HTTPS_REQUIRED)) {
                 token.httpsRequired = parameters.get(HTTPS_REQUIRED).equals("1");
+            } else if (token.secret == null) {
+                token.httpsRequired = true;
             }
+
             if (parameters.containsKey(CREATED)) {
                 token.created = Long.parseLong(parameters.get(CREATED));
             } else {
                 token.created = System.currentTimeMillis();
             }
+
             return token;
         } catch (Exception e) {
             return null;

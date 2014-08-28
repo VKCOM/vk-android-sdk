@@ -29,6 +29,8 @@
 package com.vk.sdk.api.model;
 
 import android.os.Parcel;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import static com.vk.sdk.api.model.VKAttachments.*;
 
@@ -108,6 +110,10 @@ public class VKApiWikiPage extends VKAttachments.VKApiAttachment implements andr
      */
     public String parent2;
 
+	public VKApiWikiPage(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills a WikiPage instance from JSONObject.
      */

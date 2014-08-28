@@ -31,6 +31,7 @@ package com.vk.sdk.api.model;
 import android.os.Parcel;
 import android.text.TextUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -109,6 +110,10 @@ public class VKApiUser extends VKApiOwner implements android.os.Parcelable {
      */
     public VKPhotoSizes photo = new VKPhotoSizes();
 
+	public VKApiUser(JSONObject from) throws JSONException
+	{
+		parse(from);
+	}
     /**
      * Fills an user object from server response.
      */

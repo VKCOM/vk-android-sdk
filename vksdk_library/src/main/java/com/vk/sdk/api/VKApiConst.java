@@ -99,6 +99,7 @@ public class VKApiConst {
 
     //Photos
     public static final String PHOTO = "photo";
+    public static final String PHOTOS = "photos";
     public static final String ALBUM_ID = "album_id";
     public static final String PHOTO_IDS = "photo_ids";
     public static final String PHOTO_SIZES = "photo_sizes";
