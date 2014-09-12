@@ -606,7 +606,7 @@ public class VKRequest extends VKObject {
      * Created by Roman Truba on 02.12.13.
      * Copyright (c) 2013 VK. All rights reserved.
      */
-    public static abstract class VKRequestListener implements Serializable {
+    public static abstract class VKRequestListener {
         /**
          * Called if there were no HTTP or API errors, returns execution result.
          *

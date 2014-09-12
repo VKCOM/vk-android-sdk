@@ -23,6 +23,8 @@ package com.vk.sdk.api.photo;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.vk.sdk.VKObject;
 import com.vk.sdk.VKSdk;
@@ -36,7 +38,7 @@ import java.io.Serializable;
 /**
  * Contains image data with image description
  */
-public class VKUploadImage extends VKObject implements Serializable {
+public class VKUploadImage extends VKObject implements Parcelable {
     /**
      * Bitmap representation of image
      */
@@ -74,4 +76,30 @@ public class VKUploadImage extends VKObject implements Serializable {
         }
         return tmpFile;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.mImageData, 0);
+        dest.writeParcelable(this.mParameters, 0);
+    }
+
+    private VKUploadImage(Parcel in) {
+        this.mImageData = in.readParcelable(Bitmap.class.getClassLoader());
+        this.mParameters = in.readParcelable(VKImageParameters.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<VKUploadImage> CREATOR = new Parcelable.Creator<VKUploadImage>() {
+        public VKUploadImage createFromParcel(Parcel source) {
+            return new VKUploadImage(source);
+        }
+
+        public VKUploadImage[] newArray(int size) {
+            return new VKUploadImage[size];
+        }
+    };
 }
