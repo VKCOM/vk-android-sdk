@@ -21,7 +21,7 @@ public class VKApiGroups extends VKApiBase {
     }
 
     public VKRequest get(VKParameters params) {
-        if (((Integer) params.get("extended")) == 1) {
+        if (params.containsKey(VKApiConst.EXTENDED) && ((Integer) params.get(VKApiConst.EXTENDED)) == 1) {
             return prepareRequest("get", params, VKRequest.HttpMethod.GET, VKApiCommunityArray.class);
         } else {
             return prepareRequest("get", params);

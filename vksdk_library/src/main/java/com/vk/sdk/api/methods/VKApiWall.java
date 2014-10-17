@@ -21,6 +21,7 @@
 
 package com.vk.sdk.api.methods;
 
+import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.model.VKCommentArray;
@@ -31,9 +32,9 @@ import com.vk.sdk.api.model.VKWallPostResult;
  * Builds requests for API.wall part
  */
 public class VKApiWall extends VKApiBase {
-
+    public static final String EXTENDED = VKApiConst.EXTENDED;
     public VKRequest get(VKParameters params) {
-        if (((Integer) params.get("extended")) == 1) {
+        if (params.containsKey(EXTENDED) && (Integer)(params.get(EXTENDED)) == 1) {
             return prepareRequest("get", params, VKRequest.HttpMethod.GET, VKPostArray.class);
         } else {
             return prepareRequest("get", params);
@@ -41,7 +42,7 @@ public class VKApiWall extends VKApiBase {
     }
 
     public VKRequest getById(VKParameters params) {
-        if (((Integer) params.get("extended")) == 1) {
+        if (params.containsKey(EXTENDED) && ((Integer) params.get(EXTENDED)) == 1) {
             return prepareRequest("get", params, VKRequest.HttpMethod.GET, VKPostArray.class);
         } else {
             return prepareRequest("get", params);
