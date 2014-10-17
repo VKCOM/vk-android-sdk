@@ -58,7 +58,7 @@ public class VKUploadImage extends VKObject implements Parcelable {
         File outputDir = null;
         if (ctx != null) {
             outputDir = ctx.getExternalCacheDir();
-            if (outputDir == null)
+            if (outputDir == null || !outputDir.canWrite())
                 outputDir = ctx.getCacheDir();
         }
         File tmpFile = null;
