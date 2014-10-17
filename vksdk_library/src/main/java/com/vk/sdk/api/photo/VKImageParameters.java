@@ -21,6 +21,9 @@
 
 package com.vk.sdk.api.photo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.vk.sdk.VKObject;
 
 import java.io.Serializable;
@@ -28,7 +31,7 @@ import java.io.Serializable;
 /**
  * Parameters used for uploading image into VK servers
  */
-public class VKImageParameters extends VKObject implements Serializable {
+public class VKImageParameters extends VKObject implements Parcelable {
     /**
      * Describes image representation type
      */
@@ -90,4 +93,34 @@ public class VKImageParameters extends VKObject implements Serializable {
                 return "application/octet-stream";
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.mImageType == null ? -1 : this.mImageType.ordinal());
+        dest.writeFloat(this.mJpegQuality);
+    }
+
+    public VKImageParameters() {
+    }
+
+    private VKImageParameters(Parcel in) {
+        int tmpMImageType = in.readInt();
+        this.mImageType = tmpMImageType == -1 ? null : VKImageType.values()[tmpMImageType];
+        this.mJpegQuality = in.readFloat();
+    }
+
+    public static final Parcelable.Creator<VKImageParameters> CREATOR = new Parcelable.Creator<VKImageParameters>() {
+        public VKImageParameters createFromParcel(Parcel source) {
+            return new VKImageParameters(source);
+        }
+
+        public VKImageParameters[] newArray(int size) {
+            return new VKImageParameters[size];
+        }
+    };
 }

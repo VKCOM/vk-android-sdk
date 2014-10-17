@@ -27,6 +27,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -190,8 +192,8 @@ public class VKShareDialog extends DialogFragment {
         //Attachment text
         if (savedInstanceState != null) {
             mShareTextField.setText(savedInstanceState.getString(SHARE_TEXT_KEY));
-            mAttachmentLink   = (UploadingLink) savedInstanceState.getSerializable(SHARE_LINK_KEY);
-            mAttachmentImages = (VKUploadImage[]) savedInstanceState.getSerializable(SHARE_IMAGES_KEY);
+            mAttachmentLink   = savedInstanceState.getParcelable(SHARE_LINK_KEY);
+            mAttachmentImages = (VKUploadImage[]) savedInstanceState.getParcelableArray(SHARE_IMAGES_KEY);
             mExistingPhotos   = savedInstanceState.getParcelable(SHARE_UPLOADED_IMAGES_KEY);
         } else if (mAttachmentText != null) {
             mShareTextField.setText(mAttachmentText);
@@ -255,9 +257,9 @@ public class VKShareDialog extends DialogFragment {
         super.onSaveInstanceState(outState);
         outState.putString(SHARE_TEXT_KEY, mShareTextField.getText().toString());
         if (mAttachmentLink != null)
-            outState.putSerializable(SHARE_LINK_KEY, mAttachmentLink);
+            outState.putParcelable(SHARE_LINK_KEY, mAttachmentLink);
         if (mAttachmentImages != null)
-            outState.putSerializable(SHARE_IMAGES_KEY, mAttachmentImages);
+            outState.putParcelableArray(SHARE_IMAGES_KEY, mAttachmentImages);
         if (mExistingPhotos != null)
             outState.putParcelable(SHARE_UPLOADED_IMAGES_KEY, mExistingPhotos);
     }
@@ -398,12 +400,38 @@ public class VKShareDialog extends DialogFragment {
         }
     }
 
-    static private class UploadingLink implements Serializable {
+    static private class UploadingLink implements Parcelable {
         public String linkTitle, linkUrl;
         public UploadingLink(String title, String url) {
             linkTitle = title;
             linkUrl = url;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.linkTitle);
+            dest.writeString(this.linkUrl);
+        }
+
+        private UploadingLink(Parcel in) {
+            this.linkTitle = in.readString();
+            this.linkUrl = in.readString();
+        }
+
+        public static final Parcelable.Creator<UploadingLink> CREATOR = new Parcelable.Creator<UploadingLink>() {
+            public UploadingLink createFromParcel(Parcel source) {
+                return new UploadingLink(source);
+            }
+
+            public UploadingLink[] newArray(int size) {
+                return new UploadingLink[size];
+            }
+        };
     }
 
     public static interface VKShareDialogListener {
