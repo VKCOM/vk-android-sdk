@@ -115,6 +115,12 @@ UIHelper Applying
 SDK uses new activities' launch and displaying of some dialogs. This requires up to date information about what activity is now on the screen. So for the correct work of SDK in all of your activities you should to redefine the following methods:
 ```
 @Override
+protected void onCreate() {
+    super.onCreate();
+    VKUIHelper.onCreate(this);
+}
+
+@Override
 protected void onResume() {
     super.onResume();
     VKUIHelper.onResume(this);
