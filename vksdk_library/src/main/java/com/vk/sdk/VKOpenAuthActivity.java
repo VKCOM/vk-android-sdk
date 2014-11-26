@@ -56,6 +56,7 @@ public class VKOpenAuthActivity extends Activity {
     public static final String VK_EXTRA_VALIDATION_REQUEST = "extra-validation-reques";
 
     private static final String REDIRECT_URL = "https://oauth.vk.com/blank.html";
+    private static final String ERROR = "error";
 
     protected WebView mWebView;
 
@@ -117,12 +118,17 @@ public class VKOpenAuthActivity extends Activity {
         private boolean processUrl(String url) {
             if (url.startsWith(REDIRECT_URL)) {
                 Intent data = new Intent(VK_RESULT_INTENT_NAME);
-                data.putExtra(VK_EXTRA_TOKEN_DATA, url.substring(url.indexOf('#') + 1));
+                String extraData = url.substring(url.indexOf('#') + 1);
+                data.putExtra(VK_EXTRA_TOKEN_DATA, extraData);
                 if (getIntent().hasExtra(VK_EXTRA_VALIDATION_URL))
                     data.putExtra(VK_EXTRA_VALIDATION_URL, true);
                 if (getIntent().hasExtra(VK_EXTRA_VALIDATION_REQUEST))
                     data.putExtra(VK_EXTRA_VALIDATION_REQUEST, getIntent().getLongExtra(VK_EXTRA_VALIDATION_REQUEST,0));
-                setResult(RESULT_OK, data);
+                if (extraData.contains(ERROR)) {
+                    setResult(RESULT_CANCELED, data);
+                } else {
+                    setResult(RESULT_OK, data);
+                }
                 finish();
                 return true;
             }
