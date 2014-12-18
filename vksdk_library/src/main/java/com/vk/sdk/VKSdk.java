@@ -272,8 +272,9 @@ public class VKSdk {
                     for (String key : result.getExtras().keySet()) {
                         tokenParams.put(key, String.valueOf(result.getExtras().get(key)));
                     }
-                    return checkAndSetToken(tokenParams, false) != CheckTokenResult.None;
+                    if (checkAndSetToken(tokenParams, false) == CheckTokenResult.None) return false;
                 }
+                sInstance.trackVisitor();
                 return true;
             }
             return false;
@@ -387,6 +388,7 @@ public class VKSdk {
 
         if (sInstance.performTokenCheck(token, false)) {
             sInstance.mAccessToken = token;
+            sInstance.trackVisitor();
             return true;
         }
         return false;
@@ -403,5 +405,9 @@ public class VKSdk {
 
     public static boolean isLoggedIn() {
         return sInstance.mAccessToken != null && !sInstance.mAccessToken.isExpired();
+    }
+
+    private void trackVisitor() {
+        new VKRequest("stats.trackVisitor").executeWithListener(null);
     }
 }
