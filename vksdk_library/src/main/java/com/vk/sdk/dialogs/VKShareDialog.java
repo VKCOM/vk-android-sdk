@@ -27,6 +27,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -309,11 +311,24 @@ public class VKShareDialog extends DialogFragment {
             }
         });
     }
-    private void loadAndAddPhoto(String photoUrl) {
+    private void loadAndAddPhoto(final String photoUrl) {
+        loadAndAddPhoto(photoUrl, 0);
+    }
+    private void loadAndAddPhoto(final String photoUrl, final int attempt) {
+        if (attempt > 10) return;
         VKImageOperation op = new VKImageOperation(photoUrl);
         op.setImageOperationListener(new VKImageOperation.VKImageOperationListener() {
             @Override
             public void onComplete(VKImageOperation operation, Bitmap image) {
+                if (image == null) {
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadAndAddPhoto(photoUrl, attempt + 1);
+                        }
+                    }, 1000);
+                    return;
+                }
                 addBitmapToPreview(image);
             }
         });
@@ -322,6 +337,7 @@ public class VKShareDialog extends DialogFragment {
     private void addBitmapToPreview(Bitmap sourceBitmap) {
         if (getActivity() == null) return;
         Bitmap b = VKUIHelper.getRoundedCornerBitmap(sourceBitmap, SHARE_PHOTO_HEIGHT, SHARE_PHOTO_CORNER_RADIUS);
+        if (b == null) return;
         ImageView iv = new ImageView(getActivity());
         iv.setImageBitmap(b);
         iv.setAdjustViewBounds(true);
