@@ -130,6 +130,11 @@ public class VKScopes {
      */
     public final static String NOHTTPS = "nohttps";
 
+	/**
+	 * Access to user email (if available/allowed by user)
+	 */
+	public static final String EMAIL = "email";
+
     /**
      * Converts integer value of permissions into arraylist of constants
      * @param permissions integer permissions value
@@ -153,6 +158,7 @@ public class VKScopes {
         if ((permissions & 262144) > 0) result.add(GROUPS);
         if ((permissions & 524288) > 0) result.add(NOTIFICATIONS);
         if ((permissions & 1048576) > 0) result.add(STATS);
+		if ((permissions & 4194304) > 0) result.add(EMAIL);
         return result;
     }
     
