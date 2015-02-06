@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 20
-    buildToolsVersion '20.0.0'
+    compileSdkVersion 21
+    buildToolsVersion '21.1.2'
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 20
+        targetSdkVersion 21
         versionCode 1
         versionName '1.0'
     }
@@ -23,7 +23,7 @@ android {
         }
         debug {
             debuggable true
-            jniDebugBuild true
+            jniDebuggable true
         }
     }
     productFlavors {
