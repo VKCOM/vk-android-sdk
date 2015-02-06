@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,7 +28,6 @@ import com.vk.sdk.api.methods.VKApiCaptcha;
 import com.vk.sdk.api.model.VKApiPhoto;
 import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKPhotoArray;
-import com.vk.sdk.api.model.VKUsersArray;
 import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKImageParameters;
 import com.vk.sdk.api.photo.VKUploadImage;
@@ -98,6 +96,8 @@ public class TestActivity extends ActionBarActivity {
             view.findViewById(R.id.users_get).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+
                     VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS,
                             "id,first_name,last_name,sex,bdate,city,country,photo_50,photo_100," +
                             "photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online," +
@@ -108,19 +108,6 @@ public class TestActivity extends ActionBarActivity {
                     request.secure = false;
                     request.useSystemLanguage = false;
                     startApiCall(request);
-
-                    VKRequest get = new VKRequest("users.get", VKParameters.from(VKApiConst.USER_IDS, "1,2,44", VKApiConst.FIELDS, "photo_50,sex"), VKRequest.HttpMethod.GET, VKUsersArray.class);
-                    get.executeWithListener(new VKRequestListener() {
-                        @Override
-                        public void onComplete(VKResponse response) {
-                            super.onComplete(response);
-                        }
-
-                        @Override
-                        public void onError(VKError error) {
-                            super.onError(error);
-                        }
-                    });
                 }
             });
 
