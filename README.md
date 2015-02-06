@@ -40,6 +40,12 @@ As a rule, fingerprints contains a single line. It's a fingerprint of your certi
 Connecting VK SDK to Your Android Application
 ==========
 
+Connecting With Maven
+----------
+You can add next maven dependency in your project:
+
+`com.vk:androidsdk:+`
+
 Connecting in Android Studio
 ----------
 
@@ -88,11 +94,6 @@ If your project doesn't support Gradle, you can add SDK by the following way:
 
 5) Add the new <b>vksdk</b> module as a dependency to your app's module.
 
-Connecting With Maven
-----------
-You can add next maven dependency in your project:
-
-`com.vk:androidsdk:+`
 
 Connecting Using Eclipse
 ----------
