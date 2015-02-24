@@ -507,7 +507,9 @@ public class VKRequest extends VKObject {
                 return true;
             } else if (error.apiError.errorCode == 16) {
                 VKAccessToken token = VKSdk.getAccessToken();
-                token.httpsRequired = true;
+                if (token != null) {
+                    token.httpsRequired = true;
+                }
 	            runOnLooper(new Runnable()
 	            {
 		            @Override public void run()

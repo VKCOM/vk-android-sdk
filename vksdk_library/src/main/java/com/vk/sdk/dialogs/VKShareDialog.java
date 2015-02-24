@@ -386,7 +386,7 @@ public class VKShareDialog extends DialogFragment {
         @Override
         public void onClick(View view) {
             setIsLoading(true);
-            if (mAttachmentImages != null) {
+            if (mAttachmentImages != null && VKSdk.getAccessToken() != null) {
                 final Long userId = Long.parseLong(VKSdk.getAccessToken().userId);
                 VKUploadWallPhotoRequest photoRequest = new VKUploadWallPhotoRequest(mAttachmentImages, userId, 0);
                 photoRequest.executeWithListener(new VKRequest.VKRequestListener() {

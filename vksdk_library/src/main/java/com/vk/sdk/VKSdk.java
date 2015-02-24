@@ -341,7 +341,7 @@ public class VKSdk {
      * @return Received access token or null, if user not yet authorized
      */
     public static VKAccessToken getAccessToken() {
-        if (sInstance.mAccessToken != null) {
+        if (sInstance != null && sInstance.mAccessToken != null) {
             if (sInstance.mAccessToken.isExpired() && sInstance.mListener != null) {
                 sInstance.mListener.onTokenExpired(sInstance.mAccessToken);
             }
