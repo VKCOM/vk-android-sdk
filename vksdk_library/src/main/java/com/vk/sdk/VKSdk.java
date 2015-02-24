@@ -408,6 +408,15 @@ public class VKSdk {
     }
 
     private void trackVisitor() {
-        new VKRequest("stats.trackVisitor").executeWithListener(null);
+        new VKRequest("stats.trackVisitor").executeWithListener(new VKRequest.VKRequestListener() {
+            @Override
+            public void onError(VKError error) {
+                if (error.apiError.errorCode == 5) {
+                    VKSdk.setAccessTokenError(error.apiError);
+                    sInstance.mAccessToken = null;
+                    VKAccessToken.removeTokenAtKey(VKUIHelper.getApplicationContext(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
+                }
+            }
+        });
     }
 }
