@@ -54,19 +54,24 @@ import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKParameters;
+import com.vk.sdk.api.VKParser;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.httpClient.VKHttpClient;
 import com.vk.sdk.api.httpClient.VKImageOperation;
 import com.vk.sdk.api.model.VKApiLink;
 import com.vk.sdk.api.model.VKApiPhoto;
+import com.vk.sdk.api.model.VKApiPhotoAlbum;
 import com.vk.sdk.api.model.VKAttachments;
+import com.vk.sdk.api.model.VKList;
 import com.vk.sdk.api.model.VKPhotoArray;
 import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKUploadImage;
 import com.vk.sdk.api.photo.VKUploadWallPhotoRequest;
 import com.vk.sdk.util.VKStringJoiner;
 import com.vk.sdk.util.VKUtil;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;

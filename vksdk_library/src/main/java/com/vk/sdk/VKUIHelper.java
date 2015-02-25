@@ -104,7 +104,15 @@ public class VKUIHelper {
             VKSdk.processActivityResult(requestCode, resultCode, data);
         }
     }
-    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int maxHeight,  int pixels) {
+
+    /**
+     * Creates a bitmap with rounded corners
+     * @param bitmap source bitmap
+     * @param maxHeight maximal height for result bitmap
+     * @param pixels corner radius
+     * @return a new bitmap if succeed, nil instead
+     */
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int maxHeight, int pixels) {
         if (bitmap == null) return bitmap;
         maxHeight = (int)(getApplicationContext().getResources().getDisplayMetrics().density * maxHeight);
         float scale = bitmap.getHeight() * 1.0f / maxHeight;
@@ -130,6 +138,11 @@ public class VKUIHelper {
         return output;
     }
 
+    /**
+     * A forced setting of an application context for the SDK.
+     * That method must be call in services of broadcast events for prepare the SDK for a work.
+     * @param appContext Context of application
+     */
     static public void setApplicationContext(Context appContext) {
         if (appContext != null) {
             sApplicationContext = appContext;

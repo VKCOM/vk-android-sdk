@@ -283,6 +283,9 @@ public class VKSdk {
         return true;
     }
 
+    /**
+     * Enumerates result of checking the token for valid
+     */
     enum CheckTokenResult {
         None,
         Success,
@@ -378,10 +381,19 @@ public class VKSdk {
         return false;
     }
 
+    /**
+     * Checks if an access token exist and performs a try to use it again
+     * @return true, if an access token exists and not expired
+     */
     public static boolean wakeUpSession() {
         return wakeUpSession(VKUIHelper.getTopActivity());
     }
 
+    /**
+     * Checks if an access token exist and performs a try to use it again
+     * @param context An application context for store an access token
+     * @return true, if an access token exists and not expired
+     */
     public static boolean wakeUpSession(Context context) {
         VKAccessToken token = VKAccessToken.tokenFromSharedPreferences(context,
                 VK_SDK_ACCESS_TOKEN_PREF_KEY);
@@ -394,6 +406,9 @@ public class VKSdk {
         return false;
     }
 
+    /**
+     * Wipes out information about the access token and clears cookies for internal browse
+     */
     public static void logout() {
         CookieSyncManager.createInstance(VKUIHelper.getApplicationContext());
         CookieManager cookieManager = CookieManager.getInstance();
@@ -403,6 +418,10 @@ public class VKSdk {
         VKAccessToken.removeTokenAtKey(VKUIHelper.getApplicationContext(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
     }
 
+    /**
+     * Indicated if an access token exists and not expired
+     * @return true if a token exists and not expired
+     */
     public static boolean isLoggedIn() {
         return sInstance.mAccessToken != null && !sInstance.mAccessToken.isExpired();
     }
