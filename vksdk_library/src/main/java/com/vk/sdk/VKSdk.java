@@ -49,7 +49,7 @@ public class VKSdk {
     /**
      * Start SDK activity for result with that request code
      */
-    public static final int VK_SDK_REQUEST_CODE = 0xf228;
+    public static int VK_SDK_REQUEST_CODE = 0xf228;
 
     /**
      * Instance of SDK
