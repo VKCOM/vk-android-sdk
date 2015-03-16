@@ -113,4 +113,22 @@ public class VKApi {
     public static VKRequest uploadAlbumPhotoRequest(VKUploadImage image, long albumId, int groupId) {
         return new VKUploadAlbumPhotoRequest(image, albumId, groupId);
     }
+	
+	/**
+     * Upload a specified file to VK servers for use as an attachment to a message
+     * @param image Image file to upload. Must have extension jpg or png
+     * @return Prepared vk request for photo upload
+     */
+	public static VKRequest uploadMessagesPhotoRequest(File image) {
+        return new VKUploadMessagesPhotoRequest(image);
+    }
+	/**
+     * Upload a specified file to VK servers for use as an attachment to a message
+     * @param image Special image object to upload
+     * @return Prepared vk request for photo upload
+     */
+    public static VKRequest uploadMessagesPhotoRequest(VKUploadImage image) {
+        return new VKUploadMessagesPhotoRequest(image);
+    }
+	
 }
