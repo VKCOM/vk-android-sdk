@@ -47,6 +47,10 @@ public class VKApiPhotos extends VKApiBase {
         return prepareRequest("getWallUploadServer", VKUtil.paramsFrom(VKApiConst.GROUP_ID, groupId));
     }
 
+    public VKRequest getMessagesUploadServer () {
+        return prepareRequest("getMessagesUploadServer", null);
+    }
+
     public VKRequest saveWallPhoto(VKParameters params) {
         return prepareRequest("saveWallPhoto", params, VKRequest.HttpMethod.POST, VKPhotoArray.class);
 
@@ -55,4 +59,9 @@ public class VKApiPhotos extends VKApiBase {
     public VKRequest save(VKParameters params) {
         return prepareRequest("save", params, VKRequest.HttpMethod.POST, VKPhotoArray.class);
     }
+
+    public VKRequest saveMessagesPhoto(VKParameters params) {
+        return prepareRequest("saveMessagesPhoto", params, VKRequest.HttpMethod.POST, VKPhotoArray.class);
+    }
+
 }
