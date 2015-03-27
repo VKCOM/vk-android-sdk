@@ -82,4 +82,8 @@ public class VKApiFriends extends VKApiBase {
         return prepareRequest("areFriends", params);
     }
 
+    @Override
+    protected String getMethodsGroup() {
+        return "friends";
+    }
 }

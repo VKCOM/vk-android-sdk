@@ -64,4 +64,8 @@ public class VKApiPhotos extends VKApiBase {
         return prepareRequest("saveMessagesPhoto", params, VKRequest.HttpMethod.POST, VKPhotoArray.class);
     }
 
+    @Override
+    protected String getMethodsGroup() {
+        return "photos";
+    }
 }

@@ -144,4 +144,9 @@ public class VKApiUsers extends VKApiBase {
     public VKRequest report(VKParameters params) {
         return prepareRequest("report", params);
     }
+
+    @Override
+    protected String getMethodsGroup() {
+        return "users";
+    }
 }

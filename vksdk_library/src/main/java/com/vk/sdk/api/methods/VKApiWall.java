@@ -105,4 +105,9 @@ public class VKApiWall extends VKApiBase {
     public VKRequest reportComment(VKParameters params) {
         return prepareRequest("reportComment", params);
     }
+
+    @Override
+    protected String getMethodsGroup() {
+        return "wall";
+    }
 }

@@ -196,4 +196,9 @@ public class VKApiAudio extends VKApiBase {
     public VKRequest getCount(VKParameters params) {
         return prepareRequest("getCount", params);
     }
+
+    @Override
+    protected String getMethodsGroup() {
+        return "audio";
+    }
 }

@@ -67,4 +67,9 @@ public class VKApiGroups extends VKApiBase {
     public VKRequest getBanned(VKParameters params) {
         return prepareRequest("getBanned", params, VKRequest.HttpMethod.GET, VKUsersArray.class);
     }
+
+    @Override
+    protected String getMethodsGroup() {
+        return "groups";
+    }
 }

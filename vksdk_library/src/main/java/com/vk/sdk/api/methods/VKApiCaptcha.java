@@ -30,4 +30,9 @@ public class VKApiCaptcha extends VKApiBase {
     public VKRequest force() {
         return prepareRequest("force", null);
     }
+
+    @Override
+    protected String getMethodsGroup() {
+        return "captcha";
+    }
 }
