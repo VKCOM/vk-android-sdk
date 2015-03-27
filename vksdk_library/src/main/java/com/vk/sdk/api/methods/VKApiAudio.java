@@ -2,6 +2,7 @@ package com.vk.sdk.api.methods;
 
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.model.VkAudioArray;
 
 /**
  * Builds requests for API.audio part
@@ -10,8 +11,15 @@ public class VKApiAudio extends VKApiBase {
     /*
      * https://vk.com/dev/audio.get
      */
+    public VKRequest get() {
+        return get(null);
+    }
+
+    /*
+     * https://vk.com/dev/audio.get
+     */
     public VKRequest get(VKParameters params) {
-        return prepareRequest("get", params);
+        return prepareRequest("get", params, VKRequest.HttpMethod.GET, VkAudioArray.class);
     }
 
     /*
@@ -32,7 +40,7 @@ public class VKApiAudio extends VKApiBase {
      * https://vk.com/dev/audio.search
      */
     public VKRequest search(VKParameters params) {
-        return prepareRequest("search", params);
+        return prepareRequest("search", params, VKRequest.HttpMethod.GET, VkAudioArray.class);
     }
 
     /*
@@ -165,7 +173,7 @@ public class VKApiAudio extends VKApiBase {
      * https://vk.com/dev/audio.getRecommendations
      */
     public VKRequest getRecommendations(VKParameters params) {
-        return prepareRequest("getRecommendations", params);
+        return prepareRequest("getRecommendations", params, VKRequest.HttpMethod.GET, VkAudioArray.class);
     }
 
     /*
@@ -179,7 +187,7 @@ public class VKApiAudio extends VKApiBase {
      * https://vk.com/dev/audio.getPopular
      */
     public VKRequest getPopular(VKParameters params) {
-        return prepareRequest("getPopular", params);
+        return prepareRequest("getPopular", params, VKRequest.HttpMethod.GET, VkAudioArray.class);
     }
 
     /*
