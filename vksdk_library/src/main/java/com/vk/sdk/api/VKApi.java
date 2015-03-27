@@ -21,6 +21,7 @@
 
 package com.vk.sdk.api;
 
+import com.vk.sdk.api.methods.VKApiAudio;
 import com.vk.sdk.api.methods.VKApiFriends;
 import com.vk.sdk.api.methods.VKApiGroups;
 import com.vk.sdk.api.methods.VKApiPhotos;
@@ -28,6 +29,7 @@ import com.vk.sdk.api.methods.VKApiUsers;
 import com.vk.sdk.api.methods.VKApiWall;
 import com.vk.sdk.api.photo.VKUploadAlbumPhotoRequest;
 import com.vk.sdk.api.photo.VKUploadImage;
+import com.vk.sdk.api.photo.VKUploadMessagesPhotoRequest;
 import com.vk.sdk.api.photo.VKUploadWallPhotoRequest;
 
 import java.io.File;
@@ -65,6 +67,14 @@ public class VKApi {
      */
     public static VKApiPhotos photos() {
         return new VKApiPhotos();
+    }
+
+    /**
+     * https://vk.com/dev/audio
+     * Returns object for preparing requests to audio part of API
+     */
+    public static VKApiAudio audio() {
+        return new VKApiAudio();
     }
 
     /**
