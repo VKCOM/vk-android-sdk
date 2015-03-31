@@ -16,4 +16,5 @@
     <dimen name="vk_share_title_link_host_size">15sp</dimen>
     <dimen name="vk_share_text_size">17sp</dimen>
     <dimen name="vk_share_link_top_margin">2dp</dimen>
+    <dimen name="vk_share_dialog_view_padding">5dp</dimen>
 </resources>

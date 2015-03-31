@@ -79,14 +79,15 @@ public class VKScopes {
     
     /**
      * Access to offers (obsolete methods).
+     * @deprecated
      */
-    @Deprecated
     public final static String OFFERS = "offers";
     
     /**
      * Access to questions (obsolete methods).
+     * @deprecated
      */
-    @Deprecated
+
     public final static String QUESTIONS = "questions";
     
     /**

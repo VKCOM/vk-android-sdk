@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="vk_share_dialog_view_padding">160dp</dimen>
+</resources>

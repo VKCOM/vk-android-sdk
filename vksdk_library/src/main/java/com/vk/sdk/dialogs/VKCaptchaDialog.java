@@ -58,9 +58,16 @@ public class VKCaptchaDialog {
 
     /**
      * Prepare, create and show dialog for displaying captcha
+     * @deprecated Use {@link #show(android.content.Context)}
      */
     public void show() {
-        Context context = VKUIHelper.getTopActivity();
+        show(VKUIHelper.getTopActivity());
+    }
+    /**
+     * Prepare, create and show dialog for displaying captcha
+     * @param context Context activity for dialog
+     */
+    public void show(Context context) {
 	    if (context == null) return;
         View innerView = LayoutInflater.from(context).inflate(R.layout.vk_captcha_dialog, null);
         assert innerView != null;

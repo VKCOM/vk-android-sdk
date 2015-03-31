@@ -21,11 +21,12 @@
 
 package com.vk.sdk.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,6 +35,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,16 +56,13 @@ import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKParameters;
-import com.vk.sdk.api.VKParser;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.httpClient.VKHttpClient;
 import com.vk.sdk.api.httpClient.VKImageOperation;
 import com.vk.sdk.api.model.VKApiLink;
 import com.vk.sdk.api.model.VKApiPhoto;
-import com.vk.sdk.api.model.VKApiPhotoAlbum;
 import com.vk.sdk.api.model.VKAttachments;
-import com.vk.sdk.api.model.VKList;
 import com.vk.sdk.api.model.VKPhotoArray;
 import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKUploadImage;
@@ -71,9 +70,6 @@ import com.vk.sdk.api.photo.VKUploadWallPhotoRequest;
 import com.vk.sdk.util.VKStringJoiner;
 import com.vk.sdk.util.VKUtil;
 
-import org.json.JSONObject;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -246,16 +242,28 @@ public class VKShareDialog extends DialogFragment {
                 VKShareDialog.this.dismiss();
             }
         });
+
+
         return result;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+        int width = WindowManager.LayoutParams.WRAP_CONTENT;
+        if (Build.VERSION.SDK_INT >= 13) {
+            WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            width = size.x - getResources().getDimensionPixelSize(R.dimen.vk_share_dialog_view_padding) * 2;
+        }
+
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(getDialog().getWindow().getAttributes());
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.width  = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.width  = width;
         getDialog().getWindow().setAttributes(lp);
     }
 

@@ -37,12 +37,18 @@ public class VKParameters extends LinkedHashMap<String, Object> implements Seria
     }
 
     /**
-     * Initializes parameters from another map
+     * Initializes parameters from map
      * @param fromMap Map with parameters
      */
     public VKParameters(Map<String, Object> fromMap) {
         super(fromMap);
     }
+
+    /**
+     * The method creates key-value pairs with a variable list of a input data
+     * @param params Objects presented as key-value pairs, which possible to cast to string
+     * @return Instance of parameters object
+     */
     public static VKParameters from(Object... params) {
         return VKUtil.paramsFrom(params);
     }

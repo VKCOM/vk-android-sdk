@@ -85,7 +85,7 @@ public class VKUIHelper {
 	 * @param requestCode Request code for startActivityForResult
 	 * @param resultCode Result code of finished activity
 	 * @param data Result data
-	 * @deprecated Use onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) instead
+	 * @deprecated Use {@link #onActivityResult(android.app.Activity, int, int, android.content.Intent)} instead
 	 */
 	public static void onActivityResult(int requestCode, int resultCode, Intent data)
 	{

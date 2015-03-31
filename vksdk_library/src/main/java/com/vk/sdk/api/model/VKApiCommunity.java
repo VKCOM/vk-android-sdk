@@ -51,7 +51,7 @@ public class VKApiCommunity extends VKApiOwner implements android.os.Parcelable,
 
     /**
      * Whether the community is closed
-     * @see {@link com.vk.sdk.api.model.VKApiCommunity.Status}
+     * @see com.vk.sdk.api.model.VKApiCommunity.Status
      */
     public int is_closed;
 
@@ -62,7 +62,7 @@ public class VKApiCommunity extends VKApiOwner implements android.os.Parcelable,
 
     /**
      * Rights of the user
-     * @see {@link AdminLevel}
+     * @see com.vk.sdk.api.model.VKApiCommunity.AdminLevel
      */
     public int admin_level;
 
@@ -73,7 +73,7 @@ public class VKApiCommunity extends VKApiOwner implements android.os.Parcelable,
 
     /**
      * Community type
-     * @see {@link com.vk.sdk.api.model.VKApiCommunity.Type}
+     * @see com.vk.sdk.api.model.VKApiCommunity.Type
      */
     public int type;
 

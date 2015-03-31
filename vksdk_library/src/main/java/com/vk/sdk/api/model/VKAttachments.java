@@ -46,73 +46,73 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
 
     /**
      * Attachment is a photo.
-     * @see {@link VKApiPhoto}
+     * @see com.vk.sdk.api.model.VKApiPhoto
      */
     public static final String TYPE_PHOTO = "photo";
 
     /**
      * Attachment is a video.
-     * @see {@link VKApiVideo}
+     * @see com.vk.sdk.api.model.VKApiVideo
      */
     public static final String TYPE_VIDEO = "video";
 
     /**
      * Attachment is an audio.
-     * @see {@link VKApiAudio}
+     * @see com.vk.sdk.api.model.VKApiAudio
      */
     public static final String TYPE_AUDIO = "audio";
 
     /**
      * Attachment is a document.
-     * @see {@link VKApiDocument}
+     * @see com.vk.sdk.api.model.VKApiDocument
      */
     public static final String TYPE_DOC = "doc";
 
     /**
      * Attachment is a wall post.
-     * @see {@link VKApiPost}
+     * @see com.vk.sdk.api.model.VKApiPost
      */
     public static final String TYPE_POST = "wall";
 
     /**
      * Attachment is a posted photo.
-     * @see {@link VKApiPostedPhoto}
+     * @see com.vk.sdk.api.model.VKApiPostedPhoto
      */
     public static final String TYPE_POSTED_PHOTO = "posted_photo";
 
     /**
      * Attachment is a link
-     * @see {@link VKApiLink}
+     * @see com.vk.sdk.api.model.VKApiLink
      */
     public static final String TYPE_LINK = "link";
 
     /**
      * Attachment is a note
-     * @see {@link VKApiNote}
+     * @see com.vk.sdk.api.model.VKApiNote
      */
     public static final String TYPE_NOTE = "note";
 
     /**
      * Attachment is an application content
-     * @see {@link VKApiApplicationContent}
+     * @see com.vk.sdk.api.model.VKApiApplicationContent
      */
     public static final String TYPE_APP = "app";
 
     /**
      * Attachment is a poll
-     * @see {@link VKApiPoll}
+     * @see com.vk.sdk.api.model.VKApiPoll
      */
     public static final String TYPE_POLL = "poll";
 
     /**
      * Attachment is a WikiPage
-     * @see {@link VKApiWikiPage}
+     * @see com.vk.sdk.api.model.VKApiWikiPage
      */
     public static final String TYPE_WIKI_PAGE = "page";
 
     /**
      * Attachment is a PhotoAlbum
-     * @see {@link VKApiPhotoAlbum}
+     * @see com.vk.sdk.api.model.VKApiPhotoAlbum
      */
     public static final String TYPE_ALBUM = "album";
 

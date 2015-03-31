@@ -227,31 +227,31 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
 
     /**
      * Views on smoking.
-     * @see {@link Attitude}
+     * @see com.vk.sdk.api.model.VKApiUserFull.Attitude
      */
     public int smoking;
 
     /**
      * Views on alcohol.
-     * @see {@link Attitude}
+     * @see com.vk.sdk.api.model.VKApiUserFull.Attitude
      */
     public int alcohol;
 
     /**
      * Views on policy.
-     * @see {@link com.vk.sdk.api.model.VKApiUserFull.Political}
+     * @see com.vk.sdk.api.model.VKApiUserFull.Political
      */
     public int political;
 
     /**
      * Life main stuffs.
-     * @see {@link com.vk.sdk.api.model.VKApiUserFull.LifeMain}
+     * @see com.vk.sdk.api.model.VKApiUserFull.LifeMain
      */
     public int life_main;
 
     /**
      * People main stuffs.
-     * @see {@link com.vk.sdk.api.model.VKApiUserFull.PeopleMain}
+     * @see com.vk.sdk.api.model.VKApiUserFull.PeopleMain
      */
     public int people_main;
 
@@ -407,7 +407,7 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
 
     /**
      * User sex.
-     * @see {@link com.vk.sdk.api.model.VKApiUserFull.Sex}
+     * @see com.vk.sdk.api.model.VKApiUserFull.Sex
      */
     public int sex;
 
@@ -418,7 +418,7 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
 
     /**
      * Relationship status.
-     * @see {@link com.vk.sdk.api.model.VKApiUserFull.Relation}
+     * @see com.vk.sdk.api.model.VKApiUserFull.Relation
      */
     public int relation;
 
