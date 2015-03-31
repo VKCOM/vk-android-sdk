@@ -69,7 +69,7 @@ public class VKCaptchaDialog {
      */
     public void show(Context context) {
 	    if (context == null) return;
-        View innerView = LayoutInflater.from(context).inflate(R.layout.vk_captcha_dialog, null);
+        View innerView = View.inflate(context, R.layout.vk_captcha_dialog, null);
         assert innerView != null;
         mCaptchaAnswer = (EditText) innerView.findViewById(R.id.captchaAnswer);
         mCaptchaImage  = (ImageView) innerView.findViewById(R.id.imageView);

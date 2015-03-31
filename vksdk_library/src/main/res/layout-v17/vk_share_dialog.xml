@@ -6,8 +6,8 @@
     android:layout_centerInParent="true"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context="com.vk.sdk.dialogs.VKShareDialog"
-    tools:ignore="RtlHardcoded">
+
+    tools:context="com.vk.sdk.dialogs.VKShareDialog">
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -23,14 +23,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/sendButtonLayout"
-            >
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/sendButtonLayout">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/vk_share_top_image_margin"
+                android:layout_marginStart="@dimen/vk_share_top_image_margin"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_ab_app"
                 android:contentDescription="@string/vk_name"/>
@@ -38,8 +37,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/vk_share_top_title_margin"
-
+                android:layout_marginStart="@dimen/vk_share_top_title_margin"
                 android:gravity="center_vertical"
                 android:text="@string/vk_share"
                 android:textColor="@color/vk_white"
@@ -50,7 +48,7 @@
             android:id="@+id/sendButtonLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentEnd="true">
 
             <View
                 android:layout_width="1dp"
@@ -70,11 +68,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/vk_share_send_button_background"
-                android:drawableLeft="@drawable/ic_ab_done"
+                android:drawableStart="@drawable/ic_ab_done"
                 android:drawablePadding="3dp"
-                android:paddingLeft="@dimen/vk_share_top_button_padding_left"
-                android:paddingRight="@dimen/vk_share_top_button_padding_right"
+                android:paddingStart="@dimen/vk_share_top_button_padding_left"
+                android:paddingEnd="@dimen/vk_share_top_button_padding_right"
                 android:text="@string/vk_send"
+                android:textAllCaps="true"
                 android:textColor="@color/vk_white"
                 android:textSize="@dimen/vk_share_send_text_size"
                 android:textStyle="bold" />

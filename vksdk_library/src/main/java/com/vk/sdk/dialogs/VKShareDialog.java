@@ -21,6 +21,8 @@
 
 package com.vk.sdk.dialogs;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -178,7 +180,7 @@ public class VKShareDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getActivity();
-        View mInternalView = LayoutInflater.from(context).inflate(R.layout.vk_share_dialog, null);
+        View mInternalView = View.inflate(context, R.layout.vk_share_dialog, null);
 
         assert mInternalView != null;
 
@@ -247,11 +249,14 @@ public class VKShareDialog extends DialogFragment {
         return result;
     }
 
+
     @Override
+    @SuppressLint("NewApi")
     public void onStart() {
         super.onStart();
 
         int width = WindowManager.LayoutParams.WRAP_CONTENT;
+
         if (Build.VERSION.SDK_INT >= 13) {
             WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
             Display display = wm.getDefaultDisplay();
@@ -293,7 +298,7 @@ public class VKShareDialog extends DialogFragment {
         }
     }
     private void processExistingPhotos() {
-        ArrayList<String> photosToLoad = new ArrayList<String>(mExistingPhotos.size());
+        ArrayList<String> photosToLoad = new ArrayList<>(mExistingPhotos.size());
         for (VKApiPhoto photo : mExistingPhotos) {
             photosToLoad.add("" + photo.owner_id + '_' + photo.id);
         }

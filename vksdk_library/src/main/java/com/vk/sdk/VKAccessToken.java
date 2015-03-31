@@ -23,6 +23,7 @@ package com.vk.sdk;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
 import com.vk.sdk.api.VKParameters;
@@ -94,7 +95,7 @@ public class VKAccessToken {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString(tokenKey, serialize());
-        edit.commit();
+        edit.apply();
     }
 
     /**
@@ -106,7 +107,7 @@ public class VKAccessToken {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor edit = prefs.edit();
         edit.remove(tokenKey);
-        edit.commit();
+        edit.apply();
     }
 
     private VKAccessToken() {
