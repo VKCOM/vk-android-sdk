@@ -232,7 +232,7 @@ public class VKSdk {
      * @param resultCode result code of activity result
      * @param result     intent passed by activity
      * @return If SDK parsed activity result properly, returns true. You can return from onActivityResult(). Otherwise, returns false.
-     * @deprecated Use processActivityResult(int requestCode, int resultCode, Intent result) instead
+     * @deprecated Use {@link #processActivityResult(int, int, android.content.Intent)} instead
      */
     public static boolean processActivityResult(int resultCode, Intent result) {
         return processActivityResult(VK_SDK_REQUEST_CODE, resultCode, result);
@@ -430,7 +430,7 @@ public class VKSdk {
         new VKRequest("stats.trackVisitor").executeWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onError(VKError error) {
-                if (error.apiError.errorCode == 5) {
+                if (error != null && error.apiError != null && error.apiError.errorCode == 5) {
                     VKSdk.setAccessTokenError(error.apiError);
                     sInstance.mAccessToken = null;
                     VKAccessToken.removeTokenAtKey(VKUIHelper.getApplicationContext(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
