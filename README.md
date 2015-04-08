@@ -135,7 +135,7 @@ protected void onDestroy() {
 
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    VKUIHelper.onActivityResult(requestCode, resultCode, data);
+    VKUIHelper.onActivityResult(this, requestCode, resultCode, data);
 }
 ```
 SDK Initialization
