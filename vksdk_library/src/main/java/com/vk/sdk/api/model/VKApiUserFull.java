@@ -116,6 +116,11 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
     public static final String COUNTERS = "counters";
 
     /**
+     * Filed occupation from VK fields set
+     */
+    public static final String OCCUPATION = "occupation";
+
+    /**
      * Filed activities from VK fields set
      */
     public static final String ACTIVITIES = "activities";
@@ -417,6 +422,11 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
     public Counters counters;
 
     /**
+     * Set of user's counters.
+     */
+    public Occupation occupation;
+
+    /**
      * Relationship status.
      * @see com.vk.sdk.api.model.VKApiUserFull.Relation
      */
@@ -520,8 +530,12 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
 
         // other
         sex = user.optInt(SEX);
+
         JSONObject counters = user.optJSONObject(COUNTERS);
         if (counters != null) this.counters = new Counters(counters);
+
+        JSONObject occupation = user.optJSONObject(OCCUPATION);
+        if (occupation != null) this.occupation = new Occupation(occupation);
 
         relation = user.optInt(RELATION);
 
@@ -665,6 +679,51 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
         };
     }
 
+    public static class Occupation implements android.os.Parcelable {
+        /**
+         * Count was not in server response.
+         */
+        public final static int NO_COUNTER = -1;
+
+        public String type;
+        public int id = NO_COUNTER;
+        public String name;
+
+        Occupation(JSONObject occupation) {
+            type = occupation.optString("type");
+            id = occupation.optInt("id",id);
+            name = occupation.optString("name");
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.type);
+            dest.writeInt(this.id);
+            dest.writeString(this.name);
+        }
+
+        private Occupation (Parcel in) {
+            this.type = in.readString();
+            this.id = in.readInt();
+            this.name = in.readString();
+        }
+
+        public static Creator<Occupation> CREATOR = new Creator<Occupation>() {
+            public Occupation createFromParcel(Parcel source) {
+                return new Occupation(source);
+            }
+
+            public Occupation[] newArray(int size) {
+                return new Occupation[size];
+            }
+        };
+    }
+
     public static class Sex {
         private Sex() {
         }
@@ -802,6 +861,7 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
         dest.writeByte(verified ? (byte) 1 : (byte) 0);
         dest.writeInt(this.sex);
         dest.writeParcelable(this.counters, flags);
+        dest.writeParcelable(this.occupation, flags);
         dest.writeInt(this.relation);
         dest.writeParcelable(this.relatives, flags);
         dest.writeByte(blacklisted_by_me ? (byte) 1 : (byte) 0);
@@ -853,6 +913,7 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
         this.verified = in.readByte() != 0;
         this.sex = in.readInt();
         this.counters = in.readParcelable(Counters.class.getClassLoader());
+        this.occupation = in.readParcelable(Occupation.class.getClassLoader());
         this.relation = in.readInt();
         this.relatives = in.readParcelable(VKList.class.getClassLoader());
         this.blacklisted_by_me = in.readByte() != 0;
