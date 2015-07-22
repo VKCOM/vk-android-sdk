@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKAccessTokenTracker;
 import com.vk.sdk.VKSdk;
-import com.vk.sdk.VkAccessTokenTracker;
 
 public class Application extends android.app.Application {
 
-    VkAccessTokenTracker vkAccessTokenTracker = new VkAccessTokenTracker() {
+    VKAccessTokenTracker vkAccessTokenTracker = new VKAccessTokenTracker() {
         @Override
         public void onVKAccessTokenChanged(VKAccessToken oldToken, VKAccessToken newToken) {
             if (newToken == null) {

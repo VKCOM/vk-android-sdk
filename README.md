@@ -138,25 +138,25 @@ Using SDK
 SDK Initialization
 ----------
 
-1) In the <application> element shoud be added
+1) Add this to the application element:
 
 ```
 <meta-data android:name="com.vk.sdk.AppId" android:value="your_app_id" />
 ```
 
-2) Call this method to prepare VK SDK for work. Best for call - in your application class. Don't forget to call this method when you starting a service.
+2) Initialize the SDK on startup using the following method. The best way is to call it in the app's onCreate method.
 `VKSdk.initialize(Context applicationContext);`
 
 User Authorization
 ----------
-There are several methods for authorization:
+There are several authorization methods:
 
 ```
 VkSdk.login(Activity runningActivity, String... scope);
 VkSdk.login(Fragment runningFragment, String... scope);
 ```
 
-When succeeded, Sdk call to onActivityResultMethod like this:
+When succeeded call the onActivityResultMethod:
 
 ```
 @Override
@@ -177,19 +177,19 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
-Handling AccessToken invalide
+Handling "AccessToken invalid"
 ----------
 
-Use AccessTokenTracker like this
+Use AccessTokenTracker the following way:
 
 
 ```
 public class Application extends android.app.Application {
-    VkAccessTokenTracker vkAccessTokenTracker = new VkAccessTokenTracker() {
+    VKAccessTokenTracker vkAccessTokenTracker = new VKAccessTokenTracker() {
         @Override
         public void onVKAccessTokenChanged(VKAccessToken oldToken, VKAccessToken newToken) {
             if (newToken == null) {
-                // VkAccessToken is invalid
+                // VKAccessToken is invalid
             }
         }
     };

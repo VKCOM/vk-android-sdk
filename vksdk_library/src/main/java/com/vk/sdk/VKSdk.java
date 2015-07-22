@@ -57,7 +57,7 @@ public class VKSdk {
 
     private static Handler handler = new Handler(Looper.getMainLooper());
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     public static final boolean DEBUG_API_ERRORS = false;
     public static final String SDK_TAG = "VK SDK";
     public static final String SDK_APP_ID = "com.vk.sdk.AppId";
@@ -95,25 +95,25 @@ public class VKSdk {
     /**
      *
      */
-    private static final List<VkAccessTokenTracker> sVkTokenListeners = new CopyOnWriteArrayList<>();
+    private static final List<VKAccessTokenTracker> sVKTokenListeners = new CopyOnWriteArrayList<>();
 
     private VKSdk() {
 
     }
 
-    static void addVkTokenTracker(VkAccessTokenTracker vkAccessTokenTracker) {
-        sVkTokenListeners.add(vkAccessTokenTracker);
+    static void addVKTokenTracker(VKAccessTokenTracker vkAccessTokenTracker) {
+        sVKTokenListeners.add(vkAccessTokenTracker);
     }
 
-    static void removeVkTokenTracker(VkAccessTokenTracker vkAccessTokenTracker) {
-        sVkTokenListeners.remove(vkAccessTokenTracker);
+    static void removeVKTokenTracker(VKAccessTokenTracker vkAccessTokenTracker) {
+        sVKTokenListeners.remove(vkAccessTokenTracker);
     }
 
-    static void notifyVkTokenChanged(final VKAccessToken oldToken, final VKAccessToken newToken) {
+    static void notifyVKTokenChanged(final VKAccessToken oldToken, final VKAccessToken newToken) {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                for (VkAccessTokenTracker listener : sVkTokenListeners) {
+                for (VKAccessTokenTracker listener : sVKTokenListeners) {
                     listener.onVKAccessTokenChanged(oldToken, newToken);
                 }
             }
@@ -283,11 +283,11 @@ public class VKSdk {
             if (old != null) {
                 VKAccessToken newToken = old.copyWithToken(token);
                 VKAccessToken.replaceToken(old.copyWithToken(token));
-                notifyVkTokenChanged(old, newToken);
+                notifyVKTokenChanged(old, newToken);
                 return new CheckTokenResult(old, token);
             } else {
                 VKAccessToken.replaceToken(token);
-                notifyVkTokenChanged(old, token);
+                notifyVKTokenChanged(old, token);
                 return new CheckTokenResult(token);
             }
         }
@@ -353,7 +353,7 @@ public class VKSdk {
     private static void onAccessTokenIsInvalid() {
         VKAccessToken old = VKAccessToken.replaceToken(null);
         if (old != null) {
-            notifyVkTokenChanged(old, null);
+            notifyVKTokenChanged(old, null);
         }
     }
 
