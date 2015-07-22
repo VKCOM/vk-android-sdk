@@ -5,7 +5,7 @@ Library for working with VK API, authorization through VK app, using VK function
 
 Prepare for Using VK SDK
 ----------
-To use VK SDK primarily you need to create a new VK application  <b>[here](https://vk.com/editapp?act=create)</b> by choosing the Standalone application type. Choose a title and confirm the action via SMS and you will be redirected to the application settings page. 
+To use VK SDK primarily you need to create a new VK application  **[here](https://vk.com/editapp?act=create)** by choosing the Standalone application type. Choose a title and confirm the action via SMS and you will be redirected to the application settings page.
 You will require your Application ID (referenced as API_ID in the documentation). Fill in the "Batch name for Android", "Main Activity for Android" and "Certificate fingerprint for Android". 
 
 Certificate Fingerprint Receiving
@@ -24,15 +24,17 @@ The keystore for the release version is usually created by a programmer, so you 
 2) After the keystore's location has been found, use keytool utilite (it is supplied with the Java SDK). You can get keys list with the following command:
 <blockquote>keytool -exportcert -alias androiddebugkey -keystore path-to-debug-or-production-keystore -list -v</blockquote>
 You will observe a similar result:
- <blockquote>Certificate fingerprint: SHA1: DA:39:A3:EE:5E:6B:4B:0D:32:55:BF:EF:95:60:18:90:AF:D8:07:09</blockquote>
+<blockquote>Certificate fingerprint: SHA1: DA:39:A3:EE:5E:6B:4B:0D:32:55:BF:EF:95:60:18:90:AF:D8:07:09</blockquote>
 By deleting all the colons you'll get your key's fingerprint.
 
 Fingerprint Receiveing via SDK
 ----------
 If you've already added SDK to your project, you can use the following function in each Activity of your app.
+
 ```
 String[] fingerprints = VKUtil.getCertificateFingerprint(this, this.getPackageName());
 ```
+
 As a rule, fingerprints contains a single line. It's a fingerprint of your certificate (depends on the certificate used for your app's signing)
 
 <blockquote>You can add more than one fingerprint in your app settings, e.g., debug and release fingerprints.</blockquote>
@@ -55,9 +57,9 @@ Connecting Using Gradle
 ----------
 You can add the library to your project using Gradle.
 
-1) Copy the <b>vksdk_library</b> directory to your project's directory.
+1) Copy the **vksdk_library** directory to your project's directory.
 
-2) Find the <b>settings.gradle</b> file.
+2) Find the **settings.gradle** file.
 
 ![settings.gradle](https://pp.vk.me/c412727/v412727232/8e2a/bHFxzm-XzgU.jpg "settings.gradle")
 
@@ -70,91 +72,135 @@ Edit the line this way:
 include ':vksdk_library',':app'
 ```
 
-3)Now your project includes <b>vksdk_library module</b>. You need to add it like a dependency to your app. Find the build.gradle file in the subdirectory of your app's module (e.g., YOUR_PROJECT/app/build.gradle). 
+3) Now your project includes **vksdk_library module**. You need to add it like a dependency to your app. Find the build.gradle file in the subdirectory of your app's module (e.g., YOUR_PROJECT/app/build.gradle).
 
 ![build.gradle](https://pp.vk.me/c412727/v412727232/8e31/h_ysvAFuh-Y.jpg "build.gradle")
 
-Add this line to the <b>dependencies</b>.
+Add this line to the **dependencies**.
 <blockquote>compile project(':vksdk_library')</blockquote>
 Your file can be like that:
 
 ![build.gradle](https://pp.vk.me/c412727/v412727232/8e23/kZ600DN9jMc.jpg "build.gradle")
 
+
 Connecting Without Gradle
 ----------
 If your project doesn't support Gradle, you can add SDK by the following way:
 
-1) Open <b>Project Settings</b> and select <b>Modules</b>.
+1) Open **Project Settings** and select **Modules**.
 
-2) Click the <b>Add</b> (+) button and select <b>Import module</b>
+2) Click the **Add** (+) button and select **Import module**
 
-3) Find the directory with VK SDK and select <b>vksdk_library</b>, click <b>Add</b>.
+3) Find the directory with VK SDK and select **vksdk_library**, click **Add**.
 
-4) Select <b>Create module from existing sources</b>, then click <b>Next</b> two times. Rename the module from "main" to "vksdk", then click <b>Next</b>.
+4) Select **Create module from existing sources**, then click **Next** two times. Rename the module from "main" to "vksdk", then click **Next**.
 
-5) Add the new <b>vksdk</b> module as a dependency to your app's module.
+5) Add the new **vksdk** module as a dependency to your app's module.
 
 
 Connecting Using Eclipse
 ----------
-1) In <b>Package explorer</b> click right mouse button, then click <b>Import</b>.
-2) Select <b>Android/Existing android code into workspace</b>.
-3) Find a folder with SDK, select <b>vksdk_library</b>.
+1) In **Package explorer** click right mouse button, then click **Import**.
+
+2) Select **Android/Existing android code into workspace**.
+
+3) Find a folder with SDK, select **vksdk_library**.
+
 4) Open Properties of vksdk_library, then Java build path, then Add folder and pick "java" folder
-5) In <b>Properties</b> of your app go to <b>Android</b>, add <b>vksdk_library</b> in the <b>library</b> section.
+
+5) In **Properties** of your app go to **Android**, add **vksdk_library** in the **library** section.
+
 
 Editing AndroidManifest.xml
 ----------
 Your need to add to your manifest the following elements:
+
 1) in the root of <manifest> you need to add permission <uses-permission android:name="android.permission.INTERNET" />
-2) in the <application> element shoud be added <activity android:name="com.vk.sdk.VKOpenAuthActivity" /> to avoid possible problems with running authorizing activity.
+
+2) in the <application> element shoud be added
+
+```
+<activity android:name="com.vk.sdk.VKOpenAuthActivity" />
+```
+
+and
+
+```
+<activity android:name="com.vk.sdk.VKServiceActivity" android:label="ServiceActivity" android:theme="@style/VK.Transparent" />
+```
+
+to avoid possible problems with running authorizing activity.
+
+
 Using SDK
 ==========
 
-UIHelper Applying
-----------
-SDK uses new activities' launch and displaying of some dialogs. This requires up to date information about what activity is now on the screen. So for the correct work of SDK in all of your activities you should to redefine the following methods:
-```
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    VKUIHelper.onCreate(this);
-}
-
-@Override
-protected void onResume() {
-    super.onResume();
-    VKUIHelper.onResume(this);
-}
-
-@Override
-protected void onDestroy() {
-    super.onDestroy();
-    VKUIHelper.onDestroy(this);
-}
-
-@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    VKUIHelper.onActivityResult(this, requestCode, resultCode, data);
-}
-```
 SDK Initialization
 ----------
-Your need to initialize SDK when the application runs using this method.
-`VKSdk.initialize(VKSdkListener listener, String appId, VKAccessToken token);`
+
+1) In the <application> element shoud be added
+
+```
+<meta-data android:name="com.vk.sdk.AppId" android:value="your_app_id" />
+```
+
+2) Call this method to prepare VK SDK for work. Best for call - in your application class. Don't forget to call this method when you starting a service.
+`VKSdk.initialize(Context applicationContext);`
 
 User Authorization
 ----------
-There are several methods for authorization: 
+There are several methods for authorization:
+
 ```
-VKSdk.authorize(String... scope);
-VKSdk.authorize(String[] scope, boolean revoke, boolean forceOAuth);
+VkSdk.login(Activity runningActivity, String... scope);
+VkSdk.login(Fragment runningFragment, String... scope);
 ```
 
-When succeeded, the following method will be called in the listener:
-`public void onReceiveNewToken(VKAccessToken newToken);`
-In case of error (e.g., user canceled authorization):
-`public abstract void onAccessDenied(VKError authorizationError);`
+When succeeded, Sdk call to onActivityResultMethod like this:
+
+```
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
+        @Override
+        public void onResult(VKAccessToken res) {
+            startTestActivity();
+            // User passed Authorization
+        }
+        @Override
+        public void onError(VKError error) {
+            // User didn't pass Authorization
+        }
+    })) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+}
+```
+
+Handling AccessToken invalide
+----------
+
+Use AccessTokenTracker like this
+
+
+```
+public class Application extends android.app.Application {
+    VkAccessTokenTracker vkAccessTokenTracker = new VkAccessTokenTracker() {
+        @Override
+        public void onVKAccessTokenChanged(VKAccessToken oldToken, VKAccessToken newToken) {
+            if (newToken == null) {
+                // VkAccessToken is invalid
+            }
+        }
+    };
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        vkAccessTokenTracker.startTracking();
+        VKSdk.initialize(this);
+    }
+}
+```
 
 API Requests
 ==========
@@ -216,17 +262,7 @@ request.executeWithListener(new VKRequestListener() {
     }
 });
 ```
-Errors Handling
-----------
-The VKError class contains the errorCode property. Compare its value with the global constant VKError.VK_API_ERROR. If it equals, process the apiError field that contains a description of a VK API error. Otherwise you should handle an http error in the httpError property. 
-Some errors (e.g., captcha error, validation error) can be proccessed by the SDK. Appropriate delegate methods will be called for this purpose. 
-Below is an example of captcha error processing:
 
-```
-public void onCaptchaError(VKError captchaError) {
-    new VKCaptchaDialog(captchaError).show();
-}
-```
 Batch Processing Requests
 ----------
 SDK gives a feature to execute several unrelated requests at the one call. 
@@ -241,7 +277,9 @@ VKRequest request4 = VKApi.uploadWallPhotoRequest(new VKUploadImage(photo4, VKIm
 
 2)  Combine created requests into one. 
 `VKBatchRequest batch = new VKBatchRequest(request1, request2, request3, request4);`
+
 3) Load the obtained request.
+
 ```
 batch.executeWithListener(new VKBatchRequestListener() {
     @Override
@@ -260,7 +298,8 @@ batch.executeWithListener(new VKBatchRequestListener() {
     }
 });
 ```
-4) The result of each method returns to a corresponding requestListener. The <b>batch</b> VKResponse for each request in order they have been passed.
+
+4) The result of each method returns to a corresponding requestListener. The **batch** VKResponse for each request in order they have been passed.
 
 Class Reference
 =========
