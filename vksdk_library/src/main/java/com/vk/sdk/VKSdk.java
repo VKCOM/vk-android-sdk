@@ -21,6 +21,7 @@
 
 package com.vk.sdk;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -370,6 +371,7 @@ public class VKSdk {
     /**
      * Wipes out information about the access token and clears cookies for internal browse
      */
+    @SuppressLint("NewApi")
     public static void logout() {
         if (Build.VERSION.SDK_INT < 21) {
             CookieSyncManager.createInstance(VKUIHelper.getApplicationContext());
