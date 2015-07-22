@@ -28,7 +28,7 @@ import android.support.annotation.Nullable;
  *
  * See example usage:
  * <pre>
- * <code>VkAccessTokenTracker vkAccessTokenTracker = new VkAccessTokenTracker() {
+ * <code>VKAccessTokenTracker vkAccessTokenTracker = new VKAccessTokenTracker() {
  *  &#064;Override
  *   public void onVKAccessTokenChanged(VKAccessToken oldToken, VKAccessToken newToken) {
  *       if (newToken == null) {
@@ -39,7 +39,7 @@ import android.support.annotation.Nullable;
  * </code>
  * </pre>
  */
-public abstract class VkAccessTokenTracker {
+public abstract class VKAccessTokenTracker {
 
     /**
      * This method will be call only from main thread
@@ -49,10 +49,10 @@ public abstract class VkAccessTokenTracker {
     public abstract void onVKAccessTokenChanged(@Nullable VKAccessToken oldToken, @Nullable VKAccessToken newToken);
 
     public void startTracking() {
-        VKSdk.addVkTokenTracker(this);
+        VKSdk.addVKTokenTracker(this);
     }
 
     public void stopTracking() {
-        VKSdk.removeVkTokenTracker(this);
+        VKSdk.removeVKTokenTracker(this);
     }
 }
