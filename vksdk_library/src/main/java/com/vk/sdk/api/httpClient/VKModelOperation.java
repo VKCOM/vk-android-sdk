@@ -33,24 +33,27 @@ import org.json.JSONObject;
  * Operation based on json operation with object-model parsing possibility
  */
 public class VKModelOperation extends VKJsonOperation {
-	protected final VKParser mParser;
+    protected final VKParser mParser;
     public Object parsedModel;
 
     /**
      * Create new model operation
+     *
      * @param uriRequest Prepared request
      * @param modelClass Model for parsing response
      */
-    public VKModelOperation(HttpUriRequest uriRequest, Class<? extends VKApiModel> modelClass) {
+    public VKModelOperation(VKHttpClient.VKHTTPRequest uriRequest, Class<? extends VKApiModel> modelClass) {
         super(uriRequest);
         mParser = new VKDefaultParser(modelClass);
     }
+
     /**
      * Create new model operation
+     *
      * @param uriRequest Prepared request
-     * @param parser Parser for create response
+     * @param parser     Parser for create response
      */
-    public VKModelOperation(HttpUriRequest uriRequest, VKParser parser) {
+    public VKModelOperation(VKHttpClient.VKHTTPRequest uriRequest, VKParser parser) {
         super(uriRequest);
         mParser = parser;
     }
@@ -66,8 +69,9 @@ public class VKModelOperation extends VKJsonOperation {
                 parsedModel = mParser.createModel(response);
                 return true;
             } catch (Exception e) {
-                if (VKSdk.DEBUG)
+                if (VKSdk.DEBUG) {
                     e.printStackTrace();
+                }
             }
         }
         return false;

@@ -64,9 +64,9 @@ public class VKStringJoiner {
      * @param isUri       Indicates that value parameters must be uri-encoded
      * @return Result query string, like k=v&k1=v1
      */
-    public static String joinParams(Map<String, Object> queryParams, boolean isUri) {
+    public static String joinParams(Map<String, ?> queryParams, boolean isUri) {
         ArrayList<String> params = new ArrayList<String>(queryParams.size());
-        for (Map.Entry<String, Object> entry : queryParams.entrySet()) {
+        for (Map.Entry<String, ?> entry : queryParams.entrySet()) {
             Object value = entry.getValue();
             if (value instanceof VKAttachments) {
                 value = ((VKAttachments)value).toAttachmentsString();
@@ -83,7 +83,7 @@ public class VKStringJoiner {
      * @param queryParams Map to join
      * @return Joined string
      */
-    public static String joinParams(Map<String, Object> queryParams) {
+    public static String joinParams(Map<String, ?> queryParams) {
         return joinParams(queryParams, false);
     }
 
@@ -93,7 +93,7 @@ public class VKStringJoiner {
      * @param queryParams Map to join
      * @return Joined string
      */
-    public static String joinUriParams(Map<String, Object> queryParams) {
+    public static String joinUriParams(Map<String, ?> queryParams) {
         return joinParams(queryParams, true);
     }
 }

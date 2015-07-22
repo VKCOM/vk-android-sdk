@@ -51,10 +51,10 @@ public class VKApiUsers extends VKApiBase {
      * @return Request for load
      */
     public VKRequest get(VKParameters params) {
-        return prepareRequest("get", params, VKRequest.HttpMethod.GET, new VKParser() {
+        return prepareRequest("get", params, new VKParser() {
             @Override
             public Object createModel(JSONObject object) {
-                return new VKList<VKApiUserFull>(object, VKApiUserFull.class);
+                return new VKList<>(object, VKApiUserFull.class);
             }
         });
     }
@@ -66,7 +66,7 @@ public class VKApiUsers extends VKApiBase {
      * @return Request for load
      */
     public VKRequest search(VKParameters params) {
-        return prepareRequest("search", params, VKRequest.HttpMethod.GET, VKUsersArray.class);
+        return prepareRequest("search", params, VKUsersArray.class);
     }
 
     /**
@@ -86,14 +86,16 @@ public class VKApiUsers extends VKApiBase {
      */
     public VKRequest isAppUser(final int userID) {
         return prepareRequest("isAppUser",
-                new VKParameters() {/**
-					 * 
-					 */
-					private static final long serialVersionUID = 7458591447441581671L;
+                new VKParameters() {
+                    /**
+                     *
+                     */
+                    private static final long serialVersionUID = 7458591447441581671L;
 
-				{
-                    put(VKApiConst.USER_ID, String.valueOf(userID));
-                }});
+                    {
+                        put(VKApiConst.USER_ID, String.valueOf(userID));
+                    }
+                });
     }
 
     /**

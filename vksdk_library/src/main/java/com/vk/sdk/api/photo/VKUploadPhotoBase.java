@@ -34,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Provides common part of photo upload process
@@ -74,7 +75,8 @@ public abstract class VKUploadPhotoBase extends VKRequest {
 		protected VKAbstractOperation lastOperation;
 
         @Override
-        public void start() {
+        public void start(ExecutorService s) {
+            super.start(s);
             final VKRequestListener originalListener = VKUploadPhotoBase.this.requestListener;
 
             VKUploadPhotoBase.this.requestListener = new VKRequestListener() {
@@ -82,23 +84,26 @@ public abstract class VKUploadPhotoBase extends VKRequest {
                 public void onComplete(VKResponse response) {
                     setState(VKOperationState.Finished);
                     response.request = VKUploadPhotoBase.this;
-                    if (originalListener != null)
+                    if (originalListener != null) {
                         originalListener.onComplete(response);
+                    }
                 }
 
                 @Override
                 public void onError(VKError error) {
                     setState(VKOperationState.Finished);
                     error.request = VKUploadPhotoBase.this;
-                    if (originalListener != null)
+                    if (originalListener != null) {
                         originalListener.onError(error);
+                    }
                 }
 
                 @Override
                 public void onProgress(VKProgressType progressType, long bytesLoaded,
                                        long bytesTotal) {
-                    if (originalListener != null)
+                    if (originalListener != null) {
                         originalListener.onProgress(progressType, bytesLoaded, bytesTotal);
+                    }
                 }
             };
             setState(VKOperationState.Executing);
@@ -111,7 +116,7 @@ public abstract class VKUploadPhotoBase extends VKRequest {
                     try {
                         VKJsonOperation postFileRequest = new VKJsonOperation(
                                 VKHttpClient.fileUploadRequest(response.json.getJSONObject("response").getString("upload_url"), mImages));
-                        postFileRequest.setJsonOperationListener(new VKJSONOperationCompleteListener() {
+                        postFileRequest.setHttpOperationListener(new VKJSONOperationCompleteListener() {
                             @Override
                             public void onComplete(VKJsonOperation operation,
                                                    JSONObject response) {
@@ -173,6 +178,11 @@ public abstract class VKUploadPhotoBase extends VKRequest {
         public void finish() {
             super.finish();
             lastOperation = null;
+        }
+
+        @Override
+        public Object getResultObject() {
+            return null;
         }
     }
 

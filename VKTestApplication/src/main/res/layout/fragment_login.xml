@@ -14,15 +14,5 @@
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
         android:layout_gravity="right" />
-
-    <Button
-        android:id="@+id/force_oauth_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/action_sign_in_force"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        android:layout_gravity="right" />
 </LinearLayout>
 

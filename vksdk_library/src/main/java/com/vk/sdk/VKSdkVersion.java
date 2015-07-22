@@ -25,6 +25,6 @@ package com.vk.sdk;
  * Contains SDK versions constants
  */
 public class VKSdkVersion {
-    public static final String SDK_VERSION = "1.3.10";
-    public static final String API_VERSION = "5.21";
+    public static final String SDK_VERSION = "1.5";
+    static final String DEFAULT_API_VERSION = "5.21";
 }

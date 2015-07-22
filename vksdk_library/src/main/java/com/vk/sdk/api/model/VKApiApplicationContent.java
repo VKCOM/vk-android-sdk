@@ -1,7 +1,7 @@
 /**
  * AppInfo.java
  * vk-android-sdk
- *
+ * <p/>
  * Created by Babichev Vitaly on 19.01.14.
  * Copyright (c) 2014 VK. All rights reserved.
  */
@@ -9,7 +9,9 @@ package com.vk.sdk.api.model;
 
 import android.os.Parcel;
 import android.text.TextUtils;
+
 import org.json.JSONObject;
+
 import static com.vk.sdk.api.model.VKAttachments.*;
 
 /**
@@ -43,9 +45,10 @@ public class VKApiApplicationContent extends VKApiAttachment implements android.
      */
     public VKPhotoSizes photo = new VKPhotoSizes();
 
-	public VKApiApplicationContent(JSONObject source) {
-		parse(source);
-	}
+    public VKApiApplicationContent(JSONObject source) {
+        parse(source);
+    }
+
     /**
      * Fills an ApplicationContent instance from JSONObject.
      */
@@ -53,11 +56,11 @@ public class VKApiApplicationContent extends VKApiAttachment implements android.
         id = source.optInt("id");
         name = source.optString("name");
         photo_130 = source.optString("photo_130");
-        if(!TextUtils.isEmpty(photo_130)) {
+        if (!TextUtils.isEmpty(photo_130)) {
             photo.add(VKApiPhotoSize.create(photo_130, 130));
         }
         photo_604 = source.optString("photo_604");
-        if(!TextUtils.isEmpty(photo_604)) {
+        if (!TextUtils.isEmpty(photo_604)) {
             photo.add(VKApiPhotoSize.create(photo_604, 604));
         }
         return this;

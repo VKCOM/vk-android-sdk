@@ -25,6 +25,9 @@ import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.model.VKApiModel;
 import org.json.JSONObject;
 
+/**
+ * This default parser uses standard model as initialized class, then calls {@link VKApiModel#parse(JSONObject)} method at model instance
+ */
 public class VKDefaultParser extends VKParser {
     private final Class<? extends VKApiModel> mModelClass;
     public VKDefaultParser(Class<? extends VKApiModel> objectModel) {

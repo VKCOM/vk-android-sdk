@@ -121,22 +121,14 @@ public class ApiCallActivity extends ActionBarActivity {
 	protected void onResume()
 	{
 		super.onResume();
-		VKUIHelper.onResume(this);
 	}
 
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		VKUIHelper.onDestroy(this);
 		myRequest.cancel();
 		Log.d(VKSdk.SDK_TAG, "On destroy");
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		VKUIHelper.onActivityResult(this, requestCode, resultCode, data);
 	}
 
 	@Override

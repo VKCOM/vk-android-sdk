@@ -12,7 +12,7 @@ public class VKApiFriends extends VKApiBase {
 
     public VKRequest get(VKParameters params) {
         if (params.get("fields") != null) {
-            return prepareRequest("get", params, VKRequest.HttpMethod.GET, VKUsersArray.class);
+            return prepareRequest("get", params, VKUsersArray.class);
         } else {
             return prepareRequest("get", params);
         }
@@ -67,7 +67,7 @@ public class VKApiFriends extends VKApiBase {
     }
 
     public VKRequest getByPhones(VKParameters params) {
-        return prepareRequest("getByPhones", params, VKRequest.HttpMethod.GET, VKUsersArray.class);
+        return prepareRequest("getByPhones", params, VKUsersArray.class);
     }
 
     public VKRequest deleteAllRequests(VKParameters params) {

@@ -25,6 +25,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,22 +60,15 @@ public class VKCaptchaDialog {
 
     /**
      * Prepare, create and show dialog for displaying captcha
-     * @deprecated Use {@link #show(android.content.Context)}
-     */
-    public void show() {
-        show(VKUIHelper.getTopActivity());
-    }
-    /**
-     * Prepare, create and show dialog for displaying captcha
+     *
      * @param context Context activity for dialog
      */
-    public void show(Context context) {
-	    if (context == null) return;
+    public void show(@NonNull Context context, @Nullable DialogInterface.OnDismissListener onDismissListener) {
         View innerView = View.inflate(context, R.layout.vk_captcha_dialog, null);
         assert innerView != null;
         mCaptchaAnswer = (EditText) innerView.findViewById(R.id.captchaAnswer);
-        mCaptchaImage  = (ImageView) innerView.findViewById(R.id.imageView);
-        mProgressBar   = (ProgressBar) innerView.findViewById(R.id.progressBar);
+        mCaptchaImage = (ImageView) innerView.findViewById(R.id.imageView);
+        mProgressBar = (ProgressBar) innerView.findViewById(R.id.progressBar);
 
         mDensity = context.getResources().getDisplayMetrics().density;
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(innerView).create();
@@ -111,15 +106,20 @@ public class VKCaptchaDialog {
                 mCaptchaError.request.cancel();
             }
         });
+        if (onDismissListener != null) {
+            dialog.setOnDismissListener(onDismissListener);
+        }
         loadImage();
         dialog.show();
     }
+
     private void sendAnswer() {
         mCaptchaError.answerCaptcha(mCaptchaAnswer.getText() != null ? mCaptchaAnswer.getText().toString() : "");
     }
+
     private void loadImage() {
         VKImageOperation imageOperation = new VKImageOperation(mCaptchaError.captchaImg);
-        imageOperation.imageDensity     = mDensity;
+        imageOperation.imageDensity = mDensity;
         imageOperation.setImageOperationListener(new VKImageOperation.VKImageOperationListener() {
             @Override
             public void onComplete(VKImageOperation operation, Bitmap image) {

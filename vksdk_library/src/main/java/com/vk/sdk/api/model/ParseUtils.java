@@ -22,6 +22,7 @@
 package com.vk.sdk.api.model;
 
 import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -124,19 +125,19 @@ class ParseUtils {
 
     /**
      * Parses object with follow rules:
-     *
+     * <p/>
      * 1. All fields should had a public access.
      * 2. The name of the filed should be fully equal to name of JSONObject key.
      * 3. Supports parse of all Java primitives, all {@link java.lang.String},
-     *  arrays of primitive types, {@link java.lang.String}s and {@link com.vk.sdk.api.model.VKApiModel}s,
-     *  list implementation line {@link com.vk.sdk.api.model.VKList}, {@link com.vk.sdk.api.model.VKAttachments.VKAttachment} or {@link com.vk.sdk.api.model.VKPhotoSizes},
-     *  {@link com.vk.sdk.api.model.VKApiModel}s.
-     *
+     * arrays of primitive types, {@link java.lang.String}s and {@link com.vk.sdk.api.model.VKApiModel}s,
+     * list implementation line {@link com.vk.sdk.api.model.VKList}, {@link com.vk.sdk.api.model.VKAttachments.VKAttachment} or {@link com.vk.sdk.api.model.VKPhotoSizes},
+     * {@link com.vk.sdk.api.model.VKApiModel}s.
+     * <p/>
      * 4. Boolean fields defines by vk_int == 1 expression.
      *
      * @param object object to initialize
      * @param source data to read values
-     * @param <T> type of result
+     * @param <T>    type of result
      * @return initialized according with given data object
      * @throws JSONException if source object structure is invalid
      */
@@ -181,19 +182,19 @@ class ParseUtils {
                         result = value;
                     } else if (fieldType.isArray() && value instanceof JSONArray) {
                         result = parseArrayViaReflection((JSONArray) value, fieldType);
-                    }  else if(VKPhotoSizes.class.isAssignableFrom(fieldType) && value instanceof JSONArray) {
+                    } else if (VKPhotoSizes.class.isAssignableFrom(fieldType) && value instanceof JSONArray) {
                         Constructor<?> constructor = fieldType.getConstructor(JSONArray.class);
                         result = constructor.newInstance((JSONArray) value);
-                    } else if(VKAttachments.class.isAssignableFrom(fieldType) && value instanceof JSONArray) {
+                    } else if (VKAttachments.class.isAssignableFrom(fieldType) && value instanceof JSONArray) {
                         Constructor<?> constructor = fieldType.getConstructor(JSONArray.class);
                         result = constructor.newInstance((JSONArray) value);
-                    } else if(VKList.class.equals(fieldType)) {
+                    } else if (VKList.class.equals(fieldType)) {
                         ParameterizedType genericTypes = (ParameterizedType) field.getGenericType();
                         Class<?> genericType = (Class<?>) genericTypes.getActualTypeArguments()[0];
-                        if(VKApiModel.class.isAssignableFrom(genericType) && Parcelable.class.isAssignableFrom(genericType) && Identifiable.class.isAssignableFrom(genericType)) {
-                            if(value instanceof JSONArray) {
+                        if (VKApiModel.class.isAssignableFrom(genericType) && Parcelable.class.isAssignableFrom(genericType) && Identifiable.class.isAssignableFrom(genericType)) {
+                            if (value instanceof JSONArray) {
                                 result = new VKList((JSONArray) value, genericType);
-                            } else if(value instanceof JSONObject) {
+                            } else if (value instanceof JSONObject) {
                                 result = new VKList((JSONObject) value, genericType);
                             }
                         }
@@ -223,7 +224,8 @@ class ParseUtils {
     /**
      * Parses array from given JSONArray.
      * Supports parsing of primitive types and {@link com.vk.sdk.api.model.VKApiModel} instances.
-     * @param array JSONArray to parse
+     *
+     * @param array      JSONArray to parse
      * @param arrayClass type of array field in class.
      * @return object to set to array field in class
      * @throws JSONException if given array have incompatible type with given field.
@@ -234,7 +236,7 @@ class ParseUtils {
         for (int i = 0; i < array.length(); i++) {
             try {
                 Object item = array.opt(i);
-                if(VKApiModel.class.isAssignableFrom(subType) && item instanceof JSONObject) {
+                if (VKApiModel.class.isAssignableFrom(subType) && item instanceof JSONObject) {
                     VKApiModel model = (VKApiModel) subType.newInstance();
                     item = model.parse((JSONObject) item);
                 }

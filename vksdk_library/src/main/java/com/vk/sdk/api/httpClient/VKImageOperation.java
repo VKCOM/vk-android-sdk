@@ -26,23 +26,33 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.vk.sdk.api.VKError;
-
-import org.apache.http.client.methods.HttpGet;
-
-public class VKImageOperation extends VKHttpOperation {
+public class VKImageOperation extends VKHttpOperation<Bitmap> {
 
     public float imageDensity;
+
     /**
      * Create new operation for loading prepared Http request.
      *
      * @param imageUrl URL for image
      */
     public VKImageOperation(String imageUrl) {
-        super(new HttpGet(imageUrl));
+        super(new VKHttpClient.VKHTTPRequest(imageUrl));
     }
+
+    @Override
+    public Bitmap getResultObject() {
+        byte[] response = getResponseData();
+        Bitmap image = BitmapFactory.decodeByteArray(response, 0, response.length);
+        if (imageDensity > 0) {
+            image = Bitmap.createScaledBitmap(image, (int) (image.getWidth() * imageDensity), (int) (image.getHeight() * imageDensity), true);
+        }
+        return image;
+
+    }
+
     /**
      * Set listener for current operation
+     *
      * @param listener Listener subclasses VKHTTPOperationCompleteListener
      */
     public void setImageOperationListener(final VKImageOperationListener listener) {
@@ -52,12 +62,7 @@ public class VKImageOperation extends VKHttpOperation {
                 if (VKImageOperation.this.state() != VKOperationState.Finished || mLastException != null) {
                     listener.onError(VKImageOperation.this, generateError(mLastException));
                 } else {
-                    byte[] response = getResponseData();
-                    Bitmap captchaImage = BitmapFactory.decodeByteArray(response, 0, response.length);
-                    if (imageDensity > 0) {
-                        captchaImage = Bitmap.createScaledBitmap(captchaImage, (int) (captchaImage.getWidth() * imageDensity), (int) (captchaImage.getHeight() * imageDensity), true);
-                    }
-                    final Bitmap result = captchaImage;
+                    final Bitmap result = getResultObject();
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
@@ -68,15 +73,10 @@ public class VKImageOperation extends VKHttpOperation {
             }
         });
     }
+
     /**
      * Class representing operation listener for VKHttpOperation
      */
-    public static abstract class VKImageOperationListener  extends VKHTTPOperationCompleteListener
-    {
-        public void onComplete(VKImageOperation operation, Bitmap image) {
-        }
-
-        public void onError(VKImageOperation operation, VKError error) {
-        }
+    public static abstract class VKImageOperationListener extends VKAbstractCompleteListener<VKImageOperation, Bitmap> {
     }
 }

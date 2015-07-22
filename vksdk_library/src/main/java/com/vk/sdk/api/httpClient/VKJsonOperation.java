@@ -29,19 +29,21 @@ import org.json.JSONObject;
 /**
  * Operation for loading HTTP-requests that may return json response
  */
-public class VKJsonOperation extends VKHttpOperation {
-	private JSONObject mResponseJson;
+public class VKJsonOperation extends VKHttpOperation<JSONObject> {
+    private JSONObject mResponseJson;
 
     /**
      * Create new operation with request
+     *
      * @param uriRequest Request prepared manually or with VKHttpClient
      */
-    public VKJsonOperation(HttpUriRequest uriRequest) {
+    public VKJsonOperation(VKHttpClient.VKHTTPRequest uriRequest) {
         super(uriRequest);
     }
 
     /**
      * Generate JSON-response for current operation
+     *
      * @return Parsed JSON object from response string
      */
     public JSONObject getResponseJson() {
@@ -66,46 +68,15 @@ public class VKJsonOperation extends VKHttpOperation {
         return true;
     }
 
-    /**
-     * Not available for JSONOperation
-     * @deprecated This method is deprecated for this class
-     * @param listener Listener subclasses VKHTTPOperationCompleteListener
-     */
     @Override
-    public void setHttpOperationListener(VKHTTPOperationCompleteListener listener) {
-        throw new UnsupportedOperationException("This operation is now available for this class");
-    }
-
-    /**
-     * Sets that json operation listener
-     * @param listener Listener object for that operation
-     */
-    public void setJsonOperationListener(final VKJSONOperationCompleteListener listener) {
-        if (listener == null) {
-            super.setCompleteListener(null);
-            return;
-        }
-
-        this.setCompleteListener(new VKOperationCompleteListener() {
-            @Override
-            public void onComplete() {
-                if (VKJsonOperation.this.state() != VKOperationState.Finished || mLastException != null) {
-                    listener.onError(VKJsonOperation.this, generateError(mLastException));
-                } else {
-                    listener.onComplete(VKJsonOperation.this, mResponseJson);
-                }
-            }
-        });
+    public JSONObject getResultObject() {
+        return mResponseJson;
     }
 
     /**
      * Class representing operation listener for VKJsonOperation
      */
     public static abstract class VKJSONOperationCompleteListener extends VKAbstractCompleteListener<VKJsonOperation, JSONObject> {
-        public void onComplete(VKJsonOperation operation, JSONObject response) {
-        }
 
-        public void onError(VKJsonOperation operation, VKError error) {
-        }
     }
 }

@@ -39,25 +39,17 @@ public abstract class VKApiBase {
     protected abstract String getMethodsGroup();
 
     protected VKRequest prepareRequest(String methodName, VKParameters methodParameters) {
-        return prepareRequest(methodName, methodParameters, VKRequest.HttpMethod.GET);
+        return new VKRequest(String.format(Locale.US, "%s.%s", getMethodsGroup(), methodName), methodParameters, null);
     }
 
     protected VKRequest prepareRequest(String methodName, VKParameters methodParameters,
-                             VKRequest.HttpMethod httpMethod) {
-        return prepareRequest(methodName, methodParameters, httpMethod, (VKParser)null);
+                                       Class<? extends VKApiModel> modelClass) {
+        return new VKRequest(String.format(Locale.US, "%s.%s", getMethodsGroup(), methodName), methodParameters, modelClass);
     }
 
     protected VKRequest prepareRequest(String methodName, VKParameters methodParameters,
-                             VKRequest.HttpMethod httpMethod,
-                             Class<? extends VKApiModel> modelClass) {
-        return new VKRequest(String.format(Locale.US, "%s.%s", getMethodsGroup(), methodName),
-                methodParameters, httpMethod, modelClass);
-    }
-    protected VKRequest prepareRequest(String methodName, VKParameters methodParameters,
-                             VKRequest.HttpMethod httpMethod,
-                             VKParser responseParser) {
-        VKRequest result = new VKRequest(String.format(Locale.US, "%s.%s", getMethodsGroup(), methodName),
-                methodParameters, httpMethod);
+                                       VKParser responseParser) {
+        VKRequest result = new VKRequest(String.format(Locale.US, "%s.%s", getMethodsGroup(), methodName), methodParameters);
         result.setResponseParser(responseParser);
         return result;
     }

@@ -66,18 +66,11 @@ public class TestActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        VKUIHelper.onResume(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        VKUIHelper.onDestroy(this);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        VKUIHelper.onActivityResult(this, requestCode, resultCode, data);
     }
 
     /**

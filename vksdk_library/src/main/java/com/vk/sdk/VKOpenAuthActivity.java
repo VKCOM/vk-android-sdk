@@ -39,6 +39,8 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.vk.sdk.api.VKError;
+
 import java.util.Locale;
 
 /**
@@ -53,7 +55,7 @@ public class VKOpenAuthActivity extends Activity {
     public static final String VK_RESULT_INTENT_NAME = "com.vk.auth-token";
     public static final String VK_EXTRA_TOKEN_DATA = "extra-token-data";
 	public static final String VK_EXTRA_VALIDATION_URL = "extra-validation-url";
-    public static final String VK_EXTRA_VALIDATION_REQUEST = "extra-validation-reques";
+    public static final String VK_EXTRA_VALIDATION_REQUEST = "extra-validation-request";
 
     private static final String REDIRECT_URL = "https://oauth.vk.com/blank.html";
     private static final String ERROR = "error";
@@ -111,6 +113,13 @@ public class VKOpenAuthActivity extends Activity {
             }
         } catch (Exception ignored) {
         }
+    }
+
+    public static Intent validationIntent(VKError validationError) {
+        Intent i = new Intent(VKUIHelper.getApplicationContext(), VKOpenAuthActivity.class);
+        i.putExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_URL, validationError.redirectUri);
+        i.putExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_REQUEST, validationError.request.registerObject());
+        return i;
     }
 
     private class OAuthWebViewClient extends WebViewClient {

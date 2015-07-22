@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2014 VK.com
+//  Copyright (c) 2015 VK.com
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -19,20 +19,11 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-package com.vk.sdk.api.methods;
+package com.vk.sdk;
 
-import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.VKError;
 
-/**
- * Contains single method for forcing captcha
- */
-public class VKApiCaptcha extends VKApiBase {
-    public VKRequest force() {
-        return prepareRequest("force", null);
-    }
-
-    @Override
-    protected String getMethodsGroup() {
-        return "captcha";
-    }
+public interface VKCallback<RESULT> {
+    void onResult(RESULT res);
+    void onError(VKError error);
 }

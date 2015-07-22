@@ -37,28 +37,9 @@ import java.util.Map;
  */
 public class VKError extends VKObject {
 	public static final int VK_API_ERROR = -101;
-    /**
-     * @deprecated Use {@link #VK_CANCELED} instead
-     */
-    public static final int VK_API_CANCELED = -102;
     public static final int VK_CANCELED = -102;
-
-    /**
-     * @deprecated Use {@link #VK_REQUEST_NOT_PREPARED} instead
-     */
-    public static final int VK_API_REQUEST_NOT_PREPARED = -103;
     public static final int VK_REQUEST_NOT_PREPARED = -103;
-
-    /**
-     * @deprecated Use {@link #VK_JSON_FAILED} instead
-     */
-    public static final int VK_API_JSON_FAILED = -104;
     public static final int VK_JSON_FAILED = -104;
-
-    /**
-     * @deprecated Use {@link #VK_REQUEST_HTTP_FAILED} instead
-     */
-    public static final int VK_API_REQUEST_HTTP_FAILED = -105;
     public static final int VK_REQUEST_HTTP_FAILED = -105;
 
     /**

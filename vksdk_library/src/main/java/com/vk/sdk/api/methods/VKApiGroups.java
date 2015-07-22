@@ -17,12 +17,12 @@ public class VKApiGroups extends VKApiBase {
     }
 
     public VKRequest getById(VKParameters params) {
-        return prepareRequest("getById", params, VKRequest.HttpMethod.GET, VKApiCommunityArray.class);
+        return prepareRequest("getById", params, VKApiCommunityArray.class);
     }
 
     public VKRequest get(VKParameters params) {
         if (params.containsKey(VKApiConst.EXTENDED) && ((Integer) params.get(VKApiConst.EXTENDED)) == 1) {
-            return prepareRequest("get", params, VKRequest.HttpMethod.GET, VKApiCommunityArray.class);
+            return prepareRequest("get", params, VKApiCommunityArray.class);
         } else {
             return prepareRequest("get", params);
         }
@@ -49,11 +49,11 @@ public class VKApiGroups extends VKApiBase {
     }
 
     public VKRequest search(VKParameters params) {
-        return prepareRequest("search", params, VKRequest.HttpMethod.GET, VKApiCommunityArray.class);
+        return prepareRequest("search", params, VKApiCommunityArray.class);
     }
 
     public VKRequest getInvites(VKParameters params) {
-        return prepareRequest("getInvites", params, VKRequest.HttpMethod.GET, VKApiCommunityArray.class);
+        return prepareRequest("getInvites", params, VKApiCommunityArray.class);
     }
 
     public VKRequest banUser(VKParameters params) {
@@ -65,7 +65,7 @@ public class VKApiGroups extends VKApiBase {
     }
 
     public VKRequest getBanned(VKParameters params) {
-        return prepareRequest("getBanned", params, VKRequest.HttpMethod.GET, VKUsersArray.class);
+        return prepareRequest("getBanned", params, VKUsersArray.class);
     }
 
     @Override

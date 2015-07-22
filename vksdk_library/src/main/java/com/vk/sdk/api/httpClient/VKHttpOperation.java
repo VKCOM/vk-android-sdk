@@ -21,43 +21,32 @@
 
 package com.vk.sdk.api.httpClient;
 
+import android.support.annotation.Nullable;
+
 import com.vk.sdk.api.VKError;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpUriRequest;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.zip.GZIPInputStream;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Class for loading any data by HTTP request
  */
-public class VKHttpOperation extends VKAbstractOperation {
-	/**
+public class VKHttpOperation<ResponseType> extends VKAbstractOperation {
+    /**
      * Request initialized this object
      */
-    private final HttpUriRequest mUriRequest;
+    private final VKHttpClient.VKHTTPRequest mUriRequest;
     /**
      * Last exception throws while loading or parsing
      */
     protected Exception mLastException;
-    /**
-     * Bytes of HTTP response
-     */
-    private byte[] mResponseBytes;
 
     /**
-     * Stream for output result of HTTP loading
+     * Response data from server
      */
-    public OutputStream outputStream;
-    /**
-     * Standard HTTP response
-     */
-    public HttpResponse response;
+    @Nullable
+    public VKHttpClient.VKHttpResponse response;
 
     /**
      * String representation of response
@@ -69,7 +58,7 @@ public class VKHttpOperation extends VKAbstractOperation {
      *
      * @param uriRequest Prepared request
      */
-    public VKHttpOperation(HttpUriRequest uriRequest) {
+    public VKHttpOperation(VKHttpClient.VKHTTPRequest uriRequest) {
         mUriRequest = uriRequest;
     }
 
@@ -78,32 +67,14 @@ public class VKHttpOperation extends VKAbstractOperation {
      * Start current prepared http-operation for result
      */
     @Override
-    public void start() {
+    public void start(ExecutorService s) {
+        super.start(s);
         setState(VKOperationState.Executing);
         try {
-            if (mUriRequest.isAborted()) return;
-            response = VKHttpClient.getClient().execute(mUriRequest);
-            InputStream inputStream = response.getEntity().getContent();
-            Header contentEncoding = response.getFirstHeader("Content-Encoding");
-            if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
-                inputStream = new GZIPInputStream(inputStream);
-            }
+            if (mUriRequest.isAborted) return;
+            response = VKHttpClient.execute(mUriRequest);
 
-            if (outputStream == null) {
-                outputStream = new ByteArrayOutputStream();
-            }
-
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1)
-                outputStream.write(buffer, 0, bytesRead);
-            inputStream.close();
-            outputStream.flush();
-            if (outputStream instanceof ByteArrayOutputStream) {
-                mResponseBytes = ((ByteArrayOutputStream) outputStream).toByteArray();
-            }
-            outputStream.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             mLastException = e;
         }
         setState(VKOperationState.Finished);
@@ -115,8 +86,14 @@ public class VKHttpOperation extends VKAbstractOperation {
         super.finish();
     }
 
+    @Override
+    public ResponseType getResultObject() {
+        return response != null ? (ResponseType) response.responseBytes : null;
+    }
+
     /**
      * Calls before providing result, but after response loads
+     *
      * @return true is post execution succeed
      */
     protected boolean postExecution() {
@@ -132,30 +109,36 @@ public class VKHttpOperation extends VKAbstractOperation {
         super.cancel();
     }
 
-	/**
-	 * Returns request associated with current operation
-	 * @return URI request
-	 */
-	public HttpUriRequest getUriRequest() { return mUriRequest; }
+    /**
+     * Returns request associated with current operation
+     *
+     * @return URI request
+     */
+    public VKHttpClient.VKHTTPRequest getUriRequest() {
+        return mUriRequest;
+    }
 
     /**
      * Get operation response data
+     *
      * @return Bytes of response
      */
     public byte[] getResponseData() {
-        return mResponseBytes;
+        return response != null ? response.responseBytes : null;
     }
 
     /**
      * Get operation response string, if possible
+     *
      * @return Encoded string from response data bytes
      */
     public String getResponseString() {
-        if (mResponseBytes == null)
+        if (response == null || response.responseBytes == null) {
             return null;
+        }
         if (mResponseString == null) {
             try {
-                mResponseString = new String(mResponseBytes, "UTF-8");
+                mResponseString = new String(response.responseBytes, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 mLastException = e;
             }
@@ -165,6 +148,7 @@ public class VKHttpOperation extends VKAbstractOperation {
 
     /**
      * Generates VKError about that request fails
+     *
      * @param e Exception for error
      * @return New generated error
      */
@@ -184,34 +168,23 @@ public class VKHttpOperation extends VKAbstractOperation {
         return error;
     }
 
+
     /**
      * Set listener for current operation
+     *
      * @param listener Listener subclasses VKHTTPOperationCompleteListener
      */
-    public void setHttpOperationListener(final VKHTTPOperationCompleteListener listener) {
+    public <OperationType extends VKHttpOperation> void setHttpOperationListener(final VKAbstractCompleteListener<OperationType, ResponseType> listener) {
         this.setCompleteListener(new VKOperationCompleteListener() {
+            @SuppressWarnings("unchecked")
             @Override
             public void onComplete() {
                 if (VKHttpOperation.this.state() != VKOperationState.Finished || mLastException != null) {
-                    listener.onError(VKHttpOperation.this, generateError(mLastException));
+                    listener.onError((OperationType) VKHttpOperation.this, generateError(mLastException));
                 } else {
-                    listener.onComplete(VKHttpOperation.this, mResponseBytes);
+                    listener.onComplete((OperationType) VKHttpOperation.this, getResultObject());
                 }
             }
         });
-    }
-
-    /**
-     * Class representing operation listener for VKHttpOperation
-     */
-    public static abstract class VKHTTPOperationCompleteListener extends VKAbstractCompleteListener<VKHttpOperation, byte[]>
-    {
-        @Override
-        public void onComplete(VKHttpOperation operation, byte[] response) {
-        }
-
-        @Override
-        public void onError(VKHttpOperation operation, VKError error) {
-        }
     }
 }

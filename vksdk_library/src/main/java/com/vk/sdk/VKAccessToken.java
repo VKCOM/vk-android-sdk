@@ -25,11 +25,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.util.VKStringJoiner;
 import com.vk.sdk.util.VKUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,6 +49,7 @@ public class VKAccessToken {
     public static final String CREATED = "created";
     public static final String SUCCESS = "success";
 	public static final String EMAIL = "email";
+    public static final String SCOPE = "scope";
 
     /**
      * String token for use in request parameters
@@ -77,6 +83,11 @@ public class VKAccessToken {
 	public String email = null;
 
     /**
+     * Token scope
+     */
+    private Map<String, Boolean> scope = null;
+
+    /**
      * Save token into specified file
      *
      * @param filePath path to file with saved token
@@ -92,6 +103,9 @@ public class VKAccessToken {
      * @param tokenKey Key for saving settings
      */
     public void saveTokenToSharedPreferences(Context ctx, String tokenKey) {
+        if (ctx == null) {
+            return;
+        }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString(tokenKey, serialize());
@@ -104,6 +118,9 @@ public class VKAccessToken {
      * @param tokenKey Key for saving settings
      */
     public static void removeTokenAtKey(Context ctx, String tokenKey) {
+        if (ctx == null) {
+            return;
+        }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor edit = prefs.edit();
         edit.remove(tokenKey);
@@ -114,16 +131,18 @@ public class VKAccessToken {
     }
 
     /**
-     * Serialize token into string
-     *
-     * @return Serialized token string as query-string
+     * Serialize token to VKParameters
+     * @return serialized VKParameters value
      */
-    protected String serialize() {
-        VKParameters params = new VKParameters();
+    protected Map<String, String> tokenParams() {
+        Map<String, String> params = new HashMap<>();
         params.put(ACCESS_TOKEN, accessToken);
-        params.put(EXPIRES_IN, expiresIn);
+        params.put(EXPIRES_IN, "" + expiresIn);
         params.put(USER_ID, userId);
-        params.put(CREATED, created);
+        params.put(CREATED, "" + created);
+        if (scope != null) {
+            params.put(SCOPE, TextUtils.join(",", scope.keySet()));
+        }
 
         if (secret != null) {
             params.put(SECRET, secret);
@@ -131,11 +150,19 @@ public class VKAccessToken {
         if (httpsRequired) {
             params.put(HTTPS_REQUIRED, "1");
         }
-		if (email != null) {
-			params.put(EMAIL, email);
-		}
+        if (email != null) {
+            params.put(EMAIL, email);
+        }
+        return params;
+    }
 
-        return VKStringJoiner.joinParams(params);
+    /**
+     * Serialize token into string
+     *
+     * @return Serialized token string as query-string
+     */
+    protected String serialize() {
+        return VKStringJoiner.joinParams(tokenParams());
     }
 
     /**
@@ -159,16 +186,26 @@ public class VKAccessToken {
      * @return Parsed token
      */
     public static VKAccessToken tokenFromParameters(Map<String, String> parameters) {
-        if (parameters == null || parameters.size() == 0)
+        if (parameters == null || parameters.size() == 0) {
             return null;
+        }
         VKAccessToken token = new VKAccessToken();
         try {
             token.accessToken = parameters.get(ACCESS_TOKEN);
-            token.expiresIn = Integer.parseInt(parameters.get(EXPIRES_IN));
             token.userId = parameters.get(USER_ID);
             token.secret = parameters.get(SECRET);
-			token.email = parameters.get(EMAIL);
+            token.email = parameters.get(EMAIL);
             token.httpsRequired = false;
+            if (parameters.get(EXPIRES_IN) != null) { token.expiresIn = Integer.parseInt(parameters.get(EXPIRES_IN)); }
+
+            String scope = parameters.get(SCOPE);
+            if (scope != null) {
+                HashMap<String, Boolean> scopeMap = new HashMap<>();
+                for (String s : scope.split(",")) {
+                    scopeMap.put(s, true);
+                }
+                token.scope = scopeMap;
+            }
 
             if (parameters.containsKey(HTTPS_REQUIRED)) {
                 token.httpsRequired = parameters.get(HTTPS_REQUIRED).equals("1");
@@ -182,7 +219,7 @@ public class VKAccessToken {
                 token.created = System.currentTimeMillis();
             }
 
-            return token;
+            return token.accessToken != null ? token : null;
         } catch (Exception e) {
             return null;
         }
@@ -222,5 +259,57 @@ public class VKAccessToken {
      */
     public boolean isExpired() {
         return expiresIn > 0 && expiresIn * 1000 + created < System.currentTimeMillis();
+    }
+
+    private static final String VK_SDK_ACCESS_TOKEN_PREF_KEY = "VK_SDK_ACCESS_TOKEN_PLEASE_DONT_TOUCH";
+
+    private volatile static VKAccessToken sCurrentToken;
+
+    /**
+     * @return Returns shared instance of current access token
+     */
+    public static VKAccessToken currentToken() {
+        if (sCurrentToken == null) {
+            synchronized (VKAccessToken.class) {
+                if (sCurrentToken == null) {
+                    sCurrentToken = VKAccessToken.tokenFromSharedPreferences(VKUIHelper.getApplicationContext(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
+                }
+            }
+        }
+        return sCurrentToken;
+    }
+
+    /**
+     * Replaces token with new token, and saves it to shared preferences of application
+     * @param newToken New access token to set. If null, removes old token from preferences
+     * @return old value of access token
+     */
+    static VKAccessToken replaceToken(@Nullable VKAccessToken newToken) {
+        VKAccessToken oldToken = sCurrentToken;
+        sCurrentToken = newToken;
+        if (sCurrentToken != null) {
+            sCurrentToken.save();
+        } else {
+            removeTokenAtKey(VKUIHelper.getApplicationContext(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
+        }
+        return oldToken;
+    }
+
+    /**
+     * Saves this token into application shared preferences
+     */
+    public void save() {
+        saveTokenToSharedPreferences(VKUIHelper.getApplicationContext(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
+    }
+
+    /**
+     * Creates copy of current token, with params from passed token
+     * @param token Usually this is partly filled access token, made after validation
+     * @return New access token with updated fields
+     */
+    public VKAccessToken copyWithToken(@NonNull VKAccessToken token) {
+        Map<String, String> newTokenParams = tokenParams();
+        newTokenParams.putAll(token.tokenParams());
+        return VKAccessToken.tokenFromParameters(newTokenParams);
     }
 }

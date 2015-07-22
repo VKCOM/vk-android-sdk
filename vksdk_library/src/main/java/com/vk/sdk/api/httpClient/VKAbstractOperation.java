@@ -21,17 +21,18 @@
 
 package com.vk.sdk.api.httpClient;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.support.annotation.Nullable;
 
 import com.vk.sdk.api.VKError;
+
+import java.util.concurrent.ExecutorService;
 
 /**
  * Class for executing any kind of asynchronous operation
  */
 public abstract class VKAbstractOperation {
 
-	public enum VKOperationState {
+    public enum VKOperationState {
         Created,
         Ready,
         Executing,
@@ -57,10 +58,15 @@ public abstract class VKAbstractOperation {
         setState(VKOperationState.Ready);
     }
 
+    @Nullable
+    private ExecutorService mResponseQueue;
+
     /**
      * Entry point for operation
      */
-    public abstract void start();
+    public void start(ExecutorService responseQueue) {
+        mResponseQueue = responseQueue;
+    }
 
     /**
      * Cancels current operation and finishes it
@@ -74,10 +80,22 @@ public abstract class VKAbstractOperation {
      * Finishes current operation. Will call onVkShareComplete() function for completeListener
      */
     public void finish() {
-        if (mCompleteListener != null) {
-	        mCompleteListener.onComplete();
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                if (mCompleteListener != null) {
+                    mCompleteListener.onComplete();
+                }
+            }
+        };
+        if (mResponseQueue != null) {
+            mResponseQueue.submit(r);
+        } else {
+            r.run();
         }
     }
+
+    public abstract Object getResultObject();
 
     /**
      * Set complete listener for current operation
@@ -90,9 +108,13 @@ public abstract class VKAbstractOperation {
 
     /**
      * Returns current operation state
+     *
      * @return state constant from {@link VKOperationState}
      */
-    protected VKOperationState state() { return mState; }
+    protected VKOperationState state() {
+        return mState;
+    }
+
     /**
      * Sets operation state. Checks validity of state transition
      *
@@ -104,7 +126,7 @@ public abstract class VKAbstractOperation {
         }
         mState = state;
         if (mState == VKOperationState.Finished ||
-            mState == VKOperationState.Canceled) {
+                mState == VKOperationState.Canceled) {
             finish();
         }
     }
@@ -161,12 +183,13 @@ public abstract class VKAbstractOperation {
         }
     }
 
-    public static interface VKOperationCompleteListener {
-        public void onComplete();
+    public interface VKOperationCompleteListener {
+        void onComplete();
     }
 
-    public static abstract class VKAbstractCompleteListener<OperationType,ResponseType> {
+    public static abstract class VKAbstractCompleteListener<OperationType extends VKAbstractOperation, ResponseType extends Object> {
         public abstract void onComplete(OperationType operation, ResponseType response);
+
         public abstract void onError(OperationType operation, VKError error);
     }
 }

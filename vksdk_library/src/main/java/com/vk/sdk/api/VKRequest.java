@@ -21,32 +21,29 @@
 
 package com.vk.sdk.api;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKObject;
-import com.vk.sdk.VKOpenAuthActivity;
 import com.vk.sdk.VKSdk;
-import com.vk.sdk.VKSdkVersion;
+import com.vk.sdk.VKServiceActivity;
 import com.vk.sdk.VKUIHelper;
 import com.vk.sdk.api.httpClient.VKAbstractOperation;
 import com.vk.sdk.api.httpClient.VKHttpClient;
 import com.vk.sdk.api.httpClient.VKHttpOperation;
 import com.vk.sdk.api.httpClient.VKJsonOperation;
-import com.vk.sdk.api.httpClient.VKJsonOperation.VKJSONOperationCompleteListener;
 import com.vk.sdk.api.httpClient.VKModelOperation;
 import com.vk.sdk.api.model.VKApiModel;
 import com.vk.sdk.util.VKStringJoiner;
 import com.vk.sdk.util.VKUtil;
 
-import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,178 +60,170 @@ public class VKRequest extends VKObject {
         Upload
     }
 
+    @Deprecated
     public enum HttpMethod {
         GET,
         POST
     }
 
-	/**
-	 * Selected method name
-	 */
-	public final  String              methodName;
-	/**
-	 * HTTP method for loading
-	 */
-	public final  HttpMethod          httpMethod;
-	/**
-	 * Passed parameters for method
-	 */
-	private final VKParameters        mMethodParameters;
-	/**
-	 * Method parametes with common parameters
-	 */
-	private       VKParameters        mPreparedParameters;
-	/**
-	 * HTTP loading operation
-	 */
-	private       VKAbstractOperation mLoadingOperation;
-	/**
-	 * How much times request was loaded
-	 */
-	private       int                 mAttemptsUsed;
+    /**
+     * Selected method name
+     */
+    public final String methodName;
 
-	/**
-	 * Requests that should be called after current request.
-	 */
-	private ArrayList<VKRequest>        mPostRequestsQueue;
-	/**
-	 * Class for model parsing
-	 */
-	private Class<? extends VKApiModel> mModelClass;
+    /**
+     * Passed parameters for method
+     */
+    private final VKParameters mMethodParameters;
 
-	/**
-	 * Response parser
-	 */
-	private VKParser mModelParser;
+    /**
+     * Method parametes with common parameters
+     */
+    private VKParameters mPreparedParameters;
 
-	/**
-	 * Specify language for API request
-	 */
-	private String mPreferredLang;
+    /**
+     * HTTP loading operation
+     */
+    private VKAbstractOperation mLoadingOperation;
 
-	/**
-	 * Looper which starts request
-	 */
-	private Looper mLooper;
+    /**
+     * How much times request was loaded
+     */
+    private int mAttemptsUsed;
 
-	/**
-	 * Specify listener for current request
-	 */
-	public VKRequestListener         requestListener;
-	/**
-	 * Specify attempts for request loading if caused HTTP-error. 0 for infinite
-	 */
-	public int                       attempts;
-	/**
-	 * Use HTTPS requests (by default is YES). If http-request is impossible (user denied no https access), SDK will load https version
-	 */
-	public boolean                   secure;
-	/**
-	 * Sets current system language as default for API data
-	 */
-	public boolean                   useSystemLanguage;
-	/**
-	 * Set to false if you don't need automatic model parsing
-	 */
-	public boolean                   parseModel;
-	/**
-	 * Response for this request
-	 */
-	public WeakReference<VKResponse> response;
+    /**
+     * Requests that should be called after current request.
+     */
+    private ArrayList<VKRequest> mPostRequestsQueue;
 
-	/**
-	 * @return Returns HTTP-method for current request
-	 */
-	public HttpMethod getHttpMethod()
-	{
-		return httpMethod;
-	}
+    /**
+     * Class for model parsing
+     */
+    private Class<? extends VKApiModel> mModelClass;
 
-	/**
-	 * @return Returns list of method parameters (without common parameters)
-	 */
-	public VKParameters getMethodParameters()
-	{
-		return mMethodParameters;
-	}
+    /**
+     * Response parser
+     */
+    private VKParser mModelParser;
 
-	/**
-	 * Creates new request with parameters. See documentation for methods here https://vk.com/dev/methods
-	 *
-	 * @param method API-method name, e.g. audio.get
-	 */
-	public VKRequest(String method)
-	{
-		this(method, null);
-	}
+    /**
+     * Specify language for API request
+     */
+    private String mPreferredLang;
 
-	/**
-	 * Creates new request with parameters. See documentation for methods here https://vk.com/dev/methods
-	 *
-	 * @param method     API-method name, e.g. audio.get
-	 * @param parameters method parameters
-	 */
-	public VKRequest(String method, VKParameters parameters)
-	{
-		this(method, parameters, HttpMethod.GET);
-	}
+    /**
+     * Looper which starts request
+     */
+    private Looper mLooper;
 
-	/**
-	 * Creates new request with parameters. See documentation for methods here https://vk.com/dev/methods
-	 *
-	 * @param method     API-method name, e.g. audio.get
-	 * @param parameters method parameters
-	 * @param httpMethod HTTP method for execution, e.g. GET, POST
-	 */
-	public VKRequest(String method, VKParameters parameters, HttpMethod httpMethod)
-	{
-		this.methodName = method;
-		if (parameters == null)
-		{
-			parameters = new VKParameters();
-		}
-		this.mMethodParameters = new VKParameters(parameters);
-		if (httpMethod == null)
-			httpMethod = HttpMethod.GET;
-		this.httpMethod = httpMethod;
-		this.mAttemptsUsed = 0;
+    /**
+     * Specify listener for current request
+     */
+    @Nullable
+    public VKRequestListener requestListener;
 
-		this.secure = true;
-		//By default there is 1 attempt for loading.
-		this.attempts = 1;
+    /**
+     * Specify if this request should present an activity for processing errors, which required user interaction.
+     */
+    public boolean shouldInterruptUI;
 
-		//If system language is not supported, we use english
-		this.mPreferredLang = "en";
-		//By default we use system language.
-		this.useSystemLanguage = true;
-	}
+    /**
+     * Specify attempts for request loading if caused HTTP-error. 0 for infinite
+     */
+    public int attempts;
 
-	/**
-	 * Creates new request with parameters. See documentation for methods here https://vk.com/dev/methods
-	 *
-	 * @param method     API-method name, e.g. audio.get
-	 * @param parameters method parameters
-	 * @param httpMethod HTTP method for execution, e.g. GET, POST
-	 * @param modelClass class for automatic parse
-	 */
-	public VKRequest(String method, VKParameters parameters, HttpMethod httpMethod,
-	                 Class<? extends VKApiModel> modelClass)
-	{
-		this(method, parameters, httpMethod);
-		setModelClass(modelClass);
-	}
+    /**
+     * Use HTTPS requests (by default is YES). If http-request is impossible (user denied no https access), SDK will load https version
+     */
+    public boolean secure;
 
-	/**
-	 * Executes that request, and returns result to blocks
-	 *
-	 * @param listener listener for request events
+    /**
+     * Sets current system language as default for API data
+     */
+    public boolean useSystemLanguage;
+
+    /**
+     * Set to false if you don't need automatic model parsing
+     */
+    public boolean parseModel;
+
+    /**
+     * Response for this request
+     */
+    public WeakReference<VKResponse> response;
+
+    /**
+     * @return Returns list of method parameters (without common parameters)
+     */
+    public VKParameters getMethodParameters() {
+        return mMethodParameters;
+    }
+
+    /**
+     * Creates new request with parameters. See documentation for methods here https://vk.com/dev/methods
+     *
+     * @param method API-method name, e.g. audio.get
+     */
+    public VKRequest(String method) {
+        this(method, null);
+    }
+
+    /**
+     * Creates new request with parameters. See documentation for methods here https://vk.com/dev/methods
+     *
+     * @param method     API-method name, e.g. audio.get
+     * @param parameters method parameters
+     */
+    public VKRequest(String method, VKParameters parameters) {
+        this(method, parameters, null);
+    }
+
+    @Deprecated
+    public VKRequest(String method, VKParameters parameters, HttpMethod httpMethod,
+                     Class<? extends VKApiModel> modelClass) {
+        this(method, parameters, modelClass);
+    }
+
+    /**
+     * Creates new request with parameters. See documentation for methods here https://vk.com/dev/methods
+     *
+     * @param method     API-method name, e.g. audio.get
+     * @param parameters method parameters
+     * @param modelClass class for automatic parse
+     */
+    public VKRequest(String method, VKParameters parameters, Class<? extends VKApiModel> modelClass) {
+        this.methodName = method;
+        if (parameters == null) {
+            parameters = new VKParameters();
+        }
+        this.mMethodParameters = new VKParameters(parameters);
+        this.mAttemptsUsed = 0;
+
+        this.secure = true;
+        //By default there is 1 attempt for loading.
+        this.attempts = 1;
+
+        //If system language is not supported, we use english
+        this.mPreferredLang = "en";
+        //By default we use system language.
+        this.useSystemLanguage = true;
+
+        this.shouldInterruptUI = true;
+
+        setModelClass(modelClass);
+    }
+
+    /**
+     * Executes that request, and returns result to blocks
+     *
+     * @param listener listener for request events
      */
     public void executeWithListener(VKRequestListener listener) {
         this.requestListener = listener;
         start();
     }
 
-    public void setRequestListener(VKRequestListener listener) {
+    public void setRequestListener(@Nullable VKRequestListener listener) {
         this.requestListener = listener;
     }
 
@@ -251,7 +240,7 @@ public class VKRequest extends VKObject {
 
     private void addPostRequest(VKRequest postRequest) {
         if (mPostRequestsQueue == null) {
-            mPostRequestsQueue = new ArrayList<VKRequest>();
+            mPostRequestsQueue = new ArrayList<>();
         }
         mPostRequestsQueue.add(postRequest);
     }
@@ -262,14 +251,14 @@ public class VKRequest extends VKObject {
 
             //Set current access token from SDK object
             VKAccessToken token = VKSdk.getAccessToken();
-	        if (token != null)
+            if (token != null)
                 mPreparedParameters.put(VKApiConst.ACCESS_TOKEN, token.accessToken);
             if (!this.secure)
-	            if (token != null && (token.secret != null || token.httpsRequired)) {
+                if (token != null && (token.secret != null || token.httpsRequired)) {
                     this.secure = true;
                 }
             //Set actual version of API
-            mPreparedParameters.put(VKApiConst.VERSION, VKSdkVersion.API_VERSION);
+            mPreparedParameters.put(VKApiConst.VERSION, VKSdk.getApiVersion());
             //Set preferred language for request
             mPreparedParameters.put(VKApiConst.LANG, getLang());
 
@@ -293,8 +282,8 @@ public class VKRequest extends VKObject {
      *
      * @return Prepared HttpUriRequest for that VKRequest
      */
-    public HttpUriRequest getPreparedRequest() {
-        HttpUriRequest request = VKHttpClient.requestWithVkRequest(this);
+    public VKHttpClient.VKHTTPRequest getPreparedRequest() {
+        VKHttpClient.VKHTTPRequest request = VKHttpClient.requestWithVkRequest(this);
         if (request == null) {
             VKError error = new VKError(VKError.VK_REQUEST_NOT_PREPARED);
             provideError(error);
@@ -307,66 +296,74 @@ public class VKRequest extends VKObject {
         if (this.parseModel) {
             if (this.mModelClass != null) {
                 mLoadingOperation = new VKModelOperation(getPreparedRequest(), this.mModelClass);
-            } else if (this.mModelParser != null){
+            } else if (this.mModelParser != null) {
                 mLoadingOperation = new VKModelOperation(getPreparedRequest(), this.mModelParser);
             }
         }
-        if (mLoadingOperation == null)
+        if (mLoadingOperation == null) {
             mLoadingOperation = new VKJsonOperation(getPreparedRequest());
-        ((VKJsonOperation) mLoadingOperation).setJsonOperationListener(
-                new VKJSONOperationCompleteListener() {
-                    @Override
-                    public void onComplete(VKJsonOperation operation, JSONObject response) {
-                        if (response.has("error")) {
-                            try {
-                                VKError error = new VKError(response.getJSONObject("error"));
-	                            if (VKSdk.DEBUG && VKSdk.DEBUG_API_ERRORS) {
-		                            Log.w(VKSdk.SDK_TAG, operation.getResponseString());
-	                            }
-                                if (processCommonError(error)) return;
-                                provideError(error);
-                            } catch (JSONException e) {
-                                if (VKSdk.DEBUG)
-                                    e.printStackTrace();
-                            }
+        }
+        if (mLoadingOperation instanceof VKHttpOperation) {
+            ((VKHttpOperation) mLoadingOperation).setHttpOperationListener(getHttpListener());
+        }
+        return mLoadingOperation;
+    }
 
-                            return;
+    private VKJsonOperation.VKJSONOperationCompleteListener getHttpListener() {
+        return new VKJsonOperation.VKJSONOperationCompleteListener() {
+            @Override
+            public void onComplete(VKJsonOperation operation, JSONObject response) {
+                if (response.has("error")) {
+                    try {
+                        VKError error = new VKError(response.getJSONObject("error"));
+                        if (VKSdk.DEBUG && VKSdk.DEBUG_API_ERRORS) {
+                            Log.w(VKSdk.SDK_TAG, operation.getResponseString());
                         }
-                        provideResponse(response,
-                                mLoadingOperation instanceof VKModelOperation ?
-                                        ((VKModelOperation) mLoadingOperation).parsedModel :
-                                        null);
-                    }
-
-                    @Override
-                    public void onError(VKJsonOperation operation, VKError error) {
-                        //Хак для проверки того, что корректно распарсился ответ при заливке картинок
-                        if (    error.errorCode != VKError.VK_CANCELED  &&
-                                error.errorCode != VKError.VK_API_ERROR &&
-                                operation != null && operation.response != null &&
-                                operation.response.getStatusLine().getStatusCode() == 200) {
-                            provideResponse(operation.getResponseJson(), null);
-                            return;
-                        }
-	                    if (VKSdk.DEBUG && VKSdk.DEBUG_API_ERRORS &&
-                            operation != null && operation.getResponseString() != null) {
-		                    Log.w(VKSdk.SDK_TAG, operation.getResponseString());
-	                    }
-                        if (attempts == 0 || ++mAttemptsUsed < attempts) {
-                            if (requestListener != null)
-                                requestListener.attemptFailed(VKRequest.this, mAttemptsUsed, attempts);
-                            runOnLooper(new Runnable() {
-                                @Override
-                                public void run() {
-                                    start();
-                                }
-                            }, 300);
+                        if (processCommonError(error)) {
                             return;
                         }
                         provideError(error);
+                    } catch (JSONException e) {
+                        if (VKSdk.DEBUG)
+                            e.printStackTrace();
                     }
-                });
-        return mLoadingOperation;
+
+                    return;
+                }
+                provideResponse(response,
+                        mLoadingOperation instanceof VKModelOperation
+                                ? ((VKModelOperation) mLoadingOperation).parsedModel
+                                : null);
+            }
+
+            @Override
+            public void onError(VKJsonOperation operation, VKError error) {
+                //Хак для проверки того, что корректно распарсился ответ при заливке картинок
+                if (error.errorCode != VKError.VK_CANCELED &&
+                        error.errorCode != VKError.VK_API_ERROR &&
+                        operation != null && operation.response != null &&
+                        operation.response.statusCode == 200) {
+                    provideResponse(operation.getResponseJson(), null);
+                    return;
+                }
+                if (VKSdk.DEBUG && VKSdk.DEBUG_API_ERRORS &&
+                        operation != null && operation.getResponseString() != null) {
+                    Log.w(VKSdk.SDK_TAG, operation.getResponseString());
+                }
+                if (attempts == 0 || ++mAttemptsUsed < attempts) {
+                    if (requestListener != null)
+                        requestListener.attemptFailed(VKRequest.this, mAttemptsUsed, attempts);
+                    runOnLooper(new Runnable() {
+                        @Override
+                        public void run() {
+                            start();
+                        }
+                    }, 300);
+                    return;
+                }
+                provideError(error);
+            }
+        };
     }
 
     /**
@@ -376,7 +373,9 @@ public class VKRequest extends VKObject {
         if ((mLoadingOperation = getOperation()) == null) {
             return;
         }
-	    mLooper = Looper.myLooper();
+        if (mLooper == null) {
+            mLooper = Looper.myLooper();
+        }
         VKHttpClient.enqueueOperation(mLoadingOperation);
     }
 
@@ -387,7 +386,7 @@ public class VKRequest extends VKObject {
     public void repeat() {
         this.mAttemptsUsed = 0;
         this.mPreparedParameters = null;
-        this.mLoadingOperation   = null;
+        this.mLoadingOperation = null;
         start();
     }
 
@@ -395,10 +394,12 @@ public class VKRequest extends VKObject {
      * Cancel current request. Result will be not passed. errorBlock will be called with error code
      */
     public void cancel() {
-        if (mLoadingOperation != null)
+        if (mLoadingOperation != null) {
             mLoadingOperation.cancel();
-        else
+        }
+        else {
             provideError(new VKError(VKError.VK_CANCELED));
+        }
     }
 
     /**
@@ -409,19 +410,19 @@ public class VKRequest extends VKObject {
     private void provideError(final VKError error) {
         error.request = this;
 
-	    runOnLooper(new Runnable()
-	    {
-		    @Override public void run()
-		    {
-			    if (requestListener != null) {
-				    requestListener.onError(error);
-			    }
-			    if (mPostRequestsQueue != null && mPostRequestsQueue.size() > 0) {
-				    for (VKRequest postRequest : mPostRequestsQueue)
-					    if (postRequest.requestListener != null) postRequest.requestListener.onError(error);
-			    }
-		    }
-	    });
+        runOnLooper(new Runnable() {
+            @Override
+            public void run() {
+                if (requestListener != null) {
+                    requestListener.onError(error);
+                }
+                if (mPostRequestsQueue != null && mPostRequestsQueue.size() > 0) {
+                    for (VKRequest postRequest : mPostRequestsQueue)
+                        if (postRequest.requestListener != null)
+                            postRequest.requestListener.onError(error);
+                }
+            }
+        });
 
     }
 
@@ -437,29 +438,25 @@ public class VKRequest extends VKObject {
         response.json = jsonResponse;
         response.parsedModel = parsedModel;
 
-	    this.response = new WeakReference<VKResponse>(response);
-	    if (mLoadingOperation instanceof VKHttpOperation) {
-		    response.responseString = ((VKHttpOperation)mLoadingOperation).getResponseString();
-	    }
+        this.response = new WeakReference<>(response);
+        if (mLoadingOperation instanceof VKHttpOperation) {
+            response.responseString = ((VKHttpOperation) mLoadingOperation).getResponseString();
+        }
 
-	    runOnLooper(new Runnable()
-	    {
-		    @Override public void run()
-		    {
-			    if (mPostRequestsQueue != null && mPostRequestsQueue.size() > 0)
-			    {
-				    for (final VKRequest request : mPostRequestsQueue)
-				    {
-					    request.start();
-				    }
-			    }
+        runOnLooper(new Runnable() {
+            @Override
+            public void run() {
+                if (mPostRequestsQueue != null && mPostRequestsQueue.size() > 0) {
+                    for (final VKRequest request : mPostRequestsQueue) {
+                        request.start();
+                    }
+                }
 
-			    if (requestListener != null)
-			    {
-				    requestListener.onComplete(response);
-			    }
-		    }
-	    });
+                if (requestListener != null) {
+                    requestListener.onComplete(response);
+                }
+            }
+        });
     }
 
     /**
@@ -492,52 +489,31 @@ public class VKRequest extends VKObject {
     }
 
     private boolean processCommonError(final VKError error) {
+        //TODO: lock thread, if ui required, release then
         if (error.errorCode == VKError.VK_API_ERROR) {
-            if (error.apiError.errorCode == 14) {
-                error.apiError.request = this;
-                this.mLoadingOperation = null;
-	            runOnLooper(new Runnable()
-	            {
-		            @Override public void run()
-		            {
-			            VKSdk.instance().sdkListener().onCaptchaError(error.apiError);
-		            }
-	            });
+            final VKError apiError = error.apiError;
 
-                return true;
-            } else if (error.apiError.errorCode == 16) {
-                VKAccessToken token = VKSdk.getAccessToken();
+            VKSdk.notifySdkAboutApiError(apiError);
+
+            if (apiError.errorCode == 16) {
+                VKAccessToken token = VKAccessToken.currentToken();
                 if (token != null) {
                     token.httpsRequired = true;
+                    token.save();
                 }
-	            runOnLooper(new Runnable()
-	            {
-		            @Override public void run()
-		            {
-			            repeat();
-		            }
-	            });
+                repeat();
 
                 return true;
-            } else if (error.apiError.errorCode == 17) {
-	            if (VKUIHelper.getTopActivity() != null)
-	            {
-		            runOnMainLooper(new Runnable()
-		            {
-			            @Override public void run()
-			            {
-				            Intent i = new Intent(VKUIHelper.getTopActivity(), VKOpenAuthActivity.class);
-				            i.putExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_URL,
-				                       error.apiError.redirectUri);
-				            i.putExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_REQUEST,
-				                       VKRequest.this.registerObject());
-				            VKUIHelper.getTopActivity()
-				                      .startActivityForResult(i, VKSdk.VK_SDK_REQUEST_CODE);
-			            }
-		            });
-
-		            return true;
-	            }
+            } else if (shouldInterruptUI) {
+                apiError.request = this;
+                if (error.apiError.errorCode == 14) {
+                    this.mLoadingOperation = null;
+                    VKServiceActivity.interruptWithError(apiError, VKServiceActivity.VKServiceType.Captcha);
+                    return true;
+                } else if (apiError.errorCode == 17) {
+                    VKServiceActivity.interruptWithError(apiError, VKServiceActivity.VKServiceType.Validation);
+                    return true;
+                }
             }
         }
 
@@ -546,8 +522,9 @@ public class VKRequest extends VKObject {
 
     private String getLang() {
         String result = mPreferredLang;
-        if (useSystemLanguage) {
-            result = VKUIHelper.getApplicationContext().getResources().getConfiguration().locale.getLanguage();
+        Context ctx = VKUIHelper.getApplicationContext();
+        if (useSystemLanguage && ctx != null && ctx.getResources() != null) {
+            result = ctx.getResources().getConfiguration().locale.getLanguage();
             if (result.equals("uk")) {
                 result = "ua";
             }
@@ -562,6 +539,7 @@ public class VKRequest extends VKObject {
 
     /**
      * Sets preferred language for api results.
+     *
      * @param lang Two letter language code. May be "ru", "en", "ua", "es", "fi", "de", "it"
      */
     public void setPreferredLang(String lang) {
@@ -571,6 +549,7 @@ public class VKRequest extends VKObject {
 
     /**
      * Sets class for parse object model
+     *
      * @param modelClass Class extends VKApiModel
      */
     public void setModelClass(Class<? extends VKApiModel> modelClass) {
@@ -579,29 +558,36 @@ public class VKRequest extends VKObject {
             parseModel = true;
     }
 
+    /**
+     * Specify parser for response json, which creates data model
+     * @param parser
+     */
     public void setResponseParser(VKParser parser) {
         mModelParser = parser;
-        if (mModelParser != null)
+        if (mModelParser != null) {
             parseModel = true;
+        }
     }
 
     private void runOnLooper(Runnable block) {
         runOnLooper(block, 0);
     }
-	private void runOnLooper(Runnable block, int delay) {
-		if (mLooper == null) {
-			mLooper = Looper.getMainLooper();
-		}
+
+    private void runOnLooper(Runnable block, int delay) {
+        if (mLooper == null) {
+            mLooper = Looper.getMainLooper();
+        }
         if (delay > 0) {
             new Handler(mLooper).postDelayed(block, delay);
         } else {
             new Handler(mLooper).post(block);
         }
-	}
-	private void runOnMainLooper(Runnable block) {
+    }
 
-		new Handler(Looper.getMainLooper()).post(block);
-	}
+    private void runOnMainLooper(Runnable block) {
+
+        new Handler(Looper.getMainLooper()).post(block);
+    }
 
     /**
      * Extend listeners for requests from that class
@@ -642,9 +628,10 @@ public class VKRequest extends VKObject {
          * @param bytesLoaded  total bytes loaded
          * @param bytesTotal   total bytes suppose to be loaded
          */
-        public void onProgress(VKRequest.VKProgressType progressType, long bytesLoaded, long bytesTotal) {
+        public void onProgress(VKProgressType progressType, long bytesLoaded, long bytesTotal) {
         }
     }
+
     public static VKRequest getRegisteredRequest(long requestId) {
         return (VKRequest) getRegisteredObject(requestId);
     }

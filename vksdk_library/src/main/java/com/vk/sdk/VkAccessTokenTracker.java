@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2014 VK.com
+//  Copyright (c) 2015 VK.com
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -19,20 +19,40 @@
 //  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-package com.vk.sdk.api.methods;
+package com.vk.sdk;
 
-import com.vk.sdk.api.VKRequest;
+import android.support.annotation.Nullable;
 
 /**
- * Contains single method for forcing captcha
+ * Use this class for track access token changes.
+ *
+ * See example usage:
+ * <pre>
+ * <code>VkAccessTokenTracker vkAccessTokenTracker = new VkAccessTokenTracker() {
+ *  &#064;Override
+ *   public void onVKAccessTokenChanged(VKAccessToken oldToken, VKAccessToken newToken) {
+ *       if (newToken == null) {
+ *           Toast.makeText(Application.this, "AccessToken invalidated", Toast.LENGTH_LONG).show();
+ *       }
+ *   }
+ * };
+ * </code>
+ * </pre>
  */
-public class VKApiCaptcha extends VKApiBase {
-    public VKRequest force() {
-        return prepareRequest("force", null);
+public abstract class VkAccessTokenTracker {
+
+    /**
+     * This method will be call only from main thread
+     * @param oldToken Token before changes
+     * @param newToken Actual token after changes
+     */
+    public abstract void onVKAccessTokenChanged(@Nullable VKAccessToken oldToken, @Nullable VKAccessToken newToken);
+
+    public void startTracking() {
+        VKSdk.addVkTokenTracker(this);
     }
 
-    @Override
-    protected String getMethodsGroup() {
-        return "captcha";
+    public void stopTracking() {
+        VKSdk.removeVkTokenTracker(this);
     }
 }
