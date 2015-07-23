@@ -25,7 +25,7 @@ import android.support.annotation.Nullable;
 
 /**
  * Use this class for track access token changes.
- *
+ * <p/>
  * See example usage:
  * <pre>
  * <code>VKAccessTokenTracker vkAccessTokenTracker = new VKAccessTokenTracker() {
@@ -41,18 +41,27 @@ import android.support.annotation.Nullable;
  */
 public abstract class VKAccessTokenTracker {
 
+    private boolean isTracking = false;
+
     /**
      * This method will be call only from main thread
+     *
      * @param oldToken Token before changes
      * @param newToken Actual token after changes
      */
     public abstract void onVKAccessTokenChanged(@Nullable VKAccessToken oldToken, @Nullable VKAccessToken newToken);
 
+    public boolean isTracking() {
+        return isTracking;
+    }
+
     public void startTracking() {
         VKSdk.addVKTokenTracker(this);
+        isTracking = true;
     }
 
     public void stopTracking() {
         VKSdk.removeVKTokenTracker(this);
+        isTracking = false;
     }
 }
