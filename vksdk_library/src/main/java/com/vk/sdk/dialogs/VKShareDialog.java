@@ -246,7 +246,7 @@ public class VKShareDialog extends DialogFragment {
                 if (mListener != null) {
                     mListener.onVkShareCancel();
                 }
-                VKShareDialog.this.dismiss();
+                dismissAllowingStateLoss();
             }
         });
 
@@ -409,7 +409,7 @@ public class VKShareDialog extends DialogFragment {
                 if (mListener != null) {
                     mListener.onVkShareComplete(res.post_id);
                 }
-                dismiss();
+                dismissAllowingStateLoss();
             }
         });
     }
