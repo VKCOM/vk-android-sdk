@@ -22,7 +22,6 @@
 package com.vk.sdk.dialogs;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,7 +37,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -331,6 +329,9 @@ public class VKShareDialog extends DialogFragment {
                 if (VKSdk.DEBUG) {
                     Log.w(VKSdk.SDK_TAG, "Cannot load photos for share: " + error.toString());
                 }
+                if (mListener != null) {
+                    mListener.onVkShareError(error);
+                }
             }
         });
     }
@@ -400,6 +401,9 @@ public class VKShareDialog extends DialogFragment {
             @Override
             public void onError(VKError error) {
                 setIsLoading(false);
+                if (mListener != null) {
+                    mListener.onVkShareError(error);
+                }
             }
 
             @Override
@@ -432,6 +436,9 @@ public class VKShareDialog extends DialogFragment {
                     @Override
                     public void onError(VKError error) {
                         setIsLoading(false);
+                        if (mListener != null) {
+                            mListener.onVkShareError(error);
+                        }
                     }
                 });
             } else {
@@ -487,5 +494,7 @@ public class VKShareDialog extends DialogFragment {
         void onVkShareComplete(int postId);
 
         void onVkShareCancel();
+
+        void onVkShareError(VKError error);
     }
 }
