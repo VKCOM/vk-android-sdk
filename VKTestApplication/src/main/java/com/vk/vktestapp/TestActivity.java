@@ -179,6 +179,11 @@ public class TestActivity extends ActionBarActivity {
                                 public void onVkShareCancel() {
                                     b.recycle();
                                 }
+
+                                @Override
+                                public void onVkShareError(VKError error) {
+                                    b.recycle();
+                                }
                             })
                             .show(getFragmentManager(), "VK_SHARE_DIALOG");
                 }
