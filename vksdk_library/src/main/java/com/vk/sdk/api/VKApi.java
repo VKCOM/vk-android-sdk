@@ -22,6 +22,7 @@
 package com.vk.sdk.api;
 
 import com.vk.sdk.api.methods.VKApiAudio;
+import com.vk.sdk.api.methods.VKApiMessages;
 import com.vk.sdk.api.methods.VKApiFriends;
 import com.vk.sdk.api.methods.VKApiGroups;
 import com.vk.sdk.api.methods.VKApiPhotos;
@@ -52,7 +53,13 @@ public class VKApi {
     public static VKApiFriends friends() {
         return new VKApiFriends();
     }
-
+    /**
+     * https://vk.com/dev/messages
+     * Returns object for preparing requests to messages part of API
+     */
+    public static VKApiMessages messages() {
+        return new VKApiMessages();
+    }
     /**
      * https://vk.com/dev/wall
      * Returns object for preparing requests to wall part of API

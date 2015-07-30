@@ -28,6 +28,20 @@
             android:paddingLeft="32dp"
             android:paddingRight="32dp"/>
         <Button
+            android:id="@+id/messages_get"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/messages_get"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"/>
+        <Button
+            android:id="@+id/dialogs_get"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dialogs_get"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"/>
+        <Button
             android:id="@+id/captcha_force"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

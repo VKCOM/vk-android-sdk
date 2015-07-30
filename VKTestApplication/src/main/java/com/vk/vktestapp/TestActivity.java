@@ -13,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.vk.sdk.VKUIHelper;
 import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKBatchRequest;
@@ -25,6 +25,8 @@ import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKRequest.VKRequestListener;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.methods.VKApiCaptcha;
+import com.vk.sdk.api.model.VKApiGetDialogResponse;
+import com.vk.sdk.api.model.VKApiGetMessagesResponse;
 import com.vk.sdk.api.model.VKApiPhoto;
 import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKPhotoArray;
@@ -93,10 +95,10 @@ public class TestActivity extends ActionBarActivity {
 
                     VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS,
                             "id,first_name,last_name,sex,bdate,city,country,photo_50,photo_100," +
-                            "photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online," +
-                            "online_mobile,lists,domain,has_mobile,contacts,connections,site,education," +
-                            "universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message," +
-                            "status,last_seen,common_count,relation,relatives,counters"));
+                                    "photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online," +
+                                    "online_mobile,lists,domain,has_mobile,contacts,connections,site,education," +
+                                    "universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message," +
+                                    "status,last_seen,common_count,relation,relatives,counters"));
 //                    VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.USER_IDS, "1,2"));
                     request.secure = false;
                     request.useSystemLanguage = false;
@@ -108,6 +110,22 @@ public class TestActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View view) {
                     VKRequest request = VKApi.friends().get(VKParameters.from(VKApiConst.FIELDS, "id,first_name,last_name,sex,bdate,city"));
+                    startApiCall(request);
+                }
+            });
+
+            view.findViewById(R.id.messages_get).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VKRequest request = VKApi.messages().get();
+                    startApiCall(request);
+                }
+            });
+
+            view.findViewById(R.id.dialogs_get).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VKRequest request = VKApi.messages().getDialogs();
                     startApiCall(request);
                 }
             });
