@@ -31,7 +31,7 @@ import com.vk.sdk.api.model.VKApiGetMessagesResponse;
 import org.json.JSONObject;
 
 /**
- * Builds requests for API.users part
+ * Builds requests for API.messages part
  */
 public class VKApiMessages extends VKApiBase {
     /**
