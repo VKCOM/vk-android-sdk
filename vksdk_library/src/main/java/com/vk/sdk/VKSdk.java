@@ -26,10 +26,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -60,8 +57,8 @@ public class VKSdk {
     public static final boolean DEBUG = false;
     public static final boolean DEBUG_API_ERRORS = false;
     public static final String SDK_TAG = "VK SDK";
-    public static final String SDK_APP_ID = "com.vk.sdk.AppId";
-    public static final String SDK_API_VERSION = "com.vk.sdk.ApiVersion";
+    public static final String SDK_APP_ID = "com_vk_sdk_AppId";
+    public static final String SDK_API_VERSION = "com_vk_sdk_ApiVersion";
 
     static final int RESULT_OK = Activity.RESULT_OK;
     static final int RESULT_ERROR = Activity.RESULT_CANCELED;
@@ -131,16 +128,10 @@ public class VKSdk {
             throw new NullPointerException("Application context cannot be null");
         }
 
-        try {
-            ApplicationInfo ai = applicationContext.getPackageManager().getApplicationInfo(applicationContext.getPackageName(), PackageManager.GET_META_DATA);
-            Bundle bundle = ai.metaData;
-            sCurrentAppId = bundle.getInt(SDK_APP_ID);
-            sCurrentApiVersion = bundle.getString(SDK_API_VERSION);
-            if (sCurrentApiVersion == null) {
-                sCurrentApiVersion = VKSdkVersion.DEFAULT_API_VERSION;
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        sCurrentAppId = getIntResByName(applicationContext, SDK_APP_ID);
+        sCurrentApiVersion = getStringResByName(applicationContext, SDK_API_VERSION);
+        if (sCurrentApiVersion == null) {
+            sCurrentApiVersion = VKSdkVersion.DEFAULT_API_VERSION;
         }
 
         sCurrentLoginState = LoginState.Unknown;
@@ -148,7 +139,25 @@ public class VKSdk {
         wakeUpSession(applicationContext);
 
         if (sCurrentAppId == 0) {
-            throw new RuntimeException("<meta-data android:name=\"com.vk.sdk.AppId\" android:value=\"your_app_id\"/> did not find in your manifest");
+            throw new RuntimeException("String <integer name=\"com_vk_sdk_AppId\">your_app_id</integer> did not find in your resources.xml");
+        }
+    }
+
+    private static String getStringResByName(Context ctx, String aString) {
+        int resId = ctx.getResources().getIdentifier(aString, "string", ctx.getPackageName());
+        try {
+            return ctx.getString(resId);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static Integer getIntResByName(Context ctx, String aString) {
+        int resId = ctx.getResources().getIdentifier(aString, "integer", ctx.getPackageName());
+        try {
+            return ctx.getResources().getInteger(resId);
+        } catch (Exception e) {
+            return 0;
         }
     }
 
