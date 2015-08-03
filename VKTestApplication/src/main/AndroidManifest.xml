@@ -29,9 +29,6 @@
         <activity android:name=".TestActivity" />
         <activity android:name=".ApiCallActivity" />
 
-        <meta-data
-            android:name="com.vk.sdk.AppId"
-            android:value="3974615" />
     </application>
 
 </manifest>

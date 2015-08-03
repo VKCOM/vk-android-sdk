@@ -3,13 +3,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.1'
+        classpath 'com.android.tools.build:gradle:1.2.3'
     }
 }
 
 allprojects {
     group = 'com.vk'
-    version = '1.5.1'
+    version = '1.5.2'
 
     repositories {
         mavenCentral()
