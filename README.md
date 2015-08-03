@@ -138,10 +138,10 @@ Using SDK
 SDK Initialization
 ----------
 
-1) Add this to the application element:
+1) Add this to the resource file (example strings.xml):
 
 ```
-<meta-data android:name="com.vk.sdk.AppId" android:value="your_app_id" />
+<integer name="com_vk_sdk_AppId">your_app_id</integer>
 ```
 
 2) Initialize the SDK on startup using the following method. The best way is to call it in the app's onCreate method.
