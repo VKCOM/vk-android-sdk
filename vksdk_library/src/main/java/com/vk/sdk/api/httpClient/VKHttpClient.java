@@ -29,6 +29,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.VKSdkVersion;
 import com.vk.sdk.VKUIHelper;
@@ -80,7 +81,8 @@ public class VKHttpClient extends DefaultHttpClient {
      */
     public static VKHTTPRequest requestWithVkRequest(@NonNull VKRequest vkRequest) {
         try {
-            VKHTTPRequest result = new VKHTTPRequest(String.format(Locale.US, "http%s://api.vk.com/method/%s", vkRequest.secure ? "s" : "", vkRequest.methodName));
+            VKAccessToken token = VKAccessToken.currentToken();
+            VKHTTPRequest result = new VKHTTPRequest(String.format(Locale.US, "http%s://api.vk.com/method/%s", vkRequest.secure || (token != null && token.httpsRequired) ? "s" : "", vkRequest.methodName));
             result.headers = getDefaultHeaders();
             result.setVkParameters(vkRequest.getPreparedParameters());
             return result;

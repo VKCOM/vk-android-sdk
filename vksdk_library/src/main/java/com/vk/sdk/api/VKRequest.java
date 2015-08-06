@@ -250,13 +250,13 @@ public class VKRequest extends VKObject {
             mPreparedParameters = new VKParameters(mMethodParameters);
 
             //Set current access token from SDK object
-            VKAccessToken token = VKSdk.getAccessToken();
-            if (token != null)
+            VKAccessToken token = VKAccessToken.currentToken();
+            if (token != null) {
                 mPreparedParameters.put(VKApiConst.ACCESS_TOKEN, token.accessToken);
-            if (!this.secure)
-                if (token != null && (token.secret != null || token.httpsRequired)) {
+                if (token.httpsRequired) {
                     this.secure = true;
                 }
+            }
             //Set actual version of API
             mPreparedParameters.put(VKApiConst.VERSION, VKSdk.getApiVersion());
             //Set preferred language for request
