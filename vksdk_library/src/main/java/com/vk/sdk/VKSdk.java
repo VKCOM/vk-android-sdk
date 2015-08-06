@@ -187,7 +187,7 @@ public class VKSdk {
         if (requestCode == VKServiceActivity.VKServiceType.Authorization.getOuterCode()) {
             if (resultCode == VKSdk.RESULT_OK) {
                 vkCallback.onResult(VKAccessToken.currentToken());
-            } else if (requestCode == VKSdk.RESULT_ERROR) {
+            } else if (resultCode == VKSdk.RESULT_ERROR) {
                 vkCallback.onError((VKError) VKObject.getRegisteredObject(data.getLongExtra(VKSdk.EXTRA_ERROR_ID, 0)));
             }
             return true;
