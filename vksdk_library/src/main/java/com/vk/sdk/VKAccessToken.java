@@ -303,6 +303,22 @@ public class VKAccessToken {
     }
 
     /**
+     * Return if this token contains passed permissions array
+     * @param scopes permissions to check
+     * @return true, if token has all of this permissions
+     */
+    public boolean hasScope(String... scopes) {
+        boolean allScope = true;
+        for (String scopeStr : scopes) {
+            if (this.scope.get(scopeStr) == null) {
+                allScope = false;
+                break;
+            }
+        }
+        return allScope;
+    }
+
+    /**
      * Creates copy of current token, with params from passed token
      * @param token Usually this is partly filled access token, made after validation
      * @return New access token with updated fields
