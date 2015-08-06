@@ -185,7 +185,7 @@ public class VKAccessToken {
      * @param parameters map that contains token info
      * @return Parsed token
      */
-    public static VKAccessToken tokenFromParameters(Map<String, String> parameters) {
+    public static VKAccessToken tokenFromParameters(@Nullable Map<String, String> parameters) {
         if (parameters == null || parameters.size() == 0) {
             return null;
         }

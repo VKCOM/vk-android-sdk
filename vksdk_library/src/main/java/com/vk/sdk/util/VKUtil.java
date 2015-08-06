@@ -28,6 +28,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.vk.sdk.VKSdk;
@@ -57,7 +58,11 @@ public class VKUtil {
      * @param queryString string to explode
      * @return Key-value map of passed string
      */
-    public static Map<String, String> explodeQueryString(String queryString) {
+    @Nullable
+    public static Map<String, String> explodeQueryString(@Nullable String queryString) {
+        if (queryString == null) {
+            return null;
+        }
         String[] keyValuePairs = queryString.split("&");
         HashMap<String, String> parameters = new HashMap<>(keyValuePairs.length);
 

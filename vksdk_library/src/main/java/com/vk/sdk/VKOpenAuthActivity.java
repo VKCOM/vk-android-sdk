@@ -40,8 +40,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.vk.sdk.api.VKError;
+import com.vk.sdk.util.VKUtil;
 
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Activity for request OAuth authorization in case of missing VK app.
@@ -129,11 +131,15 @@ public class VKOpenAuthActivity extends Activity {
                 Intent data = new Intent(VK_RESULT_INTENT_NAME);
                 String extraData = url.substring(url.indexOf('#') + 1);
                 data.putExtra(VK_EXTRA_TOKEN_DATA, extraData);
-                if (getIntent().hasExtra(VK_EXTRA_VALIDATION_URL))
+                Map<String, String> resultParams = VKUtil.explodeQueryString(extraData);
+
+                if (getIntent().hasExtra(VK_EXTRA_VALIDATION_URL)) {
                     data.putExtra(VK_EXTRA_VALIDATION_URL, true);
-                if (getIntent().hasExtra(VK_EXTRA_VALIDATION_REQUEST))
-                    data.putExtra(VK_EXTRA_VALIDATION_REQUEST, getIntent().getLongExtra(VK_EXTRA_VALIDATION_REQUEST,0));
-                if (extraData.contains(ERROR)) {
+                }
+                if (getIntent().hasExtra(VK_EXTRA_VALIDATION_REQUEST)) {
+                    data.putExtra(VK_EXTRA_VALIDATION_REQUEST, getIntent().getLongExtra(VK_EXTRA_VALIDATION_REQUEST, 0));
+                }
+                if (resultParams != null && resultParams.containsKey(ERROR)) {
                     setResult(RESULT_CANCELED, data);
                 } else {
                     setResult(RESULT_OK, data);
