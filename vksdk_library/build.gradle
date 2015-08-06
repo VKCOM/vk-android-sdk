@@ -79,22 +79,19 @@ if (project.hasProperty('officialBuild')) {
         }
     }
 
-    task javadoc(type: Javadoc) {
-        source = android.sourceSets.main.java.sourceFiles
-        classpath = project.files(configurations.javadoc,
-                "${buildDir}/classes/release",
-                project.fileTree("${buildDir}/exploded-bundles") { include '*/classes.jar' },
-                new File((File) (android.plugin.sdkFolder), "platforms/${android.compileSdkVersion}/android.jar"))
-    }
-
-    task javadocJar(type: Jar, dependsOn: tasks.javadoc) {
-        from tasks.javadoc.destinationDir
-        classifier = 'javadoc'
-    }
-
     task sourcesJar(type: Jar) {
-        from android.sourceSets.main.java.sourceFiles
+        from android.sourceSets.main.java.srcDirs
         classifier = 'sources'
+    }
+
+    task javadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
     }
 
     signing {
@@ -103,7 +100,7 @@ if (project.hasProperty('officialBuild')) {
     }
 
     artifacts {
-        archives tasks.javadocJar
-        archives tasks.sourcesJar
+        archives javadocJar
+        archives sourcesJar
     }
 }
