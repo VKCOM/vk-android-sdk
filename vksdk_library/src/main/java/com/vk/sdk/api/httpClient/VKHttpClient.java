@@ -245,7 +245,9 @@ public class VKHttpClient extends DefaultHttpClient {
          * Stops current operation
          */
         public void abort() {
-            this.connection.disconnect();
+            if (this.connection != null) {
+                this.connection.disconnect();
+            }
             isAborted = true;
         }
 

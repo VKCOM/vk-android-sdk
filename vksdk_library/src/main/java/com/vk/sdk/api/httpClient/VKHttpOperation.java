@@ -71,7 +71,9 @@ public class VKHttpOperation<ResponseType> extends VKAbstractOperation {
         super.start(s);
         setState(VKOperationState.Executing);
         try {
-            if (mUriRequest.isAborted) return;
+            if (this.mUriRequest.isAborted) {
+                return;
+            }
             response = VKHttpClient.execute(mUriRequest);
 
         } catch (IOException e) {
