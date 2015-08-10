@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.vk.sdk.VKUIHelper;
 import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKBatchRequest;
@@ -108,6 +107,22 @@ public class TestActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View view) {
                     VKRequest request = VKApi.friends().get(VKParameters.from(VKApiConst.FIELDS, "id,first_name,last_name,sex,bdate,city"));
+                    startApiCall(request);
+                }
+            });
+
+            view.findViewById(R.id.messages_get).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VKRequest request = VKApi.messages().get();
+                    startApiCall(request);
+                }
+            });
+
+            view.findViewById(R.id.dialogs_get).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VKRequest request = VKApi.messages().getDialogs();
                     startApiCall(request);
                 }
             });
