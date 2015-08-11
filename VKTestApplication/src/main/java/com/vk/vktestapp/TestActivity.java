@@ -24,15 +24,21 @@ import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKRequest.VKRequestListener;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.methods.VKApiCaptcha;
+import com.vk.sdk.api.model.VKApiDoc;
 import com.vk.sdk.api.model.VKApiPhoto;
 import com.vk.sdk.api.model.VKAttachments;
+import com.vk.sdk.api.model.VKDocsArray;
 import com.vk.sdk.api.model.VKPhotoArray;
 import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKImageParameters;
 import com.vk.sdk.api.photo.VKUploadImage;
 import com.vk.sdk.dialogs.VKShareDialog;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class TestActivity extends ActionBarActivity {
 
@@ -255,6 +261,15 @@ public class TestActivity extends ActionBarActivity {
                     });
                 }
             });
+
+            view.findViewById(R.id.upload_doc).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    File file = getFile();
+                    VKRequest request = VKApi.docs().uploadDocRequest(file);
+                    startApiCall(request);
+                }
+            });
         }
 
         private void startApiCall(VKRequest request) {
@@ -273,6 +288,7 @@ public class TestActivity extends ActionBarActivity {
                 Log.w("Test", "Error in request or upload", error.httpError);
             }
         }
+
         private Bitmap getPhoto() {
             Bitmap b = null;
 
@@ -284,9 +300,31 @@ public class TestActivity extends ActionBarActivity {
 
             return b;
         }
+
+        private File getFile() {
+            try {
+                InputStream inputStream = getActivity().getAssets().open("android.jpg");
+                File file = new File(getActivity().getCacheDir(), "android.jpg");
+                OutputStream output = new FileOutputStream(file);
+                byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                int read;
+
+                while ((read = inputStream.read(buffer)) != -1) {
+                    output.write(buffer, 0, read);
+                }
+                output.flush();
+                output.close();
+                return file;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
         private void makePost(VKAttachments attachments) {
             makePost(attachments, null);
         }
+
         private void makePost(VKAttachments attachments, String message) {
             VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-60479154", VKApiConst.ATTACHMENTS, attachments, VKApiConst.MESSAGE, message));
             post.setModelClass(VKWallPostResult.class);

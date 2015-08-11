@@ -104,6 +104,18 @@ public class VKHttpClient extends DefaultHttpClient {
     }
 
     /**
+     * Prepares new request with multipart boundary for uploading document
+     * @param uploadUrl String url received with some of *.getUploadServer method
+     * @param file File to upload
+     * @return prepared HTTP request, ready for upload
+     */
+    public static VKHTTPRequest docUploadRequest(@NonNull String uploadUrl, File file) {
+        VKHTTPRequest request = new VKHTTPRequest(uploadUrl);
+        request.entity = new VKMultipartEntity(new File[]{file}, VKAttachments.TYPE_DOC);
+        return request;
+    }
+
+    /**
      * Returns map of default headers for any request
      *
      * @return Map of default headers

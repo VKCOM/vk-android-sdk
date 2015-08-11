@@ -21,7 +21,10 @@
 
 package com.vk.sdk.api;
 
+import com.vk.sdk.api.docs.VKUploadDocBase;
+import com.vk.sdk.api.docs.VKUploadDocRequest;
 import com.vk.sdk.api.methods.VKApiAudio;
+import com.vk.sdk.api.methods.VKApiDocs;
 import com.vk.sdk.api.methods.VKApiMessages;
 import com.vk.sdk.api.methods.VKApiFriends;
 import com.vk.sdk.api.methods.VKApiGroups;
@@ -74,6 +77,14 @@ public class VKApi {
      */
     public static VKApiPhotos photos() {
         return new VKApiPhotos();
+    }
+
+    /**
+     * https://vk.com/dev/docs
+     * Returns object for preparing requests to docs part of API
+     */
+    public static VKApiDocs docs() {
+        return new VKApiDocs();
     }
 
     /**
@@ -147,5 +158,4 @@ public class VKApi {
     public static VKRequest uploadMessagesPhotoRequest(VKUploadImage image) {
         return new VKUploadMessagesPhotoRequest(image);
     }
-	
 }
