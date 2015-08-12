@@ -28,6 +28,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Pair;
 
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKSdk;
@@ -37,11 +38,6 @@ import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.util.VKUtil;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -71,7 +67,7 @@ import java.util.zip.GZIPInputStream;
 /**
  * Class provides configured http client for API request loading
  */
-public class VKHttpClient extends DefaultHttpClient {
+public class VKHttpClient {
 
     /**
      * Prepares new "normal" request from VKRequest
@@ -147,7 +143,12 @@ public class VKHttpClient extends DefaultHttpClient {
      * @param operation executing http operation
      */
     public static void cancelHttpOperation(final VKHttpOperation operation) {
-        operation.getUriRequest().abort();
+        mBackgroundExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                operation.getUriRequest().abort();
+            }
+        });
     }
 
     public static VKHttpResponse execute(VKHTTPRequest request) throws IOException {
@@ -166,8 +167,8 @@ public class VKHttpClient extends DefaultHttpClient {
     public static class VKHTTPRequest {
         public URL methodUrl = null;
         public int timeout = 20000;
-        public List<NameValuePair> parameters = null;
-        public HttpEntity entity = null;
+        public List<Pair<String, String>> parameters = null;
+        public VKMultipartEntity entity = null;
         public Map<String, String> headers = null;
         public boolean isAborted = false;
         public HttpURLConnection connection;
@@ -209,17 +210,17 @@ public class VKHttpClient extends DefaultHttpClient {
          * @param params parameters map
          */
         void setVkParameters(VKParameters params) {
-            ArrayList<NameValuePair> pairs = new ArrayList<>(params.size());
+            ArrayList<Pair<String,String>> pairs = new ArrayList<>(params.size());
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 Object value = entry.getValue();
                 if (value instanceof VKAttachments) {
-                    pairs.add(new BasicNameValuePair(entry.getKey(), ((VKAttachments) value).toAttachmentsString()));
+                    pairs.add(new Pair<>(entry.getKey(), ((VKAttachments) value).toAttachmentsString()));
                 } else if (value instanceof Collection) {
                     Collection<?> values = (Collection<?>) value;
                     //VK style
-                    pairs.add(new BasicNameValuePair(entry.getKey(), TextUtils.join(",", values)));
+                    pairs.add(new Pair<>(entry.getKey(), TextUtils.join(",", values)));
                 } else {
-                    pairs.add(new BasicNameValuePair(entry.getKey(), value == null ? null : String.valueOf(value)));
+                    pairs.add(new Pair<>(entry.getKey(), value == null ? null : String.valueOf(value)));
                 }
             }
             this.parameters = pairs;
@@ -235,8 +236,8 @@ public class VKHttpClient extends DefaultHttpClient {
                 return null;
             }
             ArrayList<String> params = new ArrayList<>(this.parameters.size());
-            for (NameValuePair pair : this.parameters) {
-                params.add(String.format("%s=%s", URLEncoder.encode(pair.getName(), "UTF-8"), URLEncoder.encode(pair.getValue(), "UTF-8")));
+            for (Pair<String, String> pair : this.parameters) {
+                params.add(String.format("%s=%s", URLEncoder.encode(pair.first, "UTF-8"), URLEncoder.encode(pair.second, "UTF-8")));
             }
             return TextUtils.join("&", params);
         }
