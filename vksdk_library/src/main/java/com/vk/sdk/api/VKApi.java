@@ -21,13 +21,11 @@
 
 package com.vk.sdk.api;
 
-import com.vk.sdk.api.docs.VKUploadDocBase;
-import com.vk.sdk.api.docs.VKUploadDocRequest;
 import com.vk.sdk.api.methods.VKApiAudio;
 import com.vk.sdk.api.methods.VKApiDocs;
-import com.vk.sdk.api.methods.VKApiMessages;
 import com.vk.sdk.api.methods.VKApiFriends;
 import com.vk.sdk.api.methods.VKApiGroups;
+import com.vk.sdk.api.methods.VKApiMessages;
 import com.vk.sdk.api.methods.VKApiPhotos;
 import com.vk.sdk.api.methods.VKApiUsers;
 import com.vk.sdk.api.methods.VKApiWall;
