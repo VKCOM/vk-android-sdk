@@ -23,6 +23,8 @@ package com.vk.sdk.api.httpClient;
 
 import android.webkit.MimeTypeMap;
 
+import com.vk.sdk.api.model.VKAttachments;
+
 import org.apache.http.Header;
 import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.message.BasicHeader;
@@ -44,10 +46,17 @@ public class VKMultipartEntity extends AbstractHttpEntity {
 
     private final String mBoundary;
     private final File[] mFiles;
+    private String mType;
 
     public VKMultipartEntity(File[] files) {
         mBoundary = String.format(Locale.US, VK_BOUNDARY, new Random().nextInt());
         mFiles = files;
+    }
+
+    public VKMultipartEntity(File[] files, String type) {
+        mBoundary = String.format(Locale.US, VK_BOUNDARY, new Random().nextInt());
+        mFiles = files;
+        mType = type;
     }
 
     @Override
@@ -64,7 +73,6 @@ public class VKMultipartEntity extends AbstractHttpEntity {
             length += getFileDescription(f, i).length();
         }
         length += getBoundaryEnd().length();
-
         return length;
     }
 
@@ -78,8 +86,13 @@ public class VKMultipartEntity extends AbstractHttpEntity {
         throw new UnsupportedOperationException("Multipart form entity does not implement #getContent()");
     }
 
-    private String getFileDescription(File uploadFile, int i) {
-        String fileName = String.format(Locale.US, "file%d", i + 1);
+    protected String getFileDescription(File uploadFile, int i) {
+        String fileName;
+        if (mType != null && mType.equals(VKAttachments.TYPE_DOC)) {
+            fileName = "file";
+        } else {
+            fileName = String.format(Locale.US, "file%d", i + 1);
+        }
         String extension = MimeTypeMap.getFileExtensionFromUrl(uploadFile.getAbsolutePath());
         return String.format("\r\n--%s\r\n", mBoundary) +
                 String.format("Content-Disposition: form-data; name=\"%s\"; filename=\"%s.%s\"\r\n", fileName, fileName, extension) +
