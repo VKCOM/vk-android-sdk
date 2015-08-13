@@ -65,6 +65,7 @@
             android:text="@string/upload_photo"
             android:paddingLeft="32dp"
             android:paddingRight="32dp"/>
+
         <Button
             android:id="@+id/upload_photo_to_wall"
             android:layout_width="fill_parent"
@@ -80,6 +81,15 @@
             android:text="@string/upload_several_photos_to_wall"
             android:paddingLeft="32dp"
             android:paddingRight="32dp"/>
+
+        <Button
+            android:id="@+id/upload_doc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/upload_doc"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"/>
+
         <Button
             android:id="@+id/test_validation"
             android:layout_width="fill_parent"

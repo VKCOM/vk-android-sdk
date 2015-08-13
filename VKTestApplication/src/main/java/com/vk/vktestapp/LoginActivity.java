@@ -30,7 +30,8 @@ public class LoginActivity extends FragmentActivity {
             VKScope.WALL,
             VKScope.PHOTOS,
             VKScope.NOHTTPS,
-            VKScope.MESSAGES
+            VKScope.MESSAGES,
+            VKScope.DOCS
     };
 
     @Override
