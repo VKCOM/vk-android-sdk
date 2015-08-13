@@ -27,10 +27,10 @@ import org.json.JSONObject;
 /**
  * Array of API docs objects
 */
-public class VKDocsArray extends VKList<VKApiDoc> {
+public class VKDocsArray extends VKList<VKApiDocument> {
     @Override
     public VKApiModel parse(JSONObject response) throws JSONException {
-        fill(response, VKApiDoc.class);
+        fill(response, VKApiDocument.class);
         return this;
     }
 }

@@ -21,25 +21,16 @@
 
 package com.vk.sdk.api.photo;
 
-import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.VKError;
-import com.vk.sdk.api.VKRequest;
-import com.vk.sdk.api.VKResponse;
-import com.vk.sdk.api.httpClient.VKAbstractOperation;
+import com.vk.sdk.api.VKUploadBase;
 import com.vk.sdk.api.httpClient.VKHttpClient;
 import com.vk.sdk.api.httpClient.VKJsonOperation;
-import com.vk.sdk.api.httpClient.VKJsonOperation.VKJSONOperationCompleteListener;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
-import java.util.concurrent.ExecutorService;
 
 /**
  * Provides common part of photo upload process
  */
-public abstract class VKUploadPhotoBase extends VKRequest {
+public abstract class VKUploadPhotoBase extends VKUploadBase {
 	private static final long serialVersionUID = -4566961568409572159L;
 	/**
      * ID of album to upload
@@ -58,133 +49,12 @@ public abstract class VKUploadPhotoBase extends VKRequest {
      */
     protected File[] mImages;
 
-    protected abstract VKRequest getServerRequest();
-
-    protected abstract VKRequest getSaveRequest(JSONObject response);
-
     public VKUploadPhotoBase() {
-        super(null);
+        super();
     }
 
     @Override
-    public VKAbstractOperation getOperation() {
-        return new VKUploadImageOperation();
+    protected VKJsonOperation getUploadOperation(String uploadUrl) {
+        return new VKJsonOperation(VKHttpClient.fileUploadRequest(uploadUrl, mImages));
     }
-
-    protected class VKUploadImageOperation extends VKAbstractOperation {
-		protected VKAbstractOperation lastOperation;
-
-        @Override
-        public void start(ExecutorService s) {
-            super.start(s);
-            final VKRequestListener originalListener = VKUploadPhotoBase.this.requestListener;
-
-            VKUploadPhotoBase.this.requestListener = new VKRequestListener() {
-                @Override
-                public void onComplete(VKResponse response) {
-                    setState(VKOperationState.Finished);
-                    response.request = VKUploadPhotoBase.this;
-                    if (originalListener != null) {
-                        originalListener.onComplete(response);
-                    }
-                }
-
-                @Override
-                public void onError(VKError error) {
-                    setState(VKOperationState.Finished);
-                    error.request = VKUploadPhotoBase.this;
-                    if (originalListener != null) {
-                        originalListener.onError(error);
-                    }
-                }
-
-                @Override
-                public void onProgress(VKProgressType progressType, long bytesLoaded,
-                                       long bytesTotal) {
-                    if (originalListener != null) {
-                        originalListener.onProgress(progressType, bytesLoaded, bytesTotal);
-                    }
-                }
-            };
-            setState(VKOperationState.Executing);
-
-            VKRequest serverRequest = getServerRequest();
-
-            serverRequest.setRequestListener(new VKRequestListener() {
-                @Override
-                public void onComplete(VKResponse response) {
-                    try {
-                        VKJsonOperation postFileRequest = new VKJsonOperation(
-                                VKHttpClient.fileUploadRequest(response.json.getJSONObject("response").getString("upload_url"), mImages));
-                        postFileRequest.setHttpOperationListener(new VKJSONOperationCompleteListener() {
-                            @Override
-                            public void onComplete(VKJsonOperation operation,
-                                                   JSONObject response) {
-
-                                VKRequest saveRequest = getSaveRequest(response);
-                                saveRequest.setRequestListener(new VKRequestListener() {
-                                    @Override
-                                    public void onComplete(VKResponse response) {
-                                        requestListener.onComplete(response);
-                                        setState(VKOperationState.Finished);
-                                    }
-
-                                    @Override
-                                    public void onError(VKError error) {
-                                        requestListener.onError(error);
-                                    }
-                                });
-                                lastOperation = saveRequest.getOperation();
-                                VKHttpClient.enqueueOperation(lastOperation);
-                            }
-
-                            @Override
-                            public void onError(VKJsonOperation operation, VKError error) {
-                                requestListener.onError(error);
-                            }
-                        });
-
-                        lastOperation = postFileRequest;
-                        VKHttpClient.enqueueOperation(lastOperation);
-                    } catch (JSONException e) {
-                        if (VKSdk.DEBUG)
-                            e.printStackTrace();
-                        VKError error = new VKError(VKError.VK_JSON_FAILED);
-                        error.httpError = e;
-                        error.errorMessage = e.getMessage();
-                        requestListener.onError(error);
-                    }
-//					postFileRequest.progressBlock = _uploadRequest.progressBlock;
-                }
-
-                @Override
-                public void onError(VKError error) {
-                    if (requestListener != null)
-                        requestListener.onError(error);
-                }
-            });
-            lastOperation = serverRequest.getOperation();
-            VKHttpClient.enqueueOperation(lastOperation);
-        }
-
-        @Override
-        public void cancel() {
-            if (lastOperation != null)
-                lastOperation.cancel();
-            super.cancel();
-        }
-
-        @Override
-        public void finish() {
-            super.finish();
-            lastOperation = null;
-        }
-
-        @Override
-        public Object getResultObject() {
-            return null;
-        }
-    }
-
-
 }
