@@ -124,7 +124,11 @@ public class VKSdk {
      *
      * @param applicationContext context of current application
      */
-    public static void initialize(Context applicationContext) {
+    public synchronized static void initialize(Context applicationContext) {
+        if (sCurrentAppId != 0) {
+            return;
+        }
+
         if (!(applicationContext instanceof Application)) {
             if (applicationContext == null) {
                 throw new NullPointerException("Application context cannot be null");
