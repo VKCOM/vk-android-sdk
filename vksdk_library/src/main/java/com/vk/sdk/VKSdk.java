@@ -23,6 +23,7 @@ package com.vk.sdk;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Application;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -124,8 +125,27 @@ public class VKSdk {
      * @param applicationContext context of current application
      */
     public static void initialize(Context applicationContext) {
-        if (applicationContext == null) {
-            throw new NullPointerException("Application context cannot be null");
+        if (!(applicationContext instanceof Application)) {
+            if (applicationContext == null) {
+                throw new NullPointerException("Application context cannot be null");
+            } else {
+                throw new RuntimeException("VKSdk.initialize(Context) must be call from Application#onCreate()");
+            }
+        } else {
+            StackTraceElement element = trace("initialize");
+            if (element != null) {
+                try {
+                    Class<?> aClass = Class.forName(element.getClassName());
+                    aClass.asSubclass(Application.class);
+                    if (!"onCreate".equals(element.getMethodName())) {
+                        throw new RuntimeException("VKSdk.initialize(Context) must be call from Application#onCreate()");
+                    }
+                } catch (ClassNotFoundException e) {
+                    // nothing
+                } catch (ClassCastException e) {
+                    throw new RuntimeException("VKSdk.initialize(Context) must be call from Application#onCreate()");
+                }
+            }
         }
 
         sCurrentAppId = getIntResByName(applicationContext, SDK_APP_ID);
@@ -454,5 +474,18 @@ public class VKSdk {
         public CheckTokenResult(VKError err) {
             this.error = err;
         }
+    }
+
+    @Nullable
+    private static StackTraceElement trace(@Nullable final String callingMethodName) {
+        StackTraceElement[] e = Thread.currentThread().getStackTrace();
+        boolean doNext = false;
+        for (StackTraceElement s : e) {
+            if (doNext && !s.getMethodName().equals(callingMethodName)) {
+                return s;
+            }
+            doNext = s.getMethodName().equals(callingMethodName);
+        }
+        return null;
     }
 }
