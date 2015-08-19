@@ -21,13 +21,10 @@
 
 package com.vk.sdk.api.httpClient;
 
+import android.util.Pair;
 import android.webkit.MimeTypeMap;
 
 import com.vk.sdk.api.model.VKAttachments;
-
-import org.apache.http.Header;
-import org.apache.http.entity.AbstractHttpEntity;
-import org.apache.http.message.BasicHeader;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,7 +37,7 @@ import java.util.Random;
 /**
  * Class used for build upload multipart data for VK servers
  */
-public class VKMultipartEntity extends AbstractHttpEntity {
+public class VKMultipartEntity {
 
     private static final String VK_BOUNDARY = "Boundary(======VK_SDK_%d======)";
 
@@ -59,12 +56,6 @@ public class VKMultipartEntity extends AbstractHttpEntity {
         mType = type;
     }
 
-    @Override
-    public boolean isRepeatable() {
-        return true;
-    }
-
-    @Override
     public long getContentLength() {
         long length = 0;
         for (int i = 0; i < mFiles.length; i++) {
@@ -76,12 +67,10 @@ public class VKMultipartEntity extends AbstractHttpEntity {
         return length;
     }
 
-    @Override
-    public Header getContentType() {
-        return new BasicHeader("Content-Type", String.format("multipart/form-data; boundary=%s", mBoundary));
+    public Pair<String, String> getContentType() {
+        return new Pair<>("Content-Type", String.format("multipart/form-data; boundary=%s", mBoundary));
     }
 
-    @Override
     public InputStream getContent() throws IOException, IllegalStateException {
         throw new UnsupportedOperationException("Multipart form entity does not implement #getContent()");
     }
@@ -103,7 +92,6 @@ public class VKMultipartEntity extends AbstractHttpEntity {
         return String.format("\r\n--%s--\r\n", mBoundary);
     }
 
-    @Override
     public void writeTo(OutputStream outputStream) throws IOException {
         for (int i = 0; i < mFiles.length; i++) {
             File uploadFile = mFiles[i];
@@ -117,11 +105,6 @@ public class VKMultipartEntity extends AbstractHttpEntity {
             reader.close();
         }
         outputStream.write(getBoundaryEnd().getBytes("UTF-8"));
-    }
-
-    @Override
-    public boolean isStreaming() {
-        return true;
     }
 
     protected static String getMimeType(String url) {

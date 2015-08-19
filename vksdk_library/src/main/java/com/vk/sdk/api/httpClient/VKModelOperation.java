@@ -26,7 +26,6 @@ import com.vk.sdk.api.VKDefaultParser;
 import com.vk.sdk.api.VKParser;
 import com.vk.sdk.api.model.VKApiModel;
 
-import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONObject;
 
 /**

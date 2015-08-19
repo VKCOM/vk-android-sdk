@@ -18,10 +18,9 @@ configurations {
 }
 
 dependencies {
-    javadoc 'org.apache.httpcomponents:httpclient:4.3.5'
     javadoc 'org.json:json:20080701'
     javadoc 'com.google.android:annotations:4.1.1.4@jar'
-    compile 'com.android.support:support-v4:22.2.0'
+    compile 'com.android.support:support-v4:22.2.1'
 }
 
 if (project.hasProperty('officialBuild')) {

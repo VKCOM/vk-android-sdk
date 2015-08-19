@@ -21,9 +21,6 @@
 
 package com.vk.sdk.api.httpClient;
 
-import com.vk.sdk.api.VKError;
-
-import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONObject;
 
 /**

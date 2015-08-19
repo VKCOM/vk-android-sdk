@@ -89,8 +89,9 @@ public class VKHttpClient {
 
     /**
      * Prepares new request with multipart boundary for uploading files
+     *
      * @param uploadUrl String url received with some of *.getUploadServer method
-     * @param files Files array to upload
+     * @param files     Files array to upload
      * @return prepared HTTP request, ready for upload
      */
     public static VKHTTPRequest fileUploadRequest(@NonNull String uploadUrl, File... files) {
@@ -101,8 +102,9 @@ public class VKHttpClient {
 
     /**
      * Prepares new request with multipart boundary for uploading document
+     *
      * @param uploadUrl String url received with some of *.getUploadServer method
-     * @param file File to upload
+     * @param file      File to upload
      * @return prepared HTTP request, ready for upload
      */
     public static VKHTTPRequest docUploadRequest(@NonNull String uploadUrl, File file) {
@@ -199,6 +201,7 @@ public class VKHttpClient {
 
         /**
          * Write this request params to provided output stream
+         *
          * @param os Output stream for parameters
          * @throws IOException
          */
@@ -219,10 +222,11 @@ public class VKHttpClient {
 
         /**
          * Serialize VKParameters map into http query parameters list
+         *
          * @param params parameters map
          */
         void setVkParameters(VKParameters params) {
-            ArrayList<Pair<String,String>> pairs = new ArrayList<>(params.size());
+            ArrayList<Pair<String, String>> pairs = new ArrayList<>(params.size());
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 Object value = entry.getValue();
                 if (value instanceof VKAttachments) {
@@ -240,6 +244,7 @@ public class VKHttpClient {
 
         /**
          * Returns prepared http query like k1=v1&k2=v2...
+         *
          * @return string presentation of http query
          * @throws UnsupportedEncodingException
          */
@@ -278,8 +283,7 @@ public class VKHttpClient {
 
             try {
                 Context ctx = VKUIHelper.getApplicationContext();
-                if (ctx != null)
-                {
+                if (ctx != null) {
                     PackageManager packageManager = ctx.getPackageManager();
                     if (packageManager != null) {
                         PackageInfo info = packageManager.getPackageInfo(ctx.getPackageName(), 0);
@@ -305,7 +309,8 @@ public class VKHttpClient {
 
             if (this.entity != null) {
                 this.connection.addRequestProperty("Content-length", this.entity.getContentLength() + "");
-                this.connection.addRequestProperty(this.entity.getContentType().getName(), this.entity.getContentType().getValue());
+                Pair<String, String> contentType = this.entity.getContentType();
+                this.connection.addRequestProperty(contentType.first, contentType.second);
             }
 
             OutputStream os = this.connection.getOutputStream();
