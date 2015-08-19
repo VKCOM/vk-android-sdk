@@ -292,7 +292,7 @@ public class VKRequest extends VKObject {
         return request;
     }
 
-    public VKAbstractOperation getOperation() {
+    VKAbstractOperation getOperation() {
         if (this.parseModel) {
             if (this.mModelClass != null) {
                 mLoadingOperation = new VKModelOperation(getPreparedRequest(), this.mModelClass);
