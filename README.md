@@ -301,6 +301,11 @@ batch.executeWithListener(new VKBatchRequestListener() {
 
 4) The result of each method returns to a corresponding requestListener. The **batch** VKResponse for each request in order they have been passed.
 
+Use sdk purchases
+=========
+For use sdk purchases you must use com.vk.sdk.payments.VKIInAppBillingService instead com.android.vending.billing.IInAppBillingService like this
+mService = new VKIInAppBillingService(IInAppBillingService.Stub.asInterface(service));
+
 Class Reference
 =========
 [See the full classes reference at GitHub pages](http://vkcom.github.io/vk-android-sdk/)

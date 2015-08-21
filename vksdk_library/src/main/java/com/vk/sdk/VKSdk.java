@@ -39,6 +39,8 @@ import android.webkit.CookieSyncManager;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.payments.VKPaymentsCallback;
+import com.vk.sdk.payments.VKPaymentsReceiver;
 import com.vk.sdk.util.VKUtil;
 
 import java.util.ArrayList;
@@ -70,6 +72,11 @@ public class VKSdk {
      * App id for current application
      */
     private static int sCurrentAppId = 0;
+    private static boolean isPaymentsEnable = false;
+
+    private final Context applicationContext;
+
+    private static VKSdk vkSdk = null; // use for initialize like builder
 
     /**
      * Api version for current session
@@ -95,8 +102,8 @@ public class VKSdk {
      */
     private static final List<VKAccessTokenTracker> sVKTokenListeners = new CopyOnWriteArrayList<>();
 
-    private VKSdk() {
-
+    private VKSdk(Context applicationContext) {
+        this.applicationContext = applicationContext;
     }
 
     static void addVKTokenTracker(VKAccessTokenTracker vkAccessTokenTracker) {
@@ -118,16 +125,31 @@ public class VKSdk {
         });
     }
 
+    public static boolean isIsPaymentsEnable() {
+        return isPaymentsEnable;
+    }
+
+    public static void requestUserState(Context ctx, VKPaymentsCallback callback) {
+        VKPaymentsCallback.requestUserState(ctx, callback);
+    }
+
+    public void withPayments() {
+        isPaymentsEnable = true;
+        VKPaymentsReceiver.onReceiveStatic(applicationContext);
+    }
+
     /**
      * Call this method to prepare VK SDK for work. Best for call - in your application class.
      * Don't forget to call this method when you starting a service
      *
      * @param applicationContext context of current application
      */
-    public synchronized static void initialize(Context applicationContext) {
+    public synchronized static VKSdk initialize(Context applicationContext) {
         if (sCurrentAppId != 0) {
-            return;
+            return vkSdk;
         }
+
+        vkSdk = new VKSdk(applicationContext);
 
         if (!(applicationContext instanceof Application)) {
             if (applicationContext == null) {
@@ -165,6 +187,8 @@ public class VKSdk {
         if (sCurrentAppId == 0) {
             throw new RuntimeException("String <integer name=\"com_vk_sdk_AppId\">your_app_id</integer> did not find in your resources.xml");
         }
+
+        return vkSdk;
     }
 
     private static String getStringResByName(Context ctx, String aString) {

@@ -13,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKBatchRequest;
@@ -31,6 +33,7 @@ import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKImageParameters;
 import com.vk.sdk.api.photo.VKUploadImage;
 import com.vk.sdk.dialogs.VKShareDialog;
+import com.vk.sdk.payments.VKPaymentsCallback;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,6 +50,22 @@ public class TestActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+
+        VKSdk.requestUserState(this, new VKPaymentsCallback() {
+            @Override
+            public void onUserState(final boolean userIsVk) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (userIsVk) {
+                            Toast.makeText(TestActivity.this, "user is vk's", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(TestActivity.this, "user is not vk's", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -99,10 +118,10 @@ public class TestActivity extends ActionBarActivity {
 
                     VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS,
                             "id,first_name,last_name,sex,bdate,city,country,photo_50,photo_100," +
-                            "photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online," +
-                            "online_mobile,lists,domain,has_mobile,contacts,connections,site,education," +
-                            "universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message," +
-                            "status,last_seen,common_count,relation,relatives,counters"));
+                                    "photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online," +
+                                    "online_mobile,lists,domain,has_mobile,contacts,connections,site,education," +
+                                    "universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message," +
+                                    "status,last_seen,common_count,relation,relatives,counters"));
 //                    VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.USER_IDS, "1,2"));
                     request.secure = false;
                     request.useSystemLanguage = false;
@@ -152,22 +171,22 @@ public class TestActivity extends ActionBarActivity {
             view.findViewById(R.id.upload_photo).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                final Bitmap photo = getPhoto();
+                    final Bitmap photo = getPhoto();
                     VKRequest request = VKApi.uploadAlbumPhotoRequest(new VKUploadImage(photo, VKImageParameters.pngImage()), TARGET_ALBUM, TARGET_GROUP);
-                request.executeWithListener(new VKRequestListener() {
-                    @Override
-                    public void onComplete(VKResponse response) {
-                        photo.recycle();
-                        VKPhotoArray photoArray = (VKPhotoArray) response.parsedModel;
-                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/photo-%d_%s", TARGET_GROUP, photoArray.get(0).id)));
-                        startActivity(i);
-                    }
+                    request.executeWithListener(new VKRequestListener() {
+                        @Override
+                        public void onComplete(VKResponse response) {
+                            photo.recycle();
+                            VKPhotoArray photoArray = (VKPhotoArray) response.parsedModel;
+                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/photo-%d_%s", TARGET_GROUP, photoArray.get(0).id)));
+                            startActivity(i);
+                        }
 
-                    @Override
-                    public void onError(VKError error) {
-                        showError(error);
-                    }
-                });
+                        @Override
+                        public void onError(VKError error) {
+                            showError(error);
+                        }
+                    });
                 }
             });
 
@@ -333,8 +352,8 @@ public class TestActivity extends ActionBarActivity {
                 @Override
                 public void onComplete(VKResponse response) {
                     super.onComplete(response);
-                    VKWallPostResult result = (VKWallPostResult)response.parsedModel;
-                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-%d_%s", TARGET_GROUP, result.post_id) ) );
+                    VKWallPostResult result = (VKWallPostResult) response.parsedModel;
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format("https://vk.com/wall-%d_%s", TARGET_GROUP, result.post_id)));
                     startActivity(i);
                 }
 

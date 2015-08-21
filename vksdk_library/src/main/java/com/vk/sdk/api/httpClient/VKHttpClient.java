@@ -76,15 +76,11 @@ public class VKHttpClient {
      * @return Prepared request for creating VKHttpOperation
      */
     public static VKHTTPRequest requestWithVkRequest(@NonNull VKRequest vkRequest) {
-        try {
-            VKAccessToken token = VKAccessToken.currentToken();
-            VKHTTPRequest result = new VKHTTPRequest(String.format(Locale.US, "http%s://api.vk.com/method/%s", vkRequest.secure || (token != null && token.httpsRequired) ? "s" : "", vkRequest.methodName));
-            result.headers = getDefaultHeaders();
-            result.setVkParameters(vkRequest.getPreparedParameters());
-            return result;
-        } catch (Exception e) {
-            return null;
-        }
+        VKAccessToken token = VKAccessToken.currentToken();
+        VKHTTPRequest result = new VKHTTPRequest(String.format(Locale.US, "http%s://api.vk.com/method/%s", vkRequest.secure || (token != null && token.httpsRequired) ? "s" : "", vkRequest.methodName));
+        result.headers = getDefaultHeaders();
+        result.setVkParameters(vkRequest.getPreparedParameters());
+        return result;
     }
 
     /**

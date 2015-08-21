@@ -20,6 +20,8 @@ import com.vk.sdk.api.VKError;
  */
 public class LoginActivity extends FragmentActivity {
 
+    private boolean isResumed = false;
+
     /**
      * Scope is set of required permissions for your application
      *
@@ -41,17 +43,19 @@ public class LoginActivity extends FragmentActivity {
         VKSdk.wakeUpSession(this, new VKCallback<VKSdk.LoginState>() {
             @Override
             public void onResult(VKSdk.LoginState res) {
-                switch (res) {
-                    case LoggedOut:
-                        showLogin();
-                        break;
-                    case LoggedIn:
-                        showLogout();
-                        break;
-                    case Pending:
-                        break;
-                    case Unknown:
-                        break;
+                if (isResumed) {
+                    switch (res) {
+                        case LoggedOut:
+                            showLogin();
+                            break;
+                        case LoggedIn:
+                            showLogout();
+                            break;
+                        case Pending:
+                            break;
+                        case Unknown:
+                            break;
+                    }
                 }
             }
 
@@ -82,12 +86,18 @@ public class LoginActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        isResumed = true;
         if (VKSdk.isLoggedIn()) {
             showLogout();
         } else {
             showLogin();
         }
+    }
 
+    @Override
+    protected void onPause() {
+        isResumed = false;
+        super.onPause();
     }
 
     @Override
@@ -110,7 +120,7 @@ public class LoginActivity extends FragmentActivity {
             }
         };
 
-        if (!VKSdk.onActivityResult(requestCode, resultCode, data, callback) ) {
+        if (!VKSdk.onActivityResult(requestCode, resultCode, data, callback)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
