@@ -303,8 +303,25 @@ batch.executeWithListener(new VKBatchRequestListener() {
 
 Use sdk purchases
 =========
-For use sdk purchases you must use com.vk.sdk.payments.VKIInAppBillingService instead com.android.vending.billing.IInAppBillingService like this
+* For use sdk purchases you must use com.vk.sdk.payments.VKIInAppBillingService instead com.android.vending.billing.IInAppBillingService like this
 mService = new VKIInAppBillingService(IInAppBillingService.Stub.asInterface(service));
+
+* when initialize app use VKSdk.initialize(this).withPayments();
+
+* add below code for your manifest
+
+
+```
+<receiver
+            android:name=".payments.VKPaymentsReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>```
 
 Class Reference
 =========
