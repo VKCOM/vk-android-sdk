@@ -99,10 +99,10 @@ public class TestActivity extends ActionBarActivity {
 
                     VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.FIELDS,
                             "id,first_name,last_name,sex,bdate,city,country,photo_50,photo_100," +
-                            "photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online," +
-                            "online_mobile,lists,domain,has_mobile,contacts,connections,site,education," +
-                            "universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message," +
-                            "status,last_seen,common_count,relation,relatives,counters"));
+                                    "photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online," +
+                                    "online_mobile,lists,domain,has_mobile,contacts,connections,site,education," +
+                                    "universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message," +
+                                    "status,last_seen,common_count,relation,relatives,counters"));
 //                    VKRequest request = VKApi.users().get(VKParameters.from(VKApiConst.USER_IDS, "1,2"));
                     request.secure = false;
                     request.useSystemLanguage = false;
@@ -146,6 +146,14 @@ public class TestActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View view) {
                     makePost(null, "Hello, friends!");
+                }
+            });
+
+            view.findViewById(R.id.wall_getById).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VKRequest request = VKApi.wall().getById(VKParameters.from(VKApiConst.POSTS, "1_45558"));
+                    startApiCall(request);
                 }
             });
 

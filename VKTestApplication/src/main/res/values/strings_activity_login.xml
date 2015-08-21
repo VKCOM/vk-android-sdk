@@ -8,6 +8,7 @@
     <string name="dialogs_get">dialogs.get</string>
     <string name="captcha_force">captcha.force</string>
     <string name="wall_post">wall.post</string>
+    <string name="wall_getById">wall.getById</string>
     <string name="upload_photo">upload photo</string>
     <string name="upload_photo_to_wall">upload photo to wall</string>
     <string name="upload_several_photos_to_wall">upload several photos to wall</string>

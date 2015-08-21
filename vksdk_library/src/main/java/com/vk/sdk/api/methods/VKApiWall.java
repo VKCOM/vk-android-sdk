@@ -43,11 +43,7 @@ public class VKApiWall extends VKApiBase {
     }
 
     public VKRequest getById(VKParameters params) {
-        if (params.containsKey(EXTENDED) && ((Integer) params.get(EXTENDED)) == 1) {
-            return prepareRequest("get", params, VKPostArray.class);
-        } else {
-            return prepareRequest("get", params);
-        }
+        return prepareRequest("getById", params, VKPostArray.class);
     }
 
     public VKRequest savePost(VKParameters params) {
