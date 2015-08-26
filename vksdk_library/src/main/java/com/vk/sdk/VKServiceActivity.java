@@ -91,7 +91,7 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
      * @param scopeList authorization
      */
     static void startLoginActivity(@NonNull Activity act, @NonNull ArrayList<String> scopeList) {
-        Intent intent = createIntent(VKUIHelper.getApplicationContext(), VKServiceType.Authorization);
+        Intent intent = createIntent(act.getApplicationContext(), VKServiceType.Authorization);
         intent.putStringArrayListExtra(KEY_SCOPE_LIST, scopeList);
         act.startActivityForResult(intent, VKServiceType.Authorization.getOuterCode());
     }
@@ -181,7 +181,7 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == VKServiceType.Authorization.getOuterCode() || requestCode == VKServiceType.Validation.getOuterCode()) {
-            VKSdk.processActivityResult(resultCode, data, new VKCallback<VKAccessToken>() {
+            VKSdk.processActivityResult(this, resultCode, data, new VKCallback<VKAccessToken>() {
                 @Override
                 public void onResult(VKAccessToken res) {
                     setResult(VKSdk.RESULT_OK);

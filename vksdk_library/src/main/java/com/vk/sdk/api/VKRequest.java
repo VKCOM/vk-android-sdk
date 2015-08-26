@@ -22,6 +22,7 @@
 package com.vk.sdk.api;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
@@ -522,9 +523,9 @@ public class VKRequest extends VKObject {
 
     private String getLang() {
         String result = mPreferredLang;
-        Context ctx = VKUIHelper.getApplicationContext();
-        if (useSystemLanguage && ctx != null && ctx.getResources() != null) {
-            result = ctx.getResources().getConfiguration().locale.getLanguage();
+        Resources res = Resources.getSystem();
+        if (useSystemLanguage && res != null) {
+            result = res.getConfiguration().locale.getLanguage();
             if (result.equals("uk")) {
                 result = "ua";
             }
