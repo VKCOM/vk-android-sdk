@@ -284,13 +284,13 @@ public class VKAccessToken {
      * @param newToken New access token to set. If null, removes old token from preferences
      * @return old value of access token
      */
-    static VKAccessToken replaceToken(@Nullable VKAccessToken newToken) {
+    static VKAccessToken replaceToken(@NonNull Context ctx, @Nullable VKAccessToken newToken) {
         VKAccessToken oldToken = sCurrentToken;
         sCurrentToken = newToken;
         if (sCurrentToken != null) {
             sCurrentToken.save();
         } else {
-            removeTokenAtKey(VKUIHelper.getApplicationContext(), VK_SDK_ACCESS_TOKEN_PREF_KEY);
+            removeTokenAtKey(ctx, VK_SDK_ACCESS_TOKEN_PREF_KEY);
         }
         return oldToken;
     }

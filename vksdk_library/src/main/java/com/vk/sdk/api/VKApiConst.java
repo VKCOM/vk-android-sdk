@@ -94,6 +94,7 @@ public class VKApiConst {
     public static final String LONG = "long";
     public static final String PLACE_ID = "place_id";
     public static final String POST_ID = "post_id";
+    public static final String POSTS = "posts";
 
     //Errors
     public static final String ERROR_CODE = "error_code";

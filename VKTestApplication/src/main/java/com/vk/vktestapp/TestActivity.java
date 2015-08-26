@@ -168,6 +168,14 @@ public class TestActivity extends ActionBarActivity {
                 }
             });
 
+            view.findViewById(R.id.wall_getById).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VKRequest request = VKApi.wall().getById(VKParameters.from(VKApiConst.POSTS, "1_45558"));
+                    startApiCall(request);
+                }
+            });
+
             view.findViewById(R.id.upload_photo).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

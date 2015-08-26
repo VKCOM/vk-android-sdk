@@ -59,6 +59,14 @@
             android:paddingRight="32dp"/>
 
         <Button
+            android:id="@+id/wall_getById"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/wall_getById"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"/>
+
+        <Button
             android:id="@+id/upload_photo"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

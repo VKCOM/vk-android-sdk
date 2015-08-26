@@ -158,19 +158,8 @@ public class VKSdk {
                 throw new RuntimeException("VKSdk.initialize(Context) must be call from Application#onCreate()");
             }
         } else {
-            StackTraceElement element = trace("initialize");
-            if (element != null) {
-                try {
-                    Class<?> aClass = Class.forName(element.getClassName());
-                    aClass.asSubclass(Application.class);
-                    if (!"onCreate".equals(element.getMethodName())) {
-                        throw new RuntimeException("VKSdk.initialize(Context) must be call from Application#onCreate()");
-                    }
-                } catch (ClassNotFoundException e) {
-                    // nothing
-                } catch (ClassCastException e) {
-                    throw new RuntimeException("VKSdk.initialize(Context) must be call from Application#onCreate()");
-                }
+            if (!hasInStack(Application.class, "onCreate")) {
+                throw new RuntimeException("VKSdk.initialize(Context) must be call from Application#onCreate()");
             }
         }
 
@@ -268,7 +257,8 @@ public class VKSdk {
      * @param callback   activity result processing callback
      * @return If SDK parsed activity result properly, returns true. You can return from onActivityResult(). Otherwise, returns false.
      */
-    static boolean processActivityResult(int resultCode, @Nullable Intent result, @Nullable VKCallback<VKAccessToken> callback) {
+    static boolean processActivityResult(@NonNull Context ctx, int resultCode, @Nullable Intent result,
+                                         @Nullable VKCallback<VKAccessToken> callback) {
         if (resultCode != Activity.RESULT_OK || result == null) {
             //Result isn't ok, maybe user canceled
             if (callback != null) {
@@ -292,7 +282,7 @@ public class VKSdk {
             }
         }
 
-        tokenResult = checkAndSetToken(tokenParams);
+        tokenResult = checkAndSetToken(ctx, tokenParams);
         if (tokenResult.error != null && callback != null) {
             callback.onError(tokenResult.error);
         } else if (tokenResult.token != null) {
@@ -320,7 +310,7 @@ public class VKSdk {
      * @param tokenParams params of token
      * @return true if access token was set, or error was provided
      */
-    private static CheckTokenResult checkAndSetToken(@Nullable Map<String, String> tokenParams) {
+    private static CheckTokenResult checkAndSetToken(@NonNull Context ctx, @Nullable Map<String, String> tokenParams) {
         if (tokenParams != null && requestedPermissions != null) {
             tokenParams.put(VKAccessToken.SCOPE, TextUtils.join(",", requestedPermissions));
         }
@@ -339,11 +329,11 @@ public class VKSdk {
             VKAccessToken old = VKAccessToken.currentToken();
             if (old != null) {
                 VKAccessToken newToken = old.copyWithToken(token);
-                VKAccessToken.replaceToken(old.copyWithToken(token));
+                VKAccessToken.replaceToken(ctx, old.copyWithToken(token));
                 notifyVKTokenChanged(old, newToken);
                 return new CheckTokenResult(old, token);
             } else {
-                VKAccessToken.replaceToken(token);
+                VKAccessToken.replaceToken(ctx, token);
                 notifyVKTokenChanged(old, token);
                 return new CheckTokenResult(token);
             }
@@ -366,7 +356,7 @@ public class VKSdk {
      * @param context An application context for store an access token
      * @return true, if an access token exists and not expired
      */
-    public static boolean wakeUpSession(Context context) {
+    public static boolean wakeUpSession(@NonNull Context context) {
         return wakeUpSession(context, null);
     }
 
@@ -377,10 +367,9 @@ public class VKSdk {
      * @param loginStateCallback if callback specified, {@link VKCallback#onResult(Object)} method will be called after login state changed
      * @return true, if an access token exists and not expired
      */
-    public static boolean wakeUpSession(Context context, final VKCallback<LoginState> loginStateCallback) {
-        if (context != null) {
-            VKUIHelper.setApplicationContext(context);
-        }
+    public static boolean wakeUpSession(@NonNull Context context, final VKCallback<LoginState> loginStateCallback) {
+        VKUIHelper.setApplicationContext(context);
+        final Context appContext = context.getApplicationContext();
 
         VKAccessToken token = VKAccessToken.currentToken();
 
@@ -396,7 +385,7 @@ public class VKSdk {
                 public void onError(VKError error) {
                     //Possible double call of access token invalid
                     if (error != null && error.apiError != null && error.apiError.errorCode == 5) {
-                        onAccessTokenIsInvalid();
+                        onAccessTokenIsInvalid(appContext);
                     }
                     updateLoginState(loginStateCallback);
                 }
@@ -407,8 +396,8 @@ public class VKSdk {
         return false;
     }
 
-    private static void onAccessTokenIsInvalid() {
-        VKAccessToken old = VKAccessToken.replaceToken(null);
+    private static void onAccessTokenIsInvalid(@NonNull Context ctx) {
+        VKAccessToken old = VKAccessToken.replaceToken(ctx, null);
         if (old != null) {
             notifyVKTokenChanged(old, null);
         }
@@ -421,7 +410,7 @@ public class VKSdk {
      */
     public static void notifySdkAboutApiError(VKError apiError) {
         if (apiError.errorCode == 5) {
-            onAccessTokenIsInvalid();
+            onAccessTokenIsInvalid(VKUIHelper.getApplicationContext());
         }
     }
 
@@ -438,7 +427,7 @@ public class VKSdk {
             CookieManager.getInstance().removeAllCookies(null);
         }
 
-        VKAccessToken.replaceToken(null);
+        VKAccessToken.replaceToken(VKUIHelper.getApplicationContext(), null);
 
         updateLoginState();
     }
@@ -504,16 +493,20 @@ public class VKSdk {
         }
     }
 
-    @Nullable
-    private static StackTraceElement trace(@Nullable final String callingMethodName) {
-        StackTraceElement[] e = Thread.currentThread().getStackTrace();
-        boolean doNext = false;
-        for (StackTraceElement s : e) {
-            if (doNext && !s.getMethodName().equals(callingMethodName)) {
-                return s;
+    private static boolean hasInStack(@NonNull final Class<?> clazz, @NonNull final String method) {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        for (int i = stackTrace.length - 2; i >= 0; --i) {
+            StackTraceElement element = stackTrace[i];
+            try {
+                Class<?> aClass = Class.forName(element.getClassName());
+                aClass.asSubclass(clazz);
+                if (method.equals(element.getMethodName())) {
+                    return true;
+                }
+            } catch (ClassNotFoundException | ClassCastException e) {
+                // nothing
             }
-            doNext = s.getMethodName().equals(callingMethodName);
         }
-        return null;
+        return false;
     }
 }
