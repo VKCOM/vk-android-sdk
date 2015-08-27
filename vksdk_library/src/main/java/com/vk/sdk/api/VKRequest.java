@@ -67,6 +67,8 @@ public class VKRequest extends VKObject {
         POST
     }
 
+    public final Context context;
+
     /**
      * Selected method name
      */
@@ -193,6 +195,8 @@ public class VKRequest extends VKObject {
      * @param modelClass class for automatic parse
      */
     public VKRequest(String method, VKParameters parameters, Class<? extends VKApiModel> modelClass) {
+        this.context = VKUIHelper.getApplicationContext();
+
         this.methodName = method;
         if (parameters == null) {
             parameters = new VKParameters();
@@ -509,10 +513,10 @@ public class VKRequest extends VKObject {
                 apiError.request = this;
                 if (error.apiError.errorCode == 14) {
                     this.mLoadingOperation = null;
-                    VKServiceActivity.interruptWithError(apiError, VKServiceActivity.VKServiceType.Captcha);
+                    VKServiceActivity.interruptWithError(context, apiError, VKServiceActivity.VKServiceType.Captcha);
                     return true;
                 } else if (apiError.errorCode == 17) {
-                    VKServiceActivity.interruptWithError(apiError, VKServiceActivity.VKServiceType.Validation);
+                    VKServiceActivity.interruptWithError(context, apiError, VKServiceActivity.VKServiceType.Validation);
                     return true;
                 }
             }
@@ -635,5 +639,17 @@ public class VKRequest extends VKObject {
 
     public static VKRequest getRegisteredRequest(long requestId) {
         return (VKRequest) getRegisteredObject(requestId);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder(super.toString());
+        builder.append("{").append(methodName).append(" ");
+        VKParameters parameters = getMethodParameters();
+        for (String key : parameters.keySet()) {
+            builder.append(key).append("=").append(parameters.get(key)).append(" ");
+        }
+        builder.append("}");
+        return  builder.toString();
     }
 }
