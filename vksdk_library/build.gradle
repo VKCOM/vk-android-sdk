@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'signing'
 
 android {
@@ -14,13 +14,12 @@ android {
 
 configurations {
     // Used for correct javadoc generation
-    javadoc.extendsFrom compile
+    javadocDeps
 }
 
 dependencies {
-    javadoc 'org.json:json:20080701'
-    javadoc 'com.google.android:annotations:4.1.1.4@jar'
-    compile 'com.android.support:support-v4:22.2.1'
+    javadocDeps 'com.android.support:support-annotations:23.0.0'
+    compile 'com.android.support:support-v4:23.0.0'
 }
 
 if (project.hasProperty('officialBuild')) {
@@ -86,6 +85,7 @@ if (project.hasProperty('officialBuild')) {
     task javadoc(type: Javadoc) {
         source = android.sourceSets.main.java.srcDirs
         classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        classpath += configurations.javadocDeps
     }
 
     task javadocJar(type: Jar, dependsOn: javadoc) {
@@ -93,13 +93,22 @@ if (project.hasProperty('officialBuild')) {
         from javadoc.destinationDir
     }
 
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
+    }
+
     signing {
         required true
         sign configurations.archives
     }
 
-    artifacts {
-        archives javadocJar
-        archives sourcesJar
+    //Turn off javadoc errors
+    if (JavaVersion.current().isJava8Compatible()) {
+        allprojects {
+            tasks.withType(Javadoc) {
+                options.addStringOption('Xdoclint:none', '-quiet')
+            }
+        }
     }
 }
