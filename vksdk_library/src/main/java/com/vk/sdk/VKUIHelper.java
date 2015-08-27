@@ -45,7 +45,7 @@ public class VKUIHelper {
      */
     static void setApplicationContext(Context appContext) {
         if (appContext != null) {
-            sApplicationContext = appContext;
+            sApplicationContext = appContext.getApplicationContext();
         }
     }
 

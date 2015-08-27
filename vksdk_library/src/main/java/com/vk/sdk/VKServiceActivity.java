@@ -54,6 +54,7 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
     private static final String KEY_TYPE = "arg1";
     private static final String KEY_SCOPE_LIST = "arg2";
     private static final String KEY_REQUEST = "arg3";
+    private static final String KEY_SDK_CUSTOM_INITIALIZE = "arg4";
 
     // ---------- PUBLIC STATIC METHODS ----------
 
@@ -73,13 +74,12 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
         }
     }
 
-    public static void interruptWithError(VKError apiError, VKServiceType type) {
-        Intent intent = createIntent(VKUIHelper.getApplicationContext(), type);
+    public static void interruptWithError(Context ctx, VKError apiError, VKServiceType type) {
+        Intent intent = createIntent(ctx, type);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(KEY_REQUEST, apiError.registerObject());
-        final Context appContext = VKUIHelper.getApplicationContext();
-        if (appContext != null) {
-            appContext.startActivity(intent);
+        if (ctx != null) {
+            ctx.startActivity(intent);
         }
     }
 
@@ -105,7 +105,7 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     static void startLoginActivity(@NonNull Fragment fr, ArrayList<String> scopeList) {
-        Intent intent = createIntent(VKUIHelper.getApplicationContext(), VKServiceType.Authorization);
+        Intent intent = createIntent(fr.getActivity().getApplication(), VKServiceType.Authorization);
         intent.putStringArrayListExtra(KEY_SCOPE_LIST, scopeList);
         fr.startActivityForResult(intent, VKServiceType.Authorization.getOuterCode());
     }
@@ -116,6 +116,7 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
     private static Intent createIntent(Context appCtx, VKServiceType type) {
         Intent intent = new Intent(appCtx, VKServiceActivity.class);
         intent.putExtra(KEY_TYPE, type.name());
+        intent.putExtra(KEY_SDK_CUSTOM_INITIALIZE, VKSdk.isCustomInitialize());
         return intent;
     }
 
@@ -139,6 +140,10 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getIntent().getBooleanExtra(KEY_SDK_CUSTOM_INITIALIZE, false)) {
+            VKSdk.customInitialize(this, 0, null);
+        }
+
         if (savedInstanceState == null) {
             switch (getType()) {
                 case Authorization:
@@ -147,7 +152,7 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
                     if (VKUtil.isAppInstalled(ctx, VK_APP_PACKAGE_ID) && VKUtil.isIntentAvailable(ctx, VK_APP_AUTH_ACTION)) {
                         intent = new Intent(VK_APP_AUTH_ACTION, null);
                     } else {
-                        intent = new Intent(ctx, VKOpenAuthActivity.class);
+                        intent = VKOpenAuthActivity.createIntent(ctx);
                     }
 
                     intent.putExtra(VKOpenAuthActivity.VK_EXTRA_API_VERSION, VKSdk.getApiVersion());
@@ -168,7 +173,7 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
                 case Validation:
                     vkError = (VKError) VKObject.getRegisteredObject(getRequestId());
                     if (vkError != null) {
-                        intent = VKOpenAuthActivity.validationIntent(vkError);
+                        intent = VKOpenAuthActivity.validationIntent(this, vkError);
                         startActivityForResult(intent, VKServiceType.Validation.getOuterCode());
                     } else {
                         finish();
@@ -190,6 +195,17 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
 
                 @Override
                 public void onError(VKError error) {
+                    Object o = VKObject.getRegisteredObject(getRequestId());
+                    if (o instanceof VKError) {
+                        VKError vkError = ((VKError) o);
+                        if (vkError.request != null) {
+                            vkError.request.cancel();
+                            if (vkError.request.requestListener != null) {
+                                vkError.request.requestListener.onError(error);
+                            }
+                        }
+                    }
+
                     if (error != null) {
                         setResult(VKSdk.RESULT_ERROR, getIntent().putExtra(VKSdk.EXTRA_ERROR_ID, error.registerObject()));
                     } else {

@@ -53,6 +53,7 @@ public class VKOpenAuthActivity extends Activity {
     public static final String VK_EXTRA_SCOPE = "scope";
     public static final String VK_EXTRA_API_VERSION = "version";
     public static final String VK_EXTRA_REVOKE = "revoke";
+    private static final String VK_EXTRA_REVOKE_SDK_CUSTOM_INITIALIZE = "sdk_custom_initialize";
 
     public static final String VK_RESULT_INTENT_NAME = "com.vk.auth-token";
     public static final String VK_EXTRA_TOKEN_DATA = "extra-token-data";
@@ -61,6 +62,7 @@ public class VKOpenAuthActivity extends Activity {
 
     private static final String REDIRECT_URL = "https://oauth.vk.com/blank.html";
     private static final String ERROR = "error";
+    private static final String CANCEL = "cancel";
 
     protected WebView mWebView;
 
@@ -68,6 +70,14 @@ public class VKOpenAuthActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getIntent().getBooleanExtra(VK_EXTRA_REVOKE_SDK_CUSTOM_INITIALIZE, false)) {
+            VKSdk.customInitialize(this, 0, null);
+        }
+
+        VKUIHelper.setApplicationContext(this);
+        VKSdk.wakeUpSession(getApplicationContext());
+
         setContentView(new VKOpenAuthView(this));
 
         hideActionBar();
@@ -117,8 +127,14 @@ public class VKOpenAuthActivity extends Activity {
         }
     }
 
-    public static Intent validationIntent(VKError validationError) {
-        Intent i = new Intent(VKUIHelper.getApplicationContext(), VKOpenAuthActivity.class);
+    public static Intent createIntent(Context ctx) {
+        Intent intent = new Intent(ctx, VKOpenAuthActivity.class);
+        intent.putExtra(VK_EXTRA_REVOKE_SDK_CUSTOM_INITIALIZE, VKSdk.isCustomInitialize());
+        return intent;
+    }
+
+    public static Intent validationIntent(Context context, VKError validationError) {
+        Intent i = createIntent(context);
         i.putExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_URL, validationError.redirectUri);
         i.putExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_REQUEST, validationError.request.registerObject());
         return i;
@@ -139,7 +155,7 @@ public class VKOpenAuthActivity extends Activity {
                 if (getIntent().hasExtra(VK_EXTRA_VALIDATION_REQUEST)) {
                     data.putExtra(VK_EXTRA_VALIDATION_REQUEST, getIntent().getLongExtra(VK_EXTRA_VALIDATION_REQUEST, 0));
                 }
-                if (resultParams != null && resultParams.containsKey(ERROR)) {
+                if (resultParams != null && (resultParams.containsKey(ERROR) || resultParams.containsKey(CANCEL))) {
                     setResult(RESULT_CANCELED, data);
                 } else {
                     setResult(RESULT_OK, data);
