@@ -313,7 +313,7 @@ mService = new VKIInAppBillingService(IInAppBillingService.Stub.asInterface(serv
 
 ```
 <receiver
-            android:name=".payments.VKPaymentsReceiver"
+            android:name="com.vk.sdk.payments.VKPaymentsReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
