@@ -114,6 +114,7 @@ public class VKRequest extends VKObject {
      */
     private String mPreferredLang;
 
+    private boolean mUseLooperForCallListener = true;
     /**
      * Looper which starts request
      */
@@ -218,6 +219,10 @@ public class VKRequest extends VKObject {
         setModelClass(modelClass);
     }
 
+    public void setUseLooperForCallListener(boolean useLooperForCallListener) {
+        this.mUseLooperForCallListener = useLooperForCallListener;
+    }
+
     /**
      * Executes that request, and returns result to blocks
      *
@@ -226,6 +231,15 @@ public class VKRequest extends VKObject {
     public void executeWithListener(VKRequestListener listener) {
         this.requestListener = listener;
         start();
+    }
+
+    /**
+     * Executes that request, and returns result to blocks
+     *
+     * @param listener listener for request events
+     */
+    public void executeSyncWithListener(VKRequestListener listener) {
+        VKSyncRequestUtil.executeSyncWithListener(this, listener);
     }
 
     public void setRequestListener(@Nullable VKRequestListener listener) {
@@ -401,8 +415,7 @@ public class VKRequest extends VKObject {
     public void cancel() {
         if (mLoadingOperation != null) {
             mLoadingOperation.cancel();
-        }
-        else {
+        } else {
             provideError(new VKError(VKError.VK_CANCELED));
         }
     }
@@ -415,10 +428,16 @@ public class VKRequest extends VKObject {
     private void provideError(final VKError error) {
         error.request = this;
 
+        final boolean useLooperForCallListener = mUseLooperForCallListener;
+
+        if (!useLooperForCallListener && requestListener != null) {
+            requestListener.onError(error);
+        }
+
         runOnLooper(new Runnable() {
             @Override
             public void run() {
-                if (requestListener != null) {
+                if (useLooperForCallListener && requestListener != null) {
                     requestListener.onError(error);
                 }
                 if (mPostRequestsQueue != null && mPostRequestsQueue.size() > 0) {
@@ -448,6 +467,8 @@ public class VKRequest extends VKObject {
             response.responseString = ((VKHttpOperation) mLoadingOperation).getResponseString();
         }
 
+        final boolean useLooperForCallListener = mUseLooperForCallListener;
+
         runOnLooper(new Runnable() {
             @Override
             public void run() {
@@ -457,11 +478,15 @@ public class VKRequest extends VKObject {
                     }
                 }
 
-                if (requestListener != null) {
+                if (useLooperForCallListener && requestListener != null) {
                     requestListener.onComplete(response);
                 }
             }
         });
+
+        if (!useLooperForCallListener && requestListener != null) {
+            requestListener.onComplete(response);
+        }
     }
 
     /**
@@ -565,6 +590,7 @@ public class VKRequest extends VKObject {
 
     /**
      * Specify parser for response json, which creates data model
+     *
      * @param parser
      */
     public void setResponseParser(VKParser parser) {

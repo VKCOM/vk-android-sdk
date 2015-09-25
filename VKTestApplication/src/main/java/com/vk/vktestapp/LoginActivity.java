@@ -92,7 +92,6 @@ public class LoginActivity extends FragmentActivity {
         } else {
             showLogin();
         }
-
     }
 
     @Override
@@ -121,7 +120,7 @@ public class LoginActivity extends FragmentActivity {
             }
         };
 
-        if (!VKSdk.onActivityResult(requestCode, resultCode, data, callback) ) {
+        if (!VKSdk.onActivityResult(requestCode, resultCode, data, callback)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }

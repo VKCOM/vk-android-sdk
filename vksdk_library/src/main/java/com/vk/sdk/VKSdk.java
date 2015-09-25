@@ -41,6 +41,8 @@ import android.webkit.CookieSyncManager;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.payments.VKPaymentsCallback;
+import com.vk.sdk.payments.VKPaymentsReceiver;
 import com.vk.sdk.util.VKUtil;
 
 import java.util.ArrayList;
@@ -75,6 +77,11 @@ public class VKSdk {
      * App id for current application
      */
     private static int sCurrentAppId = 0;
+    private static boolean isPaymentsEnable = false;
+
+    private final Context applicationContext;
+
+    private static VKSdk vkSdk = null; // use for initialize like builder
 
     private static boolean sIsCustomInitialize = false;
 
@@ -102,8 +109,8 @@ public class VKSdk {
      */
     private static final List<VKAccessTokenTracker> sVKTokenListeners = new CopyOnWriteArrayList<>();
 
-    private VKSdk() {
-
+    private VKSdk(Context applicationContext) {
+        this.applicationContext = applicationContext;
     }
 
     static void addVKTokenTracker(VKAccessTokenTracker vkAccessTokenTracker) {
@@ -125,7 +132,20 @@ public class VKSdk {
         });
     }
 
-    public static void customInitialize(Context ctx, int appId, String apiVer) {
+    public static boolean isIsPaymentsEnable() {
+        return isPaymentsEnable;
+    }
+
+    public static void requestUserState(Context ctx, VKPaymentsCallback callback) {
+        VKPaymentsCallback.requestUserState(ctx, callback);
+    }
+
+    public void withPayments() {
+        isPaymentsEnable = true;
+        VKPaymentsReceiver.onReceiveStatic(applicationContext);
+    }
+
+    public static VKSdk customInitialize(Context ctx, int appId, String apiVer) {
         if (appId == 0) {
             appId = getIntFromPref(ctx, VK_SDK_APP_ID_PREF_KEY);
         }
@@ -136,13 +156,14 @@ public class VKSdk {
             throw new RuntimeException("your_app_id is 0");
         }
         sIsCustomInitialize = true;
-        initialize(ctx, appId, apiVer);
+        VKSdk vkSdk = initialize(ctx, appId, apiVer);
         if (sCurrentAppId != 0) {
             storeIntToPref(ctx, VK_SDK_APP_ID_PREF_KEY, sCurrentAppId);
         }
         if (sCurrentApiVersion != null) {
             storeStringToPref(ctx, VK_SDK_APP_VERSION_PREF_KEY, sCurrentApiVersion);
         }
+        return vkSdk;
     }
 
     public static boolean isCustomInitialize() {
@@ -155,9 +176,9 @@ public class VKSdk {
      *
      * @param ctx context of current application
      */
-    public static void initialize(Context ctx) {
+    public static VKSdk initialize(Context ctx) {
         if (sCurrentAppId != 0) {
-            return;
+            return vkSdk;
         }
 
         if (!(ctx instanceof Application)) {
@@ -177,16 +198,19 @@ public class VKSdk {
             throw new RuntimeException("String <integer name=\"com_vk_sdk_AppId\">your_app_id</integer> did not find in your resources.xml");
         }
 
-        initialize(ctx, appId, getStringResByName(ctx, SDK_API_VERSION, VKSdkVersion.DEFAULT_API_VERSION));
+        return initialize(ctx, appId, getStringResByName(ctx, SDK_API_VERSION, VKSdkVersion.DEFAULT_API_VERSION));
     }
 
-    private synchronized static void initialize(Context applicationContext, int appId, String appVer) {
+    private synchronized static VKSdk initialize(Context applicationContext, int appId, String appVer) {
         if (sCurrentAppId == 0) {
+            vkSdk = new VKSdk(applicationContext);
             sCurrentAppId = appId;
             sCurrentApiVersion = TextUtils.isEmpty(appVer) ? VKSdkVersion.DEFAULT_API_VERSION : appVer;
             sCurrentLoginState = LoginState.Unknown;
             wakeUpSession(applicationContext);
         }
+
+        return vkSdk;
     }
 
     private static String getStringResByName(Context ctx, String aString, String def) {
