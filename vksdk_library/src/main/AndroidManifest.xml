@@ -5,7 +5,6 @@
           android:versionName="1.0">
 
     <application>
-        <activity android:name="com.vk.sdk.VKOpenAuthActivity"/>
         <activity
             android:name="com.vk.sdk.VKServiceActivity"
             android:label="ServiceActivity"

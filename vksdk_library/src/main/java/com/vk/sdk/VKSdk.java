@@ -41,6 +41,7 @@ import android.webkit.CookieSyncManager;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.dialogs.VKOpenAuthDialog;
 import com.vk.sdk.payments.VKPaymentsCallback;
 import com.vk.sdk.payments.VKPaymentsReceiver;
 import com.vk.sdk.util.VKUtil;
@@ -304,9 +305,9 @@ public class VKSdk {
 
         CheckTokenResult tokenResult;
         Map<String, String> tokenParams = null;
-        if (result.hasExtra(VKOpenAuthActivity.VK_EXTRA_TOKEN_DATA)) {
+        if (result.hasExtra(VKOpenAuthDialog.VK_EXTRA_TOKEN_DATA)) {
             //Token received via webview
-            String tokenInfo = result.getStringExtra(VKOpenAuthActivity.VK_EXTRA_TOKEN_DATA);
+            String tokenInfo = result.getStringExtra(VKOpenAuthDialog.VK_EXTRA_TOKEN_DATA);
             tokenParams = VKUtil.explodeQueryString(tokenInfo);
         } else if (result.getExtras() != null) {
             //Token received via VK app
@@ -321,8 +322,9 @@ public class VKSdk {
             callback.onError(tokenResult.error);
         } else if (tokenResult.token != null) {
             if (tokenResult.oldToken != null) {
-                VKRequest validationRequest = VKRequest.getRegisteredRequest(result.getLongExtra(VKOpenAuthActivity.VK_EXTRA_VALIDATION_REQUEST, 0));
+                VKRequest validationRequest = VKRequest.getRegisteredRequest(result.getLongExtra(VKOpenAuthDialog.VK_EXTRA_VALIDATION_REQUEST, 0));
                 if (validationRequest != null) {
+                    validationRequest.unregisterObject();
                     validationRequest.repeat();
                 }
             } else {

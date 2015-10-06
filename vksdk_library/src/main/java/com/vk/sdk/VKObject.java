@@ -45,6 +45,9 @@ public class VKObject {
      * @return Registered object id
      */
     public long registerObject() {
+        if (sRegisteredObjects.containsKey(mRegisteredObjectId)) {
+            return mRegisteredObjectId;
+        }
         Random rand = new Random();
         while (true) {
             long nextRand = rand.nextLong();

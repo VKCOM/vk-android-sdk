@@ -1,116 +1,80 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".TestActivity$PlaceholderFragment">
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".TestActivity$PlaceholderFragment">
 
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:orientation="vertical">
+    <LinearLayout style="@style/Container">
 
         <Button
             android:id="@+id/users_get"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/users_get"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/users_get"/>
+
         <Button
             android:id="@+id/friends_get"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/friends_get"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/friends_get"/>
+
         <Button
             android:id="@+id/messages_get"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/messages_get"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/messages_get"/>
+
         <Button
             android:id="@+id/dialogs_get"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/dialogs_get"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/dialogs_get"/>
+
         <Button
             android:id="@+id/captcha_force"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/captcha_force"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/captcha_force"/>
 
 
         <Button
             android:id="@+id/wall_post"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/wall_post"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/wall_post"/>
 
         <Button
             android:id="@+id/wall_getById"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/wall_getById"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/wall_getById"/>
 
         <Button
             android:id="@+id/upload_photo"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/upload_photo"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/upload_photo"/>
 
         <Button
             android:id="@+id/upload_photo_to_wall"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/upload_photo_to_wall"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/upload_photo_to_wall"/>
 
         <Button
             android:id="@+id/upload_several_photos_to_wall"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/upload_several_photos_to_wall"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/upload_several_photos_to_wall"/>
 
         <Button
             android:id="@+id/upload_doc"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/upload_doc"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/upload_doc"/>
 
         <Button
             android:id="@+id/test_validation"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/test_validation"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"/>
+            style="@style/Button"
+            android:text="@string/test_validation"/>
+
         <Button
             android:id="@+id/test_share"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/test_share"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp" />
+            style="@style/Button"
+            android:text="@string/test_share"/>
+
+        <Button
+            android:id="@+id/test_send_request"
+            style="@style/Button"
+            android:text="@string/test_send_request"/>
     </LinearLayout>
 </ScrollView>

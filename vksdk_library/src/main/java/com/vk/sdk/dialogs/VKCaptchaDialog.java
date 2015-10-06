@@ -28,7 +28,6 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -38,7 +37,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.vk.sdk.R;
-import com.vk.sdk.VKUIHelper;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.httpClient.VKHttpClient;
 import com.vk.sdk.api.httpClient.VKImageOperation;

@@ -16,5 +16,8 @@
     <string name="continue_using_app">Continue using test application</string>
     <string name="test_validation">Test validation</string>
     <string name="test_share">Test share dialog</string>
+    <string name="test_send_request">Test send request</string>
     <string name="logout">Logout</string>
+
+    <string name="send_request_title">Choose friend</string>
 </resources>

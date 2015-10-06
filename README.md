@@ -120,12 +120,6 @@ Your need to add to your manifest the following elements:
 2) in the <application> element shoud be added
 
 ```
-<activity android:name="com.vk.sdk.VKOpenAuthActivity" />
-```
-
-and
-
-```
 <activity android:name="com.vk.sdk.VKServiceActivity" android:label="ServiceActivity" android:theme="@style/VK.Transparent" />
 ```
 
