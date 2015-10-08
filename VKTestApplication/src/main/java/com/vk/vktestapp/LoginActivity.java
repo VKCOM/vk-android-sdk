@@ -73,14 +73,14 @@ public class LoginActivity extends FragmentActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, new LogoutFragment())
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     private void showLogin() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, new LoginFragment())
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     @Override

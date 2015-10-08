@@ -27,13 +27,16 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.dialogs.VKCaptchaDialog;
+import com.vk.sdk.dialogs.VKOpenAuthDialog;
 import com.vk.sdk.util.VKStringJoiner;
 import com.vk.sdk.util.VKUtil;
 
@@ -144,44 +147,56 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
             VKSdk.customInitialize(this, 0, null);
         }
 
-        if (savedInstanceState == null) {
-            switch (getType()) {
-                case Authorization:
-                    Intent intent;
-                    final Context ctx = getApplicationContext();
-                    if (VKUtil.isAppInstalled(ctx, VK_APP_PACKAGE_ID) && VKUtil.isIntentAvailable(ctx, VK_APP_AUTH_ACTION)) {
-                        intent = new Intent(VK_APP_AUTH_ACTION, null);
-                    } else {
-                        intent = VKOpenAuthActivity.createIntent(ctx);
-                    }
+		VKSdk.wakeUpSession(getApplicationContext());
 
-                    intent.putExtra(VKOpenAuthActivity.VK_EXTRA_API_VERSION, VKSdk.getApiVersion());
-                    intent.putExtra(VKOpenAuthActivity.VK_EXTRA_CLIENT_ID, VKSdk.getsCurrentAppId());
-                    intent.putExtra(VKOpenAuthActivity.VK_EXTRA_REVOKE, true);
-                    intent.putExtra(VKOpenAuthActivity.VK_EXTRA_SCOPE, VKStringJoiner.join(getScopeList(), ","));
-                    startActivityForResult(intent, VKServiceType.Authorization.getOuterCode());
-                    break;
-                case Captcha:
-                    VKError vkError = (VKError) VKObject.getRegisteredObject(getRequestId());
-                    if (vkError != null) {
-                        VKCaptchaDialog vkCaptchaDialog = new VKCaptchaDialog(vkError);
-                        vkCaptchaDialog.show(this, this);
-                    } else {
-                        finish();
-                    }
-                    break;
-                case Validation:
-                    vkError = (VKError) VKObject.getRegisteredObject(getRequestId());
-                    if (vkError != null) {
-                        intent = VKOpenAuthActivity.validationIntent(this, vkError);
-                        startActivityForResult(intent, VKServiceType.Validation.getOuterCode());
-                    } else {
-                        finish();
-                    }
-                    break;
-            }
-        }
-    }
+		switch (getType()) {
+			case Authorization:
+				Intent intent;
+				final Context ctx = getApplicationContext();
+				Bundle bundle = new Bundle();
+				bundle.putString(VKOpenAuthDialog.VK_EXTRA_API_VERSION, VKSdk.getApiVersion());
+				bundle.putInt(VKOpenAuthDialog.VK_EXTRA_CLIENT_ID, VKSdk.getsCurrentAppId());
+				bundle.putBoolean(VKOpenAuthDialog.VK_EXTRA_REVOKE, true);
+				bundle.putString(VKOpenAuthDialog.VK_EXTRA_SCOPE, VKStringJoiner.join(getScopeList(), ","));
+				if (VKUtil.isAppInstalled(ctx, VK_APP_PACKAGE_ID) && VKUtil.isIntentAvailable(ctx, VK_APP_AUTH_ACTION)) {
+					intent = new Intent(VK_APP_AUTH_ACTION, null);
+					intent.putExtras(bundle);
+					startActivityForResult(intent, VKServiceType.Authorization.getOuterCode());
+				} else {
+					new VKOpenAuthDialog().show(this, bundle, VKServiceType.Authorization.getOuterCode(), null);
+				}
+				break;
+			case Captcha:
+				VKError vkError = (VKError) VKObject.getRegisteredObject(getRequestId());
+				if (vkError != null) {
+					new VKCaptchaDialog(vkError).show(this, this);
+				} else {
+					finish();
+				}
+				break;
+			case Validation:
+				vkError = (VKError) VKObject.getRegisteredObject(getRequestId());
+				if (vkError != null) {
+					if (!TextUtils.isEmpty(vkError.redirectUri)
+							&& !vkError.redirectUri.contains("&ui=vk_sdk")
+							&& !vkError.redirectUri.contains("?ui=vk_sdk")){
+						if (vkError.redirectUri.indexOf('?') > 0) {
+							vkError.redirectUri += "&ui=vk_sdk";
+						} else {
+							vkError.redirectUri += "?ui=vk_sdk";
+						}
+					}
+					new VKOpenAuthDialog().show(this, new Bundle(), VKServiceType.Validation.getOuterCode(), vkError);
+				} else {
+					finish();
+				}
+				break;
+		}
+	}
+
+	public void onActivityResultPublic(int requestCode, int resultCode, Intent data) {
+		onActivityResult(requestCode, resultCode, data);
+	}
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
