@@ -65,6 +65,26 @@ public class VKApiUser extends VKApiOwner implements android.os.Parcelable {
      */
     public final static String FIELD_PHOTO_200 = "photo_200";
 
+	/**
+	 * Field name for {@link #photo_400_orig} param.
+	 */
+	public final static String FIELD_PHOTO_400_ORIGIN = "photo_400_orig";
+
+	/**
+	 * Field name for {@link #photo_max} param.
+	 */
+	public final static String FIELD_PHOTO_MAX = "photo_max";
+
+	/**
+	 * Field name for {@link #photo_max_orig} param.
+	 */
+	public final static String FIELD_PHOTO_MAX_ORIGIN = "photo_max_orig";
+
+	/**
+	 * Field name for {@link #photo_big} param.
+	 */
+	public final static String FIELD_PHOTO_BIG = "photo_big";
+
     /**
      * All required for fill all fields.
      */
@@ -105,6 +125,22 @@ public class VKApiUser extends VKApiOwner implements android.os.Parcelable {
      */
     public String photo_200 = "http://vk.com/images/camera_a.gif";
 
+	/**
+	 * URL of default photo of the user with 200 pixels in width.
+	 */
+	public String photo_200_orig = "http://vk.com/images/camera_a.gif";
+
+	/**
+	 * URL of default photo of the user with 400 pixels in width.
+	 */
+	public String photo_400_orig = "";
+
+	public String photo_max = "http://vk.com/images/camera_b.gif";
+
+	public String photo_max_orig = "http://vk.com/images/camera_a.gif";
+
+	public String photo_big = "";
+
     /**
      * {@link #photo_50}, {@link #photo_100}, {@link #photo_200} included here in Photo Sizes format.
      */
@@ -124,21 +160,25 @@ public class VKApiUser extends VKApiOwner implements android.os.Parcelable {
         online = ParseUtils.parseBoolean(from, FIELD_ONLINE);
         online_mobile = ParseUtils.parseBoolean(from, FIELD_ONLINE_MOBILE);
 
-        photo_50 = from.optString(FIELD_PHOTO_50, photo_50);
-        if(!TextUtils.isEmpty(photo_50)) {
-            photo.add(VKApiPhotoSize.create(photo_50, 50));
-        }
-        photo_100 = from.optString(FIELD_PHOTO_100, photo_100);
-        if(!TextUtils.isEmpty(photo_100)) {
-            photo.add(VKApiPhotoSize.create(photo_100, 100));
-        }
-        photo_200 = from.optString(FIELD_PHOTO_200, null);
-        if(!TextUtils.isEmpty(photo_200)) {
-            photo.add(VKApiPhotoSize.create(photo_200, 200));
-        }
+	    photo_50 = addSquarePhoto(from.optString(FIELD_PHOTO_50, photo_50), 50);
+	    photo_100 = addSquarePhoto(from.optString(FIELD_PHOTO_100, photo_100), 100);
+	    photo_200 = addSquarePhoto(from.optString(FIELD_PHOTO_200, photo_200), 200);
+
+	    photo_400_orig = from.optString(FIELD_PHOTO_400_ORIGIN, photo_400_orig);
+	    photo_max = from.optString(FIELD_PHOTO_MAX, photo_max);
+	    photo_max_orig = from.optString(FIELD_PHOTO_MAX_ORIGIN, photo_max_orig);
+	    photo_big = from.optString(FIELD_PHOTO_BIG, photo_big);
+
         photo.sort();
         return this;
     }
+
+	protected String addSquarePhoto(String photoUrl, int size) {
+		if(!TextUtils.isEmpty(photoUrl)) {
+			photo.add(VKApiPhotoSize.create(photoUrl, size));
+		}
+		return photoUrl;
+	}
 
     /**
      * Creates an User instance from Parcel.
@@ -154,6 +194,11 @@ public class VKApiUser extends VKApiOwner implements android.os.Parcelable {
         this.photo_200 = in.readString();
         this.photo = in.readParcelable(VKPhotoSizes.class.getClassLoader());
         this.full_name = in.readString();
+
+	    this.photo_400_orig = in.readString();
+	    this.photo_max = in.readString();
+	    this.photo_max_orig = in.readString();
+	    this.photo_big = in.readString();
     }
 
     /**
@@ -193,6 +238,11 @@ public class VKApiUser extends VKApiOwner implements android.os.Parcelable {
         dest.writeString(this.photo_200);
         dest.writeParcelable(this.photo, flags);
         dest.writeString(this.full_name);
+
+	    dest.writeString(this.photo_400_orig);
+	    dest.writeString(this.photo_max);
+	    dest.writeString(this.photo_max_orig);
+	    dest.writeString(this.photo_big);
     }
 
     public static Creator<VKApiUser> CREATOR = new Creator<VKApiUser>() {

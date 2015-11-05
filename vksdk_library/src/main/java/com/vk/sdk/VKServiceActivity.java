@@ -159,9 +159,11 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
 				bundle.putBoolean(VKOpenAuthDialog.VK_EXTRA_REVOKE, true);
 				bundle.putString(VKOpenAuthDialog.VK_EXTRA_SCOPE, VKStringJoiner.join(getScopeList(), ","));
 				if (VKUtil.isAppInstalled(ctx, VK_APP_PACKAGE_ID) && VKUtil.isIntentAvailable(ctx, VK_APP_AUTH_ACTION)) {
-					intent = new Intent(VK_APP_AUTH_ACTION, null);
-					intent.putExtras(bundle);
-					startActivityForResult(intent, VKServiceType.Authorization.getOuterCode());
+					if (savedInstanceState == null) {
+						intent = new Intent(VK_APP_AUTH_ACTION, null);
+						intent.putExtras(bundle);
+						startActivityForResult(intent, VKServiceType.Authorization.getOuterCode());
+					}
 				} else {
 					new VKOpenAuthDialog().show(this, bundle, VKServiceType.Authorization.getOuterCode(), null);
 				}
