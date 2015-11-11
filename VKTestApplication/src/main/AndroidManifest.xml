@@ -25,7 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TestActivity" />
+        <activity android:name=".TestActivityCompat" />
+        <activity android:name=".TestActivityICS" />
         <activity android:name=".ApiCallActivity" />
 
     </application>

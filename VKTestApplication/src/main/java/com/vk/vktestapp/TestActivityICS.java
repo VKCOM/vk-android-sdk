@@ -1,15 +1,17 @@
 package com.vk.vktestapp;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +39,7 @@ import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKImageParameters;
 import com.vk.sdk.api.photo.VKUploadImage;
 import com.vk.sdk.dialogs.VKShareDialog;
+import com.vk.sdk.dialogs.VKShareDialogCompat;
 import com.vk.sdk.payments.VKPaymentsCallback;
 
 import org.json.JSONArray;
@@ -47,7 +50,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class TestActivity extends ActionBarActivity {
+public class TestActivityICS extends Activity {
 
 	private static final int[] IDS = {R.id.users_get, R.id.friends_get, R.id.messages_get, R.id.dialogs_get,
 			R.id.captcha_force, R.id.upload_photo, R.id.wall_post, R.id.wall_getById, R.id.test_validation,
@@ -57,6 +60,7 @@ public class TestActivity extends ActionBarActivity {
 	public static final int TARGET_GROUP = 60479154;
 	public static final int TARGET_ALBUM = 181808365;
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,16 +71,16 @@ public class TestActivity extends ActionBarActivity {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-//						Toast.makeText(TestActivity.this, userIsVk ? "user is vk's" : "user is not vk's", Toast.LENGTH_SHORT).show();
+//						Toast.makeText(TestActivityCompat.this, userIsVk ? "user is vk's" : "user is not vk's", Toast.LENGTH_SHORT).show();
 					}
 				});
 			}
 		});
-		if (getSupportActionBar() != null) {
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		if (getActionBar() != null) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		if (savedInstanceState == null) {
-			getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
+			getFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
 
@@ -92,6 +96,7 @@ public class TestActivity extends ActionBarActivity {
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static class PlaceholderFragment extends Fragment implements View.OnClickListener {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,6 +107,7 @@ public class TestActivity extends ActionBarActivity {
 			return view;
 		}
 
+		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -243,12 +249,14 @@ public class TestActivity extends ActionBarActivity {
 			}
 		}
 
+		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 		private void startApiCall(VKRequest request) {
 			Intent i = new Intent(getActivity(), ApiCallActivity.class);
 			i.putExtra("request", request.registerObject());
 			startActivity(i);
 		}
 
+		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 		private void showError(VKError error) {
 			new AlertDialog.Builder(getActivity())
 					.setMessage(error.toString())
@@ -259,6 +267,7 @@ public class TestActivity extends ActionBarActivity {
 			}
 		}
 
+		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 		private Bitmap getPhoto() {
 			try {
 				return BitmapFactory.decodeStream(getActivity().getAssets().open("android.jpg"));
@@ -274,6 +283,7 @@ public class TestActivity extends ActionBarActivity {
 			}
 		}
 
+		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 		private File getFile() {
 			try {
 				InputStream inputStream = getActivity().getAssets().open("android.jpg");
@@ -301,9 +311,10 @@ public class TestActivity extends ActionBarActivity {
 		private void makeRequest() {
 			VKRequest request = new VKRequest("apps.getFriendsList", VKParameters.from("extended", 1, "type", "request"));
 			request.executeWithListener(new VKRequestListener() {
+				@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 				@Override
 				public void onComplete(VKResponse response) {
-					final Context context = getContext();
+					final Context context = getActivity();
 					if (context == null || !isAdded()) {
 						return;
 					}
@@ -337,6 +348,7 @@ public class TestActivity extends ActionBarActivity {
 			VKRequest post = VKApi.wall().post(VKParameters.from(VKApiConst.OWNER_ID, "-" + TARGET_GROUP, VKApiConst.ATTACHMENTS, attachments, VKApiConst.MESSAGE, message));
 			post.setModelClass(VKWallPostResult.class);
 			post.executeWithListener(new VKRequestListener() {
+				@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 				@Override
 				public void onComplete(VKResponse response) {
 					if (isAdded()) {

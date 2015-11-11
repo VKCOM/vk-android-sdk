@@ -6,7 +6,7 @@
     android:layout_centerInParent="true"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context="com.vk.sdk.dialogs.VKShareDialog"
+    tools:context=".dialogs.VKShareDialogCompat"
     tools:ignore="RtlHardcoded">
     <View
         android:layout_width="0dp"
