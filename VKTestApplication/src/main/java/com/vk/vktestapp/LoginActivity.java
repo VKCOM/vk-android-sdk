@@ -1,6 +1,7 @@
 package com.vk.vktestapp;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -126,7 +127,11 @@ public class LoginActivity extends FragmentActivity {
     }
 
     private void startTestActivity() {
-        startActivity(new Intent(this, TestActivity.class));
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES. ICE_CREAM_SANDWICH) {
+            startActivity(new Intent(this, TestActivityICS.class));
+        } else {
+            startActivity(new Intent(this, TestActivityCompat.class));
+        }
     }
 
     public static class LoginFragment extends android.support.v4.app.Fragment {
