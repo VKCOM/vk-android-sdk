@@ -23,6 +23,7 @@ package com.vk.sdk.dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -70,7 +71,7 @@ public class VKOpenAuthDialog implements DialogInterface.OnDismissListener {
 	protected Intent mData;
 	protected int mResCode = Activity.RESULT_OK;
 	protected int mReqCode;
-	protected AlertDialog mAlertDialog;
+	protected Dialog mDialog;
 
 	public void show(@NonNull Activity activity, Bundle bundle, int reqCode, @Nullable VKError vkError) {
 		mVkError = vkError;
@@ -81,7 +82,8 @@ public class VKOpenAuthDialog implements DialogInterface.OnDismissListener {
 		mProgress = mView.findViewById(R.id.progress);
 		mWebView = (WebView) mView.findViewById(R.id.copyUrl);
 
-		final AlertDialog dialog = new AlertDialog.Builder(activity).setView(mView).create();
+		final Dialog dialog = new Dialog(activity);
+		dialog.setContentView(mView);
 		dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 			@Override
@@ -91,8 +93,8 @@ public class VKOpenAuthDialog implements DialogInterface.OnDismissListener {
 		});
 		dialog.setOnDismissListener(this);
 
-		mAlertDialog = dialog;
-		mAlertDialog.show();
+		mDialog = dialog;
+		mDialog.show();
 
 		loadPage();
 	}
@@ -233,8 +235,8 @@ public class VKOpenAuthDialog implements DialogInterface.OnDismissListener {
 	}
 
 	private void finish() {
-		if (mAlertDialog != null) {
-			mAlertDialog.dismiss();
+		if (mDialog != null) {
+			mDialog.dismiss();
 		}
 	}
 }
