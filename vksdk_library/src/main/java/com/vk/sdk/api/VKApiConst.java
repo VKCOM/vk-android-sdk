@@ -117,6 +117,9 @@ public class VKApiConst {
     public static final String FEED_TYPE = "feed_type";
     public static final String FEED = "feed";
 
+    //Videos
+    public static final String ADULT = "adult";
+
     //Enums
     enum VKProgressType {
         VKProgressTypeUpload,
