@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKApi;
@@ -37,6 +36,7 @@ import com.vk.sdk.api.model.VKWallPostResult;
 import com.vk.sdk.api.photo.VKImageParameters;
 import com.vk.sdk.api.photo.VKUploadImage;
 import com.vk.sdk.dialogs.VKShareDialog;
+import com.vk.sdk.dialogs.VKShareDialogBuilder;
 import com.vk.sdk.payments.VKPaymentsCallback;
 
 import org.json.JSONArray;
@@ -165,7 +165,7 @@ public class TestActivity extends ActionBarActivity {
 					final Bitmap b = getPhoto();
 					VKPhotoArray photos = new VKPhotoArray();
 					photos.add(new VKApiPhoto("photo-47200925_314622346"));
-					new VKShareDialog()
+					new VKShareDialogBuilder()
 							.setText("I created this post with VK Android SDK\nSee additional information below\n#vksdk")
 							.setUploadedPhotos(photos)
 							.setAttachmentImages(new VKUploadImage[]{

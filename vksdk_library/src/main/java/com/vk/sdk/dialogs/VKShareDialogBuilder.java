@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2014 VK.com
+//  Copyright (c) 2015 VK.com
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -21,13 +21,9 @@
 
 package com.vk.sdk.dialogs;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
+import android.app.FragmentManager;
 
+import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.model.VKApiPhoto;
 import com.vk.sdk.api.model.VKPhotoArray;
 import com.vk.sdk.api.photo.VKUploadImage;
@@ -59,25 +55,14 @@ import com.vk.sdk.api.photo.VKUploadImage;
  * }
  * </pre>
  */
-public class VKShareDialog extends DialogFragment implements VKShareDialogDelegate.DialogFragmentI {
+public class VKShareDialogBuilder {
 
-	private VKShareDialogDelegate mDelegate = new VKShareDialogDelegate(this);
-
-	/** Use VKShareDialogBuilder */
-	@Deprecated
-	public VKShareDialog() {
-	}
-
-	@SuppressLint("ValidFragment")
-	VKShareDialog(VKShareDialogBuilder builder) {
-		mDelegate.setAttachmentImages(builder.attachmentImages);
-		mDelegate.setText(builder.attachmentText);
-		if (builder.linkTitle != null && builder.linkUrl != null) {
-			mDelegate.setAttachmentLink(builder.linkTitle, builder.linkUrl);
-		}
-		mDelegate.setUploadedPhotos(builder.existingPhotos);
-		mDelegate.setShareDialogListener(builder.listener);
-	}
+	String linkTitle;
+	String linkUrl;
+	VKUploadImage[] attachmentImages;
+	VKPhotoArray existingPhotos;
+	CharSequence attachmentText;
+	VKShareDialogListener listener;
 
 	/**
 	 * Sets images that will be uploaded with post
@@ -85,8 +70,8 @@ public class VKShareDialog extends DialogFragment implements VKShareDialogDelega
 	 * @param images array of VKUploadImage objects with image data and upload parameters
 	 * @return Returns this dialog for chaining
 	 */
-	public VKShareDialog setAttachmentImages(VKUploadImage[] images) {
-		mDelegate.setAttachmentImages(images);
+	public VKShareDialogBuilder setAttachmentImages(VKUploadImage[] images) {
+		this.attachmentImages = images;
 		return this;
 	}
 
@@ -96,8 +81,8 @@ public class VKShareDialog extends DialogFragment implements VKShareDialogDelega
 	 * @param textToPost Text for post
 	 * @return Returns this dialog for chaining
 	 */
-	public VKShareDialog setText(CharSequence textToPost) {
-		mDelegate.setText(textToPost);
+	public VKShareDialogBuilder setText(CharSequence textToPost) {
+		this.attachmentText = textToPost;
 		return this;
 	}
 
@@ -108,8 +93,9 @@ public class VKShareDialog extends DialogFragment implements VKShareDialogDelega
 	 * @param linkUrl   Url that link follows
 	 * @return Returns this dialog for chaining
 	 */
-	public VKShareDialog setAttachmentLink(String linkTitle, String linkUrl) {
-		mDelegate.setAttachmentLink(linkTitle, linkUrl);
+	public VKShareDialogBuilder setAttachmentLink(String linkTitle, String linkUrl) {
+		this.linkTitle = linkTitle;
+		this.linkUrl = linkUrl;
 		return this;
 	}
 
@@ -119,8 +105,8 @@ public class VKShareDialog extends DialogFragment implements VKShareDialogDelega
 	 * @param photos Prepared array of {@link VKApiPhoto} objects
 	 * @return Returns this dialog for chaining
 	 */
-	public VKShareDialog setUploadedPhotos(VKPhotoArray photos) {
-		mDelegate.setUploadedPhotos(photos);
+	public VKShareDialogBuilder setUploadedPhotos(VKPhotoArray photos) {
+		this.existingPhotos = photos;
 		return this;
 	}
 
@@ -130,37 +116,24 @@ public class VKShareDialog extends DialogFragment implements VKShareDialogDelega
 	 * @param listener {@link VKShareDialogListener} object
 	 * @return Returns this dialog for chaining
 	 */
-	public VKShareDialog setShareDialogListener(VKShareDialogListener listener) {
-		mDelegate.setShareDialogListener(listener);
+	public VKShareDialogBuilder setShareDialogListener(VKShareDialogListener listener) {
+		this.listener = listener;
 		return this;
 	}
 
-	@NonNull
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		return mDelegate.onCreateDialog(savedInstanceState);
+	public void show(FragmentManager manager, String tag) {
+		new VKShareDialogNative(this).show(manager, tag);
 	}
 
-
-	@Override
-	@SuppressLint("NewApi")
-	public void onStart() {
-		super.onStart();
-		mDelegate.onStart();
+	public void show(android.support.v4.app.FragmentManager manager, String tag) {
+		new VKShareDialog(this).show(manager, tag);
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		mDelegate.onSaveInstanceState(outState);
-	}
+	public interface VKShareDialogListener {
+		void onVkShareComplete(int postId);
 
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		super.onCancel(dialog);
-		mDelegate.onCancel(dialog);
-	}
+		void onVkShareCancel();
 
-	public interface VKShareDialogListener extends VKShareDialogBuilder.VKShareDialogListener {
+		void onVkShareError(VKError error);
 	}
 }

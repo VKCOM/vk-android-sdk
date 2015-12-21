@@ -246,7 +246,7 @@ public class VKApiCommunityFull extends VKApiCommunity implements Parcelable {
         members_count = jo.optInt(MEMBERS_COUNT);
 
         JSONObject counters = jo.optJSONObject(COUNTERS);
-        if(counters != null) this.counters = new Counters(place);
+        if(counters != null) this.counters = new Counters(counters);
 
         start_date = jo.optLong(START_DATE);
         end_date = jo.optLong(END_DATE);
