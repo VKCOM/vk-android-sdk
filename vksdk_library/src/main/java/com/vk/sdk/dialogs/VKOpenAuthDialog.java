@@ -21,6 +21,7 @@
 
 package com.vk.sdk.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -102,6 +103,7 @@ public class VKOpenAuthDialog implements DialogInterface.OnDismissListener {
 		loadPage();
 	}
 
+	@SuppressLint("SetJavaScriptEnabled")
 	private void loadPage() {
 		try {
 			String urlToLoad;

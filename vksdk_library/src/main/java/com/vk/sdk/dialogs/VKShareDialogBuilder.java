@@ -21,7 +21,9 @@
 
 package com.vk.sdk.dialogs;
 
+import android.annotation.TargetApi;
 import android.app.FragmentManager;
+import android.os.Build;
 
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.model.VKApiPhoto;
@@ -121,6 +123,7 @@ public class VKShareDialogBuilder {
 		return this;
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void show(FragmentManager manager, String tag) {
 		new VKShareDialogNative(this).show(manager, tag);
 	}
