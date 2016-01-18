@@ -120,6 +120,11 @@ public class VKApiConst {
     //Videos
     public static final String ADULT = "adult";
 
+    //Market
+    public static final String MARKET_IDS = "item_ids";
+    public static final String ITEM_ID = "item_id";
+    public static final String COMMENT_ID = "comment_id";
+
     //Enums
     enum VKProgressType {
         VKProgressTypeUpload,
