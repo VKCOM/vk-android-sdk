@@ -80,6 +80,16 @@ public class VKApiItem extends VKApiOwner implements android.os.Parcelable, Iden
      */
     public int availability;
 
+    /**
+     * Number of comments on the item.
+     */
+    public int comments;
+
+    /**
+     * Number of views_count on the item.
+     */
+    public int views_count;
+
     public VKApiItem(JSONObject from) {
         parse(from);
     }
@@ -101,12 +111,16 @@ public class VKApiItem extends VKApiOwner implements android.os.Parcelable, Iden
         id = from.optInt("id");
         owner_id = from.optInt("owner_id");
         title = from.optString("title");
+        description = from.optString("description");
         JSONObject price = from.optJSONObject("price");
         if (price != null) this.price = new VKApiPrice().parse(price);
         JSONObject category = from.optJSONObject("category");
         if (category != null) this.category = new VKApiCategory().parse(category);
         date = from.optLong("date");
         availability = from.optInt("availability");
+        comments = from.optInt("comments");
+        views_count = from.optInt("views_count");
+
         return this;
     }
 
@@ -121,7 +135,9 @@ public class VKApiItem extends VKApiOwner implements android.os.Parcelable, Iden
                 ", category=" + category +
                 ", date=" + date +
                 ", availability=" + availability +
-                "}";
+                ", comments=" + comments +
+                ", views_count=" + views_count +
+                '}';
     }
 
     @Override
@@ -147,6 +163,8 @@ public class VKApiItem extends VKApiOwner implements android.os.Parcelable, Iden
         this.category = in.readParcelable(VKApiCategory.class.getClassLoader());
         this.date = in.readLong();
         this.availability = in.readInt();
+        this.comments = in.readInt();
+        this.views_count = in.readInt();
     }
 
     @Override
@@ -160,6 +178,8 @@ public class VKApiItem extends VKApiOwner implements android.os.Parcelable, Iden
         dest.writeParcelable(this.category, flags);
         dest.writeLong(this.date);
         dest.writeInt(this.availability);
+        dest.writeInt(this.comments);
+        dest.writeInt(this.views_count);
     }
 
     public static class VKApiPrice extends VKApiModel implements Parcelable {
