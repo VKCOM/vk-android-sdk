@@ -75,10 +75,15 @@ public class VKApiNote extends VKAttachments.VKApiAttachment implements Identifi
      */
     public int read_comments;
 
-	public VKApiNote(JSONObject from) throws JSONException
-	{
-		parse(from);
-	}
+    /**
+     * Note URL.
+     */
+    public String view_url;
+
+    public VKApiNote(JSONObject from) throws JSONException
+    {
+        parse(from);
+    }
     /**
      * Fills a Note instance from JSONObject.
      */
@@ -90,6 +95,7 @@ public class VKApiNote extends VKAttachments.VKApiAttachment implements Identifi
         date = source.optLong("date");
         comments = source.optInt("comments");
         read_comments = source.optInt("read_comments");
+        view_url = source.optString("view_url");
         return this;
     }
 
@@ -104,6 +110,7 @@ public class VKApiNote extends VKAttachments.VKApiAttachment implements Identifi
         this.date = in.readLong();
         this.comments = in.readInt();
         this.read_comments = in.readInt();
+        this.view_url = in.readString();
     }
 
     /**
@@ -142,6 +149,7 @@ public class VKApiNote extends VKAttachments.VKApiAttachment implements Identifi
         dest.writeLong(this.date);
         dest.writeInt(this.comments);
         dest.writeInt(this.read_comments);
+        dest.writeString(this.view_url);
     }
 
     public static Creator<VKApiNote> CREATOR = new Creator<VKApiNote>() {
