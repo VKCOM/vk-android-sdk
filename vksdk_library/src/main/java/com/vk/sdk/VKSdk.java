@@ -255,7 +255,7 @@ public class VKSdk {
         VKServiceActivity.startLoginActivity(fragment, requestedPermissions = preparingScopeList(scope));
     }
 
-    public static boolean onActivityResult(int requestCode, int resultCode, @NonNull Intent data, @NonNull VKCallback<VKAccessToken> vkCallback) {
+    public static boolean onActivityResult(int requestCode, int resultCode, Intent data, @NonNull VKCallback<VKAccessToken> vkCallback) {
         if (requestCode == VKServiceActivity.VKServiceType.Authorization.getOuterCode()) {
             if (resultCode == VKSdk.RESULT_OK) {
                 vkCallback.onResult(VKAccessToken.currentToken());
