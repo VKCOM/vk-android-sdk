@@ -111,7 +111,7 @@ public class VKApiDocument extends VKApiAttachment implements Parcelable, Identi
         ext = jo.optString("ext");
         url = jo.optString("url");
         access_key = jo.optString("access_key");
-        date = new Date(jo.optLong("date", 0L) * 1000L); // from unixtime timestamp
+        date = ParseUtils.parseUnixtime(jo, "date");
 
         photo_100 = jo.optString("photo_100");
         if(!TextUtils.isEmpty(photo_100)) {
