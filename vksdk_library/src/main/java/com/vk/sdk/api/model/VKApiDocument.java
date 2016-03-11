@@ -27,6 +27,9 @@ import android.text.TextUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
+
 import static com.vk.sdk.api.model.VKAttachments.*;
 
 /**
@@ -81,6 +84,11 @@ public class VKApiDocument extends VKApiAttachment implements Parcelable, Identi
     public VKPhotoSizes photo = new VKPhotoSizes();
 
     /**
+     * Creation date (current date by default).
+     */
+    public Date date = new Date();
+
+    /**
      * An access key using for get information about hidden objects.
      */
     public String access_key;
@@ -103,6 +111,7 @@ public class VKApiDocument extends VKApiAttachment implements Parcelable, Identi
         ext = jo.optString("ext");
         url = jo.optString("url");
         access_key = jo.optString("access_key");
+        date = new Date(jo.optLong("date", 0L) * 1000L); // from unixtime timestamp
 
         photo_100 = jo.optString("photo_100");
         if(!TextUtils.isEmpty(photo_100)) {
@@ -132,6 +141,7 @@ public class VKApiDocument extends VKApiAttachment implements Parcelable, Identi
         this.access_key = in.readString();
         this.mIsImage = in.readByte() != 0;
         this.mIsGif = in.readByte() != 0;
+        this.date = new Date(in.readLong());
     }
 
     /**
@@ -199,6 +209,7 @@ public class VKApiDocument extends VKApiAttachment implements Parcelable, Identi
         dest.writeString(this.access_key);
         dest.writeByte(mIsImage ? (byte) 1 : (byte) 0);
         dest.writeByte(mIsGif ? (byte) 1 : (byte) 0);
+        dest.writeLong(this.date.getTime());
     }
 
     public static Creator<VKApiDocument> CREATOR = new Creator<VKApiDocument>() {
