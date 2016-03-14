@@ -112,6 +112,13 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
         intent.putStringArrayListExtra(KEY_SCOPE_LIST, scopeList);
         fr.startActivityForResult(intent, VKServiceType.Authorization.getOuterCode());
     }
+    
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    static void startLoginActivity(@NonNull android.support.v4.app.Fragment fr, ArrayList<String> scopeList) {
+        Intent intent = createIntent(fr.getActivity().getApplication(), VKServiceType.Authorization);
+        intent.putStringArrayListExtra(KEY_SCOPE_LIST, scopeList);
+        fr.startActivityForResult(intent, VKServiceType.Authorization.getOuterCode());
+    }
 
     // ---------- PRIVATE METHODS ----------
 
