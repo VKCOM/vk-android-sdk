@@ -21,6 +21,8 @@
 
 package com.vk.sdk.api.model;
 
+import android.os.Parcel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,4 +36,22 @@ public class VKCommentArray extends VKList<VKApiComment> {
         fill(response, VKApiComment.class);
         return this;
     }
+
+    @SuppressWarnings("unused")
+    public VKCommentArray() {
+    }
+
+    public VKCommentArray(Parcel in) {
+        super(in);
+    }
+
+    public static Creator<VKCommentArray> CREATOR = new Creator<VKCommentArray>() {
+        public VKCommentArray createFromParcel(Parcel source) {
+            return new VKCommentArray(source);
+        }
+
+        public VKCommentArray[] newArray(int size) {
+            return new VKCommentArray[size];
+        }
+    };
 }

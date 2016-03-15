@@ -21,6 +21,8 @@
 
 package com.vk.sdk.api.model;
 
+import android.os.Parcel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,4 +36,22 @@ public class VKPostArray extends VKList<VKApiPost> {
         fill(response, VKApiPost.class);
         return this;
     }
+
+    @SuppressWarnings("unused")
+    public VKPostArray() {
+    }
+
+    public VKPostArray(Parcel in) {
+        super(in);
+    }
+
+    public static Creator<VKPostArray> CREATOR = new Creator<VKPostArray>() {
+        public VKPostArray createFromParcel(Parcel source) {
+            return new VKPostArray(source);
+        }
+
+        public VKPostArray[] newArray(int size) {
+            return new VKPostArray[size];
+        }
+    };
 }

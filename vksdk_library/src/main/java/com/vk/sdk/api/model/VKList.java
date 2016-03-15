@@ -23,6 +23,7 @@ package com.vk.sdk.api.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.vk.sdk.VKSdk;
 
@@ -270,12 +271,12 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
     }
 
     @Override
-    public boolean addAll(int location, Collection<? extends T> collection) {
+    public boolean addAll(int location, @NonNull Collection<? extends T> collection) {
         return items.addAll(location, collection);
     }
 
     @Override
-    public boolean addAll(Collection<? extends T> collection) {
+    public boolean addAll(@NonNull Collection<? extends T> collection) {
         return items.addAll(collection);
     }
 
@@ -290,8 +291,7 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
     }
 
     @Override
-    public boolean containsAll(Collection<?> collection) {
-        assert collection != null;
+    public boolean containsAll(@NonNull Collection<?> collection) {
         return items.containsAll(collection);
     }
 
@@ -315,6 +315,7 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
         return items.isEmpty();
     }
 
+    @NonNull
     @Override
     public Iterator<T> iterator() {
         return items.iterator();
@@ -331,6 +332,7 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
         return items.listIterator();
     }
 
+    @NonNull
     @Override
     public ListIterator<T> listIterator(int location) {
         return items.listIterator(location);
@@ -347,13 +349,12 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
     }
 
     @Override
-    public boolean removeAll(Collection<?> collection) {
-        assert collection != null;
+    public boolean removeAll(@NonNull Collection<?> collection) {
         return items.removeAll(collection);
     }
 
     @Override
-    public boolean retainAll(Collection<?> collection) {
+    public boolean retainAll(@NonNull Collection<?> collection) {
         return items.retainAll(collection);
     }
 
@@ -367,19 +368,21 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
         return items.size();
     }
 
+    @NonNull
     @Override
     public java.util.List<T> subList(int start, int end) {
         return items.subList(start, end);
     }
 
+    @NonNull
     @Override
     public Object[] toArray() {
         return items.toArray();
     }
 
+    @NonNull
     @Override
-    public <T1> T1[] toArray(T1[] array) {
-        assert array != null;
+    public <T1> T1[] toArray(@NonNull T1[] array) {
         return items.toArray(array);
     }
 
@@ -422,7 +425,7 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
      * Used when parsing the list objects as interator created from {@link org.json.JSONArray} a instances of items of the list.
      * @param <D> list item type.
      */
-    public static interface Parser<D> {
+    public interface Parser<D> {
 
         /**
          * Creates a list item of its representation return VK API from {@link org.json.JSONArray}

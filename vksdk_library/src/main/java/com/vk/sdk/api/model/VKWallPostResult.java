@@ -38,4 +38,16 @@ public class VKWallPostResult extends VKApiModel {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.post_id);
     }
+
+    public static Creator<VKWallPostResult> CREATOR = new Creator<VKWallPostResult>() {
+        public VKWallPostResult createFromParcel(Parcel source) {
+            VKWallPostResult vkWallPostResult = new VKWallPostResult();
+            vkWallPostResult.post_id = source.readInt();
+            return vkWallPostResult;
+        }
+
+        public VKWallPostResult[] newArray(int size) {
+            return new VKWallPostResult[size];
+        }
+    };
 }

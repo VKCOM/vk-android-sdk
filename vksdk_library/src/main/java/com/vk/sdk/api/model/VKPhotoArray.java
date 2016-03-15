@@ -21,6 +21,8 @@
 
 package com.vk.sdk.api.model;
 
+import android.os.Parcel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,4 +35,22 @@ public class VKPhotoArray extends VKList<VKApiPhoto> {
         fill(response, VKApiPhoto.class);
         return this;
     }
+
+    @SuppressWarnings("unused")
+    public VKPhotoArray() {
+    }
+
+    public VKPhotoArray(Parcel in) {
+        super(in);
+    }
+
+    public static Creator<VKPhotoArray> CREATOR = new Creator<VKPhotoArray>() {
+        public VKPhotoArray createFromParcel(Parcel source) {
+            return new VKPhotoArray(source);
+        }
+
+        public VKPhotoArray[] newArray(int size) {
+            return new VKPhotoArray[size];
+        }
+    };
 }

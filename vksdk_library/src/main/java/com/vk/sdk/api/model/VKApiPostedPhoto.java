@@ -64,4 +64,14 @@ public class VKApiPostedPhoto extends VKApiPhoto {
     public String getType() {
         return TYPE_POSTED_PHOTO;
     }
+
+    public static Creator<VKApiPostedPhoto> CREATOR = new Creator<VKApiPostedPhoto>() {
+        public VKApiPostedPhoto createFromParcel(Parcel source) {
+            return new VKApiPostedPhoto(source);
+        }
+
+        public VKApiPostedPhoto[] newArray(int size) {
+            return new VKApiPostedPhoto[size];
+        }
+    };
 }

@@ -21,6 +21,8 @@
 
 package com.vk.sdk.api.model;
 
+import android.os.Parcel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,4 +35,22 @@ public class VKDocsArray extends VKList<VKApiDocument> {
         fill(response, VKApiDocument.class);
         return this;
     }
+
+    @SuppressWarnings("unused")
+    public VKDocsArray() {
+    }
+
+    public VKDocsArray(Parcel in) {
+        super(in);
+    }
+
+    public static Creator<VKDocsArray> CREATOR = new Creator<VKDocsArray>() {
+        public VKDocsArray createFromParcel(Parcel source) {
+            return new VKDocsArray(source);
+        }
+
+        public VKDocsArray[] newArray(int size) {
+            return new VKDocsArray[size];
+        }
+    };
 }

@@ -21,6 +21,8 @@
 
 package com.vk.sdk.api.model;
 
+import android.os.Parcel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,4 +32,22 @@ public class VKUsersArray extends VKList<VKApiUserFull> {
         fill(response, VKApiUserFull.class);
         return this;
     }
+
+    @SuppressWarnings("unused")
+    public VKUsersArray() {
+    }
+
+    public VKUsersArray(Parcel in) {
+        super(in);
+    }
+
+    public static Creator<VKUsersArray> CREATOR = new Creator<VKUsersArray>() {
+        public VKUsersArray createFromParcel(Parcel source) {
+            return new VKUsersArray(source);
+        }
+
+        public VKUsersArray[] newArray(int size) {
+            return new VKUsersArray[size];
+        }
+    };
 }
