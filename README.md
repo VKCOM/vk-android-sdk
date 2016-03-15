@@ -146,7 +146,7 @@ User Authorization
 There are several authorization methods:
 
 ```
-VkSdk.login(Activity runningActivity, String... scope);
+VKSdk.login(Activity runningActivity, String... scope);
 VkSdk.login(Fragment runningFragment, String... scope);
 ```
 
