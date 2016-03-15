@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.*;
+import java.util.Date;
 
 /**
  * Collection of helpers to parse server responses.
@@ -91,6 +92,21 @@ class ParseUtils {
     }
 
     /**
+     * Parse date from Unixtime.
+     *
+     * @param from server response like this format: {@code date: 1421673907}
+     * @param name name of field to read
+     * @return parsed date or current
+     */
+    public static Date parseUnixtime(JSONObject from, String name) {
+        if (from == null) return new Date();
+
+        long dateSeconds = from.optLong(name, 0);
+        if (dateSeconds == 0) return new Date();
+        return new Date(dateSeconds * 1000L);
+    }
+
+    /**
      * Parse int array from JSONObject with given name.
      *
      * @param from int JSON array like this one {@code {11, 34, 42}}
@@ -130,7 +146,7 @@ class ParseUtils {
      * 2. The name of the filed should be fully equal to name of JSONObject key.
      * 3. Supports parse of all Java primitives, all {@link java.lang.String},
      * arrays of primitive types, {@link java.lang.String}s and {@link com.vk.sdk.api.model.VKApiModel}s,
-     * list implementation line {@link com.vk.sdk.api.model.VKList}, {@link com.vk.sdk.api.model.VKAttachments.VKAttachment} or {@link com.vk.sdk.api.model.VKPhotoSizes},
+     * list implementation line {@link com.vk.sdk.api.model.VKList}, {@link com.vk.sdk.api.model.VKAttachments.VKApiAttachment} or {@link com.vk.sdk.api.model.VKPhotoSizes},
      * {@link com.vk.sdk.api.model.VKApiModel}s.
      * <p/>
      * 4. Boolean fields defines by vk_int == 1 expression.
