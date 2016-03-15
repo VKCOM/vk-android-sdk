@@ -119,6 +119,9 @@ public class VKApiConst {
 
     //Videos
     public static final String ADULT = "adult";
+    
+    //Audios
+    public static final String AUTO_COMPLETE = "auto_complete";
 
     //Enums
     enum VKProgressType {
