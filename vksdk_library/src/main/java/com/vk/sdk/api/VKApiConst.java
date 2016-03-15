@@ -123,6 +123,11 @@ public class VKApiConst {
     //Audios
     public static final String AUTO_COMPLETE = "auto_complete";
 
+    //Market
+    public static final String MARKET_IDS = "item_ids";
+    public static final String ITEM_ID = "item_id";
+    public static final String COMMENT_ID = "comment_id";
+
     //Enums
     enum VKProgressType {
         VKProgressTypeUpload,

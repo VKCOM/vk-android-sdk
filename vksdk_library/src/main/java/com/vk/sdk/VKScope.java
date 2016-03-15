@@ -46,6 +46,7 @@ public class VKScope {
     public static final String EMAIL = "email";
     public static final String NOHTTPS = "nohttps";
     public static final String DIRECT = "direct";
+    public static final String MARKET = "market";
 
     /**
      * Converts integer value of permissions into arraylist of constants
@@ -70,6 +71,7 @@ public class VKScope {
         if ((permissionsValue & 262144) > 0) res.add(GROUPS);
         if ((permissionsValue & 524288) > 0) res.add(NOTIFICATIONS);
         if ((permissionsValue & 1048576) > 0) res.add(STATS);
+        if ((permissionsValue & 134217728) > 0) res.add(MARKET);
         return res;
     }
 }

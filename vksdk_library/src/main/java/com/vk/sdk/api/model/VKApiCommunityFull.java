@@ -128,6 +128,11 @@ public class VKApiCommunityFull extends VKApiCommunity implements Parcelable {
     public final static String ACTIVITY = "activity";
 
     /**
+     * Filed market from VK fields set
+     */
+    public final static String MARKET = "market";
+
+    /**
      * City specified in information about community.
      */
     public VKApiCity city;
@@ -222,6 +227,11 @@ public class VKApiCommunityFull extends VKApiCommunity implements Parcelable {
      */
     public boolean blacklisted;
 
+    /**
+     * The information about market
+     */
+    public VKMarket market;
+
     public VKApiCommunityFull() {
         super();
     }
@@ -263,6 +273,9 @@ public class VKApiCommunityFull extends VKApiCommunity implements Parcelable {
         verified = ParseUtils.parseBoolean(jo, VERIFIED);
         blacklisted = ParseUtils.parseBoolean(jo, VERIFIED);
         site = jo.optString(SITE);
+
+        JSONObject market = jo.optJSONObject(MARKET);
+        if(market != null) this.market = new VKMarket().parse(market);
         return this;
     }
 
@@ -477,6 +490,7 @@ public class VKApiCommunityFull extends VKApiCommunity implements Parcelable {
         dest.writeByte(verified ? (byte) 1 : (byte) 0);
         dest.writeString(this.site);
         dest.writeByte(blacklisted ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(this.market, flags);
     }
 
     public VKApiCommunityFull(Parcel in) {
@@ -500,6 +514,7 @@ public class VKApiCommunityFull extends VKApiCommunity implements Parcelable {
         this.verified = in.readByte() != 0;
         this.site = in.readString();
         this.blacklisted = in.readByte() != 0;
+        this.market = in.readParcelable(VKMarket.class.getClassLoader());
     }
 
     public static Creator<VKApiCommunityFull> CREATOR = new Creator<VKApiCommunityFull>() {
