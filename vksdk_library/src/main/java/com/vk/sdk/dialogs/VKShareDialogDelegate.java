@@ -188,17 +188,6 @@ class VKShareDialogDelegate {
 		result.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		result.setContentView(mInternalView);
 		result.setCancelable(true);
-		result.setOnCancelListener(new DialogInterface.OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialogInterface) {
-				if (mListener != null) {
-					mListener.onVkShareCancel();
-				}
-				dialogFragmentI.dismissAllowingStateLoss();
-			}
-		});
-
-
 		return result;
 	}
 
