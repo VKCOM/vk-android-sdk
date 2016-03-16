@@ -162,8 +162,6 @@ public class VKHttpClient {
     }
 
     public static VKHttpResponse execute(VKHTTPRequest request) throws IOException {
-        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
-
         VKHttpResponse response = new VKHttpResponse(request.createConnection(), null);
         if (request.isAborted) {
             return null;
