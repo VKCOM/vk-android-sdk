@@ -85,6 +85,11 @@ public class VKApiDocument extends VKApiAttachment implements Parcelable, Identi
      */
     public String access_key;
 
+    /**
+     * Document creation date in milliseconds (current date by default).
+     */
+    public long date = 0;
+
     private boolean mIsGif;
     private boolean mIsImage;
 
@@ -103,6 +108,7 @@ public class VKApiDocument extends VKApiAttachment implements Parcelable, Identi
         ext = jo.optString("ext");
         url = jo.optString("url");
         access_key = jo.optString("access_key");
+        date = jo.optLong("date", 0L) * 1000;
 
         photo_100 = jo.optString("photo_100");
         if(!TextUtils.isEmpty(photo_100)) {
@@ -126,6 +132,7 @@ public class VKApiDocument extends VKApiAttachment implements Parcelable, Identi
         this.size = in.readLong();
         this.ext = in.readString();
         this.url = in.readString();
+        this.date = in.readLong();
         this.photo_100 = in.readString();
         this.photo_130 = in.readString();
         this.photo = in.readParcelable(VKPhotoSizes.class.getClassLoader());
@@ -193,6 +200,7 @@ public class VKApiDocument extends VKApiAttachment implements Parcelable, Identi
         dest.writeLong(this.size);
         dest.writeString(this.ext);
         dest.writeString(this.url);
+        dest.writeLong(this.date);
         dest.writeString(this.photo_100);
         dest.writeString(this.photo_130);
         dest.writeParcelable(this.photo, flags);
