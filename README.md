@@ -42,7 +42,7 @@ As a rule, fingerprints contains a single line. It's a fingerprint of your certi
 Connecting VK SDK to Your Android Application
 ==========
 
-Connecting With Maven 
+Connecting With Maven
 ----------
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.vk/androidsdk/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.vk/androidsdk)
 
