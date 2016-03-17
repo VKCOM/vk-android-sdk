@@ -42,11 +42,20 @@ As a rule, fingerprints contains a single line. It's a fingerprint of your certi
 Connecting VK SDK to Your Android Application
 ==========
 
-Connecting With Maven
+Connecting With Maven [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.vk/androidsdk/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.vk/androidsdk)
 ----------
 You can add next maven dependency in your project:
 
-`com.vk:androidsdk:+`
+`com.vk:androidsdk:[MAVEN_CENTRAL_VERSION]`
+
+For example, your gradle script will contains such dependencies: 
+```
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:20.0.0'
+    compile 'com.vk:androidsdk:1.6.5'
+}
+```
 
 Connecting in Android Studio
 ----------
