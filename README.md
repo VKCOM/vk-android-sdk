@@ -45,6 +45,7 @@ Connecting VK SDK to Your Android Application
 Connecting With Maven 
 ----------
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.vk/androidsdk/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.vk/androidsdk)
+
 You can add next maven dependency in your project:
 
 `com.vk:androidsdk:[MAVEN_CENTRAL_VERSION]`
