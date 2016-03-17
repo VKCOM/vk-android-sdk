@@ -95,7 +95,7 @@ public class VKMultipartEntity {
     public void writeTo(OutputStream outputStream) throws IOException {
         for (int i = 0; i < mFiles.length; i++) {
             File uploadFile = mFiles[i];
-            outputStream.write(getFileDescription(uploadFile, i).getBytes("UTF-8"));
+            outputStream.write(getFileDescription(uploadFile, i).getBytes(VKHttpClient.sDefaultStringEncoding));
             FileInputStream reader = new FileInputStream(uploadFile);
             byte[] fileBuffer = new byte[2048];
             int bytesRead;
@@ -104,7 +104,7 @@ public class VKMultipartEntity {
             }
             reader.close();
         }
-        outputStream.write(getBoundaryEnd().getBytes("UTF-8"));
+        outputStream.write(getBoundaryEnd().getBytes(VKHttpClient.sDefaultStringEncoding));
     }
 
     protected static String getMimeType(String url) {

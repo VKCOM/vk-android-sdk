@@ -69,6 +69,8 @@ import java.util.zip.GZIPInputStream;
  */
 public class VKHttpClient {
 
+    public static final String sDefaultStringEncoding = "UTF-8";
+
     /**
      * Prepares new "normal" request from VKRequest
      *
@@ -206,7 +208,7 @@ public class VKHttpClient {
                 String query = getQuery();
                 if (query != null && query.length() > 0) {
                     BufferedWriter writer = new BufferedWriter(
-                            new OutputStreamWriter(os, "UTF-8"));
+                            new OutputStreamWriter(os, sDefaultStringEncoding));
                     writer.write(query);
                     writer.flush();
                     writer.close();
@@ -246,9 +248,13 @@ public class VKHttpClient {
             if (this.parameters == null) {
                 return null;
             }
+
             ArrayList<String> params = new ArrayList<>(this.parameters.size());
             for (Pair<String, String> pair : this.parameters) {
-                params.add(String.format("%s=%s", URLEncoder.encode(pair.first, "UTF-8"), URLEncoder.encode(pair.second, "UTF-8")));
+                if (pair.first == null || pair.second == null) {
+                    continue;
+                }
+                params.add(String.format("%s=%s", URLEncoder.encode(pair.first, sDefaultStringEncoding), URLEncoder.encode(pair.second, sDefaultStringEncoding)));
             }
             return TextUtils.join("&", params);
         }
