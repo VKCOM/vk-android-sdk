@@ -29,6 +29,8 @@
 package com.vk.sdk.api.model;
 
 import android.os.Parcel;
+import android.text.TextUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,6 +48,11 @@ public class VKApiDialog extends VKApiModel implements Identifiable, android.os.
      */
     public VKApiMessage message;
 
+    /**
+     * chat id, if it is a chat, null otherwise
+     */
+    public String chatId;
+
 	public VKApiDialog(JSONObject from) throws JSONException
 	{
 		parse(from);
@@ -55,7 +62,11 @@ public class VKApiDialog extends VKApiModel implements Identifiable, android.os.
      */
     public VKApiDialog parse(JSONObject from) throws JSONException {
         unread = from.optInt("unread");
-        message = new VKApiMessage(from.optJSONObject("message"));
+        JSONObject mess = from.optJSONObject("message");
+        message = new VKApiMessage(mess);
+        chatId = mess.optString("chat_id");
+        if (TextUtils.isEmpty(chatId))
+            chatId = null;
         return this;
     }
     /**
@@ -64,6 +75,7 @@ public class VKApiDialog extends VKApiModel implements Identifiable, android.os.
     public VKApiDialog(Parcel in) {
         this.unread = in.readInt();
         this.message = in.readParcelable(VKApiMessage.class.getClassLoader());
+        this.chatId = in.readString();
     }
     /**
      * Creates empty Dialog instance.
@@ -85,6 +97,7 @@ public class VKApiDialog extends VKApiModel implements Identifiable, android.os.
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.unread);
         dest.writeParcelable(this.message, flags);
+        dest.writeString(chatId);
     }
 
     public static Creator<VKApiDialog> CREATOR = new Creator<VKApiDialog>() {
