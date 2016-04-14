@@ -158,9 +158,16 @@ public class VKServiceActivity extends Activity implements DialogInterface.OnDis
 				bundle.putInt(VKOpenAuthDialog.VK_EXTRA_CLIENT_ID, VKSdk.getsCurrentAppId());
 				bundle.putBoolean(VKOpenAuthDialog.VK_EXTRA_REVOKE, true);
 				bundle.putString(VKOpenAuthDialog.VK_EXTRA_SCOPE, VKStringJoiner.join(getScopeList(), ","));
-				if (VKUtil.isAppInstalled(ctx, VK_APP_PACKAGE_ID) && VKUtil.isIntentAvailable(ctx, VK_APP_AUTH_ACTION)) {
+
+                String[] fingerprints = VKUtil.getCertificateFingerprint(ctx, VK_APP_PACKAGE_ID);
+
+				if (VKUtil.isAppInstalled(ctx, VK_APP_PACKAGE_ID)
+                        && VKUtil.isIntentAvailable(ctx, VK_APP_AUTH_ACTION)
+                        && fingerprints.length > 0
+                        && fingerprints[0].equals(VK_APP_FINGERPRINT)) {
 					if (savedInstanceState == null) {
 						intent = new Intent(VK_APP_AUTH_ACTION, null);
+                        intent.setPackage(VK_APP_PACKAGE_ID);
 						intent.putExtras(bundle);
 						startActivityForResult(intent, VKServiceType.Authorization.getOuterCode());
 					}
