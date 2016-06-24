@@ -109,10 +109,12 @@ public class VKApiPhotoAlbum extends VKAttachments.VKApiAttachment implements Pa
      */
     public VKPhotoSizes photo = new VKPhotoSizes();
 
-	public VKApiPhotoAlbum(JSONObject from) throws JSONException
-	{
-		parse(from);
-	}
+    public VKApiPhoto thumb = new VKApiPhoto();
+
+    public VKApiPhotoAlbum(JSONObject from) throws JSONException
+    {
+        parse(from);
+    }
     /**
      * Creates a PhotoAlbum instance from JSONObject.
      */
@@ -141,6 +143,10 @@ public class VKApiPhotoAlbum extends VKAttachments.VKApiAttachment implements Pa
             photo.add(VKApiPhotoSize.create(COVER_X, 432, 249));
             photo.sort();
         }
+        JSONObject thumb_obj = from.optJSONObject("thumb");
+        if(thumb_obj != null) {
+            this.thumb = new VKApiPhoto().parse(thumb_obj);
+        }
         return this;
     }
 
@@ -160,6 +166,7 @@ public class VKApiPhotoAlbum extends VKAttachments.VKApiAttachment implements Pa
         this.thumb_id = in.readInt();
         this.thumb_src = in.readString();
         this.photo = in.readParcelable(VKPhotoSizes.class.getClassLoader());
+        this.thumb = in.readParcelable(VKApiPhoto.class.getClassLoader());
     }
 
     /**
@@ -212,6 +219,7 @@ public class VKApiPhotoAlbum extends VKAttachments.VKApiAttachment implements Pa
         dest.writeInt(this.thumb_id);
         dest.writeString(this.thumb_src);
         dest.writeParcelable(this.photo, flags);
+        dest.writeParcelable(this.thumb, flags);
     }
 
     public static Creator<VKApiPhotoAlbum> CREATOR = new Creator<VKApiPhotoAlbum>() {
