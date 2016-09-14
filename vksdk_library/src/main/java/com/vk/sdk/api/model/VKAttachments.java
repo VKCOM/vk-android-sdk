@@ -116,6 +116,12 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
      */
     public static final String TYPE_ALBUM = "album";
 
+    /**
+     * Attachment is a Sticker
+     * @see com.vk.sdk.api.model.VKApiSticker
+     */
+    public static final String TYPE_STICKER = "sticker";
+
 
     public VKAttachments() {
         super();
@@ -148,7 +154,7 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
     }
 
     public String toAttachmentsString() {
-        ArrayList<CharSequence> attachments = new ArrayList<CharSequence>();
+        ArrayList<CharSequence> attachments = new ArrayList<>();
         for (VKApiAttachment attach : this) {
             attachments.add(attach.toAttachmentString());
         }
@@ -185,6 +191,8 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
                 return new VKApiWikiPage().parse(attachment.getJSONObject(TYPE_WIKI_PAGE));
             } else if(TYPE_ALBUM.equals(type)) {
                 return new VKApiPhotoAlbum().parse(attachment.getJSONObject(TYPE_ALBUM));
+            } else if (TYPE_STICKER.equals(type)) {
+                return new VKApiSticker().parse(attachment.getJSONObject(TYPE_STICKER));
             }
             return null;
         }
@@ -233,6 +241,8 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
                 add((VKApiAttachment) parcel.readParcelable(VKApiWikiPage.class.getClassLoader()));
             } else if(TYPE_ALBUM.equals(type)) {
                 add((VKApiAttachment)  parcel.readParcelable(VKApiPhotoAlbum.class.getClassLoader()));
+            } else if (TYPE_STICKER.equals(type)) {
+                add((VKApiAttachment) parcel.readParcelable(VKApiSticker.class.getClassLoader()));
             }
         }
     }
