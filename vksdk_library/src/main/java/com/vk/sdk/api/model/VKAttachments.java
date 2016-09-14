@@ -122,6 +122,12 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
      */
     public static final String TYPE_STICKER = "sticker";
 
+    /**
+     * Attachment is a Gift
+     * @see com.vk.sdk.api.model.VKApiGift
+     */
+    public static final String TYPE_GIFT = "gift";
+
 
     public VKAttachments() {
         super();
@@ -154,7 +160,7 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
     }
 
     public String toAttachmentsString() {
-        ArrayList<CharSequence> attachments = new ArrayList<>();
+        ArrayList<CharSequence> attachments = new ArrayList<CharSequence>();
         for (VKApiAttachment attach : this) {
             attachments.add(attach.toAttachmentString());
         }
@@ -193,6 +199,8 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
                 return new VKApiPhotoAlbum().parse(attachment.getJSONObject(TYPE_ALBUM));
             } else if (TYPE_STICKER.equals(type)) {
                 return new VKApiSticker().parse(attachment.getJSONObject(TYPE_STICKER));
+            } else if (TYPE_GIFT.equals(type)) {
+                return new VKApiGift().parse(attachment.getJSONObject(TYPE_GIFT));
             }
             return null;
         }
@@ -243,6 +251,8 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
                 add((VKApiAttachment)  parcel.readParcelable(VKApiPhotoAlbum.class.getClassLoader()));
             } else if (TYPE_STICKER.equals(type)) {
                 add((VKApiAttachment) parcel.readParcelable(VKApiSticker.class.getClassLoader()));
+            } else if (TYPE_GIFT.equals(type)) {
+                add((VKApiAttachment) parcel.readParcelable(VKApiGift.class.getClassLoader()));
             }
         }
     }
