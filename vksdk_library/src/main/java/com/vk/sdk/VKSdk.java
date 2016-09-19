@@ -42,8 +42,6 @@ import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.dialogs.VKOpenAuthDialog;
-import com.vk.sdk.payments.VKPaymentsCallback;
-import com.vk.sdk.payments.VKPaymentsReceiver;
 import com.vk.sdk.util.VKUtil;
 
 import java.util.ArrayList;
@@ -78,7 +76,6 @@ public class VKSdk {
      * App id for current application
      */
     private static int sCurrentAppId = 0;
-    private static boolean isPaymentsEnable = false;
 
     private final Context applicationContext;
 
@@ -131,19 +128,6 @@ public class VKSdk {
                 }
             }
         });
-    }
-
-    public static boolean isIsPaymentsEnable() {
-        return isPaymentsEnable;
-    }
-
-    public static void requestUserState(Context ctx, VKPaymentsCallback callback) {
-        VKPaymentsCallback.requestUserState(ctx, callback);
-    }
-
-    public void withPayments() {
-        isPaymentsEnable = true;
-        VKPaymentsReceiver.onReceiveStatic(applicationContext);
     }
 
     public static VKSdk customInitialize(Context ctx, int appId, String apiVer) {

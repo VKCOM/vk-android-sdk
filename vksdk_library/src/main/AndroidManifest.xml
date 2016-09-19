@@ -9,16 +9,5 @@
             android:name="com.vk.sdk.VKServiceActivity"
             android:label="ServiceActivity"
             android:theme="@style/VK.Transparent"/>
-
-        <!--<receiver-->
-            <!--android:name=".payments.VKPaymentsReceiver"-->
-            <!--android:exported="true">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>-->
-            <!--</intent-filter>-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.android.vending.INSTALL_REFERRER"/>-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
     </application>
 </manifest>
