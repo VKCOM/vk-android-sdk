@@ -23,26 +23,24 @@ package com.vk.sdk.dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.vk.sdk.R;
-import com.vk.sdk.VKSdk;
 import com.vk.sdk.VKServiceActivity;
+import com.vk.sdk.VKUIHelper;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.util.VKUtil;
 
@@ -74,8 +72,10 @@ public class VKOpenAuthDialog implements DialogInterface.OnDismissListener {
 	protected int mResCode = Activity.RESULT_OK;
 	protected int mReqCode;
 	protected Dialog mDialog;
+	private Context context;
 
 	public void show(@NonNull Activity activity, Bundle bundle, int reqCode, @Nullable VKError vkError) {
+		context = activity;
 		mVkError = vkError;
 		mBundle = bundle;
 		mReqCode = reqCode;
@@ -199,25 +199,22 @@ public class VKOpenAuthDialog implements DialogInterface.OnDismissListener {
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 			super.onReceivedError(view, errorCode, description, failingUrl);
 			canShowPage = false;
-			AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
-					.setMessage(description)
-					.setPositiveButton(R.string.vk_retry, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialogInterface, int i) {
-							vkOpenAuthDialog.loadPage();
-						}
-					})
-					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialogInterface, int i) {
-							vkOpenAuthDialog.finish();
-						}
-					});
-			try {
-				builder.show();
-			} catch (Exception e) {
-				if (VKSdk.DEBUG)
-					e.printStackTrace();
+
+			VKUIHelper.ErrorCallback errorCallback = VKUIHelper.getLoadSignPageErrorCallback();
+			if (errorCallback != null) {
+				errorCallback.handleError(vkOpenAuthDialog.context, new VKUIHelper.VkAction() {
+					@Override
+					public void call() {
+						vkOpenAuthDialog.finish();
+					}
+				}, new VKUIHelper.VkAction() {
+					@Override
+					public void call() {
+						vkOpenAuthDialog.loadPage();
+					}
+				});
+			} else {
+				vkOpenAuthDialog.finish();
 			}
 		}
 	}

@@ -1,8 +1,12 @@
 package com.vk.vktestapp;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,8 @@ import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
+import com.vk.sdk.VKServiceActivity;
+import com.vk.sdk.VKUIHelper;
 import com.vk.sdk.api.VKError;
 
 
@@ -65,6 +71,35 @@ public class LoginActivity extends FragmentActivity {
             }
         });
 
+
+        VKUIHelper.setLoadSignPageErrorCallback(new VKUIHelper.ErrorCallback() {
+            @Override
+            public void handleError(Context context, final VKUIHelper.VkAction cancelAction, final VKUIHelper.VkAction retryAction) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                        .setMessage("Sign In page has not been loaded. May be, you have problem with internet connection.")
+                        .setPositiveButton(com.vk.sdk.R.string.vk_retry, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                retryAction.call();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                cancelAction.call();
+                            }
+                        });
+
+                try {
+                    builder.create().show();
+                } catch (Exception e) {
+                    if (VKSdk.DEBUG) {
+                        Log.e(getClass().getName(), "error", e);
+                    }
+                }
+            }
+        });
+
 //        String[] fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName());
 //        Log.d("Fingerprint", fingerprint[0]);
     }
@@ -103,6 +138,7 @@ public class LoginActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        VKUIHelper.setLoadSignPageErrorCallback(null);
     }
 
     @Override

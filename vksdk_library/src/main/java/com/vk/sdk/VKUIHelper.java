@@ -37,6 +37,8 @@ import android.support.annotation.Nullable;
 public class VKUIHelper {
     private static Context sApplicationContext;
 
+    private static ErrorCallback loadSignPageErrorCallback;
+
     /**
      * A forced setting of an application context for the SDK.
      * That method must be call in services of broadcast events for prepare the SDK for a work.
@@ -90,5 +92,19 @@ public class VKUIHelper {
         return output;
     }
 
+    public static void setLoadSignPageErrorCallback(ErrorCallback callback) {
+        loadSignPageErrorCallback = callback;
+    }
 
+    public static ErrorCallback getLoadSignPageErrorCallback() {
+        return loadSignPageErrorCallback;
+    }
+
+    public interface ErrorCallback {
+        void handleError(Context context, VkAction cancelAction, VkAction retryAction);
+    }
+
+    public interface VkAction {
+        void call();
+    }
 }
