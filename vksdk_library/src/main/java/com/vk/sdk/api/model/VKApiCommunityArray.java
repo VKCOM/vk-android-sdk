@@ -13,4 +13,22 @@ public class VKApiCommunityArray extends VKList<VKApiCommunityFull> {
         fill(response, VKApiCommunityFull.class);
         return this;
     }
+    
+    @SuppressWarnings("unused")
+    public VKApiCommunityArray() {
+    }
+
+    public VKApiCommunityArray(Parcel in) {
+        super(in);
+    }
+
+    public static Creator<VKApiCommunityArray> CREATOR = new Creator<VKApiCommunityArray>() {
+        public VKApiCommunityArray createFromParcel(Parcel source) {
+            return new VKApiCommunityArray(source);
+        }
+
+        public VKApiCommunityArray[] newArray(int size) {
+            return new VKApiCommunityArray[size];
+        }
+    };
 }
