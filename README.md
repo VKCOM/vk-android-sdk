@@ -55,7 +55,7 @@ For example, your gradle script will contains such dependencies:
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:20.0.0'
-    compile 'com.vk:androidsdk:1.6.5'
+    compile 'com.vk:androidsdk:1.6.8'
 }
 ```
 

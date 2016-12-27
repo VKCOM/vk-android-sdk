@@ -44,4 +44,3 @@ build-maven
 /gradle
 /gradlew
 /gradlew.bat
-gradle.properties
