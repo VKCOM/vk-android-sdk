@@ -3,8 +3,7 @@
     <string name="vk_name">VK</string>
     <string name="vk_enter_captcha_text">Enter captcha text here</string>
     <string name="vk_retry">Retry</string>
-    <string name="vk_send">SEND</string>
-    <string name="vk_share">Share</string>
+    <string name="vk_send">SHARE</string>
     <string name="vk_new_message_text">Enter your message..</string>
     <string name="vk_new_post_settings">Post settings</string>
 

@@ -137,6 +137,12 @@ class VKShareDialogDelegate {
 
 		assert mInternalView != null;
 
+		mInternalView.findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialogFragmentI.dismissAllowingStateLoss();
+			}
+		});
 		mSendButton = (Button) mInternalView.findViewById(R.id.sendButton);
 		mSendProgress = (ProgressBar) mInternalView.findViewById(R.id.sendProgress);
 		mPhotoLayout = (LinearLayout) mInternalView.findViewById(R.id.imagesContainer);

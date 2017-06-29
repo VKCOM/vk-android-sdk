@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="vk_color">#5585BC</color>
+    <color name="vk_color">#5181b8</color>
     <color name="vk_grey_color">#F0F2F5</color>
     <color name="vk_white">#fff</color>
     <color name="vk_light_color">#A7C2DF</color>
     <color name="vk_clear">#0000</color>
     <color name="vk_black_pressed">#1000</color>
     <color name="vk_black">#000</color>
-    <color name="vk_share_blue_color">#338cc9</color>
+    <color name="vk_share_blue_color">#5181b8</color>
     <color name="vk_share_gray_line">#e5e5e5</color>
-    <color name="vk_share_top_blue_color">#527dad</color>
-    <color name="vk_share_link_title_color">#5477a3</color>
+    <color name="vk_share_top_blue_color">#5181b8</color>
+    <color name="vk_share_link_title_color">#5181b8</color>
     <color name="vk_share_link_color">#9e9e9e</color>
 </resources>

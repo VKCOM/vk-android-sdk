@@ -3,8 +3,7 @@
     <string name="vk_name">ВКонтакте</string>
     <string name="vk_enter_captcha_text">Введите текст с картинки</string>
     <string name="vk_retry">Повторить</string>
-    <string name="vk_send">ОТПРАВИТЬ</string>
-    <string name="vk_share">Поделиться</string>
+    <string name="vk_send">ОПУБЛИКОВАТЬ</string>
     <string name="vk_new_message_text">Введите текст сообщения..</string>
     <string name="vk_new_post_settings">Настройки записи</string>
 </resources>

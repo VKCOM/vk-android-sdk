@@ -38,6 +38,6 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile 'com.vk:androidsdk:1.6.8'
+//    compile 'com.vk:androidsdk:1.6.9'
     compile project(':vksdk_library')
 }
