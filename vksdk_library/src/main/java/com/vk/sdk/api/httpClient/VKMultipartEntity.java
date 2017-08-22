@@ -118,18 +118,4 @@ public class VKMultipartEntity {
         return type;
     }
 
-    /*public String getMimeType(Uri uri) {
-        String type = null;
-        Context context = App.getContextRef().get();
-        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
-            ContentResolver cr = context.getContentResolver();
-            type = cr.getType(uri);
-        } else {
-            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri
-                    .toString());
-            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
-                    fileExtension.toLowerCase());
-        }
-        return type;
-    }*/
-}
+    }
