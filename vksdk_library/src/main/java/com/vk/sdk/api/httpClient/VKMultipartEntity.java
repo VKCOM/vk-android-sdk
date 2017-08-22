@@ -20,10 +20,14 @@
 //
 
 package com.vk.sdk.api.httpClient;
-
+import android.content.ContentResolver;
+import android.content.Context;
+import android.net.Uri;
 import android.util.Pair;
 import android.webkit.MimeTypeMap;
 
+import com.atmt.masterdetailtest.App;
+import com.atmt.masterdetailtest.helper.FileTypeHelper;
 import com.vk.sdk.api.model.VKAttachments;
 
 import java.io.File;
@@ -39,7 +43,7 @@ import java.util.Random;
  */
 public class VKMultipartEntity {
 
-    private static final String VK_BOUNDARY = "Boundary(======VK_SDK_%d======)";
+    private static final String VK_BOUNDARY = "Boundary(======VK_SDK_%d======)";;
 
     private final String mBoundary;
     private final File[] mFiles;
@@ -82,7 +86,8 @@ public class VKMultipartEntity {
         } else {
             fileName = String.format(Locale.US, "file%d", i + 1);
         }
-        String extension = MimeTypeMap.getFileExtensionFromUrl(uploadFile.getAbsolutePath());
+        String extension = FileTypeHelper.getFileExtensionFromUrl(uploadFile.getAbsolutePath().toLowerCase());
+        //String extension = "pdf";
         return String.format("\r\n--%s\r\n", mBoundary) +
                 String.format("Content-Disposition: form-data; name=\"%s\"; filename=\"%s.%s\"\r\n", fileName, fileName, extension) +
                 String.format("Content-Type: %s\r\n\r\n", getMimeType(uploadFile.getAbsolutePath()));
@@ -95,7 +100,7 @@ public class VKMultipartEntity {
     public void writeTo(OutputStream outputStream) throws IOException {
         for (int i = 0; i < mFiles.length; i++) {
             File uploadFile = mFiles[i];
-            outputStream.write(getFileDescription(uploadFile, i).getBytes(VKHttpClient.sDefaultStringEncoding));
+            outputStream.write(getFileDescription(uploadFile, i).getBytes("UTF-8"));
             FileInputStream reader = new FileInputStream(uploadFile);
             byte[] fileBuffer = new byte[2048];
             int bytesRead;
@@ -104,16 +109,31 @@ public class VKMultipartEntity {
             }
             reader.close();
         }
-        outputStream.write(getBoundaryEnd().getBytes(VKHttpClient.sDefaultStringEncoding));
+        outputStream.write(getBoundaryEnd().getBytes("UTF-8"));
     }
 
     protected static String getMimeType(String url) {
         String type = null;
-        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        String extension = FileTypeHelper.getFileExtensionFromUrl(url.toLowerCase());
         if (extension != null) {
             MimeTypeMap mime = MimeTypeMap.getSingleton();
             type = mime.getMimeTypeFromExtension(extension);
         }
         return type;
     }
+
+    /*public String getMimeType(Uri uri) {
+        String type = null;
+        Context context = App.getContextRef().get();
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            ContentResolver cr = context.getContentResolver();
+            type = cr.getType(uri);
+        } else {
+            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri
+                    .toString());
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                    fileExtension.toLowerCase());
+        }
+        return type;
+    }*/
 }
