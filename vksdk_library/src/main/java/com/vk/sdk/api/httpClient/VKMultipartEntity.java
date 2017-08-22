@@ -20,14 +20,10 @@
 //
 
 package com.vk.sdk.api.httpClient;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.net.Uri;
+
 import android.util.Pair;
 import android.webkit.MimeTypeMap;
 
-import com.atmt.masterdetailtest.App;
-import com.atmt.masterdetailtest.helper.FileTypeHelper;
 import com.vk.sdk.api.model.VKAttachments;
 
 import java.io.File;
