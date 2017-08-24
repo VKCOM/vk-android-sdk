@@ -83,7 +83,6 @@ public class VKMultipartEntity {
             fileName = String.format(Locale.US, "file%d", i + 1);
         }
         String extension = FileTypeHelper.getFileExtensionFromUrl(uploadFile.getAbsolutePath().toLowerCase());
-        //String extension = "pdf";
         return String.format("\r\n--%s\r\n", mBoundary) +
                 String.format("Content-Disposition: form-data; name=\"%s\"; filename=\"%s.%s\"\r\n", fileName, fileName, extension) +
                 String.format("Content-Type: %s\r\n\r\n", getMimeType(uploadFile.getAbsolutePath()));
