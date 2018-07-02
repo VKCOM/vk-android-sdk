@@ -35,6 +35,7 @@ public class VKBatchRequest extends VKObject {
     private final VKResponse[] mResponses;
     private final VKRequest.VKRequestListener[] mOriginalListeners;
     private boolean mCanceled = false;
+    private boolean mErrorOccured = false;
 
     /**
      * Specify listener for current request
@@ -129,8 +130,8 @@ public class VKBatchRequest extends VKObject {
     }
 
     protected void provideError(VKError error) {
-        if (mCanceled)
-            return;
+        if (mErrorOccured) return;
+        mErrorOccured = true;
         for (int i = 0; i < mRequests.length; i++) {
             VKRequest.VKRequestListener l = mOriginalListeners[i];
             if (l != null) {
