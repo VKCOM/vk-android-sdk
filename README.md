@@ -21,13 +21,13 @@ Fingerprint Receiving via Keytool
 
 The keystore for the release version is usually created by a programmer, so you should create it or recall its location. 
 
-2) After the keystore's location has been found, use keytool utilite (it is supplied with the Java SDK). You can get keys list with the following command:
+2) After the keystore's location has been found, use keytool utility (it is supplied with the Java SDK). You can get keys list with the following command:
 <blockquote>keytool -exportcert -alias androiddebugkey -keystore path-to-debug-or-production-keystore -list -v</blockquote>
 You will observe a similar result:
 <blockquote>Certificate fingerprint: SHA1: DA:39:A3:EE:5E:6B:4B:0D:32:55:BF:EF:95:60:18:90:AF:D8:07:09</blockquote>
 By deleting all the colons you'll get your key's fingerprint.
 
-Fingerprint Receiveing via SDK
+Fingerprint Receiving via SDK
 ----------
 If you've already added SDK to your project, you can use the following function in each Activity of your app.
 
@@ -128,7 +128,7 @@ Your need to add to your manifest the following elements:
 
 1) in the root of <manifest> you need to add permission <uses-permission android:name="android.permission.INTERNET" />
 
-2) in the <application> element shoud be added
+2) in the <application> element should be added
 
 ```
 <activity android:name="com.vk.sdk.VKServiceActivity" android:label="ServiceActivity" android:theme="@style/VK.Transparent" />
