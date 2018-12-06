@@ -184,7 +184,7 @@ public class VKApiPhotoSize extends VKApiModel implements Comparable<VKApiPhotoS
     public int compareTo(VKApiPhotoSize another) {
         // Так как основной превалирующий элемент в фотографиях именно ширина и все фотографии пропорциональны,
         // то сравниваем именно по ней
-        return this.width < another.width ? -1 : (this.width == another.width ? 0 : 1);
+        return Integer.compare(this.width, another.width);
     }
 
     @Override

@@ -32,7 +32,8 @@ import android.os.Parcel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import static com.vk.sdk.api.model.VKAttachments.*;
+
+import static com.vk.sdk.api.model.VKAttachments.TYPE_POLL;
 
 /**
  * Describes poll on the wall on board.
@@ -89,7 +90,7 @@ public class VKApiPoll extends VKAttachments.VKApiAttachment implements android.
         question = source.optString("question");
         votes = source.optInt("votes");
         answer_id = source.optInt("answer_id");
-        answers = new VKList<Answer>(source.optJSONArray("answers"), Answer.class);
+        answers = new VKList<>(source.optJSONArray("answers"), Answer.class);
         return this;
     }
 

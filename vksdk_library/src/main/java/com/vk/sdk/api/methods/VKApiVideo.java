@@ -2,7 +2,6 @@ package com.vk.sdk.api.methods;
 
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
-import com.vk.sdk.api.model.VKApiModel;
 import com.vk.sdk.api.model.VkVideoArray;
 
 /**

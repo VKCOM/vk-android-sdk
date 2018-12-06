@@ -53,7 +53,7 @@ public class VKScope {
      * @return ArrayList contains string constants of permissions (scope)
      */
     public static ArrayList<String> parseVkPermissionsFromInteger(int permissionsValue) {
-        ArrayList<String> res = new ArrayList<String>();
+        ArrayList<String> res = new ArrayList<>();
         if ((permissionsValue & 1) > 0) res.add(NOTIFY);
         if ((permissionsValue & 2) > 0) res.add(FRIENDS);
         if ((permissionsValue & 4) > 0) res.add(PHOTOS);

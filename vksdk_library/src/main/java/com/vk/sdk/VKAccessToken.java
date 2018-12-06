@@ -23,17 +23,14 @@ package com.vk.sdk;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.util.VKStringJoiner;
 import com.vk.sdk.util.VKUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

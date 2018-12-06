@@ -26,8 +26,6 @@ import android.os.Parcelable;
 
 import com.vk.sdk.VKObject;
 
-import java.io.Serializable;
-
 /**
  * Parameters used for uploading image into VK servers
  */

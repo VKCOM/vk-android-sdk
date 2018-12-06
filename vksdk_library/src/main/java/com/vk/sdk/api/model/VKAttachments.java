@@ -148,7 +148,7 @@ public class VKAttachments extends VKList<VKAttachments.VKApiAttachment> impleme
     }
 
     public String toAttachmentsString() {
-        ArrayList<CharSequence> attachments = new ArrayList<CharSequence>();
+        ArrayList<CharSequence> attachments = new ArrayList<>();
         for (VKApiAttachment attach : this) {
             attachments.add(attach.toAttachmentString());
         }

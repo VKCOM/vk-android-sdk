@@ -25,6 +25,7 @@ import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKParser;
 import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.model.VKApiGetConversationsResponse;
 import com.vk.sdk.api.model.VKApiGetDialogResponse;
 import com.vk.sdk.api.model.VKApiGetMessagesResponse;
 
@@ -63,6 +64,7 @@ public class VKApiMessages extends VKApiBase {
      *
      * @return Request for load
      */
+    @Deprecated
     public VKRequest getDialogs() {
         return getDialogs(VKParameters.from(VKApiConst.COUNT, "5"));
     }
@@ -73,11 +75,31 @@ public class VKApiMessages extends VKApiBase {
      * @param params use parameters from description with VKApiConst class
      * @return Request for load
      */
+    @Deprecated
     public VKRequest getDialogs(VKParameters params) {
         return prepareRequest("getDialogs", params, new VKParser() {
             @Override
             public Object createModel(JSONObject object) {
                 return new VKApiGetDialogResponse(object);
+            }
+        });
+    }
+
+    public VKRequest getConversations() {
+        return getConversations(VKParameters.from(VKApiConst.COUNT, 5));
+    }
+
+    /**
+     * https://vk.com/dev/messages.getConversations
+     *
+     * @param params use parameters from description with VKApiConst class
+     * @return Request for load
+     */
+    public VKRequest getConversations(VKParameters params) {
+        return prepareRequest("getConversations", params, new VKParser() {
+            @Override
+            public Object createModel(JSONObject object) {
+                return new VKApiGetConversationsResponse(object);
             }
         });
     }

@@ -30,6 +30,7 @@ package com.vk.sdk.api.model;
 
 import android.os.Parcelable;
 import android.util.SparseArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -111,7 +112,7 @@ public abstract class VKApiModel implements Parcelable {
      */
     public void setTag(int key, final Object tag) {
         if (mKeyedTags == null) {
-            mKeyedTags = new SparseArray<Object>(2);
+            mKeyedTags = new SparseArray<>(2);
         }
         mKeyedTags.put(key, tag);
     }

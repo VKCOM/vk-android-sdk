@@ -55,7 +55,7 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
     /**
      * Decorated list
      */
-    private ArrayList<T> items = new ArrayList<T>();
+    private ArrayList<T> items = new ArrayList<>();
 
     /**
      * Field {@code count} which returned by server.
@@ -74,7 +74,7 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
      */
     public VKList(java.util.List<? extends T> data) {
         assert data != null;
-        items = new ArrayList<T>(data);
+        items = new ArrayList<>(data);
     }
 
     /**
@@ -130,7 +130,7 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
                 fill(from.optJSONObject("response"), clazz);
             }
         } else {
-            fill(from, new ReflectParser<T>(clazz));
+            fill(from, new ReflectParser<>(clazz));
         }
     }
 
@@ -140,7 +140,7 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
      * @param clazz class represents a model that has a public constructor with {@link org.json.JSONObject} argument.
      */
     public void fill(JSONArray from, Class<? extends T> clazz) {
-        fill(from, new ReflectParser<T>(clazz));
+        fill(from, new ReflectParser<>(clazz));
     }
 
     /**
@@ -243,7 +243,7 @@ public class VKList<T extends VKApiModel & Parcelable & Identifiable> extends VK
      * @return created based on the search results new list. If no matches are found, the list will be empty.
      */
     public VKList<T> search(String query) {
-        VKList<T> result = new VKList<T>();
+        VKList<T> result = new VKList<>();
         final Pattern pattern = Pattern.compile("(?i).*\\b" + query + ".*");
         for (T item : this) {
             if (pattern.matcher(item.toString()).find()) {

@@ -23,6 +23,7 @@ package com.vk.sdk.util;
 
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.model.VKApiModel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,7 +97,7 @@ public class VKJsonHelper {
      * @throws JSONException
      */
     public static Map<String, Object> toMap(JSONObject object) throws JSONException {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         Iterator keys = object.keys();
         while (keys.hasNext()) {
             String key = (String) keys.next();
@@ -143,17 +144,7 @@ public class VKJsonHelper {
                     }
                 }
             }
-            catch (JSONException e)
-            {
-                if (VKSdk.DEBUG)
-                    e.printStackTrace();
-            }
-            catch (InstantiationException e)
-            {
-                if (VKSdk.DEBUG)
-                    e.printStackTrace();
-            }
-            catch (IllegalAccessException e)
+            catch (JSONException | IllegalAccessException | InstantiationException e)
             {
                 if (VKSdk.DEBUG)
                     e.printStackTrace();

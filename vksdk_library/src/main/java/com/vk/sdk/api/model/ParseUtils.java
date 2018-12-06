@@ -27,7 +27,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
 
 /**
  * Collection of helpers to parse server responses.
@@ -130,7 +134,7 @@ class ParseUtils {
      * 2. The name of the filed should be fully equal to name of JSONObject key.
      * 3. Supports parse of all Java primitives, all {@link java.lang.String},
      * arrays of primitive types, {@link java.lang.String}s and {@link com.vk.sdk.api.model.VKApiModel}s,
-     * list implementation line {@link com.vk.sdk.api.model.VKList}, {@link com.vk.sdk.api.model.VKAttachments.VKAttachment} or {@link com.vk.sdk.api.model.VKPhotoSizes},
+     * list implementation line {@link com.vk.sdk.api.model.VKList}, {@link com.vk.sdk.api.model.VKAttachments} or {@link com.vk.sdk.api.model.VKPhotoSizes},
      * {@link com.vk.sdk.api.model.VKApiModel}s.
      * <p/>
      * 4. Boolean fields defines by vk_int == 1 expression.
@@ -203,18 +207,11 @@ class ParseUtils {
                     }
                     field.set(object, result);
                 }
-            } catch (InstantiationException e) {
-                throw new JSONException(e.getMessage());
-            } catch (IllegalAccessException e) {
-                throw new JSONException(e.getMessage());
-            } catch (NoSuchMethodException e) {
-                throw new JSONException(e.getMessage());
-            } catch (InvocationTargetException e) {
-                throw new JSONException(e.getMessage());
-            } catch (NoSuchMethodError e) {
-                // Примечание Виталия:
-                // Вы не поверите, но у некоторых вендоров getFields() вызывает ВОТ ЭТО.
-                // Иногда я всерьез задумываюсь, правильно ли я поступил, выбрав Android в качестве платформы разработки.
+            } catch (InstantiationException |
+                    IllegalAccessException |
+                    NoSuchMethodException |
+                    InvocationTargetException |
+                    NoSuchMethodError e) {
                 throw new JSONException(e.getMessage());
             }
         }

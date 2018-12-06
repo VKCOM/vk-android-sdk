@@ -64,9 +64,9 @@ public class VKCaptchaDialog {
     public void show(@NonNull Context context, @Nullable DialogInterface.OnDismissListener onDismissListener) {
         View innerView = View.inflate(context, R.layout.vk_captcha_dialog, null);
         assert innerView != null;
-        mCaptchaAnswer = (EditText) innerView.findViewById(R.id.captchaAnswer);
-        mCaptchaImage = (ImageView) innerView.findViewById(R.id.imageView);
-        mProgressBar = (ProgressBar) innerView.findViewById(R.id.progressBar);
+        mCaptchaAnswer = innerView.findViewById(R.id.captchaAnswer);
+        mCaptchaImage = innerView.findViewById(R.id.imageView);
+        mProgressBar = innerView.findViewById(R.id.progressBar);
 
         mDensity = context.getResources().getDisplayMetrics().density;
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(innerView).create();

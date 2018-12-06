@@ -29,6 +29,7 @@
 package com.vk.sdk.api.model;
 
 import android.os.Parcel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,10 +44,16 @@ public class VKApiMessage extends VKApiModel implements Identifiable, android.os
      */
     public int id;
 
+    public int peer_id;
+
+    public int conversation_message_id;
+
+    public int random_id;
+
     /**
      * For an incoming message, the user ID of the author. For an outgoing message, the user ID of the receiver.
      */
-    public int user_id;
+    public int from_id;
 
     /**
      * 	Date (in Unix time) when the message was sent.
@@ -54,24 +61,18 @@ public class VKApiMessage extends VKApiModel implements Identifiable, android.os
     public long date;
 
     /**
-     * Message status (false — not read, true — read). (Not returned for forwarded messages.)
-     */
-    public boolean read_state;
-
-    /**
      * Message type (false — received, true — sent). (Not returned for forwarded messages.)
      */
     public boolean out;
 
-    /**
-     * Title of message or chat.
-     */
-    public String title;
+    public boolean important;
+
+    public boolean is_hidden;
 
     /**
      * Body of the message.
      */
-    public String body;
+    public String text;
 
     /**
      * List of media-attachments;
@@ -83,16 +84,6 @@ public class VKApiMessage extends VKApiModel implements Identifiable, android.os
      */
     public VKList<VKApiMessage> fwd_messages;
 
-    /**
-     *	Whether the message contains smiles (false — no, true — yes).
-     */
-    public boolean emoji;
-
-    /**
-     * Whether the message is deleted (false — no, true — yes).
-     */
-    public boolean deleted;
-
 	public VKApiMessage(JSONObject from) throws JSONException
 	{
 		parse(from);
@@ -102,16 +93,17 @@ public class VKApiMessage extends VKApiModel implements Identifiable, android.os
      */
     public VKApiMessage parse(JSONObject source) throws JSONException {
         id = source.optInt("id");
-        user_id = source.optInt("user_id");
+        peer_id = source.optInt("peer_id");
+        conversation_message_id = source.optInt("conversation_message_id");
+        random_id = source.optInt("random_id");
+        from_id = source.optInt("from_id");
         date = source.optLong("date");
-        read_state = ParseUtils.parseBoolean(source, "read_state");
         out = ParseUtils.parseBoolean(source, "out");
-        title = source.optString("title");
-        body = source.optString("body");
-        attachments .fill(source.optJSONArray("attachments"));
-        fwd_messages = new VKList<VKApiMessage>(source.optJSONArray("fwd_messages"), VKApiMessage.class);
-        emoji = ParseUtils.parseBoolean(source, "emoji");
-        deleted = ParseUtils.parseBoolean(source, "deleted");
+        important = source.optBoolean("important");
+        is_hidden = source.optBoolean("is_hidden");
+        text = source.optString("text");
+        attachments.fill(source.optJSONArray("attachments"));
+        fwd_messages = new VKList<>(source.optJSONArray("fwd_messages"), VKApiMessage.class);
         return this;
     }
 
@@ -120,16 +112,17 @@ public class VKApiMessage extends VKApiModel implements Identifiable, android.os
      */
     public VKApiMessage(Parcel in) {
         this.id = in.readInt();
-        this.user_id = in.readInt();
+        this.peer_id = in.readInt();
+        this.conversation_message_id = in.readInt();
+        this.random_id = in.readInt();
+        this.from_id = in.readInt();
         this.date = in.readLong();
-        this.read_state = in.readByte() != 0;
         this.out = in.readByte() != 0;
-        this.title = in.readString();
-        this.body = in.readString();
+        this.important = in.readByte() != 0;
+        this.is_hidden = in.readByte() != 0;
+        this.text = in.readString();
         this.attachments = in.readParcelable(VKAttachments.class.getClassLoader());
         this.fwd_messages = in.readParcelable(VKList.class.getClassLoader());
-        this.emoji = in.readByte() != 0;
-        this.deleted = in.readByte() != 0;
     }
 
     /**
@@ -152,16 +145,17 @@ public class VKApiMessage extends VKApiModel implements Identifiable, android.os
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
-        dest.writeInt(this.user_id);
+        dest.writeInt(this.peer_id);
+        dest.writeInt(this.conversation_message_id);
+        dest.writeInt(this.random_id);
+        dest.writeInt(this.from_id);
         dest.writeLong(this.date);
-        dest.writeByte(read_state ? (byte) 1 : (byte) 0);
-        dest.writeByte(out ? (byte) 1 : (byte) 0);
-        dest.writeString(this.title);
-        dest.writeString(this.body);
+        dest.writeByte(out ? (byte) 1 : 0);
+        dest.writeByte(important ? (byte) 1 : 0);
+        dest.writeByte(is_hidden ? (byte) 1 : 0);
+        dest.writeString(this.text);
         dest.writeParcelable(attachments, flags);
         dest.writeParcelable(this.fwd_messages, flags);
-        dest.writeByte(emoji ? (byte) 1 : (byte) 0);
-        dest.writeByte(deleted ? (byte) 1 : (byte) 0);
     }
 
     public static Creator<VKApiMessage> CREATOR = new Creator<VKApiMessage>() {

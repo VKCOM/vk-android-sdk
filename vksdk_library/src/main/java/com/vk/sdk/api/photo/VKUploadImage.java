@@ -33,7 +33,6 @@ import com.vk.sdk.VKUIHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 
 /**
  * Contains image data with image description
@@ -70,9 +69,9 @@ public class VKUploadImage extends VKObject implements Parcelable {
             else
                 mImageData.compress(Bitmap.CompressFormat.JPEG, (int) (mParameters.mJpegQuality * 100), fos);
             fos.close();
-        } catch (IOException ignored) {
+        } catch (IOException e) {
             if (VKSdk.DEBUG)
-                ignored.printStackTrace();
+                e.printStackTrace();
         }
         return tmpFile;
     }

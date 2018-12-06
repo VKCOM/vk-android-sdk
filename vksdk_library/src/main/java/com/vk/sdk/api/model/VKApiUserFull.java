@@ -22,6 +22,7 @@
 package com.vk.sdk.api.model;
 
 import android.os.Parcel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -463,8 +464,8 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
         }
 
         // education
-        universities = new VKList<VKApiUniversity>(user.optJSONArray(UNIVERSITIES), VKApiUniversity.class);
-        schools = new VKList<VKApiSchool>(user.optJSONArray(SCHOOLS), VKApiSchool.class);
+        universities = new VKList<>(user.optJSONArray(UNIVERSITIES), VKApiUniversity.class);
+        schools = new VKList<>(user.optJSONArray(SCHOOLS), VKApiSchool.class);
 
         // status
         activity = user.optString(ACTIVITY);
@@ -541,7 +542,7 @@ public class VKApiUserFull extends VKApiUser implements android.os.Parcelable {
 
         if (user.has(RELATIVES)) {
             if (relatives == null) {
-                relatives = new VKList<Relative>();
+                relatives = new VKList<>();
             }
             relatives.fill(user.optJSONArray(RELATIVES), Relative.class);
         }

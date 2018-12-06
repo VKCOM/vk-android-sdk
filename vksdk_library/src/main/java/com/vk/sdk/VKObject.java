@@ -21,14 +21,15 @@
 
 package com.vk.sdk;
 
-import java.util.HashMap;
+import android.util.LongSparseArray;
+
 import java.util.Random;
 
 public class VKObject {
-    private static final HashMap<Long, VKObject> sRegisteredObjects;
+    private static final LongSparseArray<VKObject> sRegisteredObjects;
     private long mRegisteredObjectId = 0;
     static {
-        sRegisteredObjects = new HashMap<>();
+        sRegisteredObjects = new LongSparseArray<>();
     }
 
     /**
@@ -45,13 +46,14 @@ public class VKObject {
      * @return Registered object id
      */
     public long registerObject() {
-        if (sRegisteredObjects.containsKey(mRegisteredObjectId)) {
+        // sRegisteredObjects contains mRegisteredObjectId
+        if (sRegisteredObjects.get(mRegisteredObjectId, null) != null) {
             return mRegisteredObjectId;
         }
         Random rand = new Random();
         while (true) {
             long nextRand = rand.nextLong();
-            if (sRegisteredObjects.containsKey(nextRand))
+            if (sRegisteredObjects.get(nextRand, null) != null)
                 continue;
             if (nextRand == 0)
                 continue;

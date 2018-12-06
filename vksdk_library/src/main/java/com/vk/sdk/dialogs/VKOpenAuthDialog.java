@@ -29,13 +29,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -82,7 +80,7 @@ public class VKOpenAuthDialog implements DialogInterface.OnDismissListener {
 		mView = View.inflate(activity, R.layout.vk_open_auth_dialog, null);
 
 		mProgress = mView.findViewById(R.id.progress);
-		mWebView = (WebView) mView.findViewById(R.id.copyUrl);
+		mWebView = mView.findViewById(R.id.copyUrl);
 
 		final Dialog dialog = new Dialog(activity, R.style.VKAlertDialog);
 		dialog.setContentView(mView);
@@ -127,10 +125,8 @@ public class VKOpenAuthDialog implements DialogInterface.OnDismissListener {
 			webSettings.setJavaScriptEnabled(true);
 			mWebView.loadUrl(urlToLoad);
 			mWebView.setBackgroundColor(Color.TRANSPARENT);
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-				mWebView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
-			}
-			mWebView.setVerticalScrollBarEnabled(false);
+            mWebView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+            mWebView.setVerticalScrollBarEnabled(false);
 			mWebView.setVisibility(View.INVISIBLE);
 			mWebView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
 			mProgress.setVisibility(View.VISIBLE);

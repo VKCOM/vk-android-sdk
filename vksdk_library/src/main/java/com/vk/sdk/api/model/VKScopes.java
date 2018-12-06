@@ -142,7 +142,7 @@ public class VKScopes {
      * @return ArrayList contains string constants of permissions (scope)
      */
     public static ArrayList<String> parse(int permissions) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         if ((permissions & 1) > 0) result.add(NOTIFY);
         if ((permissions & 2) > 0) result.add(FRIENDS);
         if ((permissions & 4) > 0) result.add(PHOTOS);

@@ -28,7 +28,6 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -143,13 +142,13 @@ class VKShareDialogDelegate {
 				dialogFragmentI.dismissAllowingStateLoss();
 			}
 		});
-		mSendButton = (Button) mInternalView.findViewById(R.id.sendButton);
-		mSendProgress = (ProgressBar) mInternalView.findViewById(R.id.sendProgress);
-		mPhotoLayout = (LinearLayout) mInternalView.findViewById(R.id.imagesContainer);
-		mShareTextField = (EditText) mInternalView.findViewById(R.id.shareText);
-		mPhotoScroll = (HorizontalScrollView) mInternalView.findViewById(R.id.imagesScrollView);
+		mSendButton = mInternalView.findViewById(R.id.sendButton);
+		mSendProgress = mInternalView.findViewById(R.id.sendProgress);
+		mPhotoLayout = mInternalView.findViewById(R.id.imagesContainer);
+		mShareTextField = mInternalView.findViewById(R.id.shareText);
+		mPhotoScroll = mInternalView.findViewById(R.id.imagesScrollView);
 
-		LinearLayout mAttachmentLinkLayout = (LinearLayout) mInternalView.findViewById(R.id.attachmentLinkLayout);
+		LinearLayout mAttachmentLinkLayout = mInternalView.findViewById(R.id.attachmentLinkLayout);
 
 		mSendButton.setOnClickListener(sendButtonPress);
 
@@ -181,8 +180,8 @@ class VKShareDialogDelegate {
 
 		//Attachment link
 		if (mAttachmentLink != null) {
-			TextView linkTitle = (TextView) mAttachmentLinkLayout.findViewById(R.id.linkTitle),
-					linkHost = (TextView) mAttachmentLinkLayout.findViewById(R.id.linkHost);
+			TextView linkTitle = mAttachmentLinkLayout.findViewById(R.id.linkTitle),
+					linkHost = mAttachmentLinkLayout.findViewById(R.id.linkHost);
 
 			linkTitle.setText(mAttachmentLink.linkTitle);
 			linkHost.setText(VKUtil.getHost(mAttachmentLink.linkUrl));
@@ -200,13 +199,11 @@ class VKShareDialogDelegate {
 	public void onStart() {
 		int width = WindowManager.LayoutParams.WRAP_CONTENT;
 
-		if (Build.VERSION.SDK_INT >= 13) {
-			WindowManager wm = (WindowManager) dialogFragmentI.getActivity().getSystemService(Context.WINDOW_SERVICE);
-			Display display = wm.getDefaultDisplay();
-			Point size = new Point();
-			display.getSize(size);
-			width = size.x - dialogFragmentI.getResources().getDimensionPixelSize(R.dimen.vk_share_dialog_view_padding) * 2;
-		}
+		WindowManager wm = (WindowManager) dialogFragmentI.getActivity().getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		width = size.x - dialogFragmentI.getResources().getDimensionPixelSize(R.dimen.vk_share_dialog_view_padding) * 2;
 
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
 		lp.copyFrom(dialogFragmentI.getDialog().getWindow().getAttributes());
@@ -298,7 +295,7 @@ class VKShareDialogDelegate {
 
 			@Override
 			public void onError(VKImageOperation operation, VKError error) {
-				// todo method body
+				// todo method text
 			}
 		});
 		VKHttpClient.enqueueOperation(op);

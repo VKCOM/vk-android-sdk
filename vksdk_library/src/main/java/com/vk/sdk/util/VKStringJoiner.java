@@ -65,7 +65,7 @@ public class VKStringJoiner {
      * @return Result query string, like k=v&k1=v1
      */
     public static String joinParams(Map<String, ?> queryParams, boolean isUri) {
-        ArrayList<String> params = new ArrayList<String>(queryParams.size());
+        ArrayList<String> params = new ArrayList<>(queryParams.size());
         for (Map.Entry<String, ?> entry : queryParams.entrySet()) {
             Object value = entry.getValue();
             if (value instanceof VKAttachments) {
