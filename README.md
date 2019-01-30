@@ -41,7 +41,7 @@ As a rule, fingerprints contains a single line. It's a fingerprint of your certi
 
 Fingerprint Receiving via Andriod Studio
 ----------
-Click in right menu on Gradle tab. Open your project **root** folder, then open **Tasks** and after **android**.
+Click in right menu on **Gradle** tab (or double shift and type **Gradle**). Open your project **root** folder, then open **Tasks** and after **android**.
 Run **signingReport** task.
 Find your **SHA1** fingerprint in **Run** tab output.
 
