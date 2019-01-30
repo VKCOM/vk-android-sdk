@@ -39,6 +39,12 @@ String[] fingerprints = VKUtils.getCertificateFingerprint(this, this.getPackageN
 
 As a rule, fingerprints contains a single line. It's a fingerprint of your certificate (depends on the certificate used for your app's signing)
 
+Fingerprint Receiving via Andriod Studio
+----------
+Click in right menu on Gradle tab. Open your project **root** folder, then open **Tasks** and after **android**.
+Run **signingReport** task.
+Find your **SHA1** fingerprint in **Run** tab output.
+
 <blockquote>You can add more than one fingerprint in your app settings, e.g., debug and release fingerprints.</blockquote>
 
 Connecting VK SDK to Your Android Application
