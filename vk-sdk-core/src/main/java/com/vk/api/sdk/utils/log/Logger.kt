@@ -22,40 +22,18 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk.utils.log
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
-
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
+interface Logger {
+    enum class LogLevel {
+        VERBOSE,
+        DEBUG,
+        WARNING,
+        ERROR,
+        NONE
     }
 
-    repositories {
-        google()
-        jcenter()
-    }
+    val logLevel: LogLevel
+    val tag: String
+    fun log(level: LogLevel, msg: String? = null, err: Throwable? = null)
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

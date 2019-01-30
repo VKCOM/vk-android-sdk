@@ -1,4 +1,4 @@
-# *******************************************************************************
+<!-- *******************************************************************************
 # The MIT License (MIT)
 #
 # Copyright (c) 2019 vk.com
@@ -20,9 +20,24 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-# ******************************************************************************/
+# ****************************************************************************** -->
 
-org.gradle.daemon=true
-org.gradle.jvmargs=-Xms1024m -Xmx2048m -XX:MaxPermSize=1024m
-org.gradle.parallel=true
-org.gradle.configureondemand=false
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.vk.api.sdk">
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application>
+        <activity android:name=".ui.VKWebViewAuthActivity"
+            android:theme="@style/VK.Transparent" />
+        <activity android:name=".ui.VKCaptchaActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".ui.VKConfirmationActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <provider
+            android:authorities="${applicationId}.VKInitProvider"
+            android:name="com.vk.api.sdk.internal.VKInitProvider"
+            android:exported="false" />
+    </application>
+
+</manifest>

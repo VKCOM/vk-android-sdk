@@ -22,40 +22,15 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.sdk.sample.models
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
-
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
-    }
-
-    repositories {
-        google()
-        jcenter()
-    }
+class VKSaveInfo(val id: Int,
+               val albumId: Int,
+               val ownerId: Int) {
+    fun getAttachment() = "photo${ownerId}_$id"
 }
 
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
+class VKFileUploadInfo(val server: String, val photo: String, val hash: String)
 
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
+class VKServerUploadInfo(val uploadUrl: String, val albumId: Int, val userId: Int)
 

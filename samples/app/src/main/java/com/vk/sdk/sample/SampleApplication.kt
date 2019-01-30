@@ -22,40 +22,21 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.sdk.sample
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
+import android.app.Application
+import com.vk.api.sdk.VK
+import com.vk.api.sdk.VKTokenExpiredHandler
+
+class SampleApplication: Application() {
+    override fun onCreate() {
+        super.onCreate()
+        VK.addTokenExpiredHandler(tokenTracker)
+    }
+
+    private val tokenTracker = object: VKTokenExpiredHandler {
+        override fun onTokenExpired() {
+            WelcomeActivity.startFrom(this@SampleApplication)
         }
-
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
-    }
-
-    repositories {
-        google()
-        jcenter()
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

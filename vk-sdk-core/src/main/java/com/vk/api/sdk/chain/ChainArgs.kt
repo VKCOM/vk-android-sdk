@@ -22,40 +22,12 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk.chain
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
+class ChainArgs {
+    var captchaSid = ""
+    var captchaKey = ""
+    var userConfirmed = false
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
-    }
-
-    repositories {
-        google()
-        jcenter()
-    }
+    fun hasCaptcha() = captchaSid.isNotEmpty() && captchaKey.isNotEmpty()
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

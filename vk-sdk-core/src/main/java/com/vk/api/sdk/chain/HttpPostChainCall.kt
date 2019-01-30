@@ -22,40 +22,31 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk.chain
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
+import com.vk.api.sdk.VKApiProgressListener
+import com.vk.api.sdk.VKApiResponseParser
+import com.vk.api.sdk.VKApiManager
+import com.vk.api.sdk.VKHttpPostCall
+import com.vk.api.sdk.exceptions.VKApiException
+import com.vk.api.sdk.okhttp.OkHttpExecutor
+import com.vk.api.sdk.okhttp.OkHttpPostCall
+import com.vk.api.sdk.utils.hasSimpleError
+import com.vk.api.sdk.utils.toSimpleError
+
+class HttpPostChainCall<T>(manager: VKApiManager,
+                           val okHttpExecutor: OkHttpExecutor,
+                           val call: VKHttpPostCall,
+                           val progressListener: VKApiProgressListener?,
+                           val parser: VKApiResponseParser<T>?) : ChainCall<T>(manager) {
+    @Throws(Exception::class)
+    override fun call(args: ChainArgs): T? {
+        val response = okHttpExecutor.execute(OkHttpPostCall(call), progressListener)
+        return when {
+            response == null -> throw VKApiException("Response returned null instead of valid string response")
+            response.hasSimpleError() -> throw response.toSimpleError("post")
+            else -> parser?.parse(response)
         }
-
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
     }
 
-    repositories {
-        google()
-        jcenter()
-    }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

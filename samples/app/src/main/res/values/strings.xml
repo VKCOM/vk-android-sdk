@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">VK SDK sample</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="share_to_wall">Send to my wall</string>
+    <string name="message_hint">Your message</string>
+    <string name="wall_ok">Post has been published</string>
+
+    <integer name="com_vk_sdk_AppId">6681226</integer>
+</resources>

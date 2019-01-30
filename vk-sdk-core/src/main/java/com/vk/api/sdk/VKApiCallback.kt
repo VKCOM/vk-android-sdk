@@ -22,40 +22,15 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
+import com.vk.api.sdk.exceptions.VKApiExecutionException
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
-    }
-
-    repositories {
-        google()
-        jcenter()
-    }
+/**
+ * Callback for vk api requests
+ * Get response here from VK.execute
+ */
+interface VKApiCallback<in T> {
+    fun success(result: T)
+    fun fail(error: VKApiExecutionException)
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

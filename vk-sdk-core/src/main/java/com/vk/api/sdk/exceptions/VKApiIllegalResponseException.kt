@@ -22,40 +22,17 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk.exceptions
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
+class VKApiIllegalResponseException : VKApiException {
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
-    }
+    constructor(detailMessage: String) : super(detailMessage) {}
 
-    repositories {
-        google()
-        jcenter()
+    constructor(detailMessage: String, throwable: Throwable) : super(detailMessage, throwable) {}
+
+    constructor(throwable: Throwable) : super(throwable) {}
+
+    companion object {
+        internal const val serialVersionUID = 1632913732314330746L
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

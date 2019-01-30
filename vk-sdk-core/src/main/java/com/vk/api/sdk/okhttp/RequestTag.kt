@@ -21,41 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
+package com.vk.api.sdk.okhttp
 
-apply from: 'dependencies.gradle'
+data class RequestTag
+@JvmOverloads
+constructor(val uid: Int? = null,
+            val awaitNetwork: Boolean? = null,
+            val reason: String? = null,
+            val retryCount: Int? = null) {
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
-
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
-    }
-
-    repositories {
-        google()
-        jcenter()
+    fun toMap(): Map<String, Any?>? {
+        return mutableMapOf(
+                "UID" to uid,
+                "AWAIT_NETWORK" to awaitNetwork,
+                "REASON" to reason,
+                "RETRY_COUNT" to retryCount)
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

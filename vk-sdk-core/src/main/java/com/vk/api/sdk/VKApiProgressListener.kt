@@ -20,42 +20,20 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- ******************************************************************************/
+ */
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
+/**
+ * Callback for handling progress of loading
+ */
+interface VKApiProgressListener {
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
+    fun onProgress(progressValue: Int, progressMaxValue: Int)
+
+    companion object {
+        val EMPTY: VKApiProgressListener = object : VKApiProgressListener {
+            override fun onProgress(progressValue: Int, progressMaxValue: Int) {}
         }
     }
-
-    repositories {
-        google()
-        jcenter()
-    }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

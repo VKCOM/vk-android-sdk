@@ -22,40 +22,36 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply from: '../dependencies.gradle'
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
+android {
+    compileSdkVersion "$sdkVersions.compileSdk".toInteger()
+    buildToolsVersion "$sdkVersions.buildTools"
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
+    defaultConfig {
+        minSdkVersion "$sdkVersions.minSdk"
+        targetSdkVersion "$sdkVersions.targetSdk"
+        versionCode "$sdkVersions.code".toInteger()
+        versionName "$sdkVersions.name"
     }
 
-    repositories {
-        google()
-        jcenter()
+    lintOptions {
+        warningsAsErrors true
     }
 }
 
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
+configurations {
+    // Used for correct javadoc generation
+    javadocDeps
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+dependencies {
+    implementation sdkLibraries.kotlin
+    implementation sdkLibraries.okHttp
+    implementation sdkLibraries.okHttpLoggingInterceptor
+    implementation sdkLibrariesSupport.support
 }
 
+apply from: '../publish.gradle'

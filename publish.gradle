@@ -1,0 +1,134 @@
+/*******************************************************************************
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2019 vk.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
+
+apply from: '../dependencies.gradle'
+
+static def getRepoUrl() {
+    return "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+}
+static def getRepoUsername() {
+    return System.getenv('NEXUS_USERNAME')
+}
+
+static def getRepoPassword() {
+    return System.getenv('NEXUS_PASSWORD')
+}
+
+if (System.getenv('SDK_UPDATE') == "1") {
+    apply plugin: 'com.jfrog.bintray'
+    apply plugin: 'maven-publish'
+    apply plugin: 'maven'
+    apply plugin: 'signing'
+
+    println("Uploadings SDK...")
+
+    def sonatypeRepositoryUrl = getRepoUrl()
+
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                    pom.artifactId = sdkPublish.POM_ARTIFACT_ID
+
+                    repository(url: sonatypeRepositoryUrl) {
+                        authentication(userName: getRepoUsername(), password: getRepoPassword())
+                    }
+
+                    pom.project {
+                        packaging 'aar'
+
+                        name sdkPublish.POM_NAME
+                        description sdkPublish.POM_DESCRIPTION
+                        url sdkPublish.POM_URL
+
+                        scm {
+                            url sdkPublish.POM_SCM_URL
+                            connection sdkPublish.POM_SCM_CONNECTION
+                            developerConnection sdkPublish.POM_SCM_DEV_CONNECTION
+                        }
+
+                        licenses {
+                            license {
+                                name "MIT"
+                                url sdkPublish.POM_LICENCE_URL
+                                distribution 'repo'
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id "vk"
+                                name "vk.com"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        task sourcesJar(type: Jar) {
+            from android.sourceSets.main.java.srcDirs
+            classifier = 'sources'
+        }
+
+        task javadoc(type: Javadoc) {
+            excludes = ['**/**']
+            source = android.sourceSets.main.java.srcDirs
+            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+            classpath += configurations.javadocDeps
+        }
+
+        task javadocJar(type: Jar, dependsOn: javadoc) {
+            classifier = 'javadoc'
+            from javadoc.destinationDir
+        }
+
+        signing {
+            println("Signing SDK...")
+            required { gradle.taskGraph.hasTask("uploadArchives") }
+            sign configurations.archives
+        }
+
+        artifacts {
+            archives javadocJar
+            archives sourcesJar
+        }
+    }
+
+    gradle.taskGraph.whenReady { taskGraph ->
+        if (taskGraph.allTasks.any { it instanceof Sign }) {
+            println("Signing config reading...")
+            def id = System.getenv('PGP_KEY_ID')
+            def password = System.getenv('PGP_KEY_PASS')
+            def file = System.getenv('PGP_KEY_PATH')
+
+            allprojects {
+                ext."signing.keyId" = id
+                ext."signing.password" = password
+                ext."signing.secretKeyRingFile" = file
+            }
+        }
+    }
+//}

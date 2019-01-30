@@ -22,40 +22,37 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
+import java.util.concurrent.CountDownLatch
+
+/**
+ * Handler for api errors
+ */
+interface VKApiValidationHandler {
+    /**
+     * This method will called, when user should enter captcha text
+     */
+    fun handleCaptcha(img: String, cb: Callback<String>)
+    /**
+     * This method will called, when auth validation required
+     */
+    fun handleValidation(validationUrl: String, cb: Callback<Credentials>)
+    /**
+     * This method will called, when confirmation from user required
+     */
+    fun handleConfirm(confirmationText: String, cb: Callback<Boolean>)
+
+    class Callback<T>(private val latch: CountDownLatch) {
+        @Volatile var value: T? = null
+
+        fun cancel() = latch.countDown()
+        fun submit(value: T) {
+            this.value = value
+            latch.countDown()
         }
-
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
     }
-
-    repositories {
-        google()
-        jcenter()
+    class Credentials(val secret: String?, val token: String?, val uid: Int?) {
+        val isValid = !(token.isNullOrBlank() || secret.isNullOrEmpty())
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

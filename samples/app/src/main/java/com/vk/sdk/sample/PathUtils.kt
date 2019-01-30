@@ -22,40 +22,21 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.sdk.sample
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
+import android.content.Context
+import android.net.Uri
+import android.provider.MediaStore
+
+object PathUtils {
+    fun getPath(context: Context, uri: Uri): String {
+        if (uri.scheme == "file") {
+            return uri.path
         }
-
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
-    }
-
-    repositories {
-        google()
-        jcenter()
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = context.contentResolver.query(uri, proj, null, null, null)
+        val columnIndex = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor.moveToFirst()
+        return "file://" + cursor.getString(columnIndex)
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

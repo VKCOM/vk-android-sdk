@@ -22,40 +22,35 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk.chain
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
+import com.vk.api.sdk.VKApiManager
+import com.vk.api.sdk.exceptions.VKApiException
+import com.vk.api.sdk.exceptions.VKApiExecutionException
+
+internal class TooManyRequestRetryChainCall<T>(manager: VKApiManager, retryLimit: Int, val chain: ChainCall<T>) : RetryChainCall<T>(manager, retryLimit) {
+    @Throws(Exception::class)
+    override fun call(args: ChainArgs): T? {
+        var sleepByTooManyRequest = false
+        for (i in 0..retryLimit) {
+            if (sleepByTooManyRequest) {
+                Thread.sleep(TIMEOUT)
+            }
+            try {
+                return chain.call(args)
+            } catch (ex: VKApiExecutionException) {
+                if (ex.isTooManyRequestsError) {
+                    logDebug("Too many requests", ex)
+                    sleepByTooManyRequest = true
+                } else {
+                    throw ex
+                }
+            }
         }
-
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
+        throw VKApiException("Can't handle too many requests due to retry limit!")
     }
 
-    repositories {
-        google()
-        jcenter()
+    companion object {
+        private const val TIMEOUT: Long = 1100
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

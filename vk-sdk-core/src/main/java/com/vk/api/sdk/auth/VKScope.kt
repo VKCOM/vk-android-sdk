@@ -22,40 +22,26 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk.auth
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
-
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
-    }
-
-    repositories {
-        google()
-        jcenter()
-    }
+enum class VKScope {
+    NOTIFY,
+    FRIENDS,
+    PHOTOS,
+    AUDIO,
+    VIDEO,
+    STORIES,
+    PAGES,
+    STATUS,
+    NOTES,
+    MESSAGES,
+    WALL,
+    ADS,
+    OFFLINE,
+    DOCS,
+    GROUPS,
+    NOTIFICATIONS,
+    STATS,
+    EMAIL,
+    MARKET
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

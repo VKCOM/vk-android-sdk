@@ -21,41 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
+package com.vk.api.sdk.utils
 
-apply from: 'dependencies.gradle'
+import com.vk.api.sdk.VKOkHttpProvider
+import okhttp3.Request
+import okhttp3.ResponseBody
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
+/**
+ * Internal class for loading data from web
+ * Used in SDK UI
+ */
+internal object VKLoader {
+    fun load(url: String): ByteArray? {
+        var r: ByteArray? = null
+        var body: ResponseBody? = null
+        try {
+            val builder = Request.Builder().url(url)
+            val request = builder.build()
+            val response = VKOkHttpProvider.DefaultProvider().getClient().newCall(request).execute() ?: return null
+            body = response.body()
+            r = body?.bytes()
+        } catch (ignore: Exception) {
+        } finally {
+            body?.close()
         }
-
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
-    }
-
-    repositories {
-        google()
-        jcenter()
+        return r
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

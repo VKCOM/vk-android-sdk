@@ -22,40 +22,35 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk.utils
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
+import android.util.MalformedJsonException
+import com.vk.api.sdk.internal.VKErrorUtils
+import java.io.IOException
+import java.io.InterruptedIOException
+import java.net.SocketTimeoutException
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
+internal inline fun <T, N : Number> T.applyPos(value: N, block: T.(N) -> Unit): T {
+    return if (value.toDouble() > 0) {
+        block.invoke(this, value)
+        this
     }
-
-    repositories {
-        google()
-        jcenter()
-    }
+    else throw IllegalArgumentException("Value is negative $value!")
 }
 
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
+fun IOException?.isInterruptedByThreadInterrupt(): Boolean {
+    if (this == null) return false
+    return this is InterruptedIOException && this !is SocketTimeoutException
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+fun IOException?.isMalformedJson(): Boolean {
+    if (this == null) return false
+    return this is MalformedJsonException
 }
 
+internal fun String.hasExecuteError(ignoredErrors: IntArray?) = VKErrorUtils.hasExecuteError(this, ignoredErrors)
+internal fun String.hasSimpleError() = VKErrorUtils.hasSimpleError(this)
+internal fun String.toSimpleError(method: String? = null) = VKErrorUtils.parseSimpleError(this, method)
+internal fun String.toExecuteError(method: String, ignoredErrors: IntArray?) = VKErrorUtils.parseExecuteError(this, method, ignoredErrors)
+
+operator fun <E> android.support.v4.util.LongSparseArray<E>.set(key: Long, value: E) = put(key, value)

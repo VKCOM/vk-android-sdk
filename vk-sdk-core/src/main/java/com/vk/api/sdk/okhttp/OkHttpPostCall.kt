@@ -21,41 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
+package com.vk.api.sdk.okhttp
 
-apply from: 'dependencies.gradle'
+import com.vk.api.sdk.VKHttpPostCall
+import com.vk.api.sdk.internal.HttpMultipartEntry
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
+class OkHttpPostCall {
+    class Builder {
+        var url: String = ""
+            private set
+        var parts: MutableMap<String, HttpMultipartEntry> = HashMap()
+            private set
+        var timeoutMs: Long = 0
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
+        fun url(url: String) = apply { this.url = url }
+        fun parts(parts: Map<String, HttpMultipartEntry>) = apply { this.parts.clear(); this.parts.putAll(parts) }
+        fun timeout(timeout: Long) = apply { this.timeoutMs = timeout }
+
+        fun build() = OkHttpPostCall(this)
     }
 
-    repositories {
-        google()
-        jcenter()
+    val url: String
+    val parts: Map<String, HttpMultipartEntry>
+    val timeoutMs: Long
+
+    private constructor(b: Builder) {
+        if (b.url.isBlank()) throw IllegalArgumentException("Illegal url value: ${b.url}")
+        if (b.timeoutMs <= 0) throw IllegalArgumentException("Illegal timeout value: ${b.timeoutMs}")
+        this.url = b.url
+        this.parts = b.parts
+        this.timeoutMs = b.timeoutMs
+    }
+
+    constructor(call: VKHttpPostCall) {
+        this.url = call.url
+        this.parts = call.parts
+        this.timeoutMs = call.timeoutMs
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

@@ -22,40 +22,38 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk.utils
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
+import java.util.*
+import java.util.concurrent.TimeUnit
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
+class ExponentialBackoff(private val minDelayMs: Long = TimeUnit.MILLISECONDS.toMillis(100),
+                         private val maxDelayMs: Long = TimeUnit.MINUTES.toMillis(5),
+                         private val factor: Float = 2f,
+                         private val jitter: Float = 0.1f) {
+    private val random = Random(System.currentTimeMillis())
+    var delayMs = minDelayMs
+        private set
+    var errorsCount = 0
+        private set
+
+    fun shouldWait() = errorsCount > 0
+
+    fun reset() {
+        delayMs = minDelayMs
+        errorsCount = 0
     }
 
-    repositories {
-        google()
-        jcenter()
+    fun onError() {
+        delayMs = Math.min(delayMs * factor, maxDelayMs.toFloat()).toLong()
+        delayMs += variance(delayMs * jitter)
+        errorsCount++
+    }
+
+    private fun variance(std: Float) = (random.nextGaussian() * std).toLong()
+
+    companion object {
+        @JvmStatic
+        fun forNetworkWait() = ExponentialBackoff(minDelayMs = 500, maxDelayMs = 60000, factor = 1.5f)
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

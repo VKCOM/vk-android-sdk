@@ -22,40 +22,29 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk.internal
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
+import android.content.Context
+import android.text.TextUtils
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
+object Validation {
+    fun assertContextValid(context: Context?) {
+        if (context == null) throw IllegalArgumentException("context is null")
     }
 
-    repositories {
-        google()
-        jcenter()
+    fun assertCallsPerSecondLimitValid(limit: Int) {
+        if (limit <= 0) throw IllegalArgumentException("Illegal callsPerSecondLimit value: $limit")
+    }
+
+    fun assertHttpHostValid(host: String?) {
+        if (host == null || host.length == 0) throw IllegalArgumentException("Illegal host value: " + host!!)
+    }
+
+    fun assertLangValid(lang: String?) {
+        if (TextUtils.isEmpty(lang)) throw IllegalArgumentException("Illegal lang value: " + lang!!)
+    }
+
+    fun assertAccessTokenValid(accessToken: String?) {
+        if (accessToken == null) throw IllegalArgumentException("Illegal accessToken value")
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

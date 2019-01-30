@@ -21,41 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
+package com.vk.api.sdk.utils
 
-apply from: 'dependencies.gradle'
+import java.util.concurrent.locks.Condition
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
+/**
+ * This object lock network thread
+ * for waiting user validation response
+ */
+internal object VKValidationLocker {
+    private val locker = ReentrantLock()
+    private val lockCondition: Condition = locker.newCondition()
+
+    fun await() {
+        try {
+            locker.withLock {
+                lockCondition.await()
+            }
+        } catch (ignored: InterruptedException) {
         }
+    }
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
+    fun signal() {
+        locker.withLock {
+            lockCondition.signalAll()
         }
     }
-
-    repositories {
-        google()
-        jcenter()
-    }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

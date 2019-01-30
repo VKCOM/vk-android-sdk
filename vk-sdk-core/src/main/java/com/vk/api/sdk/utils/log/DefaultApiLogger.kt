@@ -22,40 +22,25 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk.utils.log
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
+import android.util.Log
+
+open class DefaultApiLogger(override var logLevel: Logger.LogLevel,
+                            override val tag: String) : Logger {
+    override fun log(level: Logger.LogLevel, msg: String?, err: Throwable?) {
+        if (checkLevel(level)) return
+
+        when (level) {
+            Logger.LogLevel.NONE -> {}
+            Logger.LogLevel.VERBOSE -> Log.v(tag, msg, err)
+            Logger.LogLevel.DEBUG -> Log.d(tag, msg, err)
+            Logger.LogLevel.WARNING -> Log.w(tag, msg, err)
+            Logger.LogLevel.ERROR -> Log.e(tag, msg, err)
         }
-
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
     }
 
-    repositories {
-        google()
-        jcenter()
+    private fun checkLevel(messageLevel: Logger.LogLevel): Boolean {
+        return logLevel.ordinal > messageLevel.ordinal
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

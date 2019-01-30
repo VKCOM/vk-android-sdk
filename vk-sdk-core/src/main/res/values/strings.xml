@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="vk_retry">Retry</string>
+    <string name="vk_captcha_hint">Please enter the code from the picture</string>
+    <string name="vk_confirm">Please confirm</string>
+</resources>

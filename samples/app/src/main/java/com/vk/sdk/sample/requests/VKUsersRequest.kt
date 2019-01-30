@@ -22,40 +22,27 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.sdk.sample.requests
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
+import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.sample.models.VKUser
+import org.json.JSONObject
+import java.util.ArrayList
+
+class VKUsersRequest: VKRequest<List<VKUser>> {
+    constructor(uids: IntArray = intArrayOf()): super("users.get") {
+        if (uids.isNotEmpty()) {
+            addParam("user_ids", uids.joinToString(","))
         }
+        addParam("fields", "photo_200")
+    }
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
+    override fun parse(r: JSONObject): List<VKUser> {
+        val users = r.getJSONArray("response")
+        val result = ArrayList<VKUser>()
+        for (i in 0 until users.length()) {
+            result.add(VKUser.parse(users.getJSONObject(i)))
         }
-    }
-
-    repositories {
-        google()
-        jcenter()
+        return result
     }
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-

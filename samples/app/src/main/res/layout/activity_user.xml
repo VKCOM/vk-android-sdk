@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/avatarIV"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="6dp"
+            android:scaleType="centerCrop"/>
+        <TextView
+            android:id="@+id/nameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/logoutBtn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/logout"
+            android:layout_gravity="center"
+            android:background="@android:color/white"
+            android:textColor="@color/colorPrimary" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/friendsRV"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginBottom="16dp"/>
+        <EditText
+            android:id="@+id/messageET"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="@string/message_hint"
+            android:textSize="16sp"
+            android:textColorHint="@android:color/darker_gray"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/shareBtn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="@string/share_to_wall"
+            android:layout_gravity="center"
+            android:background="@android:color/white"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+
+</ScrollView>

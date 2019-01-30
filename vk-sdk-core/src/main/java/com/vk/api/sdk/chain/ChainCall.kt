@@ -22,40 +22,15 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: 'dependencies.gradle'
+package com.vk.api.sdk.chain
 
-subprojects { Project subproject ->
-    buildscript {
-        repositories {
-            google()
-            mavenCentral()
-            jcenter()
-            maven { url 'https://maven.google.com' }
-        }
+import com.vk.api.sdk.VKApiManager
+import com.vk.api.sdk.utils.log.Logger
 
-        dependencies {
-            classpath sdkGradlePlugins.android
-            classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
-        }
-    }
+abstract class ChainCall<out T>(val manager: VKApiManager) {
+    @Throws(Exception::class)
+    abstract fun call(args: ChainArgs): T?
 
-    repositories {
-        google()
-        jcenter()
-    }
+    protected fun logDebug(msg: String, t: Throwable) = manager.config.logger.log(Logger.LogLevel.DEBUG, msg, t)
+    protected fun logWarning(msg: String, t: Throwable) = manager.config.logger.log(Logger.LogLevel.WARNING, msg, t)
 }
-
-allprojects {
-    version = sdkVersions.name
-    group = 'com.vk'
-
-    repositories {
-        mavenCentral()
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
