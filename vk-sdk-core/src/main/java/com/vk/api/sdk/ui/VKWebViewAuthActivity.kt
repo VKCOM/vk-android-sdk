@@ -91,7 +91,7 @@ class VKWebViewAuthActivity: Activity() {
         try {
             val urlToLoad = if (needValidationResult()) intent.getStringExtra(VK_EXTRA_VALIDATION_URL)
                     else "https://oauth.vk.com/authorize?client_id=${params.appId}" +
-                    "&scope=$params.getScopeString()" +
+                    "&scope=${params.getScopeString()}" +
                     "&redirect_uri=$REDIRECT_URL" +
                     "&display=mobile" +
                     "&v=${VK.getApiVersion()}" +
