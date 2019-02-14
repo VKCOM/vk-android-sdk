@@ -55,8 +55,8 @@ internal class VKAuthManager {
         VKWebViewAuthActivity.startForAuth(activity, params, VK_APP_AUTH_CODE)
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent, callback: VKAuthCallback, context: Context): Boolean {
-        if (requestCode != VK_APP_AUTH_CODE) {
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, callback: VKAuthCallback, context: Context): Boolean {
+        if (requestCode != VK_APP_AUTH_CODE || data == null) {
             return false
         }
 
@@ -83,18 +83,20 @@ internal class VKAuthManager {
 
     private fun processResult(result: Intent): VKAuthResult? {
         val tokenParams: MutableMap<String, String>?
-        if (result.hasExtra(VK_EXTRA_TOKEN_DATA)) {
-            // Token received via webview
-            val tokenInfo = result.getStringExtra(VK_EXTRA_TOKEN_DATA)
-            tokenParams = VKUtils.explodeQueryString(tokenInfo)
-        } else if (result.extras != null) {
-            // Token received via VK app
-            tokenParams = HashMap()
-            for (key in result.extras!!.keySet()) {
-                tokenParams[key] = result.extras!!.get(key).toString()
+        when {
+            result.hasExtra(VK_EXTRA_TOKEN_DATA) -> {
+                // Token received via webview
+                val tokenInfo = result.getStringExtra(VK_EXTRA_TOKEN_DATA)
+                tokenParams = VKUtils.explodeQueryString(tokenInfo)
             }
-        } else {
-            return null
+            result.extras != null -> {
+                // Token received via VK app
+                tokenParams = HashMap()
+                for (key in result.extras!!.keySet()) {
+                    tokenParams[key] = result.extras!!.get(key).toString()
+                }
+            }
+            else -> return null
         }
 
         return if (tokenParams != null) VKAuthResult(VKAccessToken(tokenParams)) else null

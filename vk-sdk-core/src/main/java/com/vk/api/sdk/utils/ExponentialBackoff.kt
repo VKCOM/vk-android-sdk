@@ -27,7 +27,7 @@ package com.vk.api.sdk.utils
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class ExponentialBackoff(private val minDelayMs: Long = TimeUnit.MILLISECONDS.toMillis(100),
+open class ExponentialBackoff(private val minDelayMs: Long = TimeUnit.MILLISECONDS.toMillis(100),
                          private val maxDelayMs: Long = TimeUnit.MINUTES.toMillis(5),
                          private val factor: Float = 2f,
                          private val jitter: Float = 0.1f) {

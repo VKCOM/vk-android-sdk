@@ -27,21 +27,23 @@ package com.vk.api.sdk.chain
 import com.vk.api.sdk.VKApiManager
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKApiExecutionException
+import com.vk.api.sdk.utils.ExponentialBackoff
 
 internal class TooManyRequestRetryChainCall<T>(manager: VKApiManager, retryLimit: Int, val chain: ChainCall<T>) : RetryChainCall<T>(manager, retryLimit) {
     @Throws(Exception::class)
     override fun call(args: ChainArgs): T? {
-        var sleepByTooManyRequest = false
         for (i in 0..retryLimit) {
-            if (sleepByTooManyRequest) {
-                Thread.sleep(TIMEOUT)
+            if (Backoff.shouldWait()) {
+                Thread.sleep(Backoff.delayTime())
             }
             try {
-                return chain.call(args)
+                val result = chain.call(args)
+                Backoff.reset()
+                return result
             } catch (ex: VKApiExecutionException) {
                 if (ex.isTooManyRequestsError) {
                     logDebug("Too many requests", ex)
-                    sleepByTooManyRequest = true
+                    Backoff.backoff()
                 } else {
                     throw ex
                 }
@@ -50,7 +52,20 @@ internal class TooManyRequestRetryChainCall<T>(manager: VKApiManager, retryLimit
         throw VKApiException("Can't handle too many requests due to retry limit!")
     }
 
-    companion object {
-        private const val TIMEOUT: Long = 1100
+    private object Backoff {
+        const val TIMEOUT: Long = 1000
+        private val bf = ExponentialBackoff(TIMEOUT, TIMEOUT * 8, 1.2f)
+
+        @Synchronized
+        fun shouldWait(): Boolean = bf.shouldWait()
+
+        @Synchronized
+        fun backoff() = bf.onError()
+
+        @Synchronized
+        fun reset() = bf.reset()
+
+        @Synchronized
+        fun delayTime(): Long = bf.delayMs
     }
 }

@@ -103,7 +103,7 @@ object VK {
      * Use this method to handle authorization result from your activity
      */
     @JvmStatic
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent, callback: VKAuthCallback): Boolean {
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, callback: VKAuthCallback): Boolean {
         val result = authManager.onActivityResult(requestCode, resultCode, data, callback, config.context)
         if (result && isLoggedIn()) {
             trackVisitor()

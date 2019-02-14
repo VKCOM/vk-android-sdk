@@ -33,9 +33,9 @@ class VKAccessToken(params: Map<String, String?>) {
     val userId: Int
     val accessToken: String
     val secret: String?
-    val httpsRequired: Boolean
-    val expirationDate: Long
     val created: Long
+    private val httpsRequired: Boolean
+    private val expirationDate: Long
 
     val isValid: Boolean
         get() = expirationDate <= 0 || created + expirationDate * 1000 > System.currentTimeMillis()
@@ -85,10 +85,6 @@ class VKAccessToken(params: Map<String, String?>) {
         private const val SECRET = "secret"
         private const val HTTPS_REQUIRED = "https_required"
         private const val CREATED = "created"
-        private const val SUCCESS = "success"
-        private const val EMAIL = "email"
-        private const val SCOPE = "scope"
-
         private const val VK_ACCESS_TOKEN_KEY = "vk_access_token"
 
         fun restore(bundle: Bundle?): VKAccessToken? {
