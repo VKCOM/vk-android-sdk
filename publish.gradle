@@ -45,90 +45,88 @@ if (System.getenv('SDK_UPDATE') == "1") {
 
     def sonatypeRepositoryUrl = getRepoUrl()
 
-        uploadArchives {
-            repositories {
-                mavenDeployer {
-                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-                    pom.artifactId = sdkPublish.POM_ARTIFACT_ID
+                pom.artifactId = sdkPublish.POM_ARTIFACT_ID
 
-                    repository(url: sonatypeRepositoryUrl) {
-                        authentication(userName: getRepoUsername(), password: getRepoPassword())
+                repository(url: sonatypeRepositoryUrl) {
+                    authentication(userName: getRepoUsername(), password: getRepoPassword())
+                }
+
+                pom.project {
+                    packaging 'aar'
+                    name sdkPublish.POM_NAME
+                    description sdkPublish.POM_DESCRIPTION
+                    url sdkPublish.POM_URL
+
+                    scm {
+                        url sdkPublish.POM_SCM_URL
+                        connection sdkPublish.POM_SCM_CONNECTION
+                        developerConnection sdkPublish.POM_SCM_DEV_CONNECTION
                     }
 
-                    pom.project {
-                        packaging 'aar'
-
-                        name sdkPublish.POM_NAME
-                        description sdkPublish.POM_DESCRIPTION
-                        url sdkPublish.POM_URL
-
-                        scm {
-                            url sdkPublish.POM_SCM_URL
-                            connection sdkPublish.POM_SCM_CONNECTION
-                            developerConnection sdkPublish.POM_SCM_DEV_CONNECTION
+                    licenses {
+                        license {
+                            name "MIT"
+                            url sdkPublish.POM_LICENCE_URL
+                            distribution 'repo'
                         }
+                    }
 
-                        licenses {
-                            license {
-                                name "MIT"
-                                url sdkPublish.POM_LICENCE_URL
-                                distribution 'repo'
-                            }
-                        }
-
-                        developers {
-                            developer {
-                                id "vk"
-                                name "vk.com"
-                            }
+                    developers {
+                        developer {
+                            id "vk"
+                            name "vk.com"
                         }
                     }
                 }
             }
         }
-
-        task sourcesJar(type: Jar) {
-            from android.sourceSets.main.java.srcDirs
-            classifier = 'sources'
-        }
-
-        task javadoc(type: Javadoc) {
-            excludes = ['**/**']
-            source = android.sourceSets.main.java.srcDirs
-            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-            classpath += configurations.javadocDeps
-        }
-
-        task javadocJar(type: Jar, dependsOn: javadoc) {
-            classifier = 'javadoc'
-            from javadoc.destinationDir
-        }
-
-        signing {
-            println("Signing SDK...")
-            required { gradle.taskGraph.hasTask("uploadArchives") }
-            sign configurations.archives
-        }
-
-        artifacts {
-            archives javadocJar
-            archives sourcesJar
-        }
     }
 
-    gradle.taskGraph.whenReady { taskGraph ->
-        if (taskGraph.allTasks.any { it instanceof Sign }) {
-            println("Signing config reading...")
-            def id = System.getenv('PGP_KEY_ID')
-            def password = System.getenv('PGP_KEY_PASS')
-            def file = System.getenv('PGP_KEY_PATH')
+    task sourcesJar(type: Jar) {
+        from android.sourceSets.main.java.srcDirs
+        classifier = 'sources'
+    }
 
-            allprojects {
-                ext."signing.keyId" = id
-                ext."signing.password" = password
-                ext."signing.secretKeyRingFile" = file
-            }
+    task javadoc(type: Javadoc) {
+        excludes = ['**/**']
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        classpath += configurations.javadocDeps
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    signing {
+        println("Signing SDK...")
+        required { gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.allTasks.any { it instanceof Sign }) {
+        println("Signing config reading...")
+        def id = System.getenv('PGP_KEY_ID')
+        def password = System.getenv('PGP_KEY_PASS')
+        def file = System.getenv('PGP_KEY_PATH')
+
+        allprojects {
+            ext."signing.keyId" = id
+            ext."signing.password" = password
+            ext."signing.secretKeyRingFile" = file
         }
     }
-//}
+}

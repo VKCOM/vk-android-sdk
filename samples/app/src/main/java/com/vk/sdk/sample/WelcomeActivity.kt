@@ -32,7 +32,6 @@ import android.widget.Button
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
-import com.vk.api.sdk.auth.VKAuthParams
 import com.vk.api.sdk.auth.VKScope
 
 class WelcomeActivity: Activity() {
@@ -62,7 +61,7 @@ class WelcomeActivity: Activity() {
             override fun onLoginFailed(errorCode: Int) {
             }
         }
-        if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
+        if (!VK.onActivityResult(requestCode, resultCode, data, callback)) {
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
