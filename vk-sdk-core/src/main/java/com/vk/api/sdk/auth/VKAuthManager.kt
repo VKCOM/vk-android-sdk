@@ -99,7 +99,7 @@ internal class VKAuthManager {
             else -> return null
         }
 
-        return if (tokenParams != null) VKAuthResult(VKAccessToken(tokenParams)) else null
+        return if (tokenParams != null && tokenParams[VK_AUTH_ERROR] == null) VKAuthResult(VKAccessToken(tokenParams)) else null
     }
 
 
@@ -123,6 +123,7 @@ internal class VKAuthManager {
         private const val VK_APP_PACKAGE_ID = "com.vkontakte.android"
         private const val VK_APP_AUTH_ACTION = "com.vkontakte.android.action.SDK_AUTH"
         const val VK_EXTRA_TOKEN_DATA = "extra-token-data"
+        const val VK_AUTH_ERROR = "error"
 
         private const val PREFERENCE_NAME = "com.vkontakte.android_pref_name"
 
