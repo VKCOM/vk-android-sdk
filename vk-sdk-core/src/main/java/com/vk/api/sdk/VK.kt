@@ -128,7 +128,7 @@ object VK {
         tokenExpiredHandlers.remove(handler)
     }
 
-    private fun handleTokenExpired() {
+    internal fun handleTokenExpired() {
         authManager.logout(config.context)
 
         tokenExpiredHandlers.forEach {

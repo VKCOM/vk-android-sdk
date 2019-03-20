@@ -24,10 +24,15 @@
 
 package com.vk.api.sdk.internal
 
+import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiManager
+import com.vk.api.sdk.VkResult
 import com.vk.api.sdk.exceptions.VKApiException
-
+import com.vk.api.sdk.exceptions.VKApiExecutionException
 import java.io.IOException
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * Base class for making vk api requests
@@ -48,4 +53,39 @@ abstract class ApiCommand<Response> {
         const val RETRY_INFINITE = Integer.MAX_VALUE
     }
 
+}
+
+/**
+ * Suspend extension that allows suspend [ApiCommand] inside of a coroutine.
+ *
+ * @return Result of request or throw exception
+ */
+suspend fun <T : Any> ApiCommand<T>.await() = suspendCoroutine<T> { continuation ->
+    try {
+        val result = VK.executeSync(this)
+        continuation.resume(result)
+    } catch (e: VKApiExecutionException) {
+        if (e.isInvalidCredentialsError) {
+            VK.handleTokenExpired()
+        }
+        continuation.resumeWithException(e)
+    }
+}
+
+/**
+ * Suspend extension that allows suspend [ApiCommand] inside coroutine.
+ *
+ * @return sealed class [VkResult] object that can be
+ * casted to [VkResult.Success] (success) or [VkResult.Failure] (error)
+ */
+suspend fun <T : Any> ApiCommand<T>.awaitResult() = suspendCoroutine<VkResult<T>> { continuation ->
+    try {
+        val result = VK.executeSync(this)
+        continuation.resume(VkResult.Success(result))
+    } catch (e: VKApiExecutionException) {
+        if (e.isInvalidCredentialsError) {
+            VK.handleTokenExpired()
+        }
+        continuation.resume(VkResult.Failure(e))
+    }
 }
