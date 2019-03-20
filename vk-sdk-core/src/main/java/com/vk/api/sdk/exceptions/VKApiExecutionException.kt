@@ -37,7 +37,8 @@ open class VKApiExecutionException
             val hasLocalizedMessage: Boolean,
             detailMessage: String,
             val extra: Bundle? = Bundle.EMPTY,
-            val executeErrors: List<VKApiExecutionException>? = null) : VKApiException(detailMessage) {
+            val executeErrors: List<VKApiExecutionException>? = null,
+            val errorMsg: String? = null) : VKApiException(detailMessage) {
 
     val isCompositeError: Boolean
         get() = code == VKApiCodes.CODE_COMPOSITE_EXECUTE_ERROR
@@ -142,11 +143,12 @@ open class VKApiExecutionException
         fun parse(json: JSONObject, methodName: String? = null, extra: Bundle? = null): VKApiExecutionException {
             val method = methodName ?: json.optString("method") ?: ""
             val code = json.getInt("error_code")
+            val errorMsg = json.optString("error_msg") ?: ""
             return if (json.has("error_text")) {
-                VKApiExecutionException(code, method, true, json.optString("error_text") ?: "", extra)
+                VKApiExecutionException(code, method, true, json.optString("error_text") ?: "", extra, errorMsg = errorMsg)
             } else {
                 val errorMsg = json.optString("error_msg") ?: ""
-                VKApiExecutionException(code, method, false, "$errorMsg | by [$method]", extra)
+                VKApiExecutionException(code, method, false, "$errorMsg | by [$method]", extra, errorMsg = errorMsg)
             }
         }
     }

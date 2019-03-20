@@ -99,7 +99,7 @@ object VKErrorUtils {
     fun parseExecuteError(response: String, method: String, ignoredErrors: IntArray?) =
             parseExecuteError(JSONObject(response).getJSONArray(VKApiCodes.PARAM_EXECUTE_ERRORS), method, ignoredErrors)
 
-    fun parseExecuteError(errorsJson: JSONArray, method: String, ignoredErrors: IntArray?): VKApiException {
+    private fun parseExecuteError(errorsJson: JSONArray, method: String, ignoredErrors: IntArray?): VKApiException {
         try {
             val nonCriticalErrors = ArrayList<VKApiExecutionException>()
             for (i in 0 until errorsJson.length()) {

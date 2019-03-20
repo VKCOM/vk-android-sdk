@@ -28,6 +28,7 @@ import android.support.v4.util.LongSparseArray
 import com.vk.api.sdk.VKApiProgressListener
 import com.vk.api.sdk.VKOkHttpProvider
 import com.vk.api.sdk.exceptions.VKApiException
+import com.vk.api.sdk.exceptions.VKLargeEntityException
 import com.vk.api.sdk.exceptions.VKNetworkIOException
 import com.vk.api.sdk.internal.HttpMultipartEntry
 import com.vk.api.sdk.internal.QueryStringGenerator
@@ -36,6 +37,7 @@ import com.vk.api.sdk.utils.log.Logger
 import com.vk.api.sdk.utils.set
 import okhttp3.*
 import java.io.IOException
+import java.net.HttpURLConnection.HTTP_ENTITY_TOO_LARGE
 import java.util.concurrent.TimeUnit
 
 open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
@@ -103,8 +105,10 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         return clientWithTimeOut(timeoutMs).newCall(request).execute()
     }
 
-
     protected fun readResponse(response: Response): String? {
+        if (response.code() == HTTP_ENTITY_TOO_LARGE) {
+            throw VKLargeEntityException(response.message())
+        }
         val rb = response.body()
         return try {
             rb?.string()

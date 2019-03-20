@@ -44,7 +44,9 @@ open class ExponentialBackoff(private val minDelayMs: Long = TimeUnit.MILLISECON
         errorsCount = 0
     }
 
-    fun onError() {
+    fun onError() = increase()
+
+    fun increase() {
         delayMs = Math.min(delayMs * factor, maxDelayMs.toFloat()).toLong()
         delayMs += variance(delayMs * jitter)
         errorsCount++

@@ -45,7 +45,7 @@ object VKUtils {
         return try {
             context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
             true
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: Throwable) {
             false
         }
     }

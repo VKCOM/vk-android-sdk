@@ -67,8 +67,10 @@ object QueryStringGenerator {
         }
         sb = if (!accessToken.isNullOrEmpty()) {
             sb + "access_token=" + accessToken + "&"
-        } else {
+        } else if (appId != 0) {
             sb + "api_id=" + appId.toString() + "&"
+        } else {
+            sb + "&"
         }
         sb.setLength(sb.length - 1)
         return sb.toString()
