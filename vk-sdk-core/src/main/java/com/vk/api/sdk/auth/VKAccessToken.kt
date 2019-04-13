@@ -30,7 +30,7 @@ import java.util.HashMap
 
 class VKAccessToken(params: Map<String, String?>) {
 
-    val userId: Int
+    val userId: Int?
     val accessToken: String
     val secret: String?
     val created: Long
@@ -42,7 +42,7 @@ class VKAccessToken(params: Map<String, String?>) {
         get() = expirationDate <= 0 || created + expirationDate * 1000 > System.currentTimeMillis()
 
     init {
-        this.userId = Integer.parseInt(params[USER_ID])
+        this.userId = params[USER_ID]?.toIntOrNull()
         this.accessToken = params[ACCESS_TOKEN]!!
         this.secret = params[SECRET]
         this.httpsRequired = "1" == params[HTTPS_REQUIRED]
@@ -76,7 +76,7 @@ class VKAccessToken(params: Map<String, String?>) {
         result[HTTPS_REQUIRED] = if (httpsRequired) "1" else "0"
         result[CREATED] = created.toString()
         result[EXPIRES_IN] = expirationDate.toString()
-        result[USER_ID] = userId.toString()
+        result[USER_ID] = userId?.toString()
         result[EMAIL] = email
         return result
     }
