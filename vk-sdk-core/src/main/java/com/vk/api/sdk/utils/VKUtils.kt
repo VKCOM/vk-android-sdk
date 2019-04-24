@@ -26,11 +26,10 @@
 
 package com.vk.api.sdk.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import java.util.HashMap
-import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Build
 import android.util.DisplayMetrics
@@ -38,6 +37,7 @@ import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
 import java.math.BigInteger
 import java.security.MessageDigest
+import java.util.*
 
 object VKUtils {
     @JvmStatic
@@ -115,6 +115,14 @@ object VKUtils {
     fun density() = getDisplayMetrics().density
 
     fun getDisplayMetrics(): DisplayMetrics = Resources.getSystem().displayMetrics
+
+    fun height(context: Context): Int {
+        return context.resources.displayMetrics.heightPixels
+    }
+
+    fun width(context: Context): Int {
+        return context.resources.displayMetrics.widthPixels
+    }
 
     object MD5 {
         private val hex = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f')

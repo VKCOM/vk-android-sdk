@@ -29,6 +29,6 @@ import org.json.JSONObject
 /**
  * If you don't need any response you can use this class
  */
-class VKBooleanRequest(method: String): VKRequest<Boolean>(method) {
+open class VKBooleanRequest(method: String): VKRequest<Boolean>(method) {
     override fun parse(r: JSONObject) = true
 }

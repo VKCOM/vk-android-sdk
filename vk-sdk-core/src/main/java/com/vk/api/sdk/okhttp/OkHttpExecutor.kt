@@ -23,10 +23,14 @@
  ******************************************************************************/
 package com.vk.api.sdk.okhttp
 
+import android.net.Uri
 import android.os.Looper
 import android.support.v4.util.LongSparseArray
+import com.vk.api.sdk.OauthHttpUrlPostCall
 import com.vk.api.sdk.VKApiProgressListener
 import com.vk.api.sdk.VKOkHttpProvider
+import com.vk.api.sdk.chain.ChainArgs
+import com.vk.api.sdk.exceptions.VKApiCodes
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKLargeEntityException
 import com.vk.api.sdk.exceptions.VKNetworkIOException
@@ -75,6 +79,27 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
                 .tag(Map::class.java, call.tag?.toMap())
                 .build()
         return readResponse(executeRequest(request))
+    }
+
+    open fun execute(call: OauthHttpUrlPostCall, chainArgs: ChainArgs?): String? {
+        val url = if (chainArgs != null && chainArgs.hasCaptcha()) {
+            Uri.parse(call.url)
+                    .buildUpon()
+                    .appendQueryParameter(VKApiCodes.EXTRA_CAPTCHA_KEY, chainArgs.captchaKey)
+                    .appendQueryParameter(VKApiCodes.EXTRA_CAPTCHA_SID, chainArgs.captchaSid)
+                    .build()
+                    .toString()
+
+        } else {
+            call.url
+        }
+        val request = Request.Builder()
+                .post(RequestBody.create(null, ""))
+                .cacheControl(CacheControl.FORCE_NETWORK)
+                .url(url)
+                .build()
+
+        return readResponse(executeRequest(request, call.timeoutMs + timeoutDelay))
     }
 
     @Throws(InterruptedException::class, IOException::class, VKApiException::class)
@@ -205,7 +230,7 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         provider.updateClient(object : VKOkHttpProvider.BuilderUpdateFunction {
             override fun update(builder: OkHttpClient.Builder): OkHttpClient.Builder {
                 if (Logger.LogLevel.NONE != config.logger.logLevel) {
-                    builder.addInterceptor(LoggingInteceptor(config.logFilterCredentials, config.logger))
+                    builder.addInterceptor(LoggingInterceptor(config.logFilterCredentials, config.logger))
                 }
                 return builder
             }

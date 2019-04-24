@@ -31,14 +31,14 @@ import org.json.JSONObject
  * See [http://vk.com/dev/errors](http://vk.com/dev/errors)
  */
 open class VKApiExecutionException
-    @JvmOverloads constructor(
-            val code: Int,
-            val apiMethod: String,
-            val hasLocalizedMessage: Boolean,
-            detailMessage: String,
-            val extra: Bundle? = Bundle.EMPTY,
-            val executeErrors: List<VKApiExecutionException>? = null,
-            val errorMsg: String? = null) : VKApiException(detailMessage) {
+@JvmOverloads constructor(
+        val code: Int,
+        val apiMethod: String,
+        val hasLocalizedMessage: Boolean,
+        detailMessage: String,
+        val extra: Bundle? = Bundle.EMPTY,
+        val executeErrors: List<VKApiExecutionException>? = null,
+        val errorMsg: String? = null) : VKApiException(detailMessage) {
 
     val isCompositeError: Boolean
         get() = code == VKApiCodes.CODE_COMPOSITE_EXECUTE_ERROR
@@ -95,7 +95,7 @@ open class VKApiExecutionException
         get() = code == VKApiCodes.CODE_CAPTCHA_REQUIRED
 
     val captchaSid: String
-        get() =  extra?.getString(VKApiCodes.EXTRA_CAPTCHA_SID, "") ?: ""
+        get() = extra?.getString(VKApiCodes.EXTRA_CAPTCHA_SID, "") ?: ""
 
     val captchaImg: String
         get() = extra?.getString(VKApiCodes.EXTRA_CAPTCHA_IMG, "") ?: ""
@@ -136,6 +136,12 @@ open class VKApiExecutionException
                 '}'.toString()
     }
 
+    fun hasError(errorCode: Int): Boolean {
+        if (code == errorCode) return true
+        if (executeErrors?.find { it.code == errorCode } != null) return true
+        return false
+    }
+
     companion object {
         internal const val serialVersionUID = 7524047853274172872L
 
@@ -145,7 +151,8 @@ open class VKApiExecutionException
             val code = json.getInt("error_code")
             val errorMsg = json.optString("error_msg") ?: ""
             return if (json.has("error_text")) {
-                VKApiExecutionException(code, method, true, json.optString("error_text") ?: "", extra, errorMsg = errorMsg)
+                VKApiExecutionException(code, method, true, json.optString("error_text")
+                        ?: "", extra, errorMsg = errorMsg)
             } else {
                 val errorMsg = json.optString("error_msg") ?: ""
                 VKApiExecutionException(code, method, false, "$errorMsg | by [$method]", extra, errorMsg = errorMsg)

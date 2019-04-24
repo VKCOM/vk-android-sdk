@@ -63,7 +63,9 @@ object QueryStringGenerator {
         strBuilder.clear()
         var sb = strBuilder + "v=" + version + "&https=1&"
         for ((key, value) in args) {
-            sb = sb.plus(key) + "=" + value.encodeUrlAsUtf8(isApplyUrlEncode) + "&"
+            if (key != "v" && key != "access_token" && key != "api_id") {
+                sb = sb.plus(key) + "=" + value.encodeUrlAsUtf8(isApplyUrlEncode) + "&"
+            }
         }
         sb = if (!accessToken.isNullOrEmpty()) {
             sb + "access_token=" + accessToken + "&"

@@ -43,5 +43,7 @@ enum class VKScope {
     NOTIFICATIONS,
     STATS,
     EMAIL,
-    MARKET
+    MARKET,
+    // Need to pass moderation for this scope. Check this: https://vk.com/dev/permissions
+    PHONE
 }

@@ -27,10 +27,11 @@ package com.vk.api.sdk.auth
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.ui.VKWebViewAuthActivity
 import com.vk.api.sdk.utils.VKUtils
-import java.util.HashMap
+import java.util.*
 
 internal class VKAuthManager {
     fun login(activity: Activity, scopes: Collection<VKScope>) {
@@ -116,8 +117,7 @@ internal class VKAuthManager {
         getPreferences(context).edit().clear().apply()
     }
 
-    private fun getPreferences(context: Context)
-        = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+    fun getPreferences(context: Context): SharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
 
     companion object {
         private const val VK_APP_PACKAGE_ID = "com.vkontakte.android"

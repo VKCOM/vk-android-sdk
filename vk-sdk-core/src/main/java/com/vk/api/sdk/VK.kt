@@ -28,13 +28,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import com.vk.api.sdk.internal.ApiCommand
+import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKAuthManager
-import com.vk.api.sdk.auth.VKAuthParams
 import com.vk.api.sdk.auth.VKScope
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKApiExecutionException
+import com.vk.api.sdk.internal.ApiCommand
 import com.vk.api.sdk.requests.VKBooleanRequest
 import com.vk.api.sdk.utils.VKUtils
 import java.io.IOException
@@ -74,6 +74,18 @@ object VK {
     @JvmOverloads
     fun login(activity: Activity, scopes: Collection<VKScope> = emptySet()) {
         authManager.login(activity, scopes)
+    }
+
+    /**
+     * This method is used to set new credentials for future requests. E.g. if you login via your own lib
+     * @param userId userId of saving user
+     * @param accessToken accessToken for future requests
+     * @param secret secret for future requests
+     */
+    @JvmStatic
+    fun setCredentials(context: Context, userId: Int, accessToken: String, secret: String?) {
+        VKAccessToken(userId, accessToken, secret).save(authManager.getPreferences(context))
+        apiManager.setCredentials(accessToken, secret)
     }
 
     /**
