@@ -36,11 +36,11 @@ class OkHttpExecutorConfig(private val apiConfig: VKApiConfig) {
     val appId: Int
         get() = apiConfig.appId
     val host: String
-        get() = apiConfig.httpApiHost
+        get() = apiConfig.httpApiHost.value
     val accessToken: String
-        get() = apiConfig.accessToken
+        get() = apiConfig.accessToken.value
     val secret: String?
-        get() = apiConfig.secret
+        get() = apiConfig.secret.value
     val okHttpProvider: VKOkHttpProvider
         get() = apiConfig.okHttpProvider
     val logFilterCredentials: Boolean

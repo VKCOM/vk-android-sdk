@@ -74,7 +74,7 @@ open class VKRequest<T>(var method: String) : VKApiResponseParser<T>, ApiCommand
         val config = manager.config
 
         params["lang"] = config.lang
-        params["device_id"] = config.deviceId
+        params["device_id"] = config.deviceId.value
         params["v"] = config.version
 
         return manager.execute(VKMethodCall.Builder()

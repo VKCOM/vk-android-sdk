@@ -81,10 +81,14 @@ object VK {
      * @param userId userId of saving user
      * @param accessToken accessToken for future requests
      * @param secret secret for future requests
+     * @param saveAccessTokenToPrefs create access token info and save it to prefs. If you pass {@code false},
+     * you will not able to use sdk execute methods
      */
     @JvmStatic
-    fun setCredentials(context: Context, userId: Int, accessToken: String, secret: String?) {
-        VKAccessToken(userId, accessToken, secret).save(authManager.getPreferences(context))
+    fun setCredentials(context: Context, userId: Int, accessToken: String, secret: String?, saveAccessTokenToPrefs: Boolean) {
+        if (saveAccessTokenToPrefs) {
+            VKAccessToken(userId, accessToken, secret).save(authManager.getPreferences(context))
+        }
         apiManager.setCredentials(accessToken, secret)
     }
 
@@ -192,11 +196,19 @@ object VK {
         if (appId == 0) {
             throw RuntimeException("<integer name=\"com_vk_sdk_AppId\">your_app_id</integer> is not found in your resources.xml")
         }
-        setConfig(VKApiConfig.Builder().context(context).appId(appId).validationHandler(VKDefaultValidationHandler(context)).build())
+        setConfig(VKApiConfig(
+                context = context,
+                appId = appId,
+                validationHandler = VKDefaultValidationHandler(context)))
 
         if (isLoggedIn()) {
             trackVisitor()
         }
+    }
+
+    @JvmStatic
+    fun clearAccessToken(context: Context) {
+        authManager.getPreferences(context).edit().clear().apply()
     }
 
     private fun trackVisitor() {

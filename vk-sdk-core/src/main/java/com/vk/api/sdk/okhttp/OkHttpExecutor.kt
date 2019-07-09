@@ -30,10 +30,7 @@ import com.vk.api.sdk.OauthHttpUrlPostCall
 import com.vk.api.sdk.VKApiProgressListener
 import com.vk.api.sdk.VKOkHttpProvider
 import com.vk.api.sdk.chain.ChainArgs
-import com.vk.api.sdk.exceptions.VKApiCodes
-import com.vk.api.sdk.exceptions.VKApiException
-import com.vk.api.sdk.exceptions.VKLargeEntityException
-import com.vk.api.sdk.exceptions.VKNetworkIOException
+import com.vk.api.sdk.exceptions.*
 import com.vk.api.sdk.internal.HttpMultipartEntry
 import com.vk.api.sdk.internal.QueryStringGenerator
 import com.vk.api.sdk.internal.Validation
@@ -42,6 +39,7 @@ import com.vk.api.sdk.utils.set
 import okhttp3.*
 import java.io.IOException
 import java.net.HttpURLConnection.HTTP_ENTITY_TOO_LARGE
+import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 
 open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
@@ -70,8 +68,10 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
 
     @Throws(InterruptedException::class, IOException::class, VKApiException::class)
     open fun execute(call: OkHttpMethodCall): String? {
-        val requestBody = RequestBody.create(MediaType.parse(MIME_APPLICATION),
-                                            QueryStringGenerator.buildQueryString(accessToken, secret, config.appId, call))
+
+        val queryString = QueryStringGenerator.buildQueryString(accessToken, secret, config.appId, call)
+        val requestBody = RequestBody.create(MediaType.parse(MIME_APPLICATION), validateQueryString(call, queryString))
+
         val request = Request.Builder()
                 .post(requestBody)
                 .url("https://$host/method/${call.method}")
@@ -121,6 +121,23 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         return readResponse(executeRequest(request, timeout))
     }
 
+    @Throws(VKApiException::class)
+    protected fun validateQueryString(call: OkHttpMethodCall, paramsString: String): String {
+        if (call.method.startsWith("execute.")) {
+            val uri = Uri.parse("https://vk.com/?$paramsString")
+            if (uri.getQueryParameters("method").contains("execute")
+                    && !uri.getQueryParameters("code").isNullOrEmpty()) {
+                throw VKApiExecutionException(
+                        VKApiCodes.CODE_ACCESS_DENIED,
+                        call.method,
+                        false,
+                        "Hey dude don't execute your hacky code ;)"
+                )
+            }
+        }
+        return paramsString
+    }
+
     protected fun executeRequest(request: Request): Response {
         return executeRequest(request, config.defaultTimeoutMs)
     }
@@ -150,7 +167,7 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
                 this.addFormDataPart(key, entry.textValue)
             } else if (entry is HttpMultipartEntry.File) {
                 val partBody = FileFullRequestBody(context, entry.fileUri)
-                this.addFormDataPart(key, entry.fileName, partBody)
+                this.addFormDataPart(key, convertFileNameToSafeValue(entry.fileName ?: ""), partBody)
             }
         }
         return this
@@ -237,8 +254,13 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         })
     }
 
+    private fun convertFileNameToSafeValue(fileName: String): String {
+        return URLEncoder.encode(fileName.replace("\"", "\\\""), UTF_8)
+    }
+
     companion object {
         const val MIME_APPLICATION: String = "application/x-www-form-urlencoded; charset=utf-8"
+        private const val UTF_8 = "UTF-8"
     }
 
 }

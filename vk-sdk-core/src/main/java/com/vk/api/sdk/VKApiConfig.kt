@@ -25,122 +25,30 @@
 package com.vk.api.sdk
 
 import android.content.Context
-import com.vk.api.sdk.internal.Validation
 import com.vk.api.sdk.utils.log.DefaultApiLogger
 import com.vk.api.sdk.utils.log.Logger
-import com.vk.api.sdk.utils.applyPos
 import java.util.concurrent.TimeUnit
-import java.util.regex.Pattern
 
 /**
  * Configuration for VK SDK
  * By using VK.initialize(config) you can customize configuration
  */
 @Suppress("ConvertSecondaryConstructorToPrimary")
-class VKApiConfig {
-    class Builder {
-        var context: Context? = null
-            private set
-        var appId: Int = 0
-            private set
-        var callsPerSecondLimit: Int = 3
-            private set
-        var httpApiHost: String = DEFAULT_API_DOMAIN
-            private set
-        var deviceId: String = ""
-            private set
-        var lang: String = "en"
-            private set
-        var accessToken: String = ""
-            private set
-        var secret: String? = null
-            private set
-
-        var version: String = DEFAULT_API_VERSION
-
-        var okHttpProvider: VKOkHttpProvider = VKOkHttpProvider.DefaultProvider()
-            private set
-        var logFilterCredentials: Boolean = false
-            private set
-        var validationHandler: VKApiValidationHandler? = null
-            private set
-        var logger: Logger = DefaultApiLogger(Logger.LogLevel.NONE, "VKSdkApi")
-            private set
-        var defaultTimeoutMs: Long = TimeUnit.SECONDS.toMillis(10)
-            private set
-        var postRequestsTimeout = TimeUnit.MINUTES.toMillis(5)
-            private set
-
-        fun context(context: Context) = apply { this.context = context }
-        fun appId(appId: Int) = apply { this.appId = appId }
-        fun callsPerSecondLimit(callsPerSecondLimit: Int) = apply { this.callsPerSecondLimit = callsPerSecondLimit }
-        fun httpApiHost(httpApiHost: String) = apply { this.httpApiHost = httpApiHost }
-        fun deviceId(deviceId: String) = apply { this.deviceId = deviceId }
-        fun lang(lang: String) = apply { this.lang = lang }
-        fun version(version: String) = apply { this.version = version }
-        fun accessToken(accessToken: String) = apply { this.accessToken = accessToken }
-        fun secret(secret: String?) = apply { this.secret = secret }
-        fun okHttpProvider(okHttpProvider: VKOkHttpProvider) = apply { this.okHttpProvider = okHttpProvider }
-        fun logFilterCredentials(logFilterCredentials: Boolean) = apply { this.logFilterCredentials = logFilterCredentials }
-        fun validationHandler(handler: VKApiValidationHandler) = apply { this.validationHandler = handler }
-        fun logger(logger: Logger) = apply { this.logger = logger }
-        fun defaultTimeout(value: Long, timeUnit: TimeUnit) = apply { this.defaultTimeoutMs = timeUnit.toMillis(value) }
-        fun postRequestsTimeout(timeoutMs: Long) = applyPos(timeoutMs) { postRequestsTimeout = it }
-
-        fun build() = VKApiConfig(this)
-    }
-
-    val context: Context
-    val appId: Int
-    val callsPerSecondLimit: Int
-    val httpApiHost: String
-    val deviceId: String
-    val lang: String
-    val accessToken: String
-    val version: String
-    val secret: String?
-    val okHttpProvider: VKOkHttpProvider
-    val logFilterCredentials: Boolean
-    val defaultTimeoutMs: Long
-    val postRequestsTimeout: Long
-    val validationHandler: VKApiValidationHandler?
-    val logger: Logger
-
-    private constructor(b: Builder) {
-        Validation.assertContextValid(b.context)
-        Validation.assertCallsPerSecondLimitValid(b.callsPerSecondLimit)
-        Validation.assertHttpHostValid(b.httpApiHost)
-        Validation.assertLangValid(b.lang)
-        Validation.assertAccessTokenValid(b.accessToken)
-
-        context = b.context!!
-        appId = b.appId
-        callsPerSecondLimit = b.callsPerSecondLimit
-        httpApiHost = b.httpApiHost
-        accessToken = b.accessToken
-        deviceId = b.deviceId
-        lang = b.lang
-        secret = b.secret
-        version = b.version
-        okHttpProvider = b.okHttpProvider
-        logFilterCredentials = b.logFilterCredentials
-        validationHandler = b.validationHandler
-        logger = b.logger
-        defaultTimeoutMs = b.defaultTimeoutMs
-        postRequestsTimeout = b.postRequestsTimeout
-    }
-
-    override fun toString() = "ApiConfig(" +
-            "callsPerSecondLimit=$callsPerSecondLimit, " +
-            "httpApiHost='$httpApiHost', " +
-            "deviceId='$deviceId', " +
-            "lang='$lang', " +
-            "accessToken='$accessToken', " +
-            "secret='$secret', " +
-            "version='$version', " +
-            "logFilterCredentials=$logFilterCredentials, " +
-            "defaultTimeoutMs=$defaultTimeoutMs," +
-            "postRequestsTimeout=$postRequestsTimeout)"
+data class VKApiConfig(val context: Context,
+                       val appId: Int = 0,
+                       val validationHandler: VKApiValidationHandler?,
+                       val deviceId: Lazy<String> = lazy { "" },
+                       val version: String = DEFAULT_API_VERSION,
+                       val okHttpProvider: VKOkHttpProvider = VKOkHttpProvider.DefaultProvider(),
+                       val defaultTimeoutMs: Long = TimeUnit.SECONDS.toMillis(10),
+                       val postRequestsTimeout: Long = TimeUnit.MINUTES.toMillis(5),
+                       val logger: Logger = DefaultApiLogger(lazy { Logger.LogLevel.NONE }, "VKSdkApi"),
+                       val accessToken: Lazy<String> = lazy { "" },
+                       val secret: Lazy<String?> = lazy { null },
+                       val logFilterCredentials: Boolean = true,
+                       val callsPerSecondLimit: Int = 3,
+                       val httpApiHost: Lazy<String>  = lazy { DEFAULT_API_DOMAIN },
+                       val lang: String = "en") {
 
     companion object {
         const val DEFAULT_DOMAIN = "vk.com"

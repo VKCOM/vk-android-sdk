@@ -36,7 +36,7 @@ class LoggingInterceptor(private val filterCredentials: Boolean, private val log
         HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
             override fun log(message: String) {
                 val finalMessage = if (filterCredentials) filterCredentials(message) else message
-                logger.log(logger.logLevel, finalMessage)
+                logger.log(logger.logLevel.value, finalMessage)
             }
 
             private fun filterCredentials(msg: String): String {
@@ -52,7 +52,7 @@ class LoggingInterceptor(private val filterCredentials: Boolean, private val log
         val bodyLength = chain.request().body()?.contentLength() ?: 0
         delegate.level =
                 if (bodyLength > 1024L) HttpLoggingInterceptor.Level.BASIC
-                else LogLevelMap.levelsMap[logger.logLevel]
+                else LogLevelMap.levelsMap[logger.logLevel.value]
         return delegate.intercept(chain)
     }
 

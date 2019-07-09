@@ -35,7 +35,7 @@ open class VKApiExecutionException
         val code: Int,
         val apiMethod: String,
         val hasLocalizedMessage: Boolean,
-        detailMessage: String,
+        val detailMessage: String,
         val extra: Bundle? = Bundle.EMPTY,
         val executeErrors: List<VKApiExecutionException>? = null,
         val errorMsg: String? = null) : VKApiException(detailMessage) {
@@ -127,10 +127,10 @@ open class VKApiExecutionException
     }
 
     override fun toString(): String {
-        return "ApiExecutionException{" +
-                "mCode=$code" +
-                ", mExtra=$extra" +
-                ", mMethod=$apiMethod" +
+        return "VKApiExecutionException{" +
+                "code=$code" +
+                ", extra=$extra" +
+                ", method=$apiMethod" +
                 ", executeErrors=" + executeErrors?.joinToString(prefix = "[", postfix = "]") +
                 ", super=" + super.toString() +
                 '}'.toString()

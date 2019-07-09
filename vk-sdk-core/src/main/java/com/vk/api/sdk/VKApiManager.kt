@@ -110,5 +110,5 @@ open class VKApiManager(val config: VKApiConfig) {
     protected open fun <T> executeWithExceptionAdjust(cc: ChainCall<T>) = cc.call(ChainArgs())!!
 
     protected open fun <T> createMethodChainCall(call: VKMethodCall, parser: VKApiResponseParser<T>? = null): ChainCall<T> =
-            MethodChainCall(this, executor, OkHttpMethodCall.Builder().from(call), config.deviceId, config.lang, parser)
+            MethodChainCall(this, executor, OkHttpMethodCall.Builder().from(call), config.deviceId.value, config.lang, parser)
 }

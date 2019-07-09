@@ -15,6 +15,12 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlin.math.min
 
+/**
+ * Used to implement an http request for authorization via oauth.
+ * The implementation is identical to the implementation of [HttpPostChainCall] with the exception of error handling, since
+ * The error format of the oauth request is different from the error format of the normal VK API request
+ * @see [OauthHttpUrlPostCall]
+ */
 class OAuthHttpUrlChainCall<T>(manager: VKApiManager,
                                private val okHttpExecutor: OkHttpExecutor,
                                private val call: OauthHttpUrlPostCall,
@@ -38,7 +44,7 @@ class OAuthHttpUrlChainCall<T>(manager: VKApiManager,
             null -> throw VKApiException("Response returned null instead of valid string response")
             else -> {
                 val jo = JSONObject(response)
-                val error = jo.optString("error")
+                val error = jo.optString("error", null)
                 val processing = jo.has("processing")
                 when {
                     error == "need_captcha" -> {

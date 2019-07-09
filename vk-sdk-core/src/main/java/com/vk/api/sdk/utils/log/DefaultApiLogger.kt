@@ -26,7 +26,7 @@ package com.vk.api.sdk.utils.log
 
 import android.util.Log
 
-open class DefaultApiLogger(override var logLevel: Logger.LogLevel,
+open class DefaultApiLogger(override var logLevel: Lazy<Logger.LogLevel>,
                             override val tag: String) : Logger {
     override fun log(level: Logger.LogLevel, msg: String?, err: Throwable?) {
         if (checkLevel(level)) return
@@ -41,6 +41,6 @@ open class DefaultApiLogger(override var logLevel: Logger.LogLevel,
     }
 
     private fun checkLevel(messageLevel: Logger.LogLevel): Boolean {
-        return logLevel.ordinal > messageLevel.ordinal
+        return logLevel.value.ordinal > messageLevel.ordinal
     }
 }

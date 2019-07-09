@@ -33,7 +33,7 @@ interface Logger {
         NONE
     }
 
-    val logLevel: LogLevel
+    val logLevel: Lazy<Logger.LogLevel>
     val tag: String
     fun log(level: LogLevel, msg: String? = null, err: Throwable? = null)
 }

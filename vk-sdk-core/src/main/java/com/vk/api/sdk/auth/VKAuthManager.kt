@@ -120,7 +120,7 @@ internal class VKAuthManager {
     fun getPreferences(context: Context): SharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
 
     companion object {
-        private const val VK_APP_PACKAGE_ID = "com.vkontakte.android"
+        const val VK_APP_PACKAGE_ID = "com.vkontakte.android"
         private const val VK_APP_AUTH_ACTION = "com.vkontakte.android.action.SDK_AUTH"
         const val VK_EXTRA_TOKEN_DATA = "extra-token-data"
         const val VK_AUTH_ERROR = "error"
