@@ -49,6 +49,7 @@ configurations {
 
 dependencies {
     implementation sdkLibraries.kotlin
+    implementation sdkLibraries.kotlinCoroutinesCore
     implementation sdkLibraries.okHttp
     implementation sdkLibraries.okHttpLoggingInterceptor
     implementation sdkLibrariesSupport.support

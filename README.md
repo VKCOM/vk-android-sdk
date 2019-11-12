@@ -184,6 +184,40 @@ Observable.fromCallable {
     })
 ```
 
+If you are using Kotlin Coroutines in your project, you can use two ways.
+Remember that coroutines must be called in some CoroutineScope (MainScope in example)
+
+First way is using ApiCommand.await() extension function. await() returns result or throw an exception:
+```kotlin
+launch(Dispatchers.Main) {
+    try {
+        val user = withContext(Dispatchers.IO) { VKUsersCommand().await() }
+        // do some stuff with user
+    } catch (e: VKApiExecutionException) {
+        // process error
+    }
+}
+```
+Second way is using ApiCommand.awaitResult() extension function. awaitResult() returns [VkResult](vk-sdk-core/src/main/java/com/vk/api/sdk/VkResult.kt)
+ which has a Success or Error:
+```kotlin
+launch(Dispatchers.Main) {
+    val userResult = withContext(Dispatchers.IO) {
+        VKUsersCommand().awaitResult()
+    }
+    when (userResult) {
+        is VkResult.Success -> {
+            val user = userResult.data
+            // do some stuff with user
+        }
+        is VkResult.Failure -> {
+            val e = userResult.exception
+            // process error
+        }
+    }
+}
+```
+
 If you need more complex request, you should override ApiCommand. 
 This approach allows you to make multiple requests at once
 For example: [VKUsersRequest](samples/app/src/main/java/com/vk/sdk/sample/requests/VKUsersRequest.kt)
