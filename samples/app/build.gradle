@@ -50,16 +50,11 @@ android {
         preDexLibraries true
         javaMaxHeapSize "5g"
     }
-
-    packagingOptions {
-        exclude 'META-INF/proguard/coroutines.pro'
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
     implementation sdkLibraries.kotlin
-    implementation sdkLibraries.kotlinCoroutinesAndroid
     implementation sdkLibrariesSupport.recyclerView
     implementation sdkLibrariesSupport.appCompat
     implementation sdkLibrariesSupport.support
