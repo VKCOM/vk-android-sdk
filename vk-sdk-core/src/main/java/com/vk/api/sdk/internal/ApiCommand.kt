@@ -29,10 +29,10 @@ import com.vk.api.sdk.VKApiManager
 import com.vk.api.sdk.VkResult
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKApiExecutionException
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.IOException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 /**
  * Base class for making vk api requests
@@ -60,7 +60,7 @@ abstract class ApiCommand<Response> {
  *
  * @return Result of request or throw exception
  */
-suspend fun <T : Any> ApiCommand<T>.await() = suspendCoroutine<T> { continuation ->
+suspend fun <T : Any> ApiCommand<T>.await() = suspendCancellableCoroutine<T> { continuation ->
     try {
         val result = VK.executeSync(this)
         continuation.resume(result)
@@ -78,7 +78,7 @@ suspend fun <T : Any> ApiCommand<T>.await() = suspendCoroutine<T> { continuation
  * @return sealed class [VkResult] object that can be
  * casted to [VkResult.Success] (success) or [VkResult.Failure] (error)
  */
-suspend fun <T : Any> ApiCommand<T>.awaitResult() = suspendCoroutine<VkResult<T>> { continuation ->
+suspend fun <T : Any> ApiCommand<T>.awaitResult() = suspendCancellableCoroutine<VkResult<T>> { continuation ->
     try {
         val result = VK.executeSync(this)
         continuation.resume(VkResult.Success(result))
