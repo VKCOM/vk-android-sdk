@@ -26,6 +26,7 @@ package com.vk.api.sdk.exceptions
 
 object VKApiCodes {
     const val CODE_COMPOSITE_EXECUTE_ERROR = Int.MIN_VALUE
+    const val CODE_IO_ERROR = -1
     const val CODE_UNKNOWN_ERROR = 1
     const val CODE_APP_DISABLED = 2
     const val CODE_UNKNOWN_METHOD = 3
@@ -83,6 +84,7 @@ object VKApiCodes {
     const val CODE_CHAT_INVITE_MAKE_LINK_DENIED = 919
     const val CODE_MSG_DELETE_FOR_ALL_FAILED = 924
     const val CODE_CHAT_NOT_ADMIN = 925
+    const val CODE_CHAT_MR_ALREADY_SEND = 939
 
     const val CODE_TOO_MANY_CONTACTS_TO_SYNC = 937
 

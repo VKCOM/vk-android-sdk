@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-@file:Suppress("DEPRECATION")
+@file:Suppress("DEPRECATION", "unused")
 
 package com.vk.api.sdk.utils
 

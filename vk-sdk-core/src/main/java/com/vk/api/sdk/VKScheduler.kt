@@ -2,6 +2,7 @@ package com.vk.api.sdk
 
 import android.os.Handler
 import android.os.Looper
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -19,10 +20,11 @@ internal object VKScheduler {
      * Intended to perform network requests: makes new thread every time if cached threads are busy
      * or reuse idle thread.
      */
-    @JvmField
-    val networkExecutor = Executors.newFixedThreadPool(NETWORK_THREADS_COUNT) { runnable ->
-        Thread(runnable, "vk-network-thread-${counter.getAndIncrement()}")
-    }!!
+    val networkExecutor: ExecutorService by lazy {
+        Executors.newFixedThreadPool(NETWORK_THREADS_COUNT) { runnable ->
+            Thread(runnable, "vk-api-network-thread-${counter.getAndIncrement()}")
+        }
+    }
 
     @JvmOverloads
     @JvmStatic

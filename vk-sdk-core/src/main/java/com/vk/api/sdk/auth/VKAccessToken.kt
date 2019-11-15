@@ -108,7 +108,7 @@ class VKAccessToken(params: Map<String, String?>) {
                 return null
             }
             val vkTokenBundle = bundle.getBundle(VK_ACCESS_TOKEN_KEY) ?: return null
-            val tokenParams = HashMap<String, String>()
+            val tokenParams = HashMap<String, String?>()
             for (key in vkTokenBundle.keySet()) {
                 tokenParams[key] = vkTokenBundle.getString(key)
             }
@@ -119,7 +119,7 @@ class VKAccessToken(params: Map<String, String?>) {
             if (preferences == null) {
                 return null
             }
-            val tokenParams = HashMap<String, String>()
+            val tokenParams = HashMap<String, String?>()
             for (key in preferences.all.keys) {
                 tokenParams[key] = preferences.getString(key, "")
             }

@@ -1,19 +1,19 @@
 ext.sdkVersions = [
-        code                            : '12',
-        name                            : '2.1.1',
+        code                            : '14',
+        name                            : '2.2.0',
 
         minSdk                          : 16,
-        targetSdk                       : 26,
+        targetSdk                       : 28,
         compileSdk                      : '28',
-        buildTools                      : '27.0.3',
+        buildTools                      : '28.0.3',
 
-        kotlin                          : '1.3.10',
-        supportLibs                     : '27.1.1',
-        okHttp                          : '3.11.0',
+        kotlin                          : '1.3.41',
+        androidX                        : '1.0.0',
+        okHttp                          : '3.12.1',
 
         picasso                         : '2.71828',
 
-        androidGradlePlugin             : '3.2.1',
+        androidGradlePlugin             : '3.5.0',
 ]
 
 ext.sdkLibraries = [
@@ -25,10 +25,10 @@ ext.sdkLibraries = [
 ]
 
 ext.sdkLibrariesSupport = [
-        supportV4                       : "com.android.support:support-v4:$sdkVersions.supportLibs",
-        support                         : "com.android.support:support-v13:$sdkVersions.supportLibs",
-        appCompat                       : "com.android.support:appcompat-v7:$sdkVersions.supportLibs",
-        recyclerView                    : "com.android.support:recyclerview-v7:$sdkVersions.supportLibs",
+        appCompat                       : "androidx.appcompat:appcompat:$sdkVersions.androidX",
+        recyclerView                    : "androidx.recyclerview:recyclerview:$sdkVersions.androidX",
+        supportV4                       : "androidx.legacy:legacy-support-v4:$sdkVersions.androidX",
+        support                         : "androidx.legacy:legacy-support-v13:$sdkVersions.androidX",
 ]
 
 ext.sdkGradlePlugins = [

@@ -24,13 +24,11 @@
 
 package com.vk.api.sdk
 
-import com.vk.api.sdk.exceptions.VKApiExecutionException
-
 /**
  * Callback for vk api requests
  * Get response here from VK.execute
  */
 interface VKApiCallback<in T> {
     fun success(result: T)
-    fun fail(error: VKApiExecutionException)
+    fun fail(error: Exception)
 }

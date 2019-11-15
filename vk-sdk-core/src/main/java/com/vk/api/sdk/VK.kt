@@ -175,10 +175,10 @@ object VK {
                 VKScheduler.runOnMainThread(Runnable {
                     callback?.success(result)
                 })
-            } catch (e: VKApiExecutionException) {
+            } catch (e: Exception) {
                 VKScheduler.runOnMainThread(Runnable {
-                    if (e.isInvalidCredentialsError) {
-                        VK.handleTokenExpired()
+                    if (e is VKApiExecutionException && e.isInvalidCredentialsError) {
+                        handleTokenExpired()
                     }
                     callback?.fail(e)
                 })
@@ -204,6 +204,14 @@ object VK {
         if (isLoggedIn()) {
             trackVisitor()
         }
+    }
+
+    /**
+     * This method returns Application ID provided in the Manifest.
+     */
+    @JvmStatic
+    fun getAppId(context: Context): Int {
+        return authManager.getAppId(context)
     }
 
     @JvmStatic

@@ -2,12 +2,21 @@ package com.vk.api.sdk.internal
 
 import android.util.JsonReader
 import android.util.JsonToken
+import android.util.MalformedJsonException
 import java.io.Reader
 import java.io.StringReader
 
 object JsonUtils {
 
     fun containsElement(jsonString: String, name: String): Boolean {
+        try {
+            return containsElementImpl(jsonString, name)
+        } catch (ex: MalformedJsonException) {
+            throw MalformedJsonException("${ex.message}. Json: '$jsonString'")
+        }
+    }
+
+    private fun containsElementImpl(jsonString: String, name: String): Boolean {
         if (jsonString.isEmpty()) {
             return false
         }
@@ -29,4 +38,5 @@ object JsonUtils {
         }
         return false
     }
+
 }

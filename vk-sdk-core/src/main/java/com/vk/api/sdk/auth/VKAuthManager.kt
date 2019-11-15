@@ -35,7 +35,7 @@ import java.util.*
 
 internal class VKAuthManager {
     fun login(activity: Activity, scopes: Collection<VKScope>) {
-        val params = VKAuthParams(getAppId(activity), scopes)
+        val params = VKAuthParams(getAppId(activity), scope = scopes)
         if (VKUtils.isAppInstalled(activity, VK_APP_PACKAGE_ID) && VKUtils.isIntentAvailable(activity, VK_APP_AUTH_ACTION)) {
             startAuthActivity(activity, params)
         } else {
@@ -57,8 +57,13 @@ internal class VKAuthManager {
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, callback: VKAuthCallback, context: Context): Boolean {
-        if (requestCode != VK_APP_AUTH_CODE || data == null) {
+        if (requestCode != VK_APP_AUTH_CODE) {
             return false
+        }
+
+        if (data == null) {
+            callback.onLoginFailed(VKAuthCallback.AUTH_CANCELED)
+            return true
         }
 
         val result = processResult(data)

@@ -65,17 +65,6 @@ open class VKApiManager(val config: VKApiConfig) {
         return executeWithExceptionAdjust(cc)
     }
 
-    fun <T> execute(call: OauthHttpUrlPostCall, parser: VKApiResponseParser<T>? = null): T {
-        var cc: ChainCall<T> = OAuthHttpUrlChainCall(this, executor, call, parser)
-        if (call.retryCountOnBackendError != 0) {
-            cc = InternalErrorRetryChainCall(this, call.retryCountOnBackendError, cc)
-        }
-        if (call.retryCountOnBackendError != 0) {
-            cc = ValidationHandlerChainCall(this, call.retryCountOnBackendError, cc)
-        }
-        return executeWithExceptionAdjust(cc)
-    }
-
     protected open fun <T> wrapCall(call: VKMethodCall, chainCall: ChainCall<T>): ChainCall<T> {
         var cc: ChainCall<T> = if (call.skipValidation) {
             chainCall

@@ -29,13 +29,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.*
+import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiCallback
@@ -85,7 +84,7 @@ class UserActivity: Activity() {
                     }
                 }
             }
-            override fun fail(error: VKApiExecutionException) {
+            override fun fail(error: Exception) {
                 Log.e(TAG, error.toString())
             }
         })
@@ -98,7 +97,7 @@ class UserActivity: Activity() {
                     showFriends(result)
                 }
             }
-            override fun fail(error: VKApiExecutionException) {
+            override fun fail(error: Exception) {
                 Log.e(TAG, error.toString())
             }
         })
@@ -106,7 +105,7 @@ class UserActivity: Activity() {
 
     private fun showFriends(friends: List<VKUser>) {
         val recyclerView = findViewById<RecyclerView>(R.id.friendsRV)
-        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
 
         val adapter = FriendsAdapter()
         adapter.setData(friends)
@@ -143,13 +142,13 @@ class UserActivity: Activity() {
                 Toast.makeText(this@UserActivity, R.string.wall_ok, Toast.LENGTH_SHORT).show()
             }
 
-            override fun fail(error: VKApiExecutionException) {
+            override fun fail(error: Exception) {
                 Log.e(TAG, error.toString())
             }
         })
     }
 
-    inner class FriendsAdapter:  RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    inner class FriendsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val friends: MutableList<VKUser> = arrayListOf()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)

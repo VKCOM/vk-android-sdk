@@ -23,9 +23,9 @@
  ******************************************************************************/
 package com.vk.api.sdk.okhttp
 
-import android.support.v4.util.ArrayMap
-import com.vk.api.sdk.utils.log.Logger
+import androidx.collection.ArrayMap
 import com.vk.api.sdk.utils.getValue
+import com.vk.api.sdk.utils.log.Logger
 import com.vk.api.sdk.utils.threadLocal
 import okhttp3.Interceptor
 import okhttp3.Response

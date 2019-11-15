@@ -27,7 +27,7 @@ package com.vk.api.sdk.auth
 import android.os.Bundle
 import java.util.HashSet
 
-class VKAuthParams @JvmOverloads constructor(val appId: Int, scope: Collection<VKScope> = emptySet()) {
+class VKAuthParams @JvmOverloads constructor(val appId: Int, val redirectUrl: String = DEFAULT_REDIRECT_URL, scope: Collection<VKScope> = emptySet()) {
     private val scope: Set<VKScope>
 
     init {
@@ -41,6 +41,7 @@ class VKAuthParams @JvmOverloads constructor(val appId: Int, scope: Collection<V
         val bundle = Bundle()
         bundle.putInt(VK_APP_ID_KEY, appId)
         bundle.putStringArrayList(VK_APP_SCOPE_KEY, ArrayList(scope.map { it.name }))
+        bundle.putString(VK_APP_REDIRECT_URL_KEY, redirectUrl)
         return bundle
     }
 
@@ -49,6 +50,7 @@ class VKAuthParams @JvmOverloads constructor(val appId: Int, scope: Collection<V
         bundle.putInt(VK_EXTRA_CLIENT_ID, appId)
         bundle.putBoolean(VK_EXTRA_REVOKE, true)
         bundle.putString(VK_EXTRA_SCOPE, scope.joinToString(","))
+        bundle.putString(VK_EXTRA_REDIRECT_URL, redirectUrl)
         return bundle
     }
 
@@ -57,10 +59,14 @@ class VKAuthParams @JvmOverloads constructor(val appId: Int, scope: Collection<V
     companion object {
         private const val VK_APP_ID_KEY = "vk_app_id"
         private const val VK_APP_SCOPE_KEY = "vk_app_scope"
+        private const val VK_APP_REDIRECT_URL_KEY = "vk_app_redirect_url"
 
         private const val VK_EXTRA_CLIENT_ID = "client_id"
         private const val VK_EXTRA_REVOKE = "revoke"
         private const val VK_EXTRA_SCOPE = "scope"
+        private const val VK_EXTRA_REDIRECT_URL = "redirect_url"
+
+        const val DEFAULT_REDIRECT_URL = "https://oauth.vk.com/blank.html"
 
         fun fromBundle(bundle: Bundle?): VKAuthParams? {
             if (bundle == null) {
@@ -68,8 +74,9 @@ class VKAuthParams @JvmOverloads constructor(val appId: Int, scope: Collection<V
             }
             val appId = bundle.getInt(VK_APP_ID_KEY)
             val scope: Collection<VKScope> = bundle.getStringArrayList(VK_APP_SCOPE_KEY)?.map { VKScope.valueOf(it) } ?: emptySet()
+            val redirectUrl = bundle.getString(VK_APP_REDIRECT_URL_KEY, DEFAULT_REDIRECT_URL)
 
-            return VKAuthParams(appId, scope)
+            return VKAuthParams(appId, redirectUrl, scope)
         }
     }
 }

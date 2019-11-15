@@ -31,7 +31,7 @@
             android:layout_gravity="center"
             android:background="@android:color/white"
             android:textColor="@color/colorPrimary" />
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friendsRV"
             android:layout_width="match_parent"
             android:layout_height="150dp"

@@ -33,13 +33,13 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.view.View
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
+import androidx.annotation.RequiresApi
 import com.vk.api.sdk.R
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiValidationHandler
@@ -51,7 +51,7 @@ import com.vk.api.sdk.utils.VKValidationLocker
 /**
  * Activity for showing authorization or validation WebView
  */
-class VKWebViewAuthActivity: Activity() {
+open class VKWebViewAuthActivity: Activity() {
 
     private lateinit var webView: WebView
     private lateinit var progress: ProgressBar
@@ -87,15 +87,28 @@ class VKWebViewAuthActivity: Activity() {
         }
     }
 
+    protected open fun getUrlParams(): Map<String, String> = mapOf(
+            "client_id" to params.appId.toString(),
+            "scope" to params.getScopeString(),
+            "redirect_uri" to params.redirectUrl,
+            "response_type" to "token",
+            "display" to "mobile",
+            "v" to VK.getApiVersion(),
+            "revoke" to "1"
+    )
+
     private fun loadUrl() {
         try {
             val urlToLoad = if (needValidationResult()) intent.getStringExtra(VK_EXTRA_VALIDATION_URL)
-                    else "https://oauth.vk.com/authorize?client_id=${params.appId}" +
-                    "&scope=${params.getScopeString()}" +
-                    "&redirect_uri=$REDIRECT_URL" +
-                    "&display=mobile" +
-                    "&v=${VK.getApiVersion()}" +
-                    "&response_type=token&revoke=1"
+                    else {
+                val uri = Uri.parse("https://oauth.vk.com/authorize").buildUpon()
+                val params = getUrlParams()
+                for ((key, value) in params) {
+                    uri.appendQueryParameter(key, value)
+                }
+                uri.build().toString()
+            }
+
             webView.loadUrl(urlToLoad)
         } catch (e: Exception) {
             setResult(Activity.RESULT_CANCELED)
@@ -129,7 +142,7 @@ class VKWebViewAuthActivity: Activity() {
         }
 
         private fun handleUrl(url: String?): Boolean {
-            if (url == null || !url.startsWith(REDIRECT_URL)) return false
+            if (url == null || !url.startsWith(params.redirectUrl)) return false
 
             val intent = Intent(VK_RESULT_INTENT_NAME)
             val extraData = url.substring(url.indexOf("#") + 1)
@@ -208,7 +221,6 @@ class VKWebViewAuthActivity: Activity() {
     companion object {
         const val VK_EXTRA_AUTH_PARAMS = "vk_auth_params"
         const val VK_RESULT_INTENT_NAME = "com.vk.auth-token"
-        const val REDIRECT_URL = "https://oauth.vk.com/blank.html"
 
         private const val VK_EXTRA_VALIDATION_URL = "vk_validation_url"
 

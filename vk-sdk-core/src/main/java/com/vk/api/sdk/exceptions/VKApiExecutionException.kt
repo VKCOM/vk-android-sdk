@@ -28,7 +28,7 @@ import android.os.Bundle
 import org.json.JSONObject
 
 /**
- * See [http://vk.com/dev/errors](http://vk.com/dev/errors)
+ * See [https://vk.com/dev/errors](https://vk.com/dev/errors)
  */
 open class VKApiExecutionException
 @JvmOverloads constructor(
