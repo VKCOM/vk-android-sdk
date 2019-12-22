@@ -28,6 +28,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.ui.VKWebViewAuthActivity
 import com.vk.api.sdk.utils.VKUtils
@@ -105,7 +106,14 @@ internal class VKAuthManager {
             else -> return null
         }
 
-        return if (tokenParams != null && tokenParams[VK_AUTH_ERROR] == null) VKAuthResult(VKAccessToken(tokenParams)) else null
+        return if (tokenParams != null && tokenParams[VK_AUTH_ERROR] == null) {
+            try {
+                VKAuthResult(VKAccessToken(tokenParams))
+            } catch (e: Exception) {
+                Log.e(VKAuthManager::class.java.simpleName, "Failed to get VK token", e)
+                null
+            }
+        } else null
     }
 
 

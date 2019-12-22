@@ -31,7 +31,8 @@ import android.provider.MediaStore
 object PathUtils {
     fun getPath(context: Context, uri: Uri): String {
         if (uri.scheme == "file") {
-            return uri.path
+            if (uri.path != null) return uri.path!!
+            return ""
         }
         val proj = arrayOf(MediaStore.Images.Media.DATA)
         val cursor = context.contentResolver.query(uri, proj, null, null, null)

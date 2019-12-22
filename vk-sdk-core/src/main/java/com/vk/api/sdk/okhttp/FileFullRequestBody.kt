@@ -39,12 +39,10 @@ import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.BufferedSink
 
-internal class FileFullRequestBody(private val context: Context?, private val fileUri: Uri?) : RequestBody() {
+internal class FileFullRequestBody(private val context: Context?, private val fileUri: Uri) : RequestBody() {
 
     init {
-        if (context == null) {
-            throw IllegalArgumentException("context is null")
-        }
+        requireNotNull(context) { "context is null" }
         if (fileUri == null) {
             throw IllegalArgumentException("fileUri is null")
         }

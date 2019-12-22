@@ -160,7 +160,7 @@ open class VKWebViewAuthActivity: Activity() {
                 if (uri.getQueryParameter("success") != null) {
                     val token = uri.getQueryParameter("access_token")
                     val secret = uri.getQueryParameter("secret")
-                    val userId = uri.getQueryParameter("user_id").toInt()
+                    val userId = uri.getQueryParameter("user_id")?.toInt()
                     validationResult = VKApiValidationHandler.Credentials(secret, token, userId)
                 }
             }

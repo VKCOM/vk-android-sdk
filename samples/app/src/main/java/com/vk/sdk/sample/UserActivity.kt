@@ -122,8 +122,8 @@ class UserActivity: Activity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_REQ_CODE) {
-            if (resultCode == RESULT_OK && data != null) {
-                sharePost(Uri.parse(PathUtils.getPath(this, data.data)))
+            if (resultCode == RESULT_OK && data != null && data.data != null) {
+                sharePost(Uri.parse(PathUtils.getPath(this, data.data!!)))
             } else {
                 sharePost()
             }

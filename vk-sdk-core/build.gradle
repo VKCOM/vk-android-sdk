@@ -26,6 +26,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply from: '../dependencies.gradle'
 
+ext.POM_GROUP_ID = "com.vk"
+ext.POM_ARTIFACT_ID = sdkPublish.POM_ARTIFACT_ID
+ext.POM_VERSION = sdkVersions.name
+
 android {
     compileSdkVersion "$sdkVersions.compileSdk".toInteger()
     buildToolsVersion "$sdkVersions.buildTools"

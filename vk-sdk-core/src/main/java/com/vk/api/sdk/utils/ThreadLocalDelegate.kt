@@ -45,7 +45,7 @@ internal class ThreadLocalDelegateImpl<T>(val factory: () -> T) : ThreadLocalDel
     }
 
     override fun get(): T {
-        return value.get()
+        return value.get()!!
     }
 }
 

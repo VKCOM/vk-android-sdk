@@ -53,6 +53,6 @@ interface VKApiValidationHandler {
         }
     }
     class Credentials(val secret: String?, val token: String?, val uid: Int?) {
-        val isValid = !(token.isNullOrBlank() || secret.isNullOrEmpty())
+        val isValid = !token.isNullOrBlank()
     }
 }

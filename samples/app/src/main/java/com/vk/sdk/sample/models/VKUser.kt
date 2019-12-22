@@ -37,9 +37,9 @@ data class VKUser(
 
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
+            parcel.readString()!!,
+            parcel.readString()!!,
+            parcel.readString()!!,
             parcel.readByte() != 0.toByte())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
