@@ -117,6 +117,9 @@ open class VKWebViewAuthActivity: Activity() {
     }
 
     private fun needValidationResult() = intent.getStringExtra(VK_EXTRA_VALIDATION_URL) != null
+    private val redirectUrl get() =
+        if (needValidationResult()) intent.getStringExtra(VK_EXTRA_VALIDATION_URL)
+        else params.redirectUrl
 
     private fun showWebView() {
         progress.visibility = View.GONE
@@ -142,7 +145,7 @@ open class VKWebViewAuthActivity: Activity() {
         }
 
         private fun handleUrl(url: String?): Boolean {
-            if (url == null || !url.startsWith(params.redirectUrl)) return false
+            if (url == null || !url.startsWith(redirectUrl)) return false
 
             val intent = Intent(VK_RESULT_INTENT_NAME)
             val extraData = url.substring(url.indexOf("#") + 1)
