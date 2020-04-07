@@ -81,6 +81,7 @@ open class VKWebViewAuthActivity: Activity() {
             isVerticalScrollBarEnabled = false
             visibility = View.INVISIBLE
             overScrollMode = View.OVER_SCROLL_NEVER
+            resumeTimers()
         }
         webView.settings.apply {
             javaScriptEnabled = true
