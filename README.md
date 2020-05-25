@@ -56,12 +56,12 @@ You can add next maven dependency in your project:
 
 You may also need to add the following to your `project/build.gradle` file.
 
-`implementation 'com.vk:androidsdk:2.2.0`
+`implementation 'com.vk:androidsdk:2.2.3`
 
 For example, your `app/build.gradle` script will contains such dependencies:
 ```
 dependencies {
-    implementation 'com.vk:androidsdk:2.1.1
+    implementation 'com.vk:androidsdk:2.2.3
 }
 ```
 
