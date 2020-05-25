@@ -44,3 +44,6 @@ build-maven
 /gradle
 /gradlew
 /gradlew.bat
+
+tmp_gen_strings/
+notTranslatedStrings/
