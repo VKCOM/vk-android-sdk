@@ -55,10 +55,8 @@ abstract class VKOkHttpProvider {
             return okHttpClient!!
         }
 
-        override fun updateClient(f: VKOkHttpProvider.BuilderUpdateFunction) {
-            if (okHttpClient != null) {
-                okHttpClient = f.update(okHttpClient!!.newBuilder()).build()
-            }
+        override fun updateClient(f: BuilderUpdateFunction) {
+            okHttpClient = f.update(getClient().newBuilder()).build()
         }
     }
 }

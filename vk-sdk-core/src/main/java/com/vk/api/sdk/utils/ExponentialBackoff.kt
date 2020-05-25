@@ -24,20 +24,36 @@
 
 package com.vk.api.sdk.utils
 
+import androidx.annotation.WorkerThread
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.math.min
 
-open class ExponentialBackoff(private val minDelayMs: Long = TimeUnit.MILLISECONDS.toMillis(100),
-                         private val maxDelayMs: Long = TimeUnit.MINUTES.toMillis(5),
-                         private val factor: Float = 2f,
-                         private val jitter: Float = 0.1f) {
+open class ExponentialBackoff(
+        private val minDelayMs: Long = TimeUnit.MILLISECONDS.toMillis(100),
+        private val maxDelayMs: Long = TimeUnit.MINUTES.toMillis(5),
+        private val factor: Float = 2f,
+        private val jitter: Float = 0.1f
+) {
+
     private val random = Random(System.currentTimeMillis())
+
+    @Volatile
     var delayMs = minDelayMs
         private set
+
+    @Volatile
     var errorsCount = 0
         private set
 
     fun shouldWait() = errorsCount > 0
+
+    @WorkerThread
+    fun waitIfNeeded() {
+        if (shouldWait()) {
+            Thread.sleep(delayMs)
+        }
+    }
 
     fun reset() {
         delayMs = minDelayMs
@@ -47,7 +63,7 @@ open class ExponentialBackoff(private val minDelayMs: Long = TimeUnit.MILLISECON
     fun onError() = increase()
 
     fun increase() {
-        delayMs = Math.min(delayMs * factor, maxDelayMs.toFloat()).toLong()
+        delayMs = min(delayMs * factor, maxDelayMs.toFloat()).toLong()
         delayMs += variance(delayMs * jitter)
         errorsCount++
     }

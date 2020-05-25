@@ -24,6 +24,7 @@
 
 package com.vk.api.sdk
 
+import com.vk.api.sdk.exceptions.VKApiExecutionException
 import java.util.concurrent.CountDownLatch
 
 /**
@@ -42,12 +43,17 @@ interface VKApiValidationHandler {
      * This method will called, when confirmation from user required
      */
     fun handleConfirm(confirmationText: String, cb: Callback<Boolean>)
+    /**
+     * This method will called, when no other method can handle exception
+     */
+    @Throws(VKApiExecutionException::class)
+    fun tryToHandleException(ex: VKApiExecutionException, apiManager: VKApiManager): Unit = throw ex
 
-    class Callback<T>(private val latch: CountDownLatch) {
+    open class Callback<T>(val latch: CountDownLatch) {
         @Volatile var value: T? = null
 
-        fun cancel() = latch.countDown()
-        fun submit(value: T) {
+        open fun cancel() = latch.countDown()
+        open fun submit(value: T) {
             this.value = value
             latch.countDown()
         }

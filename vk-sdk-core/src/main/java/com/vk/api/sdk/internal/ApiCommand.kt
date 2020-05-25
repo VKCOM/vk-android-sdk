@@ -48,11 +48,6 @@ abstract class ApiCommand<Response> {
 
     @Throws(InterruptedException::class, IOException::class, VKApiException::class)
     protected abstract fun onExecute(manager: VKApiManager): Response
-
-    companion object {
-        const val RETRY_INFINITE = Integer.MAX_VALUE
-    }
-
 }
 
 /**

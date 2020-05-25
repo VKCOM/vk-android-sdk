@@ -24,29 +24,8 @@
 
 package com.vk.api.sdk.utils
 
-import android.util.MalformedJsonException
 import com.vk.api.sdk.internal.VKErrorUtils
-import java.io.IOException
-import java.io.InterruptedIOException
 import java.net.*
-
-internal inline fun <T, N : Number> T.applyPos(value: N, block: T.(N) -> Unit): T {
-    return if (value.toDouble() > 0) {
-        block.invoke(this, value)
-        this
-    }
-    else throw IllegalArgumentException("Value is negative $value!")
-}
-
-fun IOException?.isInterruptedByThreadInterrupt(): Boolean {
-    if (this == null) return false
-    return this is InterruptedIOException && this !is SocketTimeoutException
-}
-
-fun IOException?.isMalformedJson(): Boolean {
-    if (this == null) return false
-    return this is MalformedJsonException
-}
 
 internal fun String.hasExecuteError(ignoredErrors: IntArray?) = VKErrorUtils.hasExecuteError(this, ignoredErrors)
 internal fun String.hasSimpleError() = VKErrorUtils.hasSimpleError(this)
@@ -54,11 +33,3 @@ internal fun String.toSimpleError(method: String? = null) = VKErrorUtils.parseSi
 internal fun String.toExecuteError(method: String, ignoredErrors: IntArray?) = VKErrorUtils.parseExecuteError(this, method, ignoredErrors)
 
 operator fun <E> androidx.collection.LongSparseArray<E>.set(key: Long, value: E) = put(key, value)
-
-fun Throwable.isNetworkException() = this::class in listOf(
-        ConnectException::class,
-        SocketException::class,
-        SocketTimeoutException::class,
-        UnknownHostException::class,
-        ProtocolException::class
-)

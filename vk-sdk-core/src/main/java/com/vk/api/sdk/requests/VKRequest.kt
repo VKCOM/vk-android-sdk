@@ -24,13 +24,16 @@
 
 package com.vk.api.sdk.requests
 
-import com.vk.api.sdk.internal.ApiCommand
-import com.vk.api.sdk.*
+import com.vk.api.sdk.VKApiConfig
+import com.vk.api.sdk.VKApiManager
+import com.vk.api.sdk.VKApiResponseParser
+import com.vk.api.sdk.VKMethodCall
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKApiExecutionException
+import com.vk.api.sdk.internal.ApiCommand
 import org.json.JSONObject
 import java.io.IOException
-import java.util.LinkedHashMap
+import java.util.*
 
 /**
  * Base class for making vk api requests
@@ -77,11 +80,15 @@ open class VKRequest<T>(var method: String) : VKApiResponseParser<T>, ApiCommand
         params["device_id"] = config.deviceId.value
         params["v"] = config.version
 
-        return manager.execute(VKMethodCall.Builder()
+        val callBuilder = createBaseCallBuilder(config)
                 .args(params)
                 .method(method)
                 .version(config.version)
-                .build(), this)
+        return manager.execute(callBuilder.build(), this)
+    }
+
+    protected open fun createBaseCallBuilder(config: VKApiConfig): VKMethodCall.Builder {
+        return VKMethodCall.Builder()
     }
 
     companion object {

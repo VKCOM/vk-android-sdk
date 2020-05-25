@@ -30,29 +30,36 @@ import com.vk.api.sdk.utils.log.Logger
 import java.util.concurrent.TimeUnit
 
 /**
- * Configuration for VK SDK
- * By using VK.initialize(config) you can customize configuration
+ * Configuration for VK SDK.
+ * By using SuperappKitConfig.setApiConfig(config) you can customize configuration.
+ * VKInitProvider calls VK.initialize() on start of application and provides default implementation
+ * of VKApiConfig.
  */
 @Suppress("ConvertSecondaryConstructorToPrimary")
-data class VKApiConfig(val context: Context,
-                       val appId: Int = 0,
-                       val validationHandler: VKApiValidationHandler?,
-                       val deviceId: Lazy<String> = lazy { "" },
-                       val version: String = DEFAULT_API_VERSION,
-                       val okHttpProvider: VKOkHttpProvider = VKOkHttpProvider.DefaultProvider(),
-                       val defaultTimeoutMs: Long = TimeUnit.SECONDS.toMillis(10),
-                       val postRequestsTimeout: Long = TimeUnit.MINUTES.toMillis(5),
-                       val logger: Logger = DefaultApiLogger(lazy { Logger.LogLevel.NONE }, "VKSdkApi"),
-                       val accessToken: Lazy<String> = lazy { "" },
-                       val secret: Lazy<String?> = lazy { null },
-                       val logFilterCredentials: Boolean = true,
-                       val callsPerSecondLimit: Int = 3,
-                       val httpApiHost: Lazy<String>  = lazy { DEFAULT_API_DOMAIN },
-                       val lang: String = "en") {
+data class VKApiConfig(
+    val context: Context,
+    val appId: Int = 0,
+    val validationHandler: VKApiValidationHandler?,
+    val deviceId: Lazy<String> = lazy { "" },
+    val version: String = DEFAULT_API_VERSION,
+    val okHttpProvider: VKOkHttpProvider = VKOkHttpProvider.DefaultProvider(),
+    val defaultTimeoutMs: Long = TimeUnit.SECONDS.toMillis(10),
+    val postRequestsTimeout: Long = TimeUnit.MINUTES.toMillis(5),
+    val logger: Logger = DefaultApiLogger(lazy { Logger.LogLevel.NONE }, "VKSdkApi"),
+    val accessToken: Lazy<String> = lazy { "" },
+    val secret: Lazy<String?> = lazy { null },
+    val logFilterCredentials: Boolean = true,
+    val debugCycleCalls: Lazy<Boolean> = lazy { false },
+    val callsPerSecondLimit: Int = 3,
+    val httpApiHost: Lazy<String>  = lazy { DEFAULT_API_DOMAIN },
+    val lang: String = "en",
+    val keyValueStorage: VKKeyValueStorage = VKPreferencesKeyValueStorage(context)
+) {
 
     companion object {
         const val DEFAULT_DOMAIN = "vk.com"
         const val DEFAULT_API_VERSION = "5.90"
         const val DEFAULT_API_DOMAIN = "api.vk.com"
+        const val DEFAULT_OAUTH_DOMAIN = "oauth.vk.com"
     }
 }

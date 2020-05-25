@@ -43,6 +43,7 @@ class LoggingInterceptor(private val filterCredentials: Boolean, private val log
                 return msg
                         .replace("access_token=[a-z0-9]+".toRegex(), "access_token=<HIDE>")
                         .replace("key=[a-z0-9]+".toRegex(), "key=<HIDE>")
+                        .replace("client_secret=[a-zA-Z0-9]+".toRegex(), "client_secret=<HIDE>")
             }
         })
     }

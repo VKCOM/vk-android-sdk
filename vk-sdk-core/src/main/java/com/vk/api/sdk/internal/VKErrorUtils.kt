@@ -88,6 +88,11 @@ object VKErrorUtils {
                         extra
                     }
                 }
+                VKApiCodes.CODE_ERROR_NEED_TOKEN_EXTENSION -> {
+                        val extra = Bundle()
+                        extra.putString(VKApiCodes.EXTRA_EXTENSION_HASH, errorJson.optString(VKApiCodes.EXTRA_EXTENSION_HASH, null))
+                        extra
+                }
                 else -> null
             }
             return VKApiExecutionException.parse(errorJson, method, bundle)

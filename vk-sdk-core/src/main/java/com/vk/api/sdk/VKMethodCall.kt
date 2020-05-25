@@ -72,6 +72,17 @@ open class VKMethodCall {
         this.skipValidation = b.skipValidation
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as VKMethodCall
+        if (method != other.method) return false
+        if (args != other.args) return false
+        return true
+    }
+    override fun hashCode() = 31 * method.hashCode() + args.hashCode()
+    override fun toString() = "VKMethodCall(method='$method', args=$args)"
+
     companion object {
         private const val DEFAULT_RETRY_COUNT = 4
     }

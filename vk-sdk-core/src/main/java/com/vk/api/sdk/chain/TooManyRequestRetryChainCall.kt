@@ -49,7 +49,7 @@ internal class TooManyRequestRetryChainCall<T>(manager: VKApiManager, retryLimit
                 }
             }
         }
-        throw VKApiException("Can't handle too many requests due to retry limit!")
+        throw VKApiException("Can't handle too many requests due to retry limit! (retryLimit=$retryLimit)")
     }
 
     private object Backoff {

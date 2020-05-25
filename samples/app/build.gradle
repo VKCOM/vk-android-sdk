@@ -57,7 +57,6 @@ dependencies {
     implementation sdkLibraries.kotlin
     implementation sdkLibrariesSupport.recyclerView
     implementation sdkLibrariesSupport.appCompat
-    implementation sdkLibrariesSupport.support
     implementation (sdkLibraries.picasso) { transitive = false }
     implementation sdkLibraries.okHttp
 

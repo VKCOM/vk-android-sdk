@@ -25,18 +25,17 @@
 package com.vk.api.sdk.auth
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.util.Log
 import com.vk.api.sdk.VK
+import com.vk.api.sdk.VKKeyValueStorage
 import com.vk.api.sdk.ui.VKWebViewAuthActivity
 import com.vk.api.sdk.utils.VKUtils
 import java.util.*
 
-internal class VKAuthManager {
+internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
     fun login(activity: Activity, scopes: Collection<VKScope>) {
-        val params = VKAuthParams(getAppId(activity), scope = scopes)
+        val params = VKAuthParams(VK.getAppId(activity), scope = scopes)
         if (VKUtils.isAppInstalled(activity, VK_APP_PACKAGE_ID) && VKUtils.isIntentAvailable(activity, VK_APP_AUTH_ACTION)) {
             startAuthActivity(activity, params)
         } else {
@@ -57,7 +56,7 @@ internal class VKAuthManager {
         VKWebViewAuthActivity.startForAuth(activity, params, VK_APP_AUTH_CODE)
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, callback: VKAuthCallback, context: Context): Boolean {
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, callback: VKAuthCallback): Boolean {
         if (requestCode != VK_APP_AUTH_CODE) {
             return false
         }
@@ -71,21 +70,12 @@ internal class VKAuthManager {
         if (resultCode != Activity.RESULT_OK || result == null || result.isError) {
             callback.onLoginFailed(VKAuthCallback.AUTH_CANCELED)
         } else {
-            result.accessToken!!.save(getPreferences(context))
+            result.accessToken!!.save(keyValueStorage)
             VK.apiManager.setCredentials(result.accessToken.accessToken, result.accessToken.secret)
             callback.onLogin(result.accessToken)
         }
 
         return true
-    }
-
-    fun getAppId(context: Context): Int {
-        val resId = context.resources.getIdentifier(SDK_APP_ID, "integer", context.packageName)
-        return try {
-            context.resources.getInteger(resId)
-        } catch (e: Exception) {
-            0
-        }
     }
 
     private fun processResult(result: Intent): VKAuthResult? {
@@ -117,30 +107,24 @@ internal class VKAuthManager {
     }
 
 
-    fun isLoggedIn(context: Context): Boolean {
-        val token = getCurrentToken(context)
+    fun isLoggedIn(): Boolean {
+        val token = getCurrentToken()
         return token != null && token.isValid
     }
 
-    fun getCurrentToken(context: Context): VKAccessToken? {
-        return VKAccessToken.restore(getPreferences(context))
+    fun getCurrentToken(): VKAccessToken? {
+        return VKAccessToken.restore(keyValueStorage)
     }
 
-    fun logout(context: Context) {
-        getPreferences(context).edit().clear().apply()
+    fun clearAccessToken() {
+        VKAccessToken.remove(keyValueStorage)
     }
-
-    fun getPreferences(context: Context): SharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
 
     companion object {
         const val VK_APP_PACKAGE_ID = "com.vkontakte.android"
         private const val VK_APP_AUTH_ACTION = "com.vkontakte.android.action.SDK_AUTH"
         const val VK_EXTRA_TOKEN_DATA = "extra-token-data"
         const val VK_AUTH_ERROR = "error"
-
-        private const val PREFERENCE_NAME = "com.vkontakte.android_pref_name"
-
-        private const val SDK_APP_ID = "com_vk_sdk_AppId"
 
         private const val VK_APP_AUTH_CODE = 282
     }

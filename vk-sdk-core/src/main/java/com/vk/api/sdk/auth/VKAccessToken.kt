@@ -24,15 +24,18 @@
 
 package com.vk.api.sdk.auth
 
-import android.content.SharedPreferences
 import android.os.Bundle
+import com.vk.api.sdk.VKKeyValueStorage
 import java.util.*
 
 class VKAccessToken(params: Map<String, String?>) {
-    internal constructor(userId: Int, accessToken: String, secret: String?) : this(mapOf(Pair(USER_ID, userId.toString()),
-                                                                                         Pair(ACCESS_TOKEN, accessToken),
-                                                                                         Pair(SECRET, secret),
-                                                                                         Pair(HTTPS_REQUIRED, "1")))
+    internal constructor(userId: Int, accessToken: String, secret: String?) : this(
+            mapOf(USER_ID to userId.toString(),
+                  ACCESS_TOKEN to accessToken,
+                  SECRET to secret,
+                  HTTPS_REQUIRED to "1"
+            )
+    )
 
     val userId: Int
     val accessToken: String
@@ -68,13 +71,11 @@ class VKAccessToken(params: Map<String, String?>) {
         bundle.putBundle(VK_ACCESS_TOKEN_KEY, vkTokenBundle)
     }
 
-    fun save(prefs: SharedPreferences) {
+    fun save(storage: VKKeyValueStorage) {
         val tokenParams = toMap()
-        val editor = prefs.edit()
         for ((key, value) in tokenParams) {
-            editor.putString(key, value)
+            storage.putOrRemove(key, value)
         }
-        editor.apply()
     }
 
     private fun toMap(): Map<String, String?> {
@@ -103,6 +104,19 @@ class VKAccessToken(params: Map<String, String?>) {
         private const val PHONE = "phone"
         private const val PHONE_ACCESS_KEY = "phone_access_key"
 
+        val KEYS = listOf(
+                ACCESS_TOKEN,
+                EXPIRES_IN,
+                USER_ID,
+                SECRET,
+                HTTPS_REQUIRED,
+                CREATED,
+                VK_ACCESS_TOKEN_KEY,
+                EMAIL,
+                PHONE,
+                PHONE_ACCESS_KEY
+        )
+
         fun restore(bundle: Bundle?): VKAccessToken? {
             if (bundle == null) {
                 return null
@@ -115,18 +129,22 @@ class VKAccessToken(params: Map<String, String?>) {
             return VKAccessToken(tokenParams)
         }
 
-        fun restore(preferences: SharedPreferences?): VKAccessToken? {
-            if (preferences == null) {
-                return null
+        fun remove(keyValueStorage: VKKeyValueStorage) {
+            KEYS.forEach { keyValueStorage.remove(it) }
+        }
+
+        fun restore(keyValueStorage: VKKeyValueStorage): VKAccessToken? {
+            val tokenParams = HashMap<String, String?>(KEYS.size)
+            for (key in KEYS) {
+                keyValueStorage.get(key)?.let {
+                    tokenParams[key] = it
+                }
             }
-            val tokenParams = HashMap<String, String?>()
-            for (key in preferences.all.keys) {
-                tokenParams[key] = preferences.getString(key, "")
+
+            return if (tokenParams.containsKey(ACCESS_TOKEN) && tokenParams.containsKey(USER_ID)) {
+                VKAccessToken(tokenParams)
             }
-            return if (!tokenParams.containsKey(ACCESS_TOKEN)
-                    || !tokenParams.containsKey(USER_ID)) {
-                null
-            } else VKAccessToken(tokenParams)
+            else null
         }
     }
 }

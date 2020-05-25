@@ -37,19 +37,24 @@ class ValidationHandlerChainCall<T>(manager: VKApiManager, retryLimit: Int, val 
             try {
                 return chain.call(args)
             } catch (ex: VKApiExecutionException) {
-                when {
-                    ex.isCaptchaError -> handleCaptcha(ex, args)
-                    ex.isValidationRequired -> handleValidation(ex)
-                    ex.isUserConfirmRequired -> handleUserConfirmation(ex, args)
-                    else -> throw ex
-                }
+                handleException(ex, args)
             }
         }
         throw VKApiException("Can't confirm validation due to retry limit!")
     }
 
+    @Throws(Exception::class)
+    private fun handleException(ex: VKApiExecutionException, args: ChainArgs) {
+        when {
+            ex.isCaptchaError -> handleCaptcha(ex, args)
+            ex.isValidationRequired -> handleValidation(ex)
+            ex.isUserConfirmRequired -> handleUserConfirmation(ex, args)
+            else -> manager.validationHandler?.tryToHandleException(ex, manager) ?: throw ex
+        }
+    }
+
     private fun handleUserConfirmation(ex: VKApiExecutionException, args: ChainArgs) {
-        val confirmation = awaitValidation(ex.userConfirmText, VKApiValidationHandler::handleConfirm)
+        val confirmation = awaitValidation(ex.userConfirmText, manager.validationHandler, VKApiValidationHandler::handleConfirm)
         when (confirmation) {
             null -> throw ex
             false -> throw ex
@@ -60,15 +65,19 @@ class ValidationHandlerChainCall<T>(manager: VKApiManager, retryLimit: Int, val 
     }
 
     private fun handleValidation(ex: VKApiExecutionException) {
-        val credentials = awaitValidation(ex.validationUrl, VKApiValidationHandler::handleValidation)
+        val credentials = awaitValidation(ex.validationUrl, manager.validationHandler, VKApiValidationHandler::handleValidation)
+        persistToken(credentials, ex)
+    }
+
+    protected fun persistToken(credentials: VKApiValidationHandler.Credentials?, ex: VKApiExecutionException) {
         when {
-            credentials?.isValid == true -> manager.setCredentials(credentials.token!!, credentials.secret!!)
+            credentials?.isValid == true -> manager.setCredentials(credentials.token!!, credentials.secret)
             else -> throw ex
         }
     }
 
     private fun handleCaptcha(ex: VKApiExecutionException, args: ChainArgs) {
-        val captcha = awaitValidation(ex.captchaImg, VKApiValidationHandler::handleCaptcha)
+        val captcha = awaitValidation(ex.captchaImg, manager.validationHandler, VKApiValidationHandler::handleCaptcha)
         when (captcha) {
             null -> throw ex
             else -> {
@@ -78,12 +87,11 @@ class ValidationHandlerChainCall<T>(manager: VKApiManager, retryLimit: Int, val 
         }
     }
 
-    private fun <T> awaitValidation(url: String,
-                                    handlerMethod: VKApiValidationHandler.(String, VKApiValidationHandler.Callback<T>) -> Unit): T? {
-        val handler = manager.validationHandler ?: return null
+    protected fun <T, H> awaitValidation(extra: String, handler: H?, handlerMethod: H.(String, VKApiValidationHandler.Callback<T>) -> Unit): T? {
+        handler ?: return null
         val latch = CountDownLatch(1)
         val callback = VKApiValidationHandler.Callback<T>(latch)
-        handler.handlerMethod(url, callback)
+        handler.handlerMethod(extra, callback)
         latch.await()
         return callback.value
     }

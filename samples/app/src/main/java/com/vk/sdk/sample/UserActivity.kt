@@ -38,7 +38,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiCallback
-import com.vk.api.sdk.exceptions.VKApiExecutionException
 import com.vk.sdk.sample.models.VKUser
 import com.vk.sdk.sample.requests.VKFriendsRequest
 import com.vk.sdk.sample.requests.VKUsersCommand
@@ -139,6 +138,7 @@ class UserActivity: Activity() {
         }
         VK.execute(VKWallPostCommand(messageField.text.toString(), photos), object: VKApiCallback<Int> {
             override fun success(result: Int) {
+                // TODO Use ToastUtils
                 Toast.makeText(this@UserActivity, R.string.wall_ok, Toast.LENGTH_SHORT).show()
             }
 

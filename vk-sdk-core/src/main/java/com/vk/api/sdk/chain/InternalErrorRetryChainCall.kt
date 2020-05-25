@@ -28,6 +28,7 @@ import com.vk.api.sdk.VKApiManager
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKApiExecutionException
 import com.vk.api.sdk.exceptions.VKApiIllegalResponseException
+import com.vk.api.sdk.exceptions.VKInternalServerErrorException
 import com.vk.api.sdk.utils.ExponentialBackoff
 
 class InternalErrorRetryChainCall<T>(manager: VKApiManager, retryLimit: Int, val chain: ChainCall<T>) :
@@ -53,6 +54,10 @@ class InternalErrorRetryChainCall<T>(manager: VKApiManager, retryLimit: Int, val
                     throw ex
                 }
             } catch (ex: VKApiIllegalResponseException) {
+                logWarning("", ex)
+                latestException = ex
+                backoff.onError()
+            } catch (ex: VKInternalServerErrorException) {
                 logWarning("", ex)
                 latestException = ex
                 backoff.onError()

@@ -26,9 +26,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply from: '../dependencies.gradle'
 
-ext.POM_GROUP_ID = "com.vk"
+version = sdkVersions.name
+group = 'com.vk'
 ext.POM_ARTIFACT_ID = sdkPublish.POM_ARTIFACT_ID
-ext.POM_VERSION = sdkVersions.name
 
 android {
     compileSdkVersion "$sdkVersions.compileSdk".toInteger()
@@ -55,7 +55,7 @@ dependencies {
     implementation sdkLibraries.kotlin
     implementation sdkLibraries.okHttp
     implementation sdkLibraries.okHttpLoggingInterceptor
-    implementation sdkLibrariesSupport.support
+    implementation sdkLibrariesSupport.collection
 }
 
 apply from: '../publish.gradle'

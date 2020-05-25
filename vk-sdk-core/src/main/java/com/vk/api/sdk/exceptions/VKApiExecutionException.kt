@@ -94,6 +94,9 @@ open class VKApiExecutionException
     val isCaptchaError: Boolean
         get() = code == VKApiCodes.CODE_CAPTCHA_REQUIRED
 
+    val isPasswordConfirmRequired: Boolean
+        get() = code == VKApiCodes.CODE_ERROR_NEED_TOKEN_EXTENSION
+
     val captchaSid: String
         get() = extra?.getString(VKApiCodes.EXTRA_CAPTCHA_SID, "") ?: ""
 
@@ -108,6 +111,9 @@ open class VKApiExecutionException
 
     val userBanInfo: JSONObject?
         get() = extra?.getString(VKApiCodes.EXTRA_USER_BAN_INFO)?.let { JSONObject(it) }
+
+    val extensionHash: String
+        get() = extra?.getString(VKApiCodes.EXTRA_EXTENSION_HASH, null) ?: ""
 
     fun hasExtra(): Boolean {
         return extra != null && extra != Bundle.EMPTY

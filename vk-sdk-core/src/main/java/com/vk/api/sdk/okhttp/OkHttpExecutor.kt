@@ -67,7 +67,9 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
     @Throws(InterruptedException::class, IOException::class, VKApiException::class)
     open fun execute(call: OkHttpMethodCall): String? {
 
-        val queryString = QueryStringGenerator.buildQueryString(accessToken, secret, config.appId, call)
+        val actualAccessToken = getActualAccessToken(call)
+        val actualSecret = getActualSecret(call)
+        val queryString = QueryStringGenerator.buildQueryString(actualAccessToken, actualSecret, config.appId, call)
         val requestBody = RequestBody.create(MediaType.parse(MIME_APPLICATION), validateQueryString(call, queryString))
 
         val request = Request.Builder()
@@ -128,15 +130,16 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         if (response.code() == HTTP_ENTITY_TOO_LARGE) {
             throw VKLargeEntityException(response.message())
         }
-        val rb = response.body()
-        return try {
-            rb?.string()
-        } catch (ex: IOException) {
-            throw VKNetworkIOException(ex)
-        } finally {
-            rb?.close()
+
+        val body = response.body()?.use { it.string() }
+        if (response.code() in 500..599) {
+            throw VKInternalServerErrorException(response.code(), body ?: "null")
         }
+        return body
     }
+
+    protected open fun getActualAccessToken(call: OkHttpMethodCall): String? = accessToken
+    protected open fun getActualSecret(call: OkHttpMethodCall): String? = secret
 
     private fun MultipartBody.Builder.updateWith(parts: Map<String, HttpMultipartEntry>): MultipartBody.Builder {
         for ((key, entry) in parts) {
@@ -223,7 +226,7 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
     private fun updateClient(provider: VKOkHttpProvider) {
         provider.updateClient(object : VKOkHttpProvider.BuilderUpdateFunction {
             override fun update(builder: OkHttpClient.Builder): OkHttpClient.Builder {
-                if (Logger.LogLevel.NONE != config.logger.logLevel) {
+                if (Logger.LogLevel.NONE != config.logger.logLevel.value) {
                     builder.addInterceptor(LoggingInterceptor(config.logFilterCredentials, config.logger))
                 }
                 return builder
