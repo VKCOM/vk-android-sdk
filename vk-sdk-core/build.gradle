@@ -24,7 +24,16 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply from: '../dependencies.gradle'
+apply from: "../dependencies.gradle"
+
+if (System.getenv('SDK_UPDATE') != "1") {
+    Project superApp = rootProject.findProject("lib-superapp")
+    if (superApp == null) {
+        throw new IllegalStateException("Couldn't find lib-superapp project.")
+    }
+
+    apply from: "${superApp.projectDir}/tools/publish.gradle"
+}
 
 version = sdkVersions.name
 group = 'com.vk'

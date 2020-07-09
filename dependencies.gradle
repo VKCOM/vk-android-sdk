@@ -24,7 +24,7 @@ SOFTWARE.
 
 ext.sdkVersions = [
         code                            : '17',
-        name                            : '2.2.3',
+        name                            : '2.2.4',
 
         minSdk                          : 16,
         targetSdk                       : 28,

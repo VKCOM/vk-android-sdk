@@ -53,7 +53,8 @@ data class VKApiConfig(
     val callsPerSecondLimit: Int = 3,
     val httpApiHost: Lazy<String>  = lazy { DEFAULT_API_DOMAIN },
     val lang: String = "en",
-    val keyValueStorage: VKKeyValueStorage = VKPreferencesKeyValueStorage(context)
+    val keyValueStorage: VKKeyValueStorage = VKPreferencesKeyValueStorage(context),
+    val customApiEndpoint: Lazy<String> = lazy { DEFAULT_API_ENDPOINT }
 ) {
 
     companion object {
@@ -61,5 +62,7 @@ data class VKApiConfig(
         const val DEFAULT_API_VERSION = "5.90"
         const val DEFAULT_API_DOMAIN = "api.vk.com"
         const val DEFAULT_OAUTH_DOMAIN = "oauth.vk.com"
+        const val DEFAULT_STATIC_DOMAIN = "static.vk.com"
+        const val DEFAULT_API_ENDPOINT = "https://$DEFAULT_API_DOMAIN/method"
     }
 }

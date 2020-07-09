@@ -55,6 +55,7 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
     val host = config.host
     @Volatile protected var accessToken = config.accessToken
     @Volatile protected var secret = config.secret
+    private val customEndpoint = config.customEndpoint
 
     private val clientsByTimeouts = LongSparseArray<OkHttpClient>()
 
@@ -74,7 +75,7 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
 
         val request = Request.Builder()
                 .post(requestBody)
-                .url("https://$host/method/${call.method}")
+                .url("${resolveEndpoint()}/${call.method}")
                 .cacheControl(CacheControl.FORCE_NETWORK)
                 .tag(Map::class.java, call.tag?.toMap())
                 .build()
@@ -195,6 +196,12 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         clientsByTimeouts.clear()
     }
 
+    private fun resolveEndpoint() = if (customEndpoint.isNotEmpty()) {
+        customEndpoint
+    } else {
+        defaultApiEndpoint(host)
+    }
+
     private fun isSame(c1: OkHttpClient, c2: OkHttpClient): Boolean {
         return c1.connectTimeoutMillis() == c2.connectTimeoutMillis()
                 && c1.readTimeoutMillis() == c2.readTimeoutMillis()
@@ -241,6 +248,8 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
     companion object {
         const val MIME_APPLICATION: String = "application/x-www-form-urlencoded; charset=utf-8"
         private const val UTF_8 = "UTF-8"
+
+        private fun defaultApiEndpoint(host: String) = "https://$host/method"
     }
 
 }

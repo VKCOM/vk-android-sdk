@@ -26,10 +26,10 @@ package com.vk.api.sdk.okhttp
 import android.content.Context
 import android.content.res.AssetFileDescriptor
 import android.net.Uri
+import android.provider.MediaStore
 
 import com.vk.api.sdk.exceptions.VKLocalIOException
 
-import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -39,55 +39,59 @@ import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.BufferedSink
 
-internal class FileFullRequestBody(private val context: Context?, private val fileUri: Uri) : RequestBody() {
+internal class FileFullRequestBody(
+        private val context: Context,
+        private val uri: Uri
+) : RequestBody() {
+
+    private val scheme: String
+    private val lastPathSegment: String
 
     init {
-        requireNotNull(context) { "context is null" }
-        if (fileUri == null) {
-            throw IllegalArgumentException("fileUri is null")
+        if (uri.scheme.isNullOrBlank() || uri.lastPathSegment.isNullOrBlank()) {
+            throw IllegalArgumentException("Illegal fileUri value: '$uri'")
         }
-        if (!File(fileUri.path).exists()) {
-            throw IllegalArgumentException("file is not exist")
-        }
+        scheme = uri.scheme!!
+        lastPathSegment = uri.lastPathSegment!!
     }
 
     override fun contentType(): MediaType? {
-        val fileName = fileUri?.lastPathSegment
+        var mimeType: String? = null
 
-        var mimeType: String? =
-        if (fileName == null) {
-            null
-        } else {
-            try {
-                URLConnection.guessContentTypeFromName(fileName)
-            } catch (ex: Exception) {
-                null
-            }
-
+        try {
+            mimeType = URLConnection.guessContentTypeFromName(lastPathSegment)
+        } catch (ignored: Exception) {
+            // Ignore
         }
+
         if (mimeType == null) {
-            mimeType = "application/octet-stream"
+            try {
+                val projection = arrayOf(MediaStore.Images.ImageColumns.MIME_TYPE)
+                val cursor = context.contentResolver.query(uri, projection, null, null, null)
+                cursor?.use {
+                    mimeType = if (it.isNull(0)) null else it.getString(0)
+                }
+            } catch (ignored: Throwable) {
+                // Ignore
+            }
         }
 
-        return MediaType.parse(mimeType)
+        return MediaType.parse(mimeType ?: "application/octet-stream")
     }
 
     @Throws(IOException::class)
     override fun contentLength(): Long {
         var fd: AssetFileDescriptor? = null
         try {
-            fd = context?.contentResolver?.openAssetFileDescriptor(fileUri, "r")
-            return fd?.length ?: throw FileNotFoundException("Cannot open uri: $fileUri")
+            fd = context.contentResolver.openAssetFileDescriptor(uri, "r")
+            return fd?.length ?: throw FileNotFoundException("Cannot open uri: $uri")
         } catch (ex: FileNotFoundException) {
             throw VKLocalIOException(ex)
         } finally {
-            if (fd != null) {
-                try {
-                    fd.close()
-                } catch (ex: Exception) {
-                    // Ignore
-                }
-
+            try {
+                fd?.close()
+            } catch (ignored: Exception) {
+                // Ignore
             }
         }
     }
@@ -99,9 +103,9 @@ internal class FileFullRequestBody(private val context: Context?, private val fi
         try {
             val inputStream: FileInputStream // auto-closable
             try {
-                fileDescriptor = context?.contentResolver?.openAssetFileDescriptor(fileUri, "r")
+                fileDescriptor = context.contentResolver.openAssetFileDescriptor(uri, "r")
                 if (fileDescriptor == null) {
-                    throw FileNotFoundException("Cannot open uri: $fileUri")
+                    throw FileNotFoundException("Cannot open uri: $uri")
                 }
                 inputStream = fileDescriptor.createInputStream()
             } catch (ex: IOException) {
@@ -124,12 +128,10 @@ internal class FileFullRequestBody(private val context: Context?, private val fi
                 os.flush()
             }
         } finally {
-            if (fileDescriptor != null) {
-                try {
-                    fileDescriptor.close()
-                } catch (ignore: Exception) {
-                }
-
+            try {
+                fileDescriptor?.close()
+            } catch (ignored: Exception) {
+                // Ignore
             }
         }
     }

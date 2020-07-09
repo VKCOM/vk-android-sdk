@@ -51,6 +51,8 @@ class OkHttpExecutorConfig(private val apiConfig: VKApiConfig) {
         get() = apiConfig.postRequestsTimeout
     val logger: Logger
         get() = apiConfig.logger
+    val customEndpoint: String
+        get() = apiConfig.customApiEndpoint.value
 
     init {
         Validation.assertContextValid(context)

@@ -40,10 +40,4 @@ build/
 target/
 build-maven
 
-# Gradle wrapper
-/gradle
-/gradlew
-/gradlew.bat
-
-tmp_gen_strings/
-notTranslatedStrings/
+!gradle
