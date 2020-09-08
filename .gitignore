@@ -41,3 +41,5 @@ target/
 build-maven
 
 !gradle
+
+notTranslatedStrings/
