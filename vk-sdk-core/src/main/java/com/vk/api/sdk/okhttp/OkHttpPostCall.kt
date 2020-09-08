@@ -30,11 +30,14 @@ class OkHttpPostCall {
     class Builder {
         var url: String = ""
             private set
+        var isMultipart: Boolean = true
+            private set
         var parts: MutableMap<String, HttpMultipartEntry> = HashMap()
             private set
         var timeoutMs: Long = 0
 
         fun url(url: String) = apply { this.url = url }
+        fun multipart(multipart: Boolean) = apply { this.isMultipart = multipart }
         fun parts(parts: Map<String, HttpMultipartEntry>) = apply { this.parts.clear(); this.parts.putAll(parts) }
         fun timeout(timeout: Long) = apply { this.timeoutMs = timeout }
 
@@ -42,19 +45,25 @@ class OkHttpPostCall {
     }
 
     val url: String
+    val isMultipart: Boolean
     val parts: Map<String, HttpMultipartEntry>
     val timeoutMs: Long
 
     private constructor(b: Builder) {
         if (b.url.isBlank()) throw IllegalArgumentException("Illegal url value: ${b.url}")
         if (b.timeoutMs <= 0) throw IllegalArgumentException("Illegal timeout value: ${b.timeoutMs}")
+        if (!b.isMultipart && b.parts.any { it.value !is HttpMultipartEntry.Text }) {
+            throw IllegalStateException("Non multipart calls should consist of text arguments only")
+        }
         this.url = b.url
+        this.isMultipart = b.isMultipart
         this.parts = b.parts
         this.timeoutMs = b.timeoutMs
     }
 
     constructor(call: VKHttpPostCall) {
         this.url = call.url
+        this.isMultipart = call.isMultipart
         this.parts = call.parts
         this.timeoutMs = call.timeoutMs
     }

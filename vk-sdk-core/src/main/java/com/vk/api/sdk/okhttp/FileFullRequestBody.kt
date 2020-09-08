@@ -36,6 +36,8 @@ import java.io.IOException
 import java.net.URLConnection
 
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okio.BufferedSink
 
@@ -76,7 +78,7 @@ internal class FileFullRequestBody(
             }
         }
 
-        return MediaType.parse(mimeType ?: "application/octet-stream")
+        return mimeType?.toMediaTypeOrNull() ?: "application/octet-stream".toMediaType()
     }
 
     @Throws(IOException::class)

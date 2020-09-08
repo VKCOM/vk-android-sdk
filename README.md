@@ -136,33 +136,12 @@ class SampleApplication: Application() {
 API Requests
 ==========
 
-Override VKRequest. For example: [VKUsersRequest](samples/app/src/main/java/com/vk/sdk/sample/requests/VKUsersRequest.kt)
-
-```kotlin
-class VKUsersRequest: VKRequest<List<VKUser>> {
-    constructor(uids: IntArray = intArrayOf()): super("users.get") {
-        if (uids.isNotEmpty()) {
-            addParam("user_ids", uids.joinToString(","))
-        }
-        addParam("fields", "photo_200")
-    }
-
-    override fun parse(r: JSONObject): List<VKUser> {
-        val users = r.getJSONArray("response")
-        val result = ArrayList<VKUser>()
-        for (i in 0 until users.length()) {
-            result.add(VKUser.parse(users.getJSONObject(i)))
-        }
-        return result
-    }
-}
-```
 Run request with VK.execute:
 
 
 ```kotlin
-VK.execute(VKUsersRequest(), object: VKApiCallback<List<VKUser>> {
-    override fun success(result: List<VKUser>) {
+VK.execute(UsersGet(), object: VKApiCallback<List<UsersUserXtrCounters>> {
+    override fun success(result: List<UsersUserXtrCounters>) {
     }
     override fun fail(error: VKApiExecutionException) {
     }

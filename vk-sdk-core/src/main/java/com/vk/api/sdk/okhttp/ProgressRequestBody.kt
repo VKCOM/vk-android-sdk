@@ -30,11 +30,7 @@ import java.util.concurrent.TimeUnit
 
 import okhttp3.MediaType
 import okhttp3.RequestBody
-import okio.Buffer
-import okio.BufferedSink
-import okio.ForwardingSink
-import okio.Okio
-import okio.Sink
+import okio.*
 
 class ProgressRequestBody(private val requestBody: RequestBody,
                           private val progressListener: VKApiProgressListener?) : RequestBody() {
@@ -52,7 +48,7 @@ class ProgressRequestBody(private val requestBody: RequestBody,
 
     @Throws(IOException::class)
     override fun writeTo(sink: BufferedSink) {
-        val bufferedSink = Okio.buffer(CountingSink(sink))
+        val bufferedSink = CountingSink(sink).buffer()
         requestBody.writeTo(bufferedSink)
         bufferedSink.flush()
     }

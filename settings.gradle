@@ -1,3 +1,5 @@
 include ':samples:app'
 include ':libapi-sdk-core'
 project(':libapi-sdk-core').projectDir = new File(rootDir, 'vk-sdk-core')
+include ':libapi-sdk-api'
+project(':libapi-sdk-api').projectDir = new File(rootDir, 'vk-sdk-api')

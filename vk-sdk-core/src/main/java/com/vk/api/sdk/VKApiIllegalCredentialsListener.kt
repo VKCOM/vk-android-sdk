@@ -31,4 +31,5 @@ import org.json.JSONObject
  */
 interface VKApiIllegalCredentialsListener {
     fun onInvalidCredentials(methodName: String?, userBanInfo: JSONObject?)
+    fun onUserDeactivated(methodName: String?) = onInvalidCredentials(methodName, null)
 }

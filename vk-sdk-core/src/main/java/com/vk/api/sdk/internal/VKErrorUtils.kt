@@ -35,7 +35,7 @@ import org.json.JSONObject
 
 object VKErrorUtils {
 
-    fun hasSimpleError(response: String) = JsonUtils.containsElement(response, "error")
+    fun hasSimpleError(response: String) = JsonUtils.containsElement(response, VKApiCodes.PARAM_ERROR)
 
     fun hasExecuteError(response: String, ignoreErrors: IntArray?)
         = when {
@@ -58,13 +58,14 @@ object VKErrorUtils {
         return set
     }
 
-    fun parseSimpleError(errorJson: String, method: String? = null) =
-            parseSimpleError(JSONObject(errorJson).optJSONObject(VKApiCodes.PARAM_ERROR), method)
+    fun parseSimpleError(errorStr: String, method: String? = null, accessToken: String? = null): VKApiException {
+        val errorJson = JSONObject(errorStr).optJSONObject(VKApiCodes.PARAM_ERROR) ?: JSONObject(errorStr)
+        return parseSimpleError(errorJson, method, accessToken)
+    }
 
-    fun parseSimpleError(errorJson: JSONObject, method: String? = null): VKApiException {
+    fun parseSimpleError(errorJson: JSONObject, method: String? = null, accessToken: String? = null): VKApiException {
         try {
-            val code = errorJson.getInt(VKApiCodes.PARAM_ERROR_CODE)
-            val bundle = when (code) {
+            val bundle = when (errorJson.optInt(VKApiCodes.PARAM_ERROR_CODE)) {
                 VKApiCodes.CODE_CAPTCHA_REQUIRED -> {
                     val extra = Bundle()
                     extra.putString(VKApiCodes.EXTRA_CAPTCHA_SID, errorJson.getString(VKApiCodes.EXTRA_CAPTCHA_SID))
@@ -82,11 +83,12 @@ object VKErrorUtils {
                     extra
                 }
                 VKApiCodes.CODE_AUTHORIZATION_FAILED -> {
-                    errorJson.optJSONObject(VKApiCodes.PARAM_BAN_INFO)?.let {
+                    val banInfo = errorJson.optJSONObject(VKApiCodes.PARAM_BAN_INFO)
+                    if (banInfo != null) {
                         val extra = Bundle()
-                        extra.putString(VKApiCodes.EXTRA_USER_BAN_INFO, it.toString())
+                        extra.putString(VKApiCodes.EXTRA_USER_BAN_INFO, banInfo.toString())
                         extra
-                    }
+                    } else null
                 }
                 VKApiCodes.CODE_ERROR_NEED_TOKEN_EXTENSION -> {
                         val extra = Bundle()
@@ -95,9 +97,16 @@ object VKErrorUtils {
                 }
                 else -> null
             }
-            return VKApiExecutionException.parse(errorJson, method, bundle)
+            val actualBundle: Bundle?
+            if (accessToken != null) {
+                actualBundle = bundle ?: Bundle(1)
+                actualBundle.putString(VKApiCodes.EXTRA_ACCESS_TOKEN, accessToken)
+            } else {
+                actualBundle = bundle
+            }
+            return VKApiExecutionException.parse(errorJson, method, actualBundle)
         } catch (e: Exception) {
-            return VKApiIllegalResponseException(e)
+            return VKApiIllegalResponseException(errorJson.toString(), e)
         }
     }
 

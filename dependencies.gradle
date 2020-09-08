@@ -23,21 +23,23 @@ SOFTWARE.
 */
 
 ext.sdkVersions = [
-        code                            : '17',
-        name                            : '2.2.4',
+        code                            : '18',
+        name                            : '2.3.0',
 
         minSdk                          : 16,
         targetSdk                       : 28,
         compileSdk                      : '29',
         buildTools                      : '29.0.3',
 
-        kotlin                          : '1.3.71',
+        kotlin                          : '1.4.0',
         androidX                        : '1.1.0',
-        okHttp                          : '3.12.1',
+        okHttp                          : '4.5.0',
 
         picasso                         : '2.71828',
 
         androidGradlePlugin             : '3.6.0',
+
+        gson                            : '2.8.5',
 ]
 
 ext.sdkLibraries = [
@@ -46,6 +48,7 @@ ext.sdkLibraries = [
         okHttp                          : "com.squareup.okhttp3:okhttp:$sdkVersions.okHttp",
         okHttpLoggingInterceptor        : "com.squareup.okhttp3:logging-interceptor:$sdkVersions.okHttp",
         picasso                         : "com.squareup.picasso:picasso:$sdkVersions.picasso",
+        gson                            :"com.google.code.gson:gson:$sdkVersions.gson"
 ]
 
 ext.sdkLibrariesSupport = [

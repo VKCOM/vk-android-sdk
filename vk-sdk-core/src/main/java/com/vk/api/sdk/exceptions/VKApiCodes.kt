@@ -26,6 +26,7 @@ package com.vk.api.sdk.exceptions
 
 object VKApiCodes {
     const val CODE_COMPOSITE_EXECUTE_ERROR = Int.MIN_VALUE
+    const val CODE_IGNORED_ACCESS_TOKEN = -2
     const val CODE_IO_ERROR = -1
     const val CODE_UNKNOWN_ERROR = 1
     const val CODE_APP_DISABLED = 2
@@ -96,6 +97,7 @@ object VKApiCodes {
     const val CODE_CHAT_NOT_ADMIN = 925
     const val CODE_CHAT_MR_ALREADY_SEND = 939
     const val CODE_ADD_CHAT_MEMBER_ACCESS_TO_GROUP_DENIED = 947
+    const val CODE_CALL_HAS_BEEN_FINISHED = 951
 
     const val CODE_TOO_MANY_CONTACTS_TO_SYNC = 937
 
@@ -112,7 +114,16 @@ object VKApiCodes {
 
     const val CODE_ERROR_MARKET_COMMENTS_CLOSED = 1401
 
+    const val CODE_TEXT_LIVE_EMPTY_MESSAGE = 2600
+    const val CODE_TEXT_LIVE_MORE_ONE_ATTACH = 2601
+    const val CODE_TEXT_LIVE_WRONG_AUTHOR = 2602
+    const val CODE_TEXT_LIVE_FINISHED = 2603
+    const val CODE_TEXT_LIVE_UNAVAILABLE = 2604
+    const val CODE_TEXT_LIVE_SERVER_ERROR = 2605
+    const val CODE_TEXT_LIVE_LARGE_MESSAGE = 2606
+
     const val CODE_ERROR_NEED_TOKEN_EXTENSION = 3609
+    const val CODE_ERROR_USER_DEACTIVATED = 3610
 
     const val EXTRA_CAPTCHA_SID = "captcha_sid"
     const val EXTRA_CAPTCHA_KEY = "captcha_key"
@@ -122,6 +133,7 @@ object VKApiCodes {
     const val EXTRA_USER_BAN_INFO = "user_ban_info"
     const val EXTRA_CONFIRMATION_TEXT = "confirmation_text"
     const val EXTRA_EXTENSION_HASH = "extend_hash"
+    const val EXTRA_ACCESS_TOKEN = "access_token"
 
     const val PARAM_DEVICE_ID = "device_id"
     const val PARAM_LANG = "lang"

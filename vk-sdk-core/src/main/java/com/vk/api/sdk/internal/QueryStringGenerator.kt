@@ -38,12 +38,14 @@ object QueryStringGenerator {
     fun buildQueryString(accessToken: String?, secret: String?, appId: Int, call: OkHttpMethodCall) =
             buildQueryString(accessToken, secret, appId, call.method, call.version, call.args)
 
-    fun buildQueryString(accessToken: String?,
-                         secret: String?,
-                         appId: Int,
-                         method: String,
-                         version: String,
-                         args: Map<String, String>): String {
+    fun buildQueryString(
+        accessToken: String?,
+        secret: String?,
+        appId: Int,
+        method: String,
+        version: String,
+        args: Map<String, String>
+    ): String {
         if (secret.isNullOrEmpty()) {
             return generateQueryString(version, args, accessToken, appId,true)
         }
@@ -54,17 +56,19 @@ object QueryStringGenerator {
         return "$queryStringEscaped&sig=$md5"
     }
 
-    private fun generateQueryString(version: String,
-                                    args: Map<String, String>,
-                                    accessToken: String?,
-                                    appId: Int,
-                                    isApplyUrlEncode: Boolean): String {
+    fun generateQueryString(
+        version: String,
+        args: Map<String, String>,
+        accessToken: String?,
+        appId: Int,
+        applyUrlEncode: Boolean
+    ): String {
         // Don't worry StringBuilder.plus operator fun used
         strBuilder.clear()
         var sb = strBuilder + "v=" + version + "&https=1&"
         for ((key, value) in args) {
             if (key != "v" && key != "access_token" && key != "api_id") {
-                sb = sb.plus(key) + "=" + value.encodeUrlAsUtf8(isApplyUrlEncode) + "&"
+                sb = sb.plus(key) + "=" + value.encodeUrlAsUtf8(applyUrlEncode) + "&"
             }
         }
         sb = if (!accessToken.isNullOrEmpty()) {

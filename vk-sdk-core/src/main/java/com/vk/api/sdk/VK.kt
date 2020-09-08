@@ -36,6 +36,7 @@ import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKApiExecutionException
 import com.vk.api.sdk.internal.ApiCommand
 import com.vk.api.sdk.requests.VKBooleanRequest
+import com.vk.api.sdk.utils.VKUrlResolver
 import com.vk.api.sdk.utils.VKUtils
 import java.io.IOException
 
@@ -53,6 +54,11 @@ object VK {
     private val tokenExpiredHandlers = ArrayList<VKTokenExpiredHandler>()
 
     private var cachedAppId = 0
+
+    /**
+     * This field contains an instance of VKUrlResolver that can be used to open a URL in VK client.
+     */
+    val urlResolver by lazy { VKUrlResolver() }
 
     /**
      * This method initializes VK SDK with your custom config

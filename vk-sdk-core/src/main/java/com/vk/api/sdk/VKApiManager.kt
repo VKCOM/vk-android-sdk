@@ -53,6 +53,16 @@ open class VKApiManager(val config: VKApiConfig) {
     }
 
     /**
+     * Ignore all method requests with specific access token. All executions of that requests will
+     * throw [com.vk.api.sdk.exceptions.IgnoredAccessTokenException]
+     *
+     * @param accessToken token to ignore. null to allow all access tokens
+     */
+    fun ignoreAccessToken(accessToken: String?) {
+        executor.ignoreAccessToken(accessToken)
+    }
+
+    /**
      * Override credentials
      * @param call
      */
@@ -71,7 +81,8 @@ open class VKApiManager(val config: VKApiConfig) {
         } else {
             createValidationHandlerChainCall(call.retryCount, chainCall)
         }
-        cc = InvalidCredentialsObserverChainCall(this, cc)
+
+        cc = InvalidCredentialsObserverChainCall(this, cc, 1)
         cc = TooManyRequestRetryChainCall(this, call.retryCount, cc)
         if (call.retryCount > 0) {
             cc = InternalErrorRetryChainCall(this, call.retryCount, cc)

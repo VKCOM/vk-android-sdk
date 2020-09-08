@@ -1,0 +1,32 @@
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply from: "../dependencies.gradle"
+
+android {
+    compileSdkVersion "$sdkVersions.compileSdk".toInteger()
+    buildToolsVersion "$sdkVersions.buildTools"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion "$sdkVersions.minSdk"
+        targetSdkVersion "$sdkVersions.targetSdk"
+        versionCode "$sdkVersions.code".toInteger()
+        versionName "$sdkVersions.name"
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation project(':libapi-sdk-core')
+
+    implementation sdkLibraries.kotlin
+    implementation sdkLibraries.gson
+}

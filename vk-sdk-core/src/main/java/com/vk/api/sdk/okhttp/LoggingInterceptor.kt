@@ -31,7 +31,50 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 
-class LoggingInterceptor(private val filterCredentials: Boolean, private val logger: Logger) : Interceptor {
+class LoggingInterceptor(
+    private val filterCredentials: Boolean,
+    private val keysToFilter: Collection<String>,
+    private val logger: Logger
+) : Interceptor {
+    // For backward compatibility
+    constructor(filterCredentials: Boolean, logger: Logger) : this(
+        filterCredentials,
+        listOf("access_token", "key", "client_secret"),
+        logger
+    )
+
+    // (key1|key2|...)=[a-z0-9]+
+    private val sensitiveKeysRequestRegex: Regex by lazy {
+        val pattern = StringBuilder().apply {
+            append("(")
+            append(keysToFilter.joinToString("|"))
+            append(")=[a-z0-9]+")
+        }.toString()
+
+        Regex(pattern, RegexOption.IGNORE_CASE)
+    }
+    private val sensitiveKeyRequestTransformer: (MatchResult) -> CharSequence by lazy {
+        { match: MatchResult ->
+            "${match.groupValues[1]}=<HIDE>"
+        }
+    }
+
+    // "(key1|key2|...)":[a-z0-9]+
+    private val sensitiveKeysResponseRegex: Regex by lazy {
+        val pattern = StringBuilder().apply {
+            append("\"(")
+            append(keysToFilter.joinToString("|"))
+            append(")\":\"[a-z0-9]+\"")
+        }.toString()
+
+        Regex(pattern, RegexOption.IGNORE_CASE)
+    }
+    private val sensitiveKeysResponseTransformer: (MatchResult) -> CharSequence by lazy {
+        { match: MatchResult ->
+            "\"${match.groupValues[1]}\":<HIDE>"
+        }
+    }
+
     private val delegate by threadLocal {
         HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
             override fun log(message: String) {
@@ -40,21 +83,24 @@ class LoggingInterceptor(private val filterCredentials: Boolean, private val log
             }
 
             private fun filterCredentials(msg: String): String {
-                return msg
-                        .replace("access_token=[a-z0-9]+".toRegex(), "access_token=<HIDE>")
-                        .replace("key=[a-z0-9]+".toRegex(), "key=<HIDE>")
-                        .replace("client_secret=[a-zA-Z0-9]+".toRegex(), "client_secret=<HIDE>")
+                return removeSensitiveKeys(msg)
             }
         })
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
         // Do not log big bodies because of probability of OutOfMemoryError
-        val bodyLength = chain.request().body()?.contentLength() ?: 0
+        val bodyLength = chain.request().body?.contentLength() ?: 0
         delegate.level =
                 if (bodyLength > 1024L) HttpLoggingInterceptor.Level.BASIC
-                else LogLevelMap.levelsMap[logger.logLevel.value]
+                else LogLevelMap.levelsMap[logger.logLevel.value]!!
         return delegate.intercept(chain)
+    }
+
+    private fun removeSensitiveKeys(msg: String): String {
+        return msg
+            .replace(sensitiveKeysRequestRegex, sensitiveKeyRequestTransformer)
+            .replace(sensitiveKeysResponseRegex, sensitiveKeysResponseTransformer)
     }
 
     object LogLevelMap {

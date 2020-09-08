@@ -39,7 +39,7 @@ internal object VKLoader {
             val builder = Request.Builder().url(url)
             val request = builder.build()
             val response = VKOkHttpProvider.DefaultProvider().getClient().newCall(request).execute() ?: return null
-            body = response.body()
+            body = response.body
             r = body?.bytes()
         } catch (ignore: Exception) {
         } finally {

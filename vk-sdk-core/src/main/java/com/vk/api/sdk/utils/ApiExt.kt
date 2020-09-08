@@ -25,11 +25,10 @@
 package com.vk.api.sdk.utils
 
 import com.vk.api.sdk.internal.VKErrorUtils
-import java.net.*
 
 internal fun String.hasExecuteError(ignoredErrors: IntArray?) = VKErrorUtils.hasExecuteError(this, ignoredErrors)
 internal fun String.hasSimpleError() = VKErrorUtils.hasSimpleError(this)
-internal fun String.toSimpleError(method: String? = null) = VKErrorUtils.parseSimpleError(this, method)
+internal fun String.toSimpleError(method: String? = null, accessToken: String? = null) = VKErrorUtils.parseSimpleError(this, method, accessToken)
 internal fun String.toExecuteError(method: String, ignoredErrors: IntArray?) = VKErrorUtils.parseExecuteError(this, method, ignoredErrors)
 
 operator fun <E> androidx.collection.LongSparseArray<E>.set(key: Long, value: E) = put(key, value)

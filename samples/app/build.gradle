@@ -37,8 +37,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {
@@ -61,5 +61,6 @@ dependencies {
     implementation sdkLibraries.okHttp
 
     implementation project(':libapi-sdk-core')
+    implementation project(':libapi-sdk-api')
     //implementation 'com.vk:androidsdk:2.0.0'
 }

@@ -77,7 +77,8 @@ open class VKApiExecutionException
         get() {
             return when (code) {
                 VKApiCodes.CODE_INVALID_SIGNATURE,
-                VKApiCodes.CODE_AUTHORIZATION_FAILED -> true
+                VKApiCodes.CODE_AUTHORIZATION_FAILED,
+                VKApiCodes.CODE_ERROR_USER_DEACTIVATED -> true
                 else -> false
             }
         }
@@ -114,6 +115,9 @@ open class VKApiExecutionException
 
     val extensionHash: String
         get() = extra?.getString(VKApiCodes.EXTRA_EXTENSION_HASH, null) ?: ""
+
+    val accessToken: String?
+        get() = extra?.getString(VKApiCodes.EXTRA_ACCESS_TOKEN, null)
 
     fun hasExtra(): Boolean {
         return extra != null && extra != Bundle.EMPTY
@@ -160,7 +164,7 @@ open class VKApiExecutionException
                 VKApiExecutionException(code, method, true, json.optString("error_text")
                         ?: "", extra, errorMsg = errorMsg)
             } else {
-                val errorMsg = json.optString("error_msg") ?: ""
+                val errorMsg = json.optString("error_msg") ?: json.toString()
                 VKApiExecutionException(code, method, false, "$errorMsg | by [$method]", extra, errorMsg = errorMsg)
             }
         }

@@ -24,8 +24,8 @@
 
 package com.vk.api.sdk.chain
 
-import com.vk.api.sdk.VKApiResponseParser
 import com.vk.api.sdk.VKApiManager
+import com.vk.api.sdk.VKApiResponseParser
 import com.vk.api.sdk.exceptions.VKApiCodes
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.okhttp.OkHttpExecutor
@@ -34,6 +34,7 @@ import com.vk.api.sdk.utils.hasExecuteError
 import com.vk.api.sdk.utils.hasSimpleError
 import com.vk.api.sdk.utils.toExecuteError
 import com.vk.api.sdk.utils.toSimpleError
+import java.util.*
 
 open class MethodChainCall<T>(
         manager: VKApiManager,
@@ -59,23 +60,26 @@ open class MethodChainCall<T>(
         if (deviceId.isBlank()) {
             deviceId = defaultDeviceId
         }
-        callBuilder.args(VKApiCodes.PARAM_DEVICE_ID, deviceId.toLowerCase())
+        callBuilder.args(VKApiCodes.PARAM_DEVICE_ID, deviceId.toLowerCase(Locale.getDefault()))
 
         var lang = callBuilder.args(VKApiCodes.PARAM_LANG) ?: ""
         if (lang.isBlank()) {
             lang = defaultLang
         }
-        callBuilder.args(VKApiCodes.PARAM_LANG, lang.toLowerCase())
+        callBuilder.args(VKApiCodes.PARAM_LANG, lang.toLowerCase(Locale.getDefault()))
 
         return runRequest(callBuilder.build())
     }
 
     open fun runRequest(mc: OkHttpMethodCall) = parseResult(okHttpExecutor.execute(mc), mc.method, null)
 
-    fun parseResult(response: String?, methodName: String, ignoredExecuteErrors: IntArray?) = when {
-        response == null -> throw VKApiException("Response returned null instead of valid string response")
-        response.hasSimpleError() -> throw response.toSimpleError(methodName)
-        response.hasExecuteError(ignoredExecuteErrors) -> throw response.toExecuteError(methodName, ignoredExecuteErrors)
-        else -> parser?.parse(response)
+    fun parseResult(methodResponse: OkHttpExecutor.MethodResponse, methodName: String, ignoredExecuteErrors: IntArray?): T? {
+        val response = methodResponse.response
+        return when {
+            response == null -> throw VKApiException("Response returned null instead of valid string response")
+            response.hasSimpleError() -> throw response.toSimpleError(methodName, methodResponse.executorRequestAccessToken)
+            response.hasExecuteError(ignoredExecuteErrors) -> throw response.toExecuteError(methodName, ignoredExecuteErrors)
+            else -> parser?.parse(response)
+        }
     }
 }

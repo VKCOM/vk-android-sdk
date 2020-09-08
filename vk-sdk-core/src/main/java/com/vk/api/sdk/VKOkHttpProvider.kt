@@ -44,7 +44,7 @@ abstract class VKOkHttpProvider {
 
         override fun getClient(): OkHttpClient {
             if (okHttpClient == null) {
-                okHttpClient = OkHttpClient().newBuilder()
+                okHttpClient = OkHttpClient.Builder()
                         .connectTimeout(20, TimeUnit.SECONDS)
                         .readTimeout(30, TimeUnit.SECONDS)
                         .writeTimeout(20, TimeUnit.SECONDS)

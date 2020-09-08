@@ -34,6 +34,8 @@ open class VKHttpPostCall {
     open class Builder {
         var url: String = ""
             private set
+        var isMultipart: Boolean = true
+            private set
         var parts: MutableMap<String, HttpMultipartEntry> = HashMap()
             private set
         var retryCount: Int = Int.MAX_VALUE
@@ -42,6 +44,7 @@ open class VKHttpPostCall {
             private set
 
         open fun url(url: String) = apply { this.url = url }
+        open fun multipart(multipart: Boolean) = apply { this.isMultipart = multipart }
         open fun args(key: String, value: String) = apply { parts[key] = HttpMultipartEntry.Text(value) }
         open fun args(key: String, fileUri: Uri) = apply { parts[key] = HttpMultipartEntry.File(fileUri) }
         open fun args(key: String, fileUri: Uri, fileName: String) = apply { parts[key] = HttpMultipartEntry.File(fileUri, fileName) }
@@ -52,6 +55,7 @@ open class VKHttpPostCall {
     }
 
     val url: String
+    val isMultipart: Boolean
     val parts: Map<String, HttpMultipartEntry>
     val retryCount: Int
     val timeoutMs: Long
@@ -59,7 +63,11 @@ open class VKHttpPostCall {
     protected constructor(b: Builder) {
         if (b.url.isBlank()) throw IllegalArgumentException("Illegal url value: ${b.url}")
         if (b.timeoutMs < 0) throw IllegalArgumentException("Illegal timeout value: ${b.timeoutMs}")
+        if (!b.isMultipart && b.parts.any { it.value !is HttpMultipartEntry.Text }) {
+            throw IllegalStateException("Non multipart calls should consist of text arguments only")
+        }
         this.url = b.url
+        this.isMultipart = b.isMultipart
         this.parts = b.parts
         this.retryCount = b.retryCount
         this.timeoutMs = b.timeoutMs
