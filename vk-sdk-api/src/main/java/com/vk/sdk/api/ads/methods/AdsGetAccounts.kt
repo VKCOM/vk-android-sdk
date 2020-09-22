@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsAccount
 import com.vk.sdk.api.ads.responses.AdsGetAccountsResponse
@@ -37,7 +37,7 @@ import org.json.JSONObject
 /**
  * Returns a list of advertising accounts.
  */
-class AdsGetAccounts : VKRequest<List<AdsAccount>>("ads.getAccounts") {
+class AdsGetAccounts : ApiRequestBase<List<AdsAccount>>(methodName = "ads.getAccounts") {
     override fun parse(r: JSONObject): List<AdsAccount> = GsonHolder.gson.fromJson(r.toString(),
             AdsGetAccountsResponse::class.java).response
 }

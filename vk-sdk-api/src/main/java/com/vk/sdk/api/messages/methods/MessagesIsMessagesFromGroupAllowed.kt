@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesIsMessagesFromGroupAllowedResponseDto
 import com.vk.sdk.api.messages.responses.MessagesIsMessagesFromGroupAllowedResponse
@@ -42,8 +42,8 @@ import org.json.JSONObject
 class MessagesIsMessagesFromGroupAllowed(
     private val groupId: Int,
     private val userId: Int
-) : VKRequest<MessagesIsMessagesFromGroupAllowedResponseDto>("messages.isMessagesFromGroupAllowed")
-        {
+) : ApiRequestBase<MessagesIsMessagesFromGroupAllowedResponseDto>(methodName =
+        "messages.isMessagesFromGroupAllowed") {
     init {
         addParam("group_id", groupId)
         addParam("user_id", userId)

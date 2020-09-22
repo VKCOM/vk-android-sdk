@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.responses.MarketCreateCommentResponse
 import kotlin.Boolean
@@ -61,7 +61,7 @@ class MarketCreateComment(
     private val replyToComment: Int? = null,
     private val stickerId: Int? = null,
     private val guid: String? = null
-) : VKRequest<Int>("market.createComment") {
+) : ApiRequestBase<Int>(methodName = "market.createComment") {
     init {
         addParam("owner_id", ownerId)
         addParam("item_id", itemId)

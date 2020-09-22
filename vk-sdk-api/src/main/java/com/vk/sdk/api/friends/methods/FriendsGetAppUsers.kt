@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.responses.FriendsGetAppUsersResponse
 import kotlin.Int
@@ -37,7 +37,7 @@ import org.json.JSONObject
 /**
  * Returns a list of IDs of the current user's friends who installed the application.
  */
-class FriendsGetAppUsers : VKRequest<List<Int>>("friends.getAppUsers") {
+class FriendsGetAppUsers : ApiRequestBase<List<Int>>(methodName = "friends.getAppUsers") {
     override fun parse(r: JSONObject): List<Int> = GsonHolder.gson.fromJson(r.toString(),
             FriendsGetAppUsersResponse::class.java).response
 }

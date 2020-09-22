@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.secure.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.secure.responses.SecureGetAppBalanceResponse
 import kotlin.Int
@@ -36,7 +36,7 @@ import org.json.JSONObject
 /**
  * Returns payment balance of the application in hundredth of a vote.
  */
-class SecureGetAppBalance : VKRequest<Int>("secure.getAppBalance") {
+class SecureGetAppBalance : ApiRequestBase<Int>(methodName = "secure.getAppBalance") {
     override fun parse(r: JSONObject): Int = GsonHolder.gson.fromJson(r.toString(),
             SecureGetAppBalanceResponse::class.java).response
 }

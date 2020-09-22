@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.responses.PhotosPutTagResponse
 import kotlin.Float
@@ -55,7 +55,7 @@ class PhotosPutTag(
     private val y: Float? = null,
     private val x2: Float? = null,
     private val y2: Float? = null
-) : VKRequest<Int>("photos.putTag") {
+) : ApiRequestBase<Int>(methodName = "photos.putTag") {
     init {
         addParam("photo_id", photoId)
         addParam("user_id", userId)

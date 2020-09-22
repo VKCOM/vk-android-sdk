@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -46,7 +46,7 @@ class MessagesSendMessageEventAnswer(
     private val userId: Int,
     private val peerId: Int,
     private val eventData: String? = null
-) : VKRequest<BaseOkResponseDto>("messages.sendMessageEventAnswer") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "messages.sendMessageEventAnswer") {
     init {
         addParam("event_id", eventId)
         addParam("user_id", userId)

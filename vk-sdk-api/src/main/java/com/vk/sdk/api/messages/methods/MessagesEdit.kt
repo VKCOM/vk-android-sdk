@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.messages.responses.MessagesEditResponse
@@ -45,12 +45,12 @@ import org.json.JSONObject
  * @param lat Geographical latitude of a check-in, in degrees (from -90 to 90). 
  * @param long Geographical longitude of a check-in, in degrees (from -180 to 180). 
  * @param attachment (Required if 'message' is not set.) List of objects attached to the message,
- * separated by commas, in the following format: "<owner_id>_<media_id>", '' � Type of media
- * attachment: 'photo' � photo, 'video' � video, 'audio' � audio, 'doc' � document, 'wall' � wall post,
- * '<owner_id>' � ID of the media attachment owner. '<media_id>' � media attachment ID. Example:
+ * separated by commas, in the following format: "<owner_id>_<media_id>", '' - Type of media
+ * attachment: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'wall' - wall post,
+ * '<owner_id>' - ID of the media attachment owner. '<media_id>' - media attachment ID. Example:
  * "photo100172_166443618" 
- * @param keepForwardMessages '1' � to keep forwarded, messages. 
- * @param keepSnippets '1' � to keep attached snippets. 
+ * @param keepForwardMessages '1' - to keep forwarded, messages. 
+ * @param keepSnippets '1' - to keep attached snippets. 
  * @param groupId Group ID (for group messages with user access token) minimum 0
  * @param dontParseLinks  default false
  * @param messageId  minimum 0
@@ -72,7 +72,7 @@ class MessagesEdit(
     private val conversationMessageId: Int? = null,
     private val template: String? = null,
     private val keyboard: String? = null
-) : VKRequest<BaseBoolInt>("messages.edit") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "messages.edit") {
     init {
         addParam("peer_id", peerId)
         message?.let { value ->

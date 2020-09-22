@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -44,19 +44,19 @@ import org.json.JSONObject
  * @param title Community title. 
  * @param description Community description. 
  * @param screenName Community screen name. 
- * @param access Community type. Possible values: *'0' � open,, *'1' � closed,, *'2' � private.
+ * @param access Community type. Possible values: *'0' - open,, *'1' - closed,, *'2' - private.
  * minimum 0
  * @param website Website that will be displayed in the community information field. 
- * @param subject Community subject. Possible values: , *'1' � auto/moto,, *'2' � activity
- * holidays,, *'3' � business,, *'4' � pets,, *'5' � health,, *'6' � dating and communication, , *'7' �
- * games,, *'8' � IT (computers and software),, *'9' � cinema,, *'10' � beauty and fashion,, *'11' �
- * cooking,, *'12' � art and culture,, *'13' � literature,, *'14' � mobile services and internet,,
- * *'15' � music,, *'16' � science and technology,, *'17' � real estate,, *'18' � news and media,,
- * *'19' � security,, *'20' � education,, *'21' � home and renovations,, *'22' � politics,, *'23' �
- * food,, *'24' � industry,, *'25' � travel,, *'26' � work,, *'27' � entertainment,, *'28' � religion,,
- * *'29' � family,, *'30' � sports,, *'31' � insurance,, *'32' � television,, *'33' � goods and
- * services,, *'34' � hobbies,, *'35' � finance,, *'36' � photo,, *'37' � esoterics,, *'38' �
- * electronics and appliances,, *'39' � erotic,, *'40' � humor,, *'41' � society, humanities,, *'42' �
+ * @param subject Community subject. Possible values: , *'1' - auto/moto,, *'2' - activity
+ * holidays,, *'3' - business,, *'4' - pets,, *'5' - health,, *'6' - dating and communication, , *'7' -
+ * games,, *'8' - IT (computers and software),, *'9' - cinema,, *'10' - beauty and fashion,, *'11' -
+ * cooking,, *'12' - art and culture,, *'13' - literature,, *'14' - mobile services and internet,,
+ * *'15' - music,, *'16' - science and technology,, *'17' - real estate,, *'18' - news and media,,
+ * *'19' - security,, *'20' - education,, *'21' - home and renovations,, *'22' - politics,, *'23' -
+ * food,, *'24' - industry,, *'25' - travel,, *'26' - work,, *'27' - entertainment,, *'28' - religion,,
+ * *'29' - family,, *'30' - sports,, *'31' - insurance,, *'32' - television,, *'33' - goods and
+ * services,, *'34' - hobbies,, *'35' - finance,, *'36' - photo,, *'37' - esoterics,, *'38' -
+ * electronics and appliances,, *'39' - erotic,, *'40' - humor,, *'41' - society, humanities,, *'42' -
  * design and graphics. 
  * @param email Organizer email (for events). 
  * @param phone Organizer phone number (for events). 
@@ -69,45 +69,45 @@ import org.json.JSONObject
  * @param publicSubcategory Public page subcategory ID. minimum 0
  * @param publicDate Founding date of a company or organization owning the community in "dd.mm.YYYY"
  * format. 
- * @param wall Wall settings. Possible values: *'0' � disabled,, *'1' � open,, *'2' � limited
- * (groups and events only),, *'3' � closed (groups and events only). minimum 0
- * @param topics Board topics settings. Possbile values: , *'0' � disabled,, *'1' � open,, *'2' �
+ * @param wall Wall settings. Possible values: *'0' - disabled,, *'1' - open,, *'2' - limited
+ * (groups and events only),, *'3' - closed (groups and events only). minimum 0
+ * @param topics Board topics settings. Possbile values: , *'0' - disabled,, *'1' - open,, *'2' -
  * limited (for groups and events only). minimum 0
- * @param photos Photos settings. Possible values: *'0' � disabled,, *'1' � open,, *'2' � limited
+ * @param photos Photos settings. Possible values: *'0' - disabled,, *'1' - open,, *'2' - limited
  * (for groups and events only). minimum 0
- * @param video Video settings. Possible values: *'0' � disabled,, *'1' � open,, *'2' � limited (for
+ * @param video Video settings. Possible values: *'0' - disabled,, *'1' - open,, *'2' - limited (for
  * groups and events only). minimum 0
- * @param audio Audio settings. Possible values: *'0' � disabled,, *'1' � open,, *'2' � limited (for
+ * @param audio Audio settings. Possible values: *'0' - disabled,, *'1' - open,, *'2' - limited (for
  * groups and events only). minimum 0
- * @param links Links settings (for public pages only). Possible values: *'0' � disabled,, *'1' �
+ * @param links Links settings (for public pages only). Possible values: *'0' - disabled,, *'1' -
  * enabled. 
- * @param events Events settings (for public pages only). Possible values: *'0' � disabled,, *'1' �
+ * @param events Events settings (for public pages only). Possible values: *'0' - disabled,, *'1' -
  * enabled. 
- * @param places Places settings (for public pages only). Possible values: *'0' � disabled,, *'1' �
+ * @param places Places settings (for public pages only). Possible values: *'0' - disabled,, *'1' -
  * enabled. 
- * @param contacts Contacts settings (for public pages only). Possible values: *'0' � disabled,,
- * *'1' � enabled. 
- * @param docs Documents settings. Possible values: *'0' � disabled,, *'1' � open,, *'2' � limited
+ * @param contacts Contacts settings (for public pages only). Possible values: *'0' - disabled,,
+ * *'1' - enabled. 
+ * @param docs Documents settings. Possible values: *'0' - disabled,, *'1' - open,, *'2' - limited
  * (for groups and events only). minimum 0
- * @param wiki Wiki pages settings. Possible values: *'0' � disabled,, *'1' � open,, *'2' � limited
+ * @param wiki Wiki pages settings. Possible values: *'0' - disabled,, *'1' - open,, *'2' - limited
  * (for groups and events only). minimum 0
- * @param messages Community messages. Possible values: *'0' � disabled,, *'1' � enabled. 
+ * @param messages Community messages. Possible values: *'0' - disabled,, *'1' - enabled. 
  * @param articles  
  * @param addresses  
- * @param ageLimits Community age limits. Possible values: *'1' � no limits,, *'2' � 16+,, *'3' �
+ * @param ageLimits Community age limits. Possible values: *'1' - no limits,, *'2' - 16+,, *'3' -
  * 18+. default 1 minimum 0
- * @param market Market settings. Possible values: *'0' � disabled,, *'1' � enabled. 
- * @param marketComments market comments settings. Possible values: *'0' � disabled,, *'1' �
+ * @param market Market settings. Possible values: *'0' - disabled,, *'1' - enabled. 
+ * @param marketComments market comments settings. Possible values: *'0' - disabled,, *'1' -
  * enabled. 
  * @param marketCountry Market delivery countries. 
  * @param marketCity Market delivery cities (if only one country is specified). 
- * @param marketCurrency Market currency settings. Possbile values: , *'643' � Russian rubles,,
- * *'980' � Ukrainian hryvnia,, *'398' � Kazakh tenge,, *'978' � Euro,, *'840' � US dollars minimum 0
+ * @param marketCurrency Market currency settings. Possbile values: , *'643' - Russian rubles,,
+ * *'980' - Ukrainian hryvnia,, *'398' - Kazakh tenge,, *'978' - Euro,, *'840' - US dollars minimum 0
  * @param marketContact Seller contact for market. Set '0' for community messages. minimum 0
  * @param marketWiki ID of a wiki page with market description. minimum 0
- * @param obsceneFilter Obscene expressions filter in comments. Possible values: , *'0' � disabled,,
- * *'1' � enabled. 
- * @param obsceneStopwords Stopwords filter in comments. Possible values: , *'0' � disabled,, *'1' �
+ * @param obsceneFilter Obscene expressions filter in comments. Possible values: , *'0' - disabled,,
+ * *'1' - enabled. 
+ * @param obsceneStopwords Stopwords filter in comments. Possible values: , *'0' - disabled,, *'1' -
  * enabled. 
  * @param obsceneWords Keywords for stopwords filter. 
  * @param mainSection  minimum 0
@@ -161,7 +161,7 @@ class GroupsEdit(
     private val secondarySection: Int? = null,
     private val country: Int? = null,
     private val city: Int? = null
-) : VKRequest<BaseOkResponseDto>("groups.edit") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.edit") {
     init {
         addParam("group_id", groupId)
         title?.let { value ->

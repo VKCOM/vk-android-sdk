@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.status.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.status.dto.StatusStatus
 import com.vk.sdk.api.status.responses.StatusGetResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class StatusGet(
     private val userId: Int? = null,
     private val groupId: Int? = null
-) : VKRequest<StatusStatus>("status.get") {
+) : ApiRequestBase<StatusStatus>(methodName = "status.get") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

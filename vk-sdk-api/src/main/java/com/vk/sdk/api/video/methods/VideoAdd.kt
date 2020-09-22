@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -46,7 +46,7 @@ class VideoAdd(
     private val videoId: Int,
     private val ownerId: Int,
     private val targetId: Int? = null
-) : VKRequest<BaseOkResponseDto>("video.add") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "video.add") {
     init {
         addParam("video_id", videoId)
         addParam("owner_id", ownerId)

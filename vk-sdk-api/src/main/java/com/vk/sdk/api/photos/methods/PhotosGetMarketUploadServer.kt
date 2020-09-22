@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUploadServer
 import com.vk.sdk.api.photos.responses.PhotosGetMarketUploadServerResponse
@@ -49,7 +49,7 @@ class PhotosGetMarketUploadServer(
     private val cropX: Int? = null,
     private val cropY: Int? = null,
     private val cropWidth: Int? = null
-) : VKRequest<BaseUploadServer>("photos.getMarketUploadServer") {
+) : ApiRequestBase<BaseUploadServer>(methodName = "photos.getMarketUploadServer") {
     init {
         addParam("group_id", groupId)
         mainPhoto?.let { value ->

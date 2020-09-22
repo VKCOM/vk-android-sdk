@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketGetAlbumByIdResponseDto
 import com.vk.sdk.api.market.responses.MarketGetAlbumByIdResponse
@@ -45,7 +45,7 @@ import org.json.JSONObject
 class MarketGetAlbumById(
     private val ownerId: Int,
     private val albumIds: List<Int>
-) : VKRequest<MarketGetAlbumByIdResponseDto>("market.getAlbumById") {
+) : ApiRequestBase<MarketGetAlbumByIdResponseDto>(methodName = "market.getAlbumById") {
     init {
         addParam("owner_id", ownerId)
         addParam("album_ids", albumIds)

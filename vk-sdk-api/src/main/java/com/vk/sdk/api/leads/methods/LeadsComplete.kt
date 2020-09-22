@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.leads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.leads.dto.LeadsComplete
 import com.vk.sdk.api.leads.responses.LeadsCompleteResponse
@@ -44,7 +44,7 @@ class LeadsComplete(
     private val vkSid: String,
     private val secret: String,
     private val comment: String? = null
-) : VKRequest<LeadsComplete>("leads.complete") {
+) : ApiRequestBase<LeadsComplete>(methodName = "leads.complete") {
     init {
         addParam("vk_sid", vkSid)
         addParam("secret", secret)

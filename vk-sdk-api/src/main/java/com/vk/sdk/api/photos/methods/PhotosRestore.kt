@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class PhotosRestore(
     private val photoId: Int,
     private val ownerId: Int? = null
-) : VKRequest<BaseOkResponseDto>("photos.restore") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "photos.restore") {
     init {
         addParam("photo_id", photoId)
         ownerId?.let { value ->

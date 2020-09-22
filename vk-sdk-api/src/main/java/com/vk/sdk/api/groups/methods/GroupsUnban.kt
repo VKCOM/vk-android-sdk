@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
 class GroupsUnban(
     private val groupId: Int,
     private val ownerId: Int? = null
-) : VKRequest<BaseOkResponseDto>("groups.unban") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.unban") {
     init {
         addParam("group_id", groupId)
         ownerId?.let { value ->

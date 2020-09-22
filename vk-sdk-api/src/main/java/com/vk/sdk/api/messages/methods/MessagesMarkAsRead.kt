@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -51,7 +51,7 @@ class MessagesMarkAsRead(
     private val startMessageId: Int? = null,
     private val groupId: Int? = null,
     private val markConversationAsRead: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("messages.markAsRead") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "messages.markAsRead") {
     init {
         messageIds?.let { value ->
             addParam("message_ids", value)

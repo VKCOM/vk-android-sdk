@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class GroupsInvite(
     private val groupId: Int,
     private val userId: Int
-) : VKRequest<BaseOkResponseDto>("groups.invite") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.invite") {
     init {
         addParam("group_id", groupId)
         addParam("user_id", userId)

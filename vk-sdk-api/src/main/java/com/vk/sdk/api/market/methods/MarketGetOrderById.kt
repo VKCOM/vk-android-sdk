@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketGetOrderByIdResponseDto
 import com.vk.sdk.api.market.responses.MarketGetOrderByIdResponse
@@ -45,7 +45,7 @@ class MarketGetOrderById(
     private val orderId: Int,
     private val userId: Int? = null,
     private val extended: Boolean? = null
-) : VKRequest<MarketGetOrderByIdResponseDto>("market.getOrderById") {
+) : ApiRequestBase<MarketGetOrderByIdResponseDto>(methodName = "market.getOrderById") {
     init {
         addParam("order_id", orderId)
         userId?.let { value ->

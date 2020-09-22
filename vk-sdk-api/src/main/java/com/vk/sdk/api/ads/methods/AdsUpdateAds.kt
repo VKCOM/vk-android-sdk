@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.responses.AdsUpdateAdsResponse
 import kotlin.Int
@@ -44,7 +44,7 @@ import org.json.JSONObject
 class AdsUpdateAds(
     private val accountId: Int,
     private val data: String
-) : VKRequest<List<Int>>("ads.updateAds") {
+) : ApiRequestBase<List<Int>>(methodName = "ads.updateAds") {
     init {
         addParam("account_id", accountId)
         addParam("data", data)

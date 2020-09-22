@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.utils.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsInterval
 import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsSource
@@ -45,7 +45,7 @@ import org.json.JSONObject
  * @param accessKey Access key for private link stats. 
  * @param interval Interval. default "day"
  * @param intervalsCount Number of intervals to return. default 1 minimum 0 maximum 100
- * @param extended 1 � to return extended stats data (sex, age, geo). 0 � to return views number
+ * @param extended 1 - to return extended stats data (sex, age, geo). 0 - to return views number
  * only. default false
  */
 class UtilsGetLinkStatsExtended(
@@ -55,7 +55,7 @@ class UtilsGetLinkStatsExtended(
     private val interval: UtilsGetLinkStatsInterval? = null,
     private val intervalsCount: Int? = null,
     private val extended: Boolean? = null
-) : VKRequest<UtilsLinkStatsExtended>("utils.getLinkStats") {
+) : ApiRequestBase<UtilsLinkStatsExtended>(methodName = "utils.getLinkStats") {
     init {
         addParam("key", key)
         source?.let { value ->

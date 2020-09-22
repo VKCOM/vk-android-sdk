@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.widgets.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.users.dto.UsersFields
 import com.vk.sdk.api.widgets.dto.WidgetsGetCommentsResponseDto
@@ -55,7 +55,7 @@ class WidgetsGetComments(
     private val fields: List<UsersFields>? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<WidgetsGetCommentsResponseDto>("widgets.getComments") {
+) : ApiRequestBase<WidgetsGetCommentsResponseDto>(methodName = "widgets.getComments") {
     init {
         widgetApiId?.let { value ->
             addParam("widget_api_id", value)

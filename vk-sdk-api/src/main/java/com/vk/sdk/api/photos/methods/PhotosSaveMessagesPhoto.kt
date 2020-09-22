@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 import com.vk.sdk.api.photos.responses.PhotosSaveMessagesPhotoResponse
@@ -48,7 +48,7 @@ class PhotosSaveMessagesPhoto(
     private val photo: String,
     private val server: Int? = null,
     private val hash: String? = null
-) : VKRequest<List<PhotosPhoto>>("photos.saveMessagesPhoto") {
+) : ApiRequestBase<List<PhotosPhoto>>(methodName = "photos.saveMessagesPhoto") {
     init {
         addParam("photo", photo)
         server?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class StoriesHideReply(
     private val ownerId: Int,
     private val storyId: Int
-) : VKRequest<BaseOkResponseDto>("stories.hideReply") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "stories.hideReply") {
     init {
         addParam("owner_id", ownerId)
         addParam("story_id", storyId)

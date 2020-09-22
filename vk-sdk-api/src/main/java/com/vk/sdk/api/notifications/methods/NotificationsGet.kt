@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.notifications.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.notifications.dto.NotificationsGetFilters
 import com.vk.sdk.api.notifications.dto.NotificationsGetResponseDto
@@ -41,10 +41,10 @@ import org.json.JSONObject
  * Returns a list of notifications about other users' feedback to the current user's wall posts.
  * @param count Number of notifications to return. default 30 minimum 1 maximum 100
  * @param startFrom  
- * @param filters Type of notifications to return: 'wall' � wall posts, 'mentions' � mentions in
- * wall posts, comments, or topics, 'comments' � comments to wall posts, photos, and videos, 'likes' �
- * likes, 'reposted' � wall posts that are copied from the current user's wall, 'followers' � new
- * followers, 'friends' � accepted friend requests 
+ * @param filters Type of notifications to return: 'wall' - wall posts, 'mentions' - mentions in
+ * wall posts, comments, or topics, 'comments' - comments to wall posts, photos, and videos, 'likes' -
+ * likes, 'reposted' - wall posts that are copied from the current user's wall, 'followers' - new
+ * followers, 'friends' - accepted friend requests 
  * @param startTime Earliest timestamp (in Unix time) of a notification to return. By default, 24
  * hours ago. 
  * @param endTime Latest timestamp (in Unix time) of a notification to return. By default, the
@@ -56,7 +56,7 @@ class NotificationsGet(
     private val filters: List<NotificationsGetFilters>? = null,
     private val startTime: Int? = null,
     private val endTime: Int? = null
-) : VKRequest<NotificationsGetResponseDto>("notifications.get") {
+) : ApiRequestBase<NotificationsGetResponseDto>(methodName = "notifications.get") {
     init {
         count?.let { value ->
             addParam("count", value)

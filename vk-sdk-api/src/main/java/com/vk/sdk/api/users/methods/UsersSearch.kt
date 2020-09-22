@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.users.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.users.dto.UsersFields
 import com.vk.sdk.api.users.dto.UsersSearchResponseDto
@@ -44,7 +44,7 @@ import org.json.JSONObject
 /**
  * Returns a list of users matching the search criteria.
  * @param q Search query string (e.g., 'Vasya Babich'). 
- * @param sort Sort order: '1' � by date registered, '0' � by rating 
+ * @param sort Sort order: '1' - by date registered, '0' - by rating 
  * @param offset Offset needed to return a specific subset of users. minimum 0
  * @param count Number of users to return. default 20 minimum 0 maximum 1000
  * @param fields Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate'
@@ -58,16 +58,16 @@ import org.json.JSONObject
  * @param universityYear Year of graduation from an institution of higher education. minimum 0
  * @param universityFaculty Faculty ID. minimum 0
  * @param universityChair Chair ID. minimum 0
- * @param sex '1' � female, '2' � male, '0' � any (default) minimum 0
- * @param status Relationship status: '1' � Not married, '2' � In a relationship, '3' � Engaged, '4'
- * � Married, '5' � It's complicated, '6' � Actively searching, '7' � In love minimum 0
+ * @param sex '1' - female, '2' - male, '0' - any (default) minimum 0
+ * @param status Relationship status: '1' - Not married, '2' - In a relationship, '3' - Engaged,
+ * '4' - Married, '5' - It's complicated, '6' - Actively searching, '7' - In love minimum 0
  * @param ageFrom Minimum age. minimum 0
  * @param ageTo Maximum age. minimum 0
  * @param birthDay Day of birth. minimum 0
  * @param birthMonth Month of birth. minimum 0
  * @param birthYear Year of birth. minimum 1900 maximum 2100
- * @param online '1' � online only, '0' � all users 
- * @param hasPhoto '1' � with photo only, '0' � all users 
+ * @param online '1' - online only, '0' - all users 
+ * @param hasPhoto '1' - with photo only, '0' - all users 
  * @param schoolCountry ID of the country where users finished school. minimum 0
  * @param schoolCity ID of the city where users finished school. minimum 0
  * @param schoolClass  minimum 0
@@ -112,7 +112,7 @@ class UsersSearch(
     private val position: String? = null,
     private val groupId: Int? = null,
     private val fromList: List<String>? = null
-) : VKRequest<UsersSearchResponseDto>("users.search") {
+) : ApiRequestBase<UsersSearchResponseDto>(methodName = "users.search") {
     init {
         q?.let { value ->
             addParam("q", value)

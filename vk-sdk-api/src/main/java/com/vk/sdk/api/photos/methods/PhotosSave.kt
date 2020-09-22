@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 import com.vk.sdk.api.photos.responses.PhotosSaveResponse
@@ -58,7 +58,7 @@ class PhotosSave(
     private val latitude: Float? = null,
     private val longitude: Float? = null,
     private val caption: String? = null
-) : VKRequest<List<PhotosPhoto>>("photos.save") {
+) : ApiRequestBase<List<PhotosPhoto>>(methodName = "photos.save") {
     init {
         albumId?.let { value ->
             addParam("album_id", value)

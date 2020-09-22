@@ -23,11 +23,11 @@ SOFTWARE.
 */
 
 ext.sdkVersions = [
-        code                            : '18',
-        name                            : '2.3.0',
+        code                            : '19',
+        name                            : '2.4.0',
 
-        minSdk                          : 16,
-        targetSdk                       : 28,
+        minSdk                          : 21,
+        targetSdk                       : 29,
         compileSdk                      : '29',
         buildTools                      : '29.0.3',
 

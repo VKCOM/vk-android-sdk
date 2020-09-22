@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosSaveOwnerPhotoResponseDto
 import com.vk.sdk.api.photos.responses.PhotosSaveOwnerPhotoResponse
@@ -45,7 +45,7 @@ class PhotosSaveOwnerPhoto(
     private val server: String? = null,
     private val hash: String? = null,
     private val photo: String? = null
-) : VKRequest<PhotosSaveOwnerPhotoResponseDto>("photos.saveOwnerPhoto") {
+) : ApiRequestBase<PhotosSaveOwnerPhotoResponseDto>(methodName = "photos.saveOwnerPhoto") {
     init {
         server?.let { value ->
             addParam("server", value)

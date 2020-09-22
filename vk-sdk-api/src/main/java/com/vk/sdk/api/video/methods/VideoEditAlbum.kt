@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,15 +42,15 @@ import org.json.JSONObject
  * @param albumId Album ID. minimum 0
  * @param title New album title. 
  * @param groupId Community ID (if the album edited is owned by a community). minimum 0
- * @param privacy new access permissions for the album. Possible values: , *'0' � all users,, *'1' �
- * friends only,, *'2' � friends and friends of friends,, *'3' � "only me". 
+ * @param privacy new access permissions for the album. Possible values: , *'0' - all users,, *'1' -
+ * friends only,, *'2' - friends and friends of friends,, *'3' - "only me". 
  */
 class VideoEditAlbum(
     private val albumId: Int,
     private val title: String,
     private val groupId: Int? = null,
     private val privacy: List<VideoEditAlbumPrivacy>? = null
-) : VKRequest<BaseOkResponseDto>("video.editAlbum") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "video.editAlbum") {
     init {
         addParam("album_id", albumId)
         addParam("title", title)

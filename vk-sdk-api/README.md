@@ -1,7 +1,7 @@
 VK SDK api for Android
 ==========
 
-To update it from current master please run tools/tasks/generator/generate_public_sdk_api.sh
+Current version is 5.122
 
 there are 3 packages now
 

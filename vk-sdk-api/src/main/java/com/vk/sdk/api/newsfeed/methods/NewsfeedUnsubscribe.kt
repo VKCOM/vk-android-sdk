@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -37,8 +37,8 @@ import org.json.JSONObject
 
 /**
  * Unsubscribes the current user from specified newsfeeds.
- * @param type Type of object from which to unsubscribe: 'note' � note, 'photo' � photo, 'post' �
- * post on user wall or community wall, 'topic' � topic, 'video' � video 
+ * @param type Type of object from which to unsubscribe: 'note' - note, 'photo' - photo, 'post' -
+ * post on user wall or community wall, 'topic' - topic, 'video' - video 
  * @param itemId Object ID. minimum 0
  * @param ownerId Object owner ID. 
  */
@@ -46,7 +46,7 @@ class NewsfeedUnsubscribe(
     private val type: NewsfeedUnsubscribeType,
     private val itemId: Int,
     private val ownerId: Int? = null
-) : VKRequest<BaseOkResponseDto>("newsfeed.unsubscribe") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "newsfeed.unsubscribe") {
     init {
         addParam("type", type.value)
         addParam("item_id", itemId)

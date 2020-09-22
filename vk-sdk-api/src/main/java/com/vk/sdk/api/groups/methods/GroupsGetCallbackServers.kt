@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsGetCallbackServersResponseDto
 import com.vk.sdk.api.groups.responses.GroupsGetCallbackServersResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class GroupsGetCallbackServers(
     private val groupId: Int,
     private val serverIds: List<Int>? = null
-) : VKRequest<GroupsGetCallbackServersResponseDto>("groups.getCallbackServers") {
+) : ApiRequestBase<GroupsGetCallbackServersResponseDto>(methodName = "groups.getCallbackServers") {
     init {
         addParam("group_id", groupId)
         serverIds?.let { value ->

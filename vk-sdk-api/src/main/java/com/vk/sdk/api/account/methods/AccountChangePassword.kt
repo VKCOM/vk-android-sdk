@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.account.dto.AccountChangePasswordResponseDto
 import com.vk.sdk.api.account.responses.AccountChangePasswordResponse
@@ -49,7 +49,7 @@ class AccountChangePassword(
     private val restoreSid: String? = null,
     private val changePasswordHash: String? = null,
     private val oldPassword: String? = null
-) : VKRequest<AccountChangePasswordResponseDto>("account.changePassword") {
+) : ApiRequestBase<AccountChangePasswordResponseDto>(methodName = "account.changePassword") {
     init {
         addParam("new_password", newPassword)
         restoreSid?.let { value ->

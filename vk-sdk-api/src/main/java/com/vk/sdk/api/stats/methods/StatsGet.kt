@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stats.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.stats.dto.StatsGetInterval
 import com.vk.sdk.api.stats.dto.StatsPeriod
@@ -60,7 +60,7 @@ class StatsGet(
     private val filters: List<String>? = null,
     private val statsGroups: List<String>? = null,
     private val extended: Boolean? = null
-) : VKRequest<List<StatsPeriod>>("stats.get") {
+) : ApiRequestBase<List<StatsPeriod>>(methodName = "stats.get") {
     init {
         groupId?.let { value ->
             addParam("group_id", value)

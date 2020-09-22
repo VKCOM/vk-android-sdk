@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.pages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.pages.dto.PagesWikipageFull
 import com.vk.sdk.api.pages.responses.PagesGetResponse
@@ -40,11 +40,11 @@ import org.json.JSONObject
  * Returns information about a wiki page.
  * @param ownerId Page owner ID. 
  * @param pageId Wiki page ID. 
- * @param global '1' � to return information about a global wiki page 
- * @param sitePreview '1' � resulting wiki page is a preview for the attached link 
+ * @param global '1' - to return information about a global wiki page 
+ * @param sitePreview '1' - resulting wiki page is a preview for the attached link 
  * @param title Wiki page title. 
  * @param needSource  
- * @param needHtml '1' � to return the page as HTML, 
+ * @param needHtml '1' - to return the page as HTML, 
  */
 class PagesGet(
     private val ownerId: Int? = null,
@@ -54,7 +54,7 @@ class PagesGet(
     private val title: String? = null,
     private val needSource: Boolean? = null,
     private val needHtml: Boolean? = null
-) : VKRequest<PagesWikipageFull>("pages.get") {
+) : ApiRequestBase<PagesWikipageFull>(methodName = "pages.get") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

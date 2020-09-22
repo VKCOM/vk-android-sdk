@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsGetInvitedUsersNameCase
 import com.vk.sdk.api.groups.dto.GroupsGetInvitedUsersResponseDto
@@ -47,9 +47,9 @@ import org.json.JSONObject
  * online, online_mobile, lists, domain, has_mobile, contacts, connections, site, education,
  * universities, schools, can_post, can_see_all_posts, can_see_audio, can_write_private_message,
  * status, last_seen, common_count, relation, relatives, counters'. 
- * @param nameCase Case for declension of user name and surname. Possible values: *'nom' �
- * nominative (default),, *'gen' � genitive,, *'dat' � dative,, *'acc' � accusative, , *'ins' �
- * instrumental,, *'abl' � prepositional. 
+ * @param nameCase Case for declension of user name and surname. Possible values: *'nom' -
+ * nominative (default),, *'gen' - genitive,, *'dat' - dative,, *'acc' - accusative, , *'ins' -
+ * instrumental,, *'abl' - prepositional. 
  */
 class GroupsGetInvitedUsers(
     private val groupId: Int,
@@ -57,7 +57,7 @@ class GroupsGetInvitedUsers(
     private val count: Int? = null,
     private val fields: List<UsersFields>? = null,
     private val nameCase: GroupsGetInvitedUsersNameCase? = null
-) : VKRequest<GroupsGetInvitedUsersResponseDto>("groups.getInvitedUsers") {
+) : ApiRequestBase<GroupsGetInvitedUsersResponseDto>(methodName = "groups.getInvitedUsers") {
     init {
         addParam("group_id", groupId)
         offset?.let { value ->

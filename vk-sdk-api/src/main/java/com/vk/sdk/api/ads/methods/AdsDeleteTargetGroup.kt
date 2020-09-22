@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -45,7 +45,7 @@ class AdsDeleteTargetGroup(
     private val accountId: Int,
     private val targetGroupId: Int,
     private val clientId: Int? = null
-) : VKRequest<BaseOkResponseDto>("ads.deleteTargetGroup") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "ads.deleteTargetGroup") {
     init {
         addParam("account_id", accountId)
         addParam("target_group_id", targetGroupId)

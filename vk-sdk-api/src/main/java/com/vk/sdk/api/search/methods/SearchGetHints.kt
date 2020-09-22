@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.search.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.search.dto.SearchGetHintsResponseDto
 import com.vk.sdk.api.search.responses.SearchGetHintsResponse
@@ -53,7 +53,7 @@ class SearchGetHints(
     private val filters: List<String>? = null,
     private val fields: List<String>? = null,
     private val searchGlobal: Boolean? = null
-) : VKRequest<SearchGetHintsResponseDto>("search.getHints") {
+) : ApiRequestBase<SearchGetHintsResponseDto>(methodName = "search.getHints") {
     init {
         q?.let { value ->
             addParam("q", value)

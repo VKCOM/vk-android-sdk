@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesDeleteConversationResponseDto
 import com.vk.sdk.api.messages.responses.MessagesDeleteConversationResponse
@@ -45,7 +45,8 @@ class MessagesDeleteConversation(
     private val userId: Int? = null,
     private val peerId: Int? = null,
     private val groupId: Int? = null
-) : VKRequest<MessagesDeleteConversationResponseDto>("messages.deleteConversation") {
+) : ApiRequestBase<MessagesDeleteConversationResponseDto>(methodName =
+        "messages.deleteConversation") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

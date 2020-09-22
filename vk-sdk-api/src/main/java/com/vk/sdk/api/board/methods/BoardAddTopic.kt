@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.board.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.board.responses.BoardAddTopicResponse
 import kotlin.Boolean
@@ -41,11 +41,11 @@ import org.json.JSONObject
  * @param groupId ID of the community that owns the discussion board. minimum 0
  * @param title Topic title. 
  * @param text Text of the topic. 
- * @param fromGroup For a community: '1' � to post the topic as by the community, '0' � to post the
+ * @param fromGroup For a community: '1' - to post the topic as by the community, '0' - to post the
  * topic as by the user (default) 
  * @param attachments List of media objects attached to the topic, in the following format:
- * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' � Type of media object: 'photo' � photo, 'video' �
- * video, 'audio' � audio, 'doc' � document, '<owner_id>' � ID of the media owner. '<media_id>' � Media
+ * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media object: 'photo' - photo, 'video' -
+ * video, 'audio' - audio, 'doc' - document, '<owner_id>' - ID of the media owner. '<media_id>' - Media
  * ID. Example: "photo100172_166443618,photo66748_265827614", , "NOTE: If you try to attach more than
  * one reference, an error will be thrown.", 
  */
@@ -55,7 +55,7 @@ class BoardAddTopic(
     private val text: String? = null,
     private val fromGroup: Boolean? = null,
     private val attachments: List<String>? = null
-) : VKRequest<Int>("board.addTopic") {
+) : ApiRequestBase<Int>(methodName = "board.addTopic") {
     init {
         addParam("group_id", groupId)
         addParam("title", title)

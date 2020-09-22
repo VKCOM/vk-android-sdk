@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -48,7 +48,7 @@ import org.json.JSONObject
  * @param privacyComment Privacy settings for comments in a [vk.com/dev/privacy_setting|special
  * format]. 
  * @param noComments Disable comments for the group video. 
- * @param repeat '1' � to repeat the playback of the video, '0' � to play the video once, 
+ * @param repeat '1' - to repeat the playback of the video, '0' - to play the video once, 
  */
 class VideoEdit(
     private val videoId: Int,
@@ -59,7 +59,7 @@ class VideoEdit(
     private val privacyComment: List<String>? = null,
     private val noComments: Boolean? = null,
     private val repeat: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("video.edit") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "video.edit") {
     init {
         addParam("video_id", videoId)
         ownerId?.let { value ->

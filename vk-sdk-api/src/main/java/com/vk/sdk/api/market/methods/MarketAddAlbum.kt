@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketAddAlbumResponseDto
 import com.vk.sdk.api.market.responses.MarketAddAlbumResponse
@@ -41,14 +41,14 @@ import org.json.JSONObject
  * @param ownerId ID of an item owner community. 
  * @param title Collection title. maxLength 128
  * @param photoId Cover photo ID. minimum 0
- * @param mainAlbum Set as main ('1' � set, '0' � no). 
+ * @param mainAlbum Set as main ('1' - set, '0' - no). 
  */
 class MarketAddAlbum(
     private val ownerId: Int,
     private val title: String,
     private val photoId: Int? = null,
     private val mainAlbum: Boolean? = null
-) : VKRequest<MarketAddAlbumResponseDto>("market.addAlbum") {
+) : ApiRequestBase<MarketAddAlbumResponseDto>(methodName = "market.addAlbum") {
     init {
         addParam("owner_id", ownerId)
         addParam("title", title)

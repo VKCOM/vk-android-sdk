@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.appWidgets.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.appWidgets.dto.AppWidgetsGetAppImagesImageType
 import com.vk.sdk.api.appWidgets.dto.AppWidgetsPhotos
@@ -45,7 +45,7 @@ class AppWidgetsGetAppImages(
     private val offset: Int? = null,
     private val count: Int? = null,
     private val imageType: AppWidgetsGetAppImagesImageType? = null
-) : VKRequest<AppWidgetsPhotos>("appWidgets.getAppImages") {
+) : ApiRequestBase<AppWidgetsPhotos>(methodName = "appWidgets.getAppImages") {
     init {
         offset?.let { value ->
             addParam("offset", value)

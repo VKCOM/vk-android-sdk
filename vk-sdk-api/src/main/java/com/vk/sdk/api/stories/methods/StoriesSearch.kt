@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.stories.dto.StoriesGetV5113ResponseDto
 import com.vk.sdk.api.stories.responses.StoriesGetV5113Response
@@ -59,7 +59,7 @@ class StoriesSearch(
     private val count: Int? = null,
     private val extended: Boolean? = null,
     private val fields: List<String>? = null
-) : VKRequest<StoriesGetV5113ResponseDto>("stories.search") {
+) : ApiRequestBase<StoriesGetV5113ResponseDto>(methodName = "stories.search") {
     init {
         q?.let { value ->
             addParam("q", value)

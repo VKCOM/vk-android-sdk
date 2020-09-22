@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.apps.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.apps.dto.AppsGetFriendsListResponseDto
 import com.vk.sdk.api.apps.dto.AppsGetFriendsListType
@@ -43,8 +43,8 @@ import org.json.JSONObject
  * @param extended  default 0
  * @param count List size. default 20 minimum 0 maximum 5000
  * @param offset  default 0 minimum 0
- * @param type List type. Possible values: * 'invite' � available for invites (don't play the
- * game),, * 'request' � available for request (play the game). By default: 'invite'. default "invite"
+ * @param type List type. Possible values: * 'invite' - available for invites (don't play the
+ * game),, * 'request' - available for request (play the game). By default: 'invite'. default "invite"
  * @param fields Additional profile fields, see [vk.com/dev/fields|description]. 
  */
 class AppsGetFriendsList(
@@ -53,7 +53,7 @@ class AppsGetFriendsList(
     private val offset: Int? = null,
     private val type: AppsGetFriendsListType? = null,
     private val fields: List<UsersFields>? = null
-) : VKRequest<AppsGetFriendsListResponseDto>("apps.getFriendsList") {
+) : ApiRequestBase<AppsGetFriendsListResponseDto>(methodName = "apps.getFriendsList") {
     init {
         extended?.let { value ->
             addParam("extended", if (value) 1 else 0)

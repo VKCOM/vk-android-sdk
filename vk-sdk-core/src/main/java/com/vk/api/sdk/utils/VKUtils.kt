@@ -31,6 +31,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
 import android.webkit.CookieManager
@@ -50,9 +51,16 @@ object VKUtils {
         }
     }
 
+    /**
+     * @param allowedPackage the only package that allowed for that action
+     */
     @JvmStatic
-    fun isIntentAvailable(context: Context, action: String)
-        = context.packageManager?.queryIntentActivities(Intent(action), PackageManager.MATCH_DEFAULT_ONLY)?.any() ?: false
+    fun isIntentAvailable(context: Context, action: String, data: Uri?, allowedPackage: String): Boolean {
+        val resolveInfos = context.packageManager
+            ?.queryIntentActivities(Intent(action, data), PackageManager.MATCH_DEFAULT_ONLY)
+            ?: return false
+        return resolveInfos.any { it.activityInfo.packageName == allowedPackage }
+    }
 
     @JvmStatic
     fun explodeQueryString(queryString: String?): MutableMap<String, String>? {

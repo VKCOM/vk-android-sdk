@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetBannedExtendedResponseDto
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetBannedNameCase
@@ -39,16 +39,17 @@ import org.json.JSONObject
 
 /**
  * Returns a list of users and communities banned from the current user's newsfeed.
- * @param extended '1' � return extra information about users and communities 
+ * @param extended '1' - return extra information about users and communities 
  * @param fields Profile fields to return. 
- * @param nameCase Case for declension of user name and surname: 'nom' � nominative (default), 'gen'
- * � genitive , 'dat' � dative, 'acc' � accusative , 'ins' � instrumental , 'abl' � prepositional 
+ * @param nameCase Case for declension of user name and surname: 'nom' - nominative (default),
+ * 'gen' - genitive , 'dat' - dative, 'acc' - accusative , 'ins' - instrumental , 'abl' - prepositional
+ * 
  */
 class NewsfeedGetBannedExtended(
     private val extended: Boolean? = null,
     private val fields: List<UsersFields>? = null,
     private val nameCase: NewsfeedGetBannedNameCase? = null
-) : VKRequest<NewsfeedGetBannedExtendedResponseDto>("newsfeed.getBanned") {
+) : ApiRequestBase<NewsfeedGetBannedExtendedResponseDto>(methodName = "newsfeed.getBanned") {
     init {
         extended?.let { value ->
             addParam("extended", if (value) 1 else 0)

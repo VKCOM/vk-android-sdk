@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseImage
 import com.vk.sdk.api.photos.responses.PhotosSaveOwnerCoverPhotoResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class PhotosSaveOwnerCoverPhoto(
     private val hash: String,
     private val photo: String
-) : VKRequest<List<BaseImage>>("photos.saveOwnerCoverPhoto") {
+) : ApiRequestBase<List<BaseImage>>(methodName = "photos.saveOwnerCoverPhoto") {
     init {
         addParam("hash", hash)
         addParam("photo", photo)

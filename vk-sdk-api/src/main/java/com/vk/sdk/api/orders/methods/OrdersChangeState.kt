@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.orders.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.orders.dto.OrdersChangeStateAction
 import com.vk.sdk.api.orders.responses.OrdersChangeStateResponse
@@ -39,20 +39,20 @@ import org.json.JSONObject
 /**
  * Changes order status.
  * @param orderId order ID. minimum 0
- * @param action action to be done with the order. Available actions: *cancel � to cancel
- * unconfirmed order. *charge � to confirm unconfirmed order. Applies only if processing of
- * [vk.com/dev/payments_status|order_change_state] notification failed. *refund � to cancel confirmed
+ * @param action action to be done with the order. Available actions: *cancel - to cancel
+ * unconfirmed order. *charge - to confirm unconfirmed order. Applies only if processing of
+ * [vk.com/dev/payments_status|order_change_state] notification failed. *refund - to cancel confirmed
  * order. 
  * @param appOrderId internal ID of the order in the application. minimum 0
  * @param testMode if this parameter is set to 1, this method returns a list of test mode orders. By
- * default � 0. 
+ * default - 0. 
  */
 class OrdersChangeState(
     private val orderId: Int,
     private val action: OrdersChangeStateAction,
     private val appOrderId: Int? = null,
     private val testMode: Boolean? = null
-) : VKRequest<String>("orders.changeState") {
+) : ApiRequestBase<String>(methodName = "orders.changeState") {
     init {
         addParam("order_id", orderId)
         addParam("action", action.value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.account.dto.AccountGetInfoFields
 import com.vk.sdk.api.account.dto.AccountInfo
@@ -37,14 +37,14 @@ import org.json.JSONObject
 
 /**
  * Returns current account info.
- * @param fields Fields to return. Possible values: *'country' � user country,, *'https_required' �
- * is "HTTPS only" option enabled,, *'own_posts_default' � is "Show my posts only" option is enabled,,
- * *'no_wall_replies' � are wall replies disabled or not,, *'intro' � is intro passed by user or not,,
- * *'lang' � user language. By default: all. 
+ * @param fields Fields to return. Possible values: *'country' - user country,, *'https_required' -
+ * is "HTTPS only" option enabled,, *'own_posts_default' - is "Show my posts only" option is enabled,,
+ * *'no_wall_replies' - are wall replies disabled or not,, *'intro' - is intro passed by user or not,,
+ * *'lang' - user language. By default: all. 
  */
 class AccountGetInfo(
     private val fields: List<AccountGetInfoFields>? = null
-) : VKRequest<AccountInfo>("account.getInfo") {
+) : ApiRequestBase<AccountInfo>(methodName = "account.getInfo") {
     init {
         fields?.let { value ->
             addParam("fields", value.map { it.value })

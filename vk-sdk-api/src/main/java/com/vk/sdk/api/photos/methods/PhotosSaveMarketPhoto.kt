@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 import com.vk.sdk.api.photos.responses.PhotosSaveMarketPhotoResponse
@@ -52,7 +52,7 @@ class PhotosSaveMarketPhoto(
     private val groupId: Int? = null,
     private val cropData: String? = null,
     private val cropHash: String? = null
-) : VKRequest<List<PhotosPhoto>>("photos.saveMarketPhoto") {
+) : ApiRequestBase<List<PhotosPhoto>>(methodName = "photos.saveMarketPhoto") {
     init {
         addParam("photo", photo)
         addParam("server", server)

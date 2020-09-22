@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.fave.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.fave.dto.FaveAddTagPosition
 import com.vk.sdk.api.fave.dto.FaveTag
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class FaveAddTag(
     private val name: String? = null,
     private val position: FaveAddTagPosition? = null
-) : VKRequest<FaveTag>("fave.addTag") {
+) : ApiRequestBase<FaveTag>(methodName = "fave.addTag") {
     init {
         name?.let { value ->
             addParam("name", value)

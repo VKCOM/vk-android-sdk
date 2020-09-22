@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.dto.FriendsAddResponseDto
 import com.vk.sdk.api.friends.responses.FriendsAddResponse
@@ -47,7 +47,7 @@ class FriendsAdd(
     private val userId: Int? = null,
     private val text: String? = null,
     private val follow: Boolean? = null
-) : VKRequest<FriendsAddResponseDto>("friends.add") {
+) : ApiRequestBase<FriendsAddResponseDto>(methodName = "friends.add") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

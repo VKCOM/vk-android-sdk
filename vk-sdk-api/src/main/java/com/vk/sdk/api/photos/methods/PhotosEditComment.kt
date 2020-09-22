@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,16 +42,16 @@ import org.json.JSONObject
  * @param ownerId ID of the user or community that owns the photo. 
  * @param message New text of the comment. 
  * @param attachments (Required if 'message' is not set.) List of objects attached to the post, in
- * the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' � Type of media attachment:
- * 'photo' � photo, 'video' � video, 'audio' � audio, 'doc' � document, '<owner_id>' � Media attachment
- * owner ID. '<media_id>' � Media attachment ID. Example: "photo100172_166443618,photo66748_265827614" 
+ * the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment:
+ * 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - Media attachment
+ * owner ID. '<media_id>' - Media attachment ID. Example: "photo100172_166443618,photo66748_265827614" 
  */
 class PhotosEditComment(
     private val commentId: Int,
     private val ownerId: Int? = null,
     private val message: String? = null,
     private val attachments: List<String>? = null
-) : VKRequest<BaseOkResponseDto>("photos.editComment") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "photos.editComment") {
     init {
         addParam("comment_id", commentId)
         ownerId?.let { value ->

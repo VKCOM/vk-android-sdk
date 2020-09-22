@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -38,14 +38,14 @@ import org.json.JSONObject
 /**
  * Marks and unmarks conversations as important.
  * @param peerId ID of conversation to mark as important. 
- * @param important '1' � to add a star (mark as important), '0' � to remove the star default 1
+ * @param important '1' - to add a star (mark as important), '0' - to remove the star default 1
  * @param groupId Group ID (for group messages with group access token) minimum 0
  */
 class MessagesMarkAsImportantConversation(
     private val peerId: Int,
     private val important: Boolean? = null,
     private val groupId: Int? = null
-) : VKRequest<BaseOkResponseDto>("messages.markAsImportantConversation") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "messages.markAsImportantConversation") {
     init {
         addParam("peer_id", peerId)
         important?.let { value ->

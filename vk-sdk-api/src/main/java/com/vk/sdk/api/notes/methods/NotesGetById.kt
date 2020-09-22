@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.notes.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.notes.dto.NotesNote
 import com.vk.sdk.api.notes.responses.NotesGetByIdResponse
@@ -45,7 +45,7 @@ class NotesGetById(
     private val noteId: Int,
     private val ownerId: Int? = null,
     private val needWiki: Boolean? = null
-) : VKRequest<NotesNote>("notes.getById") {
+) : ApiRequestBase<NotesNote>(methodName = "notes.getById") {
     init {
         addParam("note_id", noteId)
         ownerId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -46,7 +46,7 @@ class PhotosReorderPhotos(
     private val ownerId: Int? = null,
     private val before: Int? = null,
     private val after: Int? = null
-) : VKRequest<BaseOkResponseDto>("photos.reorderPhotos") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "photos.reorderPhotos") {
     init {
         addParam("photo_id", photoId)
         ownerId?.let { value ->

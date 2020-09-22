@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsGetTargetingStatsAdFormat
 import com.vk.sdk.api.ads.dto.AdsTargStats
@@ -45,12 +45,12 @@ import org.json.JSONObject
  * @param criteria Serialized JSON object that describes targeting parameters. Description of
  * 'criteria' object see below. 
  * @param adId ID of an ad which targeting parameters shall be analyzed. 
- * @param adFormat Ad format. Possible values: *'1' � image and text,, *'2' � big image,, *'3' �
- * exclusive format,, *'4' � community, square image,, *'7' � special app format,, *'8' � special
- * community format,, *'9' � post in community,, *'10' � app board. 
- * @param adPlatform Platforms to use for ad showing. Possible values: (for 'ad_format' = '1'), *'0'
- * � VK and partner sites,, *'1' � VK only. (for 'ad_format' = '9'), *'all' � all platforms,,
- * *'desktop' � desktop version,, *'mobile' � mobile version and apps. 
+ * @param adFormat Ad format. Possible values: *'1' - image and text,, *'2' - big image,, *'3' -
+ * exclusive format,, *'4' - community, square image,, *'7' - special app format,, *'8' - special
+ * community format,, *'9' - post in community,, *'10' - app board. 
+ * @param adPlatform Platforms to use for ad showing. Possible values: (for 'ad_format' = '1'),
+ * *'0' - VK and partner sites,, *'1' - VK only. (for 'ad_format' = '9'), *'all' - all platforms,,
+ * *'desktop' - desktop version,, *'mobile' - mobile version and apps. 
  * @param adPlatformNoWall  
  * @param adPlatformNoAdNetwork  
  * @param linkDomain Domain of the advertised object. 
@@ -69,7 +69,7 @@ class AdsGetTargetingStats(
     private val adPlatformNoAdNetwork: String? = null,
     private val linkDomain: String? = null,
     private val needPrecise: Boolean? = null
-) : VKRequest<AdsTargStats>("ads.getTargetingStats") {
+) : ApiRequestBase<AdsTargStats>(methodName = "ads.getTargetingStats") {
     init {
         addParam("account_id", accountId)
         addParam("link_url", linkUrl)

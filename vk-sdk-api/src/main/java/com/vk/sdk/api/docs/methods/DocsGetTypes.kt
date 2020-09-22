@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.docs.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.docs.dto.DocsGetTypesResponseDto
 import com.vk.sdk.api.docs.responses.DocsGetTypesResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class DocsGetTypes(
     private val ownerId: Int
-) : VKRequest<DocsGetTypesResponseDto>("docs.getTypes") {
+) : ApiRequestBase<DocsGetTypesResponseDto>(methodName = "docs.getTypes") {
     init {
         addParam("owner_id", ownerId)
     }

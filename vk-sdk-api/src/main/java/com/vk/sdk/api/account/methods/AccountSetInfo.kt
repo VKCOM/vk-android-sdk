@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class AccountSetInfo(
     private val name: String? = null,
     private val value: String? = null
-) : VKRequest<BaseOkResponseDto>("account.setInfo") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "account.setInfo") {
     init {
         name?.let { value ->
             addParam("name", value)

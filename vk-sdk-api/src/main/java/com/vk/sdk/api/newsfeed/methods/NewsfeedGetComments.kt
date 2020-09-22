@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.newsfeed.dto.NewsfeedCommentsFilters
@@ -42,8 +42,8 @@ import org.json.JSONObject
  * Returns a list of comments in the current user's newsfeed.
  * @param count Number of comments to return. For auto feed, you can use the 'new_offset' parameter
  * returned by this method. default 30 minimum 0 maximum 100
- * @param filters Filters to apply: 'post' � new comments on wall posts, 'photo' � new comments on
- * photos, 'video' � new comments on videos, 'topic' � new comments on discussions, 'note' � new
+ * @param filters Filters to apply: 'post' - new comments on wall posts, 'photo' - new comments on
+ * photos, 'video' - new comments on videos, 'topic' - new comments on discussions, 'note' - new
  * comments on notes, 
  * @param reposts Object ID, comments on repost of which shall be returned, e.g. 'wall1_45486'. (If
  * the parameter is set, the 'filters' parameter is optional.), 
@@ -66,7 +66,7 @@ class NewsfeedGetComments(
     private val lastCommentsCount: Int? = null,
     private val startFrom: String? = null,
     private val fields: List<BaseUserGroupFields>? = null
-) : VKRequest<NewsfeedGetCommentsResponseDto>("newsfeed.getComments") {
+) : ApiRequestBase<NewsfeedGetCommentsResponseDto>(methodName = "newsfeed.getComments") {
     init {
         count?.let { value ->
             addParam("count", value)

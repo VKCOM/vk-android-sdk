@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.apps.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -36,7 +36,8 @@ import org.json.JSONObject
 /**
  * Deletes all request notifications from the current app.
  */
-class AppsDeleteAppRequests : VKRequest<BaseOkResponseDto>("apps.deleteAppRequests") {
+class AppsDeleteAppRequests : ApiRequestBase<BaseOkResponseDto>(methodName =
+        "apps.deleteAppRequests") {
     override fun parse(r: JSONObject): BaseOkResponseDto = GsonHolder.gson.fromJson(r.toString(),
             BaseOkResponse::class.java).response
 }

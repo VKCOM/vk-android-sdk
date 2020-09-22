@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.storage.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.storage.responses.StorageGetKeysResponse
 import kotlin.Int
@@ -47,7 +47,7 @@ class StorageGetKeys(
     private val userId: Int? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<List<String>>("storage.getKeys") {
+) : ApiRequestBase<List<String>>(methodName = "storage.getKeys") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.fave.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.responses.BaseBoolResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
 class FaveRemoveArticle(
     private val ownerId: Int,
     private val articleId: Int
-) : VKRequest<BaseBoolInt>("fave.removeArticle") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "fave.removeArticle") {
     init {
         addParam("owner_id", ownerId)
         addParam("article_id", articleId)

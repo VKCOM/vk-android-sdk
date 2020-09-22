@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.pages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.pages.dto.PagesWikipageFull
 import com.vk.sdk.api.pages.responses.PagesGetVersionResponse
@@ -40,14 +40,14 @@ import org.json.JSONObject
  * @param versionId  
  * @param groupId ID of the community that owns the wiki page. 
  * @param userId  
- * @param needHtml '1' � to return the page as HTML 
+ * @param needHtml '1' - to return the page as HTML 
  */
 class PagesGetVersion(
     private val versionId: Int,
     private val groupId: Int? = null,
     private val userId: Int? = null,
     private val needHtml: Boolean? = null
-) : VKRequest<PagesWikipageFull>("pages.getVersion") {
+) : ApiRequestBase<PagesWikipageFull>(methodName = "pages.getVersion") {
     init {
         addParam("version_id", versionId)
         groupId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.groups.dto.GroupsGetBannedResponseDto
@@ -50,7 +50,7 @@ class GroupsGetBanned(
     private val count: Int? = null,
     private val fields: List<BaseUserGroupFields>? = null,
     private val ownerId: Int? = null
-) : VKRequest<GroupsGetBannedResponseDto>("groups.getBanned") {
+) : ApiRequestBase<GroupsGetBannedResponseDto>(methodName = "groups.getBanned") {
     init {
         addParam("group_id", groupId)
         offset?.let { value ->

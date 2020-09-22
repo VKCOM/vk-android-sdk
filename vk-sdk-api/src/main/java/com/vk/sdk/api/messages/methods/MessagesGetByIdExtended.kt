@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesGetByIdExtendedResponseDto
 import com.vk.sdk.api.messages.responses.MessagesGetByIdExtendedResponse
@@ -53,7 +53,7 @@ class MessagesGetByIdExtended(
     private val extended: Boolean? = null,
     private val fields: List<UsersFields>? = null,
     private val groupId: Int? = null
-) : VKRequest<MessagesGetByIdExtendedResponseDto>("messages.getById") {
+) : ApiRequestBase<MessagesGetByIdExtendedResponseDto>(methodName = "messages.getById") {
     init {
         addParam("message_ids", messageIds)
         previewLength?.let { value ->

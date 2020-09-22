@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.appWidgets.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.appWidgets.dto.AppWidgetsPhoto
 import com.vk.sdk.api.appWidgets.responses.AppWidgetsGetImagesByIdResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class AppWidgetsGetImagesById(
     private val images: List<String>
-) : VKRequest<List<AppWidgetsPhoto>>("appWidgets.getImagesById") {
+) : ApiRequestBase<List<AppWidgetsPhoto>>(methodName = "appWidgets.getImagesById") {
     init {
         addParam("images", images)
     }

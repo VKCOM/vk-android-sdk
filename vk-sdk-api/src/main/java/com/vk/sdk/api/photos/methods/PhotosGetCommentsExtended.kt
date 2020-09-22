@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosGetCommentsExtendedResponseDto
 import com.vk.sdk.api.photos.dto.PhotosGetCommentsSort
@@ -43,11 +43,11 @@ import org.json.JSONObject
  * Returns a list of comments on a photo.
  * @param photoId Photo ID. 
  * @param ownerId ID of the user or community that owns the photo. 
- * @param needLikes '1' � to return an additional 'likes' field, '0' � (default) 
+ * @param needLikes '1' - to return an additional 'likes' field, '0' - (default) 
  * @param startCommentId  minimum 0
  * @param offset Offset needed to return a specific subset of comments. By default, '0'. 
  * @param count Number of comments to return. default "20" minimum 0 maximum 100
- * @param sort Sort order: 'asc' � old first, 'desc' � new first 
+ * @param sort Sort order: 'asc' - old first, 'desc' - new first 
  * @param accessKey  
  * @param extended  
  * @param fields  
@@ -63,7 +63,7 @@ class PhotosGetCommentsExtended(
     private val accessKey: String? = null,
     private val extended: Boolean? = null,
     private val fields: List<UsersFields>? = null
-) : VKRequest<PhotosGetCommentsExtendedResponseDto>("photos.getComments") {
+) : ApiRequestBase<PhotosGetCommentsExtendedResponseDto>(methodName = "photos.getComments") {
     init {
         addParam("photo_id", photoId)
         ownerId?.let { value ->

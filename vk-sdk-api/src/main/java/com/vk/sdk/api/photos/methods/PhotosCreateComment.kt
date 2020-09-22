@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.responses.PhotosCreateCommentResponse
 import kotlin.Boolean
@@ -42,10 +42,10 @@ import org.json.JSONObject
  * @param ownerId ID of the user or community that owns the photo. 
  * @param message Comment text. 
  * @param attachments (Required if 'message' is not set.) List of objects attached to the post, in
- * the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' � Type of media attachment:
- * 'photo' � photo, 'video' � video, 'audio' � audio, 'doc' � document, '<owner_id>' � Media attachment
- * owner ID. '<media_id>' � Media attachment ID. Example: "photo100172_166443618,photo66748_265827614" 
- * @param fromGroup '1' � to post a comment from the community 
+ * the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment:
+ * 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - Media attachment
+ * owner ID. '<media_id>' - Media attachment ID. Example: "photo100172_166443618,photo66748_265827614" 
+ * @param fromGroup '1' - to post a comment from the community 
  * @param replyToComment  
  * @param stickerId  minimum 0
  * @param accessKey  
@@ -61,7 +61,7 @@ class PhotosCreateComment(
     private val stickerId: Int? = null,
     private val accessKey: String? = null,
     private val guid: String? = null
-) : VKRequest<Int>("photos.createComment") {
+) : ApiRequestBase<Int>(methodName = "photos.createComment") {
     init {
         addParam("photo_id", photoId)
         ownerId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.secure.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -45,7 +45,7 @@ import org.json.JSONObject
 class SecureSendSMSNotification(
     private val userId: Int,
     private val message: String
-) : VKRequest<BaseOkResponseDto>("secure.sendSMSNotification") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "secure.sendSMSNotification") {
     init {
         addParam("user_id", userId)
         addParam("message", message)

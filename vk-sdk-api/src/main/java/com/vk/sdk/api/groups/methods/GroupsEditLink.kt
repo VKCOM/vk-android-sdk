@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -45,7 +45,7 @@ class GroupsEditLink(
     private val groupId: Int,
     private val linkId: Int,
     private val text: String? = null
-) : VKRequest<BaseOkResponseDto>("groups.editLink") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.editLink") {
     init {
         addParam("group_id", groupId)
         addParam("link_id", linkId)

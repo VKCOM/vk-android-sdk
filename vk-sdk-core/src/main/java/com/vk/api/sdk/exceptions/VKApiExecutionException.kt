@@ -98,6 +98,9 @@ open class VKApiExecutionException
     val isPasswordConfirmRequired: Boolean
         get() = code == VKApiCodes.CODE_ERROR_NEED_TOKEN_EXTENSION
 
+    val isRateLimitReachedError: Boolean
+        get() = code == VKApiCodes.CODE_RATE_LIMIT_REACHED
+
     val captchaSid: String
         get() = extra?.getString(VKApiCodes.EXTRA_CAPTCHA_SID, "") ?: ""
 
@@ -137,9 +140,16 @@ open class VKApiExecutionException
     }
 
     override fun toString(): String {
+        val printableExtra = when {
+            extra?.containsKey(VKApiCodes.EXTRA_ACCESS_TOKEN) == true -> Bundle(extra).apply {
+                putString(VKApiCodes.EXTRA_ACCESS_TOKEN, "hidden")
+            }
+            else -> extra
+        }
+
         return "VKApiExecutionException{" +
                 "code=$code" +
-                ", extra=$extra" +
+                ", extra=$printableExtra" +
                 ", method=$apiMethod" +
                 ", executeErrors=" + executeErrors?.joinToString(prefix = "[", postfix = "]") +
                 ", super=" + super.toString() +

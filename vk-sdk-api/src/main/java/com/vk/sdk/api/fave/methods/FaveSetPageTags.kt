@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.fave.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -44,7 +44,7 @@ class FaveSetPageTags(
     private val userId: Int? = null,
     private val groupId: Int? = null,
     private val tagIds: List<Int>? = null
-) : VKRequest<BaseOkResponseDto>("fave.setPageTags") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "fave.setPageTags") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

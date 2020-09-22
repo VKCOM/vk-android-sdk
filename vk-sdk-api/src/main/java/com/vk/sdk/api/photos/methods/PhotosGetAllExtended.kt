@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosGetAllExtendedResponseDto
 import com.vk.sdk.api.photos.responses.PhotosGetAllExtendedResponse
@@ -39,15 +39,15 @@ import org.json.JSONObject
  * Returns a list of photos belonging to a user or community, in reverse chronological order.
  * @param ownerId ID of a user or community that owns the photos. Use a negative value to designate
  * a community ID. 
- * @param extended '1' � to return detailed information about photos 
+ * @param extended '1' - to return detailed information about photos 
  * @param offset Offset needed to return a specific subset of photos. By default, '0'. minimum 0
  * @param count Number of photos to return. default 20 minimum 0 maximum 200
- * @param photoSizes '1' � to return image sizes in [vk.com/dev/photo_sizes|special format]. 
- * @param noServiceAlbums '1' � to return photos only from standard albums, '0' � to return all
+ * @param photoSizes '1' - to return image sizes in [vk.com/dev/photo_sizes|special format]. 
+ * @param noServiceAlbums '1' - to return photos only from standard albums, '0' - to return all
  * photos including those in service albums, e.g., 'My wall photos' (default) 
- * @param needHidden '1' � to show information about photos being hidden from the block above the
+ * @param needHidden '1' - to show information about photos being hidden from the block above the
  * wall. 
- * @param skipHidden '1' � not to return photos being hidden from the block above the wall. Works
+ * @param skipHidden '1' - not to return photos being hidden from the block above the wall. Works
  * only with owner_id>0, no_service_albums is ignored. 
  */
 class PhotosGetAllExtended(
@@ -59,7 +59,7 @@ class PhotosGetAllExtended(
     private val noServiceAlbums: Boolean? = null,
     private val needHidden: Boolean? = null,
     private val skipHidden: Boolean? = null
-) : VKRequest<PhotosGetAllExtendedResponseDto>("photos.getAll") {
+) : ApiRequestBase<PhotosGetAllExtendedResponseDto>(methodName = "photos.getAll") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

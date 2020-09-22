@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.secure.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.secure.dto.SecureLevel
 import com.vk.sdk.api.secure.responses.SecureGetUserLevelResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class SecureGetUserLevel(
     private val userIds: List<Int>
-) : VKRequest<List<SecureLevel>>("secure.getUserLevel") {
+) : ApiRequestBase<List<SecureLevel>>(methodName = "secure.getUserLevel") {
     init {
         addParam("user_ids", userIds)
     }

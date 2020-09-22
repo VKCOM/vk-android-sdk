@@ -30,12 +30,21 @@ import com.vk.api.sdk.okhttp.OkHttpExecutor
 import com.vk.api.sdk.okhttp.OkHttpExecutorConfig
 import com.vk.api.sdk.okhttp.OkHttpMethodCall
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 /**
  * Class for execution api request
  */
 @Suppress("UseExpressionBody")
 open class VKApiManager(val config: VKApiConfig) {
+
+    private val rateLimitBackoff by lazy {
+        RateLimitReachedChainCall.RateLimitBackoff(
+            context = config.context,
+            backoffTimeMs = config.rateLimitBackoffTimeoutMs
+        )
+    }
+
     internal val validationHandler: VKApiValidationHandler? = config.validationHandler
 
     open val executor by lazy { OkHttpExecutor(OkHttpExecutorConfig(config)) }
@@ -84,6 +93,7 @@ open class VKApiManager(val config: VKApiConfig) {
 
         cc = InvalidCredentialsObserverChainCall(this, cc, 1)
         cc = TooManyRequestRetryChainCall(this, call.retryCount, cc)
+        cc = RateLimitReachedChainCall(this, call.method, rateLimitBackoff, cc)
         if (call.retryCount > 0) {
             cc = InternalErrorRetryChainCall(this, call.retryCount, cc)
         }

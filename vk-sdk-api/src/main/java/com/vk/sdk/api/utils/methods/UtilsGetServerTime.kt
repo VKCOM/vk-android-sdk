@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.utils.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.utils.responses.UtilsGetServerTimeResponse
 import kotlin.Int
@@ -36,7 +36,7 @@ import org.json.JSONObject
 /**
  * Returns the current time of the VK server.
  */
-class UtilsGetServerTime : VKRequest<Int>("utils.getServerTime") {
+class UtilsGetServerTime : ApiRequestBase<Int>(methodName = "utils.getServerTime") {
     override fun parse(r: JSONObject): Int = GsonHolder.gson.fromJson(r.toString(),
             UtilsGetServerTimeResponse::class.java).response
 }

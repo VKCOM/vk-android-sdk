@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.prettyCards.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.prettyCards.dto.PrettyCardsGetResponseDto
 import com.vk.sdk.api.prettyCards.responses.PrettyCardsGetResponse
@@ -43,7 +43,7 @@ class PrettyCardsGet(
     private val ownerId: Int,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<PrettyCardsGetResponseDto>("prettyCards.get") {
+) : ApiRequestBase<PrettyCardsGetResponseDto>(methodName = "prettyCards.get") {
     init {
         addParam("owner_id", ownerId)
         offset?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class NewsfeedAddBan(
     private val userIds: List<Int>? = null,
     private val groupIds: List<Int>? = null
-) : VKRequest<BaseOkResponseDto>("newsfeed.addBan") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "newsfeed.addBan") {
     init {
         userIds?.let { value ->
             addParam("user_ids", value)

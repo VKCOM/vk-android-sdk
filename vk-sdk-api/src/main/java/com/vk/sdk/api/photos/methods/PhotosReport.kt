@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -39,14 +39,14 @@ import org.json.JSONObject
  * Reports (submits a complaint about) a photo.
  * @param ownerId ID of the user or community that owns the photo. 
  * @param photoId Photo ID. minimum 0
- * @param reason Reason for the complaint: '0' � spam, '1' � child pornography, '2' � extremism, '3'
- * � violence, '4' � drug propaganda, '5' � adult material, '6' � insult, abuse minimum 0
+ * @param reason Reason for the complaint: '0' - spam, '1' - child pornography, '2' - extremism,
+ * '3' - violence, '4' - drug propaganda, '5' - adult material, '6' - insult, abuse minimum 0
  */
 class PhotosReport(
     private val ownerId: Int,
     private val photoId: Int,
     private val reason: PhotosReportReason? = null
-) : VKRequest<BaseOkResponseDto>("photos.report") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "photos.report") {
     init {
         addParam("owner_id", ownerId)
         addParam("photo_id", photoId)

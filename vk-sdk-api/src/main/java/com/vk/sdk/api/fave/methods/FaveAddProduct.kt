@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.fave.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -44,7 +44,7 @@ class FaveAddProduct(
     private val ownerId: Int,
     private val id: Int,
     private val accessKey: String? = null
-) : VKRequest<BaseOkResponseDto>("fave.addProduct") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "fave.addProduct") {
     init {
         addParam("owner_id", ownerId)
         addParam("id", id)

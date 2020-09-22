@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.board.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.board.dto.BoardGetTopicsOrder
 import com.vk.sdk.api.board.dto.BoardGetTopicsPreview
@@ -43,16 +43,16 @@ import org.json.JSONObject
  * @param groupId ID of the community that owns the discussion board. minimum 0
  * @param topicIds IDs of topics to be returned (100 maximum). By default, all topics are returned.
  * If this parameter is set, the 'order', 'offset', and 'count' parameters are ignored. 
- * @param order Sort order: '1' � by date updated in reverse chronological order. '2' � by date
- * created in reverse chronological order. '-1' � by date updated in chronological order. '-2' � by
+ * @param order Sort order: '1' - by date updated in reverse chronological order. '2' - by date
+ * created in reverse chronological order. '-1' - by date updated in chronological order. '-2' - by
  * date created in chronological order. If no sort order is specified, topics are returned in the order
  * specified by the group administrator. Pinned topics are returned first, regardless of the sorting. 
  * @param offset Offset needed to return a specific subset of topics. minimum 0
  * @param count Number of topics to return. default 40 minimum 0 maximum 100
- * @param extended '1' � to return information about users who created topics or who posted there
- * last, '0' � to return no additional fields (default) 
- * @param preview '1' � to return the first comment in each topic,, '2' � to return the last comment
- * in each topic,, '0' � to return no comments. By default: '0'. 
+ * @param extended '1' - to return information about users who created topics or who posted there
+ * last, '0' - to return no additional fields (default) 
+ * @param preview '1' - to return the first comment in each topic,, '2' - to return the last comment
+ * in each topic,, '0' - to return no comments. By default: '0'. 
  * @param previewLength Number of characters after which to truncate the previewed comment. To
  * preview the full comment, specify '0'. default 90 minimum 0
  */
@@ -65,7 +65,7 @@ class BoardGetTopics(
     private val extended: Boolean? = null,
     private val preview: BoardGetTopicsPreview? = null,
     private val previewLength: Int? = null
-) : VKRequest<BoardGetTopicsResponseDto>("board.getTopics") {
+) : ApiRequestBase<BoardGetTopicsResponseDto>(methodName = "board.getTopics") {
     init {
         addParam("group_id", groupId)
         topicIds?.let { value ->

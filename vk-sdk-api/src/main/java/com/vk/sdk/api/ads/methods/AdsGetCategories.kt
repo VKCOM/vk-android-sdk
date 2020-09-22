@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsGetCategoriesResponseDto
 import com.vk.sdk.api.ads.responses.AdsGetCategoriesResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class AdsGetCategories(
     private val lang: String? = null
-) : VKRequest<AdsGetCategoriesResponseDto>("ads.getCategories") {
+) : ApiRequestBase<AdsGetCategoriesResponseDto>(methodName = "ads.getCategories") {
     init {
         lang?.let { value ->
             addParam("lang", value)

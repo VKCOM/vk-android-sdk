@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.utils.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.utils.dto.UtilsShortLink
 import com.vk.sdk.api.utils.responses.UtilsGetShortLinkResponse
@@ -38,12 +38,12 @@ import org.json.JSONObject
 /**
  * Allows to receive a link shortened via vk.cc.
  * @param url URL to be shortened. 
- * @param private 1 � private stats, 0 � public stats. default false
+ * @param private 1 - private stats, 0 - public stats. default false
  */
 class UtilsGetShortLink(
     private val url: String,
     private val private: Boolean? = null
-) : VKRequest<UtilsShortLink>("utils.getShortLink") {
+) : ApiRequestBase<UtilsShortLink>(methodName = "utils.getShortLink") {
     init {
         addParam("url", url)
         private?.let { value ->

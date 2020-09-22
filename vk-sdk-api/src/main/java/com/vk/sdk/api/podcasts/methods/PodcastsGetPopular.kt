@@ -27,14 +27,15 @@
 // *********************************************************************
 package com.vk.sdk.api.podcasts.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.podcast.dto.PodcastPopularPodcast
 import com.vk.sdk.api.podcasts.responses.PodcastsGetPopularResponse
 import kotlin.collections.List
 import org.json.JSONObject
 
-class PodcastsGetPopular : VKRequest<List<PodcastPopularPodcast>>("podcasts.getPopular") {
+class PodcastsGetPopular : ApiRequestBase<List<PodcastPopularPodcast>>(methodName =
+        "podcasts.getPopular") {
     override fun parse(r: JSONObject): List<PodcastPopularPodcast> =
             GsonHolder.gson.fromJson(r.toString(), PodcastsGetPopularResponse::class.java).response
 }

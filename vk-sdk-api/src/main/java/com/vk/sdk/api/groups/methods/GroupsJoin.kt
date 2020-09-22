@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -40,12 +40,12 @@ import org.json.JSONObject
  * event.
  * @param groupId ID or screen name of the community. minimum 0
  * @param notSure Optional parameter which is taken into account when 'gid' belongs to the event:
- * '1' � Perhaps I will attend, '0' � I will be there for sure (default), , 
+ * '1' - Perhaps I will attend, '0' - I will be there for sure (default), , 
  */
 class GroupsJoin(
     private val groupId: Int? = null,
     private val notSure: String? = null
-) : VKRequest<BaseOkResponseDto>("groups.join") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.join") {
     init {
         groupId?.let { value ->
             addParam("group_id", value)

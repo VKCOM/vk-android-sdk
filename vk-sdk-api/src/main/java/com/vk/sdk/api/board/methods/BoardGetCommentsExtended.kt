@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.board.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.board.dto.BoardGetCommentsExtendedResponseDto
 import com.vk.sdk.api.board.dto.BoardGetCommentsSort
@@ -40,14 +40,14 @@ import org.json.JSONObject
  * Returns a list of comments on a topic on a community's discussion board.
  * @param groupId ID of the community that owns the discussion board. minimum 0
  * @param topicId Topic ID. minimum 0
- * @param needLikes '1' � to return the 'likes' field, '0' � not to return the 'likes' field
+ * @param needLikes '1' - to return the 'likes' field, '0' - not to return the 'likes' field
  * (default) 
  * @param startCommentId  minimum 0
  * @param offset Offset needed to return a specific subset of comments. 
  * @param count Number of comments to return. default 20 minimum 0 maximum 100
- * @param extended '1' � to return information about users who posted comments, '0' � to return no
+ * @param extended '1' - to return information about users who posted comments, '0' - to return no
  * additional fields (default) 
- * @param sort Sort order: 'asc' � by creation date in chronological order, 'desc' � by creation
+ * @param sort Sort order: 'asc' - by creation date in chronological order, 'desc' - by creation
  * date in reverse chronological order, 
  */
 class BoardGetCommentsExtended(
@@ -59,7 +59,7 @@ class BoardGetCommentsExtended(
     private val count: Int? = null,
     private val extended: Boolean? = null,
     private val sort: BoardGetCommentsSort? = null
-) : VKRequest<BoardGetCommentsExtendedResponseDto>("board.getComments") {
+) : ApiRequestBase<BoardGetCommentsExtendedResponseDto>(methodName = "board.getComments") {
     init {
         addParam("group_id", groupId)
         addParam("topic_id", topicId)

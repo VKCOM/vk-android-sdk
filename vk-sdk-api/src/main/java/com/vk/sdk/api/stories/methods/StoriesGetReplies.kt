@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.stories.dto.StoriesGetV5113ResponseDto
@@ -43,7 +43,7 @@ import org.json.JSONObject
  * @param ownerId Story owner ID. 
  * @param storyId Story ID. minimum 0
  * @param accessKey Access key for the private object. 
- * @param extended '1' � to return additional fields for users and communities. Default value is 0.
+ * @param extended '1' - to return additional fields for users and communities. Default value is 0.
  * default false
  * @param fields Additional fields to return 
  */
@@ -53,7 +53,7 @@ class StoriesGetReplies(
     private val accessKey: String? = null,
     private val extended: Boolean? = null,
     private val fields: List<BaseUserGroupFields>? = null
-) : VKRequest<StoriesGetV5113ResponseDto>("stories.getReplies") {
+) : ApiRequestBase<StoriesGetV5113ResponseDto>(methodName = "stories.getReplies") {
     init {
         addParam("owner_id", ownerId)
         addParam("story_id", storyId)

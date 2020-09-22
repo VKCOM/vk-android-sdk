@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -47,7 +47,7 @@ class AccountSetPushSettings(
     private val settings: String? = null,
     private val key: String? = null,
     private val value: List<String>? = null
-) : VKRequest<BaseOkResponseDto>("account.setPushSettings") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "account.setPushSettings") {
     init {
         addParam("device_id", deviceId)
         settings?.let { value ->

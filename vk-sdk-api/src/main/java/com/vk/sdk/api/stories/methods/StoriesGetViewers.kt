@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.stories.dto.StoriesGetViewersExtendedV5115ResponseDto
 import com.vk.sdk.api.stories.responses.StoriesGetViewersExtendedV5115Response
@@ -41,7 +41,7 @@ import org.json.JSONObject
  * @param storyId Story ID. minimum 0
  * @param count Maximum number of results. default 100 minimum 0
  * @param offset Offset needed to return a specific subset of results. default 0 minimum 0
- * @param extended '1' � to return detailed information about photos default 0
+ * @param extended '1' - to return detailed information about photos default 0
  */
 class StoriesGetViewers(
     private val ownerId: Int,
@@ -49,7 +49,7 @@ class StoriesGetViewers(
     private val count: Int? = null,
     private val offset: Int? = null,
     private val extended: Boolean? = null
-) : VKRequest<StoriesGetViewersExtendedV5115ResponseDto>("stories.getViewers") {
+) : ApiRequestBase<StoriesGetViewersExtendedV5115ResponseDto>(methodName = "stories.getViewers") {
     init {
         addParam("owner_id", ownerId)
         addParam("story_id", storyId)

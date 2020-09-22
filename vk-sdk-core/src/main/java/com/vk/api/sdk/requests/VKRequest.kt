@@ -41,7 +41,7 @@ import java.util.*
  * Use sdk sample as an example
  * If you need more flexibility, use ApiCommand
  */
-open class VKRequest<T>(var method: String) : VKApiResponseParser<T>, ApiCommand<T>() {
+open class VKRequest<T>(var method: String, val requestApiVersion: String? = null) : VKApiResponseParser<T>, ApiCommand<T>() {
     val params = LinkedHashMap<String, String>()
 
     // Params
@@ -75,15 +75,15 @@ open class VKRequest<T>(var method: String) : VKApiResponseParser<T>, ApiCommand
     @Throws(InterruptedException::class, IOException::class, VKApiException::class)
     override fun onExecute(manager: VKApiManager): T {
         val config = manager.config
-
+        val version = requestApiVersion ?: config.version
         params["lang"] = config.lang
         params["device_id"] = config.deviceId.value
-        params["v"] = config.version
+        params["v"] = version
 
         val callBuilder = createBaseCallBuilder(config)
                 .args(params)
                 .method(method)
-                .version(config.version)
+                .version(version)
         return manager.execute(callBuilder.build(), this)
     }
 

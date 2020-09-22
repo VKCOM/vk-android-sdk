@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.secure.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.secure.dto.SecureSmsNotification
 import com.vk.sdk.api.secure.responses.SecureGetSMSHistoryResponse
@@ -41,14 +41,14 @@ import org.json.JSONObject
  * @param userId  minimum 0
  * @param dateFrom filter by start date. It is set as UNIX-time. minimum 0
  * @param dateTo filter by end date. It is set as UNIX-time. minimum 0
- * @param limit number of returned posts. By default � 1000. default 1000 minimum 0 maximum 1000
+ * @param limit number of returned posts. By default - 1000. default 1000 minimum 0 maximum 1000
  */
 class SecureGetSMSHistory(
     private val userId: Int? = null,
     private val dateFrom: Int? = null,
     private val dateTo: Int? = null,
     private val limit: Int? = null
-) : VKRequest<List<SecureSmsNotification>>("secure.getSMSHistory") {
+) : ApiRequestBase<List<SecureSmsNotification>>(methodName = "secure.getSMSHistory") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

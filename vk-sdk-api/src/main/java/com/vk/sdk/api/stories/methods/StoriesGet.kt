@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.stories.dto.StoriesGetV5113ResponseDto
@@ -40,7 +40,7 @@ import org.json.JSONObject
 /**
  * Returns stories available for current user.
  * @param ownerId Owner ID. 
- * @param extended '1' � to return additional fields for users and communities. Default value is 0.
+ * @param extended '1' - to return additional fields for users and communities. Default value is 0.
  * default false
  * @param fields  
  */
@@ -48,7 +48,7 @@ class StoriesGet(
     private val ownerId: Int? = null,
     private val extended: Boolean? = null,
     private val fields: List<BaseUserGroupFields>? = null
-) : VKRequest<StoriesGetV5113ResponseDto>("stories.get") {
+) : ApiRequestBase<StoriesGetV5113ResponseDto>(methodName = "stories.get") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

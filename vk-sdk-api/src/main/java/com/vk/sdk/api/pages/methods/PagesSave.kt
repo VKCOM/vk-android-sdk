@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.pages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.pages.responses.PagesSaveResponse
 import kotlin.Int
@@ -48,7 +48,7 @@ class PagesSave(
     private val groupId: Int? = null,
     private val userId: Int? = null,
     private val title: String? = null
-) : VKRequest<Int>("pages.save") {
+) : ApiRequestBase<Int>(methodName = "pages.save") {
     init {
         text?.let { value ->
             addParam("text", value)

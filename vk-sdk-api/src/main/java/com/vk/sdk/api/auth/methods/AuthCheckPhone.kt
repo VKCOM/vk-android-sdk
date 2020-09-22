@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.auth.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -48,7 +48,7 @@ class AuthCheckPhone(
     private val clientId: Int? = null,
     private val clientSecret: String? = null,
     private val authByPhone: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("auth.checkPhone") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "auth.checkPhone") {
     init {
         addParam("phone", phone)
         clientId?.let { value ->

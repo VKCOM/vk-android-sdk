@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -39,14 +39,14 @@ import org.json.JSONObject
  * Reports (submits a complaint about) a post on a user wall or community wall.
  * @param ownerId ID of the user or community that owns the wall. 
  * @param postId Post ID. minimum 0
- * @param reason Reason for the complaint: '0' � spam, '1' � child pornography, '2' � extremism, '3'
- * � violence, '4' � drug propaganda, '5' � adult material, '6' � insult, abuse minimum 0
+ * @param reason Reason for the complaint: '0' - spam, '1' - child pornography, '2' - extremism,
+ * '3' - violence, '4' - drug propaganda, '5' - adult material, '6' - insult, abuse minimum 0
  */
 class WallReportPost(
     private val ownerId: Int,
     private val postId: Int,
     private val reason: WallReportPostReason? = null
-) : VKRequest<BaseOkResponseDto>("wall.reportPost") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "wall.reportPost") {
     init {
         addParam("owner_id", ownerId)
         addParam("post_id", postId)

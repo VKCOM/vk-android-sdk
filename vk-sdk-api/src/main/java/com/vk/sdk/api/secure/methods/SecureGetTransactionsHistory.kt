@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.secure.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.secure.dto.SecureTransaction
 import com.vk.sdk.api.secure.responses.SecureGetTransactionsHistoryResponse
@@ -51,7 +51,7 @@ class SecureGetTransactionsHistory(
     private val dateFrom: Int? = null,
     private val dateTo: Int? = null,
     private val limit: Int? = null
-) : VKRequest<List<SecureTransaction>>("secure.getTransactionsHistory") {
+) : ApiRequestBase<List<SecureTransaction>>(methodName = "secure.getTransactionsHistory") {
     init {
         type?.let { value ->
             addParam("type", value)

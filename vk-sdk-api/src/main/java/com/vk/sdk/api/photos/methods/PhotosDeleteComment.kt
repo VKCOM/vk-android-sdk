@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.photos.responses.PhotosDeleteCommentResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class PhotosDeleteComment(
     private val commentId: Int,
     private val ownerId: Int? = null
-) : VKRequest<BaseBoolInt>("photos.deleteComment") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "photos.deleteComment") {
     init {
         addParam("comment_id", commentId)
         ownerId?.let { value ->

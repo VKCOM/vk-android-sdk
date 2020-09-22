@@ -59,7 +59,8 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         get() = config.hostProvider()
     @Volatile var accessToken = config.accessToken
         private set
-    @Volatile protected var secret = config.secret
+    @Volatile var secret = config.secret
+        private set
     private val customEndpoint = config.customEndpoint
 
     private val clientsByTimeouts = LongSparseArray<OkHttpClient>()

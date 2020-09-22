@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.leads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.leads.dto.LeadsChecked
 import com.vk.sdk.api.leads.responses.LeadsCheckUserResponse
@@ -52,7 +52,7 @@ class LeadsCheckUser(
     private val autoStart: Boolean? = null,
     private val age: Int? = null,
     private val country: String? = null
-) : VKRequest<LeadsChecked>("leads.checkUser") {
+) : ApiRequestBase<LeadsChecked>(methodName = "leads.checkUser") {
     init {
         addParam("lead_id", leadId)
         testResult?.let { value ->

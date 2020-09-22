@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.responses.AdsDeleteClientsResponse
 import kotlin.Int
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class AdsDeleteClients(
     private val accountId: Int,
     private val ids: String
-) : VKRequest<Int>("ads.deleteClients") {
+) : ApiRequestBase<Int>(methodName = "ads.deleteClients") {
     init {
         addParam("account_id", accountId)
         addParam("ids", ids)

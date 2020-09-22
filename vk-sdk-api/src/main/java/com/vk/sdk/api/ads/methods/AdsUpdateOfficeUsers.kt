@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsUpdateOfficeUsersResult
 import com.vk.sdk.api.ads.dto.AdsUserSpecification
@@ -45,7 +45,7 @@ import org.json.JSONObject
 class AdsUpdateOfficeUsers(
     private val accountId: Int,
     private val data: List<AdsUserSpecification>
-) : VKRequest<List<AdsUpdateOfficeUsersResult>>("ads.updateOfficeUsers") {
+) : ApiRequestBase<List<AdsUpdateOfficeUsersResult>>(methodName = "ads.updateOfficeUsers") {
     init {
         addParam("account_id", accountId)
         addParam("data", GsonHolder.gson.toJson(data))

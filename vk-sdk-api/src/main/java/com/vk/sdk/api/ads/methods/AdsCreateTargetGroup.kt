@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsCreateTargetGroupResponseDto
 import com.vk.sdk.api.ads.responses.AdsCreateTargetGroupResponse
@@ -39,7 +39,7 @@ import org.json.JSONObject
  * Creates a group to re-target ads for users who visited advertiser's site (viewed information
  * about the product, registered, etc.).
  * @param accountId Advertising account ID. 
- * @param name Name of the target group � a string up to 64 characters long. 
+ * @param name Name of the target group - a string up to 64 characters long. 
  * @param lifetime 'For groups with auditory created with pixel code only.', , Number of days after
  * that users will be automatically removed from the group. minimum 1 maximum 720
  * @param clientId 'Only for advertising agencies.', ID of the client with the advertising account
@@ -54,7 +54,7 @@ class AdsCreateTargetGroup(
     private val clientId: Int? = null,
     private val targetPixelId: Int? = null,
     private val targetPixelRules: String? = null
-) : VKRequest<AdsCreateTargetGroupResponseDto>("ads.createTargetGroup") {
+) : ApiRequestBase<AdsCreateTargetGroupResponseDto>(methodName = "ads.createTargetGroup") {
     init {
         addParam("account_id", accountId)
         addParam("name", name)

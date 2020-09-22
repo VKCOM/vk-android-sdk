@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.secure.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.secure.dto.SecureTokenChecked
 import com.vk.sdk.api.secure.responses.SecureCheckTokenResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class SecureCheckToken(
     private val token: String? = null,
     private val ip: String? = null
-) : VKRequest<SecureTokenChecked>("secure.checkToken") {
+) : ApiRequestBase<SecureTokenChecked>(methodName = "secure.checkToken") {
     init {
         token?.let { value ->
             addParam("token", value)

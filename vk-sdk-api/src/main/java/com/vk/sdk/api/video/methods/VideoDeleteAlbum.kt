@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class VideoDeleteAlbum(
     private val albumId: Int,
     private val groupId: Int? = null
-) : VKRequest<BaseOkResponseDto>("video.deleteAlbum") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "video.deleteAlbum") {
     init {
         addParam("album_id", albumId)
         groupId?.let { value ->

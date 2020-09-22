@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUploadServer
 import com.vk.sdk.api.base.responses.BaseGetUploadServerResponse
@@ -46,7 +46,7 @@ class PhotosGetChatUploadServer(
     private val cropX: Int? = null,
     private val cropY: Int? = null,
     private val cropWidth: Int? = null
-) : VKRequest<BaseUploadServer>("photos.getChatUploadServer") {
+) : ApiRequestBase<BaseUploadServer>(methodName = "photos.getChatUploadServer") {
     init {
         addParam("chat_id", chatId)
         cropX?.let { value ->

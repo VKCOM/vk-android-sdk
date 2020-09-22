@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -46,7 +46,7 @@ class StoriesDelete(
     private val ownerId: Int? = null,
     private val storyId: Int? = null,
     private val stories: List<String>? = null
-) : VKRequest<BaseOkResponseDto>("stories.delete") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "stories.delete") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

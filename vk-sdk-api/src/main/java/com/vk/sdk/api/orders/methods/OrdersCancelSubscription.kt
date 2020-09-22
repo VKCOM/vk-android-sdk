@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.orders.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.orders.responses.OrdersCancelSubscriptionResponse
@@ -44,7 +44,7 @@ class OrdersCancelSubscription(
     private val userId: Int,
     private val subscriptionId: Int,
     private val pendingCancel: Boolean? = null
-) : VKRequest<BaseBoolInt>("orders.cancelSubscription") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "orders.cancelSubscription") {
     init {
         addParam("user_id", userId)
         addParam("subscription_id", subscriptionId)

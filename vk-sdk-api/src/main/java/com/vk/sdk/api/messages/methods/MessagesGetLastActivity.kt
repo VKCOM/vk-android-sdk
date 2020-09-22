@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesLastActivity
 import com.vk.sdk.api.messages.responses.MessagesGetLastActivityResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class MessagesGetLastActivity(
     private val userId: Int
-) : VKRequest<MessagesLastActivity>("messages.getLastActivity") {
+) : ApiRequestBase<MessagesLastActivity>(methodName = "messages.getLastActivity") {
     init {
         addParam("user_id", userId)
     }

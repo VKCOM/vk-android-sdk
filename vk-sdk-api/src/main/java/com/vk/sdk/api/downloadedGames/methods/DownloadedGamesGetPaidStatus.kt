@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.downloadedGames.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.downloadedGames.dto.DownloadedGamesPaidStatusResponseDto
 import com.vk.sdk.api.downloadedGames.responses.DownloadedGamesPaidStatusResponse
@@ -39,7 +39,8 @@ import org.json.JSONObject
  */
 class DownloadedGamesGetPaidStatus(
     private val userId: Int? = null
-) : VKRequest<DownloadedGamesPaidStatusResponseDto>("downloadedGames.getPaidStatus") {
+) : ApiRequestBase<DownloadedGamesPaidStatusResponseDto>(methodName =
+        "downloadedGames.getPaidStatus") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

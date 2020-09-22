@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -37,10 +37,10 @@ import org.json.JSONObject
 
 /**
  * Returns a hidden item to the newsfeed.
- * @param type Item type. Possible values: *'wall' � post on the wall,, *'tag' � tag on a photo,,
- * *'profilephoto' � profile photo,, *'video' � video,, *'audio' � audio. 
+ * @param type Item type. Possible values: *'wall' - post on the wall,, *'tag' - tag on a photo,,
+ * *'profilephoto' - profile photo,, *'video' - video,, *'audio' - audio. 
  * @param ownerId Item owner's identifier (user or community), "Note that community id must be
- * negative. 'owner_id=1' � user , 'owner_id=-1' � community " 
+ * negative. 'owner_id=1' - user , 'owner_id=-1' - community " 
  * @param itemId Item identifier minimum 0
  * @param trackCode Track code of unignored item 
  */
@@ -49,7 +49,7 @@ class NewsfeedUnignoreItem(
     private val ownerId: Int,
     private val itemId: Int,
     private val trackCode: String? = null
-) : VKRequest<BaseOkResponseDto>("newsfeed.unignoreItem") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "newsfeed.unignoreItem") {
     init {
         addParam("type", type)
         addParam("owner_id", ownerId)

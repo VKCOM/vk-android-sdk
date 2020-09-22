@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.dto.FriendsMutualFriend
 import com.vk.sdk.api.friends.responses.FriendsGetMutualTargetUidsResponse
@@ -44,7 +44,7 @@ import org.json.JSONObject
  * specified in 'source_uid'. minimum 0
  * @param targetUids IDs of the users whose friends will be checked against the friends of the user
  * specified in 'source_uid'. 
- * @param order Sort order: 'random' � random order 
+ * @param order Sort order: 'random' - random order 
  * @param count Number of mutual friends to return. minimum 0
  * @param offset Offset needed to return a specific subset of mutual friends. minimum 0
  */
@@ -55,7 +55,7 @@ class FriendsGetMutualTargetuids(
     private val order: String? = null,
     private val count: Int? = null,
     private val offset: Int? = null
-) : VKRequest<List<FriendsMutualFriend>>("friends.getMutual") {
+) : ApiRequestBase<List<FriendsMutualFriend>>(methodName = "friends.getMutual") {
     init {
         sourceUid?.let { value ->
             addParam("source_uid", value)

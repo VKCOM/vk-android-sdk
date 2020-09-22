@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.database.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.database.dto.DatabaseGetMetroStationsResponseDto
 import com.vk.sdk.api.database.responses.DatabaseGetMetroStationsResponse
@@ -47,7 +47,7 @@ class DatabaseGetMetroStations(
     private val offset: Int? = null,
     private val count: Int? = null,
     private val extended: Boolean? = null
-) : VKRequest<DatabaseGetMetroStationsResponseDto>("database.getMetroStations") {
+) : ApiRequestBase<DatabaseGetMetroStationsResponseDto>(methodName = "database.getMetroStations") {
     init {
         addParam("city_id", cityId)
         offset?.let { value ->

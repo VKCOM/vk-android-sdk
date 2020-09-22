@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.docs.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUploadServer
 import kotlin.Int
@@ -39,7 +39,7 @@ import org.json.JSONObject
  */
 class DocsGetUploadServer(
     private val groupId: Int? = null
-) : VKRequest<BaseUploadServer>("docs.getUploadServer") {
+) : ApiRequestBase<BaseUploadServer>(methodName = "docs.getUploadServer") {
     init {
         groupId?.let { value ->
             addParam("group_id", value)

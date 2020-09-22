@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosGetAlbumsResponseDto
 import com.vk.sdk.api.photos.responses.PhotosGetAlbumsResponse
@@ -42,9 +42,9 @@ import org.json.JSONObject
  * @param albumIds Album IDs. 
  * @param offset Offset needed to return a specific subset of albums. minimum 0
  * @param count Number of albums to return. minimum 0
- * @param needSystem '1' � to return system albums with negative IDs 
- * @param needCovers '1' � to return an additional 'thumb_src' field, '0' � (default) 
- * @param photoSizes '1' � to return photo sizes in a 
+ * @param needSystem '1' - to return system albums with negative IDs 
+ * @param needCovers '1' - to return an additional 'thumb_src' field, '0' - (default) 
+ * @param photoSizes '1' - to return photo sizes in a 
  */
 class PhotosGetAlbums(
     private val ownerId: Int? = null,
@@ -54,7 +54,7 @@ class PhotosGetAlbums(
     private val needSystem: Boolean? = null,
     private val needCovers: Boolean? = null,
     private val photoSizes: Boolean? = null
-) : VKRequest<PhotosGetAlbumsResponseDto>("photos.getAlbums") {
+) : ApiRequestBase<PhotosGetAlbumsResponseDto>(methodName = "photos.getAlbums") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

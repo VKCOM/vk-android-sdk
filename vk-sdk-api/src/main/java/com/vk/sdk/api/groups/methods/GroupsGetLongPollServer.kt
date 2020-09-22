@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsLongPollServer
 import com.vk.sdk.api.groups.responses.GroupsGetLongPollServerResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class GroupsGetLongPollServer(
     private val groupId: Int
-) : VKRequest<GroupsLongPollServer>("groups.getLongPollServer") {
+) : ApiRequestBase<GroupsLongPollServer>(methodName = "groups.getLongPollServer") {
     init {
         addParam("group_id", groupId)
     }

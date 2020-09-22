@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.leads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.leads.dto.LeadsEntry
 import com.vk.sdk.api.leads.dto.LeadsGetUsersStatus
@@ -44,9 +44,9 @@ import org.json.JSONObject
  * @param secret Secret key obtained in the lead testing interface. 
  * @param offset Offset needed to return a specific subset of results. minimum 0
  * @param count Number of results to return. default 100 minimum 0 maximum 1000
- * @param status Action type. Possible values: *'0' � start,, *'1' � finish,, *'2' � blocking
- * users,, *'3' � start in a test mode,, *'4' � finish in a test mode. minimum 0
- * @param reverse Sort order. Possible values: *'1' � chronological,, *'0' � reverse chronological. 
+ * @param status Action type. Possible values: *'0' - start,, *'1' - finish,, *'2' - blocking
+ * users,, *'3' - start in a test mode,, *'4' - finish in a test mode. minimum 0
+ * @param reverse Sort order. Possible values: *'1' - chronological,, *'0' - reverse chronological. 
  */
 class LeadsGetUsers(
     private val offerId: Int,
@@ -55,7 +55,7 @@ class LeadsGetUsers(
     private val count: Int? = null,
     private val status: LeadsGetUsersStatus? = null,
     private val reverse: Boolean? = null
-) : VKRequest<List<LeadsEntry>>("leads.getUsers") {
+) : ApiRequestBase<List<LeadsEntry>>(methodName = "leads.getUsers") {
     init {
         addParam("offer_id", offerId)
         addParam("secret", secret)

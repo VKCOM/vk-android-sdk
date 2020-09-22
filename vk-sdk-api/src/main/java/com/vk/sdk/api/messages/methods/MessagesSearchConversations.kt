@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesSearchConversationsResponseDto
 import com.vk.sdk.api.messages.responses.MessagesSearchConversationsResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
  * Returns a list of the current user's conversations that match search criteria.
  * @param q Search query string. 
  * @param count Maximum number of results. default 20 minimum 0
- * @param extended '1' � return extra information about users and communities 
+ * @param extended '1' - return extra information about users and communities 
  * @param fields Profile fields to return. 
  * @param groupId Group ID (for group messages with user access token) minimum 0
  */
@@ -52,7 +52,8 @@ class MessagesSearchConversations(
     private val extended: Boolean? = null,
     private val fields: List<UsersFields>? = null,
     private val groupId: Int? = null
-) : VKRequest<MessagesSearchConversationsResponseDto>("messages.searchConversations") {
+) : ApiRequestBase<MessagesSearchConversationsResponseDto>(methodName =
+        "messages.searchConversations") {
     init {
         q?.let { value ->
             addParam("q", value)

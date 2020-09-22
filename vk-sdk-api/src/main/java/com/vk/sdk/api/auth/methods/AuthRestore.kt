@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.auth.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.auth.dto.AuthRestoreResponseDto
 import com.vk.sdk.api.auth.responses.AuthRestoreResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class AuthRestore(
     private val phone: String,
     private val lastName: String
-) : VKRequest<AuthRestoreResponseDto>("auth.restore") {
+) : ApiRequestBase<AuthRestoreResponseDto>(methodName = "auth.restore") {
     init {
         addParam("phone", phone)
         addParam("last_name", lastName)

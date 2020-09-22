@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.notes.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class NotesDelete(
     private val noteId: Int
-) : VKRequest<BaseOkResponseDto>("notes.delete") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "notes.delete") {
     init {
         addParam("note_id", noteId)
     }

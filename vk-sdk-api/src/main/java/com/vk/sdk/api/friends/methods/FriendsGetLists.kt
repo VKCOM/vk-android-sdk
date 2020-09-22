@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.dto.FriendsGetListsResponseDto
 import com.vk.sdk.api.friends.responses.FriendsGetListsResponse
@@ -38,12 +38,12 @@ import org.json.JSONObject
 /**
  * Returns a list of the user's friend lists.
  * @param userId User ID. minimum 0
- * @param returnSystem '1' � to return system friend lists. By default: '0'. 
+ * @param returnSystem '1' - to return system friend lists. By default: '0'. 
  */
 class FriendsGetLists(
     private val userId: Int? = null,
     private val returnSystem: Boolean? = null
-) : VKRequest<FriendsGetListsResponseDto>("friends.getLists") {
+) : ApiRequestBase<FriendsGetListsResponseDto>(methodName = "friends.getLists") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.secure.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.secure.responses.SecureSendNotificationResponse
 import kotlin.Int
@@ -46,7 +46,7 @@ class SecureSendNotification(
     private val message: String,
     private val userIds: List<Int>? = null,
     private val userId: Int? = null
-) : VKRequest<List<Int>>("secure.sendNotification") {
+) : ApiRequestBase<List<Int>>(methodName = "secure.sendNotification") {
     init {
         addParam("message", message)
         userIds?.let { value ->

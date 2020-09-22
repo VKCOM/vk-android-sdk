@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.notes.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -45,7 +45,7 @@ class NotesEditComment(
     private val commentId: Int,
     private val message: String,
     private val ownerId: Int? = null
-) : VKRequest<BaseOkResponseDto>("notes.editComment") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "notes.editComment") {
     init {
         addParam("comment_id", commentId)
         addParam("message", message)

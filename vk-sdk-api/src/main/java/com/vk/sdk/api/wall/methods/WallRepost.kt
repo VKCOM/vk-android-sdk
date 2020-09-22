@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.wall.dto.WallRepostResponseDto
 import com.vk.sdk.api.wall.responses.WallRepostResponse
@@ -50,7 +50,7 @@ class WallRepost(
     private val groupId: Int? = null,
     private val markAsAds: Boolean? = null,
     private val muteNotifications: Boolean? = null
-) : VKRequest<WallRepostResponseDto>("wall.repost") {
+) : ApiRequestBase<WallRepostResponseDto>(methodName = "wall.repost") {
     init {
         addParam("object", objectValue)
         message?.let { value ->

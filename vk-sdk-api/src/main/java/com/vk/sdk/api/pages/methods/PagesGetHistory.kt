@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.pages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.pages.dto.PagesWikipageHistory
 import com.vk.sdk.api.pages.responses.PagesGetHistoryResponse
@@ -45,7 +45,7 @@ class PagesGetHistory(
     private val pageId: Int,
     private val groupId: Int? = null,
     private val userId: Int? = null
-) : VKRequest<List<PagesWikipageHistory>>("pages.getHistory") {
+) : ApiRequestBase<List<PagesWikipageHistory>>(methodName = "pages.getHistory") {
     init {
         addParam("page_id", pageId)
         groupId?.let { value ->

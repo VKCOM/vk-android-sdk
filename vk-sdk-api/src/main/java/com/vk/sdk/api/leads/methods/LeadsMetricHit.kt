@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.leads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.leads.dto.LeadsMetricHitResponseDto
 import com.vk.sdk.api.leads.responses.LeadsMetricHitResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class LeadsMetricHit(
     private val data: String
-) : VKRequest<LeadsMetricHitResponseDto>("leads.metricHit") {
+) : ApiRequestBase<LeadsMetricHitResponseDto>(methodName = "leads.metricHit") {
     init {
         addParam("data", data)
     }

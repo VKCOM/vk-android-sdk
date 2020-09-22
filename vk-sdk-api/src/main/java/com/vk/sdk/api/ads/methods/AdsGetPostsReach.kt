@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsGetPostsReachIdsType
 import com.vk.sdk.api.ads.dto.AdsPromotedPostReach
@@ -40,7 +40,7 @@ import org.json.JSONObject
 /**
  * Returns detailed statistics of promoted posts reach from campaigns and ads.
  * @param accountId Advertising account ID. 
- * @param idsType Type of requested objects listed in 'ids' parameter: *ad � ads,, *campaign �
+ * @param idsType Type of requested objects listed in 'ids' parameter: *ad - ads,, *campaign -
  * campaigns. 
  * @param ids IDs requested ads or campaigns, separated with a comma, depending on the value set in
  * 'ids_type'. Maximum 100 objects. 
@@ -49,7 +49,7 @@ class AdsGetPostsReach(
     private val accountId: Int,
     private val idsType: AdsGetPostsReachIdsType,
     private val ids: String
-) : VKRequest<List<AdsPromotedPostReach>>("ads.getPostsReach") {
+) : ApiRequestBase<List<AdsPromotedPostReach>>(methodName = "ads.getPostsReach") {
     init {
         addParam("account_id", accountId)
         addParam("ids_type", idsType.value)

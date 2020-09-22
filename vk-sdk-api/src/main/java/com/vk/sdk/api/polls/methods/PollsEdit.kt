@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.polls.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
  * @param ownerId poll owner id 
  * @param question new question text 
  * @param addAnswers answers list, for example: , "["yes","no","maybe"]" 
- * @param editAnswers object containing answers that need to be edited,, key � answer id, value �
+ * @param editAnswers object containing answers that need to be edited,, key - answer id, value -
  * new answer text. Example: {"382967099":"option1", "382967103":"option2"}" 
  * @param deleteAnswers list of answer ids to be deleted. For example: "[382967099, 382967103]" 
  * @param endDate  minimum 0
@@ -59,7 +59,7 @@ class PollsEdit(
     private val endDate: Int? = null,
     private val photoId: Int? = null,
     private val backgroundId: PollsEditBackgroundId? = null
-) : VKRequest<BaseOkResponseDto>("polls.edit") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "polls.edit") {
     init {
         addParam("poll_id", pollId)
         ownerId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.wall.dto.WallGetExtendedResponseDto
@@ -46,10 +46,10 @@ import org.json.JSONObject
  * @param domain User or community short address. 
  * @param offset Offset needed to return a specific subset of posts. minimum 0
  * @param count Number of posts to return (maximum 100). minimum 0
- * @param filter Filter to apply: 'owner' � posts by the wall owner, 'others' � posts by someone
- * else, 'all' � posts by the wall owner and others (default), 'postponed' � timed posts (only
- * available for calls with an 'access_token'), 'suggests' � suggested posts on a community wall 
- * @param extended '1' � to return 'wall', 'profiles', and 'groups' fields, '0' � to return no
+ * @param filter Filter to apply: 'owner' - posts by the wall owner, 'others' - posts by someone
+ * else, 'all' - posts by the wall owner and others (default), 'postponed' - timed posts (only
+ * available for calls with an 'access_token'), 'suggests' - suggested posts on a community wall 
+ * @param extended '1' - to return 'wall', 'profiles', and 'groups' fields, '0' - to return no
  * additional fields (default) 
  * @param fields  
  */
@@ -61,7 +61,7 @@ class WallGetExtended(
     private val filter: WallGetFilter? = null,
     private val extended: Boolean? = null,
     private val fields: List<BaseUserGroupFields>? = null
-) : VKRequest<WallGetExtendedResponseDto>("wall.get") {
+) : ApiRequestBase<WallGetExtendedResponseDto>(methodName = "wall.get") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

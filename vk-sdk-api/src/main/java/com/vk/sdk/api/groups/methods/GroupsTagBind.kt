@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.responses.BaseBoolResponse
@@ -47,7 +47,7 @@ class GroupsTagBind(
     private val tagId: Int,
     private val userId: Int,
     private val act: GroupsTagBindAct
-) : VKRequest<BaseBoolInt>("groups.tagBind") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "groups.tagBind") {
     init {
         addParam("group_id", groupId)
         addParam("tag_id", tagId)

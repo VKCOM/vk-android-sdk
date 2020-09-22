@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.prettyCards.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.prettyCards.dto.PrettyCardsCreateResponseDto
 import com.vk.sdk.api.prettyCards.responses.PrettyCardsCreateResponse
@@ -52,7 +52,7 @@ class PrettyCardsCreate(
     private val price: String? = null,
     private val priceOld: String? = null,
     private val button: String? = null
-) : VKRequest<PrettyCardsCreateResponseDto>("prettyCards.create") {
+) : ApiRequestBase<PrettyCardsCreateResponseDto>(methodName = "prettyCards.create") {
     init {
         addParam("owner_id", ownerId)
         addParam("photo", photo)

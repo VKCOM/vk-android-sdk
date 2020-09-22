@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -55,7 +55,7 @@ class AccountRegisterDevice(
     private val systemVersion: String? = null,
     private val settings: String? = null,
     private val sandbox: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("account.registerDevice") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "account.registerDevice") {
     init {
         addParam("token", token)
         addParam("device_id", deviceId)

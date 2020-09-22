@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.wall.dto.WallGetRepostsResponseDto
 import com.vk.sdk.api.wall.responses.WallGetRepostsResponse
@@ -47,7 +47,7 @@ class WallGetReposts(
     private val postId: Int? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<WallGetRepostsResponseDto>("wall.getReposts") {
+) : ApiRequestBase<WallGetRepostsResponseDto>(methodName = "wall.getReposts") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

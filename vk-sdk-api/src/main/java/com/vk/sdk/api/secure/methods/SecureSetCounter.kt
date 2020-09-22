@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.secure.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -49,7 +49,7 @@ class SecureSetCounter(
     private val userId: Int? = null,
     private val counter: Int? = null,
     private val increment: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("secure.setCounter") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "secure.setCounter") {
     init {
         counters?.let { value ->
             addParam("counters", value)

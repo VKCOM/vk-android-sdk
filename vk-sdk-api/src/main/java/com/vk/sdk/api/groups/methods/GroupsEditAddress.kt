@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsAddress
 import com.vk.sdk.api.groups.dto.GroupsEditAddressWorkInfoStatus
@@ -69,7 +69,7 @@ class GroupsEditAddress(
     private val workInfoStatus: GroupsEditAddressWorkInfoStatus? = null,
     private val timetable: String? = null,
     private val isMainAddress: Boolean? = null
-) : VKRequest<GroupsAddress>("groups.editAddress") {
+) : ApiRequestBase<GroupsAddress>(methodName = "groups.editAddress") {
     init {
         addParam("group_id", groupId)
         addParam("address_id", addressId)

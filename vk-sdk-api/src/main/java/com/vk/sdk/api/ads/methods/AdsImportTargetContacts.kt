@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.responses.AdsImportTargetContactsResponse
 import kotlin.Int
@@ -47,7 +47,7 @@ class AdsImportTargetContacts(
     private val targetGroupId: Int,
     private val contacts: String,
     private val clientId: Int? = null
-) : VKRequest<Int>("ads.importTargetContacts") {
+) : ApiRequestBase<Int>(methodName = "ads.importTargetContacts") {
     init {
         addParam("account_id", accountId)
         addParam("target_group_id", targetGroupId)

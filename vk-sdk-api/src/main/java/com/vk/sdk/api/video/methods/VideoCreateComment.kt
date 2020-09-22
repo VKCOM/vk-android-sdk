@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.video.responses.VideoCreateCommentResponse
 import kotlin.Boolean
@@ -42,10 +42,10 @@ import org.json.JSONObject
  * @param ownerId ID of the user or community that owns the video. 
  * @param message New comment text. 
  * @param attachments List of objects attached to the comment, in the following format:
- * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' � Type of media attachment: 'photo' � photo,
- * 'video' � video, 'audio' � audio, 'doc' � document, '<owner_id>' � ID of the media attachment owner.
- * '<media_id>' � Media attachment ID. Example: "photo100172_166443618,photo66748_265827614" 
- * @param fromGroup '1' � to post the comment from a community name (only if 'owner_id'<0) 
+ * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment: 'photo' - photo,
+ * 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - ID of the media attachment owner.
+ * '<media_id>' - Media attachment ID. Example: "photo100172_166443618,photo66748_265827614" 
+ * @param fromGroup '1' - to post the comment from a community name (only if 'owner_id'<0) 
  * @param replyToComment  minimum 0
  * @param stickerId  minimum 0
  * @param guid  
@@ -59,7 +59,7 @@ class VideoCreateComment(
     private val replyToComment: Int? = null,
     private val stickerId: Int? = null,
     private val guid: String? = null
-) : VKRequest<Int>("video.createComment") {
+) : ApiRequestBase<Int>(methodName = "video.createComment") {
     init {
         addParam("video_id", videoId)
         ownerId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -37,17 +37,17 @@ import org.json.JSONObject
 
 /**
  * Hides an item from the newsfeed.
- * @param type Item type. Possible values: *'wall' � post on the wall,, *'tag' � tag on a photo,,
- * *'profilephoto' � profile photo,, *'video' � video,, *'audio' � audio. 
+ * @param type Item type. Possible values: *'wall' - post on the wall,, *'tag' - tag on a photo,,
+ * *'profilephoto' - profile photo,, *'video' - video,, *'audio' - audio. 
  * @param ownerId Item owner's identifier (user or community), "Note that community id must be
- * negative. 'owner_id=1' � user , 'owner_id=-1' � community " 
+ * negative. 'owner_id=1' - user , 'owner_id=-1' - community " 
  * @param itemId Item identifier minimum 0
  */
 class NewsfeedIgnoreItem(
     private val type: String,
     private val ownerId: Int,
     private val itemId: Int
-) : VKRequest<BaseOkResponseDto>("newsfeed.ignoreItem") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "newsfeed.ignoreItem") {
     init {
         addParam("type", type)
         addParam("owner_id", ownerId)

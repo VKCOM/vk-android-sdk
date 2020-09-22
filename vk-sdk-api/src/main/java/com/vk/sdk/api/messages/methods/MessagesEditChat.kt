@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class MessagesEditChat(
     private val chatId: Int,
     private val title: String? = null
-) : VKRequest<BaseOkResponseDto>("messages.editChat") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "messages.editChat") {
     init {
         addParam("chat_id", chatId)
         title?.let { value ->

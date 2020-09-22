@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsCampaign
 import com.vk.sdk.api.ads.dto.AdsGetCampaignsFields
@@ -43,8 +43,8 @@ import org.json.JSONObject
  * @param accountId Advertising account ID. 
  * @param clientId 'For advertising agencies'. ID of the client advertising campaigns are retrieved
  * from. 
- * @param includeDeleted Flag that specifies whether archived ads shall be shown. *0 � show only
- * active campaigns,, *1 � show all campaigns. 
+ * @param includeDeleted Flag that specifies whether archived ads shall be shown. *0 - show only
+ * active campaigns,, *1 - show all campaigns. 
  * @param campaignIds Filter of advertising campaigns to show. Serialized JSON array with campaign
  * IDs. Only campaigns that exist in 'campaign_ids' and belong to the specified advertising account
  * will be shown. If the parameter is null, all campaigns will be shown. 
@@ -56,7 +56,7 @@ class AdsGetCampaigns(
     private val includeDeleted: Boolean? = null,
     private val campaignIds: String? = null,
     private val fields: List<AdsGetCampaignsFields>? = null
-) : VKRequest<List<AdsCampaign>>("ads.getCampaigns") {
+) : ApiRequestBase<List<AdsCampaign>>(methodName = "ads.getCampaigns") {
     init {
         addParam("account_id", accountId)
         clientId?.let { value ->

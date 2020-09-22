@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.board.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -43,9 +43,9 @@ import org.json.JSONObject
  * @param commentId ID of the comment on the topic. minimum 0
  * @param message (Required if 'attachments' is not set). New comment text. 
  * @param attachments (Required if 'message' is not set.) List of media objects attached to the
- * comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' � Type of media
- * object: 'photo' � photo, 'video' � video, 'audio' � audio, 'doc' � document, '<owner_id>' � ID of
- * the media owner. '<media_id>' � Media ID. Example: "photo100172_166443618,photo66748_265827614" 
+ * comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
+ * object: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - ID of
+ * the media owner. '<media_id>' - Media ID. Example: "photo100172_166443618,photo66748_265827614" 
  */
 class BoardEditComment(
     private val groupId: Int,
@@ -53,7 +53,7 @@ class BoardEditComment(
     private val commentId: Int,
     private val message: String? = null,
     private val attachments: List<String>? = null
-) : VKRequest<BaseOkResponseDto>("board.editComment") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "board.editComment") {
     init {
         addParam("group_id", groupId)
         addParam("topic_id", topicId)

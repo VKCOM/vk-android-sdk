@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class MarketDeleteAlbum(
     private val ownerId: Int,
     private val albumId: Int
-) : VKRequest<BaseOkResponseDto>("market.deleteAlbum") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "market.deleteAlbum") {
     init {
         addParam("owner_id", ownerId)
         addParam("album_id", albumId)

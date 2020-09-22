@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -48,7 +48,7 @@ class VideoAddToAlbum(
     private val targetId: Int? = null,
     private val albumId: Int? = null,
     private val albumIds: List<Int>? = null
-) : VKRequest<BaseOkResponseDto>("video.addToAlbum") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "video.addToAlbum") {
     init {
         addParam("owner_id", ownerId)
         addParam("video_id", videoId)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.notes.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.notes.responses.NotesAddResponse
 import kotlin.Int
@@ -47,7 +47,7 @@ class NotesAdd(
     private val text: String,
     private val privacyView: List<String>? = null,
     private val privacyComment: List<String>? = null
-) : VKRequest<Int>("notes.add") {
+) : ApiRequestBase<Int>(methodName = "notes.add") {
     init {
         addParam("title", title)
         addParam("text", text)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsGetMembersFilterResponseDto
 import com.vk.sdk.api.groups.dto.GroupsGetMembersSort
@@ -51,7 +51,7 @@ import org.json.JSONObject
  * online, online_mobile, lists, domain, has_mobile, contacts, connections, site, education,
  * universities, schools, can_post, can_see_all_posts, can_see_audio, can_write_private_message,
  * status, last_seen, common_count, relation, relatives, counters'. 
- * @param filter *'friends' � only friends in this community will be returned,, *'unsure' � only
+ * @param filter *'friends' - only friends in this community will be returned,, *'unsure' - only
  * those who pressed 'I may attend' will be returned (if it's an event). 
  */
 class GroupsGetMembersFilter(
@@ -61,7 +61,7 @@ class GroupsGetMembersFilter(
     private val count: Int? = null,
     private val fields: List<UsersFields>? = null,
     private val filter: com.vk.sdk.api.groups.dto.GroupsGetMembersFilter? = null
-) : VKRequest<GroupsGetMembersFilterResponseDto>("groups.getMembers") {
+) : ApiRequestBase<GroupsGetMembersFilterResponseDto>(methodName = "groups.getMembers") {
     init {
         groupId?.let { value ->
             addParam("group_id", value)

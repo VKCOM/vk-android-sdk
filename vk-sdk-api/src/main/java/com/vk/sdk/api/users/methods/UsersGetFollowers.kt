@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.users.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.users.dto.UsersFields
 import com.vk.sdk.api.users.dto.UsersGetFollowersNameCase
@@ -46,8 +46,9 @@ import org.json.JSONObject
  * @param fields Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate'
  * (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile',
  * 'rate', 'contacts', 'education', 'online'. 
- * @param nameCase Case for declension of user name and surname: 'nom' � nominative (default), 'gen'
- * � genitive , 'dat' � dative, 'acc' � accusative , 'ins' � instrumental , 'abl' � prepositional 
+ * @param nameCase Case for declension of user name and surname: 'nom' - nominative (default),
+ * 'gen' - genitive , 'dat' - dative, 'acc' - accusative , 'ins' - instrumental , 'abl' - prepositional
+ * 
  */
 class UsersGetFollowers(
     private val userId: Int? = null,
@@ -55,7 +56,7 @@ class UsersGetFollowers(
     private val count: Int? = null,
     private val fields: List<UsersFields>? = null,
     private val nameCase: UsersGetFollowersNameCase? = null
-) : VKRequest<UsersGetFollowersResponseDto>("users.getFollowers") {
+) : ApiRequestBase<UsersGetFollowersResponseDto>(methodName = "users.getFollowers") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.widgets.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.widgets.dto.WidgetsGetPagesResponseDto
 import com.vk.sdk.api.widgets.responses.WidgetsGetPagesResponse
@@ -50,7 +50,7 @@ class WidgetsGetPages(
     private val period: String? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<WidgetsGetPagesResponseDto>("widgets.getPages") {
+) : ApiRequestBase<WidgetsGetPagesResponseDto>(methodName = "widgets.getPages") {
     init {
         widgetApiId?.let { value ->
             addParam("widget_api_id", value)

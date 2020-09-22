@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.video.dto.VideoGetAlbumsByVideoExtendedResponseDto
 import com.vk.sdk.api.video.responses.VideoGetAlbumsByVideoExtendedResponse
@@ -46,7 +46,8 @@ class VideoGetAlbumsByVideoExtended(
     private val videoId: Int,
     private val targetId: Int? = null,
     private val extended: Boolean? = null
-) : VKRequest<VideoGetAlbumsByVideoExtendedResponseDto>("video.getAlbumsByVideo") {
+) : ApiRequestBase<VideoGetAlbumsByVideoExtendedResponseDto>(methodName = "video.getAlbumsByVideo")
+        {
     init {
         addParam("owner_id", ownerId)
         addParam("video_id", videoId)

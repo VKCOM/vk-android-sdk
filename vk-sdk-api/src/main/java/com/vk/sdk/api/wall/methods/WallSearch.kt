@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.wall.dto.WallSearchResponseDto
@@ -44,7 +44,7 @@ import org.json.JSONObject
  * 
  * @param domain user or community screen name. 
  * @param query search query string. 
- * @param ownersOnly '1' � returns only page owner's posts. 
+ * @param ownersOnly '1' - returns only page owner's posts. 
  * @param count count of posts to return. default 20 minimum 0 maximum 100
  * @param offset Offset needed to return a specific subset of posts. default 0 minimum 0
  * @param extended show extended post info. 
@@ -59,7 +59,7 @@ class WallSearch(
     private val offset: Int? = null,
     private val extended: Boolean? = null,
     private val fields: List<BaseUserGroupFields>? = null
-) : VKRequest<WallSearchResponseDto>("wall.search") {
+) : ApiRequestBase<WallSearchResponseDto>(methodName = "wall.search") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

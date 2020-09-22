@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -44,7 +44,7 @@ class MessagesAddChatUser(
     private val chatId: Int,
     private val userId: Int? = null,
     private val visibleMessagesCount: Int? = null
-) : VKRequest<BaseOkResponseDto>("messages.addChatUser") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "messages.addChatUser") {
     init {
         addParam("chat_id", chatId)
         userId?.let { value ->

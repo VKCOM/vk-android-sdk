@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.secure.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -37,16 +37,16 @@ import org.json.JSONObject
 /**
  * Adds user activity information to an application
  * @param userId ID of a user to save the data minimum 0
- * @param activityId there are 2 default activities: , * 1 � level. Works similar to ,, * 2 �
+ * @param activityId there are 2 default activities: , * 1 - level. Works similar to ,, * 2 -
  * points, saves points amount, Any other value is for saving completed missions minimum 0
- * @param value depends on activity_id: * 1 � number, current level number,, * 2 � number, current
+ * @param value depends on activity_id: * 1 - number, current level number,, * 2 - number, current
  * user's points amount, , Any other value is ignored minimum 0
  */
 class SecureAddAppEvent(
     private val userId: Int,
     private val activityId: Int,
     private val value: Int? = null
-) : VKRequest<BaseOkResponseDto>("secure.addAppEvent") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "secure.addAppEvent") {
     init {
         addParam("user_id", userId)
         addParam("activity_id", activityId)

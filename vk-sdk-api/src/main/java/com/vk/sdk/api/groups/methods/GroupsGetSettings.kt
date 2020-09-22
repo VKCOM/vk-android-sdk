@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsGetSettingsResponseDto
 import com.vk.sdk.api.groups.responses.GroupsGetSettingsResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class GroupsGetSettings(
     private val groupId: Int
-) : VKRequest<GroupsGetSettingsResponseDto>("groups.getSettings") {
+) : ApiRequestBase<GroupsGetSettingsResponseDto>(methodName = "groups.getSettings") {
     init {
         addParam("group_id", groupId)
     }

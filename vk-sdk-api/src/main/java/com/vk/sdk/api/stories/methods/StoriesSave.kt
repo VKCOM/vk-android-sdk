@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.stories.dto.StoriesSaveResponseDto
 import com.vk.sdk.api.stories.responses.StoriesSaveResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class StoriesSave(
     private val uploadResults: List<String>
-) : VKRequest<StoriesSaveResponseDto>("stories.save") {
+) : ApiRequestBase<StoriesSaveResponseDto>(methodName = "stories.save") {
     init {
         addParam("upload_results", uploadResults)
     }

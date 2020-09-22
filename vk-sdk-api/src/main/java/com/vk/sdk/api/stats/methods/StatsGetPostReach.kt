@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stats.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.stats.dto.StatsWallpostStat
 import com.vk.sdk.api.stats.responses.StatsGetPostReachResponse
@@ -44,7 +44,7 @@ import org.json.JSONObject
 class StatsGetPostReach(
     private val ownerId: String,
     private val postIds: List<Int>
-) : VKRequest<List<StatsWallpostStat>>("stats.getPostReach") {
+) : ApiRequestBase<List<StatsWallpostStat>>(methodName = "stats.getPostReach") {
     init {
         addParam("owner_id", ownerId)
         addParam("post_ids", postIds)

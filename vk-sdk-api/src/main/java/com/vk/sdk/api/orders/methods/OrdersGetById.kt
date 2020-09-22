@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.orders.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.orders.dto.OrdersOrder
 import com.vk.sdk.api.orders.responses.OrdersGetByIdResponse
@@ -41,13 +41,13 @@ import org.json.JSONObject
  * @param orderId order ID. minimum 0
  * @param orderIds order IDs (when information about several orders is requested). 
  * @param testMode if this parameter is set to 1, this method returns a list of test mode orders. By
- * default � 0. 
+ * default - 0. 
  */
 class OrdersGetById(
     private val orderId: Int? = null,
     private val orderIds: List<Int>? = null,
     private val testMode: Boolean? = null
-) : VKRequest<List<OrdersOrder>>("orders.getById") {
+) : ApiRequestBase<List<OrdersOrder>>(methodName = "orders.getById") {
     init {
         orderId?.let { value ->
             addParam("order_id", value)

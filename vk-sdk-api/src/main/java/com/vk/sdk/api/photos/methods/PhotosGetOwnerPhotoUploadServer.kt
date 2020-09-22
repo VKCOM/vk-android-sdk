@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUploadServer
 import com.vk.sdk.api.base.responses.BaseGetUploadServerResponse
@@ -37,11 +37,11 @@ import org.json.JSONObject
 /**
  * Returns an upload server address for a profile or community photo.
  * @param ownerId identifier of a community or current user. "Note that community id must be
- * negative. 'owner_id=1' � user, 'owner_id=-1' � community, " 
+ * negative. 'owner_id=1' - user, 'owner_id=-1' - community, " 
  */
 class PhotosGetOwnerPhotoUploadServer(
     private val ownerId: Int? = null
-) : VKRequest<BaseUploadServer>("photos.getOwnerPhotoUploadServer") {
+) : ApiRequestBase<BaseUploadServer>(methodName = "photos.getOwnerPhotoUploadServer") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

@@ -24,6 +24,21 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vk.api.sdk">
+
+    <queries>
+        <!-- For auth with vk client -->
+        <intent>
+            <action android:name="com.vkontakte.android.action.SDK_AUTH" />
+        </intent>
+
+        <!-- For available browsers request -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="http" />
+        </intent>
+    </queries>
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 

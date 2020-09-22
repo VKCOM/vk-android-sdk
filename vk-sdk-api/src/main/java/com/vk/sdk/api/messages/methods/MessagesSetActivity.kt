@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -38,7 +38,7 @@ import org.json.JSONObject
 /**
  * Changes the status of a user as typing in a conversation.
  * @param userId User ID. 
- * @param type 'typing' � user has started to type. 
+ * @param type 'typing' - user has started to type. 
  * @param peerId Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
  * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. " 
  * @param groupId Group ID (for group messages with group access token) minimum 0
@@ -48,7 +48,7 @@ class MessagesSetActivity(
     private val type: String? = null,
     private val peerId: Int? = null,
     private val groupId: Int? = null
-) : VKRequest<BaseOkResponseDto>("messages.setActivity") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "messages.setActivity") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.docs.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.docs.dto.DocsSearchResponseDto
 import com.vk.sdk.api.docs.responses.DocsSearchResponse
@@ -50,7 +50,7 @@ class DocsSearch(
     private val count: Int? = null,
     private val offset: Int? = null,
     private val returnTags: Boolean? = null
-) : VKRequest<DocsSearchResponseDto>("docs.search") {
+) : ApiRequestBase<DocsSearchResponseDto>(methodName = "docs.search") {
     init {
         addParam("q", q)
         searchOwn?.let { value ->

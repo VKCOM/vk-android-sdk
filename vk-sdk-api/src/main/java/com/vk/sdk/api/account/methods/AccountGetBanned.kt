@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.account.dto.AccountGetBannedResponseDto
 import com.vk.sdk.api.account.responses.AccountGetBannedResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class AccountGetBanned(
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<AccountGetBannedResponseDto>("account.getBanned") {
+) : ApiRequestBase<AccountGetBannedResponseDto>(methodName = "account.getBanned") {
     init {
         offset?.let { value ->
             addParam("offset", value)

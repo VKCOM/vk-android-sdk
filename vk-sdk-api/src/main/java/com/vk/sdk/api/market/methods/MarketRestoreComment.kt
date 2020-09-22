@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.market.responses.MarketRestoreCommentResponse
@@ -44,7 +44,7 @@ import org.json.JSONObject
 class MarketRestoreComment(
     private val ownerId: Int,
     private val commentId: Int
-) : VKRequest<BaseBoolInt>("market.restoreComment") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "market.restoreComment") {
     init {
         addParam("owner_id", ownerId)
         addParam("comment_id", commentId)

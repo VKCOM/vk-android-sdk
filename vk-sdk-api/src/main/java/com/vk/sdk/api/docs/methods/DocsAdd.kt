@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.docs.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.docs.dto.DocsAddResponseDto
 import com.vk.sdk.api.docs.responses.DocsAddResponse
@@ -47,7 +47,7 @@ class DocsAdd(
     private val ownerId: Int,
     private val docId: Int,
     private val accessKey: String? = null
-) : VKRequest<DocsAddResponseDto>("docs.add") {
+) : ApiRequestBase<DocsAddResponseDto>(methodName = "docs.add") {
     init {
         addParam("owner_id", ownerId)
         addParam("doc_id", docId)

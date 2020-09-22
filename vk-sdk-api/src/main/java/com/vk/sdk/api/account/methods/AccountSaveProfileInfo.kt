@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.account.dto.AccountSaveProfileInfoBdateVisibility
 import com.vk.sdk.api.account.dto.AccountSaveProfileInfoRelation
@@ -46,14 +46,14 @@ import org.json.JSONObject
  * @param screenName User screen name. 
  * @param cancelRequestId ID of the name change request to be canceled. If this parameter is sent,
  * all the others are ignored. minimum 0
- * @param sex User sex. Possible values: , * '1' � female,, * '2' � male. minimum 0
- * @param relation User relationship status. Possible values: , * '1' � single,, * '2' � in a
- * relationship,, * '3' � engaged,, * '4' � married,, * '5' � it's complicated,, * '6' � actively
- * searching,, * '7' � in love,, * '0' � not specified. minimum 0
+ * @param sex User sex. Possible values: , * '1' - female,, * '2' - male. minimum 0
+ * @param relation User relationship status. Possible values: , * '1' - single,, * '2' - in a
+ * relationship,, * '3' - engaged,, * '4' - married,, * '5' - it's complicated,, * '6' - actively
+ * searching,, * '7' - in love,, * '0' - not specified. minimum 0
  * @param relationPartnerId ID of the relationship partner. minimum 0
  * @param bdate User birth date, format: DD.MM.YYYY. 
- * @param bdateVisibility Birth date visibility. Returned values: , * '1' � show birth date,, * '2'
- * � show only month and day,, * '0' � hide birth date. minimum 0
+ * @param bdateVisibility Birth date visibility. Returned values: , * '1' - show birth date,, *
+ * '2' - show only month and day,, * '0' - hide birth date. minimum 0
  * @param homeTown User home town. 
  * @param countryId User country. minimum 0
  * @param cityId User city. minimum 0
@@ -74,7 +74,7 @@ class AccountSaveProfileInfo(
     private val countryId: Int? = null,
     private val cityId: Int? = null,
     private val status: String? = null
-) : VKRequest<AccountSaveProfileInfoResponseDto>("account.saveProfileInfo") {
+) : ApiRequestBase<AccountSaveProfileInfoResponseDto>(methodName = "account.saveProfileInfo") {
     init {
         firstName?.let { value ->
             addParam("first_name", value)

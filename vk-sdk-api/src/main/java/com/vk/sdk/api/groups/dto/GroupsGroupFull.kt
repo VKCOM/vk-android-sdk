@@ -67,8 +67,8 @@ import kotlin.collections.List
  * @param canUploadStory Information whether current user can upload story
  * @param canUploadVideo Information whether current user can upload video
  * @param hasPhoto Information whether community has photo
- * @param cropPhoto ������ � ������, �� ������� �������� ���������� � ����������� ����������
- * ����������
+ * @param
+ * cropPhoto ------ - ------, -- ------- -------- ---------- - ----------- ---------- ----------
  * @param status Community status
  * @param mainAlbumId Community's main photo album ID
  * @param links no description

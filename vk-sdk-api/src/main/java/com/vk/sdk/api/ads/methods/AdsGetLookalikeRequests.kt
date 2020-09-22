@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsGetLookalikeRequestsResponseDto
 import com.vk.sdk.api.ads.responses.AdsGetLookalikeRequestsResponse
@@ -50,7 +50,7 @@ class AdsGetLookalikeRequests(
     private val offset: Int? = null,
     private val limit: Int? = null,
     private val sortBy: String? = null
-) : VKRequest<AdsGetLookalikeRequestsResponseDto>("ads.getLookalikeRequests") {
+) : ApiRequestBase<AdsGetLookalikeRequestsResponseDto>(methodName = "ads.getLookalikeRequests") {
     init {
         addParam("account_id", accountId)
         clientId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsRejectReason
 import com.vk.sdk.api.ads.responses.AdsGetRejectionReasonResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class AdsGetRejectionReason(
     private val accountId: Int,
     private val adId: Int
-) : VKRequest<AdsRejectReason>("ads.getRejectionReason") {
+) : ApiRequestBase<AdsRejectReason>(methodName = "ads.getRejectionReason") {
     init {
         addParam("account_id", accountId)
         addParam("ad_id", adId)

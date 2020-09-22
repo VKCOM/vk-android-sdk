@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosGetUserPhotosResponseDto
 import com.vk.sdk.api.photos.responses.PhotosGetUserPhotosResponse
@@ -41,8 +41,8 @@ import org.json.JSONObject
  * @param userId User ID. minimum 0
  * @param offset Offset needed to return a specific subset of photos. By default, '0'. minimum 0
  * @param count Number of photos to return. Maximum value is 1000. default 20 minimum 0 maximum 1000
- * @param extended '1' � to return an additional 'likes' field, '0' � (default) 
- * @param sort Sort order: '1' � by date the tag was added in ascending order, '0' � by date the tag
+ * @param extended '1' - to return an additional 'likes' field, '0' - (default) 
+ * @param sort Sort order: '1' - by date the tag was added in ascending order, '0' - by date the tag
  * was added in descending order 
  */
 class PhotosGetUserPhotos(
@@ -51,7 +51,7 @@ class PhotosGetUserPhotos(
     private val count: Int? = null,
     private val extended: Boolean? = null,
     private val sort: String? = null
-) : VKRequest<PhotosGetUserPhotosResponseDto>("photos.getUserPhotos") {
+) : ApiRequestBase<PhotosGetUserPhotosResponseDto>(methodName = "photos.getUserPhotos") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.apps.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.apps.dto.AppsGetCatalogFilter
 import com.vk.sdk.api.apps.dto.AppsGetCatalogResponseDto
@@ -43,20 +43,20 @@ import org.json.JSONObject
 /**
  * Returns a list of applications (apps) available to users in the App Catalog.
  * @param count Number of apps to return. default 100 minimum 0
- * @param sort Sort order: 'popular_today' � popular for one day (default), 'visitors' � by visitors
- * number , 'create_date' � by creation date, 'growth_rate' � by growth rate, 'popular_week' � popular
+ * @param sort Sort order: 'popular_today' - popular for one day (default), 'visitors' - by visitors
+ * number , 'create_date' - by creation date, 'growth_rate' - by growth rate, 'popular_week' - popular
  * for one week 
  * @param offset Offset required to return a specific subset of apps. minimum 0
  * @param platform  
- * @param extended '1' � to return additional fields 'screenshots', 'MAU', 'catalog_position', and
- * 'international'. If set, 'count' must be less than or equal to '100'. '0' � not to return additional
+ * @param extended '1' - to return additional fields 'screenshots', 'MAU', 'catalog_position', and
+ * 'international'. If set, 'count' must be less than or equal to '100'. '0' - not to return additional
  * fields (default). 
  * @param returnFriends  
  * @param fields  
  * @param nameCase  
  * @param q Search query string. 
  * @param genreId  minimum 0
- * @param filter 'installed' � to return list of installed apps (only for mobile platform). 
+ * @param filter 'installed' - to return list of installed apps (only for mobile platform). 
  */
 class AppsGetCatalog(
     private val count: Int,
@@ -70,7 +70,7 @@ class AppsGetCatalog(
     private val q: String? = null,
     private val genreId: Int? = null,
     private val filter: AppsGetCatalogFilter? = null
-) : VKRequest<AppsGetCatalogResponseDto>("apps.getCatalog") {
+) : ApiRequestBase<AppsGetCatalogResponseDto>(methodName = "apps.getCatalog") {
     init {
         addParam("count", count)
         sort?.let { value ->

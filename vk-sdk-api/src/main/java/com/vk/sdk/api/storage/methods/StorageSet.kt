@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.storage.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -45,7 +45,7 @@ class StorageSet(
     private val key: String,
     private val value: String? = null,
     private val userId: Int? = null
-) : VKRequest<BaseOkResponseDto>("storage.set") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "storage.set") {
     init {
         addParam("key", key)
         value?.let { value ->

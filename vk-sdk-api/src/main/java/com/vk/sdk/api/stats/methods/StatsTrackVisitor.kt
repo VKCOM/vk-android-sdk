@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stats.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -39,7 +39,7 @@ import org.json.JSONObject
  */
 class StatsTrackVisitor(
     private val id: String
-) : VKRequest<BaseOkResponseDto>("stats.trackVisitor") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "stats.trackVisitor") {
     init {
         addParam("id", id)
     }

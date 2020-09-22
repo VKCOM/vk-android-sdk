@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -53,7 +53,7 @@ class MarketEditComment(
     private val commentId: Int,
     private val message: String? = null,
     private val attachments: List<String>? = null
-) : VKRequest<BaseOkResponseDto>("market.editComment") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "market.editComment") {
     init {
         addParam("owner_id", ownerId)
         addParam("comment_id", commentId)

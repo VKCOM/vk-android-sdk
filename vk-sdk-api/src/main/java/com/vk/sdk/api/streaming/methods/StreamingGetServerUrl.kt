@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.streaming.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.streaming.dto.StreamingGetServerUrlResponseDto
 import com.vk.sdk.api.streaming.responses.StreamingGetServerUrlResponse
@@ -36,8 +36,8 @@ import org.json.JSONObject
 /**
  * Allows to receive data for the connection to Streaming API.
  */
-class StreamingGetServerUrl : VKRequest<StreamingGetServerUrlResponseDto>("streaming.getServerUrl")
-        {
+class StreamingGetServerUrl : ApiRequestBase<StreamingGetServerUrlResponseDto>(methodName =
+        "streaming.getServerUrl") {
     override fun parse(r: JSONObject): StreamingGetServerUrlResponseDto =
             GsonHolder.gson.fromJson(r.toString(),
             StreamingGetServerUrlResponse::class.java).response

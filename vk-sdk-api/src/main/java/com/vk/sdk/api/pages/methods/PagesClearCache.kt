@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.pages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class PagesClearCache(
     private val url: String
-) : VKRequest<BaseOkResponseDto>("pages.clearCache") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "pages.clearCache") {
     init {
         addParam("url", url)
     }

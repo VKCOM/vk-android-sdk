@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.orders.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.orders.responses.OrdersUpdateSubscriptionResponse
@@ -43,7 +43,7 @@ class OrdersUpdateSubscription(
     private val userId: Int,
     private val subscriptionId: Int,
     private val price: Int
-) : VKRequest<BaseBoolInt>("orders.updateSubscription") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "orders.updateSubscription") {
     init {
         addParam("user_id", userId)
         addParam("subscription_id", subscriptionId)

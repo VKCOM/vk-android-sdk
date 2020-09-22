@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.dto.FriendsSearchNameCase
 import com.vk.sdk.api.friends.dto.FriendsSearchResponseDto
@@ -45,8 +45,8 @@ import org.json.JSONObject
  * @param fields Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate'
  * (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile',
  * 'rate', 'contacts', 'education', 'online', 
- * @param nameCase Case for declension of user name and surname: 'nom' � nominative (default), 'gen'
- * � genitive , 'dat' � dative, 'acc' � accusative , 'ins' � instrumental , 'abl' � prepositional
+ * @param nameCase Case for declension of user name and surname: 'nom' - nominative (default),
+ * 'gen' - genitive , 'dat' - dative, 'acc' - accusative , 'ins' - instrumental , 'abl' - prepositional
  * default "Nom"
  * @param offset Offset needed to return a specific subset of friends. minimum 0
  * @param count Number of friends to return. default 20 minimum 0 maximum 1000
@@ -58,7 +58,7 @@ class FriendsSearch(
     private val nameCase: FriendsSearchNameCase? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<FriendsSearchResponseDto>("friends.search") {
+) : ApiRequestBase<FriendsSearchResponseDto>(methodName = "friends.search") {
     init {
         addParam("user_id", userId)
         q?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -58,7 +58,7 @@ class PhotosEdit(
     private val placeStr: String? = null,
     private val foursquareId: String? = null,
     private val deletePlace: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("photos.edit") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "photos.edit") {
     init {
         addParam("photo_id", photoId)
         ownerId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.responses.BaseBoolResponse
@@ -45,7 +45,7 @@ class GroupsSetUserNote(
     private val groupId: Int,
     private val userId: Int,
     private val note: String? = null
-) : VKRequest<BaseBoolInt>("groups.setUserNote") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "groups.setUserNote") {
     init {
         addParam("group_id", groupId)
         addParam("user_id", userId)

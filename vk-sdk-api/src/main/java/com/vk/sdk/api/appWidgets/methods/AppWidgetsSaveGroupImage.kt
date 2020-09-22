@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.appWidgets.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.appWidgets.dto.AppWidgetsPhoto
 import com.vk.sdk.api.appWidgets.responses.AppWidgetsSaveGroupImageResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class AppWidgetsSaveGroupImage(
     private val hash: String,
     private val image: String
-) : VKRequest<AppWidgetsPhoto>("appWidgets.saveGroupImage") {
+) : ApiRequestBase<AppWidgetsPhoto>(methodName = "appWidgets.saveGroupImage") {
     init {
         addParam("hash", hash)
         addParam("image", image)

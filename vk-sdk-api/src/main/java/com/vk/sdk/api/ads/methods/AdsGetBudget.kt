@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.responses.AdsGetBudgetResponse
 import kotlin.Int
@@ -39,7 +39,7 @@ import org.json.JSONObject
  */
 class AdsGetBudget(
     private val accountId: Int
-) : VKRequest<Int>("ads.getBudget") {
+) : ApiRequestBase<Int>(methodName = "ads.getBudget") {
     init {
         addParam("account_id", accountId)
     }

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.polls.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.polls.responses.PollsDeleteVoteResponse
@@ -48,7 +48,7 @@ class PollsDeleteVote(
     private val answerId: Int,
     private val ownerId: Int? = null,
     private val isBoard: Boolean? = null
-) : VKRequest<BaseBoolInt>("polls.deleteVote") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "polls.deleteVote") {
     init {
         addParam("poll_id", pollId)
         addParam("answer_id", answerId)

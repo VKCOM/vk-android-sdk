@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.video.dto.VideoGetCommentsExtendedResponseDto
 import com.vk.sdk.api.video.dto.VideoGetCommentsSort
@@ -42,11 +42,11 @@ import org.json.JSONObject
  * Returns a list of comments on a video.
  * @param videoId Video ID. minimum 0
  * @param ownerId ID of the user or community that owns the video. 
- * @param needLikes '1' � to return an additional 'likes' field 
+ * @param needLikes '1' - to return an additional 'likes' field 
  * @param startCommentId  minimum 0
  * @param offset Offset needed to return a specific subset of comments. 
  * @param count Number of comments to return. default 20 minimum 0 maximum 100
- * @param sort Sort order: 'asc' � oldest comment first, 'desc' � newest comment first 
+ * @param sort Sort order: 'asc' - oldest comment first, 'desc' - newest comment first 
  * @param extended  
  * @param fields  
  */
@@ -60,7 +60,7 @@ class VideoGetCommentsExtended(
     private val sort: VideoGetCommentsSort? = null,
     private val extended: Boolean? = null,
     private val fields: List<String>? = null
-) : VKRequest<VideoGetCommentsExtendedResponseDto>("video.getComments") {
+) : ApiRequestBase<VideoGetCommentsExtendedResponseDto>(methodName = "video.getComments") {
     init {
         addParam("video_id", videoId)
         ownerId?.let { value ->

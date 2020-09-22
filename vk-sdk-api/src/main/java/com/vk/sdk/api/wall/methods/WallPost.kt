@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.wall.dto.WallPostResponseDto
 import com.vk.sdk.api.wall.responses.WallPostResponse
@@ -42,23 +42,23 @@ import org.json.JSONObject
  * Adds a new post on a user wall or community wall. Can also be used to publish suggested or
  * scheduled posts.
  * @param ownerId User ID or community ID. Use a negative value to designate a community ID. 
- * @param friendsOnly '1' � post will be available to friends only, '0' � post will be available to
+ * @param friendsOnly '1' - post will be available to friends only, '0' - post will be available to
  * all users (default) 
- * @param fromGroup For a community: '1' � post will be published by the community, '0' � post will
+ * @param fromGroup For a community: '1' - post will be published by the community, '0' - post will
  * be published by the user (default) 
  * @param message (Required if 'attachments' is not set.) Text of the post. 
  * @param attachments (Required if 'message' is not set.) List of objects attached to the post, in
- * the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' � Type of media attachment:
- * 'photo' � photo, 'video' � video, 'audio' � audio, 'doc' � document, 'page' � wiki-page, 'note' �
- * note, 'poll' � poll, 'album' � photo album, '<owner_id>' � ID of the media application owner.
- * '<media_id>' � Media application ID. Example: "photo100172_166443618,photo66748_265827614", May
+ * the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment:
+ * 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'page' - wiki-page, 'note' -
+ * note, 'poll' - poll, 'album' - photo album, '<owner_id>' - ID of the media application owner.
+ * '<media_id>' - Media application ID. Example: "photo100172_166443618,photo66748_265827614", May
  * contain a link to an external page to include in the post. Example:
  * "photo66748_265827614,http://habrahabr.ru", "NOTE: If more than one link is being attached, an error
  * will be thrown." 
  * @param services List of services or websites the update will be exported to, if the user has so
  * requested. Sample values: 'twitter', 'facebook'. 
- * @param signed Only for posts in communities with 'from_group' set to '1': '1' � post will be
- * signed with the name of the posting user, '0' � post will not be signed (default) 
+ * @param signed Only for posts in communities with 'from_group' set to '1': '1' - post will be
+ * signed with the name of the posting user, '0' - post will not be signed (default) 
  * @param publishDate Publication date (in Unix time). If used, posting will be delayed until the
  * set time. minimum 0
  * @param lat Geographical latitude of a check-in, in degrees (from -90 to 90). 
@@ -89,7 +89,7 @@ class WallPost(
     private val closeComments: Boolean? = null,
     private val muteNotifications: Boolean? = null,
     private val copyright: String? = null
-) : VKRequest<WallPostResponseDto>("wall.post") {
+) : ApiRequestBase<WallPostResponseDto>(methodName = "wall.post") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

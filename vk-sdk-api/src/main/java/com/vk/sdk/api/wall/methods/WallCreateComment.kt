@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.wall.dto.WallCreateCommentResponseDto
 import com.vk.sdk.api.wall.responses.WallCreateCommentResponse
@@ -44,9 +44,9 @@ import org.json.JSONObject
  * @param message (Required if 'attachments' is not set.) Text of the comment. 
  * @param replyToComment ID of comment to reply. 
  * @param attachments (Required if 'message' is not set.) List of media objects attached to the
- * comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' � Type of media
- * ojbect: 'photo' � photo, 'video' � video, 'audio' � audio, 'doc' � document, '<owner_id>' � ID of
- * the media owner. '<media_id>' � Media ID. For example: "photo100172_166443618,photo66748_265827614" 
+ * comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
+ * ojbect: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - ID of
+ * the media owner. '<media_id>' - Media ID. For example: "photo100172_166443618,photo66748_265827614" 
  * @param stickerId Sticker ID. minimum 0
  * @param guid Unique identifier to avoid repeated comments. 
  */
@@ -59,7 +59,7 @@ class WallCreateComment(
     private val attachments: List<String>? = null,
     private val stickerId: Int? = null,
     private val guid: String? = null
-) : VKRequest<WallCreateCommentResponseDto>("wall.createComment") {
+) : ApiRequestBase<WallCreateCommentResponseDto>(methodName = "wall.createComment") {
     init {
         addParam("post_id", postId)
         ownerId?.let { value ->

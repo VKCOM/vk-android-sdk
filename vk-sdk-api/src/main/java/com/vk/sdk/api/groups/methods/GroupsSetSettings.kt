@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -48,7 +48,7 @@ class GroupsSetSettings(
     private val botsCapabilities: Boolean? = null,
     private val botsStartButton: Boolean? = null,
     private val botsAddToChat: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("groups.setSettings") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.setSettings") {
     init {
         addParam("group_id", groupId)
         messages?.let { value ->

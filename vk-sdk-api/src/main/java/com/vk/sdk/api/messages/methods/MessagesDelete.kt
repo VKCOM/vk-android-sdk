@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.messages.responses.MessagesDeleteResponse
@@ -40,16 +40,16 @@ import org.json.JSONObject
 /**
  * Deletes one or more messages.
  * @param messageIds Message IDs. 
- * @param spam '1' � to mark message as spam. 
+ * @param spam '1' - to mark message as spam. 
  * @param groupId Group ID (for group messages with user access token) minimum 0
- * @param deleteForAll '1' � delete message for for all. default false
+ * @param deleteForAll '1' - delete message for for all. default false
  */
 class MessagesDelete(
     private val messageIds: List<Int>? = null,
     private val spam: Boolean? = null,
     private val groupId: Int? = null,
     private val deleteForAll: Boolean? = null
-) : VKRequest<Map<Int, BaseBoolInt>>("messages.delete") {
+) : ApiRequestBase<Map<Int, BaseBoolInt>>(methodName = "messages.delete") {
     init {
         messageIds?.let { value ->
             addParam("message_ids", value)

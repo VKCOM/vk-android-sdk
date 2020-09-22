@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.responses.PhotosGetAlbumsCountResponse
 import kotlin.Int
@@ -41,7 +41,7 @@ import org.json.JSONObject
 class PhotosGetAlbumsCount(
     private val userId: Int? = null,
     private val groupId: Int? = null
-) : VKRequest<Int>("photos.getAlbumsCount") {
+) : ApiRequestBase<Int>(methodName = "photos.getAlbumsCount") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

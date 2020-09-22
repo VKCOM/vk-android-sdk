@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.video.dto.VideoVideoAlbumFull
 import com.vk.sdk.api.video.responses.VideoGetAlbumByIdResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class VideoGetAlbumById(
     private val albumId: Int,
     private val ownerId: Int? = null
-) : VKRequest<VideoVideoAlbumFull>("video.getAlbumById") {
+) : ApiRequestBase<VideoVideoAlbumFull>(methodName = "video.getAlbumById") {
     init {
         addParam("album_id", albumId)
         ownerId?.let { value ->

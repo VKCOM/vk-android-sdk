@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.polls.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.polls.dto.PollsGetByIdNameCase
 import com.vk.sdk.api.polls.dto.PollsPoll
@@ -43,7 +43,7 @@ import org.json.JSONObject
  * @param pollId Poll ID. minimum 0
  * @param ownerId ID of the user or community that owns the poll. Use a negative value to designate
  * a community ID. 
- * @param isBoard '1' � poll is in a board, '0' � poll is on a wall. '0' by default. 
+ * @param isBoard '1' - poll is in a board, '0' - poll is on a wall. '0' by default. 
  * @param extended  
  * @param friendsCount  default 3 minimum 0 maximum 100
  * @param fields  
@@ -57,7 +57,7 @@ class PollsGetById(
     private val friendsCount: Int? = null,
     private val fields: List<String>? = null,
     private val nameCase: PollsGetByIdNameCase? = null
-) : VKRequest<PollsPoll>("polls.getById") {
+) : ApiRequestBase<PollsPoll>(methodName = "polls.getById") {
     init {
         addParam("poll_id", pollId)
         ownerId?.let { value ->

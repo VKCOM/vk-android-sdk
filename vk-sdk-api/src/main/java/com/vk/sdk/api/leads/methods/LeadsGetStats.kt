@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.leads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.leads.dto.LeadsLead
 import com.vk.sdk.api.leads.responses.LeadsGetStatsResponse
@@ -47,7 +47,7 @@ class LeadsGetStats(
     private val secret: String? = null,
     private val dateStart: String? = null,
     private val dateEnd: String? = null
-) : VKRequest<LeadsLead>("leads.getStats") {
+) : ApiRequestBase<LeadsLead>(methodName = "leads.getStats") {
     init {
         addParam("lead_id", leadId)
         secret?.let { value ->

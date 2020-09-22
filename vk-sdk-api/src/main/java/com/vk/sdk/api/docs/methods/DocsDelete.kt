@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.docs.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class DocsDelete(
     private val ownerId: Int,
     private val docId: Int
-) : VKRequest<BaseOkResponseDto>("docs.delete") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "docs.delete") {
     init {
         addParam("owner_id", ownerId)
         addParam("doc_id", docId)

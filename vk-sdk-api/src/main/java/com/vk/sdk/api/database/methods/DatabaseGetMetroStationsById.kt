@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.database.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.database.dto.DatabaseStation
 import com.vk.sdk.api.database.responses.DatabaseGetMetroStationsByIdResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class DatabaseGetMetroStationsById(
     private val stationIds: List<Int>? = null
-) : VKRequest<List<DatabaseStation>>("database.getMetroStationsById") {
+) : ApiRequestBase<List<DatabaseStation>>(methodName = "database.getMetroStationsById") {
     init {
         stationIds?.let { value ->
             addParam("station_ids", value)

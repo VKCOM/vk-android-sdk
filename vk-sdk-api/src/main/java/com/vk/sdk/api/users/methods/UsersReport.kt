@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.users.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -39,15 +39,15 @@ import org.json.JSONObject
 /**
  * Reports (submits a complain about) a user.
  * @param userId ID of the user about whom a complaint is being made. minimum 0
- * @param type Type of complaint: 'porn' � pornography, 'spam' � spamming, 'insult' � abusive
- * behavior, 'advertisement' � disruptive advertisements 
+ * @param type Type of complaint: 'porn' - pornography, 'spam' - spamming, 'insult' - abusive
+ * behavior, 'advertisement' - disruptive advertisements 
  * @param comment Comment describing the complaint. 
  */
 class UsersReport(
     private val userId: Int,
     private val type: UsersReportType,
     private val comment: String? = null
-) : VKRequest<BaseOkResponseDto>("users.report") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "users.report") {
     init {
         addParam("user_id", userId)
         addParam("type", type.value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  * @param time Time in seconds for what notifications should be disabled. '-1' to disable forever. 
  * @param peerId Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' + 'Chat
  * ID', e.g. '2000000001'. For community: '- Community ID', e.g. '-12345'. " 
- * @param sound '1' � to enable sound in this dialog, '0' � to disable sound. Only if 'peer_id'
+ * @param sound '1' - to enable sound in this dialog, '0' - to disable sound. Only if 'peer_id'
  * contains user or community ID. 
  */
 class AccountSetSilenceMode(
@@ -49,7 +49,7 @@ class AccountSetSilenceMode(
     private val time: Int? = null,
     private val peerId: Int? = null,
     private val sound: Int? = null
-) : VKRequest<BaseOkResponseDto>("account.setSilenceMode") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "account.setSilenceMode") {
     init {
         deviceId?.let { value ->
             addParam("device_id", value)

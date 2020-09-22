@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.notes.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.notes.responses.NotesCreateCommentResponse
 import kotlin.Int
@@ -49,7 +49,7 @@ class NotesCreateComment(
     private val ownerId: Int? = null,
     private val replyTo: Int? = null,
     private val guid: String? = null
-) : VKRequest<Int>("notes.createComment") {
+) : ApiRequestBase<Int>(methodName = "notes.createComment") {
     init {
         addParam("note_id", noteId)
         addParam("message", message)

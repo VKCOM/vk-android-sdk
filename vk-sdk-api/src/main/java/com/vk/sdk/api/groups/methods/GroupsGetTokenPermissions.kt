@@ -27,14 +27,14 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsGetTokenPermissionsResponseDto
 import com.vk.sdk.api.groups.responses.GroupsGetTokenPermissionsResponse
 import org.json.JSONObject
 
-class GroupsGetTokenPermissions :
-        VKRequest<GroupsGetTokenPermissionsResponseDto>("groups.getTokenPermissions") {
+class GroupsGetTokenPermissions : ApiRequestBase<GroupsGetTokenPermissionsResponseDto>(methodName =
+        "groups.getTokenPermissions") {
     override fun parse(r: JSONObject): GroupsGetTokenPermissionsResponseDto =
             GsonHolder.gson.fromJson(r.toString(),
             GroupsGetTokenPermissionsResponse::class.java).response

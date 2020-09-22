@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.utils.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.utils.dto.UtilsDomainResolved
 import com.vk.sdk.api.utils.responses.UtilsResolveScreenNameResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class UtilsResolveScreenName(
     private val screenName: String
-) : VKRequest<UtilsDomainResolved>("utils.resolveScreenName") {
+) : ApiRequestBase<UtilsDomainResolved>(methodName = "utils.resolveScreenName") {
     init {
         addParam("screen_name", screenName)
     }

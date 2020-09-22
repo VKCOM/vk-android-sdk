@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.prettyCards.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.prettyCards.dto.PrettyCardsDeleteResponseDto
 import com.vk.sdk.api.prettyCards.responses.PrettyCardsDeleteResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
 class PrettyCardsDelete(
     private val ownerId: Int,
     private val cardId: Int
-) : VKRequest<PrettyCardsDeleteResponseDto>("prettyCards.delete") {
+) : ApiRequestBase<PrettyCardsDeleteResponseDto>(methodName = "prettyCards.delete") {
     init {
         addParam("owner_id", ownerId)
         addParam("card_id", cardId)

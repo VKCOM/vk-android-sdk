@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.orders.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.orders.dto.OrdersAmount
 import com.vk.sdk.api.orders.responses.OrdersGetAmountResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class OrdersGetAmount(
     private val userId: Int,
     private val votes: List<String>
-) : VKRequest<OrdersAmount>("orders.getAmount") {
+) : ApiRequestBase<OrdersAmount>(methodName = "orders.getAmount") {
     init {
         addParam("user_id", userId)
         addParam("votes", votes)

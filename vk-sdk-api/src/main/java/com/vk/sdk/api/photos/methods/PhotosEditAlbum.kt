@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -57,7 +57,7 @@ class PhotosEditAlbum(
     private val privacyComment: List<String>? = null,
     private val uploadByAdminsOnly: Boolean? = null,
     private val commentsDisabled: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("photos.editAlbum") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "photos.editAlbum") {
     init {
         addParam("album_id", albumId)
         title?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosGetNewTagsResponseDto
 import com.vk.sdk.api.photos.responses.PhotosGetNewTagsResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class PhotosGetNewTags(
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<PhotosGetNewTagsResponseDto>("photos.getNewTags") {
+) : ApiRequestBase<PhotosGetNewTagsResponseDto>(methodName = "photos.getNewTags") {
     init {
         offset?.let { value ->
             addParam("offset", value)

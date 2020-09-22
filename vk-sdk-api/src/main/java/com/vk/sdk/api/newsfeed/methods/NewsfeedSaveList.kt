@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.newsfeed.responses.NewsfeedSaveListResponse
 import kotlin.Boolean
@@ -49,7 +49,7 @@ class NewsfeedSaveList(
     private val listId: Int? = null,
     private val sourceIds: List<Int>? = null,
     private val noReposts: Boolean? = null
-) : VKRequest<Int>("newsfeed.saveList") {
+) : ApiRequestBase<Int>(methodName = "newsfeed.saveList") {
     init {
         addParam("title", title)
         listId?.let { value ->

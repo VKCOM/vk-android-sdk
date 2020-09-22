@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosSearchResponseDto
 import com.vk.sdk.api.photos.responses.PhotosSearchResponse
@@ -59,7 +59,7 @@ class PhotosSearch(
     private val offset: Int? = null,
     private val count: Int? = null,
     private val radius: Int? = null
-) : VKRequest<PhotosSearchResponseDto>("photos.search") {
+) : ApiRequestBase<PhotosSearchResponseDto>(methodName = "photos.search") {
     init {
         q?.let { value ->
             addParam("q", value)

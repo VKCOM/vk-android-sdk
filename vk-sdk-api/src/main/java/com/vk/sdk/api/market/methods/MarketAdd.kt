@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketAddResponseDto
 import com.vk.sdk.api.market.responses.MarketAddResponse
@@ -46,7 +46,7 @@ import org.json.JSONObject
  * @param categoryId Item category ID. minimum 0
  * @param price Item price. minimum 0.01
  * @param oldPrice  minimum 0.01
- * @param deleted Item status ('1' � deleted, '0' � not deleted). 
+ * @param deleted Item status ('1' - deleted, '0' - not deleted). 
  * @param mainPhotoId Cover photo ID. minimum 0
  * @param photoIds IDs of additional photos. 
  * @param url Url for button in market item. minLength 0 maxLength 320
@@ -70,7 +70,7 @@ class MarketAdd(
     private val dimensionHeight: Int? = null,
     private val dimensionLength: Int? = null,
     private val weight: Int? = null
-) : VKRequest<MarketAddResponseDto>("market.add") {
+) : ApiRequestBase<MarketAddResponseDto>(methodName = "market.add") {
     init {
         addParam("owner_id", ownerId)
         addParam("name", name)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesGetInviteLinkResponseDto
 import com.vk.sdk.api.messages.responses.MessagesGetInviteLinkResponse
@@ -37,7 +37,7 @@ import org.json.JSONObject
 
 /**
  * @param peerId Destination ID. minimum 0
- * @param reset 1 � to generate new link (revoke previous), 0 � to return previous link. default
+ * @param reset 1 - to generate new link (revoke previous), 0 - to return previous link. default
  * false
  * @param groupId Group ID minimum 0
  */
@@ -45,7 +45,7 @@ class MessagesGetInviteLink(
     private val peerId: Int,
     private val reset: Boolean? = null,
     private val groupId: Int? = null
-) : VKRequest<MessagesGetInviteLinkResponseDto>("messages.getInviteLink") {
+) : ApiRequestBase<MessagesGetInviteLinkResponseDto>(methodName = "messages.getInviteLink") {
     init {
         addParam("peer_id", peerId)
         reset?.let { value ->

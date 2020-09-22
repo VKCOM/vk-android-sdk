@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosPhotoUpload
 import com.vk.sdk.api.photos.responses.PhotosGetUploadServerResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class PhotosGetUploadServer(
     private val groupId: Int? = null,
     private val albumId: Int? = null
-) : VKRequest<PhotosPhotoUpload>("photos.getUploadServer") {
+) : ApiRequestBase<PhotosPhotoUpload>(methodName = "photos.getUploadServer") {
     init {
         groupId?.let { value ->
             addParam("group_id", value)

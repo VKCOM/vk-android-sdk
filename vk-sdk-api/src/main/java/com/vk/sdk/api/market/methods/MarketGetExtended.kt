@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketGetExtendedResponseDto
 import com.vk.sdk.api.market.responses.MarketGetExtendedResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
  * @param albumId  default 0 minimum 0
  * @param count Number of items to return. default 100 minimum 0 maximum 200
  * @param offset Offset needed to return a specific subset of results. minimum 0
- * @param extended '1' � method will return additional fields: 'likes, can_comment, car_repost,
+ * @param extended '1' - method will return additional fields: 'likes, can_comment, car_repost,
  * photos'. These parameters are not returned by default. 
  */
 class MarketGetExtended(
@@ -52,7 +52,7 @@ class MarketGetExtended(
     private val count: Int? = null,
     private val offset: Int? = null,
     private val extended: Boolean? = null
-) : VKRequest<MarketGetExtendedResponseDto>("market.get") {
+) : ApiRequestBase<MarketGetExtendedResponseDto>(methodName = "market.get") {
     init {
         addParam("owner_id", ownerId)
         albumId?.let { value ->

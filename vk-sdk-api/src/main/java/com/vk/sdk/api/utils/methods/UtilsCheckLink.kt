@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.utils.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.utils.dto.UtilsLinkChecked
 import com.vk.sdk.api.utils.responses.UtilsCheckLinkResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class UtilsCheckLink(
     private val url: String
-) : VKRequest<UtilsLinkChecked>("utils.checkLink") {
+) : ApiRequestBase<UtilsLinkChecked>(methodName = "utils.checkLink") {
     init {
         addParam("url", url)
     }

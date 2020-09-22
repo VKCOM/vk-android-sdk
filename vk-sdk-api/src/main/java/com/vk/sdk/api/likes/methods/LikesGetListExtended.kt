@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.likes.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.likes.dto.LikesGetListExtendedResponseDto
 import com.vk.sdk.api.likes.dto.LikesGetListFilter
@@ -40,10 +40,10 @@ import org.json.JSONObject
 
 /**
  * Returns a list of IDs of users who added the specified object to their 'Likes' list.
- * @param type , Object type: 'post' � post on user or community wall, 'comment' � comment on a wall
- * post, 'photo' � photo, 'audio' � audio, 'video' � video, 'note' � note, 'photo_comment' � comment on
- * the photo, 'video_comment' � comment on the video, 'topic_comment' � comment in the discussion,
- * 'sitepage' � page of the site where the [vk.com/dev/Like|Like widget] is installed 
+ * @param type , Object type: 'post' - post on user or community wall, 'comment' - comment on a wall
+ * post, 'photo' - photo, 'audio' - audio, 'video' - video, 'note' - note, 'photo_comment' - comment on
+ * the photo, 'video_comment' - comment on the video, 'topic_comment' - comment in the discussion,
+ * 'sitepage' - page of the site where the [vk.com/dev/Like|Like widget] is installed 
  * @param ownerId ID of the user, community, or application that owns the object. If the 'type'
  * parameter is set as 'sitepage', the application ID is passed as 'owner_id'. Use negative value for a
  * community id. If the 'type' parameter is not set, the 'owner_id' is assumed to be either the current
@@ -52,13 +52,13 @@ import org.json.JSONObject
  * parameter value used during initialization of the [vk.com/dev/Like|Like widget]. 
  * @param pageUrl URL of the page where the [vk.com/dev/Like|Like widget] is installed. Used instead
  * of the 'item_id' parameter. 
- * @param filter Filters to apply: 'likes' � returns information about all users who liked the
- * object (default), 'copies' � returns information only about users who told their friends about the
+ * @param filter Filters to apply: 'likes' - returns information about all users who liked the
+ * object (default), 'copies' - returns information only about users who told their friends about the
  * object 
- * @param friendsOnly Specifies which users are returned: '1' � to return only the current user's
- * friends, '0' � to return all users (default) default 0
- * @param extended Specifies whether extended information will be returned. '1' � to return extended
- * information about users and communities from the 'Likes' list, '0' � to return no additional
+ * @param friendsOnly Specifies which users are returned: '1' - to return only the current user's
+ * friends, '0' - to return all users (default) default 0
+ * @param extended Specifies whether extended information will be returned. '1' - to return extended
+ * information about users and communities from the 'Likes' list, '0' - to return no additional
  * information (default) 
  * @param offset Offset needed to select a specific subset of users. minimum 0
  * @param count Number of user IDs to return (maximum '1000'). Default is '100' if 'friends_only' is
@@ -76,7 +76,7 @@ class LikesGetListExtended(
     private val offset: Int? = null,
     private val count: Int? = null,
     private val skipOwn: Boolean? = null
-) : VKRequest<LikesGetListExtendedResponseDto>("likes.getList") {
+) : ApiRequestBase<LikesGetListExtendedResponseDto>(methodName = "likes.getList") {
     init {
         addParam("type", type)
         ownerId?.let { value ->

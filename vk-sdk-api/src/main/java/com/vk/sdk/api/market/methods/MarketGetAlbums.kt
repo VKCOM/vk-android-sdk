@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketGetAlbumsResponseDto
 import com.vk.sdk.api.market.responses.MarketGetAlbumsResponse
@@ -44,7 +44,7 @@ class MarketGetAlbums(
     private val ownerId: Int,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<MarketGetAlbumsResponseDto>("market.getAlbums") {
+) : ApiRequestBase<MarketGetAlbumsResponseDto>(methodName = "market.getAlbums") {
     init {
         addParam("owner_id", ownerId)
         offset?.let { value ->

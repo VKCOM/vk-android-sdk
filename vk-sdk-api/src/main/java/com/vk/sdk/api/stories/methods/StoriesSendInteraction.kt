@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -48,7 +48,7 @@ class StoriesSendInteraction(
     private val isBroadcast: Boolean? = null,
     private val isAnonymous: Boolean? = null,
     private val unseenMarker: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("stories.sendInteraction") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "stories.sendInteraction") {
     init {
         addParam("access_key", accessKey)
         message?.let { value ->

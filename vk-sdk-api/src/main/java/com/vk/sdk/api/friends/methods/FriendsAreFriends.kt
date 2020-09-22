@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.dto.FriendsFriendStatus
 import com.vk.sdk.api.friends.responses.FriendsAreFriendsResponse
@@ -39,7 +39,7 @@ import org.json.JSONObject
 /**
  * Checks the current user's friendship status with other specified users.
  * @param userIds IDs of the users whose friendship status to check. 
- * @param needSign '1' � to return 'sign' field. 'sign' is
+ * @param needSign '1' - to return 'sign' field. 'sign' is
  * md5("{id}_{user_id}_{friends_status}_{application_secret}"), where id is current user ID. This field
  * allows to check that data has not been modified by the client. By default: '0'. 
  * @param extended Return friend request read_state field 
@@ -48,7 +48,7 @@ class FriendsAreFriends(
     private val userIds: List<Int>,
     private val needSign: Boolean? = null,
     private val extended: Boolean? = null
-) : VKRequest<List<FriendsFriendStatus>>("friends.areFriends") {
+) : ApiRequestBase<List<FriendsFriendStatus>>(methodName = "friends.areFriends") {
     init {
         addParam("user_ids", userIds)
         needSign?.let { value ->

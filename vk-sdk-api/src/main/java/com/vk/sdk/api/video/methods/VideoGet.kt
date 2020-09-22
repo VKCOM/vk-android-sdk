@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.video.dto.VideoGetResponseDto
 import com.vk.sdk.api.video.responses.VideoGetResponse
@@ -45,7 +45,7 @@ import org.json.JSONObject
  * @param albumId ID of the album containing the video(s). 
  * @param count Number of videos to return. default 100 minimum 0 maximum 200
  * @param offset Offset needed to return a specific subset of videos. minimum 0
- * @param extended '1' � to return an extended response with additional fields 
+ * @param extended '1' - to return an extended response with additional fields 
  */
 class VideoGet(
     private val ownerId: Int? = null,
@@ -54,7 +54,7 @@ class VideoGet(
     private val count: Int? = null,
     private val offset: Int? = null,
     private val extended: Boolean? = null
-) : VKRequest<VideoGetResponseDto>("video.get") {
+) : ApiRequestBase<VideoGetResponseDto>(methodName = "video.get") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

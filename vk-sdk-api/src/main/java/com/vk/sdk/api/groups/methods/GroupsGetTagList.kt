@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsGroupTag
 import com.vk.sdk.api.groups.responses.GroupsGetTagListResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class GroupsGetTagList(
     private val groupId: Int
-) : VKRequest<List<GroupsGroupTag>>("groups.getTagList") {
+) : ApiRequestBase<List<GroupsGroupTag>>(methodName = "groups.getTagList") {
     init {
         addParam("group_id", groupId)
     }

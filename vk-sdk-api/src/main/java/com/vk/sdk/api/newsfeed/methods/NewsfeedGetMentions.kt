@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetMentionsResponseDto
 import com.vk.sdk.api.newsfeed.responses.NewsfeedGetMentionsResponse
@@ -50,7 +50,7 @@ class NewsfeedGetMentions(
     private val endTime: Int? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<NewsfeedGetMentionsResponseDto>("newsfeed.getMentions") {
+) : ApiRequestBase<NewsfeedGetMentionsResponseDto>(methodName = "newsfeed.getMentions") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

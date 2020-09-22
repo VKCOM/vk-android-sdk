@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.account.dto.AccountUserSettings
 import com.vk.sdk.api.account.responses.AccountGetProfileInfoResponse
@@ -36,7 +36,8 @@ import org.json.JSONObject
 /**
  * Returns the current account info.
  */
-class AccountGetProfileInfo : VKRequest<AccountUserSettings>("account.getProfileInfo") {
+class AccountGetProfileInfo : ApiRequestBase<AccountUserSettings>(methodName =
+        "account.getProfileInfo") {
     override fun parse(r: JSONObject): AccountUserSettings = GsonHolder.gson.fromJson(r.toString(),
             AccountGetProfileInfoResponse::class.java).response
 }

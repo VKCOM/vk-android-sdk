@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.messages.dto.MessagesGetConversationsFilter
@@ -42,10 +42,10 @@ import org.json.JSONObject
  * Returns a list of the current user's conversations.
  * @param offset Offset needed to return a specific subset of conversations. default 0 minimum 0
  * @param count Number of conversations to return. default 20 minimum 0 maximum 200
- * @param filter Filter to apply: 'all' � all conversations, 'unread' � conversations with unread
- * messages, 'important' � conversations, marked as important (only for community messages),
- * 'unanswered' � conversations, marked as unanswered (only for community messages) default "all"
- * @param extended '1' � return extra information about users and communities 
+ * @param filter Filter to apply: 'all' - all conversations, 'unread' - conversations with unread
+ * messages, 'important' - conversations, marked as important (only for community messages),
+ * 'unanswered' - conversations, marked as unanswered (only for community messages) default "all"
+ * @param extended '1' - return extra information about users and communities 
  * @param startMessageId ID of the message from what to return dialogs. minimum 0
  * @param fields Profile and communities fields to return. 
  * @param groupId Group ID (for group messages with group access token) minimum 0
@@ -58,7 +58,7 @@ class MessagesGetConversations(
     private val startMessageId: Int? = null,
     private val fields: List<BaseUserGroupFields>? = null,
     private val groupId: Int? = null
-) : VKRequest<MessagesGetConversationsResponseDto>("messages.getConversations") {
+) : ApiRequestBase<MessagesGetConversationsResponseDto>(methodName = "messages.getConversations") {
     init {
         offset?.let { value ->
             addParam("offset", value)

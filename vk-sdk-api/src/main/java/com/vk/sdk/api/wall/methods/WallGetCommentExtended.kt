@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.wall.dto.WallGetCommentExtendedResponseDto
@@ -49,7 +49,7 @@ class WallGetCommentExtended(
     private val ownerId: Int? = null,
     private val extended: Boolean? = null,
     private val fields: List<BaseUserGroupFields>? = null
-) : VKRequest<WallGetCommentExtendedResponseDto>("wall.getComment") {
+) : ApiRequestBase<WallGetCommentExtendedResponseDto>(methodName = "wall.getComment") {
     init {
         addParam("comment_id", commentId)
         ownerId?.let { value ->

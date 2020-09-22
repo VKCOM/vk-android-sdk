@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -44,7 +44,7 @@ class PhotosMakeCover(
     private val photoId: Int,
     private val ownerId: Int? = null,
     private val albumId: Int? = null
-) : VKRequest<BaseOkResponseDto>("photos.makeCover") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "photos.makeCover") {
     init {
         addParam("photo_id", photoId)
         ownerId?.let { value ->

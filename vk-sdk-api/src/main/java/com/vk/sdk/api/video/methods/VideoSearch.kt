@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.video.dto.VideoSearchFilters
 import com.vk.sdk.api.video.dto.VideoSearchResponseDto
@@ -42,11 +42,11 @@ import org.json.JSONObject
 /**
  * Returns a list of videos under the set search criterion.
  * @param q Search query string (e.g., 'The Beatles'). 
- * @param sort Sort order: '1' � by duration, '2' � by relevance, '0' � by date added 
+ * @param sort Sort order: '1' - by duration, '2' - by relevance, '0' - by date added 
  * @param hd If not null, only searches for high-definition videos. 
- * @param adult '1' � to disable the Safe Search filter, '0' � to enable the Safe Search filter 
- * @param filters Filters to apply: 'youtube' � return YouTube videos only, 'vimeo' � return Vimeo
- * videos only, 'short' � return short videos only, 'long' � return long videos only 
+ * @param adult '1' - to disable the Safe Search filter, '0' - to enable the Safe Search filter 
+ * @param filters Filters to apply: 'youtube' - return YouTube videos only, 'vimeo' - return Vimeo
+ * videos only, 'short' - return short videos only, 'long' - return long videos only 
  * @param searchOwn  
  * @param offset Offset needed to return a specific subset of videos. minimum 0
  * @param longer  minimum 0
@@ -66,7 +66,7 @@ class VideoSearch(
     private val shorter: Int? = null,
     private val count: Int? = null,
     private val extended: Boolean? = null
-) : VKRequest<VideoSearchResponseDto>("video.search") {
+) : ApiRequestBase<VideoSearchResponseDto>(methodName = "video.search") {
     init {
         addParam("q", q)
         sort?.let { value ->

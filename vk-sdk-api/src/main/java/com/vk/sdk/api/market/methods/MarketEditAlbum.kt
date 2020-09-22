@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
  * @param albumId Collection ID. minimum 0
  * @param title Collection title. maxLength 128
  * @param photoId Cover photo id minimum 0
- * @param mainAlbum Set as main ('1' � set, '0' � no). 
+ * @param mainAlbum Set as main ('1' - set, '0' - no). 
  */
 class MarketEditAlbum(
     private val ownerId: Int,
@@ -50,7 +50,7 @@ class MarketEditAlbum(
     private val title: String,
     private val photoId: Int? = null,
     private val mainAlbum: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("market.editAlbum") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "market.editAlbum") {
     init {
         addParam("owner_id", ownerId)
         addParam("album_id", albumId)

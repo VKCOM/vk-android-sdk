@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.newsfeed.dto.NewsfeedSearchResponseDto
@@ -42,7 +42,7 @@ import org.json.JSONObject
 /**
  * Returns search results by statuses.
  * @param q Search query string (e.g., 'New Year'). 
- * @param extended '1' � to return additional information about the user or community that placed
+ * @param extended '1' - to return additional information about the user or community that placed
  * the post. 
  * @param count Number of posts to return. default 30 minimum 0 maximum 200
  * @param latitude Geographical latitude point (in degrees, -90 to 90) within which to search. 
@@ -65,7 +65,7 @@ class NewsfeedSearch(
     private val endTime: Int? = null,
     private val startFrom: String? = null,
     private val fields: List<BaseUserGroupFields>? = null
-) : VKRequest<NewsfeedSearchResponseDto>("newsfeed.search") {
+) : ApiRequestBase<NewsfeedSearchResponseDto>(methodName = "newsfeed.search") {
     init {
         q?.let { value ->
             addParam("q", value)

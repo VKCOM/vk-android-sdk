@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketGetCategoriesResponseDto
 import com.vk.sdk.api.market.responses.MarketGetCategoriesResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class MarketGetCategories(
     private val count: Int? = null,
     private val offset: Int? = null
-) : VKRequest<MarketGetCategoriesResponseDto>("market.getCategories") {
+) : ApiRequestBase<MarketGetCategoriesResponseDto>(methodName = "market.getCategories") {
     init {
         count?.let { value ->
             addParam("count", value)

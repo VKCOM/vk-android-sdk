@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.docs.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.docs.dto.DocsSaveResponseDto
 import com.vk.sdk.api.docs.responses.DocsSaveResponse
@@ -48,7 +48,7 @@ class DocsSave(
     private val title: String? = null,
     private val tags: String? = null,
     private val returnTags: Boolean? = null
-) : VKRequest<DocsSaveResponseDto>("docs.save") {
+) : ApiRequestBase<DocsSaveResponseDto>(methodName = "docs.save") {
     init {
         addParam("file", file)
         title?.let { value ->

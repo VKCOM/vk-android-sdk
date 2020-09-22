@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.streaming.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -39,7 +39,7 @@ import org.json.JSONObject
  */
 class StreamingSetSettings(
     private val monthlyTier: StreamingSetSettingsMonthlyTier? = null
-) : VKRequest<BaseOkResponseDto>("streaming.setSettings") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "streaming.setSettings") {
     init {
         monthlyTier?.let { value ->
             addParam("monthly_tier", value.value)

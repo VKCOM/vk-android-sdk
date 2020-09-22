@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetListsResponseDto
 import com.vk.sdk.api.newsfeed.responses.NewsfeedGetListsResponse
@@ -44,7 +44,7 @@ import org.json.JSONObject
 class NewsfeedGetLists(
     private val listIds: List<Int>? = null,
     private val extended: Boolean? = null
-) : VKRequest<NewsfeedGetListsResponseDto>("newsfeed.getLists") {
+) : ApiRequestBase<NewsfeedGetListsResponseDto>(methodName = "newsfeed.getLists") {
     init {
         listIds?.let { value ->
             addParam("list_ids", value)

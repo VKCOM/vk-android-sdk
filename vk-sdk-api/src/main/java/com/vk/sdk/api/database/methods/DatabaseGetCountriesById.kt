@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.database.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseCountry
 import com.vk.sdk.api.database.responses.DatabaseGetCountriesByIdResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class DatabaseGetCountriesById(
     private val countryIds: List<Int>? = null
-) : VKRequest<List<BaseCountry>>("database.getCountriesById") {
+) : ApiRequestBase<List<BaseCountry>>(methodName = "database.getCountriesById") {
     init {
         countryIds?.let { value ->
             addParam("country_ids", value)

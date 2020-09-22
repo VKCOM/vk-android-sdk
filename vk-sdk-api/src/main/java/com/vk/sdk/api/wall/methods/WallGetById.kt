@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.wall.dto.WallWallpostFull
@@ -42,7 +42,7 @@ import org.json.JSONObject
  * Returns a list of posts from user or community walls by their IDs.
  * @param posts User or community IDs and post IDs, separated by underscores. Use a negative value
  * to designate a community ID. Example: "93388_21539,93388_20904,2943_4276,-1_1" 
- * @param extended '1' � to return user and community objects needed to display posts, '0' � no
+ * @param extended '1' - to return user and community objects needed to display posts, '0' - no
  * additional fields are returned (default) 
  * @param copyHistoryDepth Sets the number of parent elements to include in the array 'copy_history'
  * that is returned if the post is a repost from another wall. default 2
@@ -53,7 +53,7 @@ class WallGetById(
     private val extended: Boolean? = null,
     private val copyHistoryDepth: Int? = null,
     private val fields: List<BaseUserGroupFields>? = null
-) : VKRequest<List<WallWallpostFull>>("wall.getById") {
+) : ApiRequestBase<List<WallWallpostFull>>(methodName = "wall.getById") {
     init {
         addParam("posts", posts)
         extended?.let { value ->

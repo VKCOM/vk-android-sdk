@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.responses.BaseBoolResponse
@@ -45,7 +45,7 @@ class GroupsTagUpdate(
     private val groupId: Int,
     private val tagId: Int,
     private val tagName: String
-) : VKRequest<BaseBoolInt>("groups.tagUpdate") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "groups.tagUpdate") {
     init {
         addParam("group_id", groupId)
         addParam("tag_id", tagId)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -40,8 +40,8 @@ import org.json.JSONObject
  * Reports (submits a complaint about) a video.
  * @param ownerId ID of the user or community that owns the video. 
  * @param videoId Video ID. minimum 0
- * @param reason Reason for the complaint: '0' � spam, '1' � child pornography, '2' � extremism, '3'
- * � violence, '4' � drug propaganda, '5' � adult material, '6' � insult, abuse minimum 0
+ * @param reason Reason for the complaint: '0' - spam, '1' - child pornography, '2' - extremism,
+ * '3' - violence, '4' - drug propaganda, '5' - adult material, '6' - insult, abuse minimum 0
  * @param comment Comment describing the complaint. 
  * @param searchQuery (If the video was found in search results.) Search query string. 
  */
@@ -51,7 +51,7 @@ class VideoReport(
     private val reason: VideoReportReason? = null,
     private val comment: String? = null,
     private val searchQuery: String? = null
-) : VKRequest<BaseOkResponseDto>("video.report") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "video.report") {
     init {
         addParam("owner_id", ownerId)
         addParam("video_id", videoId)

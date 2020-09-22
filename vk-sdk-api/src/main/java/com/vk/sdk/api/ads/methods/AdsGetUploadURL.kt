@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsGetUploadURLAdFormat
 import com.vk.sdk.api.ads.responses.AdsGetUploadURLResponse
@@ -37,14 +37,14 @@ import org.json.JSONObject
 
 /**
  * Returns URL to upload an ad photo to.
- * @param adFormat Ad format: *1 � image and text,, *2 � big image,, *3 � exclusive format,, *4 �
- * community, square image,, *7 � special app format. 
+ * @param adFormat Ad format: *1 - image and text,, *2 - big image,, *3 - exclusive format,, *4 -
+ * community, square image,, *7 - special app format. 
  * @param icon  
  */
 class AdsGetUploadURL(
     private val adFormat: AdsGetUploadURLAdFormat,
     private val icon: Int? = null
-) : VKRequest<String>("ads.getUploadURL") {
+) : ApiRequestBase<String>(methodName = "ads.getUploadURL") {
     init {
         addParam("ad_format", adFormat.value)
         icon?.let { value ->

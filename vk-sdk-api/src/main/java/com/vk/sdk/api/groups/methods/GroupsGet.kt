@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsFields
 import com.vk.sdk.api.groups.dto.GroupsFilter
@@ -41,12 +41,12 @@ import org.json.JSONObject
 /**
  * Returns a list of the communities to which a user belongs.
  * @param userId User ID. minimum 0
- * @param extended '1' � to return complete information about a user's communities, '0' � to return
+ * @param extended '1' - to return complete information about a user's communities, '0' - to return
  * a list of community IDs without any additional fields (default), 
- * @param filter Types of communities to return: 'admin' � to return communities administered by the
- * user , 'editor' � to return communities where the user is an administrator or editor, 'moder' � to
- * return communities where the user is an administrator, editor, or moderator, 'groups' � to return
- * only groups, 'publics' � to return only public pages, 'events' � to return only events 
+ * @param filter Types of communities to return: 'admin' - to return communities administered by the
+ * user , 'editor' - to return communities where the user is an administrator or editor, 'moder' - to
+ * return communities where the user is an administrator, editor, or moderator, 'groups' - to return
+ * only groups, 'publics' - to return only public pages, 'events' - to return only events 
  * @param fields Profile fields to return. 
  * @param offset Offset needed to return a specific subset of communities. minimum 0
  * @param count Number of communities to return. minimum 0 maximum 1000
@@ -58,7 +58,7 @@ class GroupsGet(
     private val fields: List<GroupsFields>? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<GroupsGetResponseDto>("groups.get") {
+) : ApiRequestBase<GroupsGetResponseDto>(methodName = "groups.get") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

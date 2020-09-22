@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.video.responses.VideoGetAlbumsByVideoResponse
 import kotlin.Boolean
@@ -46,7 +46,7 @@ class VideoGetAlbumsByVideo(
     private val videoId: Int,
     private val targetId: Int? = null,
     private val extended: Boolean? = null
-) : VKRequest<List<Int>>("video.getAlbumsByVideo") {
+) : ApiRequestBase<List<Int>>(methodName = "video.getAlbumsByVideo") {
     init {
         addParam("owner_id", ownerId)
         addParam("video_id", videoId)

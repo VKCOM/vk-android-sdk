@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.dto.FriendsGetSuggestionsFilter
 import com.vk.sdk.api.friends.dto.FriendsGetSuggestionsNameCase
@@ -40,17 +40,17 @@ import org.json.JSONObject
 
 /**
  * Returns a list of profiles of users whom the current user may know.
- * @param filter Types of potential friends to return: 'mutual' � users with many mutual friends ,
- * 'contacts' � users found with the [vk.com/dev/account.importContacts|account.importContacts] method
- * , 'mutual_contacts' � users who imported the same contacts as the current user with the
+ * @param filter Types of potential friends to return: 'mutual' - users with many mutual friends ,
+ * 'contacts' - users found with the [vk.com/dev/account.importContacts|account.importContacts] method
+ * , 'mutual_contacts' - users who imported the same contacts as the current user with the
  * [vk.com/dev/account.importContacts|account.importContacts] method 
  * @param count Number of suggestions to return. default 500 minimum 0 maximum 500
  * @param offset Offset needed to return a specific subset of suggestions. minimum 0
  * @param fields Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate'
  * (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile',
  * 'rate', 'contacts', 'education', 'online', 'counters'. 
- * @param nameCase Case for declension of user name and surname: , 'nom' � nominative (default) ,
- * 'gen' � genitive , 'dat' � dative , 'acc' � accusative , 'ins' � instrumental , 'abl' �
+ * @param nameCase Case for declension of user name and surname: , 'nom' - nominative (default) ,
+ * 'gen' - genitive , 'dat' - dative , 'acc' - accusative , 'ins' - instrumental , 'abl' -
  * prepositional 
  */
 class FriendsGetSuggestions(
@@ -59,7 +59,7 @@ class FriendsGetSuggestions(
     private val offset: Int? = null,
     private val fields: List<UsersFields>? = null,
     private val nameCase: FriendsGetSuggestionsNameCase? = null
-) : VKRequest<FriendsGetSuggestionsResponseDto>("friends.getSuggestions") {
+) : ApiRequestBase<FriendsGetSuggestionsResponseDto>(methodName = "friends.getSuggestions") {
     init {
         filter?.let { value ->
             addParam("filter", value.map { it.value })

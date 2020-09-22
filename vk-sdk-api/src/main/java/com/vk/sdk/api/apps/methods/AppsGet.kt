@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.apps.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.apps.dto.AppsGetNameCase
 import com.vk.sdk.api.apps.dto.AppsGetPlatform
@@ -44,8 +44,8 @@ import org.json.JSONObject
  * Returns applications data.
  * @param appId Application ID minimum 0
  * @param appIds List of application ID 
- * @param platform platform. Possible values: *'ios' � iOS,, *'android' � Android,, *'winphone' �
- * Windows Phone,, *'web' � ���������� �� vk.com. By default: 'web'. default "web"
+ * @param platform platform. Possible values: *'ios' - iOS,, *'android' - Android,, *'winphone' -
+ * Windows Phone,, *'web' - ---------- -- vk.com. By default: 'web'. default "web"
  * @param extended  default 0
  * @param returnFriends  default 0
  * @param fields Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate'
@@ -53,8 +53,8 @@ import org.json.JSONObject
  * 'contacts', 'education', 'online', 'counters', 'relation', 'last_seen', 'activity',
  * 'can_write_private_message', 'can_see_all_posts', 'can_post', 'universities', (only if
  * return_friends - 1) 
- * @param nameCase Case for declension of user name and surname: 'nom' � nominative (default),,
- * 'gen' � genitive,, 'dat' � dative,, 'acc' � accusative,, 'ins' � instrumental,, 'abl' �
+ * @param nameCase Case for declension of user name and surname: 'nom' - nominative (default),,
+ * 'gen' - genitive,, 'dat' - dative,, 'acc' - accusative,, 'ins' - instrumental,, 'abl' -
  * prepositional. (only if 'return_friends' = '1') 
  */
 class AppsGet(
@@ -65,7 +65,7 @@ class AppsGet(
     private val returnFriends: Boolean? = null,
     private val fields: List<UsersFields>? = null,
     private val nameCase: AppsGetNameCase? = null
-) : VKRequest<AppsGetResponseDto>("apps.get") {
+) : ApiRequestBase<AppsGetResponseDto>(methodName = "apps.get") {
     init {
         appId?.let { value ->
             addParam("app_id", value)

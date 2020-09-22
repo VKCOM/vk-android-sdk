@@ -27,15 +27,15 @@
 // *********************************************************************
 package com.vk.sdk.api.podcasts.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.podcasts.responses.PodcastsGetRecentSearchRequestsResponse
 import kotlin.String
 import kotlin.collections.List
 import org.json.JSONObject
 
-class PodcastsGetRecentSearchRequests : VKRequest<List<String>>("podcasts.getRecentSearchRequests")
-        {
+class PodcastsGetRecentSearchRequests : ApiRequestBase<List<String>>(methodName =
+        "podcasts.getRecentSearchRequests") {
     override fun parse(r: JSONObject): List<String> = GsonHolder.gson.fromJson(r.toString(),
             PodcastsGetRecentSearchRequestsResponse::class.java).response
 }

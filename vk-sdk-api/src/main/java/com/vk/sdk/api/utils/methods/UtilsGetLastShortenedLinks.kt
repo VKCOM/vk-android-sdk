@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.utils.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.utils.dto.UtilsGetLastShortenedLinksResponseDto
 import com.vk.sdk.api.utils.responses.UtilsGetLastShortenedLinksResponse
@@ -42,7 +42,8 @@ import org.json.JSONObject
 class UtilsGetLastShortenedLinks(
     private val count: Int? = null,
     private val offset: Int? = null
-) : VKRequest<UtilsGetLastShortenedLinksResponseDto>("utils.getLastShortenedLinks") {
+) : ApiRequestBase<UtilsGetLastShortenedLinksResponseDto>(methodName =
+        "utils.getLastShortenedLinks") {
     init {
         count?.let { value ->
             addParam("count", value)

@@ -27,13 +27,13 @@
 // *********************************************************************
 package com.vk.sdk.api.fave.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.fave.dto.FaveGetTagsResponseDto
 import com.vk.sdk.api.fave.responses.FaveGetTagsResponse
 import org.json.JSONObject
 
-class FaveGetTags : VKRequest<FaveGetTagsResponseDto>("fave.getTags") {
+class FaveGetTags : ApiRequestBase<FaveGetTagsResponseDto>(methodName = "fave.getTags") {
     override fun parse(r: JSONObject): FaveGetTagsResponseDto =
             GsonHolder.gson.fromJson(r.toString(), FaveGetTagsResponse::class.java).response
 }

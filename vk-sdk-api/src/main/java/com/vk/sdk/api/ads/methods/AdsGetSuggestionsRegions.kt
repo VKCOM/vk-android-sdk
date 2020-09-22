@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsGetSuggestionsLang
 import com.vk.sdk.api.ads.dto.AdsGetSuggestionsSection
@@ -40,15 +40,15 @@ import org.json.JSONObject
 
 /**
  * Returns a set of auto-suggestions for various targeting parameters.
- * @param section Section, suggestions are retrieved in. Available values: *countries � request of a
+ * @param section Section, suggestions are retrieved in. Available values: *countries - request of a
  * list of countries. If q is not set or blank, a short list of countries is shown. Otherwise, a full
- * list of countries is shown. *regions � requested list of regions. 'country' parameter is required.
- * *cities � requested list of cities. 'country' parameter is required. *districts � requested list of
- * districts. 'cities' parameter is required. *stations � requested list of subway stations. 'cities'
- * parameter is required. *streets � requested list of streets. 'cities' parameter is required.
- * *schools � requested list of educational organizations. 'cities' parameter is required. *interests �
- * requested list of interests. *positions � requested list of positions (professions). *group_types �
- * requested list of group types. *religions � requested list of religious commitments. *browsers �
+ * list of countries is shown. *regions - requested list of regions. 'country' parameter is required.
+ * *cities - requested list of cities. 'country' parameter is required. *districts - requested list of
+ * districts. 'cities' parameter is required. *stations - requested list of subway stations. 'cities'
+ * parameter is required. *streets - requested list of streets. 'cities' parameter is required.
+ * *schools - requested list of educational organizations. 'cities' parameter is required. *interests -
+ * requested list of interests. *positions - requested list of positions (professions). *group_types -
+ * requested list of group types. *religions - requested list of religious commitments. *browsers -
  * requested list of browsers and mobile devices. 
  * @param ids Objects IDs separated by commas. If the parameter is passed, 'q, country, cities'
  * should not be passed. 
@@ -56,8 +56,8 @@ import org.json.JSONObject
  * positions). 
  * @param country ID of the country objects are searched in. 
  * @param cities IDs of cities where objects are searched in, separated with a comma. 
- * @param lang Language of the returned string values. Supported languages: *ru � Russian,, *ua �
- * Ukrainian,, *en � English. 
+ * @param lang Language of the returned string values. Supported languages: *ru - Russian,, *ua -
+ * Ukrainian,, *en - English. 
  */
 class AdsGetSuggestionsRegions(
     private val section: AdsGetSuggestionsSection,
@@ -66,7 +66,7 @@ class AdsGetSuggestionsRegions(
     private val country: Int? = null,
     private val cities: String? = null,
     private val lang: AdsGetSuggestionsLang? = null
-) : VKRequest<List<AdsTargSuggestionsRegions>>("ads.getSuggestions") {
+) : ApiRequestBase<List<AdsTargSuggestionsRegions>>(methodName = "ads.getSuggestions") {
     init {
         addParam("section", section.value)
         ids?.let { value ->

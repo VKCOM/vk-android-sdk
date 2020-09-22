@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.leads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.leads.dto.LeadsStart
 import com.vk.sdk.api.leads.responses.LeadsStartResponse
@@ -52,7 +52,7 @@ class LeadsStart(
     private val aid: Int? = null,
     private val testMode: Boolean? = null,
     private val force: Boolean? = null
-) : VKRequest<LeadsStart>("leads.start") {
+) : ApiRequestBase<LeadsStart>(methodName = "leads.start") {
     init {
         addParam("lead_id", leadId)
         addParam("secret", secret)

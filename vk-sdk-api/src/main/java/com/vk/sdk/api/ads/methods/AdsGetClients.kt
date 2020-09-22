@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsClient
 import com.vk.sdk.api.ads.responses.AdsGetClientsResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class AdsGetClients(
     private val accountId: Int
-) : VKRequest<List<AdsClient>>("ads.getClients") {
+) : ApiRequestBase<List<AdsClient>>(methodName = "ads.getClients") {
     init {
         addParam("account_id", accountId)
     }

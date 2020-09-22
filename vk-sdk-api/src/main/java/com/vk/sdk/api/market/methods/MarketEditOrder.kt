@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketEditOrderResponseDto
 import com.vk.sdk.api.market.responses.MarketEditOrderResponse
@@ -47,7 +47,7 @@ class MarketEditOrder(
     private val orderId: Int,
     private val merchantComment: String? = null,
     private val status: Int? = null
-) : VKRequest<MarketEditOrderResponseDto>("market.editOrder") {
+) : ApiRequestBase<MarketEditOrderResponseDto>(methodName = "market.editOrder") {
     init {
         addParam("user_id", userId)
         addParam("order_id", orderId)

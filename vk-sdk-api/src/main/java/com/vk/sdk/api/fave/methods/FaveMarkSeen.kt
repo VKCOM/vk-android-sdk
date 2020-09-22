@@ -27,13 +27,13 @@
 // *********************************************************************
 package com.vk.sdk.api.fave.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.responses.BaseBoolResponse
 import org.json.JSONObject
 
-class FaveMarkSeen : VKRequest<BaseBoolInt>("fave.markSeen") {
+class FaveMarkSeen : ApiRequestBase<BaseBoolInt>(methodName = "fave.markSeen") {
     override fun parse(r: JSONObject): BaseBoolInt = GsonHolder.gson.fromJson(r.toString(),
             BaseBoolResponse::class.java).response
 }

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.notifications.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.notifications.dto.NotificationsSendMessageItem
 import com.vk.sdk.api.notifications.responses.NotificationsSendMessageResponse
@@ -49,7 +49,7 @@ class NotificationsSendMessage(
     private val fragment: String? = null,
     private val groupId: Int? = null,
     private val randomId: Int? = null
-) : VKRequest<List<NotificationsSendMessageItem>>("notifications.sendMessage") {
+) : ApiRequestBase<List<NotificationsSendMessageItem>>(methodName = "notifications.sendMessage") {
     init {
         addParam("user_ids", userIds)
         addParam("message", message)

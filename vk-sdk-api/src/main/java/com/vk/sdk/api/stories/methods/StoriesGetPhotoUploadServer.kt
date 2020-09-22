@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.stories.dto.StoriesGetPhotoUploadServerResponseDto
 import com.vk.sdk.api.stories.responses.StoriesGetPhotoUploadServerResponse
@@ -39,7 +39,7 @@ import org.json.JSONObject
 
 /**
  * Returns URL for uploading a story with photo.
- * @param addToNews 1 � to add the story to friend's feed. 
+ * @param addToNews 1 - to add the story to friend's feed. 
  * @param userIds List of users IDs who can see the story. 
  * @param replyToStory ID of the story to reply with the current. 
  * @param linkText Link text (for community's stories only). 
@@ -56,7 +56,8 @@ class StoriesGetPhotoUploadServer(
     private val linkUrl: String? = null,
     private val groupId: Int? = null,
     private val clickableStickers: String? = null
-) : VKRequest<StoriesGetPhotoUploadServerResponseDto>("stories.getPhotoUploadServer") {
+) : ApiRequestBase<StoriesGetPhotoUploadServerResponseDto>(methodName =
+        "stories.getPhotoUploadServer") {
     init {
         addToNews?.let { value ->
             addParam("add_to_news", if (value) 1 else 0)

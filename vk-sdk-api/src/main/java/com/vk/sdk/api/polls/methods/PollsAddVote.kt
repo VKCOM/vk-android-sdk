@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.polls.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.polls.responses.PollsAddVoteResponse
@@ -49,7 +49,7 @@ class PollsAddVote(
     private val answerIds: List<Int>,
     private val ownerId: Int? = null,
     private val isBoard: Boolean? = null
-) : VKRequest<BaseBoolInt>("polls.addVote") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "polls.addVote") {
     init {
         addParam("poll_id", pollId)
         addParam("answer_ids", answerIds)

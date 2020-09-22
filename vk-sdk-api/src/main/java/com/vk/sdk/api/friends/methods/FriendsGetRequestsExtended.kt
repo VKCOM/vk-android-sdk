@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.dto.FriendsGetRequestsExtendedResponseDto
 import com.vk.sdk.api.friends.dto.FriendsGetRequestsSort
@@ -44,13 +44,13 @@ import org.json.JSONObject
  * @param offset Offset needed to return a specific subset of friend requests. minimum 0
  * @param count Number of friend requests to return (default 100, maximum 1000). default 100 minimum
  * 0 maximum 1000
- * @param extended '1' � to return response messages from users who have sent a friend request or,
+ * @param extended '1' - to return response messages from users who have sent a friend request or,
  * if 'suggested' is set to '1', to return a list of suggested friends 
- * @param needMutual '1' � to return a list of mutual friends (up to 20), if any 
- * @param out '1' � to return outgoing requests, '0' � to return incoming requests (default) 
- * @param sort Sort order: '1' � by number of mutual friends, '0' � by date minimum 0
+ * @param needMutual '1' - to return a list of mutual friends (up to 20), if any 
+ * @param out '1' - to return outgoing requests, '0' - to return incoming requests (default) 
+ * @param sort Sort order: '1' - by number of mutual friends, '0' - by date minimum 0
  * @param needViewed  default 0
- * @param suggested '1' � to return a list of suggested friends, '0' � to return friend requests
+ * @param suggested '1' - to return a list of suggested friends, '0' - to return friend requests
  * (default) 
  * @param ref  maxLength 255
  * @param fields  
@@ -66,7 +66,7 @@ class FriendsGetRequestsExtended(
     private val suggested: Boolean? = null,
     private val ref: String? = null,
     private val fields: List<UsersFields>? = null
-) : VKRequest<FriendsGetRequestsExtendedResponseDto>("friends.getRequests") {
+) : ApiRequestBase<FriendsGetRequestsExtendedResponseDto>(methodName = "friends.getRequests") {
     init {
         offset?.let { value ->
             addParam("offset", value)

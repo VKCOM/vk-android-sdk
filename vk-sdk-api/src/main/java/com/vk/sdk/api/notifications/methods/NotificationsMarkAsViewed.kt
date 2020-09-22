@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.notifications.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.notifications.responses.NotificationsMarkAsViewedResponse
@@ -37,7 +37,8 @@ import org.json.JSONObject
  * Resets the counter of new notifications about other users' feedback to the current user's wall
  * posts.
  */
-class NotificationsMarkAsViewed : VKRequest<BaseBoolInt>("notifications.markAsViewed") {
+class NotificationsMarkAsViewed : ApiRequestBase<BaseBoolInt>(methodName =
+        "notifications.markAsViewed") {
     override fun parse(r: JSONObject): BaseBoolInt = GsonHolder.gson.fromJson(r.toString(),
             NotificationsMarkAsViewedResponse::class.java).response
 }

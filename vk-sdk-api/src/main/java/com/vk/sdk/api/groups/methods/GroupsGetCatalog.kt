@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsGetCatalogResponseDto
 import com.vk.sdk.api.groups.responses.GroupsGetCatalogResponse
@@ -44,7 +44,7 @@ import org.json.JSONObject
 class GroupsGetCatalog(
     private val categoryId: Int? = null,
     private val subcategoryId: Int? = null
-) : VKRequest<GroupsGetCatalogResponseDto>("groups.getCatalog") {
+) : ApiRequestBase<GroupsGetCatalogResponseDto>(methodName = "groups.getCatalog") {
     init {
         categoryId?.let { value ->
             addParam("category_id", value)

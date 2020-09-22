@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -52,7 +52,7 @@ class FriendsEditList(
     private val userIds: List<Int>? = null,
     private val addUserIds: List<Int>? = null,
     private val deleteUserIds: List<Int>? = null
-) : VKRequest<BaseOkResponseDto>("friends.editList") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "friends.editList") {
     init {
         addParam("list_id", listId)
         name?.let { value ->

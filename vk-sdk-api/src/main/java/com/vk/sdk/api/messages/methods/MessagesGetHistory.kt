@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesGetHistoryResponseDto
 import com.vk.sdk.api.messages.dto.MessagesGetHistoryRev
@@ -45,7 +45,7 @@ import org.json.JSONObject
  * @param userId ID of the user whose message history you want to return. 
  * @param peerId  
  * @param startMessageId Starting message ID from which to return history. minimum 0
- * @param rev Sort order: '1' � return messages in chronological order. '0' � return messages in
+ * @param rev Sort order: '1' - return messages in chronological order. '0' - return messages in
  * reverse chronological order. 
  * @param extended Information whether the response should be extended 
  * @param fields Profile fields to return. 
@@ -61,7 +61,7 @@ class MessagesGetHistory(
     private val extended: Boolean? = null,
     private val fields: List<UsersFields>? = null,
     private val groupId: Int? = null
-) : VKRequest<MessagesGetHistoryResponseDto>("messages.getHistory") {
+) : ApiRequestBase<MessagesGetHistoryResponseDto>(methodName = "messages.getHistory") {
     init {
         offset?.let { value ->
             addParam("offset", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.apps.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.apps.dto.AppsGetLeaderboardExtendedResponseDto
 import com.vk.sdk.api.apps.dto.AppsGetLeaderboardType
@@ -37,17 +37,17 @@ import org.json.JSONObject
 
 /**
  * Returns players rating in the game.
- * @param type Leaderboard type. Possible values: *'level' � by level,, *'points' � by mission
- * points,, *'score' � by score (). 
- * @param global Rating type. Possible values: *'1' � global rating among all players,, *'0' �
+ * @param type Leaderboard type. Possible values: *'level' - by level,, *'points' - by mission
+ * points,, *'score' - by score (). 
+ * @param global Rating type. Possible values: *'1' - global rating among all players,, *'0' -
  * rating among user friends. default 1
- * @param extended 1 � to return additional info about users default 0
+ * @param extended 1 - to return additional info about users default 0
  */
 class AppsGetLeaderboardExtended(
     private val type: AppsGetLeaderboardType,
     private val global: Boolean? = null,
     private val extended: Boolean? = null
-) : VKRequest<AppsGetLeaderboardExtendedResponseDto>("apps.getLeaderboard") {
+) : ApiRequestBase<AppsGetLeaderboardExtendedResponseDto>(methodName = "apps.getLeaderboard") {
     init {
         addParam("type", type.value)
         global?.let { value ->

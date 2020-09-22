@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.account.dto.AccountGetActiveOffersResponseDto
 import com.vk.sdk.api.account.responses.AccountGetActiveOffersResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class AccountGetActiveOffers(
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<AccountGetActiveOffersResponseDto>("account.getActiveOffers") {
+) : ApiRequestBase<AccountGetActiveOffersResponseDto>(methodName = "account.getActiveOffers") {
     init {
         offset?.let { value ->
             addParam("offset", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.responses.MessagesCreateChatResponse
 import kotlin.Int
@@ -45,7 +45,7 @@ class MessagesCreateChat(
     private val userIds: List<Int>? = null,
     private val title: String? = null,
     private val groupId: Int? = null
-) : VKRequest<Int>("messages.createChat") {
+) : ApiRequestBase<Int>(methodName = "messages.createChat") {
     init {
         userIds?.let { value ->
             addParam("user_ids", value)

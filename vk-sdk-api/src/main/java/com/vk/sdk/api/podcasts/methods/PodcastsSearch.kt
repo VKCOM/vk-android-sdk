@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.podcasts.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.podcasts.dto.PodcastsSearchResponseDto
 import com.vk.sdk.api.podcasts.responses.PodcastsSearchResponse
@@ -44,7 +44,7 @@ class PodcastsSearch(
     private val searchString: String,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<PodcastsSearchResponseDto>("podcasts.search") {
+) : ApiRequestBase<PodcastsSearchResponseDto>(methodName = "podcasts.search") {
     init {
         addParam("search_string", searchString)
         offset?.let { value ->

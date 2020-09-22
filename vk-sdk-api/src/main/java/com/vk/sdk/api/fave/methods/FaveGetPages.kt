@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.fave.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.fave.dto.FaveGetPagesResponseDto
@@ -50,7 +50,7 @@ class FaveGetPages(
     private val type: FaveGetPagesType? = null,
     private val fields: List<BaseUserGroupFields>? = null,
     private val tagId: Int? = null
-) : VKRequest<FaveGetPagesResponseDto>("fave.getPages") {
+) : ApiRequestBase<FaveGetPagesResponseDto>(methodName = "fave.getPages") {
     init {
         offset?.let { value ->
             addParam("offset", value)

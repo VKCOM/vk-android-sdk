@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosGetAllCommentsResponseDto
 import com.vk.sdk.api.photos.responses.PhotosGetAllCommentsResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  * @param ownerId ID of the user or community that owns the album(s). 
  * @param albumId Album ID. If the parameter is not set, comments on all of the user's albums will
  * be returned. minimum 0
- * @param needLikes '1' � to return an additional 'likes' field, '0' � (default) 
+ * @param needLikes '1' - to return an additional 'likes' field, '0' - (default) 
  * @param offset Offset needed to return a specific subset of comments. By default, '0'. minimum 0
  * @param count Number of comments to return. By default, '20'. Maximum value, '100'. minimum 0
  */
@@ -51,7 +51,7 @@ class PhotosGetAllComments(
     private val needLikes: Boolean? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<PhotosGetAllCommentsResponseDto>("photos.getAllComments") {
+) : ApiRequestBase<PhotosGetAllCommentsResponseDto>(methodName = "photos.getAllComments") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.responses.FriendsGetOnlineResponse
 import kotlin.Boolean
@@ -41,8 +41,8 @@ import org.json.JSONObject
  * @param userId User ID. minimum 0
  * @param listId Friend list ID. If this parameter is not set, information about all online friends
  * is returned. minimum 0
- * @param onlineMobile '1' � to return an additional 'online_mobile' field, '0' � (default), 
- * @param order Sort order: 'random' � random order 
+ * @param onlineMobile '1' - to return an additional 'online_mobile' field, '0' - (default), 
+ * @param order Sort order: 'random' - random order 
  * @param count Number of friends to return. minimum 0
  * @param offset Offset needed to return a specific subset of friends. minimum 0
  */
@@ -53,7 +53,7 @@ class FriendsGetOnline(
     private val order: String? = null,
     private val count: Int? = null,
     private val offset: Int? = null
-) : VKRequest<List<Int>>("friends.getOnline") {
+) : ApiRequestBase<List<Int>>(methodName = "friends.getOnline") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

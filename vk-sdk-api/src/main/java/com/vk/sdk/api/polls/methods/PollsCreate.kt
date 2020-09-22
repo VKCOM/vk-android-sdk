@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.polls.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.polls.dto.PollsCreateBackgroundId
 import com.vk.sdk.api.polls.dto.PollsPoll
@@ -40,7 +40,7 @@ import org.json.JSONObject
 /**
  * Creates polls that can be attached to the users' or communities' posts.
  * @param question question text 
- * @param isAnonymous '1' � anonymous poll, participants list is hidden,, '0' � public poll,
+ * @param isAnonymous '1' - anonymous poll, participants list is hidden,, '0' - public poll,
  * participants list is available,, Default value is '0'. 
  * @param isMultiple  
  * @param endDate  minimum 1550700000
@@ -62,7 +62,7 @@ class PollsCreate(
     private val photoId: Int? = null,
     private val backgroundId: PollsCreateBackgroundId? = null,
     private val disableUnvote: Boolean? = null
-) : VKRequest<PollsPoll>("polls.create") {
+) : ApiRequestBase<PollsPoll>(methodName = "polls.create") {
     init {
         question?.let { value ->
             addParam("question", value)

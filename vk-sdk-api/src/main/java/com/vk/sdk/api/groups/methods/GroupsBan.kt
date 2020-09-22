@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -51,7 +51,7 @@ class GroupsBan(
     private val reason: Int? = null,
     private val comment: String? = null,
     private val commentVisible: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("groups.ban") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.ban") {
     init {
         addParam("group_id", groupId)
         ownerId?.let { value ->

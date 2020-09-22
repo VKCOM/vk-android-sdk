@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.dto.FriendsUserXtrPhone
 import com.vk.sdk.api.friends.responses.FriendsGetByPhonesResponse
@@ -48,7 +48,7 @@ import org.json.JSONObject
 class FriendsGetByPhones(
     private val phones: List<String>? = null,
     private val fields: List<UsersFields>? = null
-) : VKRequest<List<FriendsUserXtrPhone>>("friends.getByPhones") {
+) : ApiRequestBase<List<FriendsUserXtrPhone>>(methodName = "friends.getByPhones") {
     init {
         phones?.let { value ->
             addParam("phones", value)

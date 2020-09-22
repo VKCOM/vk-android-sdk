@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.responses.FriendsGetRecentResponse
 import kotlin.Int
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class FriendsGetRecent(
     private val count: Int? = null
-) : VKRequest<List<Int>>("friends.getRecent") {
+) : ApiRequestBase<List<Int>>(methodName = "friends.getRecent") {
     init {
         count?.let { value ->
             addParam("count", value)

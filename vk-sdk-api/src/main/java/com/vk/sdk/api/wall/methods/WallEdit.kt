@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.wall.dto.WallEditResponseDto
 import com.vk.sdk.api.wall.responses.WallEditResponse
@@ -45,9 +45,9 @@ import org.json.JSONObject
  * @param friendsOnly  
  * @param message (Required if 'attachments' is not set.) Text of the post. 
  * @param attachments (Required if 'message' is not set.) List of objects attached to the post, in
- * the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' � Type of media attachment:
- * 'photo' � photo, 'video' � video, 'audio' � audio, 'doc' � document, '<owner_id>' � ID of the media
- * application owner. '<media_id>' � Media application ID. Example:
+ * the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment:
+ * 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - ID of the media
+ * application owner. '<media_id>' - Media application ID. Example:
  * "photo100172_166443618,photo66748_265827614", May contain a link to an external page to include in
  * the post. Example: "photo66748_265827614,http://habrahabr.ru", "NOTE: If more than one link is being
  * attached, an error is thrown." 
@@ -82,7 +82,7 @@ class WallEdit(
     private val posterBkgOwnerId: Int? = null,
     private val posterBkgAccessHash: String? = null,
     private val copyright: String? = null
-) : VKRequest<WallEditResponseDto>("wall.edit") {
+) : ApiRequestBase<WallEditResponseDto>(methodName = "wall.edit") {
     init {
         addParam("post_id", postId)
         ownerId?.let { value ->

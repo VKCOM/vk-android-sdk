@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class WallPin(
     private val postId: Int,
     private val ownerId: Int? = null
-) : VKRequest<BaseOkResponseDto>("wall.pin") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "wall.pin") {
     init {
         addParam("post_id", postId)
         ownerId?.let { value ->

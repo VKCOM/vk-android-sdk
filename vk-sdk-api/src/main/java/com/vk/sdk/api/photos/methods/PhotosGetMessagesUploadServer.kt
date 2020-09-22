@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosPhotoUpload
 import com.vk.sdk.api.photos.responses.PhotosGetMessagesUploadServerResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class PhotosGetMessagesUploadServer(
     private val peerId: Int? = null
-) : VKRequest<PhotosPhotoUpload>("photos.getMessagesUploadServer") {
+) : ApiRequestBase<PhotosPhotoUpload>(methodName = "photos.getMessagesUploadServer") {
     init {
         peerId?.let { value ->
             addParam("peer_id", value)

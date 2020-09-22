@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosPhotoTag
 import com.vk.sdk.api.photos.responses.PhotosGetTagsResponse
@@ -46,7 +46,7 @@ class PhotosGetTags(
     private val photoId: Int,
     private val ownerId: Int? = null,
     private val accessKey: String? = null
-) : VKRequest<List<PhotosPhotoTag>>("photos.getTags") {
+) : ApiRequestBase<List<PhotosPhotoTag>>(methodName = "photos.getTags") {
     init {
         addParam("photo_id", photoId)
         ownerId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.docs.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.docs.dto.DocsGetResponseDto
 import com.vk.sdk.api.docs.dto.DocsGetType
@@ -51,7 +51,7 @@ class DocsGet(
     private val type: DocsGetType? = null,
     private val ownerId: Int? = null,
     private val returnTags: Boolean? = null
-) : VKRequest<DocsGetResponseDto>("docs.get") {
+) : ApiRequestBase<DocsGetResponseDto>(methodName = "docs.get") {
     init {
         count?.let { value ->
             addParam("count", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.addresses.dto.AddressesFields
 import com.vk.sdk.api.groups.dto.GroupsGetAddressesResponseDto
@@ -55,7 +55,7 @@ class GroupsGetAddresses(
     private val offset: Int? = null,
     private val count: Int? = null,
     private val fields: List<AddressesFields>? = null
-) : VKRequest<GroupsGetAddressesResponseDto>("groups.getAddresses") {
+) : ApiRequestBase<GroupsGetAddressesResponseDto>(methodName = "groups.getAddresses") {
     init {
         addParam("group_id", groupId)
         addressIds?.let { value ->

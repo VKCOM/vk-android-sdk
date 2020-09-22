@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.groups.responses.GroupsIsMemberResponse
@@ -42,14 +42,14 @@ import org.json.JSONObject
  * @param groupId ID or screen name of the community. 
  * @param userId User ID. minimum 0
  * @param userIds User IDs. 
- * @param extended '1' � to return an extended response with additional fields. By default: '0'. 
+ * @param extended '1' - to return an extended response with additional fields. By default: '0'. 
  */
 class GroupsIsMember(
     private val groupId: String,
     private val userId: Int? = null,
     private val userIds: List<Int>? = null,
     private val extended: Boolean? = null
-) : VKRequest<BaseBoolInt>("groups.isMember") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "groups.isMember") {
     init {
         addParam("group_id", groupId)
         userId?.let { value ->

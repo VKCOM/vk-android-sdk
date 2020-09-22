@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.video.responses.VideoRestoreCommentResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class VideoRestoreComment(
     private val commentId: Int,
     private val ownerId: Int? = null
-) : VKRequest<BaseBoolInt>("video.restoreComment") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "video.restoreComment") {
     init {
         addParam("comment_id", commentId)
         ownerId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.database.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.database.dto.DatabaseGetCountriesResponseDto
 import com.vk.sdk.api.database.responses.DatabaseGetCountriesResponse
@@ -38,7 +38,7 @@ import org.json.JSONObject
 
 /**
  * Returns a list of countries.
- * @param needAll '1' � to return a full list of all countries, '0' � to return a list of countries
+ * @param needAll '1' - to return a full list of all countries, '0' - to return a list of countries
  * near the current user's country (default). 
  * @param code Country codes in [vk.com/dev/country_codes|ISO 3166-1 alpha-2] standard. 
  * @param offset Offset needed to return a specific subset of countries. minimum 0
@@ -49,7 +49,7 @@ class DatabaseGetCountries(
     private val code: String? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<DatabaseGetCountriesResponseDto>("database.getCountries") {
+) : ApiRequestBase<DatabaseGetCountriesResponseDto>(methodName = "database.getCountries") {
     init {
         needAll?.let { value ->
             addParam("need_all", if (value) 1 else 0)

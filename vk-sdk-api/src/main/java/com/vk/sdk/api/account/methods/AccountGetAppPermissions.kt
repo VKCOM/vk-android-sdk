@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.account.responses.AccountGetAppPermissionsResponse
 import kotlin.Int
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class AccountGetAppPermissions(
     private val userId: Int
-) : VKRequest<Int>("account.getAppPermissions") {
+) : ApiRequestBase<Int>(methodName = "account.getAppPermissions") {
     init {
         addParam("user_id", userId)
     }

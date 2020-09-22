@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsFloodStats
 import com.vk.sdk.api.ads.responses.AdsGetFloodStatsResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class AdsGetFloodStats(
     private val accountId: Int
-) : VKRequest<AdsFloodStats>("ads.getFloodStats") {
+) : ApiRequestBase<AdsFloodStats>(methodName = "ads.getFloodStats") {
     init {
         addParam("account_id", accountId)
     }

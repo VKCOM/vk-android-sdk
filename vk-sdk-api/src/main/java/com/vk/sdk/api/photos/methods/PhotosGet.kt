@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosGetResponseDto
 import com.vk.sdk.api.photos.responses.PhotosGetResponse
@@ -44,14 +44,14 @@ import org.json.JSONObject
  * @param albumId Photo album ID. To return information about photos from service albums, use the
  * following string values: 'profile, wall, saved'. 
  * @param photoIds Photo IDs. 
- * @param rev Sort order: '1' � reverse chronological, '0' � chronological 
- * @param extended '1' � to return additional 'likes', 'comments', and 'tags' fields, '0' �
+ * @param rev Sort order: '1' - reverse chronological, '0' - chronological 
+ * @param extended '1' - to return additional 'likes', 'comments', and 'tags' fields, '0' -
  * (default) 
  * @param feedType Type of feed obtained in 'feed' field of the method. 
  * @param feed unixtime, that can be obtained with [vk.com/dev/newsfeed.get|newsfeed.get] method in
  * date field to get all photos uploaded by the user on a specific day, or photos the user has been
  * tagged on. Also, 'uid' parameter of the user the event happened with shall be specified. 
- * @param photoSizes '1' � to return photo sizes in a [vk.com/dev/photo_sizes|special format] 
+ * @param photoSizes '1' - to return photo sizes in a [vk.com/dev/photo_sizes|special format] 
  * @param offset  minimum 0
  * @param count  default 50 minimum 0 maximum 1000
  */
@@ -66,7 +66,7 @@ class PhotosGet(
     private val photoSizes: Boolean? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<PhotosGetResponseDto>("photos.get") {
+) : ApiRequestBase<PhotosGetResponseDto>(methodName = "photos.get") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

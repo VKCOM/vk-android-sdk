@@ -3,7 +3,7 @@ VK SDK for Android
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.vk/androidsdk.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.vk%22%20AND%20a:%22androidsdk%22)
 
-Library for working with VK API, authorization through VK app, using VK functions. Minimal version of Android is 4.1
+Library for working with VK API, authorization through VK app, using VK functions. Minimal version of Android is 5.0
 
 Prepare for Using VK SDK
 ----------
@@ -56,12 +56,12 @@ You can add next maven dependency in your project:
 
 You may also need to add the following to your `project/build.gradle` file.
 
-`implementation 'com.vk:androidsdk:2.2.3`
+`implementation 'com.vk:androidsdk:2.4.0`
 
 For example, your `app/build.gradle` script will contains such dependencies:
 ```
 dependencies {
-    implementation 'com.vk:androidsdk:2.2.3
+    implementation 'com.vk:androidsdk:2.4.0
 }
 ```
 

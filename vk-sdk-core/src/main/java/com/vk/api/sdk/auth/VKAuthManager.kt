@@ -36,7 +36,7 @@ import java.util.*
 internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
     fun login(activity: Activity, scopes: Collection<VKScope>) {
         val params = VKAuthParams(VK.getAppId(activity), scope = scopes)
-        if (VKUtils.isAppInstalled(activity, VK_APP_PACKAGE_ID) && VKUtils.isIntentAvailable(activity, VK_APP_AUTH_ACTION)) {
+        if (VKUtils.isIntentAvailable(activity, VK_APP_AUTH_ACTION, null, VK_APP_PACKAGE_ID)) {
             startAuthActivity(activity, params)
         } else {
             // start dialog with webview

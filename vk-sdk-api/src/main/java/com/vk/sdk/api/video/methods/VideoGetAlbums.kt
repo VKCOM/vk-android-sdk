@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.video.dto.VideoGetAlbumsResponseDto
 import com.vk.sdk.api.video.responses.VideoGetAlbumsResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  * @param ownerId ID of the user or community that owns the video album(s). 
  * @param offset Offset needed to return a specific subset of video albums. minimum 0
  * @param count Number of video albums to return. default 50 minimum 0 maximum 100
- * @param extended '1' � to return additional information about album privacy settings for the
+ * @param extended '1' - to return additional information about album privacy settings for the
  * current user 
  * @param needSystem  default 0
  */
@@ -50,7 +50,7 @@ class VideoGetAlbums(
     private val count: Int? = null,
     private val extended: Boolean? = null,
     private val needSystem: Boolean? = null
-) : VKRequest<VideoGetAlbumsResponseDto>("video.getAlbums") {
+) : ApiRequestBase<VideoGetAlbumsResponseDto>(methodName = "video.getAlbums") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

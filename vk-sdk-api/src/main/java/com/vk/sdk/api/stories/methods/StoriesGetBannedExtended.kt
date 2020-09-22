@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.stories.dto.StoriesGetBannedExtendedResponseDto
@@ -38,13 +38,13 @@ import org.json.JSONObject
 
 /**
  * Returns list of sources hidden from current user's feed.
- * @param extended '1' � to return additional fields for users and communities. Default value is 0. 
+ * @param extended '1' - to return additional fields for users and communities. Default value is 0. 
  * @param fields Additional fields to return 
  */
 class StoriesGetBannedExtended(
     private val extended: Boolean? = null,
     private val fields: List<BaseUserGroupFields>? = null
-) : VKRequest<StoriesGetBannedExtendedResponseDto>("stories.getBanned") {
+) : ApiRequestBase<StoriesGetBannedExtendedResponseDto>(methodName = "stories.getBanned") {
     init {
         extended?.let { value ->
             addParam("extended", if (value) 1 else 0)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsFields
 import com.vk.sdk.api.groups.dto.GroupsGroupFull
@@ -46,7 +46,7 @@ class GroupsGetById(
     private val groupIds: List<String>? = null,
     private val groupId: String? = null,
     private val fields: List<GroupsFields>? = null
-) : VKRequest<List<GroupsGroupFull>>("groups.getById") {
+) : ApiRequestBase<List<GroupsGroupFull>>(methodName = "groups.getById") {
     init {
         groupIds?.let { value ->
             addParam("group_ids", value)

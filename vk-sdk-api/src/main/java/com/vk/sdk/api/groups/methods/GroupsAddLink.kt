@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsGroupLink
 import com.vk.sdk.api.groups.responses.GroupsAddLinkResponse
@@ -45,7 +45,7 @@ class GroupsAddLink(
     private val groupId: Int,
     private val link: String,
     private val text: String? = null
-) : VKRequest<GroupsGroupLink>("groups.addLink") {
+) : ApiRequestBase<GroupsGroupLink>(methodName = "groups.addLink") {
     init {
         addParam("group_id", groupId)
         addParam("link", link)

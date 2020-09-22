@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.fave.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.fave.dto.FaveGetExtendedResponseDto
 import com.vk.sdk.api.fave.dto.FaveGetItemType
@@ -38,7 +38,7 @@ import kotlin.String
 import org.json.JSONObject
 
 /**
- * @param extended '1' � to return additional 'wall', 'profiles', and 'groups' fields. By default:
+ * @param extended '1' - to return additional 'wall', 'profiles', and 'groups' fields. By default:
  * '0'. default false
  * @param itemType  
  * @param tagId Tag ID. 
@@ -55,7 +55,7 @@ class FaveGetExtended(
     private val count: Int? = null,
     private val fields: String? = null,
     private val isFromSnackbar: Boolean? = null
-) : VKRequest<FaveGetExtendedResponseDto>("fave.get") {
+) : ApiRequestBase<FaveGetExtendedResponseDto>(methodName = "fave.get") {
     init {
         extended?.let { value ->
             addParam("extended", if (value) 1 else 0)

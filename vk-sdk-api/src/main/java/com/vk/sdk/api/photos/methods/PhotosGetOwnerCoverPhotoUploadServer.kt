@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUploadServer
 import com.vk.sdk.api.base.responses.BaseGetUploadServerResponse
@@ -49,7 +49,7 @@ class PhotosGetOwnerCoverPhotoUploadServer(
     private val cropY: Int? = null,
     private val cropX2: Int? = null,
     private val cropY2: Int? = null
-) : VKRequest<BaseUploadServer>("photos.getOwnerCoverPhotoUploadServer") {
+) : ApiRequestBase<BaseUploadServer>(methodName = "photos.getOwnerCoverPhotoUploadServer") {
     init {
         addParam("group_id", groupId)
         cropX?.let { value ->

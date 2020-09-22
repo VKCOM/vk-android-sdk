@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -38,14 +38,14 @@ import org.json.JSONObject
 /**
  * Marks and unmarks conversations as unanswered.
  * @param peerId ID of conversation to mark as important. 
- * @param answered '1' � to mark as answered, '0' � to remove the mark default 1
+ * @param answered '1' - to mark as answered, '0' - to remove the mark default 1
  * @param groupId Group ID (for group messages with group access token) minimum 0
  */
 class MessagesMarkAsAnsweredConversation(
     private val peerId: Int,
     private val answered: Boolean? = null,
     private val groupId: Int? = null
-) : VKRequest<BaseOkResponseDto>("messages.markAsAnsweredConversation") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "messages.markAsAnsweredConversation") {
     init {
         addParam("peer_id", peerId)
         answered?.let { value ->

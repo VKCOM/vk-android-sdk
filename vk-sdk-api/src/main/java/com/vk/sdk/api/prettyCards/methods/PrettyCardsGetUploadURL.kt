@@ -27,13 +27,13 @@
 // *********************************************************************
 package com.vk.sdk.api.prettyCards.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.prettyCards.responses.PrettyCardsGetUploadURLResponse
 import kotlin.String
 import org.json.JSONObject
 
-class PrettyCardsGetUploadURL : VKRequest<String>("prettyCards.getUploadURL") {
+class PrettyCardsGetUploadURL : ApiRequestBase<String>(methodName = "prettyCards.getUploadURL") {
     override fun parse(r: JSONObject): String = GsonHolder.gson.fromJson(r.toString(),
             PrettyCardsGetUploadURLResponse::class.java).response
 }

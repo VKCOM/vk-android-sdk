@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.database.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.database.dto.DatabaseGetUniversitiesResponseDto
 import com.vk.sdk.api.database.responses.DatabaseGetUniversitiesResponse
@@ -49,7 +49,7 @@ class DatabaseGetUniversities(
     private val cityId: Int? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<DatabaseGetUniversitiesResponseDto>("database.getUniversities") {
+) : ApiRequestBase<DatabaseGetUniversitiesResponseDto>(methodName = "database.getUniversities") {
     init {
         q?.let { value ->
             addParam("q", value)

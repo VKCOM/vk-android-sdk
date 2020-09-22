@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.pages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.pages.responses.PagesParseWikiResponse
 import kotlin.Int
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class PagesParseWiki(
     private val text: String,
     private val groupId: Int? = null
-) : VKRequest<String>("pages.parseWiki") {
+) : ApiRequestBase<String>(methodName = "pages.parseWiki") {
     init {
         addParam("text", text)
         groupId?.let { value ->

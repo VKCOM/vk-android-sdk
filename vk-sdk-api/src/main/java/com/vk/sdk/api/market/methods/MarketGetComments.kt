@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketGetCommentsResponseDto
 import com.vk.sdk.api.market.dto.MarketGetCommentsSort
@@ -42,12 +42,12 @@ import org.json.JSONObject
  * Returns comments list for an item.
  * @param ownerId ID of an item owner community 
  * @param itemId Item ID. minimum 0
- * @param needLikes '1' � to return likes info. 
+ * @param needLikes '1' - to return likes info. 
  * @param startCommentId ID of a comment to start a list from (details below). minimum 0
  * @param offset  default 0 minimum 0
  * @param count Number of results to return. default 20 minimum 0 maximum 100
- * @param sort Sort order ('asc' � from old to new, 'desc' � from new to old) default "asc"
- * @param extended '1' � comments will be returned as numbered objects, in addition lists of
+ * @param sort Sort order ('asc' - from old to new, 'desc' - from new to old) default "asc"
+ * @param extended '1' - comments will be returned as numbered objects, in addition lists of
  * 'profiles' and 'groups' objects will be returned. 
  * @param fields List of additional profile fields to return. See the [vk.com/dev/fields|details] 
  */
@@ -61,7 +61,7 @@ class MarketGetComments(
     private val sort: MarketGetCommentsSort? = null,
     private val extended: Boolean? = null,
     private val fields: List<UsersFields>? = null
-) : VKRequest<MarketGetCommentsResponseDto>("market.getComments") {
+) : ApiRequestBase<MarketGetCommentsResponseDto>(methodName = "market.getComments") {
     init {
         addParam("owner_id", ownerId)
         addParam("item_id", itemId)

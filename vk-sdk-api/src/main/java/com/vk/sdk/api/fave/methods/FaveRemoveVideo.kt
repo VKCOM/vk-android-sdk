@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.fave.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
 class FaveRemoveVideo(
     private val ownerId: Int,
     private val id: Int
-) : VKRequest<BaseOkResponseDto>("fave.removeVideo") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "fave.removeVideo") {
     init {
         addParam("owner_id", ownerId)
         addParam("id", id)

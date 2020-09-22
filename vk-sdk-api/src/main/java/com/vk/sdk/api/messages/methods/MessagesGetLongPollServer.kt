@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesLongpollParams
 import com.vk.sdk.api.messages.responses.MessagesGetLongPollServerResponse
@@ -37,7 +37,7 @@ import org.json.JSONObject
 
 /**
  * Returns data required for connection to a Long Poll server.
- * @param needPts '1' � to return the 'pts' field, needed for the
+ * @param needPts '1' - to return the 'pts' field, needed for the
  * [vk.com/dev/messages.getLongPollHistory|messages.getLongPollHistory] method. 
  * @param groupId Group ID (for group messages with user access token) minimum 0
  * @param lpVersion Long poll version default 0 minimum 0
@@ -46,7 +46,7 @@ class MessagesGetLongPollServer(
     private val needPts: Boolean? = null,
     private val groupId: Int? = null,
     private val lpVersion: Int? = null
-) : VKRequest<MessagesLongpollParams>("messages.getLongPollServer") {
+) : ApiRequestBase<MessagesLongpollParams>(methodName = "messages.getLongPollServer") {
     init {
         needPts?.let { value ->
             addParam("need_pts", if (value) 1 else 0)

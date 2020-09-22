@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.storage.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.storage.dto.StorageValue
 import com.vk.sdk.api.storage.responses.StorageGetV5110Response
@@ -46,7 +46,7 @@ class StorageGet(
     private val key: String? = null,
     private val keys: List<String>? = null,
     private val userId: Int? = null
-) : VKRequest<List<StorageValue>>("storage.get") {
+) : ApiRequestBase<List<StorageValue>>(methodName = "storage.get") {
     init {
         key?.let { value ->
             addParam("key", value)

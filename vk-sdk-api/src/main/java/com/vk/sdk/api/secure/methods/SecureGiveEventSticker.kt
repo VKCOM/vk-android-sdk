@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.secure.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.secure.responses.SecureGiveEventStickerResponse
 import kotlin.Any
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class SecureGiveEventSticker(
     private val userIds: List<Int>,
     private val achievementId: Int
-) : VKRequest<List<Any>>("secure.giveEventSticker") {
+) : ApiRequestBase<List<Any>>(methodName = "secure.giveEventSticker") {
     init {
         addParam("user_ids", userIds)
         addParam("achievement_id", achievementId)

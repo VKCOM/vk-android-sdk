@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.video.dto.VideoAddAlbumPrivacy
 import com.vk.sdk.api.video.dto.VideoAddAlbumResponseDto
@@ -41,14 +41,14 @@ import org.json.JSONObject
  * Creates an empty album for videos.
  * @param groupId Community ID (if the album will be created in a community). minimum 0
  * @param title Album title. 
- * @param privacy new access permissions for the album. Possible values: , *'0' � all users,, *'1' �
- * friends only,, *'2' � friends and friends of friends,, *'3' � "only me". 
+ * @param privacy new access permissions for the album. Possible values: , *'0' - all users,, *'1' -
+ * friends only,, *'2' - friends and friends of friends,, *'3' - "only me". 
  */
 class VideoAddAlbum(
     private val groupId: Int? = null,
     private val title: String? = null,
     private val privacy: List<VideoAddAlbumPrivacy>? = null
-) : VKRequest<VideoAddAlbumResponseDto>("video.addAlbum") {
+) : ApiRequestBase<VideoAddAlbumResponseDto>(methodName = "video.addAlbum") {
     init {
         groupId?.let { value ->
             addParam("group_id", value)

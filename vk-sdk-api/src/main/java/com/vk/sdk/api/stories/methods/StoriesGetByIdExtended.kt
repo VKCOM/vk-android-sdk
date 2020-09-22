@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.stories.dto.StoriesGetByIdExtendedResponseDto
@@ -41,7 +41,7 @@ import org.json.JSONObject
  * Returns story by its ID.
  * @param stories Stories IDs separated by commas. Use format {owner_id}+'_'+{story_id}, for
  * example, 12345_54331. 
- * @param extended '1' � to return additional fields for users and communities. Default value is 0.
+ * @param extended '1' - to return additional fields for users and communities. Default value is 0.
  * default false
  * @param fields Additional fields to return 
  */
@@ -49,7 +49,7 @@ class StoriesGetByIdExtended(
     private val stories: List<String>,
     private val extended: Boolean? = null,
     private val fields: List<BaseUserGroupFields>? = null
-) : VKRequest<StoriesGetByIdExtendedResponseDto>("stories.getById") {
+) : ApiRequestBase<StoriesGetByIdExtendedResponseDto>(methodName = "stories.getById") {
     init {
         addParam("stories", stories)
         extended?.let { value ->

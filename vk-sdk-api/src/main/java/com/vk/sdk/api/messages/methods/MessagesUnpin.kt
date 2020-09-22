@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
 class MessagesUnpin(
     private val peerId: Int,
     private val groupId: Int? = null
-) : VKRequest<BaseOkResponseDto>("messages.unpin") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "messages.unpin") {
     init {
         addParam("peer_id", peerId)
         groupId?.let { value ->

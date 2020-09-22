@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketSearchResponseDto
 import com.vk.sdk.api.market.dto.MarketSearchRev
@@ -47,10 +47,10 @@ import org.json.JSONObject
  * @param priceFrom Minimum item price value. minimum 0
  * @param priceTo Maximum item price value. minimum 0
  * @param sort  default 0
- * @param rev '0' � do not use reverse order, '1' � use reverse order default 1 minimum 0
+ * @param rev '0' - do not use reverse order, '1' - use reverse order default 1 minimum 0
  * @param offset Offset needed to return a specific subset of results. minimum 0
  * @param count Number of items to return. default 20 minimum 0 maximum 200
- * @param extended '1' � to return additional fields: 'likes, can_comment, car_repost, photos'. By
+ * @param extended '1' - to return additional fields: 'likes, can_comment, car_repost, photos'. By
  * default: '0'. default "0"
  * @param status  default 0 minimum 0
  */
@@ -66,7 +66,7 @@ class MarketSearch(
     private val count: Int? = null,
     private val extended: Boolean? = null,
     private val status: MarketSearchStatus? = null
-) : VKRequest<MarketSearchResponseDto>("market.search") {
+) : ApiRequestBase<MarketSearchResponseDto>(methodName = "market.search") {
     init {
         addParam("owner_id", ownerId)
         albumId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
 class GroupsDeleteAddress(
     private val groupId: Int,
     private val addressId: Int
-) : VKRequest<BaseOkResponseDto>("groups.deleteAddress") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.deleteAddress") {
     init {
         addParam("group_id", groupId)
         addParam("address_id", addressId)

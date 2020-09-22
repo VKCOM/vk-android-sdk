@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsTargSettings
 import com.vk.sdk.api.ads.responses.AdsGetAdsTargetingResponse
@@ -45,8 +45,8 @@ import org.json.JSONObject
  * @param campaignIds Filter by advertising campaigns. Serialized JSON array with campaign IDs. If
  * the parameter is null, ads of all campaigns will be shown. 
  * @param clientId 'For advertising agencies.' ID of the client ads are retrieved from. 
- * @param includeDeleted flag that specifies whether archived ads shall be shown: *0 � show only
- * active ads,, *1 � show all ads. 
+ * @param includeDeleted flag that specifies whether archived ads shall be shown: *0 - show only
+ * active ads,, *1 - show all ads. 
  * @param limit Limit of number of returned ads. Used only if 'ad_ids' parameter is null, and
  * 'campaign_ids' parameter contains ID of only one campaign. 
  * @param offset Offset needed to return a specific subset of results. 
@@ -59,7 +59,7 @@ class AdsGetAdsTargeting(
     private val includeDeleted: Boolean? = null,
     private val limit: Int? = null,
     private val offset: Int? = null
-) : VKRequest<List<AdsTargSettings>>("ads.getAdsTargeting") {
+) : ApiRequestBase<List<AdsTargSettings>>(methodName = "ads.getAdsTargeting") {
     init {
         addParam("account_id", accountId)
         adIds?.let { value ->

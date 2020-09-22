@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesSearchResponseDto
 import com.vk.sdk.api.messages.responses.MessagesSearchResponse
@@ -62,7 +62,7 @@ class MessagesSearch(
     private val extended: Boolean? = null,
     private val fields: List<String>? = null,
     private val groupId: Int? = null
-) : VKRequest<MessagesSearchResponseDto>("messages.search") {
+) : ApiRequestBase<MessagesSearchResponseDto>(methodName = "messages.search") {
     init {
         q?.let { value ->
             addParam("q", value)

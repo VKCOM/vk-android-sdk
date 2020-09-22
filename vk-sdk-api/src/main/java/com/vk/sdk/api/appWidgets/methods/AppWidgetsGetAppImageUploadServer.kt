@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.appWidgets.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.appWidgets.dto.AppWidgetsGetAppImageUploadServerImageType
 import com.vk.sdk.api.appWidgets.dto.AppWidgetsGetAppImageUploadServerResponseDto
@@ -40,7 +40,8 @@ import org.json.JSONObject
  */
 class AppWidgetsGetAppImageUploadServer(
     private val imageType: AppWidgetsGetAppImageUploadServerImageType
-) : VKRequest<AppWidgetsGetAppImageUploadServerResponseDto>("appWidgets.getAppImageUploadServer") {
+) : ApiRequestBase<AppWidgetsGetAppImageUploadServerResponseDto>(methodName =
+        "appWidgets.getAppImageUploadServer") {
     init {
         addParam("image_type", imageType.value)
     }

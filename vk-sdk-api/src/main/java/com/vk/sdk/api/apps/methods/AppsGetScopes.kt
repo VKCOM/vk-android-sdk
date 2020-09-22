@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.apps.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.apps.dto.AppsGetScopesResponseDto
 import com.vk.sdk.api.apps.dto.AppsGetScopesType
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class AppsGetScopes(
     private val type: AppsGetScopesType? = null
-) : VKRequest<AppsGetScopesResponseDto>("apps.getScopes") {
+) : ApiRequestBase<AppsGetScopesResponseDto>(methodName = "apps.getScopes") {
     init {
         type?.let { value ->
             addParam("type", value.value)

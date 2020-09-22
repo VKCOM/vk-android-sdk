@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.database.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.database.dto.DatabaseGetCitiesResponseDto
 import com.vk.sdk.api.database.responses.DatabaseGetCitiesResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  * @param countryId Country ID. minimum 0
  * @param regionId Region ID. minimum 0
  * @param q Search query. 
- * @param needAll '1' � to return all cities in the country, '0' � to return major cities in the
+ * @param needAll '1' - to return all cities in the country, '0' - to return major cities in the
  * country (default), 
  * @param offset Offset needed to return a specific subset of cities. minimum 0
  * @param count Number of cities to return. default 100 minimum 0 maximum 1000
@@ -53,7 +53,7 @@ class DatabaseGetCities(
     private val needAll: Boolean? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<DatabaseGetCitiesResponseDto>("database.getCities") {
+) : ApiRequestBase<DatabaseGetCitiesResponseDto>(methodName = "database.getCities") {
     init {
         addParam("country_id", countryId)
         regionId?.let { value ->

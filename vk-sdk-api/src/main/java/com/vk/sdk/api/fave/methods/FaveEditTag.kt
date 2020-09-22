@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.fave.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class FaveEditTag(
     private val id: Int,
     private val name: String
-) : VKRequest<BaseOkResponseDto>("fave.editTag") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "fave.editTag") {
     init {
         addParam("id", id)
         addParam("name", name)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.video.dto.VideoSaveResult
 import com.vk.sdk.api.video.responses.VideoSaveResponse
@@ -41,10 +41,10 @@ import org.json.JSONObject
  * Returns a server address (required for upload) and video data.
  * @param name Name of the video. 
  * @param description Description of the video. 
- * @param isPrivate '1' � to designate the video as private (send it via a private message), the
- * video will not appear on the user's video list and will not be available by ID for other users, '0'
- * � not to designate the video as private 
- * @param wallpost '1' � to post the saved video on a user's wall, '0' � not to post the saved video
+ * @param isPrivate '1' - to designate the video as private (send it via a private message), the
+ * video will not appear on the user's video list and will not be available by ID for other users,
+ * '0' - not to designate the video as private 
+ * @param wallpost '1' - to post the saved video on a user's wall, '0' - not to post the saved video
  * on a user's wall 
  * @param link URL for embedding the video from an external website. 
  * @param groupId ID of the community in which the video will be saved. By default, the current
@@ -53,7 +53,7 @@ import org.json.JSONObject
  * @param privacyView  
  * @param privacyComment  
  * @param noComments  
- * @param repeat '1' � to repeat the playback of the video, '0' � to play the video once, 
+ * @param repeat '1' - to repeat the playback of the video, '0' - to play the video once, 
  * @param compression  
  */
 class VideoSave(
@@ -69,7 +69,7 @@ class VideoSave(
     private val noComments: Boolean? = null,
     private val repeat: Boolean? = null,
     private val compression: Boolean? = null
-) : VKRequest<VideoSaveResult>("video.save") {
+) : ApiRequestBase<VideoSaveResult>(methodName = "video.save") {
     init {
         name?.let { value ->
             addParam("name", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsAddCallbackServerResponseDto
 import com.vk.sdk.api.groups.responses.GroupsAddCallbackServerResponse
@@ -46,7 +46,7 @@ class GroupsAddCallbackServer(
     private val url: String,
     private val title: String,
     private val secretKey: String? = null
-) : VKRequest<GroupsAddCallbackServerResponseDto>("groups.addCallbackServer") {
+) : ApiRequestBase<GroupsAddCallbackServerResponseDto>(methodName = "groups.addCallbackServer") {
     init {
         addParam("group_id", groupId)
         addParam("url", url)

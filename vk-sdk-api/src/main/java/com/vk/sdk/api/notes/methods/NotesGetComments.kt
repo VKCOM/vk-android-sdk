@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.notes.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.notes.dto.NotesGetCommentsResponseDto
 import com.vk.sdk.api.notes.dto.NotesGetCommentsSort
@@ -49,7 +49,7 @@ class NotesGetComments(
     private val sort: NotesGetCommentsSort? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<NotesGetCommentsResponseDto>("notes.getComments") {
+) : ApiRequestBase<NotesGetCommentsResponseDto>(methodName = "notes.getComments") {
     init {
         addParam("note_id", noteId)
         ownerId?.let { value ->

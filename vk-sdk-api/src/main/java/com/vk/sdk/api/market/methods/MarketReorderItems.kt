@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -48,7 +48,7 @@ class MarketReorderItems(
     private val albumId: Int? = null,
     private val before: Int? = null,
     private val after: Int? = null
-) : VKRequest<BaseOkResponseDto>("market.reorderItems") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "market.reorderItems") {
     init {
         addParam("owner_id", ownerId)
         addParam("item_id", itemId)

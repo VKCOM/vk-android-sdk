@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.likes.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.likes.dto.LikesDeleteResponseDto
 import com.vk.sdk.api.likes.responses.LikesDeleteResponse
@@ -37,10 +37,10 @@ import org.json.JSONObject
 
 /**
  * Deletes the specified object from the 'Likes' list of the current user.
- * @param type Object type: 'post' � post on user or community wall, 'comment' � comment on a wall
- * post, 'photo' � photo, 'audio' � audio, 'video' � video, 'note' � note, 'photo_comment' � comment on
- * the photo, 'video_comment' � comment on the video, 'topic_comment' � comment in the discussion,
- * 'sitepage' � page of the site where the [vk.com/dev/Like|Like widget] is installed 
+ * @param type Object type: 'post' - post on user or community wall, 'comment' - comment on a wall
+ * post, 'photo' - photo, 'audio' - audio, 'video' - video, 'note' - note, 'photo_comment' - comment on
+ * the photo, 'video_comment' - comment on the video, 'topic_comment' - comment in the discussion,
+ * 'sitepage' - page of the site where the [vk.com/dev/Like|Like widget] is installed 
  * @param itemId Object ID. minimum 0
  * @param ownerId ID of the user or community that owns the object. 
  * @param accessKey Access key required for an object owned by a private entity. 
@@ -50,7 +50,7 @@ class LikesDelete(
     private val itemId: Int,
     private val ownerId: Int? = null,
     private val accessKey: String? = null
-) : VKRequest<LikesDeleteResponseDto>("likes.delete") {
+) : ApiRequestBase<LikesDeleteResponseDto>(methodName = "likes.delete") {
     init {
         addParam("type", type)
         addParam("item_id", itemId)

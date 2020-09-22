@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.video.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -57,7 +57,7 @@ class VideoReorderVideos(
     private val beforeVideoId: Int? = null,
     private val afterOwnerId: Int? = null,
     private val afterVideoId: Int? = null
-) : VKRequest<BaseOkResponseDto>("video.reorderVideos") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "video.reorderVideos") {
     init {
         addParam("owner_id", ownerId)
         addParam("video_id", videoId)

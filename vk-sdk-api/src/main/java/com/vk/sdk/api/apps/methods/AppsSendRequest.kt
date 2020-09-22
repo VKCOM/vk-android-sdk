@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.apps.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.apps.dto.AppsSendRequestType
 import com.vk.sdk.api.apps.responses.AppsSendRequestResponse
@@ -40,8 +40,8 @@ import org.json.JSONObject
  * Sends a request to another user in an app that uses VK authorization.
  * @param userId id of the user to send a request minimum 0
  * @param text request text 
- * @param type request type. Values: 'invite' � if the request is sent to a user who does not have
- * the app installed,, 'request' � if a user has already installed the app default "request"
+ * @param type request type. Values: 'invite' - if the request is sent to a user who does not have
+ * the app installed,, 'request' - if a user has already installed the app default "request"
  * @param name  maxLength 128
  * @param key special string key to be sent with the request 
  * @param separate  
@@ -53,7 +53,7 @@ class AppsSendRequest(
     private val name: String? = null,
     private val key: String? = null,
     private val separate: Boolean? = null
-) : VKRequest<Int>("apps.sendRequest") {
+) : ApiRequestBase<Int>(methodName = "apps.sendRequest") {
     init {
         addParam("user_id", userId)
         text?.let { value ->

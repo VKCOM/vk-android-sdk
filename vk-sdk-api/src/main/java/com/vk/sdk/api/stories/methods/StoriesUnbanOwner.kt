@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class StoriesUnbanOwner(
     private val ownersIds: List<Int>
-) : VKRequest<BaseOkResponseDto>("stories.unbanOwner") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "stories.unbanOwner") {
     init {
         addParam("owners_ids", ownersIds)
     }

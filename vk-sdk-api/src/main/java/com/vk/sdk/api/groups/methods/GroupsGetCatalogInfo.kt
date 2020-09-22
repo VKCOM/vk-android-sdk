@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsGetCatalogInfoResponseDto
 import com.vk.sdk.api.groups.responses.GroupsGetCatalogInfoResponse
@@ -36,14 +36,14 @@ import org.json.JSONObject
 
 /**
  * Returns categories list for communities catalog
- * @param extended 1 � to return communities count and three communities for preview. By default: 0.
+ * @param extended 1 - to return communities count and three communities for preview. By default: 0.
  * default 0
- * @param subcategories 1 � to return subcategories info. By default: 0. default 0
+ * @param subcategories 1 - to return subcategories info. By default: 0. default 0
  */
 class GroupsGetCatalogInfo(
     private val extended: Boolean? = null,
     private val subcategories: Boolean? = null
-) : VKRequest<GroupsGetCatalogInfoResponseDto>("groups.getCatalogInfo") {
+) : ApiRequestBase<GroupsGetCatalogInfoResponseDto>(methodName = "groups.getCatalogInfo") {
     init {
         extended?.let { value ->
             addParam("extended", if (value) 1 else 0)

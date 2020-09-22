@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -41,41 +41,41 @@ import org.json.JSONObject
  * @param groupId Community ID. minimum 0
  * @param serverId Server ID. minimum 0
  * @param apiVersion  
- * @param messageNew A new incoming message has been received ('0' � disabled, '1' � enabled). 
- * @param messageReply A new outcoming message has been received ('0' � disabled, '1' � enabled). 
- * @param messageAllow Allowed messages notifications ('0' � disabled, '1' � enabled). 
+ * @param messageNew A new incoming message has been received ('0' - disabled, '1' - enabled). 
+ * @param messageReply A new outcoming message has been received ('0' - disabled, '1' - enabled). 
+ * @param messageAllow Allowed messages notifications ('0' - disabled, '1' - enabled). 
  * @param messageEdit  
- * @param messageDeny Denied messages notifications ('0' � disabled, '1' � enabled). 
+ * @param messageDeny Denied messages notifications ('0' - disabled, '1' - enabled). 
  * @param messageTypingState  
- * @param photoNew New photos notifications ('0' � disabled, '1' � enabled). 
- * @param audioNew New audios notifications ('0' � disabled, '1' � enabled). 
- * @param videoNew New videos notifications ('0' � disabled, '1' � enabled). 
- * @param wallReplyNew New wall replies notifications ('0' � disabled, '1' � enabled). 
- * @param wallReplyEdit Wall replies edited notifications ('0' � disabled, '1' � enabled). 
- * @param wallReplyDelete A wall comment has been deleted ('0' � disabled, '1' � enabled). 
- * @param wallReplyRestore A wall comment has been restored ('0' � disabled, '1' � enabled). 
- * @param wallPostNew New wall posts notifications ('0' � disabled, '1' � enabled). 
- * @param wallRepost New wall posts notifications ('0' � disabled, '1' � enabled). 
- * @param boardPostNew New board posts notifications ('0' � disabled, '1' � enabled). 
- * @param boardPostEdit Board posts edited notifications ('0' � disabled, '1' � enabled). 
- * @param boardPostRestore Board posts restored notifications ('0' � disabled, '1' � enabled). 
- * @param boardPostDelete Board posts deleted notifications ('0' � disabled, '1' � enabled). 
- * @param photoCommentNew New comment to photo notifications ('0' � disabled, '1' � enabled). 
- * @param photoCommentEdit A photo comment has been edited ('0' � disabled, '1' � enabled). 
- * @param photoCommentDelete A photo comment has been deleted ('0' � disabled, '1' � enabled). 
- * @param photoCommentRestore A photo comment has been restored ('0' � disabled, '1' � enabled). 
- * @param videoCommentNew New comment to video notifications ('0' � disabled, '1' � enabled). 
- * @param videoCommentEdit A video comment has been edited ('0' � disabled, '1' � enabled). 
- * @param videoCommentDelete A video comment has been deleted ('0' � disabled, '1' � enabled). 
- * @param videoCommentRestore A video comment has been restored ('0' � disabled, '1' � enabled). 
- * @param marketCommentNew New comment to market item notifications ('0' � disabled, '1' � enabled).
+ * @param photoNew New photos notifications ('0' - disabled, '1' - enabled). 
+ * @param audioNew New audios notifications ('0' - disabled, '1' - enabled). 
+ * @param videoNew New videos notifications ('0' - disabled, '1' - enabled). 
+ * @param wallReplyNew New wall replies notifications ('0' - disabled, '1' - enabled). 
+ * @param wallReplyEdit Wall replies edited notifications ('0' - disabled, '1' - enabled). 
+ * @param wallReplyDelete A wall comment has been deleted ('0' - disabled, '1' - enabled). 
+ * @param wallReplyRestore A wall comment has been restored ('0' - disabled, '1' - enabled). 
+ * @param wallPostNew New wall posts notifications ('0' - disabled, '1' - enabled). 
+ * @param wallRepost New wall posts notifications ('0' - disabled, '1' - enabled). 
+ * @param boardPostNew New board posts notifications ('0' - disabled, '1' - enabled). 
+ * @param boardPostEdit Board posts edited notifications ('0' - disabled, '1' - enabled). 
+ * @param boardPostRestore Board posts restored notifications ('0' - disabled, '1' - enabled). 
+ * @param boardPostDelete Board posts deleted notifications ('0' - disabled, '1' - enabled). 
+ * @param photoCommentNew New comment to photo notifications ('0' - disabled, '1' - enabled). 
+ * @param photoCommentEdit A photo comment has been edited ('0' - disabled, '1' - enabled). 
+ * @param photoCommentDelete A photo comment has been deleted ('0' - disabled, '1' - enabled). 
+ * @param photoCommentRestore A photo comment has been restored ('0' - disabled, '1' - enabled). 
+ * @param videoCommentNew New comment to video notifications ('0' - disabled, '1' - enabled). 
+ * @param videoCommentEdit A video comment has been edited ('0' - disabled, '1' - enabled). 
+ * @param videoCommentDelete A video comment has been deleted ('0' - disabled, '1' - enabled). 
+ * @param videoCommentRestore A video comment has been restored ('0' - disabled, '1' - enabled). 
+ * @param marketCommentNew New comment to market item notifications ('0' - disabled, '1' - enabled).
  * 
- * @param marketCommentEdit A market comment has been edited ('0' � disabled, '1' � enabled). 
- * @param marketCommentDelete A market comment has been deleted ('0' � disabled, '1' � enabled). 
- * @param marketCommentRestore A market comment has been restored ('0' � disabled, '1' � enabled). 
- * @param pollVoteNew A vote in a public poll has been added ('0' � disabled, '1' � enabled). 
- * @param groupJoin Joined community notifications ('0' � disabled, '1' � enabled). 
- * @param groupLeave Left community notifications ('0' � disabled, '1' � enabled). 
+ * @param marketCommentEdit A market comment has been edited ('0' - disabled, '1' - enabled). 
+ * @param marketCommentDelete A market comment has been deleted ('0' - disabled, '1' - enabled). 
+ * @param marketCommentRestore A market comment has been restored ('0' - disabled, '1' - enabled). 
+ * @param pollVoteNew A vote in a public poll has been added ('0' - disabled, '1' - enabled). 
+ * @param groupJoin Joined community notifications ('0' - disabled, '1' - enabled). 
+ * @param groupLeave Left community notifications ('0' - disabled, '1' - enabled). 
  * @param groupChangeSettings  
  * @param groupChangePhoto  
  * @param groupOfficersEdit  
@@ -133,7 +133,7 @@ class GroupsSetCallbackSettings(
     private val likeAdd: Boolean? = null,
     private val likeRemove: Boolean? = null,
     private val messageEvent: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("groups.setCallbackSettings") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.setCallbackSettings") {
     init {
         addParam("group_id", groupId)
         serverId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.responses.MessagesMarkAsImportantResponse
 import kotlin.Int
@@ -37,12 +37,12 @@ import org.json.JSONObject
 /**
  * Marks and unmarks messages as important (starred).
  * @param messageIds IDs of messages to mark as important. default []
- * @param important '1' � to add a star (mark as important), '0' � to remove the star minimum 0
+ * @param important '1' - to add a star (mark as important), '0' - to remove the star minimum 0
  */
 class MessagesMarkAsImportant(
     private val messageIds: List<Int>? = null,
     private val important: Int? = null
-) : VKRequest<List<Int>>("messages.markAsImportant") {
+) : ApiRequestBase<List<Int>>(methodName = "messages.markAsImportant") {
     init {
         messageIds?.let { value ->
             addParam("message_ids", value)

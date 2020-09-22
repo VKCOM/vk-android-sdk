@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsUsers
 import com.vk.sdk.api.ads.responses.AdsGetOfficeUsersResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class AdsGetOfficeUsers(
     private val accountId: Int
-) : VKRequest<List<AdsUsers>>("ads.getOfficeUsers") {
+) : ApiRequestBase<List<AdsUsers>>(methodName = "ads.getOfficeUsers") {
     init {
         addParam("account_id", accountId)
     }

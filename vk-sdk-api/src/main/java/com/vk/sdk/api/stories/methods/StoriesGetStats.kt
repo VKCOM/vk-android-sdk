@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.stories.dto.StoriesStoryStats
 import com.vk.sdk.api.stories.responses.StoriesGetStatsResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class StoriesGetStats(
     private val ownerId: Int,
     private val storyId: Int
-) : VKRequest<StoriesStoryStats>("stories.getStats") {
+) : ApiRequestBase<StoriesStoryStats>(methodName = "stories.getStats") {
     init {
         addParam("owner_id", ownerId)
         addParam("story_id", storyId)

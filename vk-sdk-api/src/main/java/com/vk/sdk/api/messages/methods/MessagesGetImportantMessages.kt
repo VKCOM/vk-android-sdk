@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.messages.dto.MessagesGetImportantMessagesResponseDto
@@ -55,7 +55,8 @@ class MessagesGetImportantMessages(
     private val fields: List<BaseUserGroupFields>? = null,
     private val extended: Boolean? = null,
     private val groupId: Int? = null
-) : VKRequest<MessagesGetImportantMessagesResponseDto>("messages.getImportantMessages") {
+) : ApiRequestBase<MessagesGetImportantMessagesResponseDto>(methodName =
+        "messages.getImportantMessages") {
     init {
         count?.let { value ->
             addParam("count", value)

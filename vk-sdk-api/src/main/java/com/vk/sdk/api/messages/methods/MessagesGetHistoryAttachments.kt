@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesGetHistoryAttachmentsMediaType
 import com.vk.sdk.api.messages.dto.MessagesGetHistoryAttachmentsResponseDto
@@ -47,7 +47,7 @@ import org.json.JSONObject
  * *'link'.,*'market'.,*'wall'.,*'share' default "photo"
  * @param startFrom Message ID to start return results from. 
  * @param count Number of objects to return. default 30 minimum 0 maximum 200
- * @param photoSizes '1' � to return photo sizes in a 
+ * @param photoSizes '1' - to return photo sizes in a 
  * @param fields Additional profile [vk.com/dev/fields|fields] to return.  
  * @param groupId Group ID (for group messages with group access token) minimum 0
  * @param preserveOrder  
@@ -63,7 +63,8 @@ class MessagesGetHistoryAttachments(
     private val groupId: Int? = null,
     private val preserveOrder: Boolean? = null,
     private val maxForwardsLevel: Int? = null
-) : VKRequest<MessagesGetHistoryAttachmentsResponseDto>("messages.getHistoryAttachments") {
+) : ApiRequestBase<MessagesGetHistoryAttachmentsResponseDto>(methodName =
+        "messages.getHistoryAttachments") {
     init {
         addParam("peer_id", peerId)
         mediaType?.let { value ->

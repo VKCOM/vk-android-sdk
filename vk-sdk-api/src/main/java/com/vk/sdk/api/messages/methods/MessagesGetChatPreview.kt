@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesGetChatPreviewResponseDto
 import com.vk.sdk.api.messages.responses.MessagesGetChatPreviewResponse
@@ -46,7 +46,7 @@ class MessagesGetChatPreview(
     private val peerId: Int? = null,
     private val link: String? = null,
     private val fields: List<UsersFields>? = null
-) : VKRequest<MessagesGetChatPreviewResponseDto>("messages.getChatPreview") {
+) : ApiRequestBase<MessagesGetChatPreviewResponseDto>(methodName = "messages.getChatPreview") {
     init {
         peerId?.let { value ->
             addParam("peer_id", value)

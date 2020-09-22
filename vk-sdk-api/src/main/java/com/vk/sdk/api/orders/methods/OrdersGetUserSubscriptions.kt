@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.orders.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.orders.dto.OrdersGetUserSubscriptionsResponseDto
 import com.vk.sdk.api.orders.responses.OrdersGetUserSubscriptionsResponse
@@ -39,7 +39,8 @@ import org.json.JSONObject
  */
 class OrdersGetUserSubscriptions(
     private val userId: Int
-) : VKRequest<OrdersGetUserSubscriptionsResponseDto>("orders.getUserSubscriptions") {
+) : ApiRequestBase<OrdersGetUserSubscriptionsResponseDto>(methodName =
+        "orders.getUserSubscriptions") {
     init {
         addParam("user_id", userId)
     }

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.docs.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUploadServer
 import com.vk.sdk.api.base.responses.BaseGetUploadServerResponse
@@ -44,7 +44,7 @@ import org.json.JSONObject
 class DocsGetMessagesUploadServer(
     private val type: DocsGetMessagesUploadServerType? = null,
     private val peerId: Int? = null
-) : VKRequest<BaseUploadServer>("docs.getMessagesUploadServer") {
+) : ApiRequestBase<BaseUploadServer>(methodName = "docs.getMessagesUploadServer") {
     init {
         type?.let { value ->
             addParam("type", value.value)

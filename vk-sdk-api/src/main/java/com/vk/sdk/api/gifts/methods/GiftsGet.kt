@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.gifts.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.gifts.dto.GiftsGetResponseDto
 import com.vk.sdk.api.gifts.responses.GiftsGetResponse
@@ -44,7 +44,7 @@ class GiftsGet(
     private val userId: Int? = null,
     private val count: Int? = null,
     private val offset: Int? = null
-) : VKRequest<GiftsGetResponseDto>("gifts.get") {
+) : ApiRequestBase<GiftsGetResponseDto>(methodName = "gifts.get") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

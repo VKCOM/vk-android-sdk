@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.dto.FriendsAddListResponseDto
 import com.vk.sdk.api.friends.responses.FriendsAddListResponse
@@ -44,7 +44,7 @@ import org.json.JSONObject
 class FriendsAddList(
     private val name: String,
     private val userIds: List<Int>? = null
-) : VKRequest<FriendsAddListResponseDto>("friends.addList") {
+) : ApiRequestBase<FriendsAddListResponseDto>(methodName = "friends.addList") {
     init {
         addParam("name", name)
         userIds?.let { value ->

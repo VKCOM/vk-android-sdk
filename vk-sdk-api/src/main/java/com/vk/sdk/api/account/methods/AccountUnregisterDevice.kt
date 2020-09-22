@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class AccountUnregisterDevice(
     private val deviceId: String? = null,
     private val sandbox: Boolean? = null
-) : VKRequest<BaseOkResponseDto>("account.unregisterDevice") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "account.unregisterDevice") {
     init {
         deviceId?.let { value ->
             addParam("device_id", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.notes.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -50,7 +50,7 @@ class NotesEdit(
     private val text: String,
     private val privacyView: List<String>? = null,
     private val privacyComment: List<String>? = null
-) : VKRequest<BaseOkResponseDto>("notes.edit") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "notes.edit") {
     init {
         addParam("note_id", noteId)
         addParam("title", title)

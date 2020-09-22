@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.database.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.database.responses.DatabaseGetSchoolClassesResponse
 import kotlin.Int
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class DatabaseGetSchoolClasses(
     private val countryId: Int? = null
-) : VKRequest<List<List<String>>>("database.getSchoolClasses") {
+) : ApiRequestBase<List<List<String>>>(methodName = "database.getSchoolClasses") {
     init {
         countryId?.let { value ->
             addParam("country_id", value)

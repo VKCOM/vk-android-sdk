@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
  * @param userId User ID. minimum 0
  * @param role Manager role. Possible values: *'moderator',, *'editor',, *'administrator',,
  * *'advertiser'. 
- * @param isContact '1' � to show the manager in Contacts block of the community. 
+ * @param isContact '1' - to show the manager in Contacts block of the community. 
  * @param contactPosition Position to show in Contacts block. 
  * @param contactPhone Contact phone. 
  * @param contactEmail Contact e-mail. 
@@ -55,7 +55,7 @@ class GroupsEditManager(
     private val contactPosition: String? = null,
     private val contactPhone: String? = null,
     private val contactEmail: String? = null
-) : VKRequest<BaseOkResponseDto>("groups.editManager") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.editManager") {
     init {
         addParam("group_id", groupId)
         addParam("user_id", userId)

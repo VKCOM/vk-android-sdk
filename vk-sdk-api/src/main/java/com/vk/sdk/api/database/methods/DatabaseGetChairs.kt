@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.database.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.database.dto.DatabaseGetChairsResponseDto
 import com.vk.sdk.api.database.responses.DatabaseGetChairsResponse
@@ -44,7 +44,7 @@ class DatabaseGetChairs(
     private val facultyId: Int,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<DatabaseGetChairsResponseDto>("database.getChairs") {
+) : ApiRequestBase<DatabaseGetChairsResponseDto>(methodName = "database.getChairs") {
     init {
         addParam("faculty_id", facultyId)
         offset?.let { value ->

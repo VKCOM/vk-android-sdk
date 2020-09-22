@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsAddAddressWorkInfoStatus
 import com.vk.sdk.api.groups.dto.GroupsAddress
@@ -67,7 +67,7 @@ class GroupsAddAddress(
     private val workInfoStatus: GroupsAddAddressWorkInfoStatus? = null,
     private val timetable: String? = null,
     private val isMainAddress: Boolean? = null
-) : VKRequest<GroupsAddress>("groups.addAddress") {
+) : ApiRequestBase<GroupsAddress>(methodName = "groups.addAddress") {
     init {
         addParam("group_id", groupId)
         addParam("title", title)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.responses.PhotosCopyResponse
 import kotlin.Int
@@ -44,7 +44,7 @@ class PhotosCopy(
     private val ownerId: Int,
     private val photoId: Int,
     private val accessKey: String? = null
-) : VKRequest<Int>("photos.copy") {
+) : ApiRequestBase<Int>(methodName = "photos.copy") {
     init {
         addParam("owner_id", ownerId)
         addParam("photo_id", photoId)

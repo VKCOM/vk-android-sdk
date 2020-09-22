@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.wall.dto.WallGetCommentsExtendedResponseDto
@@ -42,12 +42,12 @@ import org.json.JSONObject
  * Returns a list of comments on a post on a user wall or community wall.
  * @param ownerId User ID or community ID. Use a negative value to designate a community ID. 
  * @param postId Post ID. minimum 0
- * @param needLikes '1' � to return the 'likes' field, '0' � not to return the 'likes' field
+ * @param needLikes '1' - to return the 'likes' field, '0' - not to return the 'likes' field
  * (default) 
  * @param startCommentId  minimum 0
  * @param offset Offset needed to return a specific subset of comments. 
  * @param count Number of comments to return (maximum 100). minimum 0
- * @param sort Sort order: 'asc' � chronological, 'desc' � reverse chronological 
+ * @param sort Sort order: 'asc' - chronological, 'desc' - reverse chronological 
  * @param previewLength Number of characters at which to truncate comments when previewed. By
  * default, '90'. Specify '0' if you do not want to truncate comments. minimum 0
  * @param extended  
@@ -68,7 +68,7 @@ class WallGetCommentsExtended(
     private val fields: List<BaseUserGroupFields>? = null,
     private val commentId: Int? = null,
     private val threadItemsCount: Int? = null
-) : VKRequest<WallGetCommentsExtendedResponseDto>("wall.getComments") {
+) : ApiRequestBase<WallGetCommentsExtendedResponseDto>(methodName = "wall.getComments") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

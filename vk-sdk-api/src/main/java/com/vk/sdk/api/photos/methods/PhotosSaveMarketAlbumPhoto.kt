@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 import com.vk.sdk.api.photos.responses.PhotosSaveMarketAlbumPhotoResponse
@@ -49,7 +49,7 @@ class PhotosSaveMarketAlbumPhoto(
     private val photo: String,
     private val server: Int,
     private val hash: String
-) : VKRequest<List<PhotosPhoto>>("photos.saveMarketAlbumPhoto") {
+) : ApiRequestBase<List<PhotosPhoto>>(methodName = "photos.saveMarketAlbumPhoto") {
     init {
         addParam("group_id", groupId)
         addParam("photo", photo)

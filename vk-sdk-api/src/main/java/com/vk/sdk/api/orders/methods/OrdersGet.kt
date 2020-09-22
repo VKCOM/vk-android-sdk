@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.orders.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.orders.dto.OrdersOrder
 import com.vk.sdk.api.orders.responses.OrdersGetResponse
@@ -41,13 +41,13 @@ import org.json.JSONObject
  * @param offset  default 0 minimum 0
  * @param count number of returned orders. default 100 minimum 0 maximum 1000
  * @param testMode if this parameter is set to 1, this method returns a list of test mode orders. By
- * default � 0. 
+ * default - 0. 
  */
 class OrdersGet(
     private val offset: Int? = null,
     private val count: Int? = null,
     private val testMode: Boolean? = null
-) : VKRequest<List<OrdersOrder>>("orders.get") {
+) : ApiRequestBase<List<OrdersOrder>>(methodName = "orders.get") {
     init {
         offset?.let { value ->
             addParam("offset", value)

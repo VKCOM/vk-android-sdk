@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.pages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.pages.dto.PagesWikipage
 import com.vk.sdk.api.pages.responses.PagesGetTitlesResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class PagesGetTitles(
     private val groupId: Int? = null
-) : VKRequest<List<PagesWikipage>>("pages.getTitles") {
+) : ApiRequestBase<List<PagesWikipage>>(methodName = "pages.getTitles") {
     init {
         groupId?.let { value ->
             addParam("group_id", value)

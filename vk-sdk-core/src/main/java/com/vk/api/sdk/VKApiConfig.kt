@@ -25,6 +25,7 @@
 package com.vk.api.sdk
 
 import android.content.Context
+import com.vk.api.sdk.chain.RateLimitReachedChainCall
 import com.vk.api.sdk.utils.log.DefaultApiLogger
 import com.vk.api.sdk.utils.log.Logger
 import java.util.concurrent.TimeUnit
@@ -52,7 +53,8 @@ data class VKApiConfig(
     val httpApiHostProvider: () -> String = { DEFAULT_API_DOMAIN },
     val lang: String = "en",
     val keyValueStorage: VKKeyValueStorage = VKPreferencesKeyValueStorage(context),
-    val customApiEndpoint: Lazy<String> = lazy { DEFAULT_API_ENDPOINT }
+    val customApiEndpoint: Lazy<String> = lazy { DEFAULT_API_ENDPOINT },
+    val rateLimitBackoffTimeoutMs: Long = TimeUnit.HOURS.toMillis(1)
 ) {
 
     fun builder(context: Context) = Builder(VKApiConfig(context, validationHandler = VKDefaultValidationHandler(context)))
@@ -123,6 +125,10 @@ data class VKApiConfig(
 
         fun setDebugCycleCalls(debugCycleCalls: Boolean) = apply {
             config = config.copy(debugCycleCalls = lazy { debugCycleCalls })
+        }
+
+        fun setRateLimitBackoff(rateLimitBackoffTimeoutMs: Long) = apply {
+            config = config.copy(rateLimitBackoffTimeoutMs = rateLimitBackoffTimeoutMs)
         }
 
         fun build(): VKApiConfig {

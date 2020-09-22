@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,16 +42,16 @@ import org.json.JSONObject
  * @param ownerId User ID or community ID. Use a negative value to designate a community ID. 
  * @param message New comment text. 
  * @param attachments List of objects attached to the comment, in the following format: ,
- * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' � Type of media attachment: 'photo' � photo,
- * 'video' � video, 'audio' � audio, 'doc' � document, '<owner_id>' � ID of the media attachment owner.
- * '<media_id>' � Media attachment ID. For example: "photo100172_166443618,photo66748_265827614" 
+ * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment: 'photo' - photo,
+ * 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - ID of the media attachment owner.
+ * '<media_id>' - Media attachment ID. For example: "photo100172_166443618,photo66748_265827614" 
  */
 class WallEditComment(
     private val commentId: Int,
     private val ownerId: Int? = null,
     private val message: String? = null,
     private val attachments: List<String>? = null
-) : VKRequest<BaseOkResponseDto>("wall.editComment") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "wall.editComment") {
     init {
         addParam("comment_id", commentId)
         ownerId?.let { value ->

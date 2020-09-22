@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsGetMusiciansResponseDto
 import com.vk.sdk.api.ads.responses.AdsGetMusiciansResponse
@@ -39,7 +39,7 @@ import org.json.JSONObject
  */
 class AdsGetMusicians(
     private val artistName: String
-) : VKRequest<AdsGetMusiciansResponseDto>("ads.getMusicians") {
+) : ApiRequestBase<AdsGetMusiciansResponseDto>(methodName = "ads.getMusicians") {
     init {
         addParam("artist_name", artistName)
     }

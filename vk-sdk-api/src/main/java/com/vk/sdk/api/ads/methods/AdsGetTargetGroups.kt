@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsTargetGroup
 import com.vk.sdk.api.ads.responses.AdsGetTargetGroupsResponse
@@ -41,13 +41,13 @@ import org.json.JSONObject
  * @param accountId Advertising account ID. 
  * @param clientId 'Only for advertising agencies.', ID of the client with the advertising account
  * where the group will be created. 
- * @param extended '1' � to return pixel code. 
+ * @param extended '1' - to return pixel code. 
  */
 class AdsGetTargetGroups(
     private val accountId: Int,
     private val clientId: Int? = null,
     private val extended: Boolean? = null
-) : VKRequest<List<AdsTargetGroup>>("ads.getTargetGroups") {
+) : ApiRequestBase<List<AdsTargetGroup>>(methodName = "ads.getTargetGroups") {
     init {
         addParam("account_id", accountId)
         clientId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class WallDelete(
     private val ownerId: Int? = null,
     private val postId: Int? = null
-) : VKRequest<BaseOkResponseDto>("wall.delete") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "wall.delete") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

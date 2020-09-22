@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketGetOrderItemsResponseDto
 import com.vk.sdk.api.market.responses.MarketGetOrderItemsResponse
@@ -44,7 +44,7 @@ class MarketGetOrderItems(
     private val orderId: Int,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<MarketGetOrderItemsResponseDto>("market.getOrderItems") {
+) : ApiRequestBase<MarketGetOrderItemsResponseDto>(methodName = "market.getOrderItems") {
     init {
         addParam("order_id", orderId)
         offset?.let { value ->

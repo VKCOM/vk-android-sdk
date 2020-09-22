@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsCreateSubtype
 import com.vk.sdk.api.groups.dto.GroupsCreateType
@@ -41,11 +41,11 @@ import org.json.JSONObject
  * Creates a new community.
  * @param title Community title. 
  * @param description Community description (ignored for 'type' = 'public'). 
- * @param type Community type. Possible values: *'group' � group,, *'event' � event,, *'public' �
+ * @param type Community type. Possible values: *'group' - group,, *'event' - event,, *'public' -
  * public page default "group"
  * @param publicCategory Category ID (for 'type' = 'public' only). minimum 0
- * @param subtype Public page subtype. Possible values: *'1' � place or small business,, *'2' �
- * company, organization or website,, *'3' � famous person or group of people,, *'4' � product or work
+ * @param subtype Public page subtype. Possible values: *'1' - place or small business,, *'2' -
+ * company, organization or website,, *'3' - famous person or group of people,, *'4' - product or work
  * of art. minimum 0
  */
 class GroupsCreate(
@@ -54,7 +54,7 @@ class GroupsCreate(
     private val type: GroupsCreateType? = null,
     private val publicCategory: Int? = null,
     private val subtype: GroupsCreateSubtype? = null
-) : VKRequest<GroupsGroup>("groups.create") {
+) : ApiRequestBase<GroupsGroup>(methodName = "groups.create") {
     init {
         addParam("title", title)
         description?.let { value ->

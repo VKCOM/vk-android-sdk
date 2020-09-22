@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.board.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.board.responses.BoardCreateCommentResponse
 import kotlin.Boolean
@@ -42,10 +42,10 @@ import org.json.JSONObject
  * @param topicId ID of the topic to be commented on. minimum 0
  * @param message (Required if 'attachments' is not set.) Text of the comment. 
  * @param attachments (Required if 'text' is not set.) List of media objects attached to the
- * comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' � Type of media
- * object: 'photo' � photo, 'video' � video, 'audio' � audio, 'doc' � document, '<owner_id>' � ID of
- * the media owner. '<media_id>' � Media ID. 
- * @param fromGroup '1' � to post the comment as by the community, '0' � to post the comment as by
+ * comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
+ * object: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - ID of
+ * the media owner. '<media_id>' - Media ID. 
+ * @param fromGroup '1' - to post the comment as by the community, '0' - to post the comment as by
  * the user (default) 
  * @param stickerId Sticker ID. minimum 0
  * @param guid Unique identifier to avoid repeated comments. 
@@ -58,7 +58,7 @@ class BoardCreateComment(
     private val fromGroup: Boolean? = null,
     private val stickerId: Int? = null,
     private val guid: String? = null
-) : VKRequest<Int>("board.createComment") {
+) : ApiRequestBase<Int>(methodName = "board.createComment") {
     init {
         addParam("group_id", groupId)
         addParam("topic_id", topicId)

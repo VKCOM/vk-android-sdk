@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.responses.AdsGetVideoUploadURLResponse
 import kotlin.String
@@ -36,7 +36,7 @@ import org.json.JSONObject
 /**
  * Returns URL to upload an ad video to.
  */
-class AdsGetVideoUploadURL : VKRequest<String>("ads.getVideoUploadURL") {
+class AdsGetVideoUploadURL : ApiRequestBase<String>(methodName = "ads.getVideoUploadURL") {
     override fun parse(r: JSONObject): String = GsonHolder.gson.fromJson(r.toString(),
             AdsGetVideoUploadURLResponse::class.java).response
 }

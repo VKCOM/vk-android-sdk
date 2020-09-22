@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUploadServer
 import com.vk.sdk.api.base.responses.BaseGetUploadServerResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class PhotosGetMarketAlbumUploadServer(
     private val groupId: Int
-) : VKRequest<BaseUploadServer>("photos.getMarketAlbumUploadServer") {
+) : ApiRequestBase<BaseUploadServer>(methodName = "photos.getMarketAlbumUploadServer") {
     init {
         addParam("group_id", groupId)
     }

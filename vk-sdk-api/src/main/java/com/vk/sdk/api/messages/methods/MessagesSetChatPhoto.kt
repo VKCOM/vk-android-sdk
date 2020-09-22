@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesSetChatPhotoResponseDto
 import com.vk.sdk.api.messages.responses.MessagesSetChatPhotoResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
  */
 class MessagesSetChatPhoto(
     private val file: String
-) : VKRequest<MessagesSetChatPhotoResponseDto>("messages.setChatPhoto") {
+) : ApiRequestBase<MessagesSetChatPhotoResponseDto>(methodName = "messages.setChatPhoto") {
     init {
         addParam("file", file)
     }

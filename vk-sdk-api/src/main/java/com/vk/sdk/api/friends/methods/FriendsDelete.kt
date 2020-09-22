@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.dto.FriendsDeleteResponseDto
 import com.vk.sdk.api.friends.responses.FriendsDeleteResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class FriendsDelete(
     private val userId: Int? = null
-) : VKRequest<FriendsDeleteResponseDto>("friends.delete") {
+) : ApiRequestBase<FriendsDeleteResponseDto>(methodName = "friends.delete") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

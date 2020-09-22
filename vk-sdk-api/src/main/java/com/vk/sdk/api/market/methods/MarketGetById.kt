@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.market.dto.MarketGetByIdResponseDto
 import com.vk.sdk.api.market.responses.MarketGetByIdResponse
@@ -41,13 +41,13 @@ import org.json.JSONObject
  * @param itemIds Comma-separated ids list: {user id}_{item id}. If an item belongs to a
  * community -{community id} is used. " 'Videos' value example: , '-4363_136089719,13245770_137352259'"
  * 
- * @param extended '1' � to return additional fields: 'likes, can_comment, car_repost, photos'. By
+ * @param extended '1' - to return additional fields: 'likes, can_comment, car_repost, photos'. By
  * default: '0'. 
  */
 class MarketGetById(
     private val itemIds: List<String>,
     private val extended: Boolean? = null
-) : VKRequest<MarketGetByIdResponseDto>("market.getById") {
+) : ApiRequestBase<MarketGetByIdResponseDto>(methodName = "market.getById") {
     init {
         addParam("item_ids", itemIds)
         extended?.let { value ->

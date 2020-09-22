@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesDeleteChatPhotoResponseDto
 import com.vk.sdk.api.messages.responses.MessagesDeleteChatPhotoResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class MessagesDeleteChatPhoto(
     private val chatId: Int,
     private val groupId: Int? = null
-) : VKRequest<MessagesDeleteChatPhotoResponseDto>("messages.deleteChatPhoto") {
+) : ApiRequestBase<MessagesDeleteChatPhotoResponseDto>(methodName = "messages.deleteChatPhoto") {
     init {
         addParam("chat_id", chatId)
         groupId?.let { value ->

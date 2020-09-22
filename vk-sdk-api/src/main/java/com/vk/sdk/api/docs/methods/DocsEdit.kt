@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.docs.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -48,7 +48,7 @@ class DocsEdit(
     private val docId: Int,
     private val title: String? = null,
     private val tags: List<String>? = null
-) : VKRequest<BaseOkResponseDto>("docs.edit") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "docs.edit") {
     init {
         addParam("owner_id", ownerId)
         addParam("doc_id", docId)

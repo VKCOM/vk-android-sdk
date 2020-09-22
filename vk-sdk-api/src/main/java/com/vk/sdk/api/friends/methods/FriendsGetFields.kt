@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.friends.dto.FriendsGetFieldsResponseDto
 import com.vk.sdk.api.friends.dto.FriendsGetNameCase
@@ -42,8 +42,8 @@ import org.json.JSONObject
 /**
  * Returns a list of user IDs or detailed information about a user's friends.
  * @param userId User ID. By default, the current user ID. 
- * @param order Sort order: , 'name' � by name (enabled only if the 'fields' parameter is used),
- * 'hints' � by rating, similar to how friends are sorted in My friends section, , This parameter is
+ * @param order Sort order: , 'name' - by name (enabled only if the 'fields' parameter is used),
+ * 'hints' - by rating, similar to how friends are sorted in My friends section, , This parameter is
  * available only for [vk.com/dev/standalone|desktop applications]. 
  * @param listId ID of the friend list returned by the
  * [vk.com/dev/friends.getLists|friends.getLists] method to be used as the source. This parameter is
@@ -54,8 +54,8 @@ import org.json.JSONObject
  * @param fields Profile fields to return. Sample values: 'uid', 'first_name', 'last_name',
  * 'nickname', 'sex', 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium',
  * 'photo_big', 'domain', 'has_mobile', 'rate', 'contacts', 'education'. 
- * @param nameCase Case for declension of user name and surname: , 'nom' � nominative (default) ,
- * 'gen' � genitive , 'dat' � dative , 'acc' � accusative , 'ins' � instrumental , 'abl' �
+ * @param nameCase Case for declension of user name and surname: , 'nom' - nominative (default) ,
+ * 'gen' - genitive , 'dat' - dative , 'acc' - accusative , 'ins' - instrumental , 'abl' -
  * prepositional 
  * @param ref  maxLength 255
  */
@@ -68,7 +68,7 @@ class FriendsGetFields(
     private val fields: List<UsersFields>? = null,
     private val nameCase: FriendsGetNameCase? = null,
     private val ref: String? = null
-) : VKRequest<FriendsGetFieldsResponseDto>("friends.get") {
+) : ApiRequestBase<FriendsGetFieldsResponseDto>(methodName = "friends.get") {
     init {
         userId?.let { value ->
             addParam("user_id", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsCheckLinkLinkType
 import com.vk.sdk.api.ads.dto.AdsLinkStatus
@@ -39,8 +39,8 @@ import org.json.JSONObject
 /**
  * Allows to check the ad link.
  * @param accountId Advertising account ID. 
- * @param linkType Object type: *'community' � community,, *'post' � community post,, *'application'
- * � VK application,, *'video' � video,, *'site' � external site. 
+ * @param linkType Object type: *'community' - community,, *'post' - community post,,
+ * *'application' - VK application,, *'video' - video,, *'site' - external site. 
  * @param linkUrl Object URL. 
  * @param campaignId Campaign ID 
  */
@@ -49,7 +49,7 @@ class AdsCheckLink(
     private val linkType: AdsCheckLinkLinkType,
     private val linkUrl: String,
     private val campaignId: Int? = null
-) : VKRequest<AdsLinkStatus>("ads.checkLink") {
+) : ApiRequestBase<AdsLinkStatus>(methodName = "ads.checkLink") {
     init {
         addParam("account_id", accountId)
         addParam("link_type", linkType.value)

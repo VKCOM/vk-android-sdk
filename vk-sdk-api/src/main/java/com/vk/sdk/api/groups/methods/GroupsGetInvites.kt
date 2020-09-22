@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsGetInvitesResponseDto
 import com.vk.sdk.api.groups.responses.GroupsGetInvitesResponse
@@ -39,13 +39,13 @@ import org.json.JSONObject
  * Returns a list of invitations to join communities and events.
  * @param offset Offset needed to return a specific subset of invitations. minimum 0
  * @param count Number of invitations to return. default 20 minimum 0
- * @param extended '1' � to return additional [vk.com/dev/fields_groups|fields] for communities.. 
+ * @param extended '1' - to return additional [vk.com/dev/fields_groups|fields] for communities.. 
  */
 class GroupsGetInvites(
     private val offset: Int? = null,
     private val count: Int? = null,
     private val extended: Boolean? = null
-) : VKRequest<GroupsGetInvitesResponseDto>("groups.getInvites") {
+) : ApiRequestBase<GroupsGetInvitesResponseDto>(methodName = "groups.getInvites") {
     init {
         offset?.let { value ->
             addParam("offset", value)

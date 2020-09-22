@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -47,7 +47,7 @@ import org.json.JSONObject
  * @param categoryId Item category ID. minimum 0
  * @param price Item price. minimum 0.01
  * @param mainPhotoId Cover photo ID. minimum 0
- * @param deleted Item status ('1' � deleted, '0' � not deleted). 
+ * @param deleted Item status ('1' - deleted, '0' - not deleted). 
  * @param photoIds IDs of additional photos. 
  * @param url Url for button in market item. minLength 0 maxLength 320
  */
@@ -62,7 +62,7 @@ class MarketEdit(
     private val deleted: Boolean? = null,
     private val photoIds: List<Int>? = null,
     private val url: String? = null
-) : VKRequest<BaseOkResponseDto>("market.edit") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "market.edit") {
     init {
         addParam("owner_id", ownerId)
         addParam("item_id", itemId)

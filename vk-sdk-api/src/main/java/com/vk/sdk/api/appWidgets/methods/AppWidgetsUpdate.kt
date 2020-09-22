@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.appWidgets.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.appWidgets.dto.AppWidgetsUpdateType
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class AppWidgetsUpdate(
     private val code: String,
     private val type: AppWidgetsUpdateType
-) : VKRequest<BaseOkResponseDto>("appWidgets.update") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "appWidgets.update") {
     init {
         addParam("code", code)
         addParam("type", type.value)

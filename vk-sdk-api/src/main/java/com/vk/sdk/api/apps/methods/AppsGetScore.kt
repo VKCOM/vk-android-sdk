@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.apps.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.apps.responses.AppsGetScoreResponse
 import kotlin.Int
@@ -39,7 +39,7 @@ import org.json.JSONObject
  */
 class AppsGetScore(
     private val userId: Int
-) : VKRequest<Int>("apps.getScore") {
+) : ApiRequestBase<Int>(methodName = "apps.getScore") {
     init {
         addParam("user_id", userId)
     }

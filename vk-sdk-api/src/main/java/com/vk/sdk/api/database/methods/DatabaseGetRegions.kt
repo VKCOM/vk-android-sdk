@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.database.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.database.dto.DatabaseGetRegionsResponseDto
 import com.vk.sdk.api.database.responses.DatabaseGetRegionsResponse
@@ -48,7 +48,7 @@ class DatabaseGetRegions(
     private val q: String? = null,
     private val offset: Int? = null,
     private val count: Int? = null
-) : VKRequest<DatabaseGetRegionsResponseDto>("database.getRegions") {
+) : ApiRequestBase<DatabaseGetRegionsResponseDto>(methodName = "database.getRegions") {
     init {
         addParam("country_id", countryId)
         q?.let { value ->

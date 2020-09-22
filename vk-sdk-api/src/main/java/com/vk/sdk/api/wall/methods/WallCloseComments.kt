@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.responses.BaseBoolResponse
@@ -41,7 +41,7 @@ import org.json.JSONObject
 class WallCloseComments(
     private val ownerId: Int,
     private val postId: Int
-) : VKRequest<BaseBoolInt>("wall.closeComments") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "wall.closeComments") {
     init {
         addParam("owner_id", ownerId)
         addParam("post_id", postId)

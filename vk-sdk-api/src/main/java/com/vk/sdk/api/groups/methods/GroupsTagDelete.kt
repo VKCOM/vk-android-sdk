@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.responses.BaseBoolResponse
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class GroupsTagDelete(
     private val groupId: Int,
     private val tagId: Int
-) : VKRequest<BaseBoolInt>("groups.tagDelete") {
+) : ApiRequestBase<BaseBoolInt>(methodName = "groups.tagDelete") {
     init {
         addParam("group_id", groupId)
         addParam("tag_id", tagId)

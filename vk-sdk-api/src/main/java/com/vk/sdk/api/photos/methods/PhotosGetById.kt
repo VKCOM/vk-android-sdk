@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 import com.vk.sdk.api.photos.responses.PhotosGetByIdResponse
@@ -42,14 +42,14 @@ import org.json.JSONObject
  * photos themselves with an underscore character between such IDs. To get information about a photo in
  * the group album, you shall specify group ID instead of user ID. Example:
  * "1_129207899,6492_135055734, , -20629724_271945303" 
- * @param extended '1' � to return additional fields, '0' � (default) 
- * @param photoSizes '1' � to return photo sizes in a 
+ * @param extended '1' - to return additional fields, '0' - (default) 
+ * @param photoSizes '1' - to return photo sizes in a 
  */
 class PhotosGetById(
     private val photos: List<String>,
     private val extended: Boolean? = null,
     private val photoSizes: Boolean? = null
-) : VKRequest<List<PhotosPhoto>>("photos.getById") {
+) : ApiRequestBase<List<PhotosPhoto>>(methodName = "photos.getById") {
     init {
         addParam("photos", photos)
         extended?.let { value ->

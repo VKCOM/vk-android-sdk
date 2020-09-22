@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.prettyCards.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.prettyCards.dto.PrettyCardsEditResponseDto
 import com.vk.sdk.api.prettyCards.responses.PrettyCardsEditResponse
@@ -54,7 +54,7 @@ class PrettyCardsEdit(
     private val price: String? = null,
     private val priceOld: String? = null,
     private val button: String? = null
-) : VKRequest<PrettyCardsEditResponseDto>("prettyCards.edit") {
+) : ApiRequestBase<PrettyCardsEditResponseDto>(methodName = "prettyCards.edit") {
     init {
         addParam("owner_id", ownerId)
         addParam("card_id", cardId)

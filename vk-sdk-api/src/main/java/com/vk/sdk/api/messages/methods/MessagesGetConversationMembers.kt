@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesGetConversationMembersResponseDto
 import com.vk.sdk.api.messages.responses.MessagesGetConversationMembersResponse
@@ -46,7 +46,8 @@ class MessagesGetConversationMembers(
     private val peerId: Int,
     private val fields: List<UsersFields>? = null,
     private val groupId: Int? = null
-) : VKRequest<MessagesGetConversationMembersResponseDto>("messages.getConversationMembers") {
+) : ApiRequestBase<MessagesGetConversationMembersResponseDto>(methodName =
+        "messages.getConversationMembers") {
     init {
         addParam("peer_id", peerId)
         fields?.let { value ->

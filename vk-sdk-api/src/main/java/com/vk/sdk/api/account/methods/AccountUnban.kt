@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -39,7 +39,7 @@ import org.json.JSONObject
  */
 class AccountUnban(
     private val ownerId: Int? = null
-) : VKRequest<BaseOkResponseDto>("account.unban") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "account.unban") {
     init {
         ownerId?.let { value ->
             addParam("owner_id", value)

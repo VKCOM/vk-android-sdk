@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesGetLongPollHistoryResponseDto
 import com.vk.sdk.api.messages.responses.MessagesGetLongPollHistoryResponse
@@ -46,7 +46,7 @@ import org.json.JSONObject
  * @param previewLength Number of characters after which to truncate a previewed message. To preview
  * the full message, specify '0'. "NOTE: Messages are not truncated by default. Messages are truncated
  * by words." minimum 0
- * @param onlines '1' � to return history with online users only. 
+ * @param onlines '1' - to return history with online users only. 
  * @param fields Additional profile [vk.com/dev/fields|fields] to return. default
  * "photo,photo_medium_rec,sex,online,screen_name"
  * @param eventsLimit Maximum number of events to return. default 1000 minimum 1000
@@ -72,7 +72,8 @@ class MessagesGetLongPollHistory(
     private val lpVersion: Int? = null,
     private val lastN: Int? = null,
     private val credentials: Boolean? = null
-) : VKRequest<MessagesGetLongPollHistoryResponseDto>("messages.getLongPollHistory") {
+) : ApiRequestBase<MessagesGetLongPollHistoryResponseDto>(methodName =
+        "messages.getLongPollHistory") {
     init {
         ts?.let { value ->
             addParam("ts", value)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.photos.dto.PhotosPhotoAlbumFull
 import com.vk.sdk.api.photos.responses.PhotosCreateAlbumResponse
@@ -55,7 +55,7 @@ class PhotosCreateAlbum(
     private val privacyComment: List<String>? = null,
     private val uploadByAdminsOnly: Boolean? = null,
     private val commentsDisabled: Boolean? = null
-) : VKRequest<PhotosPhotoAlbumFull>("photos.createAlbum") {
+) : ApiRequestBase<PhotosPhotoAlbumFull>(methodName = "photos.createAlbum") {
     init {
         addParam("title", title)
         groupId?.let { value ->

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -45,7 +45,7 @@ class MessagesRemoveChatUser(
     private val chatId: Int,
     private val userId: Int? = null,
     private val memberId: Int? = null
-) : VKRequest<BaseOkResponseDto>("messages.removeChatUser") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "messages.removeChatUser") {
     init {
         addParam("chat_id", chatId)
         userId?.let { value ->

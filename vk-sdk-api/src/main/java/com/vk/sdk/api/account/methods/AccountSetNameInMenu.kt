@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -44,7 +44,7 @@ import org.json.JSONObject
 class AccountSetNameInMenu(
     private val userId: Int,
     private val name: String? = null
-) : VKRequest<BaseOkResponseDto>("account.setNameInMenu") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "account.setNameInMenu") {
     init {
         addParam("user_id", userId)
         name?.let { value ->

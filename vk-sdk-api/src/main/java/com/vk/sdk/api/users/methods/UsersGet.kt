@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.users.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.users.dto.UsersFields
 import com.vk.sdk.api.users.dto.UsersGetNameCase
@@ -44,14 +44,15 @@ import org.json.JSONObject
  * (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile',
  * 'contacts', 'education', 'online', 'counters', 'relation', 'last_seen', 'activity',
  * 'can_write_private_message', 'can_see_all_posts', 'can_post', 'universities', 'can_invite_to_chats' 
- * @param nameCase Case for declension of user name and surname: 'nom' � nominative (default), 'gen'
- * � genitive , 'dat' � dative, 'acc' � accusative , 'ins' � instrumental , 'abl' � prepositional 
+ * @param nameCase Case for declension of user name and surname: 'nom' - nominative (default),
+ * 'gen' - genitive , 'dat' - dative, 'acc' - accusative , 'ins' - instrumental , 'abl' - prepositional
+ * 
  */
 class UsersGet(
     private val userIds: List<String>? = null,
     private val fields: List<UsersFields>? = null,
     private val nameCase: UsersGetNameCase? = null
-) : VKRequest<List<UsersUserXtrCounters>>("users.get") {
+) : ApiRequestBase<List<UsersUserXtrCounters>>(methodName = "users.get") {
     init {
         userIds?.let { value ->
             addParam("user_ids", value)

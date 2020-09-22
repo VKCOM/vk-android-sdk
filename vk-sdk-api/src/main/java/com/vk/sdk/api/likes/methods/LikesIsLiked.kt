@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.likes.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.likes.dto.LikesIsLikedResponseDto
 import com.vk.sdk.api.likes.responses.LikesIsLikedResponse
@@ -37,9 +37,9 @@ import org.json.JSONObject
 
 /**
  * Checks for the object in the 'Likes' list of the specified user.
- * @param type Object type: 'post' � post on user or community wall, 'comment' � comment on a wall
- * post, 'photo' � photo, 'audio' � audio, 'video' � video, 'note' � note, 'photo_comment' � comment on
- * the photo, 'video_comment' � comment on the video, 'topic_comment' � comment in the discussion 
+ * @param type Object type: 'post' - post on user or community wall, 'comment' - comment on a wall
+ * post, 'photo' - photo, 'audio' - audio, 'video' - video, 'note' - note, 'photo_comment' - comment on
+ * the photo, 'video_comment' - comment on the video, 'topic_comment' - comment in the discussion 
  * @param itemId Object ID. minimum 0
  * @param userId User ID. minimum 0
  * @param ownerId ID of the user or community that owns the object. 
@@ -49,7 +49,7 @@ class LikesIsLiked(
     private val itemId: Int,
     private val userId: Int? = null,
     private val ownerId: Int? = null
-) : VKRequest<LikesIsLikedResponseDto>("likes.isLiked") {
+) : ApiRequestBase<LikesIsLikedResponseDto>(methodName = "likes.isLiked") {
     init {
         addParam("type", type)
         addParam("item_id", itemId)

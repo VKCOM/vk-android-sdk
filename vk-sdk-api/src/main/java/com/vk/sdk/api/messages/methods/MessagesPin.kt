@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesPinnedMessage
 import com.vk.sdk.api.messages.responses.MessagesPinResponse
@@ -43,7 +43,7 @@ import org.json.JSONObject
 class MessagesPin(
     private val peerId: Int,
     private val messageId: Int? = null
-) : VKRequest<MessagesPinnedMessage>("messages.pin") {
+) : ApiRequestBase<MessagesPinnedMessage>(methodName = "messages.pin") {
     init {
         addParam("peer_id", peerId)
         messageId?.let { value ->

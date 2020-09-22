@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.ads.dto.AdsAd
 import com.vk.sdk.api.ads.responses.AdsGetAdsResponse
@@ -46,10 +46,10 @@ import org.json.JSONObject
  * the parameter is null, ads of all campaigns will be shown. 
  * @param clientId 'Available and required for advertising agencies.' ID of the client ads are
  * retrieved from. 
- * @param includeDeleted Flag that specifies whether archived ads shall be shown: *0 � show only
- * active ads,, *1 � show all ads. 
- * @param onlyDeleted Flag that specifies whether to show only archived ads: *0 � show all ads,, *1
- * � show only archived ads. Available when include_deleted flag is *1 
+ * @param includeDeleted Flag that specifies whether archived ads shall be shown: *0 - show only
+ * active ads,, *1 - show all ads. 
+ * @param onlyDeleted Flag that specifies whether to show only archived ads: *0 - show all ads,,
+ * *1 - show only archived ads. Available when include_deleted flag is *1 
  * @param limit Limit of number of returned ads. Used only if ad_ids parameter is null, and
  * 'campaign_ids' parameter contains ID of only one campaign. 
  * @param offset Offset. Used in the same cases as 'limit' parameter. 
@@ -63,7 +63,7 @@ class AdsGetAds(
     private val onlyDeleted: Boolean? = null,
     private val limit: Int? = null,
     private val offset: Int? = null
-) : VKRequest<List<AdsAd>>("ads.getAds") {
+) : ApiRequestBase<List<AdsAd>>(methodName = "ads.getAds") {
     init {
         addParam("account_id", accountId)
         adIds?.let { value ->

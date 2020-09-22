@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.polls.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.polls.dto.PollsGetVotersNameCase
 import com.vk.sdk.api.polls.dto.PollsVoters
@@ -45,16 +45,16 @@ import org.json.JSONObject
  * @param ownerId ID of the user or community that owns the poll. Use a negative value to designate
  * a community ID. 
  * @param isBoard  
- * @param friendsOnly '1' � to return only current user's friends, '0' � to return all users
+ * @param friendsOnly '1' - to return only current user's friends, '0' - to return all users
  * (default), 
- * @param offset Offset needed to return a specific subset of voters. '0' � (default) minimum 0
+ * @param offset Offset needed to return a specific subset of voters. '0' - (default) minimum 0
  * @param count Number of user IDs to return (if the 'friends_only' parameter is not set, maximum
- * '1000', otherwise '10'). '100' � (default) minimum 0
+ * '1000', otherwise '10'). '100' - (default) minimum 0
  * @param fields Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex', 'bdate
  * (birthdate)', 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big', 'has_mobile',
  * 'rate', 'contacts', 'education', 'online', 'counters'. 
- * @param nameCase Case for declension of user name and surname: , 'nom' � nominative (default) ,
- * 'gen' � genitive , 'dat' � dative , 'acc' � accusative , 'ins' � instrumental , 'abl' �
+ * @param nameCase Case for declension of user name and surname: , 'nom' - nominative (default) ,
+ * 'gen' - genitive , 'dat' - dative , 'acc' - accusative , 'ins' - instrumental , 'abl' -
  * prepositional 
  */
 class PollsGetVoters(
@@ -67,7 +67,7 @@ class PollsGetVoters(
     private val count: Int? = null,
     private val fields: List<UsersFields>? = null,
     private val nameCase: PollsGetVotersNameCase? = null
-) : VKRequest<List<PollsVoters>>("polls.getVoters") {
+) : ApiRequestBase<List<PollsVoters>>(methodName = "polls.getVoters") {
     init {
         addParam("poll_id", pollId)
         addParam("answer_ids", answerIds)

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.messages.dto.MessagesJoinChatByInviteLinkResponseDto
 import com.vk.sdk.api.messages.responses.MessagesJoinChatByInviteLinkResponse
@@ -39,7 +39,8 @@ import org.json.JSONObject
  */
 class MessagesJoinChatByInviteLink(
     private val link: String
-) : VKRequest<MessagesJoinChatByInviteLinkResponseDto>("messages.joinChatByInviteLink") {
+) : ApiRequestBase<MessagesJoinChatByInviteLinkResponseDto>(methodName =
+        "messages.joinChatByInviteLink") {
     init {
         addParam("link", link)
     }

@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -39,7 +39,7 @@ import org.json.JSONObject
  * Edits a retarget group.
  * @param accountId Advertising account ID. 
  * @param targetGroupId Group ID. 
- * @param name New name of the target group � a string up to 64 characters long. 
+ * @param name New name of the target group - a string up to 64 characters long. 
  * @param lifetime 'Only for the groups that get audience from sites with user accounting code.',
  * Time in days when users added to a retarget group will be automatically excluded from it. '0' -
  * automatic exclusion is off. minimum 1 maximum 720
@@ -58,7 +58,7 @@ class AdsUpdateTargetGroup(
     private val domain: String? = null,
     private val targetPixelId: Int? = null,
     private val targetPixelRules: String? = null
-) : VKRequest<BaseOkResponseDto>("ads.updateTargetGroup") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "ads.updateTargetGroup") {
     init {
         addParam("account_id", accountId)
         addParam("target_group_id", targetGroupId)

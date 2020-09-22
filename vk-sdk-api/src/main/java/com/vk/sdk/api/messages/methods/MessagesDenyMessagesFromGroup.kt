@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -40,7 +40,7 @@ import org.json.JSONObject
  */
 class MessagesDenyMessagesFromGroup(
     private val groupId: Int
-) : VKRequest<BaseOkResponseDto>("messages.denyMessagesFromGroup") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "messages.denyMessagesFromGroup") {
     init {
         addParam("group_id", groupId)
     }

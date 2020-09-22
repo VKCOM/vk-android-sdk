@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.pages.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.pages.dto.PagesSaveAccessEdit
 import com.vk.sdk.api.pages.dto.PagesSaveAccessView
@@ -40,10 +40,10 @@ import org.json.JSONObject
  * @param pageId Wiki page ID. 
  * @param groupId ID of the community that owns the wiki page. 
  * @param userId  
- * @param view Who can view the wiki page: '1' � only community members, '2' � all users can view
- * the page, '0' � only community managers 
- * @param edit Who can edit the wiki page: '1' � only community members, '2' � all users can edit
- * the page, '0' � only community managers 
+ * @param view Who can view the wiki page: '1' - only community members, '2' - all users can view
+ * the page, '0' - only community managers 
+ * @param edit Who can edit the wiki page: '1' - only community members, '2' - all users can edit
+ * the page, '0' - only community managers 
  */
 class PagesSaveAccess(
     private val pageId: Int,
@@ -51,7 +51,7 @@ class PagesSaveAccess(
     private val userId: Int? = null,
     private val view: PagesSaveAccessView? = null,
     private val edit: PagesSaveAccessEdit? = null
-) : VKRequest<Int>("pages.saveAccess") {
+) : ApiRequestBase<Int>(methodName = "pages.saveAccess") {
     init {
         addParam("page_id", pageId)
         groupId?.let { value ->

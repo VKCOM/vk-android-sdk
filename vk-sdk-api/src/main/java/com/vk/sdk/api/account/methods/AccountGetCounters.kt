@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.account.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.account.dto.AccountAccountCounters
 import com.vk.sdk.api.account.dto.AccountGetCountersFilter
@@ -41,7 +41,7 @@ import org.json.JSONObject
  */
 class AccountGetCounters(
     private val filter: List<AccountGetCountersFilter>? = null
-) : VKRequest<AccountAccountCounters>("account.getCounters") {
+) : ApiRequestBase<AccountAccountCounters>(methodName = "account.getCounters") {
     init {
         filter?.let { value ->
             addParam("filter", value.map { it.value })

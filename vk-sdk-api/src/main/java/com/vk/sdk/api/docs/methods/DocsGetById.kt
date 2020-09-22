@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.docs.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.docs.dto.DocsDoc
 import com.vk.sdk.api.docs.responses.DocsGetByIdResponse
@@ -44,7 +44,7 @@ import org.json.JSONObject
 class DocsGetById(
     private val docs: List<String>,
     private val returnTags: Boolean? = null
-) : VKRequest<List<DocsDoc>>("docs.getById") {
+) : ApiRequestBase<List<DocsDoc>>(methodName = "docs.getById") {
     init {
         addParam("docs", docs)
         returnTags?.let { value ->

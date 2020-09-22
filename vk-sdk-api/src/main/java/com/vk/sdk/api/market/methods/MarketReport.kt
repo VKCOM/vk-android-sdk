@@ -27,7 +27,7 @@
 // *********************************************************************
 package com.vk.sdk.api.market.methods
 
-import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
@@ -39,15 +39,15 @@ import org.json.JSONObject
  * Sends a complaint to the item.
  * @param ownerId ID of an item owner community. 
  * @param itemId Item ID. minimum 0
- * @param reason Complaint reason. Possible values: *'0' � spam,, *'1' � child porn,, *'2' �
- * extremism,, *'3' � violence,, *'4' � drugs propaganda,, *'5' � adult materials,, *'6' � insult.
+ * @param reason Complaint reason. Possible values: *'0' - spam,, *'1' - child porn,, *'2' -
+ * extremism,, *'3' - violence,, *'4' - drugs propaganda,, *'5' - adult materials,, *'6' - insult.
  * default 0 minimum 0
  */
 class MarketReport(
     private val ownerId: Int,
     private val itemId: Int,
     private val reason: MarketReportReason? = null
-) : VKRequest<BaseOkResponseDto>("market.report") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "market.report") {
     init {
         addParam("owner_id", ownerId)
         addParam("item_id", itemId)
