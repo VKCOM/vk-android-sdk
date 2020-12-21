@@ -38,7 +38,7 @@ import org.json.JSONObject
 /**
  * Allows sending messages from community to the current user.
  * @param groupId Group ID. minimum 0
- * @param key  
+ * @param key  maxLength 256
  */
 class MessagesAllowMessagesFromGroup(
     private val groupId: Int,

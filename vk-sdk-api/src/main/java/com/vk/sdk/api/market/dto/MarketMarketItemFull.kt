@@ -30,6 +30,7 @@ package com.vk.sdk.api.market.dto
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseLikes
+import com.vk.sdk.api.base.dto.BaseLink
 import com.vk.sdk.api.base.dto.BaseRepostsInfo
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 import kotlin.Boolean
@@ -45,6 +46,9 @@ import kotlin.collections.List
  * @param likes no description
  * @param reposts no description
  * @param viewsCount Views number
+ * @param wishlistItemId Object identifier in wishlist of viewer
+ * @param cancelInfo Information for cancel and revert order
+ * @param userAgreementInfo User agreement info
  * @param accessKey Access key for the market item
  * @param availability no description
  * @param buttonTitle Title for button for url
@@ -77,6 +81,12 @@ data class MarketMarketItemFull(
     val reposts: BaseRepostsInfo? = null,
     @SerializedName(value="views_count")
     val viewsCount: Int? = null,
+    @SerializedName(value="wishlist_item_id")
+    val wishlistItemId: Int? = null,
+    @SerializedName(value="cancel_info")
+    val cancelInfo: BaseLink? = null,
+    @SerializedName(value="user_agreement_info")
+    val userAgreementInfo: String? = null,
     @SerializedName(value="access_key")
     val accessKey: String? = null,
     @SerializedName(value="availability")

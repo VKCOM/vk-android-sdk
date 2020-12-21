@@ -45,6 +45,7 @@ import org.json.JSONObject
  * @param randomId Unique identifier to avoid resending the message. 
  * @param peerId Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
  * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. " 
+ * @param peerIds IDs of message recipients. (See peer_id) 
  * @param domain User's short address (for example, 'illarionov'). 
  * @param chatId ID of conversation the message will relate to. minimum 0 maximum 100000000
  * @param userIds IDs of message recipients (if new conversation shall be started). 
@@ -59,11 +60,13 @@ import org.json.JSONObject
  * @param replyTo  
  * @param forwardMessages ID of forwarded messages, separated with a comma. Listed messages of the
  * sender will be shown in the message body at the recipient's. Example: "123,431,544" 
+ * @param forward JSON describing the forwarded message or reply 
  * @param stickerId Sticker id. minimum 0
  * @param groupId Group ID (for group messages with group access token) minimum 0
  * @param keyboard  
  * @param template  
  * @param payload  maxLength 1000
+ * @param contentSource JSON describing the content source in the message 
  * @param dontParseLinks  default false
  * @param disableMentions  default false
  * @param intent  default "default"
@@ -73,6 +76,7 @@ class MessagesSendUserids(
     private val userId: Int? = null,
     private val randomId: Int? = null,
     private val peerId: Int? = null,
+    private val peerIds: List<Int>? = null,
     private val domain: String? = null,
     private val chatId: Int? = null,
     private val userIds: List<Int>? = null,
@@ -82,11 +86,13 @@ class MessagesSendUserids(
     private val attachment: String? = null,
     private val replyTo: Int? = null,
     private val forwardMessages: List<Int>? = null,
+    private val forward: String? = null,
     private val stickerId: Int? = null,
     private val groupId: Int? = null,
     private val keyboard: String? = null,
     private val template: String? = null,
     private val payload: String? = null,
+    private val contentSource: String? = null,
     private val dontParseLinks: Boolean? = null,
     private val disableMentions: Boolean? = null,
     private val intent: MessagesSendIntent? = null,
@@ -101,6 +107,9 @@ class MessagesSendUserids(
         }
         peerId?.let { value ->
             addParam("peer_id", value)
+        }
+        peerIds?.let { value ->
+            addParam("peer_ids", value)
         }
         domain?.let { value ->
             addParam("domain", value)
@@ -129,6 +138,9 @@ class MessagesSendUserids(
         forwardMessages?.let { value ->
             addParam("forward_messages", value)
         }
+        forward?.let { value ->
+            addParam("forward", value)
+        }
         stickerId?.let { value ->
             addParam("sticker_id", value)
         }
@@ -143,6 +155,9 @@ class MessagesSendUserids(
         }
         payload?.let { value ->
             addParam("payload", value)
+        }
+        contentSource?.let { value ->
+            addParam("content_source", value)
         }
         dontParseLinks?.let { value ->
             addParam("dont_parse_links", if (value) 1 else 0)

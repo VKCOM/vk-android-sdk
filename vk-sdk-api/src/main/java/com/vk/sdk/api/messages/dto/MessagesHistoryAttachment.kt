@@ -34,6 +34,7 @@ import kotlin.Int
  * @param attachment no description
  * @param messageId Message ID
  * @param fromId Message author's ID
+ * @param forwardLevel Forward level (optional)
  */
 data class MessagesHistoryAttachment(
     @SerializedName(value="attachment")
@@ -41,5 +42,7 @@ data class MessagesHistoryAttachment(
     @SerializedName(value="message_id")
     val messageId: Int,
     @SerializedName(value="from_id")
-    val fromId: Int
+    val fromId: Int,
+    @SerializedName(value="forward_level")
+    val forwardLevel: Int? = null
 )

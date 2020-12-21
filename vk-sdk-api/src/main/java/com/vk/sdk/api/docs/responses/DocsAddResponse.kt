@@ -28,12 +28,12 @@
 package com.vk.sdk.api.docs.responses
 
 import com.google.gson.annotations.SerializedName
-import com.vk.sdk.api.docs.dto.DocsAddResponseDto
+import kotlin.Int
 
 /**
- * @param response no description
+ * @param response Document ID
  */
 data class DocsAddResponse(
     @SerializedName(value="response")
-    val response: DocsAddResponseDto
+    val response: Int
 )

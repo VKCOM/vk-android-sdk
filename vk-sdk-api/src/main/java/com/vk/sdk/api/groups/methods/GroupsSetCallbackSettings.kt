@@ -73,6 +73,8 @@ import org.json.JSONObject
  * @param marketCommentEdit A market comment has been edited ('0' - disabled, '1' - enabled). 
  * @param marketCommentDelete A market comment has been deleted ('0' - disabled, '1' - enabled). 
  * @param marketCommentRestore A market comment has been restored ('0' - disabled, '1' - enabled). 
+ * @param marketOrderNew  
+ * @param marketOrderEdit  
  * @param pollVoteNew A vote in a public poll has been added ('0' - disabled, '1' - enabled). 
  * @param groupJoin Joined community notifications ('0' - disabled, '1' - enabled). 
  * @param groupLeave Left community notifications ('0' - disabled, '1' - enabled). 
@@ -85,6 +87,13 @@ import org.json.JSONObject
  * @param likeAdd  
  * @param likeRemove  
  * @param messageEvent  
+ * @param donutSubscriptionCreate  
+ * @param donutSubscriptionProlonged  
+ * @param donutSubscriptionCancelled  
+ * @param donutSubscriptionPriceChanged  
+ * @param donutSubscriptionExpired  
+ * @param donutMoneyWithdraw  
+ * @param donutMoneyWithdrawError  
  */
 class GroupsSetCallbackSettings(
     private val groupId: Int,
@@ -121,6 +130,8 @@ class GroupsSetCallbackSettings(
     private val marketCommentEdit: Boolean? = null,
     private val marketCommentDelete: Boolean? = null,
     private val marketCommentRestore: Boolean? = null,
+    private val marketOrderNew: Boolean? = null,
+    private val marketOrderEdit: Boolean? = null,
     private val pollVoteNew: Boolean? = null,
     private val groupJoin: Boolean? = null,
     private val groupLeave: Boolean? = null,
@@ -132,7 +143,14 @@ class GroupsSetCallbackSettings(
     private val leadFormsNew: Boolean? = null,
     private val likeAdd: Boolean? = null,
     private val likeRemove: Boolean? = null,
-    private val messageEvent: Boolean? = null
+    private val messageEvent: Boolean? = null,
+    private val donutSubscriptionCreate: Boolean? = null,
+    private val donutSubscriptionProlonged: Boolean? = null,
+    private val donutSubscriptionCancelled: Boolean? = null,
+    private val donutSubscriptionPriceChanged: Boolean? = null,
+    private val donutSubscriptionExpired: Boolean? = null,
+    private val donutMoneyWithdraw: Boolean? = null,
+    private val donutMoneyWithdrawError: Boolean? = null
 ) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.setCallbackSettings") {
     init {
         addParam("group_id", groupId)
@@ -235,6 +253,12 @@ class GroupsSetCallbackSettings(
         marketCommentRestore?.let { value ->
             addParam("market_comment_restore", if (value) 1 else 0)
         }
+        marketOrderNew?.let { value ->
+            addParam("market_order_new", if (value) 1 else 0)
+        }
+        marketOrderEdit?.let { value ->
+            addParam("market_order_edit", if (value) 1 else 0)
+        }
         pollVoteNew?.let { value ->
             addParam("poll_vote_new", if (value) 1 else 0)
         }
@@ -270,6 +294,27 @@ class GroupsSetCallbackSettings(
         }
         messageEvent?.let { value ->
             addParam("message_event", if (value) 1 else 0)
+        }
+        donutSubscriptionCreate?.let { value ->
+            addParam("donut_subscription_create", if (value) 1 else 0)
+        }
+        donutSubscriptionProlonged?.let { value ->
+            addParam("donut_subscription_prolonged", if (value) 1 else 0)
+        }
+        donutSubscriptionCancelled?.let { value ->
+            addParam("donut_subscription_cancelled", if (value) 1 else 0)
+        }
+        donutSubscriptionPriceChanged?.let { value ->
+            addParam("donut_subscription_price_changed", if (value) 1 else 0)
+        }
+        donutSubscriptionExpired?.let { value ->
+            addParam("donut_subscription_expired", if (value) 1 else 0)
+        }
+        donutMoneyWithdraw?.let { value ->
+            addParam("donut_money_withdraw", if (value) 1 else 0)
+        }
+        donutMoneyWithdrawError?.let { value ->
+            addParam("donut_money_withdraw_error", if (value) 1 else 0)
         }
     }
 

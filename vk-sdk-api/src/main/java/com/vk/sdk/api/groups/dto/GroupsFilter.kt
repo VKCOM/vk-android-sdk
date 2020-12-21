@@ -30,6 +30,11 @@ package com.vk.sdk.api.groups.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -60,12 +65,22 @@ enum class GroupsFilter(
 
     CAN_POST_CLIPS("can_post_clips");
 
-    class Serializer : JsonDeserializer<GroupsFilter> {
+    class Serializer : JsonSerializer<GroupsFilter>, JsonDeserializer<GroupsFilter> {
+        override fun serialize(
+            src: GroupsFilter?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): GroupsFilter = values().first { it.value.toString() == json!!.asJsonPrimitive.toString()
-                }
+        ): GroupsFilter {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

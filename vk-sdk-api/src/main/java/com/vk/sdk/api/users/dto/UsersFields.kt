@@ -30,6 +30,11 @@ package com.vk.sdk.api.users.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -60,11 +65,15 @@ enum class UsersFields(
 
     PHOTO_200("photo_200"),
 
+    PHOTO_400("photo_400"),
+
     PHOTO_400_ORIG("photo_400_orig"),
 
     PHOTO_MAX("photo_max"),
 
     PHOTO_MAX_ORIG("photo_max_orig"),
+
+    PHOTO_MAX_SIZE("photo_max_size"),
 
     ONLINE("online"),
 
@@ -180,13 +189,28 @@ enum class UsersFields(
 
     VIDEO_LIVE_COUNT("video_live_count"),
 
-    CLIPS_COUNT("clips_count");
+    CLIPS_COUNT("clips_count"),
 
-    class Serializer : JsonDeserializer<UsersFields> {
+    SERVICE_DESCRIPTION("service_description"),
+
+    IS_DEAD("is_dead");
+
+    class Serializer : JsonSerializer<UsersFields>, JsonDeserializer<UsersFields> {
+        override fun serialize(
+            src: UsersFields?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): UsersFields = values().first { it.value.toString() == json!!.asJsonPrimitive.toString() }
+        ): UsersFields {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

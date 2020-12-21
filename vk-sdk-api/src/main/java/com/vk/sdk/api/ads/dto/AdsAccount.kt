@@ -29,6 +29,7 @@ package com.vk.sdk.api.ads.dto
 
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseBoolInt
+import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
 
@@ -38,6 +39,7 @@ import kotlin.String
  * @param accountStatus Information whether account is active
  * @param accountType no description
  * @param accountName Account name
+ * @param canViewBudget Can user view account budget
  */
 data class AdsAccount(
     @SerializedName(value="access_role")
@@ -49,5 +51,7 @@ data class AdsAccount(
     @SerializedName(value="account_type")
     val accountType: AdsAccountType,
     @SerializedName(value="account_name")
-    val accountName: String
+    val accountName: String,
+    @SerializedName(value="can_view_budget")
+    val canViewBudget: Boolean
 )

@@ -26,6 +26,7 @@ package com.vk.api.sdk
 
 import com.vk.api.sdk.chain.*
 import com.vk.api.sdk.exceptions.VKApiException
+import com.vk.api.sdk.internal.ApiCommand
 import com.vk.api.sdk.okhttp.OkHttpExecutor
 import com.vk.api.sdk.okhttp.OkHttpExecutorConfig
 import com.vk.api.sdk.okhttp.OkHttpMethodCall
@@ -84,6 +85,11 @@ open class VKApiManager(val config: VKApiConfig) {
         return executeWithExceptionAdjust(cc)
     }
 
+    @Throws(InterruptedException::class, IOException::class, VKApiException::class)
+    open fun <T> execute(cmd: ApiCommand<T>): T {
+        return cmd.execute(this)
+    }
+
     protected open fun <T> wrapCall(call: VKMethodCall, chainCall: ChainCall<T>): ChainCall<T> {
         var cc: ChainCall<T> = if (call.skipValidation) {
             chainCall
@@ -103,7 +109,7 @@ open class VKApiManager(val config: VKApiConfig) {
     @Throws(InterruptedException::class, IOException::class, VKApiException::class)
     @JvmOverloads
     fun <T> execute(call: VKHttpPostCall, progress: VKApiProgressListener? = null, parser: VKApiResponseParser<T>? = null): T {
-        var cc: ChainCall<T> = HttpPostChainCall(this, executor, call, progress, parser)
+        var cc: ChainCall<T> = createPostMethodChainCall(call, progress, parser)
         cc = wrapCall(call, cc)
         return executeWithExceptionAdjust(cc)
     }
@@ -124,4 +130,7 @@ open class VKApiManager(val config: VKApiConfig) {
 
     protected open fun <T> createMethodChainCall(call: VKMethodCall, parser: VKApiResponseParser<T>? = null): ChainCall<T> =
             MethodChainCall(this, executor, OkHttpMethodCall.Builder().from(call), config.deviceId.value, config.lang, parser)
+
+    protected open fun <T> createPostMethodChainCall(call: VKHttpPostCall, progress: VKApiProgressListener?, parser: VKApiResponseParser<T>?) =
+        HttpPostChainCall(this, executor, call, progress, parser)
 }

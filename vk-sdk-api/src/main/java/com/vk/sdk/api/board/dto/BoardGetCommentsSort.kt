@@ -30,6 +30,11 @@ package com.vk.sdk.api.board.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -40,12 +45,23 @@ enum class BoardGetCommentsSort(
 
     REVERSE_CHRONOLOGICAL("desc");
 
-    class Serializer : JsonDeserializer<BoardGetCommentsSort> {
+    class Serializer : JsonSerializer<BoardGetCommentsSort>, JsonDeserializer<BoardGetCommentsSort>
+            {
+        override fun serialize(
+            src: BoardGetCommentsSort?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): BoardGetCommentsSort = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): BoardGetCommentsSort {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

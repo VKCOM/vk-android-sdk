@@ -28,6 +28,7 @@
 package com.vk.sdk.api.gifts.dto
 
 import com.google.gson.annotations.SerializedName
+import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
 
@@ -38,6 +39,7 @@ import kotlin.String
  * @param thumb48 URL of the preview image with 48 px in width
  * @param thumb96 URL of the preview image with 96 px in width
  * @param stickersProductId ID of the sticker pack, if the gift is representing one
+ * @param isStickersStyle Information whether gift represents a stickers style
  * @param buildId ID of the build of constructor gift
  * @param keywords Keywords used for search
  */
@@ -54,6 +56,8 @@ data class GiftsLayout(
     val thumb96: String? = null,
     @SerializedName(value="stickers_product_id")
     val stickersProductId: Int? = null,
+    @SerializedName(value="is_stickers_style")
+    val isStickersStyle: Boolean? = null,
     @SerializedName(value="build_id")
     val buildId: String? = null,
     @SerializedName(value="keywords")

@@ -34,6 +34,7 @@ import kotlin.String
 /**
  * @param aid Album ID
  * @param hash Uploading hash
+ * @param photo Uploaded photo data
  * @param photosList Uploaded photos data
  * @param server Upload server number
  */
@@ -42,6 +43,8 @@ data class PhotosPhotoUploadResponse(
     val aid: Int? = null,
     @SerializedName(value="hash")
     val hash: String? = null,
+    @SerializedName(value="photo")
+    val photo: String? = null,
     @SerializedName(value="photos_list")
     val photosList: String? = null,
     @SerializedName(value="server")

@@ -28,6 +28,7 @@
 package com.vk.sdk.api.market.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.sdk.api.base.dto.BaseLink
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
@@ -48,6 +49,7 @@ import kotlin.collections.List
  * @param merchantComment no description
  * @param weight no description
  * @param previewOrderItems Several order items for preview
+ * @param cancelInfo Information for cancel and revert order
  */
 data class MarketOrder(
     @SerializedName(value="id")
@@ -79,5 +81,7 @@ data class MarketOrder(
     @SerializedName(value="weight")
     val weight: Int? = null,
     @SerializedName(value="preview_order_items")
-    val previewOrderItems: List<MarketOrderItem>? = null
+    val previewOrderItems: List<MarketOrderItem>? = null,
+    @SerializedName(value="cancel_info")
+    val cancelInfo: BaseLink? = null
 )

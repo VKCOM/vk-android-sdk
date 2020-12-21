@@ -35,5 +35,5 @@ import kotlin.Int
  */
 data class GroupsAddCallbackServerResponseDto(
     @SerializedName(value="server_id")
-    val serverId: Int? = null
+    val serverId: Int
 )

@@ -30,6 +30,11 @@ package com.vk.sdk.api.newsfeed.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.wall.dto.WallWallpost
 import java.lang.reflect.Type
@@ -38,20 +43,18 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param buttonText no description
  * @param feedId id of feed in digest
  * @param items no description
  * @param mainPostIds no description
  * @param template type of digest
- * @param title no description
+ * @param header no description
+ * @param footer no description
  * @param trackCode no description
  * @param type no description
  * @param sourceId Item source ID
  * @param date Date when item has been added in Unixtime
  */
 data class NewsfeedItemDigest(
-    @SerializedName(value="button_text")
-    val buttonText: String? = null,
     @SerializedName(value="feed_id")
     val feedId: String? = null,
     @SerializedName(value="items")
@@ -60,8 +63,10 @@ data class NewsfeedItemDigest(
     val mainPostIds: List<String>? = null,
     @SerializedName(value="template")
     val template: Template? = null,
-    @SerializedName(value="title")
-    val title: String? = null,
+    @SerializedName(value="header")
+    val header: NewsfeedItemDigestHeader? = null,
+    @SerializedName(value="footer")
+    val footer: NewsfeedItemDigestFooter? = null,
     @SerializedName(value="track_code")
     val trackCode: String? = null,
     @SerializedName(value="type")
@@ -76,15 +81,27 @@ data class NewsfeedItemDigest(
     ) {
         LIST("list"),
 
-        GRID("grid");
+        GRID("grid"),
 
-        class Serializer : JsonDeserializer<Template> {
+        SINGLE("single");
+
+        class Serializer : JsonSerializer<Template>, JsonDeserializer<Template> {
+            override fun serialize(
+                src: Template?,
+                typeOfSrc: Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: Type?,
                 context: JsonDeserializationContext?
-            ): Template = values().first { it.value.toString() == json!!.asJsonPrimitive.toString()
-                    }
+            ): Template {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 }

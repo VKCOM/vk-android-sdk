@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Кіру</string>
+    <string name="logout">Шығу</string>
+    <string name="share_to_wall">Қабырғаға жіберу</string>
+    <string name="message_hint">Хабарламаңыз</string>
+    <string name="wall_ok">Жазба жарияланды</string>
+</resources>

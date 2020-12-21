@@ -37,6 +37,7 @@ import kotlin.String
  * @param discountRate no description
  * @param oldAmount no description
  * @param text Text
+ * @param oldAmountText Textual representation of old price
  */
 data class MarketPrice(
     @SerializedName(value="amount")
@@ -48,5 +49,7 @@ data class MarketPrice(
     @SerializedName(value="old_amount")
     val oldAmount: String? = null,
     @SerializedName(value="text")
-    val text: String? = null
+    val text: String? = null,
+    @SerializedName(value="old_amount_text")
+    val oldAmountText: String? = null
 )

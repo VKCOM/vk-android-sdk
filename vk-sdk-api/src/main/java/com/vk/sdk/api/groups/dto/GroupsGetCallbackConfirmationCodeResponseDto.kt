@@ -35,5 +35,5 @@ import kotlin.String
  */
 data class GroupsGetCallbackConfirmationCodeResponseDto(
     @SerializedName(value="code")
-    val code: String? = null
+    val code: String
 )

@@ -30,42 +30,44 @@ package com.vk.sdk.api.base.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.google.gson.annotations.SerializedName
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
-import kotlin.Int
 import kotlin.String
 
-/**
- * @param raw Raw integer representation of status
- * @param value String representation of status
- */
-data class BaseLinkProductStatus(
-    @SerializedName(value="raw")
-    val raw: Int? = null,
-    @SerializedName(value="value")
-    val value: Value? = null
+enum class BaseLinkProductStatus(
+    val value: String
 ) {
-    enum class Value(
-        val value: String
-    ) {
-        ACTIVE("active"),
+    ACTIVE("active"),
 
-        BLOCKED("blocked"),
+    BLOCKED("blocked"),
 
-        SOLD("sold"),
+    SOLD("sold"),
 
-        DELETED("deleted"),
+    DELETED("deleted"),
 
-        ARCHIVED("archived"),
+    ARCHIVED("archived");
 
-        BOOKED("booked");
+    class Serializer : JsonSerializer<BaseLinkProductStatus>,
+            JsonDeserializer<BaseLinkProductStatus> {
+        override fun serialize(
+            src: BaseLinkProductStatus?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
 
-        class Serializer : JsonDeserializer<Value> {
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Value = values().first { it.value.toString() == json!!.asJsonPrimitive.toString() }
+        override fun deserialize(
+            json: JsonElement?,
+            typeOfT: Type?,
+            context: JsonDeserializationContext?
+        ): BaseLinkProductStatus {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
         }
     }
 }

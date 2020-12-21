@@ -30,6 +30,11 @@ package com.vk.sdk.api.video.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseLikes
@@ -83,6 +88,9 @@ import kotlin.collections.List
  * @param liveStatus Live stream status
  * @param live 1 if the video is a live stream
  * @param upcoming 1 if the video is an upcoming stream
+ * @param liveStartTime Date in Unixtime when the live stream is scheduled to start by the author
+ * @param liveNotify Whether current user is subscribed to the upcoming live stream notification (if
+ * not subscribed to the author)
  * @param spectators Number of spectators of the stream
  * @param platform External platform
  * @param likes no description
@@ -171,6 +179,10 @@ data class VideoVideo(
     val live: BasePropertyExists? = null,
     @SerializedName(value="upcoming")
     val upcoming: BasePropertyExists? = null,
+    @SerializedName(value="live_start_time")
+    val liveStartTime: Int? = null,
+    @SerializedName(value="live_notify")
+    val liveNotify: BaseBoolInt? = null,
     @SerializedName(value="spectators")
     val spectators: Int? = null,
     @SerializedName(value="platform")
@@ -189,12 +201,23 @@ data class VideoVideo(
 
         MOVIE("movie");
 
-        class Serializer : JsonDeserializer<Type> {
+        class Serializer : JsonSerializer<Type>, JsonDeserializer<Type> {
+            override fun serialize(
+                src: Type?,
+                typeOfSrc: java.lang.reflect.Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: java.lang.reflect.Type?,
                 context: JsonDeserializationContext?
-            ): Type = values().first { it.value.toString() == json!!.asJsonPrimitive.toString() }
+            ): Type {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 
@@ -211,13 +234,23 @@ data class VideoVideo(
 
         UPCOMING("upcoming");
 
-        class Serializer : JsonDeserializer<LiveStatus> {
+        class Serializer : JsonSerializer<LiveStatus>, JsonDeserializer<LiveStatus> {
+            override fun serialize(
+                src: LiveStatus?,
+                typeOfSrc: java.lang.reflect.Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: java.lang.reflect.Type?,
                 context: JsonDeserializationContext?
-            ): LiveStatus = values().first { it.value.toString() ==
-                    json!!.asJsonPrimitive.toString() }
+            ): LiveStatus {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 }

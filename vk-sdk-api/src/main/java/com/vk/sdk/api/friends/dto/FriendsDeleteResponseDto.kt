@@ -30,6 +30,11 @@ package com.vk.sdk.api.friends.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import java.lang.reflect.Type
 import kotlin.Int
@@ -58,13 +63,23 @@ data class FriendsDeleteResponseDto(
     ) {
         OK(1);
 
-        class Serializer : JsonDeserializer<FriendDeleted> {
+        class Serializer : JsonSerializer<FriendDeleted>, JsonDeserializer<FriendDeleted> {
+            override fun serialize(
+                src: FriendDeleted?,
+                typeOfSrc: Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: Type?,
                 context: JsonDeserializationContext?
-            ): FriendDeleted = values().first { it.value.toString() ==
-                    json!!.asJsonPrimitive.toString() }
+            ): FriendDeleted {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 
@@ -73,13 +88,23 @@ data class FriendsDeleteResponseDto(
     ) {
         OK(1);
 
-        class Serializer : JsonDeserializer<InRequestDeleted> {
+        class Serializer : JsonSerializer<InRequestDeleted>, JsonDeserializer<InRequestDeleted> {
+            override fun serialize(
+                src: InRequestDeleted?,
+                typeOfSrc: Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: Type?,
                 context: JsonDeserializationContext?
-            ): InRequestDeleted = values().first { it.value.toString() ==
-                    json!!.asJsonPrimitive.toString() }
+            ): InRequestDeleted {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 
@@ -88,13 +113,23 @@ data class FriendsDeleteResponseDto(
     ) {
         OK(1);
 
-        class Serializer : JsonDeserializer<SuggestionDeleted> {
+        class Serializer : JsonSerializer<SuggestionDeleted>, JsonDeserializer<SuggestionDeleted> {
+            override fun serialize(
+                src: SuggestionDeleted?,
+                typeOfSrc: Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: Type?,
                 context: JsonDeserializationContext?
-            ): SuggestionDeleted = values().first { it.value.toString() ==
-                    json!!.asJsonPrimitive.toString() }
+            ): SuggestionDeleted {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 
@@ -103,13 +138,23 @@ data class FriendsDeleteResponseDto(
     ) {
         OK(1);
 
-        class Serializer : JsonDeserializer<OutRequestDeleted> {
+        class Serializer : JsonSerializer<OutRequestDeleted>, JsonDeserializer<OutRequestDeleted> {
+            override fun serialize(
+                src: OutRequestDeleted?,
+                typeOfSrc: Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: Type?,
                 context: JsonDeserializationContext?
-            ): OutRequestDeleted = values().first { it.value.toString() ==
-                    json!!.asJsonPrimitive.toString() }
+            ): OutRequestDeleted {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 }

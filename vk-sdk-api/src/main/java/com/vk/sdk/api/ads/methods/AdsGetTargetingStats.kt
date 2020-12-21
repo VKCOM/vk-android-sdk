@@ -56,6 +56,8 @@ import org.json.JSONObject
  * @param linkDomain Domain of the advertised object. 
  * @param needPrecise Additionally return recommended cpc and cpm to reach 5,10..95 percents of
  * audience. 
+ * @param impressionsLimitPeriod Impressions limit period in seconds, must be a multiple of
+ * 86400(day) 
  */
 class AdsGetTargetingStats(
     private val accountId: Int,
@@ -68,7 +70,8 @@ class AdsGetTargetingStats(
     private val adPlatformNoWall: String? = null,
     private val adPlatformNoAdNetwork: String? = null,
     private val linkDomain: String? = null,
-    private val needPrecise: Boolean? = null
+    private val needPrecise: Boolean? = null,
+    private val impressionsLimitPeriod: Int? = null
 ) : ApiRequestBase<AdsTargStats>(methodName = "ads.getTargetingStats") {
     init {
         addParam("account_id", accountId)
@@ -99,6 +102,9 @@ class AdsGetTargetingStats(
         }
         needPrecise?.let { value ->
             addParam("need_precise", if (value) 1 else 0)
+        }
+        impressionsLimitPeriod?.let { value ->
+            addParam("impressions_limit_period", value)
         }
     }
 

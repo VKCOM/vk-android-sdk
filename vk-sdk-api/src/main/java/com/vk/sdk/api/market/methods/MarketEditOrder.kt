@@ -29,8 +29,8 @@ package com.vk.sdk.api.market.methods
 
 import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
-import com.vk.sdk.api.market.dto.MarketEditOrderResponseDto
-import com.vk.sdk.api.market.responses.MarketEditOrderResponse
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.base.responses.BaseOkResponse
 import kotlin.Int
 import kotlin.String
 import org.json.JSONObject
@@ -47,7 +47,7 @@ class MarketEditOrder(
     private val orderId: Int,
     private val merchantComment: String? = null,
     private val status: Int? = null
-) : ApiRequestBase<MarketEditOrderResponseDto>(methodName = "market.editOrder") {
+) : ApiRequestBase<BaseOkResponseDto>(methodName = "market.editOrder") {
     init {
         addParam("user_id", userId)
         addParam("order_id", orderId)
@@ -59,6 +59,6 @@ class MarketEditOrder(
         }
     }
 
-    override fun parse(r: JSONObject): MarketEditOrderResponseDto =
-            GsonHolder.gson.fromJson(r.toString(), MarketEditOrderResponse::class.java).response
+    override fun parse(r: JSONObject): BaseOkResponseDto = GsonHolder.gson.fromJson(r.toString(),
+            BaseOkResponse::class.java).response
 }

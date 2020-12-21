@@ -30,6 +30,11 @@ package com.vk.sdk.api.fave.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -42,12 +47,22 @@ enum class FavePageType(
 
     HINTS("hints");
 
-    class Serializer : JsonDeserializer<FavePageType> {
+    class Serializer : JsonSerializer<FavePageType>, JsonDeserializer<FavePageType> {
+        override fun serialize(
+            src: FavePageType?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): FavePageType = values().first { it.value.toString() == json!!.asJsonPrimitive.toString()
-                }
+        ): FavePageType {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

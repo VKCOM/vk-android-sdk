@@ -29,7 +29,6 @@ package com.vk.sdk.api.docs.methods
 
 import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
-import com.vk.sdk.api.docs.dto.DocsAddResponseDto
 import com.vk.sdk.api.docs.responses.DocsAddResponse
 import kotlin.Int
 import kotlin.String
@@ -47,7 +46,7 @@ class DocsAdd(
     private val ownerId: Int,
     private val docId: Int,
     private val accessKey: String? = null
-) : ApiRequestBase<DocsAddResponseDto>(methodName = "docs.add") {
+) : ApiRequestBase<Int>(methodName = "docs.add") {
     init {
         addParam("owner_id", ownerId)
         addParam("doc_id", docId)
@@ -56,6 +55,6 @@ class DocsAdd(
         }
     }
 
-    override fun parse(r: JSONObject): DocsAddResponseDto = GsonHolder.gson.fromJson(r.toString(),
+    override fun parse(r: JSONObject): Int = GsonHolder.gson.fromJson(r.toString(),
             DocsAddResponse::class.java).response
 }

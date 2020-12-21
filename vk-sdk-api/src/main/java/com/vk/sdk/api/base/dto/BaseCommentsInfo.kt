@@ -28,6 +28,7 @@
 package com.vk.sdk.api.base.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.sdk.api.wall.dto.WallWallpostCommentsDonut
 import kotlin.Boolean
 import kotlin.Int
 
@@ -35,6 +36,7 @@ import kotlin.Int
  * @param canPost Information whether current user can comment the post
  * @param count Comments number
  * @param groupsCanPost Information whether groups can comment the post
+ * @param donut no description
  */
 data class BaseCommentsInfo(
     @SerializedName(value="can_post")
@@ -42,5 +44,7 @@ data class BaseCommentsInfo(
     @SerializedName(value="count")
     val count: Int? = null,
     @SerializedName(value="groups_can_post")
-    val groupsCanPost: Boolean? = null
+    val groupsCanPost: Boolean? = null,
+    @SerializedName(value="donut")
+    val donut: WallWallpostCommentsDonut? = null
 )

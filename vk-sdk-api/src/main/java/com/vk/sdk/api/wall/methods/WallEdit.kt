@@ -59,6 +59,7 @@ import org.json.JSONObject
  * @param placeId  minimum 0
  * @param markAsAds  
  * @param closeComments  
+ * @param donutPaidDuration  
  * @param posterBkgId  minimum 0
  * @param posterBkgOwnerId  
  * @param posterBkgAccessHash  
@@ -78,6 +79,7 @@ class WallEdit(
     private val placeId: Int? = null,
     private val markAsAds: Boolean? = null,
     private val closeComments: Boolean? = null,
+    private val donutPaidDuration: Int? = null,
     private val posterBkgId: Int? = null,
     private val posterBkgOwnerId: Int? = null,
     private val posterBkgAccessHash: String? = null,
@@ -120,6 +122,9 @@ class WallEdit(
         }
         closeComments?.let { value ->
             addParam("close_comments", if (value) 1 else 0)
+        }
+        donutPaidDuration?.let { value ->
+            addParam("donut_paid_duration", value)
         }
         posterBkgId?.let { value ->
             addParam("poster_bkg_id", value)

@@ -38,9 +38,9 @@ import kotlin.String
  */
 data class MarketMarketCategory(
     @SerializedName(value="id")
-    val id: Int,
+    val id: Int? = null,
     @SerializedName(value="name")
-    val name: String,
+    val name: String? = null,
     @SerializedName(value="section")
-    val section: MarketSection
+    val section: MarketSection? = null
 )

@@ -28,13 +28,12 @@
 package com.vk.sdk.api.wall.responses
 
 import com.google.gson.annotations.SerializedName
-import com.vk.sdk.api.wall.dto.WallWallpostFull
-import kotlin.collections.List
+import com.vk.sdk.api.wall.dto.WallGetByIdResponseDto
 
 /**
  * @param response no description
  */
 data class WallGetByIdResponse(
     @SerializedName(value="response")
-    val response: List<WallWallpostFull>
+    val response: WallGetByIdResponseDto
 )

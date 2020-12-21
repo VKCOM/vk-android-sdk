@@ -30,6 +30,11 @@ package com.vk.sdk.api.account.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -52,12 +57,23 @@ enum class AccountNameRequestStatus(
 
     RESPONSE_WITH_LINK("response_with_link");
 
-    class Serializer : JsonDeserializer<AccountNameRequestStatus> {
+    class Serializer : JsonSerializer<AccountNameRequestStatus>,
+            JsonDeserializer<AccountNameRequestStatus> {
+        override fun serialize(
+            src: AccountNameRequestStatus?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): AccountNameRequestStatus = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): AccountNameRequestStatus {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

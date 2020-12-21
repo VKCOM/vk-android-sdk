@@ -29,8 +29,8 @@ package com.vk.sdk.api.market.methods
 
 import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
-import com.vk.sdk.api.market.dto.MarketGetCategoriesResponseDto
-import com.vk.sdk.api.market.responses.MarketGetCategoriesResponse
+import com.vk.sdk.api.market.dto.MarketGetCategoriesNewResponseDto
+import com.vk.sdk.api.market.responses.MarketGetCategoriesNewResponse
 import kotlin.Int
 import org.json.JSONObject
 
@@ -42,7 +42,7 @@ import org.json.JSONObject
 class MarketGetCategories(
     private val count: Int? = null,
     private val offset: Int? = null
-) : ApiRequestBase<MarketGetCategoriesResponseDto>(methodName = "market.getCategories") {
+) : ApiRequestBase<MarketGetCategoriesNewResponseDto>(methodName = "market.getCategories") {
     init {
         count?.let { value ->
             addParam("count", value)
@@ -52,6 +52,7 @@ class MarketGetCategories(
         }
     }
 
-    override fun parse(r: JSONObject): MarketGetCategoriesResponseDto =
-            GsonHolder.gson.fromJson(r.toString(), MarketGetCategoriesResponse::class.java).response
+    override fun parse(r: JSONObject): MarketGetCategoriesNewResponseDto =
+            GsonHolder.gson.fromJson(r.toString(),
+            MarketGetCategoriesNewResponse::class.java).response
 }

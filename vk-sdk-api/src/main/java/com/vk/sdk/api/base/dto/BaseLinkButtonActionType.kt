@@ -30,6 +30,11 @@ package com.vk.sdk.api.base.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -84,14 +89,41 @@ enum class BaseLinkButtonActionType(
 
     CLEAR_RECENT_GROUPS("clear_recent_groups"),
 
-    CLOSE_CATALOG_BANNER("close_catalog_banner");
+    CLOSE_CATALOG_BANNER("close_catalog_banner"),
 
-    class Serializer : JsonDeserializer<BaseLinkButtonActionType> {
+    ENABLE_TOP_NEWSFEED("enable_top_newsfeed"),
+
+    GROUPS_ADVERTISEMENT("groups_advertisement"),
+
+    OWNER_BUTTON("owner_button"),
+
+    ENTER_EDIT_MODE("enter_edit_mode"),
+
+    PLAYLISTS_LISTS("playlists_lists"),
+
+    UNFOLLOW_CURATOR("unfollow_curator"),
+
+    REORDER_ITEMS("reorder_items"),
+
+    EDIT_ITEMS("edit_items");
+
+    class Serializer : JsonSerializer<BaseLinkButtonActionType>,
+            JsonDeserializer<BaseLinkButtonActionType> {
+        override fun serialize(
+            src: BaseLinkButtonActionType?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): BaseLinkButtonActionType = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): BaseLinkButtonActionType {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

@@ -25,7 +25,6 @@
 package com.vk.api.sdk
 
 import android.content.Context
-import com.vk.api.sdk.chain.RateLimitReachedChainCall
 import com.vk.api.sdk.utils.log.DefaultApiLogger
 import com.vk.api.sdk.utils.log.Logger
 import java.util.concurrent.TimeUnit
@@ -38,7 +37,7 @@ import java.util.concurrent.TimeUnit
 data class VKApiConfig(
     val context: Context,
     val appId: Int = 0,
-    val validationHandler: VKApiValidationHandler?,
+    val validationHandler: VKApiValidationHandler? = null,
     val deviceId: Lazy<String> = lazy { "" },
     val version: String = DEFAULT_API_VERSION,
     val okHttpProvider: VKOkHttpProvider = VKOkHttpProvider.DefaultProvider(),
@@ -47,6 +46,7 @@ data class VKApiConfig(
     val logger: Logger = DefaultApiLogger(lazy { Logger.LogLevel.NONE }, "VKSdkApi"),
     val accessToken: Lazy<String> = lazy { "" },
     val secret: Lazy<String?> = lazy { null },
+    val clientSecret: String = "",
     val logFilterCredentials: Boolean = true,
     val debugCycleCalls: Lazy<Boolean> = lazy { false },
     val callsPerSecondLimit: Int = 3,
@@ -101,6 +101,10 @@ data class VKApiConfig(
 
         fun setAccessToken(accessToken: String) = apply {
             config = config.copy(accessToken = lazy { accessToken })
+        }
+
+        fun setClientSecret(clientSecret: String) = apply {
+            config = config.copy(clientSecret = clientSecret)
         }
 
         fun setOkHttpProvider(okHttpProvider: VKOkHttpProvider) = apply {

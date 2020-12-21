@@ -30,6 +30,11 @@ package com.vk.sdk.api.photos.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -60,14 +65,49 @@ enum class PhotosPhotoSizesType(
 
     C("c"),
 
-    W("w");
+    W("w"),
 
-    class Serializer : JsonDeserializer<PhotosPhotoSizesType> {
+    A("a"),
+
+    B("b"),
+
+    E("e"),
+
+    I("i"),
+
+    D("d"),
+
+    J("j"),
+
+    TEMP("temp"),
+
+    H("h"),
+
+    G("g"),
+
+    N("n"),
+
+    F("f"),
+
+    MAX("max");
+
+    class Serializer : JsonSerializer<PhotosPhotoSizesType>, JsonDeserializer<PhotosPhotoSizesType>
+            {
+        override fun serialize(
+            src: PhotosPhotoSizesType?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): PhotosPhotoSizesType = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): PhotosPhotoSizesType {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

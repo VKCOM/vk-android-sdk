@@ -30,5 +30,5 @@ package com.vk.sdk.api
 import kotlin.String
 
 object Constants {
-    const val API_VERSION: String = "5.122"
+    const val API_VERSION: String = "5.126"
 }

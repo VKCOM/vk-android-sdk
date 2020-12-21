@@ -30,6 +30,11 @@ package com.vk.sdk.api.market.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.Int
 
@@ -40,12 +45,22 @@ enum class MarketSearchRev(
 
     REVERSE(1);
 
-    class Serializer : JsonDeserializer<MarketSearchRev> {
+    class Serializer : JsonSerializer<MarketSearchRev>, JsonDeserializer<MarketSearchRev> {
+        override fun serialize(
+            src: MarketSearchRev?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): MarketSearchRev = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): MarketSearchRev {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

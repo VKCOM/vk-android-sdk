@@ -44,6 +44,7 @@ import kotlin.collections.List
  * @param createdBy Post creator ID (if post still can be edited)
  * @param canDelete Information whether current user can delete the post
  * @param canPin Information whether current user can pin the post
+ * @param donut no description
  * @param isPinned Information whether the post is pinned
  * @param comments no description
  * @param markedAsAds Information whether the post is marked as ads
@@ -79,6 +80,8 @@ data class WallWallpostFull(
     val canDelete: BaseBoolInt? = null,
     @SerializedName(value="can_pin")
     val canPin: BaseBoolInt? = null,
+    @SerializedName(value="donut")
+    val donut: WallWallpostDonut? = null,
     @SerializedName(value="is_pinned")
     val isPinned: Int? = null,
     @SerializedName(value="comments")

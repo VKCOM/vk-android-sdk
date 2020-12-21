@@ -30,6 +30,11 @@ package com.vk.sdk.api.groups.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -46,12 +51,23 @@ enum class GroupsEditAddressWorkInfoStatus(
 
     TIMETABLE("timetable");
 
-    class Serializer : JsonDeserializer<GroupsEditAddressWorkInfoStatus> {
+    class Serializer : JsonSerializer<GroupsEditAddressWorkInfoStatus>,
+            JsonDeserializer<GroupsEditAddressWorkInfoStatus> {
+        override fun serialize(
+            src: GroupsEditAddressWorkInfoStatus?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): GroupsEditAddressWorkInfoStatus = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): GroupsEditAddressWorkInfoStatus {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

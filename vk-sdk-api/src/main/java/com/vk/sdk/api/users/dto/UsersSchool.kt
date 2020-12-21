@@ -42,6 +42,7 @@ import kotlin.String
  * @param yearFrom Year the user started to study
  * @param yearGraduated Graduation year
  * @param yearTo Year the user finished to study
+ * @param speciality no description
  */
 data class UsersSchool(
     @SerializedName(value="city")
@@ -63,5 +64,7 @@ data class UsersSchool(
     @SerializedName(value="year_graduated")
     val yearGraduated: Int? = null,
     @SerializedName(value="year_to")
-    val yearTo: Int? = null
+    val yearTo: Int? = null,
+    @SerializedName(value="speciality")
+    val speciality: String? = null
 )

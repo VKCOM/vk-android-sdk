@@ -47,6 +47,8 @@ object GsonHolder {
                 com.vk.sdk.api.ads.dto.AdsGetUploadURLAdFormat.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.ads.dto.AdsGetCampaignsFields::class.java,
                 com.vk.sdk.api.ads.dto.AdsGetCampaignsFields.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.ads.dto.AdsAccessRolePublic::class.java,
+                com.vk.sdk.api.ads.dto.AdsAccessRolePublic.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.ads.dto.AdsGetDemographicsIdsType::class.java,
                 com.vk.sdk.api.ads.dto.AdsGetDemographicsIdsType.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.ads.dto.AdsAdApproved::class.java,
@@ -125,6 +127,8 @@ object GsonHolder {
                 com.vk.sdk.api.wall.dto.WallGetFilter.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.wall.dto.WallPostSourceType::class.java,
                 com.vk.sdk.api.wall.dto.WallPostSourceType.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.wall.dto.WallWallpostDonut.EditMode::class.java,
+                com.vk.sdk.api.wall.dto.WallWallpostDonut.EditMode.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.wall.dto.WallReportCommentReason::class.java,
                 com.vk.sdk.api.wall.dto.WallReportCommentReason.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.messages.dto.MessagesGetHistoryAttachmentsMediaType::class.java,
@@ -145,6 +149,8 @@ object GsonHolder {
                 com.vk.sdk.api.messages.dto.MessagesGetConversationsFilter.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.owner.dto.OwnerState.State::class.java,
                 com.vk.sdk.api.owner.dto.OwnerState.State.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.donut.dto.DonutDonatorSubscriptionInfo.Status::class.java,
+                com.vk.sdk.api.donut.dto.DonutDonatorSubscriptionInfo.Status.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.board.dto.BoardDefaultOrder::class.java,
                 com.vk.sdk.api.board.dto.BoardDefaultOrder.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.board.dto.BoardGetTopicsOrder::class.java,
@@ -161,10 +167,6 @@ object GsonHolder {
                 com.vk.sdk.api.likes.dto.LikesGetListFriendsOnly.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.auth.dto.AuthRestoreResponseDto.Success::class.java,
                 com.vk.sdk.api.auth.dto.AuthRestoreResponseDto.Success.Serializer())
-        builder.registerTypeAdapter(com.vk.sdk.api.leads.dto.LeadsCheckedResult::class.java,
-                com.vk.sdk.api.leads.dto.LeadsCheckedResult.Serializer())
-        builder.registerTypeAdapter(com.vk.sdk.api.leads.dto.LeadsGetUsersStatus::class.java,
-                com.vk.sdk.api.leads.dto.LeadsGetUsersStatus.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.appWidgets.dto.AppWidgetsGetAppImageUploadServerImageType::class.java,
                 com.vk.sdk.api.appWidgets.dto.AppWidgetsGetAppImageUploadServerImageType.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.appWidgets.dto.AppWidgetsGetAppImagesImageType::class.java,
@@ -209,8 +211,6 @@ object GsonHolder {
                 com.vk.sdk.api.groups.dto.GroupsOwnerXtrBanInfoType.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsGroupSubject::class.java,
                 com.vk.sdk.api.groups.dto.GroupsGroupSubject.Serializer())
-        builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsGroupXtrInvitedByAdminLevel::class.java,
-                com.vk.sdk.api.groups.dto.GroupsGroupXtrInvitedByAdminLevel.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsRoleOptions::class.java,
                 com.vk.sdk.api.groups.dto.GroupsRoleOptions.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsGroupAdminLevel::class.java,
@@ -233,8 +233,6 @@ object GsonHolder {
                 com.vk.sdk.api.groups.dto.GroupsGroupVideo.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsSearchSort::class.java,
                 com.vk.sdk.api.groups.dto.GroupsSearchSort.Serializer())
-        builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsGroupXtrInvitedByType::class.java,
-                com.vk.sdk.api.groups.dto.GroupsGroupXtrInvitedByType.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsSettingsTwitter.Status::class.java,
                 com.vk.sdk.api.groups.dto.GroupsSettingsTwitter.Status.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsFilter::class.java,
@@ -251,6 +249,8 @@ object GsonHolder {
                 com.vk.sdk.api.groups.dto.GroupsGetMembersFilter.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsAddressWorkInfoStatus::class.java,
                 com.vk.sdk.api.groups.dto.GroupsAddressWorkInfoStatus.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsUserXtrRole.WallDefault::class.java,
+                com.vk.sdk.api.groups.dto.GroupsUserXtrRole.WallDefault.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsGroupWiki::class.java,
                 com.vk.sdk.api.groups.dto.GroupsGroupWiki.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsTagAddTagColor::class.java,
@@ -295,6 +295,8 @@ object GsonHolder {
                 com.vk.sdk.api.groups.dto.GroupsGroupWall.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsEditAgeLimits::class.java,
                 com.vk.sdk.api.groups.dto.GroupsEditAgeLimits.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsGroupSuggestedPrivacy::class.java,
+                com.vk.sdk.api.groups.dto.GroupsGroupSuggestedPrivacy.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsGetInvitedUsersNameCase::class.java,
                 com.vk.sdk.api.groups.dto.GroupsGetInvitedUsersNameCase.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.groups.dto.GroupsGroupAgeLimits::class.java,
@@ -345,6 +347,8 @@ object GsonHolder {
                 com.vk.sdk.api.users.dto.UsersSearchSort.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.users.dto.UsersUserRelation::class.java,
                 com.vk.sdk.api.users.dto.UsersUserRelation.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.users.dto.UsersUserXtrCounters.WallDefault::class.java,
+                com.vk.sdk.api.users.dto.UsersUserXtrCounters.WallDefault.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.users.dto.UsersRelative.Type::class.java,
                 com.vk.sdk.api.users.dto.UsersRelative.Type.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.users.dto.UsersGetNameCase::class.java,
@@ -353,6 +357,8 @@ object GsonHolder {
                 com.vk.sdk.api.users.dto.UsersGetFollowersNameCase.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.users.dto.UsersReportType::class.java,
                 com.vk.sdk.api.users.dto.UsersReportType.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.users.dto.UsersUserFull.WallDefault::class.java,
+                com.vk.sdk.api.users.dto.UsersUserFull.WallDefault.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.users.dto.UsersFields::class.java,
                 com.vk.sdk.api.users.dto.UsersFields.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.users.dto.UsersSearchStatus::class.java,
@@ -381,12 +387,16 @@ object GsonHolder {
                 com.vk.sdk.api.callback.dto.CallbackGroupMarket.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.callback.dto.CallbackGroupJoinType::class.java,
                 com.vk.sdk.api.callback.dto.CallbackGroupJoinType.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.friends.dto.FriendsUserXtrLists.WallDefault::class.java,
+                com.vk.sdk.api.friends.dto.FriendsUserXtrLists.WallDefault.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.friends.dto.FriendsSearchNameCase::class.java,
                 com.vk.sdk.api.friends.dto.FriendsSearchNameCase.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.friends.dto.FriendsGetSuggestionsNameCase::class.java,
                 com.vk.sdk.api.friends.dto.FriendsGetSuggestionsNameCase.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.friends.dto.FriendsGetRequestsSort::class.java,
                 com.vk.sdk.api.friends.dto.FriendsGetRequestsSort.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.friends.dto.FriendsUserXtrPhone.WallDefault::class.java,
+                com.vk.sdk.api.friends.dto.FriendsUserXtrPhone.WallDefault.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.friends.dto.FriendsGetOrder::class.java,
                 com.vk.sdk.api.friends.dto.FriendsGetOrder.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.friends.dto.FriendsGetNameCase::class.java,
@@ -491,22 +501,28 @@ object GsonHolder {
                 com.vk.sdk.api.base.dto.BaseBoolInt.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.base.dto.BaseLinkButtonActionType::class.java,
                 com.vk.sdk.api.base.dto.BaseLinkButtonActionType.Serializer())
-        builder.registerTypeAdapter(com.vk.sdk.api.base.dto.BaseLinkProductStatus.Value::class.java,
-                com.vk.sdk.api.base.dto.BaseLinkProductStatus.Value.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.base.dto.BaseLinkProductStatus::class.java,
+                com.vk.sdk.api.base.dto.BaseLinkProductStatus.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.stats.dto.StatsGetInterval::class.java,
                 com.vk.sdk.api.stats.dto.StatsGetInterval.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.widgets.dto.WidgetsCommentMediaType::class.java,
                 com.vk.sdk.api.widgets.dto.WidgetsCommentMediaType.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.newsfeed.dto.NewsfeedItemDigestFooterButton.Style::class.java,
+                com.vk.sdk.api.newsfeed.dto.NewsfeedItemDigestFooterButton.Style.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.newsfeed.dto.NewsfeedItemWallpostFeedbackType::class.java,
                 com.vk.sdk.api.newsfeed.dto.NewsfeedItemWallpostFeedbackType.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.newsfeed.dto.NewsfeedItemDigest.Template::class.java,
                 com.vk.sdk.api.newsfeed.dto.NewsfeedItemDigest.Template.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.newsfeed.dto.NewsfeedItemDigestHeader.Style::class.java,
+                com.vk.sdk.api.newsfeed.dto.NewsfeedItemDigestHeader.Style.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.newsfeed.dto.NewsfeedNewsfeedItemType::class.java,
                 com.vk.sdk.api.newsfeed.dto.NewsfeedNewsfeedItemType.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.newsfeed.dto.NewsfeedItemWallpostType::class.java,
                 com.vk.sdk.api.newsfeed.dto.NewsfeedItemWallpostType.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.newsfeed.dto.NewsfeedUnsubscribeType::class.java,
                 com.vk.sdk.api.newsfeed.dto.NewsfeedUnsubscribeType.Serializer())
+        builder.registerTypeAdapter(com.vk.sdk.api.newsfeed.dto.NewsfeedItemDigestFooter.Style::class.java,
+                com.vk.sdk.api.newsfeed.dto.NewsfeedItemDigestFooter.Style.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.newsfeed.dto.NewsfeedFilters::class.java,
                 com.vk.sdk.api.newsfeed.dto.NewsfeedFilters.Serializer())
         builder.registerTypeAdapter(com.vk.sdk.api.newsfeed.dto.NewsfeedGetBannedNameCase::class.java,

@@ -41,6 +41,7 @@ import kotlin.collections.List
  * @param id Comment ID
  * @param text Comment text
  * @param attachments no description
+ * @param donut no description
  * @param likes no description
  * @param realOffset Real position of the comment
  * @param replyToComment Replied comment ID
@@ -62,6 +63,8 @@ data class WallWallComment(
     val text: String,
     @SerializedName(value="attachments")
     val attachments: List<WallCommentAttachment>? = null,
+    @SerializedName(value="donut")
+    val donut: WallWallCommentDonut? = null,
     @SerializedName(value="likes")
     val likes: BaseLikesInfo? = null,
     @SerializedName(value="real_offset")

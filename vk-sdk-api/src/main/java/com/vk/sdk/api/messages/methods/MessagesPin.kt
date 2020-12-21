@@ -38,16 +38,21 @@ import org.json.JSONObject
  * Pin a message.
  * @param peerId Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' + 'Chat
  * ID', e.g. '2000000001'. For community: '- Community ID', e.g. '-12345'. " 
- * @param messageId  minimum 0
+ * @param messageId Message ID minimum 0
+ * @param conversationMessageId Conversation message ID minimum 0
  */
 class MessagesPin(
     private val peerId: Int,
-    private val messageId: Int? = null
+    private val messageId: Int? = null,
+    private val conversationMessageId: Int? = null
 ) : ApiRequestBase<MessagesPinnedMessage>(methodName = "messages.pin") {
     init {
         addParam("peer_id", peerId)
         messageId?.let { value ->
             addParam("message_id", value)
+        }
+        conversationMessageId?.let { value ->
+            addParam("conversation_message_id", value)
         }
     }
 

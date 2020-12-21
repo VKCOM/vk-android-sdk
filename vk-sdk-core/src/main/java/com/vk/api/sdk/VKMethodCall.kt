@@ -39,6 +39,10 @@ open class VKMethodCall {
             private set
         var skipValidation: Boolean = false
             private set
+        var isAwaitNetwork: Boolean = false
+            private set
+        var ignoreExecuteErrors: IntArray? = null
+            private set
 
         /**
          * Api method name
@@ -52,6 +56,8 @@ open class VKMethodCall {
         open fun args(key: String, value: Any) = apply { this.args[key] = value.toString() }
         open fun retryCount(count: Int) = apply { this.retryCount = count }
         open fun skipValidation(skip: Boolean) = apply { this.skipValidation = skip }
+        open fun awaitNetwork(isAwaitNetwork: Boolean) = apply { this.isAwaitNetwork = isAwaitNetwork }
+        open fun ignoreExecuteErrors(ignoredErrors: IntArray?) = apply { this.ignoreExecuteErrors = ignoredErrors }
 
         open fun build() = VKMethodCall(this)
     }
@@ -61,6 +67,8 @@ open class VKMethodCall {
     val args: Map<String,String>
     val retryCount: Int
     val skipValidation: Boolean
+    val isAwaitNetwork: Boolean
+    val ignoreExecuteErrors: IntArray?
 
     protected constructor(b: Builder) {
         if (b.method.isBlank()) throw IllegalArgumentException("method is null or empty")
@@ -70,6 +78,8 @@ open class VKMethodCall {
         this.args = b.args
         this.retryCount = b.retryCount
         this.skipValidation = b.skipValidation
+        this.isAwaitNetwork = b.isAwaitNetwork
+        this.ignoreExecuteErrors = b.ignoreExecuteErrors
     }
 
     override fun equals(other: Any?): Boolean {

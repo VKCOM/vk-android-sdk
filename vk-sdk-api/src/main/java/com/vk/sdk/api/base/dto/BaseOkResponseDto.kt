@@ -30,6 +30,11 @@ package com.vk.sdk.api.base.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.Int
 
@@ -38,12 +43,22 @@ enum class BaseOkResponseDto(
 ) {
     OK(1);
 
-    class Serializer : JsonDeserializer<BaseOkResponseDto> {
+    class Serializer : JsonSerializer<BaseOkResponseDto>, JsonDeserializer<BaseOkResponseDto> {
+        override fun serialize(
+            src: BaseOkResponseDto?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): BaseOkResponseDto = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): BaseOkResponseDto {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

@@ -35,6 +35,8 @@ import kotlin.Int
  * @param postId Created post ID
  * @param repostsCount Reposts number
  * @param likesCount Reposts number
+ * @param wallRepostCount Reposts to wall number
+ * @param mailRepostCount Reposts to mail number
  */
 data class WallRepostResponseDto(
     @SerializedName(value="success")
@@ -44,5 +46,9 @@ data class WallRepostResponseDto(
     @SerializedName(value="reposts_count")
     val repostsCount: Int,
     @SerializedName(value="likes_count")
-    val likesCount: Int
+    val likesCount: Int,
+    @SerializedName(value="wall_repost_count")
+    val wallRepostCount: Int? = null,
+    @SerializedName(value="mail_repost_count")
+    val mailRepostCount: Int? = null
 )

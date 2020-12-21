@@ -30,6 +30,11 @@ package com.vk.sdk.api.messages.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import java.lang.reflect.Type
 import kotlin.Boolean
@@ -44,6 +49,7 @@ import kotlin.collections.List
  * @param outRead Last outcoming message have been read by the opponent
  * @param unreadCount Unread messages number
  * @param isMarkedUnread Is this conversation uread
+ * @param outReadBy no description
  * @param important no description
  * @param unanswered no description
  * @param specialServiceType no description
@@ -67,6 +73,8 @@ data class MessagesConversation(
     val unreadCount: Int? = null,
     @SerializedName(value="is_marked_unread")
     val isMarkedUnread: Boolean? = null,
+    @SerializedName(value="out_read_by")
+    val outReadBy: MessagesOutReadBy? = null,
     @SerializedName(value="important")
     val important: Boolean? = null,
     @SerializedName(value="unanswered")
@@ -91,13 +99,24 @@ data class MessagesConversation(
     ) {
         BUSINESS_NOTIFY("business_notify");
 
-        class Serializer : JsonDeserializer<SpecialServiceType> {
+        class Serializer : JsonSerializer<SpecialServiceType>, JsonDeserializer<SpecialServiceType>
+                {
+            override fun serialize(
+                src: SpecialServiceType?,
+                typeOfSrc: Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: Type?,
                 context: JsonDeserializationContext?
-            ): SpecialServiceType = values().first { it.value.toString() ==
-                    json!!.asJsonPrimitive.toString() }
+            ): SpecialServiceType {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 }

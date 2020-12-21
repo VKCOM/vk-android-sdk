@@ -30,6 +30,11 @@ package com.vk.sdk.api.stories.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.apps.dto.AppsAppMin
 import com.vk.sdk.api.audio.dto.AudioAudio
@@ -69,6 +74,7 @@ import kotlin.collections.List
  * @param appContext Additional context for app sticker
  * @param hasNewInteractions Whether current user has unread interaction with this app
  * @param isBroadcastNotifyAllowed Whether current user allowed broadcast notify from this app
+ * @param situationalThemeId no description
  */
 data class StoriesClickableSticker(
     @SerializedName(value="clickable_area")
@@ -124,7 +130,9 @@ data class StoriesClickableSticker(
     @SerializedName(value="has_new_interactions")
     val hasNewInteractions: Boolean? = null,
     @SerializedName(value="is_broadcast_notify_allowed")
-    val isBroadcastNotifyAllowed: Boolean? = null
+    val isBroadcastNotifyAllowed: Boolean? = null,
+    @SerializedName(value="situational_theme_id")
+    val situationalThemeId: Int? = null
 ) {
     enum class Subtype(
         val value: String
@@ -133,12 +141,23 @@ data class StoriesClickableSticker(
 
         ALIEXPRESS_PRODUCT("aliexpress_product");
 
-        class Serializer : JsonDeserializer<Subtype> {
+        class Serializer : JsonSerializer<Subtype>, JsonDeserializer<Subtype> {
+            override fun serialize(
+                src: Subtype?,
+                typeOfSrc: java.lang.reflect.Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: java.lang.reflect.Type?,
                 context: JsonDeserializationContext?
-            ): Subtype = values().first { it.value.toString() == json!!.asJsonPrimitive.toString() }
+            ): Subtype {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 
@@ -165,12 +184,23 @@ data class StoriesClickableSticker(
 
         IMPRESSIVE("impressive");
 
-        class Serializer : JsonDeserializer<Style> {
+        class Serializer : JsonSerializer<Style>, JsonDeserializer<Style> {
+            override fun serialize(
+                src: Style?,
+                typeOfSrc: java.lang.reflect.Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: java.lang.reflect.Type?,
                 context: JsonDeserializationContext?
-            ): Style = values().first { it.value.toString() == json!!.asJsonPrimitive.toString() }
+            ): Style {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 
@@ -201,14 +231,27 @@ data class StoriesClickableSticker(
 
         STICKER("sticker"),
 
-        APP("app");
+        APP("app"),
 
-        class Serializer : JsonDeserializer<Type> {
+        SITUATIONAL_THEME("situational_theme");
+
+        class Serializer : JsonSerializer<Type>, JsonDeserializer<Type> {
+            override fun serialize(
+                src: Type?,
+                typeOfSrc: java.lang.reflect.Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: java.lang.reflect.Type?,
                 context: JsonDeserializationContext?
-            ): Type = values().first { it.value.toString() == json!!.asJsonPrimitive.toString() }
+            ): Type {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 }

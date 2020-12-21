@@ -30,6 +30,11 @@ package com.vk.sdk.api.video.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -40,12 +45,23 @@ enum class VideoGetCommentsSort(
 
     NEWEST_COMMENT_FIRST("desc");
 
-    class Serializer : JsonDeserializer<VideoGetCommentsSort> {
+    class Serializer : JsonSerializer<VideoGetCommentsSort>, JsonDeserializer<VideoGetCommentsSort>
+            {
+        override fun serialize(
+            src: VideoGetCommentsSort?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): VideoGetCommentsSort = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): VideoGetCommentsSort {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

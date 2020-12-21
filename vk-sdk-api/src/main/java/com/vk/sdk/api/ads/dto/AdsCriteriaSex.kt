@@ -30,6 +30,11 @@ package com.vk.sdk.api.ads.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.Int
 
@@ -42,12 +47,22 @@ enum class AdsCriteriaSex(
 
     FEMALE(2);
 
-    class Serializer : JsonDeserializer<AdsCriteriaSex> {
+    class Serializer : JsonSerializer<AdsCriteriaSex>, JsonDeserializer<AdsCriteriaSex> {
+        override fun serialize(
+            src: AdsCriteriaSex?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): AdsCriteriaSex = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): AdsCriteriaSex {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

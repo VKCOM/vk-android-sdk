@@ -72,6 +72,15 @@ import com.vk.sdk.api.base.dto.BaseBoolInt
  * @param wallReplyRestore no description
  * @param wallRepost no description
  * @param leadFormsNew no description
+ * @param marketOrderNew no description
+ * @param marketOrderEdit no description
+ * @param donutSubscriptionCreate no description
+ * @param donutSubscriptionProlonged no description
+ * @param donutSubscriptionCancelled no description
+ * @param donutSubscriptionExpired no description
+ * @param donutSubscriptionPriceChanged no description
+ * @param donutMoneyWithdraw no description
+ * @param donutMoneyWithdrawError no description
  */
 data class GroupsLongPollEvents(
     @SerializedName(value="audio_new")
@@ -155,5 +164,23 @@ data class GroupsLongPollEvents(
     @SerializedName(value="wall_repost")
     val wallRepost: BaseBoolInt,
     @SerializedName(value="lead_forms_new")
-    val leadFormsNew: BaseBoolInt? = null
+    val leadFormsNew: BaseBoolInt? = null,
+    @SerializedName(value="market_order_new")
+    val marketOrderNew: BaseBoolInt? = null,
+    @SerializedName(value="market_order_edit")
+    val marketOrderEdit: BaseBoolInt? = null,
+    @SerializedName(value="donut_subscription_create")
+    val donutSubscriptionCreate: BaseBoolInt? = null,
+    @SerializedName(value="donut_subscription_prolonged")
+    val donutSubscriptionProlonged: BaseBoolInt? = null,
+    @SerializedName(value="donut_subscription_cancelled")
+    val donutSubscriptionCancelled: BaseBoolInt? = null,
+    @SerializedName(value="donut_subscription_expired")
+    val donutSubscriptionExpired: BaseBoolInt? = null,
+    @SerializedName(value="donut_subscription_price_changed")
+    val donutSubscriptionPriceChanged: BaseBoolInt? = null,
+    @SerializedName(value="donut_money_withdraw")
+    val donutMoneyWithdraw: BaseBoolInt? = null,
+    @SerializedName(value="donut_money_withdraw_error")
+    val donutMoneyWithdrawError: BaseBoolInt? = null
 )

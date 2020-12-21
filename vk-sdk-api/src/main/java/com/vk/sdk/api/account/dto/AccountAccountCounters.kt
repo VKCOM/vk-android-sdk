@@ -40,6 +40,7 @@ import kotlin.Int
  * @param gifts New gifts number
  * @param groups New groups number
  * @param menuDiscoverBadge 
+ * @param menuClipsBadge no description
  * @param messages New messages number
  * @param memories New memories number
  * @param notes New notes number
@@ -66,6 +67,8 @@ data class AccountAccountCounters(
     val groups: Int? = null,
     @SerializedName(value="menu_discover_badge")
     val menuDiscoverBadge: Int? = null,
+    @SerializedName(value="menu_clips_badge")
+    val menuClipsBadge: Int? = null,
     @SerializedName(value="messages")
     val messages: Int? = null,
     @SerializedName(value="memories")

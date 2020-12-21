@@ -28,13 +28,12 @@
 package com.vk.sdk.api.groups.responses
 
 import com.google.gson.annotations.SerializedName
-import com.vk.sdk.api.groups.dto.GroupsGroupFull
-import kotlin.collections.List
+import com.vk.sdk.api.groups.dto.GroupsGetByIdResponseDto
 
 /**
  * @param response no description
  */
 data class GroupsGetByIdResponse(
     @SerializedName(value="response")
-    val response: List<GroupsGroupFull>
+    val response: GroupsGetByIdResponseDto
 )

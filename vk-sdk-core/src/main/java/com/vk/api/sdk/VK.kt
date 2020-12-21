@@ -53,7 +53,7 @@ object VK {
 
     private val tokenExpiredHandlers = ArrayList<VKTokenExpiredHandler>()
 
-    private var cachedAppId = 0
+    private var cachedResourceAppId = 0
 
     /**
      * This field contains an instance of VKUrlResolver that can be used to open a URL in VK client.
@@ -221,7 +221,7 @@ object VK {
      */
     @JvmStatic
     fun initialize(context: Context) {
-        val appId = getAppId(context)
+        val appId = getAppIdFromResources(context)
         setConfig(VKApiConfig(
                 context = context,
                 appId = appId,
@@ -233,34 +233,45 @@ object VK {
     }
 
     /**
-     * This method returns Application ID provided in the Manifest.
+     * This method returns Application ID of current [VKApiConfig]
+     * or value of com_vk_sdk_AppId resource if VK SDK wasn't initialized
      */
     @JvmStatic
     fun getAppId(context: Context): Int {
-        if (cachedAppId != 0) {
-            return cachedAppId
+        return try {
+            apiManager.config.appId
+        } catch (ignored: Exception) { // lateinit exception
+            // If somebody calls this method before initialization, return resource value
+            getAppIdFromResources(context)
         }
-
-        val resId = context.resources.getIdentifier(SDK_APP_ID, "integer", context.packageName)
-        cachedAppId = try {
-            context.resources.getInteger(resId)
-        } catch (e: Exception) {
-            0
-        }
-
-        if (cachedAppId == 0) {
-            throw RuntimeException("<integer name=\"com_vk_sdk_AppId\">your_app_id</integer> is not found in your resources.xml")
-        }
-
-        return cachedAppId
     }
 
     @JvmStatic
     fun clearAccessToken(context: Context) {
-        authManager.clearAccessToken()
+        if (::authManager.isInitialized) {
+            authManager.clearAccessToken()
+        }
     }
 
     private fun trackVisitor() {
         execute(VKBooleanRequest("stats.trackVisitor"))
+    }
+
+    private fun getAppIdFromResources(context: Context): Int {
+        if (cachedResourceAppId != 0) {
+            return cachedResourceAppId
+        }
+
+        val resId = context.resources.getIdentifier(SDK_APP_ID, "integer", context.packageName)
+        val appId = try {
+            context.resources.getInteger(resId)
+        } catch (e: Exception) {
+            0
+        }
+        if (appId == 0) {
+            throw RuntimeException("<integer name=\"$SDK_APP_ID\">your_app_id</integer> is not found in your resources.xml")
+        }
+        cachedResourceAppId = appId
+        return appId
     }
 }

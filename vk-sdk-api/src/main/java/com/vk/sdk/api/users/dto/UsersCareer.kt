@@ -33,6 +33,7 @@ import kotlin.String
 
 /**
  * @param cityId City ID
+ * @param cityName City name
  * @param company Company name
  * @param countryId Country ID
  * @param from From year
@@ -44,6 +45,8 @@ import kotlin.String
 data class UsersCareer(
     @SerializedName(value="city_id")
     val cityId: Int? = null,
+    @SerializedName(value="city_name")
+    val cityName: String? = null,
     @SerializedName(value="company")
     val company: String? = null,
     @SerializedName(value="country_id")

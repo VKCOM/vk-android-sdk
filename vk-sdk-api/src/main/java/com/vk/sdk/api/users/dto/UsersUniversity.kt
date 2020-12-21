@@ -43,6 +43,7 @@ import kotlin.String
  * @param graduation Graduation year
  * @param id University ID
  * @param name University name
+ * @param universityGroupId no description
  */
 data class UsersUniversity(
     @SerializedName(value="chair")
@@ -66,5 +67,7 @@ data class UsersUniversity(
     @SerializedName(value="id")
     val id: Int? = null,
     @SerializedName(value="name")
-    val name: String? = null
+    val name: String? = null,
+    @SerializedName(value="university_group_id")
+    val universityGroupId: Int? = null
 )

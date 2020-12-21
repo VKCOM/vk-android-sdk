@@ -42,14 +42,18 @@ open class VKHttpPostCall {
             private set
         var timeoutMs: Long = 0
             private set
+        var isAwaitNetwork: Boolean = false
+            private set
 
         open fun url(url: String) = apply { this.url = url }
         open fun multipart(multipart: Boolean) = apply { this.isMultipart = multipart }
         open fun args(key: String, value: String) = apply { parts[key] = HttpMultipartEntry.Text(value) }
         open fun args(key: String, fileUri: Uri) = apply { parts[key] = HttpMultipartEntry.File(fileUri) }
         open fun args(key: String, fileUri: Uri, fileName: String) = apply { parts[key] = HttpMultipartEntry.File(fileUri, fileName) }
+        open fun parts(parts: Map<String, HttpMultipartEntry>) = apply { this.parts.putAll(parts) }
         open fun retryCount(count: Int) = apply { this.retryCount = count }
         open fun timeout(timeout: Long) = apply { this.timeoutMs = timeout }
+        open fun awaitNetwork(isAwaitNetwork: Boolean) = apply { this.isAwaitNetwork = isAwaitNetwork }
 
         open fun build() = VKHttpPostCall(this)
     }
@@ -59,6 +63,7 @@ open class VKHttpPostCall {
     val parts: Map<String, HttpMultipartEntry>
     val retryCount: Int
     val timeoutMs: Long
+    val isAwaitNetwork: Boolean
 
     protected constructor(b: Builder) {
         if (b.url.isBlank()) throw IllegalArgumentException("Illegal url value: ${b.url}")
@@ -71,5 +76,6 @@ open class VKHttpPostCall {
         this.parts = b.parts
         this.retryCount = b.retryCount
         this.timeoutMs = b.timeoutMs
+        this.isAwaitNetwork = b.isAwaitNetwork
     }
 }

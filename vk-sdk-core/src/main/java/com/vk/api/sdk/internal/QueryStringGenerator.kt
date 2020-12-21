@@ -25,7 +25,6 @@
 package com.vk.api.sdk.internal
 
 import com.vk.api.sdk.okhttp.OkHttpMethodCall
-import com.vk.api.sdk.utils.getValue
 import com.vk.api.sdk.utils.threadLocal
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder

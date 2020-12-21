@@ -40,18 +40,22 @@ import org.json.JSONObject
  * @param type Item type. Possible values: *'wall' - post on the wall,, *'tag' - tag on a photo,,
  * *'profilephoto' - profile photo,, *'video' - video,, *'audio' - audio. 
  * @param ownerId Item owner's identifier (user or community), "Note that community id must be
- * negative. 'owner_id=1' - user , 'owner_id=-1' - community " 
- * @param itemId Item identifier minimum 0
+ * negative. 'owner_id=1' - user , 'owner_id=-1' - community " default 0
+ * @param itemId Item identifier default 0 minimum 0
  */
 class NewsfeedIgnoreItem(
     private val type: String,
-    private val ownerId: Int,
-    private val itemId: Int
+    private val ownerId: Int? = null,
+    private val itemId: Int? = null
 ) : ApiRequestBase<BaseOkResponseDto>(methodName = "newsfeed.ignoreItem") {
     init {
         addParam("type", type)
-        addParam("owner_id", ownerId)
-        addParam("item_id", itemId)
+        ownerId?.let { value ->
+            addParam("owner_id", value)
+        }
+        itemId?.let { value ->
+            addParam("item_id", value)
+        }
     }
 
     override fun parse(r: JSONObject): BaseOkResponseDto = GsonHolder.gson.fromJson(r.toString(),

@@ -30,6 +30,11 @@ package com.vk.sdk.api.groups.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.Int
 
@@ -42,12 +47,23 @@ enum class GroupsGroupAgeLimits(
 
     EIGHTEEN__PLUS(3);
 
-    class Serializer : JsonDeserializer<GroupsGroupAgeLimits> {
+    class Serializer : JsonSerializer<GroupsGroupAgeLimits>, JsonDeserializer<GroupsGroupAgeLimits>
+            {
+        override fun serialize(
+            src: GroupsGroupAgeLimits?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): GroupsGroupAgeLimits = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): GroupsGroupAgeLimits {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

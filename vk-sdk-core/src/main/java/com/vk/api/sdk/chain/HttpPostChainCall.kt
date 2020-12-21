@@ -34,7 +34,7 @@ import com.vk.api.sdk.okhttp.OkHttpPostCall
 import com.vk.api.sdk.utils.hasSimpleError
 import com.vk.api.sdk.utils.toSimpleError
 
-class HttpPostChainCall<T>(manager: VKApiManager,
+open class HttpPostChainCall<T>(manager: VKApiManager,
                            val okHttpExecutor: OkHttpExecutor,
                            val call: VKHttpPostCall,
                            val progressListener: VKApiProgressListener?,
@@ -42,11 +42,14 @@ class HttpPostChainCall<T>(manager: VKApiManager,
     @Throws(Exception::class)
     override fun call(args: ChainArgs): T? {
         val response = okHttpExecutor.execute(OkHttpPostCall(call), progressListener)
+        return handleResponse(response)
+    }
+
+    protected fun handleResponse(response: String?): T? {
         return when {
             response == null -> throw VKApiException("Response returned null instead of valid string response")
             response.hasSimpleError() -> throw response.toSimpleError("post")
             else -> parser?.parse(response)
         }
     }
-
 }

@@ -29,7 +29,7 @@ package com.vk.sdk.api.ads.methods
 
 import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
-import com.vk.sdk.api.ads.dto.AdsUserSpecification
+import com.vk.sdk.api.ads.dto.AdsUserSpecificationCutted
 import com.vk.sdk.api.ads.responses.AdsAddOfficeUsersResponse
 import kotlin.Boolean
 import kotlin.Int
@@ -44,7 +44,7 @@ import org.json.JSONObject
  */
 class AdsAddOfficeUsers(
     private val accountId: Int,
-    private val data: List<AdsUserSpecification>
+    private val data: List<AdsUserSpecificationCutted>
 ) : ApiRequestBase<Boolean>(methodName = "ads.addOfficeUsers") {
     init {
         addParam("account_id", accountId)

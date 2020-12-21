@@ -31,7 +31,7 @@ import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.groups.dto.GroupsFields
 import com.vk.sdk.api.groups.dto.GroupsGroupFull
-import com.vk.sdk.api.groups.responses.GroupsGetByIdResponse
+import com.vk.sdk.api.groups.responses.GroupsGetByIdLegacyResponse
 import kotlin.String
 import kotlin.collections.List
 import org.json.JSONObject
@@ -60,5 +60,5 @@ class GroupsGetById(
     }
 
     override fun parse(r: JSONObject): List<GroupsGroupFull> =
-            GsonHolder.gson.fromJson(r.toString(), GroupsGetByIdResponse::class.java).response
+            GsonHolder.gson.fromJson(r.toString(), GroupsGetByIdLegacyResponse::class.java).response
 }

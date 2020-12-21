@@ -26,8 +26,8 @@ package com.vk.api.sdk.okhttp
 import com.vk.api.sdk.VKHttpPostCall
 import com.vk.api.sdk.internal.HttpMultipartEntry
 
-class OkHttpPostCall {
-    class Builder {
+open class OkHttpPostCall {
+    open class Builder {
         var url: String = ""
             private set
         var isMultipart: Boolean = true
@@ -41,7 +41,7 @@ class OkHttpPostCall {
         fun parts(parts: Map<String, HttpMultipartEntry>) = apply { this.parts.clear(); this.parts.putAll(parts) }
         fun timeout(timeout: Long) = apply { this.timeoutMs = timeout }
 
-        fun build() = OkHttpPostCall(this)
+        open fun build() = OkHttpPostCall(this)
     }
 
     val url: String
@@ -49,9 +49,9 @@ class OkHttpPostCall {
     val parts: Map<String, HttpMultipartEntry>
     val timeoutMs: Long
 
-    private constructor(b: Builder) {
+    protected constructor(b: Builder) {
         if (b.url.isBlank()) throw IllegalArgumentException("Illegal url value: ${b.url}")
-        if (b.timeoutMs <= 0) throw IllegalArgumentException("Illegal timeout value: ${b.timeoutMs}")
+        if (b.timeoutMs < 0) throw IllegalArgumentException("Illegal timeout value: ${b.timeoutMs}")
         if (!b.isMultipart && b.parts.any { it.value !is HttpMultipartEntry.Text }) {
             throw IllegalStateException("Non multipart calls should consist of text arguments only")
         }

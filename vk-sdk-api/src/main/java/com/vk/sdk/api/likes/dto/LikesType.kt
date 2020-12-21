@@ -30,6 +30,11 @@ package com.vk.sdk.api.likes.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -58,13 +63,26 @@ enum class LikesType(
 
     MARKET_COMMENT("market_comment"),
 
-    SITEPAGE("sitepage");
+    SITEPAGE("sitepage"),
 
-    class Serializer : JsonDeserializer<LikesType> {
+    BUSINESS_PAGE("business_page");
+
+    class Serializer : JsonSerializer<LikesType>, JsonDeserializer<LikesType> {
+        override fun serialize(
+            src: LikesType?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): LikesType = values().first { it.value.toString() == json!!.asJsonPrimitive.toString() }
+        ): LikesType {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

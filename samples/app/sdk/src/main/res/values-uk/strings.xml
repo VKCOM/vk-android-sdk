@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Увійти</string>
+    <string name="logout">Вийти</string>
+    <string name="share_to_wall">Опублікувати на стіні</string>
+    <string name="message_hint">Ваше повідомлення</string>
+    <string name="wall_ok">Запис опубліковано</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Entrar</string>
+    <string name="logout">Sair</string>
+    <string name="share_to_wall">Publicar no mural</string>
+    <string name="message_hint">Sua mensagem</string>
+    <string name="wall_ok">Post publicado</string>
+</resources>

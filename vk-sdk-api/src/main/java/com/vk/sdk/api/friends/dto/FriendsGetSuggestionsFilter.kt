@@ -30,6 +30,11 @@ package com.vk.sdk.api.friends.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -42,12 +47,23 @@ enum class FriendsGetSuggestionsFilter(
 
     MUTUAL_CONTACTS("mutual_contacts");
 
-    class Serializer : JsonDeserializer<FriendsGetSuggestionsFilter> {
+    class Serializer : JsonSerializer<FriendsGetSuggestionsFilter>,
+            JsonDeserializer<FriendsGetSuggestionsFilter> {
+        override fun serialize(
+            src: FriendsGetSuggestionsFilter?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): FriendsGetSuggestionsFilter = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): FriendsGetSuggestionsFilter {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

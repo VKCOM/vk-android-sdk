@@ -30,6 +30,11 @@ package com.vk.sdk.api.polls.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseGradientPoint
 import com.vk.sdk.api.base.dto.BaseImage
@@ -75,12 +80,23 @@ data class PollsBackground(
 
         TILE("tile");
 
-        class Serializer : JsonDeserializer<Type> {
+        class Serializer : JsonSerializer<Type>, JsonDeserializer<Type> {
+            override fun serialize(
+                src: Type?,
+                typeOfSrc: java.lang.reflect.Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: java.lang.reflect.Type?,
                 context: JsonDeserializationContext?
-            ): Type = values().first { it.value.toString() == json!!.asJsonPrimitive.toString() }
+            ): Type {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 }

@@ -36,6 +36,7 @@ import kotlin.String
  * @param title Button title
  * @param blockId Target block id
  * @param sectionId Target section id
+ * @param curatorId curator id
  * @param ownerId Owner id
  * @param icon Button icon name, e.g. 'phone' or 'gift'
  * @param style no description
@@ -49,6 +50,8 @@ data class BaseLinkButton(
     val blockId: String? = null,
     @SerializedName(value="section_id")
     val sectionId: String? = null,
+    @SerializedName(value="curator_id")
+    val curatorId: Int? = null,
     @SerializedName(value="owner_id")
     val ownerId: Int? = null,
     @SerializedName(value="icon")

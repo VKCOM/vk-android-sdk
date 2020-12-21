@@ -40,6 +40,7 @@ import kotlin.collections.List
  * @param ownerId Audio message owner ID
  * @param waveform no description
  * @param accessKey Access key for audio message
+ * @param transcriptError no description
  */
 data class MessagesAudioMessage(
     @SerializedName(value="duration")
@@ -55,5 +56,7 @@ data class MessagesAudioMessage(
     @SerializedName(value="waveform")
     val waveform: List<Int>,
     @SerializedName(value="access_key")
-    val accessKey: String? = null
+    val accessKey: String? = null,
+    @SerializedName(value="transcript_error")
+    val transcriptError: Int? = null
 )

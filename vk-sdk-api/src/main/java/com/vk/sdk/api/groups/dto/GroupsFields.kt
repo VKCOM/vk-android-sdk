@@ -30,6 +30,11 @@ package com.vk.sdk.api.groups.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -44,6 +49,10 @@ enum class GroupsFields(
 
     IS_SUBSCRIBED("is_subscribed"),
 
+    IS_SUBSCRIBED_PODCASTS("is_subscribed_podcasts"),
+
+    CAN_SUBSCRIBE_PODCASTS("can_subscribe_podcasts"),
+
     CITY("city"),
 
     COUNTRY("country"),
@@ -56,21 +65,29 @@ enum class GroupsFields(
 
     MEMBERS_COUNT("members_count"),
 
+    REQUESTS_COUNT("requests_count"),
+
     COUNTERS("counters"),
 
     COVER("cover"),
 
     CAN_POST("can_post"),
 
+    CAN_SUGGEST("can_suggest"),
+
+    CAN_UPLOAD_STORY("can_upload_story"),
+
+    CAN_UPLOAD_DOC("can_upload_doc"),
+
+    CAN_UPLOAD_VIDEO("can_upload_video"),
+
     CAN_SEE_ALL_POSTS("can_see_all_posts"),
+
+    CAN_CREATE_TOPIC("can_create_topic"),
 
     ACTIVITY("activity"),
 
     FIXED_POST("fixed_post"),
-
-    CAN_CREATE_TOPIC("can_create_topic"),
-
-    CAN_UPLOAD_VIDEO("can_upload_video"),
 
     HAS_PHOTO("has_photo"),
 
@@ -86,7 +103,13 @@ enum class GroupsFields(
 
     MAIN_SECTION("main_section"),
 
+    SECONDARY_SECTION("secondary_section"),
+
+    WALL("wall"),
+
     TRENDING("trending"),
+
+    HAD_TORCH("had_torch"),
 
     CAN_MESSAGE("can_message"),
 
@@ -95,6 +118,10 @@ enum class GroupsFields(
     IS_MESSAGES_BLOCKED("is_messages_blocked"),
 
     CAN_SEND_NOTIFY("can_send_notify"),
+
+    HAS_GROUP_CHANNEL("has_group_channel"),
+
+    GROUP_CHANNEL("group_channel"),
 
     ONLINE_STATUS("online_status"),
 
@@ -114,6 +141,12 @@ enum class GroupsFields(
 
     HAS_MARKET_APP("has_market_app"),
 
+    VKPAY_CAN_TRANSFER("vkpay_can_transfer"),
+
+    VKPAY_RECEIVER_ID("vkpay_receiver_id"),
+
+    USING_VKPAY_MARKET_APP("using_vkpay_market_app"),
+
     ADDRESSES("addresses"),
 
     LIVE_COVERS("live_covers"),
@@ -121,6 +154,8 @@ enum class GroupsFields(
     IS_ADULT("is_adult"),
 
     CAN_SUBSCRIBE_POSTS("can_subscribe_posts"),
+
+    CREATE_DATE("create_date"),
 
     MENU("menu"),
 
@@ -158,14 +193,34 @@ enum class GroupsFields(
 
     VIDEO_LIVE_COUNT("video_live_count"),
 
-    CLIPS_COUNT("clips_count");
+    CLIPS_COUNT("clips_count"),
 
-    class Serializer : JsonDeserializer<GroupsFields> {
+    MICROLANDING("microlanding"),
+
+    LIKE("like"),
+
+    YOULA_STATUS("youla_status"),
+
+    IS_BUSINESS("is_business"),
+
+    NEW_POSTS_COUNT("new_posts_count");
+
+    class Serializer : JsonSerializer<GroupsFields>, JsonDeserializer<GroupsFields> {
+        override fun serialize(
+            src: GroupsFields?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): GroupsFields = values().first { it.value.toString() == json!!.asJsonPrimitive.toString()
-                }
+        ): GroupsFields {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

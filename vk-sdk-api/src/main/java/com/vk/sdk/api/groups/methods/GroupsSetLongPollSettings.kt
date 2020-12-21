@@ -84,6 +84,13 @@ import org.json.JSONObject
  * @param likeAdd  
  * @param likeRemove  
  * @param messageEvent  
+ * @param donutSubscriptionCreate  
+ * @param donutSubscriptionProlonged  
+ * @param donutSubscriptionCancelled  
+ * @param donutSubscriptionPriceChanged  
+ * @param donutSubscriptionExpired  
+ * @param donutMoneyWithdraw  
+ * @param donutMoneyWithdrawError  
  */
 class GroupsSetLongPollSettings(
     private val groupId: Int,
@@ -130,7 +137,14 @@ class GroupsSetLongPollSettings(
     private val userUnblock: Boolean? = null,
     private val likeAdd: Boolean? = null,
     private val likeRemove: Boolean? = null,
-    private val messageEvent: Boolean? = null
+    private val messageEvent: Boolean? = null,
+    private val donutSubscriptionCreate: Boolean? = null,
+    private val donutSubscriptionProlonged: Boolean? = null,
+    private val donutSubscriptionCancelled: Boolean? = null,
+    private val donutSubscriptionPriceChanged: Boolean? = null,
+    private val donutSubscriptionExpired: Boolean? = null,
+    private val donutMoneyWithdraw: Boolean? = null,
+    private val donutMoneyWithdrawError: Boolean? = null
 ) : ApiRequestBase<BaseOkResponseDto>(methodName = "groups.setLongPollSettings") {
     init {
         addParam("group_id", groupId)
@@ -265,6 +279,27 @@ class GroupsSetLongPollSettings(
         }
         messageEvent?.let { value ->
             addParam("message_event", if (value) 1 else 0)
+        }
+        donutSubscriptionCreate?.let { value ->
+            addParam("donut_subscription_create", if (value) 1 else 0)
+        }
+        donutSubscriptionProlonged?.let { value ->
+            addParam("donut_subscription_prolonged", if (value) 1 else 0)
+        }
+        donutSubscriptionCancelled?.let { value ->
+            addParam("donut_subscription_cancelled", if (value) 1 else 0)
+        }
+        donutSubscriptionPriceChanged?.let { value ->
+            addParam("donut_subscription_price_changed", if (value) 1 else 0)
+        }
+        donutSubscriptionExpired?.let { value ->
+            addParam("donut_subscription_expired", if (value) 1 else 0)
+        }
+        donutMoneyWithdraw?.let { value ->
+            addParam("donut_money_withdraw", if (value) 1 else 0)
+        }
+        donutMoneyWithdrawError?.let { value ->
+            addParam("donut_money_withdraw_error", if (value) 1 else 0)
         }
     }
 

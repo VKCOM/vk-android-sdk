@@ -31,7 +31,7 @@ import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.wall.dto.WallWallpostFull
-import com.vk.sdk.api.wall.responses.WallGetByIdResponse
+import com.vk.sdk.api.wall.responses.WallGetByIdLegacyResponse
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -68,5 +68,5 @@ class WallGetById(
     }
 
     override fun parse(r: JSONObject): List<WallWallpostFull> =
-            GsonHolder.gson.fromJson(r.toString(), WallGetByIdResponse::class.java).response
+            GsonHolder.gson.fromJson(r.toString(), WallGetByIdLegacyResponse::class.java).response
 }

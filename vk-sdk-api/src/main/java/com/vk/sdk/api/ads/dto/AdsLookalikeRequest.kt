@@ -30,6 +30,11 @@ package com.vk.sdk.api.ads.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import java.lang.reflect.Type
 import kotlin.Int
@@ -79,13 +84,23 @@ data class AdsLookalikeRequest(
 
         PROMOTED_POST("promoted_post");
 
-        class Serializer : JsonDeserializer<SourceType> {
+        class Serializer : JsonSerializer<SourceType>, JsonDeserializer<SourceType> {
+            override fun serialize(
+                src: SourceType?,
+                typeOfSrc: Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: Type?,
                 context: JsonDeserializationContext?
-            ): SourceType = values().first { it.value.toString() ==
-                    json!!.asJsonPrimitive.toString() }
+            ): SourceType {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 
@@ -112,12 +127,23 @@ data class AdsLookalikeRequest(
 
         CANCELED("canceled");
 
-        class Serializer : JsonDeserializer<Status> {
+        class Serializer : JsonSerializer<Status>, JsonDeserializer<Status> {
+            override fun serialize(
+                src: Status?,
+                typeOfSrc: Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: Type?,
                 context: JsonDeserializationContext?
-            ): Status = values().first { it.value.toString() == json!!.asJsonPrimitive.toString() }
+            ): Status {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 }

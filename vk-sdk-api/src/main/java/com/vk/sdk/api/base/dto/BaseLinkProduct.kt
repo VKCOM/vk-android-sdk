@@ -35,9 +35,6 @@ import kotlin.String
 /**
  * @param price no description
  * @param merchant no description
- * @param category no description
- * @param geo no description
- * @param status no description
  * @param ordersCount no description
  */
 data class BaseLinkProduct(
@@ -45,12 +42,6 @@ data class BaseLinkProduct(
     val price: MarketPrice,
     @SerializedName(value="merchant")
     val merchant: String? = null,
-    @SerializedName(value="category")
-    val category: String? = null,
-    @SerializedName(value="geo")
-    val geo: BaseGeoCoordinates? = null,
-    @SerializedName(value="status")
-    val status: BaseLinkProductStatus? = null,
     @SerializedName(value="orders_count")
     val ordersCount: Int? = null
 )

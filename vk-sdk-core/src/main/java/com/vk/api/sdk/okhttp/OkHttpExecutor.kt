@@ -121,13 +121,16 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
 
         val timeout = if (call.timeoutMs > 0) call.timeoutMs else config.postRequestsTimeout
 
-        val request = Request.Builder()
-                .post(requestBody)
-                .url(call.url)
-                .cacheControl(CacheControl.FORCE_NETWORK)
-                .build()
+        val request = makePostCallRequestBuilder(call, requestBody).build()
 
         return readResponse(executeRequest(request, timeout))
+    }
+
+    protected open fun makePostCallRequestBuilder(call: OkHttpPostCall, requestBody: RequestBody): Request.Builder {
+        return Request.Builder()
+            .post(requestBody)
+            .url(call.url)
+            .cacheControl(CacheControl.FORCE_NETWORK)
     }
 
     @Throws(VKApiException::class)

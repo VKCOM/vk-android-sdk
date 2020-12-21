@@ -27,6 +27,14 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.dto
 
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.audio.dto.AudioAudio
 import com.vk.sdk.api.base.dto.BaseBoolInt
@@ -35,6 +43,7 @@ import com.vk.sdk.api.base.dto.BaseCountry
 import com.vk.sdk.api.base.dto.BaseCropPhoto
 import com.vk.sdk.api.base.dto.BaseSex
 import com.vk.sdk.api.owner.dto.OwnerState
+import com.vk.sdk.api.photos.dto.PhotosPhoto
 import com.vk.sdk.api.users.dto.UsersCareer
 import com.vk.sdk.api.users.dto.UsersExports
 import com.vk.sdk.api.users.dto.UsersLastSeen
@@ -45,9 +54,14 @@ import com.vk.sdk.api.users.dto.UsersPersonal
 import com.vk.sdk.api.users.dto.UsersRelative
 import com.vk.sdk.api.users.dto.UsersSchool
 import com.vk.sdk.api.users.dto.UsersUniversity
+import com.vk.sdk.api.users.dto.UsersUserCounters
 import com.vk.sdk.api.users.dto.UsersUserMin
 import com.vk.sdk.api.users.dto.UsersUserRelation
+import com.vk.sdk.api.users.dto.UsersUserType
+import com.vk.sdk.api.video.dto.VideoLiveInfo
+import java.lang.reflect.Type
 import kotlin.Boolean
+import kotlin.Float
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
@@ -68,6 +82,7 @@ import kotlin.collections.List
  * @param lastNameAbl User's last name in prepositional case
  * @param nickname User nickname
  * @param maidenName User maiden name
+ * @param contactName User contact name
  * @param domain Domain name of the user's page
  * @param bdate User's date of birth
  * @param city no description
@@ -87,6 +102,38 @@ import kotlin.collections.List
  * @param canPost Information whether current user can post on the user's wall
  * @param canSeeAllPosts Information whether current user can see other users' audio on the wall
  * @param canSeeAudio Information whether current user can see the user's audio
+ * @param type no description
+ * @param email no description
+ * @param skype no description
+ * @param facebook no description
+ * @param facebookName no description
+ * @param twitter no description
+ * @param livejournal no description
+ * @param instagram no description
+ * @param test no description
+ * @param videoLive no description
+ * @param isVideoLiveNotificationsBlocked no description
+ * @param isService no description
+ * @param serviceDescription no description
+ * @param photo no description
+ * @param photoBig no description
+ * @param photo400 no description
+ * @param photoMaxSize no description
+ * @param language no description
+ * @param storiesArchiveCount no description
+ * @param wallDefault no description
+ * @param canCall Information whether current user can call
+ * @param canSeeWishes Information whether current user can see the user's wishes
+ * @param canSeeGifts Information whether current user can see the user's gifts
+ * @param interests no description
+ * @param books no description
+ * @param tv no description
+ * @param quotes no description
+ * @param about no description
+ * @param games no description
+ * @param movies no description
+ * @param activities no description
+ * @param music no description
  * @param canWritePrivateMessage Information whether current user can write private message
  * @param canSendFriendRequest Information whether current user can send a friend request
  * @param canBeInvitedGroup Information whether current user can be invited to the community
@@ -102,6 +149,7 @@ import kotlin.collections.List
  * @param followersCount Number of user's followers
  * @param videoLiveLevel User level in live streams achievements
  * @param videoLiveCount Number of user's live streams
+ * @param clipsCount Number of user's clips
  * @param blacklisted Information whether current user is in the requested user's blacklist.
  * @param blacklistedByMe Information whether the requested user is in current user's blacklist
  * @param isFavorite Information whether the requested user is in faves of current user
@@ -113,6 +161,7 @@ import kotlin.collections.List
  * @param military no description
  * @param university University ID
  * @param universityName University name
+ * @param universityGroupId no description
  * @param faculty Faculty ID
  * @param facultyName Faculty name
  * @param graduation Graduation year
@@ -128,6 +177,11 @@ import kotlin.collections.List
  * @param isSubscribedPodcasts Information whether current user is subscribed to podcasts
  * @param canSubscribePodcasts Owner in whitelist or not
  * @param canSubscribePosts Can subscribe to wall
+ * @param counters no description
+ * @param accessKey no description
+ * @param canUploadDoc no description
+ * @param hash no description
+ * @param hasEmail no description
  * @param sex User sex
  * @param screenName Domain name of the user's page
  * @param photo50 URL of square photo of the user with 50 pixels in width
@@ -179,6 +233,8 @@ data class FriendsUserXtrPhone(
     val nickname: String? = null,
     @SerializedName(value="maiden_name")
     val maidenName: String? = null,
+    @SerializedName(value="contact_name")
+    val contactName: String? = null,
     @SerializedName(value="domain")
     val domain: String? = null,
     @SerializedName(value="bdate")
@@ -188,7 +244,7 @@ data class FriendsUserXtrPhone(
     @SerializedName(value="country")
     val country: BaseCountry? = null,
     @SerializedName(value="timezone")
-    val timezone: Int? = null,
+    val timezone: Float? = null,
     @SerializedName(value="owner_state")
     val ownerState: OwnerState? = null,
     @SerializedName(value="photo_200")
@@ -217,6 +273,70 @@ data class FriendsUserXtrPhone(
     val canSeeAllPosts: BaseBoolInt? = null,
     @SerializedName(value="can_see_audio")
     val canSeeAudio: BaseBoolInt? = null,
+    @SerializedName(value="type")
+    val type: UsersUserType? = null,
+    @SerializedName(value="email")
+    val email: String? = null,
+    @SerializedName(value="skype")
+    val skype: String? = null,
+    @SerializedName(value="facebook")
+    val facebook: String? = null,
+    @SerializedName(value="facebook_name")
+    val facebookName: String? = null,
+    @SerializedName(value="twitter")
+    val twitter: String? = null,
+    @SerializedName(value="livejournal")
+    val livejournal: String? = null,
+    @SerializedName(value="instagram")
+    val instagram: String? = null,
+    @SerializedName(value="test")
+    val test: BaseBoolInt? = null,
+    @SerializedName(value="video_live")
+    val videoLive: VideoLiveInfo? = null,
+    @SerializedName(value="is_video_live_notifications_blocked")
+    val isVideoLiveNotificationsBlocked: BaseBoolInt? = null,
+    @SerializedName(value="is_service")
+    val isService: Boolean? = null,
+    @SerializedName(value="service_description")
+    val serviceDescription: String? = null,
+    @SerializedName(value="photo")
+    val photo: String? = null,
+    @SerializedName(value="photo_big")
+    val photoBig: String? = null,
+    @SerializedName(value="photo_400")
+    val photo400: String? = null,
+    @SerializedName(value="photo_max_size")
+    val photoMaxSize: PhotosPhoto? = null,
+    @SerializedName(value="language")
+    val language: String? = null,
+    @SerializedName(value="stories_archive_count")
+    val storiesArchiveCount: Int? = null,
+    @SerializedName(value="wall_default")
+    val wallDefault: WallDefault? = null,
+    @SerializedName(value="can_call")
+    val canCall: Boolean? = null,
+    @SerializedName(value="can_see_wishes")
+    val canSeeWishes: Boolean? = null,
+    @SerializedName(value="can_see_gifts")
+    val canSeeGifts: BaseBoolInt? = null,
+    @SerializedName(value="interests")
+    val interests: String? = null,
+    @SerializedName(value="books")
+    val books: String? = null,
+    @SerializedName(value="tv")
+    val tv: String? = null,
+    @SerializedName(value="quotes")
+    val quotes: String? = null,
+    @SerializedName(value="about")
+    val about: String? = null,
+    @SerializedName(value="games")
+    val games: String? = null,
+    @SerializedName(value="movies")
+    val movies: String? = null,
+    @SerializedName(value="activities")
+    val activities: String? = null,
+    @SerializedName(value="music")
+    val music: String? = null,
     @SerializedName(value="can_write_private_message")
     val canWritePrivateMessage: BaseBoolInt? = null,
     @SerializedName(value="can_send_friend_request")
@@ -247,6 +367,8 @@ data class FriendsUserXtrPhone(
     val videoLiveLevel: Int? = null,
     @SerializedName(value="video_live_count")
     val videoLiveCount: Int? = null,
+    @SerializedName(value="clips_count")
+    val clipsCount: Int? = null,
     @SerializedName(value="blacklisted")
     val blacklisted: BaseBoolInt? = null,
     @SerializedName(value="blacklisted_by_me")
@@ -267,6 +389,8 @@ data class FriendsUserXtrPhone(
     val university: Int? = null,
     @SerializedName(value="university_name")
     val universityName: String? = null,
+    @SerializedName(value="university_group_id")
+    val universityGroupId: Int? = null,
     @SerializedName(value="faculty")
     val faculty: Int? = null,
     @SerializedName(value="faculty_name")
@@ -297,6 +421,16 @@ data class FriendsUserXtrPhone(
     val canSubscribePodcasts: Boolean? = null,
     @SerializedName(value="can_subscribe_posts")
     val canSubscribePosts: Boolean? = null,
+    @SerializedName(value="counters")
+    val counters: UsersUserCounters? = null,
+    @SerializedName(value="access_key")
+    val accessKey: String? = null,
+    @SerializedName(value="can_upload_doc")
+    val canUploadDoc: BaseBoolInt? = null,
+    @SerializedName(value="hash")
+    val hash: String? = null,
+    @SerializedName(value="has_email")
+    val hasEmail: Boolean? = null,
     @SerializedName(value="sex")
     val sex: BaseSex? = null,
     @SerializedName(value="screen_name")
@@ -335,4 +469,31 @@ data class FriendsUserXtrPhone(
     val canAccessClosed: Boolean? = null,
     @SerializedName(value="is_closed")
     val isClosed: Boolean? = null
-)
+) {
+    enum class WallDefault(
+        val value: String
+    ) {
+        OWNER("owner"),
+
+        ALL("all");
+
+        class Serializer : JsonSerializer<WallDefault>, JsonDeserializer<WallDefault> {
+            override fun serialize(
+                src: WallDefault?,
+                typeOfSrc: Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
+            override fun deserialize(
+                json: JsonElement?,
+                typeOfT: Type?,
+                context: JsonDeserializationContext?
+            ): WallDefault {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
+        }
+    }
+}

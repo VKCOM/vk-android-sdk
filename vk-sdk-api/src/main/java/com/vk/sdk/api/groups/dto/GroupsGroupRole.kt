@@ -30,6 +30,11 @@ package com.vk.sdk.api.groups.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 import kotlin.String
 
@@ -44,12 +49,22 @@ enum class GroupsGroupRole(
 
     ADVERTISER("advertiser");
 
-    class Serializer : JsonDeserializer<GroupsGroupRole> {
+    class Serializer : JsonSerializer<GroupsGroupRole>, JsonDeserializer<GroupsGroupRole> {
+        override fun serialize(
+            src: GroupsGroupRole?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): GroupsGroupRole = values().first { it.value.toString() ==
-                json!!.asJsonPrimitive.toString() }
+        ): GroupsGroupRole {
+            val value = values().firstOrNull {
+                it.value.toString() == json?.asJsonPrimitive?.asString
+            }
+            return value ?: throw JsonParseException(json.toString())
+        }
     }
 }

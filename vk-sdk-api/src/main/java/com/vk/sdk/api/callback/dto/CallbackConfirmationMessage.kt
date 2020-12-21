@@ -42,5 +42,5 @@ data class CallbackConfirmationMessage(
     @SerializedName(value="group_id")
     val groupId: Int,
     @SerializedName(value="secret")
-    val secret: String
+    val secret: String? = null
 )

@@ -62,7 +62,7 @@ import org.json.JSONObject
  * information (default) 
  * @param offset Offset needed to select a specific subset of users. minimum 0
  * @param count Number of user IDs to return (maximum '1000'). Default is '100' if 'friends_only' is
- * set to '0', otherwise, the default is '10' if 'friends_only' is set to '1'. minimum 0
+ * set to '0', otherwise, the default is '10' if 'friends_only' is set to '1'. minimum 0 maximum 1000
  * @param skipOwn  
  */
 class LikesGetList(

@@ -28,8 +28,7 @@
 package com.vk.sdk.api.newsfeed.dto
 
 import com.google.gson.annotations.SerializedName
-import com.vk.sdk.api.groups.dto.GroupsGroupFull
-import com.vk.sdk.api.users.dto.UsersUserXtrType
+import com.vk.sdk.api.users.dto.UsersSubscriptionsItem
 import kotlin.Int
 import kotlin.collections.List
 
@@ -41,21 +40,5 @@ data class NewsfeedGetSuggestedSourcesResponseDto(
     @SerializedName(value="count")
     val count: Int? = null,
     @SerializedName(value="items")
-    val items: List<Items>? = null
-) {
-    sealed class Items {
-        /**
-         * @param groupsGroupFull
-         */
-        data class GroupsGroupFullValue(
-            val groupsGroupFull: GroupsGroupFull
-        ) : Items()
-
-        /**
-         * @param usersUserXtrType
-         */
-        data class UsersUserXtrTypeValue(
-            val usersUserXtrType: UsersUserXtrType
-        ) : Items()
-    }
-}
+    val items: List<UsersSubscriptionsItem>? = null
+)

@@ -28,16 +28,20 @@
 package com.vk.sdk.api.apps.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.sdk.api.users.dto.UsersUserMin
 import kotlin.Int
 import kotlin.collections.List
 
 /**
  * @param count Total number
  * @param items no description
+ * @param profiles no description
  */
 data class AppsGetCatalogResponseDto(
     @SerializedName(value="count")
     val count: Int? = null,
     @SerializedName(value="items")
-    val items: List<AppsApp>? = null
+    val items: List<AppsApp>? = null,
+    @SerializedName(value="profiles")
+    val profiles: List<UsersUserMin>? = null
 )

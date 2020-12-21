@@ -42,7 +42,7 @@ data class GroupsGetInvitesExtendedResponseDto(
     @SerializedName(value="count")
     val count: Int,
     @SerializedName(value="items")
-    val items: List<GroupsGroupXtrInvitedBy>,
+    val items: List<GroupsGroupFull>,
     @SerializedName(value="profiles")
     val profiles: List<UsersUserMin>,
     @SerializedName(value="groups")

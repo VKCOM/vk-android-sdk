@@ -29,7 +29,6 @@ package com.vk.sdk.api.groups.dto
 
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseBoolInt
-import kotlin.Any
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
@@ -54,7 +53,6 @@ import kotlin.collections.List
  * @param address Community's page domain
  * @param contacts no description
  * @param links no description
- * @param sectionsList no description
  * @param mainSection no description
  * @param secondarySection no description
  * @param ageLimits no description
@@ -96,7 +94,7 @@ data class GroupsGetSettingsResponseDto(
     @SerializedName(value="obscene_words")
     val obsceneWords: List<String>,
     @SerializedName(value="photos")
-    val photos: Int,
+    val photos: GroupsGroupPhotos,
     @SerializedName(value="title")
     val title: String,
     @SerializedName(value="topics")
@@ -115,14 +113,12 @@ data class GroupsGetSettingsResponseDto(
     val contacts: BaseBoolInt? = null,
     @SerializedName(value="links")
     val links: BaseBoolInt? = null,
-    @SerializedName(value="sections_list")
-    val sectionsList: Any? = null,
     @SerializedName(value="main_section")
     val mainSection: GroupsGroupFullMainSection? = null,
     @SerializedName(value="secondary_section")
     val secondarySection: Int? = null,
     @SerializedName(value="age_limits")
-    val ageLimits: Int? = null,
+    val ageLimits: GroupsGroupAgeLimits? = null,
     @SerializedName(value="events")
     val events: BaseBoolInt? = null,
     @SerializedName(value="event_group_id")
@@ -148,7 +144,7 @@ data class GroupsGetSettingsResponseDto(
     @SerializedName(value="subject_list")
     val subjectList: List<GroupsSubjectItem>? = null,
     @SerializedName(value="suggested_privacy")
-    val suggestedPrivacy: Int? = null,
+    val suggestedPrivacy: GroupsGroupSuggestedPrivacy? = null,
     @SerializedName(value="twitter")
     val twitter: GroupsSettingsTwitter? = null,
     @SerializedName(value="website")

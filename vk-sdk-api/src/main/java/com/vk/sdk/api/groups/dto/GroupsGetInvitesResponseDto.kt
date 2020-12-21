@@ -39,5 +39,5 @@ data class GroupsGetInvitesResponseDto(
     @SerializedName(value="count")
     val count: Int,
     @SerializedName(value="items")
-    val items: List<GroupsGroupXtrInvitedBy>
+    val items: List<GroupsGroupFull>
 )

@@ -1,7 +1,7 @@
 VK SDK api for Android
 ==========
 
-Current version is 5.122
+Current version is 5.126
 
 there are 3 packages now
 

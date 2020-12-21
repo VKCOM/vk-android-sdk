@@ -38,7 +38,7 @@ import org.json.JSONObject
  * Adds a tag on the photo.
  * @param photoId Photo ID. minimum 0
  * @param userId ID of the user to be tagged. 
- * @param ownerId ID of the user or community that owns the photo. minimum 0
+ * @param ownerId ID of the user or community that owns the photo. 
  * @param x Upper left-corner coordinate of the tagged area (as a percentage of the photo's width). 
  * @param y Upper left-corner coordinate of the tagged area (as a percentage of the photo's height).
  * 

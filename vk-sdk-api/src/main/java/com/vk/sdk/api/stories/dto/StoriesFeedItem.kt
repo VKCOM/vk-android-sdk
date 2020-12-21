@@ -30,22 +30,32 @@ package com.vk.sdk.api.stories.dto
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonParseException
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.apps.dto.AppsAppMin
+import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
 
 /**
  * @param type Type of Feed Item
+ * @param id no description
  * @param stories Author stories
  * @param grouped Grouped stories of various authors (for types
  * community_grouped_stories/app_grouped_stories type)
  * @param app App, which stories has been grouped (for type app_grouped_stories)
  * @param promoData Additional data for promo stories (for type promo_stories)
+ * @param birthdayUserId no description
  */
 data class StoriesFeedItem(
     @SerializedName(value="type")
     val type: Type,
+    @SerializedName(value="id")
+    val id: String? = null,
     @SerializedName(value="stories")
     val stories: List<StoriesStory>? = null,
     @SerializedName(value="grouped")
@@ -53,7 +63,9 @@ data class StoriesFeedItem(
     @SerializedName(value="app")
     val app: AppsAppMin? = null,
     @SerializedName(value="promo_data")
-    val promoData: StoriesPromoBlock? = null
+    val promoData: StoriesPromoBlock? = null,
+    @SerializedName(value="birthday_user_id")
+    val birthdayUserId: Int? = null
 ) {
     enum class Type(
         val value: String
@@ -72,12 +84,23 @@ data class StoriesFeedItem(
 
         BIRTHDAY("birthday");
 
-        class Serializer : JsonDeserializer<Type> {
+        class Serializer : JsonSerializer<Type>, JsonDeserializer<Type> {
+            override fun serialize(
+                src: Type?,
+                typeOfSrc: java.lang.reflect.Type?,
+                context: JsonSerializationContext?
+            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+
             override fun deserialize(
                 json: JsonElement?,
                 typeOfT: java.lang.reflect.Type?,
                 context: JsonDeserializationContext?
-            ): Type = values().first { it.value.toString() == json!!.asJsonPrimitive.toString() }
+            ): Type {
+                val value = values().firstOrNull {
+                    it.value.toString() == json?.asJsonPrimitive?.asString
+                }
+                return value ?: throw JsonParseException(json.toString())
+            }
         }
     }
 }

@@ -45,6 +45,15 @@ import kotlin.Int
  * @param userPhotos Number of photos with user
  * @param userVideos Number of videos with user
  * @param videos Videos number
+ * @param newPhotoTags no description
+ * @param newRecognitionTags no description
+ * @param mutualFriends no description
+ * @param posts no description
+ * @param articles no description
+ * @param wishes no description
+ * @param podcasts no description
+ * @param clips no description
+ * @param clipsFollowers no description
  */
 data class UsersUserCounters(
     @SerializedName(value="albums")
@@ -74,5 +83,23 @@ data class UsersUserCounters(
     @SerializedName(value="user_videos")
     val userVideos: Int? = null,
     @SerializedName(value="videos")
-    val videos: Int? = null
+    val videos: Int? = null,
+    @SerializedName(value="new_photo_tags")
+    val newPhotoTags: Int? = null,
+    @SerializedName(value="new_recognition_tags")
+    val newRecognitionTags: Int? = null,
+    @SerializedName(value="mutual_friends")
+    val mutualFriends: Int? = null,
+    @SerializedName(value="posts")
+    val posts: Int? = null,
+    @SerializedName(value="articles")
+    val articles: Int? = null,
+    @SerializedName(value="wishes")
+    val wishes: Int? = null,
+    @SerializedName(value="podcasts")
+    val podcasts: Int? = null,
+    @SerializedName(value="clips")
+    val clips: Int? = null,
+    @SerializedName(value="clips_followers")
+    val clipsFollowers: Int? = null
 )
