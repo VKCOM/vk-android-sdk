@@ -23,12 +23,14 @@
  ******************************************************************************/
 package com.vk.api.sdk.okhttp
 
-import androidx.collection.ArrayMap
 import com.vk.api.sdk.utils.log.Logger
+import com.vk.api.sdk.utils.log.Logger.*
 import com.vk.api.sdk.utils.threadLocal
 import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.logging.HttpLoggingInterceptor.*
+import java.util.Collections.min
 
 class LoggingInterceptor(
     private val filterCredentials: Boolean,
@@ -89,10 +91,13 @@ class LoggingInterceptor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         // Do not log big bodies because of probability of OutOfMemoryError
-        val bodyLength = chain.request().body?.contentLength() ?: 0
-        delegate.level =
-                if (bodyLength > 1024L) HttpLoggingInterceptor.Level.BASIC
-                else LogLevelMap.levelsMap[logger.logLevel.value]!!
+        val request = chain.request()
+        val bodyLength = request.body?.contentLength() ?: 0
+        val logLevel = request.tag(LogLevelRequestTag::class.java)?.level ?: logger.logLevel.value
+        delegate.level = when (bodyLength > 64 || bodyLength <= 0) {
+            true -> levelsMap[min(listOf(logLevel, LogLevel.WARNING))]
+            else -> levelsMap[logLevel]
+        }!!
         return delegate.intercept(chain)
     }
 
@@ -102,14 +107,14 @@ class LoggingInterceptor(
             .replace(sensitiveKeysResponseRegex, sensitiveKeysResponseTransformer)
     }
 
-    object LogLevelMap {
-        val levelsMap = ArrayMap<Logger.LogLevel, HttpLoggingInterceptor.Level>()
-        init {
-            levelsMap[Logger.LogLevel.NONE] = HttpLoggingInterceptor.Level.NONE
-            levelsMap[Logger.LogLevel.ERROR] = HttpLoggingInterceptor.Level.NONE
-            levelsMap[Logger.LogLevel.WARNING] = HttpLoggingInterceptor.Level.BASIC
-            levelsMap[Logger.LogLevel.DEBUG] = HttpLoggingInterceptor.Level.HEADERS
-            levelsMap[Logger.LogLevel.VERBOSE] = HttpLoggingInterceptor.Level.BODY
-        }
+    companion object {
+        private val levelsMap = mapOf(
+                LogLevel.NONE to Level.NONE,
+                LogLevel.ERROR to Level.NONE,
+                LogLevel.WARNING to Level.BASIC,
+                LogLevel.DEBUG to Level.HEADERS,
+                LogLevel.VERBOSE to Level.BODY,
+                LogLevel.NONE to Level.NONE,
+        )
     }
 }

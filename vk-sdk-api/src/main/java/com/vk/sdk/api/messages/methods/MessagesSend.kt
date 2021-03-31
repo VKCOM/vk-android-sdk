@@ -48,14 +48,14 @@ import org.json.JSONObject
  * @param domain User's short address (for example, 'illarionov'). 
  * @param chatId ID of conversation the message will relate to. minimum 0 maximum 100000000
  * @param userIds IDs of message recipients (if new conversation shall be started). 
- * @param message (Required if 'attachments' is not set.) Text of the message. 
+ * @param message (Required if 'attachments' is not set.) Text of the message. maxLength 9000
  * @param lat Geographical latitude of a check-in, in degrees (from -90 to 90). 
  * @param long Geographical longitude of a check-in, in degrees (from -180 to 180). 
  * @param attachment (Required if 'message' is not set.) List of objects attached to the message,
  * separated by commas, in the following format: "<owner_id>_<media_id>", '' - Type of media
  * attachment: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'wall' - wall post,
  * '<owner_id>' - ID of the media attachment owner. '<media_id>' - media attachment ID. Example:
- * "photo100172_166443618" 
+ * "photo100172_166443618" maxLength 9000
  * @param replyTo  
  * @param forwardMessages ID of forwarded messages, separated with a comma. Listed messages of the
  * sender will be shown in the message body at the recipient's. Example: "123,431,544" 

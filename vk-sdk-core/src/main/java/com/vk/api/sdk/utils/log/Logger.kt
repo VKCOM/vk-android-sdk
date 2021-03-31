@@ -25,7 +25,7 @@
 package com.vk.api.sdk.utils.log
 
 interface Logger {
-    enum class LogLevel {
+    enum class LogLevel: Comparable<LogLevel> {
         VERBOSE,
         DEBUG,
         WARNING,

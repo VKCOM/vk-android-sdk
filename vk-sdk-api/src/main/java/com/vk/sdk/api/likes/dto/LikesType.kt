@@ -63,9 +63,7 @@ enum class LikesType(
 
     MARKET_COMMENT("market_comment"),
 
-    SITEPAGE("sitepage"),
-
-    BUSINESS_PAGE("business_page");
+    SITEPAGE("sitepage");
 
     class Serializer : JsonSerializer<LikesType>, JsonDeserializer<LikesType> {
         override fun serialize(

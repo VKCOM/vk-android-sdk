@@ -42,13 +42,19 @@ import java.util.*
  * If you need more flexibility, use ApiCommand
  */
 open class VKRequest<T>(var method: String, val requestApiVersion: String? = null) : VKApiResponseParser<T>, ApiCommand<T>() {
+
+    @Volatile
+    protected var allowNoAuth: Boolean = false
+
     val params = LinkedHashMap<String, String>()
 
     // Params
 
     fun addParam(name: String, value: String?) = apply { if (value != null) params[name] = value }
+    fun addParam(name: String, value: Boolean) = apply { params[name] = if (value) "1" else "0" }
     fun addParam(name: String, value: Int) = apply { if (value != 0) params[name] = Integer.toString(value) }
     fun addParam(name: String, value: Long) = apply { if (value != 0L) params[name] = java.lang.Long.toString(value) }
+    fun addParam(name: String, value: Float) = apply { if (value != 0f) params[name] = java.lang.Float.toString(value) }
     fun addParam(name: CharSequence, values: Array<*>) = addParam(name.toString(), values.joinToString(","))
     fun addParam(name: CharSequence, values: Iterable<*>) = addParam(name.toString(), values.joinToString(","))
     fun addParam(name: CharSequence, values: IntArray) = addParam(name.toString(), values.joinToString(","))
@@ -84,8 +90,14 @@ open class VKRequest<T>(var method: String, val requestApiVersion: String? = nul
                 .args(params)
                 .method(method)
                 .version(version)
+                .allowNoAuth(allowNoAuth)
         return manager.execute(callBuilder.build(), this)
     }
+
+    /**
+     * It's safe to call this method without user credentials
+     */
+    open fun allowNoAuth() = apply { allowNoAuth = true }
 
     protected open fun createBaseCallBuilder(config: VKApiConfig): VKMethodCall.Builder {
         return VKMethodCall.Builder()

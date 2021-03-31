@@ -37,7 +37,6 @@ import kotlin.collections.List
  * @param items no description
  * @param profiles no description
  * @param groups no description
- * @param newOffset New offset value
  * @param nextFrom Next from value
  */
 data class NewsfeedGetRecommendedResponseDto(
@@ -47,8 +46,6 @@ data class NewsfeedGetRecommendedResponseDto(
     val profiles: List<UsersUserFull>? = null,
     @SerializedName(value="groups")
     val groups: List<GroupsGroupFull>? = null,
-    @SerializedName(value="new_offset")
-    val newOffset: String? = null,
     @SerializedName(value="next_from")
     val nextFrom: String? = null
 )

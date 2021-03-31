@@ -47,6 +47,7 @@ import kotlin.collections.List
  * @param lastMessageId ID of the last message in conversation
  * @param inRead Last message user have read
  * @param outRead Last outcoming message have been read by the opponent
+ * @param sortId no description
  * @param unreadCount Unread messages number
  * @param isMarkedUnread Is this conversation uread
  * @param outReadBy no description
@@ -57,8 +58,11 @@ import kotlin.collections.List
  * @param mentions Ids of messages with mentions
  * @param expireMessages Ids of messages with expiration time
  * @param currentKeyboard no description
+ * @param pushSettings no description
+ * @param canWrite no description
  * @param canSendMoney no description
  * @param canReceiveMoney no description
+ * @param chatSettings no description
  */
 data class MessagesConversation(
     @SerializedName(value="peer")
@@ -69,6 +73,8 @@ data class MessagesConversation(
     val inRead: Int,
     @SerializedName(value="out_read")
     val outRead: Int,
+    @SerializedName(value="sort_id")
+    val sortId: MessagesConversationSortId? = null,
     @SerializedName(value="unread_count")
     val unreadCount: Int? = null,
     @SerializedName(value="is_marked_unread")
@@ -89,10 +95,16 @@ data class MessagesConversation(
     val expireMessages: List<Int>? = null,
     @SerializedName(value="current_keyboard")
     val currentKeyboard: MessagesKeyboard? = null,
+    @SerializedName(value="push_settings")
+    val pushSettings: MessagesPushSettings? = null,
+    @SerializedName(value="can_write")
+    val canWrite: MessagesConversationCanWrite? = null,
     @SerializedName(value="can_send_money")
     val canSendMoney: Boolean? = null,
     @SerializedName(value="can_receive_money")
-    val canReceiveMoney: Boolean? = null
+    val canReceiveMoney: Boolean? = null,
+    @SerializedName(value="chat_settings")
+    val chatSettings: MessagesChatSettings? = null
 ) {
     enum class SpecialServiceType(
         val value: String

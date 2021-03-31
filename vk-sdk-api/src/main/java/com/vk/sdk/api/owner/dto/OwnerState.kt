@@ -59,7 +59,9 @@ data class OwnerState(
 
         HIDDEN(3),
 
-        DELETED(4);
+        DELETED(4),
+
+        BLACKLISTED(5);
 
         class Serializer : JsonSerializer<State>, JsonDeserializer<State> {
             override fun serialize(

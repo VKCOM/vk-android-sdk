@@ -25,6 +25,7 @@
 package com.vk.api.sdk
 
 import android.content.Context
+import com.vk.api.sdk.utils.ApiMethodPriorityBackoff
 import com.vk.api.sdk.utils.log.DefaultApiLogger
 import com.vk.api.sdk.utils.log.Logger
 import java.util.concurrent.TimeUnit
@@ -38,14 +39,13 @@ data class VKApiConfig(
     val context: Context,
     val appId: Int = 0,
     val validationHandler: VKApiValidationHandler? = null,
+    val apiCallListener: VKApiCallListener? = null,
     val deviceId: Lazy<String> = lazy { "" },
     val version: String = DEFAULT_API_VERSION,
     val okHttpProvider: VKOkHttpProvider = VKOkHttpProvider.DefaultProvider(),
-    val defaultTimeoutMs: Long = TimeUnit.SECONDS.toMillis(10),
-    val postRequestsTimeout: Long = TimeUnit.MINUTES.toMillis(5),
     val logger: Logger = DefaultApiLogger(lazy { Logger.LogLevel.NONE }, "VKSdkApi"),
-    val accessToken: Lazy<String> = lazy { "" },
-    val secret: Lazy<String?> = lazy { null },
+    internal val accessToken: Lazy<String> = lazy { "" },
+    internal val secret: Lazy<String?> = lazy { null },
     val clientSecret: String = "",
     val logFilterCredentials: Boolean = true,
     val debugCycleCalls: Lazy<Boolean> = lazy { false },
@@ -54,7 +54,9 @@ data class VKApiConfig(
     val lang: String = "en",
     val keyValueStorage: VKKeyValueStorage = VKPreferencesKeyValueStorage(context),
     val customApiEndpoint: Lazy<String> = lazy { DEFAULT_API_ENDPOINT },
-    val rateLimitBackoffTimeoutMs: Long = TimeUnit.HOURS.toMillis(1)
+    val rateLimitBackoffTimeoutMs: Long = TimeUnit.HOURS.toMillis(1),
+    val useMsgPackSerialization: (String) -> Boolean = { false },
+    val apiMethodPriorityBackoff: ApiMethodPriorityBackoff = ApiMethodPriorityBackoff.DEFAULT
 ) {
 
     fun builder(context: Context) = Builder(VKApiConfig(context, validationHandler = VKDefaultValidationHandler(context)))
@@ -113,14 +115,6 @@ data class VKApiConfig(
 
         fun setLogFilterCredentials(filter: Boolean) = apply {
             config = config.copy(logFilterCredentials = filter)
-        }
-
-        fun setDefaultTimeoutMs(timeout: Long) = apply {
-            config = config.copy(defaultTimeoutMs = timeout)
-        }
-
-        fun setPostRequestsTimeoutMs(timeout: Long) = apply {
-            config = config.copy(postRequestsTimeout = timeout)
         }
 
         fun setCallsPerSecondLimit(limit: Int) = apply {

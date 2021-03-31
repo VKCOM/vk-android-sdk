@@ -31,8 +31,8 @@ import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.base.dto.BaseOkResponseDto
 import com.vk.sdk.api.base.responses.BaseOkResponse
+import com.vk.sdk.api.messages.dto.MessagesSetActivityType
 import kotlin.Int
-import kotlin.String
 import org.json.JSONObject
 
 /**
@@ -45,7 +45,7 @@ import org.json.JSONObject
  */
 class MessagesSetActivity(
     private val userId: Int? = null,
-    private val type: String? = null,
+    private val type: MessagesSetActivityType? = null,
     private val peerId: Int? = null,
     private val groupId: Int? = null
 ) : ApiRequestBase<BaseOkResponseDto>(methodName = "messages.setActivity") {
@@ -54,7 +54,7 @@ class MessagesSetActivity(
             addParam("user_id", value)
         }
         type?.let { value ->
-            addParam("type", value)
+            addParam("type", value.value)
         }
         peerId?.let { value ->
             addParam("peer_id", value)

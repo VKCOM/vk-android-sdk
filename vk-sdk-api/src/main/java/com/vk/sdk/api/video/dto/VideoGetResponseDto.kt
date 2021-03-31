@@ -28,16 +28,24 @@
 package com.vk.sdk.api.video.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.sdk.api.groups.dto.GroupsGroupFull
+import com.vk.sdk.api.users.dto.UsersUserMin
 import kotlin.Int
 import kotlin.collections.List
 
 /**
  * @param count Total number
  * @param items no description
+ * @param profiles no description
+ * @param groups no description
  */
 data class VideoGetResponseDto(
     @SerializedName(value="count")
     val count: Int,
     @SerializedName(value="items")
-    val items: List<VideoVideo>
+    val items: List<VideoVideoFull>,
+    @SerializedName(value="profiles")
+    val profiles: List<UsersUserMin>? = null,
+    @SerializedName(value="groups")
+    val groups: List<GroupsGroupFull>? = null
 )

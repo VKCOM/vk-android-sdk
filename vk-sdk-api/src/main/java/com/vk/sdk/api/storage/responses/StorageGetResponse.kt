@@ -28,12 +28,13 @@
 package com.vk.sdk.api.storage.responses
 
 import com.google.gson.annotations.SerializedName
-import kotlin.String
+import com.vk.sdk.api.storage.dto.StorageValue
+import kotlin.collections.List
 
 /**
- * @param response Value of key
+ * @param response no description
  */
 data class StorageGetResponse(
     @SerializedName(value="response")
-    val response: String
+    val response: List<StorageValue>
 )

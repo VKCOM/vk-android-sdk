@@ -2,7 +2,7 @@
 <resources>
     <string name="login">Войти</string>
     <string name="logout">Выйти</string>
-    <string name="share_to_wall">Отправить на стену</string>
+    <string name="share_to_wall">Post on wall</string>
     <string name="message_hint">Ваше сообщение</string>
     <string name="wall_ok">Posted</string>
 </resources>

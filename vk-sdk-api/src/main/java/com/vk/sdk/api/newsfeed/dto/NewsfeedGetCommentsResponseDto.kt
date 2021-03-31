@@ -37,7 +37,7 @@ import kotlin.collections.List
  * @param items no description
  * @param profiles no description
  * @param groups no description
- * @param nextFrom New from value
+ * @param nextFrom Next from value
  */
 data class NewsfeedGetCommentsResponseDto(
     @SerializedName(value="items")

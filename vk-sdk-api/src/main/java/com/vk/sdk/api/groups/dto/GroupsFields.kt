@@ -43,6 +43,8 @@ enum class GroupsFields(
 ) {
     MARKET("market"),
 
+    MARKET_SERVICES("market_services"),
+
     MEMBER_STATUS("member_status"),
 
     IS_FAVORITE("is_favorite"),
@@ -80,6 +82,8 @@ enum class GroupsFields(
     CAN_UPLOAD_DOC("can_upload_doc"),
 
     CAN_UPLOAD_VIDEO("can_upload_video"),
+
+    CAN_UPLOAD_CLIP("can_upload_clip"),
 
     CAN_SEE_ALL_POSTS("can_see_all_posts"),
 
@@ -203,7 +207,11 @@ enum class GroupsFields(
 
     IS_BUSINESS("is_business"),
 
-    NEW_POSTS_COUNT("new_posts_count");
+    NEW_POSTS_COUNT("new_posts_count"),
+
+    TEXTLIVE("textlive"),
+
+    TEXTLIVES_COUNT("textlives_count");
 
     class Serializer : JsonSerializer<GroupsFields>, JsonDeserializer<GroupsFields> {
         override fun serialize(

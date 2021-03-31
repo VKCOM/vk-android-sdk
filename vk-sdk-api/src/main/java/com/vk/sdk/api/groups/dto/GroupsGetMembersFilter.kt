@@ -43,7 +43,11 @@ enum class GroupsGetMembersFilter(
 ) {
     FRIENDS("friends"),
 
-    UNSURE("unsure");
+    UNSURE("unsure"),
+
+    MANAGERS("managers"),
+
+    DONUT("donut");
 
     class Serializer : JsonSerializer<GroupsGetMembersFilter>,
             JsonDeserializer<GroupsGetMembersFilter> {

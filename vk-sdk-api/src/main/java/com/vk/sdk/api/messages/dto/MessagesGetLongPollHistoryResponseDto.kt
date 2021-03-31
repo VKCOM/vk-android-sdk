@@ -36,27 +36,33 @@ import kotlin.collections.List
 
 /**
  * @param history no description
- * @param groups no description
  * @param messages no description
+ * @param credentials no description
  * @param profiles no description
+ * @param groups no description
  * @param chats no description
  * @param newPts Persistence timestamp
+ * @param fromPts no description
  * @param more Has more
  * @param conversations no description
  */
 data class MessagesGetLongPollHistoryResponseDto(
     @SerializedName(value="history")
     val history: List<List<Int>>? = null,
-    @SerializedName(value="groups")
-    val groups: List<GroupsGroup>? = null,
     @SerializedName(value="messages")
     val messages: MessagesLongpollMessages? = null,
+    @SerializedName(value="credentials")
+    val credentials: MessagesLongpollParams? = null,
     @SerializedName(value="profiles")
     val profiles: List<UsersUserFull>? = null,
+    @SerializedName(value="groups")
+    val groups: List<GroupsGroup>? = null,
     @SerializedName(value="chats")
     val chats: List<MessagesChat>? = null,
     @SerializedName(value="new_pts")
     val newPts: Int? = null,
+    @SerializedName(value="from_pts")
+    val fromPts: Int? = null,
     @SerializedName(value="more")
     val more: Boolean? = null,
     @SerializedName(value="conversations")

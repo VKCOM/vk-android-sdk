@@ -41,9 +41,9 @@ import kotlin.Int
 enum class MarketSearchStatus(
     val value: Int
 ) {
-    ZERO_(0),
+    ACTIVE(0),
 
-    TWO_(2);
+    DISABLED(2);
 
     class Serializer : JsonSerializer<MarketSearchStatus>, JsonDeserializer<MarketSearchStatus> {
         override fun serialize(

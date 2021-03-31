@@ -47,6 +47,7 @@ import org.json.JSONObject
  * @param fields  
  * @param isFromSnackbar  
  */
+
 class FaveGetExtended(
     private val extended: Boolean? = null,
     private val itemType: FaveGetItemType? = null,

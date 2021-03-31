@@ -41,17 +41,17 @@ import kotlin.String
 enum class FriendsSearchNameCase(
     val value: String
 ) {
-    NOMINATIVE("nom"),
+    NOMINATIVE("Nom"),
 
-    GENITIVE("gen"),
+    GENITIVE("Gen"),
 
-    DATIVE("dat"),
+    DATIVE("Dat"),
 
-    ACCUSATIVE("acc"),
+    ACCUSATIVE("Acc"),
 
-    INSTRUMENTAL("ins"),
+    INSTRUMENTAL("Ins"),
 
-    PREPOSITIONAL("abl");
+    PREPOSITIONAL("Abl");
 
     class Serializer : JsonSerializer<FriendsSearchNameCase>,
             JsonDeserializer<FriendsSearchNameCase> {

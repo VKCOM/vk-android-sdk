@@ -31,7 +31,7 @@ ext.sdkVersions = [
         compileSdk                      : '29',
         buildTools                      : '29.0.3',
 
-        kotlin                          : '1.4.0',
+        kotlin                          : '1.4.30',
         androidX                        : '1.1.0',
         okHttp                          : '4.5.0',
 
@@ -39,7 +39,10 @@ ext.sdkVersions = [
 
         androidGradlePlugin             : '3.6.0',
 
-        gson                            : '2.8.5',
+        gson                            : '2.8.6',
+
+        junit                            : '4.12',
+        mockito                          : '1.6.0',
 ]
 
 ext.sdkLibraries = [
@@ -55,6 +58,11 @@ ext.sdkLibrariesSupport = [
         appCompat                       : "androidx.appcompat:appcompat:$sdkVersions.androidX",
         recyclerView                    : "androidx.recyclerview:recyclerview:$sdkVersions.androidX",
         collection                      : "androidx.collection:collection:$sdkVersions.androidX",
+]
+
+ext.testLibraries = [
+        junit                           : "junit:junit:$sdkVersions.junit",
+        mockito                         : "com.nhaarman:mockito-kotlin:$sdkVersions.mockito",
 ]
 
 ext.sdkGradlePlugins = [

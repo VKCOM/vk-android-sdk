@@ -38,7 +38,7 @@ import kotlin.collections.List
  */
 data class GroupsMemberRole(
     @SerializedName(value="id")
-    val id: Int? = null,
+    val id: Int,
     @SerializedName(value="permissions")
     val permissions: List<GroupsMemberRolePermission>? = null,
     @SerializedName(value="role")

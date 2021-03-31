@@ -36,7 +36,7 @@ import kotlin.String
  * @param fromId no description
  * @param date no description
  * @param text no description
- * @param photoOwnerOd no description
+ * @param photoOwnerId no description
  */
 data class CallbackPhotoComment(
     @SerializedName(value="id")
@@ -47,6 +47,6 @@ data class CallbackPhotoComment(
     val date: Int,
     @SerializedName(value="text")
     val text: String,
-    @SerializedName(value="photo_owner_od")
-    val photoOwnerOd: Int
+    @SerializedName(value="photo_owner_id")
+    val photoOwnerId: Int
 )

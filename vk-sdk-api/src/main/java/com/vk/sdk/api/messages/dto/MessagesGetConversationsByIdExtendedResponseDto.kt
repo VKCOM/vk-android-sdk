@@ -28,7 +28,8 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
-import com.vk.sdk.api.users.dto.UsersUser
+import com.vk.sdk.api.groups.dto.GroupsGroupFull
+import com.vk.sdk.api.users.dto.UsersUserFull
 import kotlin.Int
 import kotlin.collections.List
 
@@ -36,6 +37,7 @@ import kotlin.collections.List
  * @param count Total number
  * @param items no description
  * @param profiles no description
+ * @param groups no description
  */
 data class MessagesGetConversationsByIdExtendedResponseDto(
     @SerializedName(value="count")
@@ -43,5 +45,7 @@ data class MessagesGetConversationsByIdExtendedResponseDto(
     @SerializedName(value="items")
     val items: List<MessagesConversation>,
     @SerializedName(value="profiles")
-    val profiles: List<UsersUser>? = null
+    val profiles: List<UsersUserFull>? = null,
+    @SerializedName(value="groups")
+    val groups: List<GroupsGroupFull>? = null
 )

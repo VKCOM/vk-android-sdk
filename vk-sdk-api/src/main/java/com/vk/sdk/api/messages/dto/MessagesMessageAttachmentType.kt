@@ -30,9 +30,6 @@ package com.vk.sdk.api.messages.dto
 import com.google.gson.annotations.SerializedName
 
 enum class MessagesMessageAttachmentType {
-    @SerializedName(value="graffiti")
-    GRAFFITI,
-
-    @SerializedName(value="audio_message")
-    AUDIO_MESSAGE
+    @SerializedName(value="call")
+    CALL
 }

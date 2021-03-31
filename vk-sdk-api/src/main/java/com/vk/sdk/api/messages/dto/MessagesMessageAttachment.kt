@@ -31,11 +31,13 @@ import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.audio.dto.AudioAudio
 import com.vk.sdk.api.base.dto.BaseLink
 import com.vk.sdk.api.base.dto.BaseSticker
+import com.vk.sdk.api.calls.dto.CallsCall
 import com.vk.sdk.api.docs.dto.DocsDoc
 import com.vk.sdk.api.gifts.dto.GiftsLayout
 import com.vk.sdk.api.market.dto.MarketMarketAlbum
 import com.vk.sdk.api.market.dto.MarketMarketItem
 import com.vk.sdk.api.photos.dto.PhotosPhoto
+import com.vk.sdk.api.polls.dto.PollsPoll
 import com.vk.sdk.api.stories.dto.StoriesStory
 import com.vk.sdk.api.video.dto.VideoVideo
 import com.vk.sdk.api.wall.dto.WallWallComment
@@ -45,6 +47,7 @@ import com.vk.sdk.api.wall.dto.WallWallpostFull
  * @param type no description
  * @param audio no description
  * @param audioMessage no description
+ * @param call no description
  * @param doc no description
  * @param gift no description
  * @param graffiti no description
@@ -57,6 +60,7 @@ import com.vk.sdk.api.wall.dto.WallWallpostFull
  * @param video no description
  * @param wall no description
  * @param wallReply no description
+ * @param poll no description
  */
 data class MessagesMessageAttachment(
     @SerializedName(value="type")
@@ -65,6 +69,8 @@ data class MessagesMessageAttachment(
     val audio: AudioAudio? = null,
     @SerializedName(value="audio_message")
     val audioMessage: MessagesAudioMessage? = null,
+    @SerializedName(value="call")
+    val call: CallsCall? = null,
     @SerializedName(value="doc")
     val doc: DocsDoc? = null,
     @SerializedName(value="gift")
@@ -88,5 +94,7 @@ data class MessagesMessageAttachment(
     @SerializedName(value="wall")
     val wall: WallWallpostFull? = null,
     @SerializedName(value="wall_reply")
-    val wallReply: WallWallComment? = null
+    val wallReply: WallWallComment? = null,
+    @SerializedName(value="poll")
+    val poll: PollsPoll? = null
 )

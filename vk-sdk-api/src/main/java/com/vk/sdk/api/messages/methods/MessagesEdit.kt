@@ -41,7 +41,7 @@ import org.json.JSONObject
  * Edits the message.
  * @param peerId Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
  * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. " 
- * @param message (Required if 'attachments' is not set.) Text of the message. 
+ * @param message (Required if 'attachments' is not set.) Text of the message. maxLength 9000
  * @param lat Geographical latitude of a check-in, in degrees (from -90 to 90). 
  * @param long Geographical longitude of a check-in, in degrees (from -180 to 180). 
  * @param attachment (Required if 'message' is not set.) List of objects attached to the message,

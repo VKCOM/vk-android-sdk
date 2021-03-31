@@ -43,6 +43,7 @@ import kotlin.String
  * @param title Title of the header
  * @param style no description
  * @param subtitle Subtitle of the header, when title have two strings
+ * @param button no description
  */
 data class NewsfeedItemDigestHeader(
     @SerializedName(value="title")
@@ -50,7 +51,9 @@ data class NewsfeedItemDigestHeader(
     @SerializedName(value="style")
     val style: Style,
     @SerializedName(value="subtitle")
-    val subtitle: String? = null
+    val subtitle: String? = null,
+    @SerializedName(value="button")
+    val button: NewsfeedItemDigestButton? = null
 ) {
     enum class Style(
         val value: String

@@ -61,6 +61,7 @@ open class VKWebViewAuthActivity: Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.vk_webview_auth_dialog)
+
         webView = findViewById(R.id.webView)
         progress = findViewById(R.id.progress)
 
@@ -88,13 +89,13 @@ open class VKWebViewAuthActivity: Activity() {
     }
 
     protected open fun getUrlParams(): Map<String, String> = mapOf(
-            "client_id" to params.appId.toString(),
-            "scope" to params.getScopeString(),
-            "redirect_uri" to params.redirectUrl,
-            "response_type" to "token",
-            "display" to "mobile",
-            "v" to VK.getApiVersion(),
-            "revoke" to "1"
+        "client_id" to params.appId.toString(),
+        "scope" to params.getScopeString(),
+        "redirect_uri" to params.redirectUrl,
+        "response_type" to "token",
+        "display" to "mobile",
+        "v" to VK.getApiVersion(),
+        "revoke" to "1"
     )
 
     private fun loadUrl() {

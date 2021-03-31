@@ -35,7 +35,7 @@ import com.google.gson.annotations.SerializedName
  */
 data class MessagesConversationWithMessage(
     @SerializedName(value="conversation")
-    val conversation: MessagesConversation? = null,
+    val conversation: MessagesConversation,
     @SerializedName(value="last_message")
     val lastMessage: MessagesMessage? = null
 )

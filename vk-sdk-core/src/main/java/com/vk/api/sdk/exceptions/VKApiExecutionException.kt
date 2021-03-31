@@ -25,6 +25,8 @@
 package com.vk.api.sdk.exceptions
 
 import android.os.Bundle
+import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 
 /**
@@ -38,7 +40,8 @@ open class VKApiExecutionException
         val detailMessage: String,
         val extra: Bundle? = Bundle.EMPTY,
         val executeErrors: List<VKApiExecutionException>? = null,
-        val errorMsg: String? = null) : VKApiException(detailMessage) {
+        val errorMsg: String? = null,
+        val requestParams: Map<String, String>? = null) : VKApiException(detailMessage) {
 
     val isCompositeError: Boolean
         get() = code == VKApiCodes.CODE_COMPOSITE_EXECUTE_ERROR
@@ -168,14 +171,25 @@ open class VKApiExecutionException
         @JvmOverloads
         fun parse(json: JSONObject, methodName: String? = null, extra: Bundle? = null): VKApiExecutionException {
             val method = methodName ?: json.optString("method") ?: ""
-            val code = json.getInt("error_code")
+            val code = json.optInt("error_code", VKApiCodes.CODE_UNKNOWN_ERROR)
             val errorMsg = json.optString("error_msg") ?: ""
+            val requestParams = try {
+                json.getJSONArray("request_params")
+            } catch (e: JSONException) {
+                JSONArray()
+            }
+
+            val paramsMap = (0 until requestParams.length())
+                    .associate {
+                        val param = requestParams.getJSONObject(it)
+                        param.getString("key") to param.getString("value")
+                    }
             return if (json.has("error_text")) {
                 VKApiExecutionException(code, method, true, json.optString("error_text")
-                        ?: "", extra, errorMsg = errorMsg)
+                        ?: "", extra, errorMsg = errorMsg, requestParams = paramsMap)
             } else {
                 val errorMsg = json.optString("error_msg") ?: json.toString()
-                VKApiExecutionException(code, method, false, "$errorMsg | by [$method]", extra, errorMsg = errorMsg)
+                VKApiExecutionException(code, method, false, "$errorMsg | by [$method]", extra, errorMsg = errorMsg, requestParams = paramsMap)
             }
         }
     }

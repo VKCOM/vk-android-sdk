@@ -63,7 +63,9 @@ enum class NewsfeedFilters(
 
     GAMES_CAROUSEL("games_carousel"),
 
-    CLIP("clip");
+    CLIP("clip"),
+
+    RECOMMENDED_GAME("recommended_game");
 
     class Serializer : JsonSerializer<NewsfeedFilters>, JsonDeserializer<NewsfeedFilters> {
         override fun serialize(

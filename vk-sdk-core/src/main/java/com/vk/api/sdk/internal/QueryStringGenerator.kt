@@ -24,84 +24,138 @@
 
 package com.vk.api.sdk.internal
 
-import com.vk.api.sdk.okhttp.OkHttpMethodCall
+import android.net.Uri
+import com.vk.api.sdk.utils.VKUtils
 import com.vk.api.sdk.utils.threadLocal
-import java.io.UnsupportedEncodingException
-import java.net.URLEncoder
-import java.security.MessageDigest
 
+/**
+ * Helper object for requests signing.
+ */
 object QueryStringGenerator {
 
     private val strBuilder by threadLocal { StringBuilder() }
 
-    fun buildQueryString(accessToken: String?, secret: String?, appId: Int, call: OkHttpMethodCall) =
-            buildQueryString(accessToken, secret, appId, call.method, call.version, call.args)
-
-    fun buildQueryString(
+    /**
+     * Build signed query for api method (adds sig param if secret is not null).
+     *
+     * This method also adds necessary arguments (v & https & (access_token | app_id))
+     */
+    fun buildSignedQueryStringForMethod(
+        methodName: String,
+        methodArgs: Map<String, String>,
+        methodVersion: String,
         accessToken: String?,
         secret: String?,
-        appId: Int,
-        method: String,
-        version: String,
-        args: Map<String, String>
+        appId: Int
     ): String {
-        if (secret.isNullOrEmpty()) {
-            return generateQueryString(version, args, accessToken, appId,true)
-        }
-        val queryStringUnescaped = generateQueryString(version, args, accessToken, appId,false)
-        val sigArgs = "/method/$method?$queryStringUnescaped$secret"
-        val md5 = md5(sigArgs)
-        val queryStringEscaped = generateQueryString(version, args, accessToken, appId,true)
-        return "$queryStringEscaped&sig=$md5"
+        return buildSignedQueryString(
+            path = "/method/$methodName",
+            args = methodArgs,
+            version = methodVersion,
+            accessToken = accessToken,
+            secret = secret,
+            appId = appId
+        )
     }
 
-    fun generateQueryString(
-        version: String,
+    /**
+     * Build not signed query string (without adding of sig param).
+     *
+     * This method also adds necessary arguments (v & https & (access_token | app_id))
+     */
+    fun buildNotSignedQueryString(
         args: Map<String, String>,
-        accessToken: String?,
-        appId: Int,
-        applyUrlEncode: Boolean
+        version: String,
+        accessToken: String? = null,
+        appId: Int = 0
     ): String {
-        // Don't worry StringBuilder.plus operator fun used
-        strBuilder.clear()
-        var sb = strBuilder + "v=" + version + "&https=1&"
-        for ((key, value) in args) {
-            if (key != "v" && key != "access_token" && key != "api_id") {
-                sb = sb.plus(key) + "=" + value.encodeUrlAsUtf8(applyUrlEncode) + "&"
+        return buildSignedQueryString(
+            path = "",
+            args = args,
+            version = version,
+            accessToken = accessToken,
+            secret = null,
+            appId = appId
+        )
+    }
+
+    /**
+     * Build signed query string for any path.
+     *
+     * This method also adds necessary arguments (v & https & (access_token | app_id))
+     */
+    fun buildSignedQueryString(
+        path: String,
+        args: Map<String, String>,
+        version: String,
+        accessToken: String? = null,
+        secret: String? = null,
+        appId: Int = 0
+    ): String {
+        // Добавляем параметры, которые нужны всем запросам:
+        // Версию api, https=1 (что-то legacy, которое лучше не трогать), AT или api_id
+        val actualArgs = args.toMutableMap()
+        actualArgs["v"] = version
+        actualArgs["https"] = "1"
+        if (!accessToken.isNullOrEmpty()) {
+            actualArgs["access_token"] = accessToken
+        } else if (appId != 0) {
+            actualArgs["api_id"] = appId.toString()
+        }
+
+        return buildSignedQueryStringForce(path, actualArgs, secret)
+    }
+
+    /**
+     * Build signed query without adding any params.
+     */
+    fun buildSignedQueryStringForce(
+        path: String,
+        args: Map<String, String>,
+        secret: String?
+    ): String {
+        // Закидываем всё в Uri, чтоб получить энкодинг из коробки
+        val uriBuilder = Uri.Builder()
+        args.entries.forEach {
+            // Пропускаем sig, т.к. мы должны сами построить правильную подпись
+            if (it.key != "sig") {
+                uriBuilder.appendQueryParameter(it.key, it.value)
             }
         }
-        sb = if (!accessToken.isNullOrEmpty()) {
-            sb + "access_token=" + accessToken + "&"
-        } else if (appId != 0) {
-            sb + "api_id=" + appId.toString() + "&"
-        } else {
-            sb + "&"
-        }
-        sb.setLength(sb.length - 1)
-        return sb.toString()
-    }
 
-    private fun String.encodeUrlAsUtf8(applyUrlEncode: Boolean): String {
-        if (!applyUrlEncode) {
-            return this
-        }
-        try {
-            return URLEncoder.encode(this, "UTF-8")
-        } catch (e: UnsupportedEncodingException) {
-            throw RuntimeException(e)
-        }
-    }
+        val uri = uriBuilder.build()
 
-    private operator fun StringBuilder.plus(str: String) = this.append(str)
-
-    private fun StringBuilder.clear() = this.setLength(0)
-
-    @Deprecated(message = "Use common method", replaceWith = ReplaceWith("VKUtils.MD5.convert"))
-    private fun md5(input: String): String {
-        val md = MessageDigest.getInstance("MD5")
-        val digested = md.digest(input.toByteArray())
-        return digested.joinToString("") {
-            String.format("%02x", it)
+        // В случае, если подпись не нужна, просто возвращаем правильно заэнкоженные параметры
+        if (secret.isNullOrEmpty()) {
+            return uri.encodedQuery ?: ""
         }
+
+        // Подпись строится по следующему принципу:
+        // Берется path ("/method/friends.get"), через ? добавляются все GET-параметры (задекоженные!), в конце добавляется secret
+        // Из полученной строчки считается MD5
+        // Пример:
+        // path: /method/friends.get
+        // GET-параметры: a -> b, c -> d&f
+        // secret: secret
+        // Строчка для высчитывания MD5: /method/friends.get?a=b&c=d&fsecret
+        // MD5: babca39b9d77e25f757baf504baa55d7
+
+        val decodedQuery = uri.query
+
+        strBuilder.setLength(0)
+        strBuilder.append(path).append('?')
+        if (!decodedQuery.isNullOrBlank()) {
+            strBuilder.append(decodedQuery)
+        }
+        strBuilder.append(secret)
+
+        val queryToSign = strBuilder.toString()
+        val signature = VKUtils.MD5.convert(queryToSign)
+
+        val signedUri = uri.buildUpon()
+            .appendQueryParameter("sig", signature)
+            .build()
+
+        return signedUri.encodedQuery ?: ""
     }
 }

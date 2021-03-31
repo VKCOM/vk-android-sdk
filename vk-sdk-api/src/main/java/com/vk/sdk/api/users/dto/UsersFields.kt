@@ -41,6 +41,30 @@ import kotlin.String
 enum class UsersFields(
     val value: String
 ) {
+    FIRST_NAME_NOM("first_name_nom"),
+
+    FIRST_NAME_GEN("first_name_gen"),
+
+    FIRST_NAME_DAT("first_name_dat"),
+
+    FIRST_NAME_ACC("first_name_acc"),
+
+    FIRST_NAME_INS("first_name_ins"),
+
+    FIRST_NAME_ABL("first_name_abl"),
+
+    LAST_NAME_NOM("last_name_nom"),
+
+    LAST_NAME_GEN("last_name_gen"),
+
+    LAST_NAME_DAT("last_name_dat"),
+
+    LAST_NAME_ACC("last_name_acc"),
+
+    LAST_NAME_INS("last_name_ins"),
+
+    LAST_NAME_ABL("last_name_abl"),
+
     PHOTO_ID("photo_id"),
 
     VERIFIED("verified"),

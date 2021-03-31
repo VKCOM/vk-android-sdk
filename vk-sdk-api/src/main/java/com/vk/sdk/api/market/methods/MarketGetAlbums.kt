@@ -35,7 +35,7 @@ import kotlin.Int
 import org.json.JSONObject
 
 /**
- * Returns community's collections list.
+ * Returns community's market collections list.
  * @param ownerId ID of an items owner community. 
  * @param offset Offset needed to return a specific subset of results. minimum 0
  * @param count Number of items to return. default 50 minimum 0 maximum 100

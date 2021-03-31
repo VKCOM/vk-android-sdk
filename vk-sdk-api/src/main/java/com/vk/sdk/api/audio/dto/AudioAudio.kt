@@ -34,8 +34,10 @@ import kotlin.String
 /**
  * @param artist Artist name
  * @param id Audio ID
+ * @param ownerId Audio owner's ID
  * @param title Title
  * @param duration Duration in seconds
+ * @param accessKey Access key for the audio
  * @param url URL of mp3 file
  * @param date Date when uploaded
  * @param albumId Album ID
@@ -47,10 +49,14 @@ data class AudioAudio(
     val artist: String,
     @SerializedName(value="id")
     val id: Int,
+    @SerializedName(value="owner_id")
+    val ownerId: Int,
     @SerializedName(value="title")
     val title: String,
     @SerializedName(value="duration")
     val duration: Int,
+    @SerializedName(value="access_key")
+    val accessKey: String? = null,
     @SerializedName(value="url")
     val url: String? = null,
     @SerializedName(value="date")

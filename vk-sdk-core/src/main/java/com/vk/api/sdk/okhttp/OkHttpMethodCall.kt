@@ -35,6 +35,8 @@ open class OkHttpMethodCall {
             private set
         var tag: RequestTag? = null
             private set
+        var allowNoAuth: Boolean = false
+            private set
 
         open fun method(method: String) = apply { this.method = method }
         open fun version(version: String) = apply { this.version = version }
@@ -45,10 +47,13 @@ open class OkHttpMethodCall {
 
         fun tag(requestTag: RequestTag?) = apply { this.tag = requestTag }
 
+        fun allowNoAuth(allow: Boolean) = apply { this.allowNoAuth = allow }
+
         open fun from(call: VKMethodCall) = apply {
             method(call.method)
             version(call.version)
             args(call.args)
+            allowNoAuth(call.allowNoAuth)
         }
 
         open fun build() = OkHttpMethodCall(this)
@@ -58,6 +63,7 @@ open class OkHttpMethodCall {
     val version: String
     val args: Map<String,String>
     val tag: RequestTag?
+    val allowNoAuth: Boolean
 
     protected constructor(b: Builder) {
         if (b.method.isBlank()) throw IllegalArgumentException("method is null or empty")
@@ -66,5 +72,6 @@ open class OkHttpMethodCall {
         this.version = b.version
         this.args = b.args
         this.tag = b.tag
+        this.allowNoAuth= b.allowNoAuth
     }
 }

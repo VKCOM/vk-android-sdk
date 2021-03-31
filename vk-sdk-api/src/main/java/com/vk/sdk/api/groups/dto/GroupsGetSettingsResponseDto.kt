@@ -41,7 +41,7 @@ import kotlin.collections.List
  * @param description Community description
  * @param docs Docs settings
  * @param obsceneFilter Information whether the obscene filter is enabled
- * @param obsceneStopwords Information whether the stopwords filter is enabled
+ * @param obsceneStopwords Information whether the stop words filter is enabled
  * @param obsceneWords The list of stop words
  * @param photos Photos settings
  * @param title Community title
@@ -51,6 +51,7 @@ import kotlin.collections.List
  * @param wiki Wiki settings
  * @param access Community access settings
  * @param address Community's page domain
+ * @param recognizePhoto Photo suggests setting
  * @param contacts no description
  * @param links no description
  * @param mainSection no description
@@ -65,7 +66,7 @@ import kotlin.collections.List
  * @param publicSubcategory Information about the group subcategory
  * @param rss URL of the RSS feed
  * @param startDate Start date
- * @param finishDate Finish date in Unixtime format
+ * @param finishDate Finish date in Unix-time format
  * @param subject Community subject ID
  * @param subjectList no description
  * @param suggestedPrivacy no description
@@ -109,6 +110,8 @@ data class GroupsGetSettingsResponseDto(
     val access: GroupsGroupAccess? = null,
     @SerializedName(value="address")
     val address: String? = null,
+    @SerializedName(value="recognize_photo")
+    val recognizePhoto: Int? = null,
     @SerializedName(value="contacts")
     val contacts: BaseBoolInt? = null,
     @SerializedName(value="links")

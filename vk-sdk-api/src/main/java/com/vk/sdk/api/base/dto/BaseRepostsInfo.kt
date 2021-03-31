@@ -38,7 +38,7 @@ import kotlin.Int
  */
 data class BaseRepostsInfo(
     @SerializedName(value="count")
-    val count: Int? = null,
+    val count: Int,
     @SerializedName(value="wall_count")
     val wallCount: Int? = null,
     @SerializedName(value="mail_count")

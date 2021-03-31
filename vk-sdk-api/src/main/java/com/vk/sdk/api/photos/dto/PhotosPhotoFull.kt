@@ -31,6 +31,7 @@ import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseLikes
 import com.vk.sdk.api.base.dto.BaseObjectCount
+import com.vk.sdk.api.base.dto.BaseRepostsInfo
 import kotlin.Float
 import kotlin.Int
 import kotlin.String
@@ -43,14 +44,14 @@ import kotlin.collections.List
  * @param ownerId Photo owner's ID
  * @param accessKey Access key for the photo
  * @param canComment Information whether current user can comment the photo
- * @param comments no description
  * @param height Original photo height
  * @param images no description
  * @param lat Latitude
  * @param likes no description
+ * @param reposts no description
+ * @param comments no description
  * @param long Longitude
  * @param postId Post ID
- * @param reposts no description
  * @param tags no description
  * @param text Photo caption
  * @param userId ID of the user who have uploaded the photo
@@ -69,8 +70,6 @@ data class PhotosPhotoFull(
     val accessKey: String? = null,
     @SerializedName(value="can_comment")
     val canComment: BaseBoolInt? = null,
-    @SerializedName(value="comments")
-    val comments: BaseObjectCount? = null,
     @SerializedName(value="height")
     val height: Int? = null,
     @SerializedName(value="images")
@@ -79,12 +78,14 @@ data class PhotosPhotoFull(
     val lat: Float? = null,
     @SerializedName(value="likes")
     val likes: BaseLikes? = null,
+    @SerializedName(value="reposts")
+    val reposts: BaseRepostsInfo? = null,
+    @SerializedName(value="comments")
+    val comments: BaseObjectCount? = null,
     @SerializedName(value="long")
     val long: Float? = null,
     @SerializedName(value="post_id")
     val postId: Int? = null,
-    @SerializedName(value="reposts")
-    val reposts: BaseObjectCount? = null,
     @SerializedName(value="tags")
     val tags: BaseObjectCount? = null,
     @SerializedName(value="text")

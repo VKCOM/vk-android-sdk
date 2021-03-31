@@ -39,7 +39,7 @@ import org.json.JSONObject
 
 /**
  * Allows the programmer to do a quick search for any substring.
- * @param q Search query string. 
+ * @param q Search query string. maxLength 9000
  * @param offset Offset for querying specific result subset minimum 0 maximum 200
  * @param limit Maximum number of results to return. default 9 minimum 0 maximum 200
  * @param filters  

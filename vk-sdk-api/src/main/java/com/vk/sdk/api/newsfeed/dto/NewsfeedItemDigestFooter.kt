@@ -50,7 +50,7 @@ data class NewsfeedItemDigestFooter(
     @SerializedName(value="text")
     val text: String,
     @SerializedName(value="button")
-    val button: NewsfeedItemDigestFooterButton? = null
+    val button: NewsfeedItemDigestButton? = null
 ) {
     enum class Style(
         val value: String

@@ -75,6 +75,7 @@ import kotlin.collections.List
  * @param hasNewInteractions Whether current user has unread interaction with this app
  * @param isBroadcastNotifyAllowed Whether current user allowed broadcast notify from this app
  * @param situationalThemeId no description
+ * @param situationalAppUrl no description
  */
 data class StoriesClickableSticker(
     @SerializedName(value="clickable_area")
@@ -132,7 +133,9 @@ data class StoriesClickableSticker(
     @SerializedName(value="is_broadcast_notify_allowed")
     val isBroadcastNotifyAllowed: Boolean? = null,
     @SerializedName(value="situational_theme_id")
-    val situationalThemeId: Int? = null
+    val situationalThemeId: Int? = null,
+    @SerializedName(value="situational_app_url")
+    val situationalAppUrl: String? = null
 ) {
     enum class Subtype(
         val value: String

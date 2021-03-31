@@ -30,7 +30,7 @@ package com.vk.sdk.api.storage.methods
 import com.vk.sdk.api.ApiRequestBase
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.storage.dto.StorageValue
-import com.vk.sdk.api.storage.responses.StorageGetV5110Response
+import com.vk.sdk.api.storage.responses.StorageGetResponse
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
@@ -60,5 +60,5 @@ class StorageGet(
     }
 
     override fun parse(r: JSONObject): List<StorageValue> = GsonHolder.gson.fromJson(r.toString(),
-            StorageGetV5110Response::class.java).response
+            StorageGetResponse::class.java).response
 }

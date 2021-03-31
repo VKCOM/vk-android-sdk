@@ -42,7 +42,7 @@ import org.json.JSONObject
 /**
  * Searches market items in a community's catalog
  * @param ownerId ID of an items owner community. 
- * @param albumId  default 0 minimum 0
+ * @param albumId  minimum 0
  * @param q Search query, for example "pink slippers". 
  * @param priceFrom Minimum item price value. minimum 0
  * @param priceTo Maximum item price value. minimum 0

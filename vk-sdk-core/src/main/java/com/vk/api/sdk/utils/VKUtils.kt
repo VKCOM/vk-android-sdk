@@ -79,16 +79,23 @@ object VKUtils {
         return parameters
     }
 
+    @SuppressLint("Assert")
     @JvmStatic
     fun getCertificateFingerprint(context: Context?, packageName: String): Array<String?>? {
         try {
-            if (context == null || context.packageManager == null)
+            if (context == null || context.packageManager == null) {
                 return null
+            }
+
             @SuppressLint("PackageManagerGetSignatures")
             val info = context.packageManager.getPackageInfo(
                     packageName,
                     PackageManager.GET_SIGNATURES)
-            assert(info.signatures != null)
+
+            if (info.signatures == null) {
+                return null
+            }
+
             val result = arrayOfNulls<String>(info.signatures.size)
             var i = 0
             info.signatures.forEach {

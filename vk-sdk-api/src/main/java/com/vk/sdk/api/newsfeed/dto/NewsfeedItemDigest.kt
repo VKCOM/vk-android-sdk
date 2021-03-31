@@ -36,7 +36,6 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import com.vk.sdk.api.wall.dto.WallWallpost
 import java.lang.reflect.Type
 import kotlin.Int
 import kotlin.String
@@ -58,7 +57,7 @@ data class NewsfeedItemDigest(
     @SerializedName(value="feed_id")
     val feedId: String? = null,
     @SerializedName(value="items")
-    val items: List<WallWallpost>? = null,
+    val items: List<NewsfeedItemDigestItem>? = null,
     @SerializedName(value="main_post_ids")
     val mainPostIds: List<String>? = null,
     @SerializedName(value="template")

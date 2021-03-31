@@ -34,10 +34,13 @@ import kotlin.String
 /**
  * @param id Targeting music artist ID
  * @param name Music artist name
+ * @param avatar Music artist photo
  */
 data class AdsMusician(
     @SerializedName(value="id")
     val id: Int,
     @SerializedName(value="name")
-    val name: String
+    val name: String,
+    @SerializedName(value="avatar")
+    val avatar: String? = null
 )

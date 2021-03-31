@@ -41,13 +41,13 @@ import kotlin.Int
 enum class MarketSearchSort(
     val value: Int
 ) {
-    ZERO_(0),
+    DEFAULT(0),
 
-    ONE_(1),
+    DATE(1),
 
-    TWO_(2),
+    PRICE(2),
 
-    THREE_(3);
+    RELEVANCE(3);
 
     class Serializer : JsonSerializer<MarketSearchSort>, JsonDeserializer<MarketSearchSort> {
         override fun serialize(

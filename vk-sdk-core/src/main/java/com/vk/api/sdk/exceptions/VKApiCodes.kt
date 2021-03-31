@@ -101,6 +101,11 @@ object VKApiCodes {
 
     const val CODE_TOO_MANY_CONTACTS_TO_SYNC = 937
 
+    const val CODE_INVALID_NAME = 953
+    const val CODE_INVALID_AUDIO_TRANSCRIPTION = 959
+
+    const val CODE_CALL_REQUIRES_AUTH = 960
+
     const val CODE_PHONE_PARAM_PHONE = 1000
     const val CODE_PHONE_ALREADY_USED = 1004
     const val CODE_PHONE_AUTH_DELAY = 1112

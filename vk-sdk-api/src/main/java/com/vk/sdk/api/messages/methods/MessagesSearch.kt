@@ -39,7 +39,7 @@ import org.json.JSONObject
 
 /**
  * Returns a list of the current user's private messages that match search criteria.
- * @param q Search query string. 
+ * @param q Search query string. maxLength 9000
  * @param peerId Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
  * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. " 
  * @param date Date to search message before in Unixtime. minimum 0

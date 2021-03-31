@@ -43,7 +43,7 @@ import org.json.JSONObject
  * @param ownerId user or community id. "Remember that for a community 'owner_id' must be negative."
  * 
  * @param domain user or community screen name. 
- * @param query search query string. 
+ * @param query search query string. maxLength 9000
  * @param ownersOnly '1' - returns only page owner's posts. 
  * @param count count of posts to return. default 20 minimum 0 maximum 100
  * @param offset Offset needed to return a specific subset of posts. default 0 minimum 0

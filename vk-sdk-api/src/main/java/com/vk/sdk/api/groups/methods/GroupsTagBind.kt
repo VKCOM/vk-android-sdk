@@ -39,7 +39,7 @@ import org.json.JSONObject
  * Bind or unbind group's tag to user
  * @param groupId  minimum 0
  * @param tagId  minimum 0
- * @param userId  minimum 0
+ * @param userId  minimum 0 maximum 2000000000
  * @param act Describe the action 
  */
 class GroupsTagBind(

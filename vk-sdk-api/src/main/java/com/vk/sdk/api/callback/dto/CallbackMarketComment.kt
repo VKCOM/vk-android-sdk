@@ -36,7 +36,7 @@ import kotlin.String
  * @param fromId no description
  * @param date no description
  * @param text no description
- * @param marketOwnerOd no description
+ * @param marketOwnerId no description
  * @param photoId no description
  */
 data class CallbackMarketComment(
@@ -48,8 +48,8 @@ data class CallbackMarketComment(
     val date: Int,
     @SerializedName(value="text")
     val text: String? = null,
-    @SerializedName(value="market_owner_od")
-    val marketOwnerOd: Int? = null,
+    @SerializedName(value="market_owner_id")
+    val marketOwnerId: Int? = null,
     @SerializedName(value="photo_id")
     val photoId: Int? = null
 )

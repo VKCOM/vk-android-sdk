@@ -71,6 +71,8 @@ enum class BaseLinkButtonActionType(
 
     FRIENDS_MESSAGE("friends_message"),
 
+    FRIENDS_CALL("friends_call"),
+
     FRIENDS_SEND_GIFT("friends_send_gift"),
 
     FRIENDS_LABEL("friends_label"),
@@ -105,7 +107,17 @@ enum class BaseLinkButtonActionType(
 
     REORDER_ITEMS("reorder_items"),
 
-    EDIT_ITEMS("edit_items");
+    EDIT_ITEMS("edit_items"),
+
+    SELECT_SORTING("select_sorting"),
+
+    MARKET_ABANDONED_CARTS("market_abandoned_carts"),
+
+    WRITE_IM("write_im"),
+
+    CALL("call"),
+
+    MODAL_PAGE("modal_page");
 
     class Serializer : JsonSerializer<BaseLinkButtonActionType>,
             JsonDeserializer<BaseLinkButtonActionType> {

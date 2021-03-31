@@ -44,8 +44,6 @@ import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 
 open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
-    // Extra delay to let api respond with specified timeout
-    protected val timeoutDelay = 500
     protected val context = config.context
     private val lock = Any()
     private val okHttpProvider: VKOkHttpProvider by lazy {
@@ -62,8 +60,6 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
     @Volatile var secret = config.secret
         private set
     private val customEndpoint = config.customEndpoint
-
-    private val clientsByTimeouts = LongSparseArray<OkHttpClient>()
 
     @Volatile var ignoredAccessToken: String? = null
         private set
@@ -86,8 +82,13 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         checkAccessTokenIsIgnored(call.method, actualAccessToken)
 
         val actualSecret = getActualSecret(call)
-        val queryString = QueryStringGenerator.buildQueryString(actualAccessToken, actualSecret, config.appId, call)
-        val requestBody = RequestBody.create(MIME_APPLICATION.toMediaTypeOrNull(), validateQueryString(call, queryString))
+        
+        checkNonSecretMethodCall(call)
+
+        val queryString = QueryStringGenerator.buildSignedQueryStringForMethod(
+            call.method, call.args, call.version, actualAccessToken, actualSecret, config.appId
+        )
+        val requestBody = validateQueryString(call, queryString).toRequestBody(MIME_APPLICATION.toMediaTypeOrNull())
 
         val request = Request.Builder()
                 .post(requestBody)
@@ -119,11 +120,9 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         }
         val requestBody = ProgressRequestBody(body, progressListener)
 
-        val timeout = if (call.timeoutMs > 0) call.timeoutMs else config.postRequestsTimeout
-
         val request = makePostCallRequestBuilder(call, requestBody).build()
 
-        return readResponse(executeRequest(request, timeout))
+        return readResponse(executeRequest(request))
     }
 
     protected open fun makePostCallRequestBuilder(call: OkHttpPostCall, requestBody: RequestBody): Request.Builder {
@@ -150,13 +149,9 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         return paramsString
     }
 
-    protected fun executeRequest(request: Request): Response {
-        return executeRequest(request, config.defaultTimeoutMs)
-    }
-
     @Throws(InterruptedException::class, IOException::class)
-    protected fun executeRequest(request: Request, timeoutMs: Long): Response {
-        return clientWithTimeOut(timeoutMs).newCall(request).execute()
+    protected fun executeRequest(request: Request): Response {
+        return okHttpProvider.getClient().newCall(request).execute()
     }
 
     protected fun readResponse(response: Response): String? {
@@ -183,6 +178,10 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         }
     }
 
+    protected open fun checkNonSecretMethodCall(call: OkHttpMethodCall) {
+        //do nothing
+    }
+
     private fun MultipartBody.Builder.updateWith(parts: Map<String, HttpMultipartEntry>): MultipartBody.Builder {
         for ((key, entry) in parts) {
             if (entry is HttpMultipartEntry.Text) {
@@ -195,80 +194,10 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         return this
     }
 
-    private fun clientWithTimeOut(timeoutMs: Long): OkHttpClient {
-        synchronized(lock) {
-            val baseClient = okHttpProvider.getClient()
-            val defaultClient = getDefaultClient()
-
-            // Here we check whether the default client has changed in comparison
-            // with the cached client with the default timeouts.
-            // If that happened, then we need to reset all cached clients,
-            // since the default clients could be added proxy interceptors or something else.
-            if (!isSame(baseClient, defaultClient)) {
-                clearClients()
-            }
-
-            // We increase timeout by 500ms to make sure that all long poll calls will pass.
-            val fixedTimeoutMs = timeoutMs + timeoutDelay
-            return getClient(fixedTimeoutMs) ?: createClient(fixedTimeoutMs)
-        }
-    }
-
-    private fun getDefaultClient(): OkHttpClient {
-        val timeoutMs = config.defaultTimeoutMs
-        return getClient(timeoutMs) ?: createClient(timeoutMs)
-    }
-
-    private fun getClient(timeoutMs: Long): OkHttpClient? {
-        return clientsByTimeouts[timeoutMs]
-    }
-
-    private fun createClient(timeoutMs: Long): OkHttpClient {
-        val client = okHttpProvider.getClient()
-                .newBuilder()
-                .readTimeout(timeoutMs, TimeUnit.MILLISECONDS)
-                .connectTimeout(timeoutMs, TimeUnit.MILLISECONDS)
-                .writeTimeout(timeoutMs, TimeUnit.MILLISECONDS)
-                .build()
-        clientsByTimeouts[timeoutMs] = client
-        return client
-    }
-
-    private fun clearClients() {
-        clientsByTimeouts.clear()
-    }
-
     private fun resolveEndpoint() = if (customEndpoint.isNotEmpty()) {
         customEndpoint
     } else {
         defaultApiEndpoint(host)
-    }
-
-    private fun isSame(c1: OkHttpClient, c2: OkHttpClient): Boolean {
-        return c1.connectTimeoutMillis == c2.connectTimeoutMillis
-                && c1.readTimeoutMillis == c2.readTimeoutMillis
-                && c1.writeTimeoutMillis == c2.writeTimeoutMillis
-                && c1.pingIntervalMillis == c2.pingIntervalMillis
-                && c1.proxy == c2.proxy
-                && c1.proxySelector == c2.proxySelector
-                && c1.cookieJar == c2.cookieJar
-                && c1.cache == c2.cache
-                && c1.dns == c2.dns
-                && c1.socketFactory == c2.socketFactory
-                && c1.sslSocketFactory == c2.sslSocketFactory
-                && c1.hostnameVerifier == c2.hostnameVerifier
-                && c1.certificatePinner == c2.certificatePinner
-                && c1.authenticator == c2.authenticator
-                && c1.proxyAuthenticator == c2.proxyAuthenticator
-                && c1.connectionPool == c2.connectionPool
-                && c1.followSslRedirects == c2.followSslRedirects
-                && c1.followRedirects == c2.followRedirects
-                && c1.retryOnConnectionFailure == c2.retryOnConnectionFailure
-                && c1.dispatcher == c2.dispatcher
-                && c1.protocols == c2.protocols
-                && c1.connectionSpecs == c2.connectionSpecs
-                && c1.interceptors == c2.interceptors
-                && c1.networkInterceptors == c2.networkInterceptors
     }
 
     private fun updateClient(provider: VKOkHttpProvider) {

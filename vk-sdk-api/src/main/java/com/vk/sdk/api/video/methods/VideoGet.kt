@@ -46,6 +46,7 @@ import org.json.JSONObject
  * @param count Number of videos to return. default 100 minimum 0 maximum 200
  * @param offset Offset needed to return a specific subset of videos. minimum 0
  * @param extended '1' - to return an extended response with additional fields 
+ * @param fields  
  */
 class VideoGet(
     private val ownerId: Int? = null,
@@ -53,7 +54,8 @@ class VideoGet(
     private val albumId: Int? = null,
     private val count: Int? = null,
     private val offset: Int? = null,
-    private val extended: Boolean? = null
+    private val extended: Boolean? = null,
+    private val fields: List<String>? = null
 ) : ApiRequestBase<VideoGetResponseDto>(methodName = "video.get") {
     init {
         ownerId?.let { value ->
@@ -73,6 +75,9 @@ class VideoGet(
         }
         extended?.let { value ->
             addParam("extended", if (value) 1 else 0)
+        }
+        fields?.let { value ->
+            addParam("fields", value)
         }
     }
 

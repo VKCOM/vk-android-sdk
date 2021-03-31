@@ -36,7 +36,7 @@ import kotlin.String
  * @param fromId no description
  * @param date no description
  * @param text no description
- * @param videoOwnerOd no description
+ * @param videoOwnerId no description
  */
 data class CallbackVideoComment(
     @SerializedName(value="id")
@@ -47,6 +47,6 @@ data class CallbackVideoComment(
     val date: Int,
     @SerializedName(value="text")
     val text: String,
-    @SerializedName(value="video_owner_od")
-    val videoOwnerOd: Int
+    @SerializedName(value="video_owner_id")
+    val videoOwnerId: Int
 )

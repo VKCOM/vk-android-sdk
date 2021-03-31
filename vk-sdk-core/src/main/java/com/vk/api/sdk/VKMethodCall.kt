@@ -43,6 +43,8 @@ open class VKMethodCall {
             private set
         var ignoreExecuteErrors: IntArray? = null
             private set
+        var allowNoAuth: Boolean = false
+            private set
 
         /**
          * Api method name
@@ -58,6 +60,7 @@ open class VKMethodCall {
         open fun skipValidation(skip: Boolean) = apply { this.skipValidation = skip }
         open fun awaitNetwork(isAwaitNetwork: Boolean) = apply { this.isAwaitNetwork = isAwaitNetwork }
         open fun ignoreExecuteErrors(ignoredErrors: IntArray?) = apply { this.ignoreExecuteErrors = ignoredErrors }
+        open fun allowNoAuth(allowNoAuth: Boolean) = apply { this.allowNoAuth = allowNoAuth }
 
         open fun build() = VKMethodCall(this)
     }
@@ -68,6 +71,7 @@ open class VKMethodCall {
     val retryCount: Int
     val skipValidation: Boolean
     val isAwaitNetwork: Boolean
+    val allowNoAuth: Boolean
     val ignoreExecuteErrors: IntArray?
 
     protected constructor(b: Builder) {
@@ -80,6 +84,7 @@ open class VKMethodCall {
         this.skipValidation = b.skipValidation
         this.isAwaitNetwork = b.isAwaitNetwork
         this.ignoreExecuteErrors = b.ignoreExecuteErrors
+        this.allowNoAuth = b.allowNoAuth
     }
 
     override fun equals(other: Any?): Boolean {

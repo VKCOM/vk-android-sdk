@@ -56,7 +56,7 @@ data class AdsAdLayout(
     @SerializedName(value="description")
     val description: String,
     @SerializedName(value="id")
-    val id: Int,
+    val id: String,
     @SerializedName(value="image_src")
     val imageSrc: String,
     @SerializedName(value="link_url")

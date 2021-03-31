@@ -30,6 +30,7 @@ package com.vk.sdk.api.wall.dto
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseLikesInfo
 import com.vk.sdk.api.base.dto.BaseRepostsInfo
+import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -48,6 +49,9 @@ import kotlin.collections.List
  * @param isFavorite Information whether the post in favorites list
  * @param likes Count of likes
  * @param ownerId Wall owner's ID
+ * @param poster no description
+ * @param postId If post type 'reply', contains original post ID
+ * @param parentsStack If post type 'reply', contains original parent IDs stack
  * @param postSource no description
  * @param postType no description
  * @param reposts no description
@@ -80,6 +84,12 @@ data class WallWallpost(
     val likes: BaseLikesInfo? = null,
     @SerializedName(value="owner_id")
     val ownerId: Int? = null,
+    @SerializedName(value="poster")
+    val poster: Any? = null,
+    @SerializedName(value="post_id")
+    val postId: Int? = null,
+    @SerializedName(value="parents_stack")
+    val parentsStack: List<Int>? = null,
     @SerializedName(value="post_source")
     val postSource: WallPostSource? = null,
     @SerializedName(value="post_type")

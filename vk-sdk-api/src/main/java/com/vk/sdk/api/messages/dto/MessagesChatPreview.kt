@@ -40,6 +40,7 @@ import kotlin.collections.List
  * @param members no description
  * @param membersCount no description
  * @param title no description
+ * @param isMember no description
  */
 data class MessagesChatPreview(
     @SerializedName(value="admin_id")
@@ -53,5 +54,7 @@ data class MessagesChatPreview(
     @SerializedName(value="members_count")
     val membersCount: Int? = null,
     @SerializedName(value="title")
-    val title: String? = null
+    val title: String? = null,
+    @SerializedName(value="is_member")
+    val isMember: Boolean? = null
 )

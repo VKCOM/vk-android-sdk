@@ -49,7 +49,9 @@ enum class WallPostSourceType(
 
     RSS("rss"),
 
-    SMS("sms");
+    SMS("sms"),
+
+    MVK("mvk");
 
     class Serializer : JsonSerializer<WallPostSourceType>, JsonDeserializer<WallPostSourceType> {
         override fun serialize(

@@ -37,7 +37,7 @@ import kotlin.String
  */
 data class BaseLinkButtonAction(
     @SerializedName(value="type")
-    val type: BaseLinkButtonActionType? = null,
+    val type: BaseLinkButtonActionType,
     @SerializedName(value="url")
     val url: String? = null,
     @SerializedName(value="consume_reason")

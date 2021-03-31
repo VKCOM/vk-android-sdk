@@ -41,23 +41,23 @@ import kotlin.Int
 enum class DocsGetType(
     val value: Int
 ) {
-    ZERO_(0),
+    ALL(0),
 
-    ONE_(1),
+    TEXT(1),
 
-    TWO_(2),
+    ARCHIVE(2),
 
-    THREE_(3),
+    GIF(3),
 
-    FOUR_(4),
+    IMAGE(4),
 
-    FIVE_(5),
+    AUDIO(5),
 
-    SIX_(6),
+    VIDEO(6),
 
-    SEVEN_(7),
+    EBOOK(7),
 
-    EIGHT_(8);
+    DEFAULT(8);
 
     class Serializer : JsonSerializer<DocsGetType>, JsonDeserializer<DocsGetType> {
         override fun serialize(

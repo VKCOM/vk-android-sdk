@@ -31,7 +31,6 @@ import com.vk.api.sdk.okhttp.OkHttpExecutor
 import com.vk.api.sdk.okhttp.OkHttpExecutorConfig
 import com.vk.api.sdk.okhttp.OkHttpMethodCall
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 /**
  * Class for execution api request
@@ -96,7 +95,7 @@ open class VKApiManager(val config: VKApiConfig) {
         } else {
             createValidationHandlerChainCall(call.retryCount, chainCall)
         }
-
+        cc = ApiMethodPriorityChainCall(this, cc, call, config.apiMethodPriorityBackoff)
         cc = InvalidCredentialsObserverChainCall(this, cc, 1)
         cc = TooManyRequestRetryChainCall(this, call.retryCount, cc)
         cc = RateLimitReachedChainCall(this, call.method, rateLimitBackoff, cc)

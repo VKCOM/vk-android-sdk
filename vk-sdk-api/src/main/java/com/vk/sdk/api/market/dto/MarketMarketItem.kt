@@ -39,13 +39,13 @@ import kotlin.String
  * @param id Item ID
  * @param ownerId Item owner's ID
  * @param price no description
- * @param thumbPhoto URL of the preview image
  * @param title Item title
  * @param accessKey Access key for the market item
  * @param buttonTitle Title for button for url
  * @param date Date when the item has been created in Unixtime
  * @param externalId no description
  * @param isFavorite no description
+ * @param thumbPhoto URL of the preview image
  * @param url URL to item
  * @param variantsGroupingId no description
  * @param isMainVariant no description
@@ -63,8 +63,6 @@ data class MarketMarketItem(
     val ownerId: Int,
     @SerializedName(value="price")
     val price: MarketPrice,
-    @SerializedName(value="thumb_photo")
-    val thumbPhoto: String,
     @SerializedName(value="title")
     val title: String,
     @SerializedName(value="access_key")
@@ -77,6 +75,8 @@ data class MarketMarketItem(
     val externalId: String? = null,
     @SerializedName(value="is_favorite")
     val isFavorite: Boolean? = null,
+    @SerializedName(value="thumb_photo")
+    val thumbPhoto: String? = null,
     @SerializedName(value="url")
     val url: String? = null,
     @SerializedName(value="variants_grouping_id")

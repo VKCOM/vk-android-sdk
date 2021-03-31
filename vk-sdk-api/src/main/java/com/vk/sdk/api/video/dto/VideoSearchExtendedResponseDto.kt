@@ -43,7 +43,7 @@ data class VideoSearchExtendedResponseDto(
     @SerializedName(value="count")
     val count: Int,
     @SerializedName(value="items")
-    val items: List<VideoVideo>,
+    val items: List<VideoVideoFull>,
     @SerializedName(value="profiles")
     val profiles: List<UsersUserMin>,
     @SerializedName(value="groups")

@@ -45,10 +45,6 @@ class OkHttpExecutorConfig(private val apiConfig: VKApiConfig) {
         get() = apiConfig.okHttpProvider
     val logFilterCredentials: Boolean
         get() = apiConfig.logFilterCredentials
-    val defaultTimeoutMs: Long
-        get() = apiConfig.defaultTimeoutMs
-    val postRequestsTimeout: Long
-        get() = apiConfig.postRequestsTimeout
     val logger: Logger
         get() = apiConfig.logger
     val customEndpoint: String

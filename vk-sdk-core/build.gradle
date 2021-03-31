@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply from: "../dependencies.gradle"
@@ -32,7 +31,7 @@ if (System.getenv('SDK_UPDATE') != "1") {
         throw new IllegalStateException("Couldn't find lib-superapp project.")
     }
 
-    apply from: "${superApp.projectDir}/tools/publish.gradle"
+    apply plugin: 'com.vk.build.publish.sak-publish'
 }
 
 version = sdkVersions.name
@@ -65,6 +64,9 @@ dependencies {
     implementation sdkLibraries.okHttp
     implementation sdkLibraries.okHttpLoggingInterceptor
     implementation sdkLibrariesSupport.collection
+
+    testImplementation testLibraries.junit
+    testImplementation testLibraries.mockito
 }
 
-apply from: '../publish.gradle'
+apply from: "../publish.gradle"

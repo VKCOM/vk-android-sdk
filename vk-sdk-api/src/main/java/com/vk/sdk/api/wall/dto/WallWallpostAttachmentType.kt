@@ -73,7 +73,9 @@ enum class WallWallpostAttachmentType(
 
     EVENT("event"),
 
-    MINI_APP("mini_app");
+    MINI_APP("mini_app"),
+
+    DONUT_LINK("donut_link");
 
     class Serializer : JsonSerializer<WallWallpostAttachmentType>,
             JsonDeserializer<WallWallpostAttachmentType> {

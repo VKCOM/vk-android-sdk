@@ -81,7 +81,15 @@ enum class NewsfeedNewsfeedItemType(
 
     RECOMMENDED_ARTISTS("recommended_artists"),
 
-    RECOMMENDED_PLAYLISTS("recommended_playlists");
+    RECOMMENDED_PLAYLISTS("recommended_playlists"),
+
+    CLIPS_AUTOPLAY("clips_autoplay"),
+
+    RECOMMENDED_GAME("recommended_game"),
+
+    CLIPS_CHALLENGES("clips_challenges"),
+
+    EXPERT_CARD("expert_card");
 
     class Serializer : JsonSerializer<NewsfeedNewsfeedItemType>,
             JsonDeserializer<NewsfeedNewsfeedItemType> {
