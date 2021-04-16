@@ -32,21 +32,21 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param height Height in px
- * @param url URL of the image
- * @param type no description
- * @param width Width in px
- * @param src URL of the image
+ * @param height - Height in px
+ * @param url - URL of the image
+ * @param type
+ * @param width - Width in px
+ * @param src - URL of the image
  */
 data class PhotosPhotoSizes(
-    @SerializedName(value="height")
+    @SerializedName("height")
     val height: Int,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: PhotosPhotoSizesType,
-    @SerializedName(value="width")
+    @SerializedName("width")
     val width: Int,
-    @SerializedName(value="src")
+    @SerializedName("src")
     val src: String? = null
 )

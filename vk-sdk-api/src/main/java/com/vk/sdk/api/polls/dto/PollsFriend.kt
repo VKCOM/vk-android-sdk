@@ -31,9 +31,9 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param id no description
+ * @param id
  */
 data class PollsFriend(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int
 )

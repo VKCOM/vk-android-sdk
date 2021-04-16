@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count Votes number
- * @param items no description
+ * @param count - Votes number
+ * @param items
  */
 data class PollsVotersUsers(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="items")
+    @SerializedName("items")
     val items: List<Int>? = null
 )

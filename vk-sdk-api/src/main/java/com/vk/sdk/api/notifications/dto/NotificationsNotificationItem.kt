@@ -27,11 +27,26 @@
 // *********************************************************************
 package com.vk.sdk.api.notifications.dto
 
-sealed class NotificationsNotificationItem {
-    /**
-     * @param notificationsNotification
-     */
-    data class NotificationsNotificationValue(
-        val notificationsNotification: NotificationsNotification
-    ) : NotificationsNotificationItem()
-}
+import com.google.gson.annotations.SerializedName
+import kotlin.Int
+import kotlin.String
+
+/**
+ * @param date - Date when the event has been occurred
+ * @param feedback
+ * @param parent
+ * @param reply
+ * @param type - Notification type
+ */
+data class NotificationsNotificationItem(
+    @SerializedName("date")
+    val date: Int? = null,
+    @SerializedName("feedback")
+    val feedback: NotificationsFeedback? = null,
+    @SerializedName("parent")
+    val parent: NotificationsNotificationParent? = null,
+    @SerializedName("reply")
+    val reply: NotificationsReply? = null,
+    @SerializedName("type")
+    val type: String? = null
+)

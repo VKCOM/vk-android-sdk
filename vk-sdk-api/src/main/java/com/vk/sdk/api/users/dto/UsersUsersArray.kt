@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count Users number
- * @param items no description
+ * @param count - Users number
+ * @param items
  */
 data class UsersUsersArray(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int,
-    @SerializedName(value="items")
+    @SerializedName("items")
     val items: List<Int>
 )

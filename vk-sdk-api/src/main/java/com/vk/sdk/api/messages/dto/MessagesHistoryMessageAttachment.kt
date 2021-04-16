@@ -35,39 +35,39 @@ import com.vk.sdk.api.photos.dto.PhotosPhoto
 import com.vk.sdk.api.video.dto.VideoVideo
 
 /**
- * @param type no description
- * @param audio no description
- * @param audioMessage no description
- * @param doc no description
- * @param graffiti no description
- * @param link no description
- * @param market no description
- * @param photo no description
- * @param share no description
- * @param video no description
- * @param wall no description
+ * @param type
+ * @param audio
+ * @param audioMessage
+ * @param doc
+ * @param graffiti
+ * @param link
+ * @param market
+ * @param photo
+ * @param share
+ * @param video
+ * @param wall
  */
 data class MessagesHistoryMessageAttachment(
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: MessagesHistoryMessageAttachmentType,
-    @SerializedName(value="audio")
+    @SerializedName("audio")
     val audio: AudioAudio? = null,
-    @SerializedName(value="audio_message")
+    @SerializedName("audio_message")
     val audioMessage: MessagesAudioMessage? = null,
-    @SerializedName(value="doc")
+    @SerializedName("doc")
     val doc: DocsDoc? = null,
-    @SerializedName(value="graffiti")
+    @SerializedName("graffiti")
     val graffiti: MessagesGraffiti? = null,
-    @SerializedName(value="link")
+    @SerializedName("link")
     val link: BaseLink? = null,
-    @SerializedName(value="market")
+    @SerializedName("market")
     val market: BaseLink? = null,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: PhotosPhoto? = null,
-    @SerializedName(value="share")
+    @SerializedName("share")
     val share: BaseLink? = null,
-    @SerializedName(value="video")
+    @SerializedName("video")
     val video: VideoVideo? = null,
-    @SerializedName(value="wall")
+    @SerializedName("wall")
     val wall: BaseLink? = null
 )

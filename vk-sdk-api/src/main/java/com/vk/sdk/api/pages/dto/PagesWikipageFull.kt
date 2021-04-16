@@ -33,52 +33,52 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param created Date when the page has been created in Unixtime
- * @param edited Date when the page has been edited in Unixtime
- * @param groupId Community ID
- * @param id Page ID
- * @param title Page title
- * @param viewUrl URL of the page preview
- * @param views Views number
- * @param whoCanEdit Edit settings of the page
- * @param whoCanView View settings of the page
- * @param creatorId Page creator ID
- * @param currentUserCanEdit Information whether current user can edit the page
- * @param currentUserCanEditAccess Information whether current user can edit the page access
+ * @param created - Date when the page has been created in Unixtime
+ * @param edited - Date when the page has been edited in Unixtime
+ * @param groupId - Community ID
+ * @param id - Page ID
+ * @param title - Page title
+ * @param viewUrl - URL of the page preview
+ * @param views - Views number
+ * @param whoCanEdit - Edit settings of the page
+ * @param whoCanView - View settings of the page
+ * @param creatorId - Page creator ID
+ * @param currentUserCanEdit - Information whether current user can edit the page
+ * @param currentUserCanEditAccess - Information whether current user can edit the page access
  * settings
- * @param editorId Last editor ID
- * @param html Page content, HTML
- * @param source Page content, wiki
+ * @param editorId - Last editor ID
+ * @param html - Page content, HTML
+ * @param source - Page content, wiki
  */
 data class PagesWikipageFull(
-    @SerializedName(value="created")
+    @SerializedName("created")
     val created: Int,
-    @SerializedName(value="edited")
+    @SerializedName("edited")
     val edited: Int,
-    @SerializedName(value="group_id")
+    @SerializedName("group_id")
     val groupId: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="view_url")
+    @SerializedName("view_url")
     val viewUrl: String,
-    @SerializedName(value="views")
+    @SerializedName("views")
     val views: Int,
-    @SerializedName(value="who_can_edit")
+    @SerializedName("who_can_edit")
     val whoCanEdit: PagesPrivacySettings,
-    @SerializedName(value="who_can_view")
+    @SerializedName("who_can_view")
     val whoCanView: PagesPrivacySettings,
-    @SerializedName(value="creator_id")
+    @SerializedName("creator_id")
     val creatorId: Int? = null,
-    @SerializedName(value="current_user_can_edit")
+    @SerializedName("current_user_can_edit")
     val currentUserCanEdit: BaseBoolInt? = null,
-    @SerializedName(value="current_user_can_edit_access")
+    @SerializedName("current_user_can_edit_access")
     val currentUserCanEditAccess: BaseBoolInt? = null,
-    @SerializedName(value="editor_id")
+    @SerializedName("editor_id")
     val editorId: Int? = null,
-    @SerializedName(value="html")
+    @SerializedName("html")
     val html: String? = null,
-    @SerializedName(value="source")
+    @SerializedName("source")
     val source: String? = null
 )

@@ -30,27 +30,28 @@ package com.vk.sdk.api.groups.dto
 import com.google.gson.annotations.SerializedName
 
 /**
- * @param fri Timetable for friday
- * @param mon Timetable for monday
- * @param sat Timetable for saturday
- * @param sun Timetable for sunday
- * @param thu Timetable for thursday
- * @param tue Timetable for tuesday
- * @param wed Timetable for wednesday
+ * Timetable for a week
+ * @param fri - Timetable for friday
+ * @param mon - Timetable for monday
+ * @param sat - Timetable for saturday
+ * @param sun - Timetable for sunday
+ * @param thu - Timetable for thursday
+ * @param tue - Timetable for tuesday
+ * @param wed - Timetable for wednesday
  */
 data class GroupsAddressTimetable(
-    @SerializedName(value="fri")
+    @SerializedName("fri")
     val fri: GroupsAddressTimetableDay? = null,
-    @SerializedName(value="mon")
+    @SerializedName("mon")
     val mon: GroupsAddressTimetableDay? = null,
-    @SerializedName(value="sat")
+    @SerializedName("sat")
     val sat: GroupsAddressTimetableDay? = null,
-    @SerializedName(value="sun")
+    @SerializedName("sun")
     val sun: GroupsAddressTimetableDay? = null,
-    @SerializedName(value="thu")
+    @SerializedName("thu")
     val thu: GroupsAddressTimetableDay? = null,
-    @SerializedName(value="tue")
+    @SerializedName("tue")
     val tue: GroupsAddressTimetableDay? = null,
-    @SerializedName(value="wed")
+    @SerializedName("wed")
     val wed: GroupsAddressTimetableDay? = null
 )

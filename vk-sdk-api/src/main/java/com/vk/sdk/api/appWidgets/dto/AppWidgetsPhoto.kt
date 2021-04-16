@@ -33,12 +33,12 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param id Image ID
- * @param images no description
+ * @param id - Image ID
+ * @param images
  */
 data class AppWidgetsPhoto(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: String,
-    @SerializedName(value="images")
+    @SerializedName("images")
     val images: List<BaseImage>
 )

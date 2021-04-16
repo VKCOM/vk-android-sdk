@@ -27,47 +27,24 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class GroupsAddressWorkInfoStatus(
     val value: String
 ) {
+    @SerializedName("no_information")
     NO_INFORMATION("no_information"),
 
+    @SerializedName("temporarily_closed")
     TEMPORARILY_CLOSED("temporarily_closed"),
 
+    @SerializedName("always_opened")
     ALWAYS_OPENED("always_opened"),
 
+    @SerializedName("timetable")
     TIMETABLE("timetable"),
 
+    @SerializedName("forever_closed")
     FOREVER_CLOSED("forever_closed");
-
-    class Serializer : JsonSerializer<GroupsAddressWorkInfoStatus>,
-            JsonDeserializer<GroupsAddressWorkInfoStatus> {
-        override fun serialize(
-            src: GroupsAddressWorkInfoStatus?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): GroupsAddressWorkInfoStatus {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

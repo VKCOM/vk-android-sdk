@@ -33,18 +33,18 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param buttons no description
- * @param oneTime Should this keyboard disappear on first use
- * @param authorId Community or bot, which set this keyboard
- * @param inline no description
+ * @param buttons
+ * @param oneTime - Should this keyboard disappear on first use
+ * @param authorId - Community or bot, which set this keyboard
+ * @param inline
  */
 data class MessagesKeyboard(
-    @SerializedName(value="buttons")
+    @SerializedName("buttons")
     val buttons: List<List<MessagesKeyboardButton>>,
-    @SerializedName(value="one_time")
+    @SerializedName("one_time")
     val oneTime: Boolean,
-    @SerializedName(value="author_id")
+    @SerializedName("author_id")
     val authorId: Int? = null,
-    @SerializedName(value="inline")
+    @SerializedName("inline")
     val inline: Boolean? = null
 )

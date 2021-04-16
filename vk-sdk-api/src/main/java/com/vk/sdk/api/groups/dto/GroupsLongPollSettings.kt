@@ -32,15 +32,15 @@ import kotlin.Boolean
 import kotlin.String
 
 /**
- * @param events no description
- * @param isEnabled Shows whether Long Poll is enabled
- * @param apiVersion API version used for the events
+ * @param events
+ * @param isEnabled - Shows whether Long Poll is enabled
+ * @param apiVersion - API version used for the events
  */
 data class GroupsLongPollSettings(
-    @SerializedName(value="events")
+    @SerializedName("events")
     val events: GroupsLongPollEvents,
-    @SerializedName(value="is_enabled")
+    @SerializedName("is_enabled")
     val isEnabled: Boolean,
-    @SerializedName(value="api_version")
+    @SerializedName("api_version")
     val apiVersion: String? = null
 )

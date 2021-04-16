@@ -33,18 +33,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Answer ID
- * @param rate Answer rate in percents
- * @param text Answer text
- * @param votes Votes number
+ * @param id - Answer ID
+ * @param rate - Answer rate in percents
+ * @param text - Answer text
+ * @param votes - Votes number
  */
 data class PollsAnswer(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="rate")
+    @SerializedName("rate")
     val rate: Float,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="votes")
+    @SerializedName("votes")
     val votes: Int
 )

@@ -34,15 +34,15 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param id Category ID
- * @param name Category name
- * @param subcategories no description
+ * @param id - Category ID
+ * @param name - Category name
+ * @param subcategories
  */
 data class AdsCategory(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="subcategories")
+    @SerializedName("subcategories")
     val subcategories: List<BaseObjectWithName>? = null
 )

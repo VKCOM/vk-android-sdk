@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count Photos number
- * @param items no description
+ * @param count - Photos number
+ * @param items
  */
 data class NewsfeedItemPhotoPhotos(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="items")
+    @SerializedName("items")
     val items: List<NewsfeedNewsfeedPhoto>? = null
 )

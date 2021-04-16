@@ -30,91 +30,92 @@ package com.vk.sdk.api.messages.dto
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseGeo
+import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param date Date when the message has been sent in Unixtime
- * @param fromId Message author's ID
- * @param id Message ID
- * @param out Information whether the message is outcoming
- * @param peerId Peer ID
- * @param text Message text
- * @param action no description
- * @param adminAuthorId Only for messages from community. Contains user ID of community admin, who
+ * @param date - Date when the message has been sent in Unixtime
+ * @param fromId - Message author's ID
+ * @param id - Message ID
+ * @param out - Information whether the message is outcoming
+ * @param peerId - Peer ID
+ * @param text - Message text
+ * @param action
+ * @param adminAuthorId - Only for messages from community. Contains user ID of community admin, who
  * sent this message.
- * @param attachments no description
- * @param conversationMessageId Unique auto-incremented number for all messages with this peer
- * @param deleted Is it an deleted message
- * @param fwdMessages Forwarded messages
- * @param geo no description
- * @param important Is it an important message
- * @param isHidden no description
- * @param isCropped this message is cropped for bot
- * @param keyboard no description
- * @param membersCount Members number
- * @param payload no description
- * @param randomId ID used for sending messages. It returned only for outgoing messages
- * @param ref no description
- * @param refSource no description
- * @param replyMessage no description
- * @param updateTime Date when the message has been updated in Unixtime
- * @param wasListened Was the audio message inside already listened by you
- * @param pinnedAt Date when the message has been pinned in Unixtime
+ * @param attachments
+ * @param conversationMessageId - Unique auto-incremented number for all messages with this peer
+ * @param deleted - Is it an deleted message
+ * @param fwdMessages
+ * @param geo
+ * @param important - Is it an important message
+ * @param isHidden
+ * @param isCropped - this message is cropped for bot
+ * @param keyboard
+ * @param membersCount - Members number
+ * @param payload
+ * @param randomId - ID used for sending messages. It returned only for outgoing messages
+ * @param ref
+ * @param refSource
+ * @param replyMessage
+ * @param updateTime - Date when the message has been updated in Unixtime
+ * @param wasListened - Was the audio message inside already listened by you
+ * @param pinnedAt - Date when the message has been pinned in Unixtime
  */
 data class MessagesMessage(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="out")
+    @SerializedName("out")
     val out: BaseBoolInt,
-    @SerializedName(value="peer_id")
+    @SerializedName("peer_id")
     val peerId: Int,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="action")
-    val action: MessagesMessageAction? = null,
-    @SerializedName(value="admin_author_id")
+    @SerializedName("action")
+    val action: Any? = null,
+    @SerializedName("admin_author_id")
     val adminAuthorId: Int? = null,
-    @SerializedName(value="attachments")
+    @SerializedName("attachments")
     val attachments: List<MessagesMessageAttachment>? = null,
-    @SerializedName(value="conversation_message_id")
+    @SerializedName("conversation_message_id")
     val conversationMessageId: Int? = null,
-    @SerializedName(value="deleted")
+    @SerializedName("deleted")
     val deleted: BaseBoolInt? = null,
-    @SerializedName(value="fwd_messages")
-    val fwdMessages: List<MessagesForeignMessage>? = null,
-    @SerializedName(value="geo")
+    @SerializedName("fwd_messages")
+    val fwdMessages: Any? = null,
+    @SerializedName("geo")
     val geo: BaseGeo? = null,
-    @SerializedName(value="important")
+    @SerializedName("important")
     val important: Boolean? = null,
-    @SerializedName(value="is_hidden")
+    @SerializedName("is_hidden")
     val isHidden: Boolean? = null,
-    @SerializedName(value="is_cropped")
+    @SerializedName("is_cropped")
     val isCropped: Boolean? = null,
-    @SerializedName(value="keyboard")
+    @SerializedName("keyboard")
     val keyboard: MessagesKeyboard? = null,
-    @SerializedName(value="members_count")
+    @SerializedName("members_count")
     val membersCount: Int? = null,
-    @SerializedName(value="payload")
+    @SerializedName("payload")
     val payload: String? = null,
-    @SerializedName(value="random_id")
+    @SerializedName("random_id")
     val randomId: Int? = null,
-    @SerializedName(value="ref")
+    @SerializedName("ref")
     val ref: String? = null,
-    @SerializedName(value="ref_source")
+    @SerializedName("ref_source")
     val refSource: String? = null,
-    @SerializedName(value="reply_message")
+    @SerializedName("reply_message")
     val replyMessage: MessagesForeignMessage? = null,
-    @SerializedName(value="update_time")
+    @SerializedName("update_time")
     val updateTime: Int? = null,
-    @SerializedName(value="was_listened")
+    @SerializedName("was_listened")
     val wasListened: Boolean? = null,
-    @SerializedName(value="pinned_at")
+    @SerializedName("pinned_at")
     val pinnedAt: Int? = null
 )

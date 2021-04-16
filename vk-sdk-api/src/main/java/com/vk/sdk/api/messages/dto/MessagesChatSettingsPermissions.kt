@@ -27,241 +27,119 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.String
 
 /**
- * @param invite Who can invite users to chat
- * @param changeInfo Who can change chat info
- * @param changePin Who can change pinned message
- * @param useMassMentions Who can use mass mentions
- * @param seeInviteLink Who can see invite link
- * @param call Who can make calls
- * @param changeAdmins Who can change admins
+ * @param invite - Who can invite users to chat
+ * @param changeInfo - Who can change chat info
+ * @param changePin - Who can change pinned message
+ * @param useMassMentions - Who can use mass mentions
+ * @param seeInviteLink - Who can see invite link
+ * @param call - Who can make calls
+ * @param changeAdmins - Who can change admins
  */
 data class MessagesChatSettingsPermissions(
-    @SerializedName(value="invite")
-    val invite: Invite? = null,
-    @SerializedName(value="change_info")
-    val changeInfo: ChangeInfo? = null,
-    @SerializedName(value="change_pin")
-    val changePin: ChangePin? = null,
-    @SerializedName(value="use_mass_mentions")
-    val useMassMentions: UseMassMentions? = null,
-    @SerializedName(value="see_invite_link")
-    val seeInviteLink: SeeInviteLink? = null,
-    @SerializedName(value="call")
-    val call: Call? = null,
-    @SerializedName(value="change_admins")
-    val changeAdmins: ChangeAdmins? = null
+    @SerializedName("invite")
+    val invite: MessagesChatSettingsPermissions.Invite? = null,
+    @SerializedName("change_info")
+    val changeInfo: MessagesChatSettingsPermissions.ChangeInfo? = null,
+    @SerializedName("change_pin")
+    val changePin: MessagesChatSettingsPermissions.ChangePin? = null,
+    @SerializedName("use_mass_mentions")
+    val useMassMentions: MessagesChatSettingsPermissions.UseMassMentions? = null,
+    @SerializedName("see_invite_link")
+    val seeInviteLink: MessagesChatSettingsPermissions.SeeInviteLink? = null,
+    @SerializedName("call")
+    val call: MessagesChatSettingsPermissions.Call? = null,
+    @SerializedName("change_admins")
+    val changeAdmins: MessagesChatSettingsPermissions.ChangeAdmins? = null
 ) {
+    enum class Invite(
+        val value: String
+    ) {
+        @SerializedName("owner")
+        OWNER("owner"),
+
+        @SerializedName("owner_and_admins")
+        OWNER_AND_ADMINS("owner_and_admins"),
+
+        @SerializedName("all")
+        ALL("all");
+    }
+
     enum class ChangeInfo(
         val value: String
     ) {
+        @SerializedName("owner")
         OWNER("owner"),
 
+        @SerializedName("owner_and_admins")
         OWNER_AND_ADMINS("owner_and_admins"),
 
+        @SerializedName("all")
         ALL("all");
-
-        class Serializer : JsonSerializer<ChangeInfo>, JsonDeserializer<ChangeInfo> {
-            override fun serialize(
-                src: ChangeInfo?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): ChangeInfo {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
-    }
-
-    enum class Call(
-        val value: String
-    ) {
-        OWNER("owner"),
-
-        OWNER_AND_ADMINS("owner_and_admins"),
-
-        ALL("all");
-
-        class Serializer : JsonSerializer<Call>, JsonDeserializer<Call> {
-            override fun serialize(
-                src: Call?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Call {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
-    }
-
-    enum class UseMassMentions(
-        val value: String
-    ) {
-        OWNER("owner"),
-
-        OWNER_AND_ADMINS("owner_and_admins"),
-
-        ALL("all");
-
-        class Serializer : JsonSerializer<UseMassMentions>, JsonDeserializer<UseMassMentions> {
-            override fun serialize(
-                src: UseMassMentions?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): UseMassMentions {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 
     enum class ChangePin(
         val value: String
     ) {
+        @SerializedName("owner")
         OWNER("owner"),
 
+        @SerializedName("owner_and_admins")
         OWNER_AND_ADMINS("owner_and_admins"),
 
+        @SerializedName("all")
         ALL("all");
-
-        class Serializer : JsonSerializer<ChangePin>, JsonDeserializer<ChangePin> {
-            override fun serialize(
-                src: ChangePin?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): ChangePin {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 
-    enum class ChangeAdmins(
+    enum class UseMassMentions(
         val value: String
     ) {
+        @SerializedName("owner")
         OWNER("owner"),
 
-        OWNER_AND_ADMINS("owner_and_admins");
-
-        class Serializer : JsonSerializer<ChangeAdmins>, JsonDeserializer<ChangeAdmins> {
-            override fun serialize(
-                src: ChangeAdmins?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): ChangeAdmins {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
-    }
-
-    enum class Invite(
-        val value: String
-    ) {
-        OWNER("owner"),
-
+        @SerializedName("owner_and_admins")
         OWNER_AND_ADMINS("owner_and_admins"),
 
+        @SerializedName("all")
         ALL("all");
-
-        class Serializer : JsonSerializer<Invite>, JsonDeserializer<Invite> {
-            override fun serialize(
-                src: Invite?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Invite {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 
     enum class SeeInviteLink(
         val value: String
     ) {
+        @SerializedName("owner")
         OWNER("owner"),
 
+        @SerializedName("owner_and_admins")
         OWNER_AND_ADMINS("owner_and_admins"),
 
+        @SerializedName("all")
         ALL("all");
+    }
 
-        class Serializer : JsonSerializer<SeeInviteLink>, JsonDeserializer<SeeInviteLink> {
-            override fun serialize(
-                src: SeeInviteLink?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+    enum class Call(
+        val value: String
+    ) {
+        @SerializedName("owner")
+        OWNER("owner"),
 
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): SeeInviteLink {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
+        @SerializedName("owner_and_admins")
+        OWNER_AND_ADMINS("owner_and_admins"),
+
+        @SerializedName("all")
+        ALL("all");
+    }
+
+    enum class ChangeAdmins(
+        val value: String
+    ) {
+        @SerializedName("owner")
+        OWNER("owner"),
+
+        @SerializedName("owner_and_admins")
+        OWNER_AND_ADMINS("owner_and_admins");
     }
 }

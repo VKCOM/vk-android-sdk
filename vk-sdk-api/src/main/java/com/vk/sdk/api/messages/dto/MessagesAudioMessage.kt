@@ -33,30 +33,30 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param duration Audio message duration in seconds
- * @param id Audio message ID
- * @param linkMp3 MP3 file URL
- * @param linkOgg OGG file URL
- * @param ownerId Audio message owner ID
- * @param waveform no description
- * @param accessKey Access key for audio message
- * @param transcriptError no description
+ * @param duration - Audio message duration in seconds
+ * @param id - Audio message ID
+ * @param linkMp3 - MP3 file URL
+ * @param linkOgg - OGG file URL
+ * @param ownerId - Audio message owner ID
+ * @param waveform
+ * @param accessKey - Access key for audio message
+ * @param transcriptError
  */
 data class MessagesAudioMessage(
-    @SerializedName(value="duration")
+    @SerializedName("duration")
     val duration: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="link_mp3")
+    @SerializedName("link_mp3")
     val linkMp3: String,
-    @SerializedName(value="link_ogg")
+    @SerializedName("link_ogg")
     val linkOgg: String,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="waveform")
+    @SerializedName("waveform")
     val waveform: List<Int>,
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="transcript_error")
+    @SerializedName("transcript_error")
     val transcriptError: Int? = null
 )

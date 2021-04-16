@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param platform Type of the platform that used for the last authorization
- * @param time Last visit date (in Unix time)
+ * @param platform - Type of the platform that used for the last authorization
+ * @param time - Last visit date (in Unix time)
  */
 data class UsersLastSeen(
-    @SerializedName(value="platform")
+    @SerializedName("platform")
     val platform: Int? = null,
-    @SerializedName(value="time")
+    @SerializedName("time")
     val time: Int? = null
 )

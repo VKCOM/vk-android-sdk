@@ -33,12 +33,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count Tags number
- * @param items no description
+ * @param count - Tags number
+ * @param items
  */
 data class NewsfeedItemVideoVideo(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="items")
+    @SerializedName("items")
     val items: List<VideoVideo>? = null
 )

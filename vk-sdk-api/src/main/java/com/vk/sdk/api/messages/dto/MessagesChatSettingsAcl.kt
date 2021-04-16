@@ -31,39 +31,39 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Boolean
 
 /**
- * @param canChangeInfo Can you change photo, description and name
- * @param canChangeInviteLink Can you change invite link for this chat
- * @param canChangePin Can you pin/unpin message for this chat
- * @param canInvite Can you invite other peers in chat
- * @param canPromoteUsers Can you promote simple users to chat admins
- * @param canSeeInviteLink Can you see invite link for this chat
- * @param canModerate Can you moderate (delete) other users' messages
- * @param canCopyChat Can you copy chat
- * @param canCall Can you init group call in the chat
- * @param canUseMassMentions Can you use mass mentions
- * @param canChangeServiceType Can you change chat service type
+ * @param canChangeInfo - Can you change photo, description and name
+ * @param canChangeInviteLink - Can you change invite link for this chat
+ * @param canChangePin - Can you pin/unpin message for this chat
+ * @param canInvite - Can you invite other peers in chat
+ * @param canPromoteUsers - Can you promote simple users to chat admins
+ * @param canSeeInviteLink - Can you see invite link for this chat
+ * @param canModerate - Can you moderate (delete) other users' messages
+ * @param canCopyChat - Can you copy chat
+ * @param canCall - Can you init group call in the chat
+ * @param canUseMassMentions - Can you use mass mentions
+ * @param canChangeServiceType - Can you change chat service type
  */
 data class MessagesChatSettingsAcl(
-    @SerializedName(value="can_change_info")
+    @SerializedName("can_change_info")
     val canChangeInfo: Boolean,
-    @SerializedName(value="can_change_invite_link")
+    @SerializedName("can_change_invite_link")
     val canChangeInviteLink: Boolean,
-    @SerializedName(value="can_change_pin")
+    @SerializedName("can_change_pin")
     val canChangePin: Boolean,
-    @SerializedName(value="can_invite")
+    @SerializedName("can_invite")
     val canInvite: Boolean,
-    @SerializedName(value="can_promote_users")
+    @SerializedName("can_promote_users")
     val canPromoteUsers: Boolean,
-    @SerializedName(value="can_see_invite_link")
+    @SerializedName("can_see_invite_link")
     val canSeeInviteLink: Boolean,
-    @SerializedName(value="can_moderate")
+    @SerializedName("can_moderate")
     val canModerate: Boolean,
-    @SerializedName(value="can_copy_chat")
+    @SerializedName("can_copy_chat")
     val canCopyChat: Boolean,
-    @SerializedName(value="can_call")
+    @SerializedName("can_call")
     val canCall: Boolean,
-    @SerializedName(value="can_use_mass_mentions")
+    @SerializedName("can_use_mass_mentions")
     val canUseMassMentions: Boolean,
-    @SerializedName(value="can_change_service_type")
+    @SerializedName("can_change_service_type")
     val canChangeServiceType: Boolean? = null
 )

@@ -27,45 +27,21 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 enum class FriendsFriendStatusStatus(
     val value: Int
 ) {
+    @SerializedName("0")
     NOT_A_FRIEND(0),
 
+    @SerializedName("1")
     OUTCOMING_REQUEST(1),
 
+    @SerializedName("2")
     INCOMING_REQUEST(2),
 
+    @SerializedName("3")
     IS_FRIEND(3);
-
-    class Serializer : JsonSerializer<FriendsFriendStatusStatus>,
-            JsonDeserializer<FriendsFriendStatusStatus> {
-        override fun serialize(
-            src: FriendsFriendStatusStatus?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): FriendsFriendStatusStatus {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

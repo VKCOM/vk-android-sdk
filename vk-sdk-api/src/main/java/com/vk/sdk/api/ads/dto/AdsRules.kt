@@ -32,12 +32,12 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param paragraphs no description
- * @param title Comment
+ * @param paragraphs
+ * @param title - Comment
  */
 data class AdsRules(
-    @SerializedName(value="paragraphs")
+    @SerializedName("paragraphs")
     val paragraphs: List<AdsParagraphs>? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null
 )

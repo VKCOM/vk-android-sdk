@@ -31,18 +31,18 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param canLike Information whether current user can like the post
- * @param count Likes number
- * @param userLikes Information whether current uer has liked the post
- * @param canPublish Information whether current user can repost
+ * @param canLike - Information whether current user can like the post
+ * @param count - Likes number
+ * @param userLikes - Information whether current uer has liked the post
+ * @param canPublish - Information whether current user can repost
  */
 data class BaseLikesInfo(
-    @SerializedName(value="can_like")
+    @SerializedName("can_like")
     val canLike: BaseBoolInt,
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int,
-    @SerializedName(value="user_likes")
+    @SerializedName("user_likes")
     val userLikes: Int,
-    @SerializedName(value="can_publish")
+    @SerializedName("can_publish")
     val canPublish: BaseBoolInt? = null
 )

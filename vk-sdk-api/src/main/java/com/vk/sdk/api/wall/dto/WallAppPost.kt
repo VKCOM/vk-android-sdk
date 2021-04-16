@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Application ID
- * @param name Application name
- * @param photo130 URL of the preview image with 130 px in width
- * @param photo604 URL of the preview image with 604 px in width
+ * @param id - Application ID
+ * @param name - Application name
+ * @param photo130 - URL of the preview image with 130 px in width
+ * @param photo604 - URL of the preview image with 604 px in width
  */
 data class WallAppPost(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null,
-    @SerializedName(value="photo_130")
+    @SerializedName("photo_130")
     val photo130: String? = null,
-    @SerializedName(value="photo_604")
+    @SerializedName("photo_604")
     val photo604: String? = null
 )

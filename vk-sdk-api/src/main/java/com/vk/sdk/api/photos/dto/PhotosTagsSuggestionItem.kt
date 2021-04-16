@@ -32,27 +32,27 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param title no description
- * @param caption no description
- * @param type no description
- * @param buttons no description
- * @param photo no description
- * @param tags no description
- * @param trackCode no description
+ * @param title
+ * @param caption
+ * @param type
+ * @param buttons
+ * @param photo
+ * @param tags
+ * @param trackCode
  */
 data class PhotosTagsSuggestionItem(
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="caption")
+    @SerializedName("caption")
     val caption: String? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: String? = null,
-    @SerializedName(value="buttons")
+    @SerializedName("buttons")
     val buttons: List<PhotosTagsSuggestionItemButton>? = null,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: PhotosPhoto? = null,
-    @SerializedName(value="tags")
+    @SerializedName("tags")
     val tags: List<PhotosPhotoTag>? = null,
-    @SerializedName(value="track_code")
+    @SerializedName("track_code")
     val trackCode: String? = null
 )

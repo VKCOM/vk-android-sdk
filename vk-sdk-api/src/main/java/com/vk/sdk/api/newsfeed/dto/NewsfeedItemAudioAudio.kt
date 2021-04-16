@@ -33,12 +33,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count Audios number
- * @param items no description
+ * @param count - Audios number
+ * @param items
  */
 data class NewsfeedItemAudioAudio(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="items")
+    @SerializedName("items")
     val items: List<AudioAudio>? = null
 )

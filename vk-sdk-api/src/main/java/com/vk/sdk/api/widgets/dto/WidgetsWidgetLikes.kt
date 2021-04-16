@@ -31,9 +31,9 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param count Likes number
+ * @param count - Likes number
  */
 data class WidgetsWidgetLikes(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null
 )

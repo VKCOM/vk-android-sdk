@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param timestamp Start time
- * @param views Total views number
+ * @param timestamp - Start time
+ * @param views - Total views number
  */
 data class UtilsStats(
-    @SerializedName(value="timestamp")
+    @SerializedName("timestamp")
     val timestamp: Int? = null,
-    @SerializedName(value="views")
+    @SerializedName("views")
     val views: Int? = null
 )

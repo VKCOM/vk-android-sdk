@@ -32,12 +32,12 @@ import com.vk.sdk.api.audio.dto.AudioAudio
 import kotlin.String
 
 /**
- * @param text Status text
- * @param audio no description
+ * @param text - Status text
+ * @param audio
  */
 data class StatusStatus(
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="audio")
+    @SerializedName("audio")
     val audio: AudioAudio? = null
 )

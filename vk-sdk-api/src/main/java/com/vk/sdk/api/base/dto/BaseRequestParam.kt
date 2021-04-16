@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param key Parameter name
- * @param value Parameter value
+ * @param key - Parameter name
+ * @param value - Parameter value
  */
 data class BaseRequestParam(
-    @SerializedName(value="key")
+    @SerializedName("key")
     val key: String? = null,
-    @SerializedName(value="value")
+    @SerializedName("value")
     val value: String? = null
 )

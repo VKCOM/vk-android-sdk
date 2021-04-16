@@ -27,49 +27,27 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 enum class GroupsGroupFullMemberStatus(
     val value: Int
 ) {
+    @SerializedName("0")
     NOT_A_MEMBER(0),
 
+    @SerializedName("1")
     MEMBER(1),
 
+    @SerializedName("2")
     NOT_SURE(2),
 
+    @SerializedName("3")
     DECLINED(3),
 
+    @SerializedName("4")
     HAS_SENT_A_REQUEST(4),
 
+    @SerializedName("5")
     INVITED(5);
-
-    class Serializer : JsonSerializer<GroupsGroupFullMemberStatus>,
-            JsonDeserializer<GroupsGroupFullMemberStatus> {
-        override fun serialize(
-            src: GroupsGroupFullMemberStatus?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): GroupsGroupFullMemberStatus {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

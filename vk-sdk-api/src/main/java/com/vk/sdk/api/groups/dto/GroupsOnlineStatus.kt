@@ -31,12 +31,13 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param status no description
- * @param minutes Estimated time of answer (for status = answer_mark)
+ * Online status of group
+ * @param status
+ * @param minutes - Estimated time of answer (for status = answer_mark)
  */
 data class GroupsOnlineStatus(
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: GroupsOnlineStatusType,
-    @SerializedName(value="minutes")
+    @SerializedName("minutes")
     val minutes: Int? = null
 )

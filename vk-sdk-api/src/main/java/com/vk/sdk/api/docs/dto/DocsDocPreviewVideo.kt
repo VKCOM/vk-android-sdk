@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param src Video URL
- * @param width Video's width in pixels
- * @param height Video's height in pixels
- * @param fileSize Video file size in bites
+ * @param src - Video URL
+ * @param width - Video's width in pixels
+ * @param height - Video's height in pixels
+ * @param fileSize - Video file size in bites
  */
 data class DocsDocPreviewVideo(
-    @SerializedName(value="src")
+    @SerializedName("src")
     val src: String,
-    @SerializedName(value="width")
+    @SerializedName("width")
     val width: Int,
-    @SerializedName(value="height")
+    @SerializedName("height")
     val height: Int,
-    @SerializedName(value="file_size")
+    @SerializedName("file_size")
     val fileSize: Int
 )

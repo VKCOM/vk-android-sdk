@@ -27,62 +27,48 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class NewsfeedFilters(
     val value: String
 ) {
+    @SerializedName("post")
     POST("post"),
 
+    @SerializedName("photo")
     PHOTO("photo"),
 
+    @SerializedName("photo_tag")
     PHOTO_TAG("photo_tag"),
 
+    @SerializedName("wall_photo")
     WALL_PHOTO("wall_photo"),
 
+    @SerializedName("friend")
     FRIEND("friend"),
 
+    @SerializedName("recommended_groups")
     RECOMMENDED_GROUPS("recommended_groups"),
 
+    @SerializedName("note")
     NOTE("note"),
 
+    @SerializedName("audio")
     AUDIO("audio"),
 
+    @SerializedName("video")
     VIDEO("video"),
 
+    @SerializedName("audio_playlist")
     AUDIO_PLAYLIST("audio_playlist"),
 
+    @SerializedName("games_carousel")
     GAMES_CAROUSEL("games_carousel"),
 
+    @SerializedName("clip")
     CLIP("clip"),
 
+    @SerializedName("recommended_game")
     RECOMMENDED_GAME("recommended_game");
-
-    class Serializer : JsonSerializer<NewsfeedFilters>, JsonDeserializer<NewsfeedFilters> {
-        override fun serialize(
-            src: NewsfeedFilters?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): NewsfeedFilters {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

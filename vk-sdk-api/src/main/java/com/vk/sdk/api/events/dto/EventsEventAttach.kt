@@ -35,30 +35,30 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param buttonText text of attach
- * @param friends array of friends ids
- * @param id event ID
- * @param isFavorite is favorite
- * @param text text of attach
- * @param address address of event
- * @param memberStatus Current user's member status
- * @param time event start time
+ * @param buttonText - text of attach
+ * @param friends - array of friends ids
+ * @param id - event ID
+ * @param isFavorite - is favorite
+ * @param text - text of attach
+ * @param address - address of event
+ * @param memberStatus - Current user's member status
+ * @param time - event start time
  */
 data class EventsEventAttach(
-    @SerializedName(value="button_text")
+    @SerializedName("button_text")
     val buttonText: String,
-    @SerializedName(value="friends")
+    @SerializedName("friends")
     val friends: List<Int>,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="is_favorite")
+    @SerializedName("is_favorite")
     val isFavorite: Boolean,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="address")
+    @SerializedName("address")
     val address: String? = null,
-    @SerializedName(value="member_status")
+    @SerializedName("member_status")
     val memberStatus: GroupsGroupFullMemberStatus? = null,
-    @SerializedName(value="time")
+    @SerializedName("time")
     val time: Int? = null
 )

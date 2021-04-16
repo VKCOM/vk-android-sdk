@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param accesses no description
- * @param userId User ID
+ * @param accesses
+ * @param userId - User ID
  */
 data class AdsUsers(
-    @SerializedName(value="accesses")
+    @SerializedName("accesses")
     val accesses: List<AdsAccesses>,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int
 )

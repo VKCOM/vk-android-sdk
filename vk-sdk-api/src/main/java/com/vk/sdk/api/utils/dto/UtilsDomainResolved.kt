@@ -31,15 +31,15 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param objectId Object ID
- * @param groupId Group ID
- * @param type no description
+ * @param objectId - Object ID
+ * @param groupId - Group ID
+ * @param type
  */
 data class UtilsDomainResolved(
-    @SerializedName(value="object_id")
+    @SerializedName("object_id")
     val objectId: Int? = null,
-    @SerializedName(value="group_id")
+    @SerializedName("group_id")
     val groupId: Int? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: UtilsDomainResolvedType? = null
 )

@@ -56,7 +56,8 @@ data class VKApiConfig(
     val customApiEndpoint: Lazy<String> = lazy { DEFAULT_API_ENDPOINT },
     val rateLimitBackoffTimeoutMs: Long = TimeUnit.HOURS.toMillis(1),
     val useMsgPackSerialization: (String) -> Boolean = { false },
-    val apiMethodPriorityBackoff: ApiMethodPriorityBackoff = ApiMethodPriorityBackoff.DEFAULT
+    val apiMethodPriorityBackoff: ApiMethodPriorityBackoff = ApiMethodPriorityBackoff.DEFAULT,
+    val externalDeviceId: Lazy<String?> = lazy { null },
 ) {
 
     fun builder(context: Context) = Builder(VKApiConfig(context, validationHandler = VKDefaultValidationHandler(context)))
@@ -127,6 +128,10 @@ data class VKApiConfig(
 
         fun setRateLimitBackoff(rateLimitBackoffTimeoutMs: Long) = apply {
             config = config.copy(rateLimitBackoffTimeoutMs = rateLimitBackoffTimeoutMs)
+        }
+
+        fun setExternalDeviceID(externalDeviceId: String?) = apply {
+            config = config.copy(externalDeviceId = lazy { externalDeviceId })
         }
 
         fun build(): VKApiConfig {

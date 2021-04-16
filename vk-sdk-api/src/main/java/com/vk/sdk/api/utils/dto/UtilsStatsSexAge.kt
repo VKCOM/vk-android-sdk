@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param ageRange Age denotation
- * @param female  Views by female users
- * @param male  Views by male users
+ * @param ageRange - Age denotation
+ * @param female -  Views by female users
+ * @param male -  Views by male users
  */
 data class UtilsStatsSexAge(
-    @SerializedName(value="age_range")
+    @SerializedName("age_range")
     val ageRange: String? = null,
-    @SerializedName(value="female")
+    @SerializedName("female")
     val female: Int? = null,
-    @SerializedName(value="male")
+    @SerializedName("male")
     val male: Int? = null
 )

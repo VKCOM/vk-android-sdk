@@ -32,24 +32,24 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param accessKey Access key for private stats
- * @param key Link key (characters after vk.cc/)
- * @param shortUrl Short link URL
- * @param timestamp Creation time in Unixtime
- * @param url Full URL
- * @param views Total views number
+ * @param accessKey - Access key for private stats
+ * @param key - Link key (characters after vk.cc/)
+ * @param shortUrl - Short link URL
+ * @param timestamp - Creation time in Unixtime
+ * @param url - Full URL
+ * @param views - Total views number
  */
 data class UtilsLastShortenedLink(
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="key")
+    @SerializedName("key")
     val key: String? = null,
-    @SerializedName(value="short_url")
+    @SerializedName("short_url")
     val shortUrl: String? = null,
-    @SerializedName(value="timestamp")
+    @SerializedName("timestamp")
     val timestamp: Int? = null,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null,
-    @SerializedName(value="views")
+    @SerializedName("views")
     val views: Int? = null
 )

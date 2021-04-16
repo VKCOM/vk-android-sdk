@@ -39,8 +39,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiCallback
-import com.vk.sdk.api.friends.dto.FriendsGetFieldsResponseDto
-import com.vk.sdk.api.friends.methods.FriendsGetFields
+import com.vk.sdk.api.friends.FriendsService
+import com.vk.sdk.api.friends.dto.FriendsGetFieldsResponse
 import com.vk.sdk.api.users.dto.UsersFields
 import com.vk.sdk.sample.models.VKUser
 import com.vk.sdk.sample.requests.VKUsersCommand
@@ -96,8 +96,8 @@ class UserActivity: Activity() {
 
     private fun requestFriends() {
         val fields = listOf(UsersFields.PHOTO_200)
-        VK.execute(FriendsGetFields(fields = fields), object: VKApiCallback<FriendsGetFieldsResponseDto> {
-            override fun success(result: FriendsGetFieldsResponseDto) {
+        VK.execute(FriendsService().friendsGet(fields = fields), object: VKApiCallback<FriendsGetFieldsResponse> {
+            override fun success(result: FriendsGetFieldsResponse) {
                 val friends = result.items
                 if (!isFinishing && friends.isNotEmpty()) {
                     val vkUsers = friends.map { friend ->

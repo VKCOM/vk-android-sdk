@@ -35,30 +35,30 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param ownerId Poll owner's ID
- * @param pollId Poll ID
- * @param created Date when poll has been created in Unixtime
- * @param question Poll question
- * @param votes Votes number
- * @param answerId Current user's answer ID
- * @param answers no description
- * @param isClosed Information whether the poll is closed
+ * @param ownerId - Poll owner's ID
+ * @param pollId - Poll ID
+ * @param created - Date when poll has been created in Unixtime
+ * @param question - Poll question
+ * @param votes - Votes number
+ * @param answerId - Current user's answer ID
+ * @param answers
+ * @param isClosed - Information whether the poll is closed
  */
 data class BoardTopicPoll(
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="poll_id")
+    @SerializedName("poll_id")
     val pollId: Int,
-    @SerializedName(value="created")
+    @SerializedName("created")
     val created: Int,
-    @SerializedName(value="question")
+    @SerializedName("question")
     val question: String,
-    @SerializedName(value="votes")
+    @SerializedName("votes")
     val votes: Int,
-    @SerializedName(value="answer_id")
+    @SerializedName("answer_id")
     val answerId: Int,
-    @SerializedName(value="answers")
+    @SerializedName("answers")
     val answers: List<PollsAnswer>,
-    @SerializedName(value="is_closed")
+    @SerializedName("is_closed")
     val isClosed: BaseBoolInt? = null
 )

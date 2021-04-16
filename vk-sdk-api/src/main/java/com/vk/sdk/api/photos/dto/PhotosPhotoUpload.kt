@@ -32,21 +32,21 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param albumId Album ID
- * @param uploadUrl URL to upload photo
- * @param userId User ID
- * @param fallbackUploadUrl Fallback URL if upload_url returned error
- * @param groupId Group ID
+ * @param albumId - Album ID
+ * @param uploadUrl - URL to upload photo
+ * @param userId - User ID
+ * @param fallbackUploadUrl - Fallback URL if upload_url returned error
+ * @param groupId - Group ID
  */
 data class PhotosPhotoUpload(
-    @SerializedName(value="album_id")
+    @SerializedName("album_id")
     val albumId: Int,
-    @SerializedName(value="upload_url")
+    @SerializedName("upload_url")
     val uploadUrl: String,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int,
-    @SerializedName(value="fallback_upload_url")
+    @SerializedName("fallback_upload_url")
     val fallbackUploadUrl: String? = null,
-    @SerializedName(value="group_id")
+    @SerializedName("group_id")
     val groupId: Int? = null
 )

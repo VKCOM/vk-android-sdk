@@ -33,15 +33,15 @@ import kotlin.Boolean
 import kotlin.Int
 
 /**
- * @param isLiked user has like for this object
- * @param userId user id
- * @param user no description
+ * @param isLiked - user has like for this object
+ * @param userId - user id
+ * @param user
  */
 data class StoriesViewersItem(
-    @SerializedName(value="is_liked")
+    @SerializedName("is_liked")
     val isLiked: Boolean,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int,
-    @SerializedName(value="user")
+    @SerializedName("user")
     val user: UsersUserFull? = null
 )

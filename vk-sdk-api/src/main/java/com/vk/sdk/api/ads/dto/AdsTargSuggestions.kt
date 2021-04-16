@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Object ID
- * @param name Object name
+ * @param id - Object ID
+ * @param name - Object name
  */
 data class AdsTargSuggestions(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null
 )

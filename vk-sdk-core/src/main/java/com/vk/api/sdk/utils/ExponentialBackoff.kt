@@ -29,10 +29,18 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
+/**
+ * @property minDelayMs
+ * @property maxDelayMs
+ * @property factor [onError] will multiply delay by this factor
+ * @property criticalFactor [onCriticalError] will multiply delay by this factor
+ * @property jitter
+ */
 open class ExponentialBackoff(
         private val minDelayMs: Long = TimeUnit.MILLISECONDS.toMillis(100),
         private val maxDelayMs: Long = TimeUnit.MINUTES.toMillis(5),
         private val factor: Float = 2f,
+        private val criticalFactor: Float = 5f,
         private val jitter: Float = 0.1f
 ) {
 
@@ -60,9 +68,11 @@ open class ExponentialBackoff(
         errorsCount = 0
     }
 
-    fun onError() = increase()
+    fun onError() = increase(factor)
 
-    fun increase() {
+    fun onCriticalError() = increase(criticalFactor)
+
+    private fun increase(factor: Float) {
         delayMs = min(delayMs * factor, maxDelayMs.toFloat()).toLong()
         delayMs += variance(delayMs * jitter)
         errorsCount++

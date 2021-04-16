@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Category ID
- * @param name Category name
- * @param section no description
+ * @param id - Category ID
+ * @param name - Category name
+ * @param parent
  */
 data class MarketMarketCategory(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null,
-    @SerializedName(value="section")
-    val section: MarketSection? = null
+    @SerializedName("parent")
+    val parent: MarketMarketCategoryNested? = null
 )

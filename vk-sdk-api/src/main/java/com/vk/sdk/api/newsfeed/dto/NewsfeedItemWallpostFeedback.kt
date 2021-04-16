@@ -33,21 +33,21 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param type no description
- * @param question no description
- * @param answers no description
- * @param starsCount no description
- * @param gratitude no description
+ * @param type
+ * @param question
+ * @param answers
+ * @param starsCount
+ * @param gratitude
  */
 data class NewsfeedItemWallpostFeedback(
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: NewsfeedItemWallpostFeedbackType,
-    @SerializedName(value="question")
+    @SerializedName("question")
     val question: String,
-    @SerializedName(value="answers")
+    @SerializedName("answers")
     val answers: List<NewsfeedItemWallpostFeedbackAnswer>? = null,
-    @SerializedName(value="stars_count")
+    @SerializedName("stars_count")
     val starsCount: Int? = null,
-    @SerializedName(value="gratitude")
+    @SerializedName("gratitude")
     val gratitude: String? = null
 )

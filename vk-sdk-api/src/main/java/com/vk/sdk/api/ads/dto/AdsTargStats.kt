@@ -32,33 +32,33 @@ import kotlin.Float
 import kotlin.Int
 
 /**
- * @param audienceCount Audience
- * @param recommendedCpc Recommended CPC value for 50 percent  reach (old format)
- * @param recommendedCpm Recommended CPM value for 50 percent  reach (old format)
- * @param recommendedCpc50 Recommended CPC value for 50 percent  reach
- * @param recommendedCpm50 Recommended CPM value for 50 percent  reach
- * @param recommendedCpc70 Recommended CPC value for 70 percent  reach
- * @param recommendedCpm70 Recommended CPM value for 70 percent  reach
- * @param recommendedCpc90 Recommended CPC value for 90 percent  reach
- * @param recommendedCpm90 Recommended CPM value for 90 percent  reach
+ * @param audienceCount - Audience
+ * @param recommendedCpc - Recommended CPC value for 50 percent  reach (old format)
+ * @param recommendedCpm - Recommended CPM value for 50 percent  reach (old format)
+ * @param recommendedCpc50 - Recommended CPC value for 50 percent  reach
+ * @param recommendedCpm50 - Recommended CPM value for 50 percent  reach
+ * @param recommendedCpc70 - Recommended CPC value for 70 percent  reach
+ * @param recommendedCpm70 - Recommended CPM value for 70 percent  reach
+ * @param recommendedCpc90 - Recommended CPC value for 90 percent  reach
+ * @param recommendedCpm90 - Recommended CPM value for 90 percent  reach
  */
 data class AdsTargStats(
-    @SerializedName(value="audience_count")
+    @SerializedName("audience_count")
     val audienceCount: Int,
-    @SerializedName(value="recommended_cpc")
+    @SerializedName("recommended_cpc")
     val recommendedCpc: Float? = null,
-    @SerializedName(value="recommended_cpm")
+    @SerializedName("recommended_cpm")
     val recommendedCpm: Float? = null,
-    @SerializedName(value="recommended_cpc_50")
+    @SerializedName("recommended_cpc_50")
     val recommendedCpc50: Float? = null,
-    @SerializedName(value="recommended_cpm_50")
+    @SerializedName("recommended_cpm_50")
     val recommendedCpm50: Float? = null,
-    @SerializedName(value="recommended_cpc_70")
+    @SerializedName("recommended_cpc_70")
     val recommendedCpc70: Float? = null,
-    @SerializedName(value="recommended_cpm_70")
+    @SerializedName("recommended_cpm_70")
     val recommendedCpm70: Float? = null,
-    @SerializedName(value="recommended_cpc_90")
+    @SerializedName("recommended_cpc_90")
     val recommendedCpc90: Float? = null,
-    @SerializedName(value="recommended_cpm_90")
+    @SerializedName("recommended_cpm_90")
     val recommendedCpm90: Float? = null
 )

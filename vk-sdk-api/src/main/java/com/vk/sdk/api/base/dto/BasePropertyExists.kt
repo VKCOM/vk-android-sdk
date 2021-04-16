@@ -27,38 +27,12 @@
 // *********************************************************************
 package com.vk.sdk.api.base.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 enum class BasePropertyExists(
     val value: Int
 ) {
+    @SerializedName("1")
     PROPERTY_EXISTS(1);
-
-    class Serializer : JsonSerializer<BasePropertyExists>, JsonDeserializer<BasePropertyExists> {
-        override fun serialize(
-            src: BasePropertyExists?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): BasePropertyExists {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

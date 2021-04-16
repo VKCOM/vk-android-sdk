@@ -31,9 +31,9 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param uploadUrl Upload URL
+ * @param uploadUrl - Upload URL
  */
 data class BaseUploadServer(
-    @SerializedName(value="upload_url")
+    @SerializedName("upload_url")
     val uploadUrl: String
 )

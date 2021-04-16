@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id User id
- * @param photo50 Url for user photo
- * @param photo100 Url for user photo
- * @param firstName User first name
+ * @param id - User id
+ * @param photo50 - Url for user photo
+ * @param photo100 - Url for user photo
+ * @param firstName - User first name
  */
 data class GroupsProfileItem(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="photo_50")
+    @SerializedName("photo_50")
     val photo50: String,
-    @SerializedName(value="photo_100")
+    @SerializedName("photo_100")
     val photo100: String,
-    @SerializedName(value="first_name")
+    @SerializedName("first_name")
     val firstName: String
 )

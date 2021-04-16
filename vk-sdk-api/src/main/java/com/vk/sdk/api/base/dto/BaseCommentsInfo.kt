@@ -33,18 +33,21 @@ import kotlin.Boolean
 import kotlin.Int
 
 /**
- * @param canPost Information whether current user can comment the post
- * @param count Comments number
- * @param groupsCanPost Information whether groups can comment the post
- * @param donut no description
+ * @param canPost - Information whether current user can comment the post
+ * @param canView - Information whether current user can view the comments
+ * @param count - Comments number
+ * @param groupsCanPost - Information whether groups can comment the post
+ * @param donut
  */
 data class BaseCommentsInfo(
-    @SerializedName(value="can_post")
+    @SerializedName("can_post")
     val canPost: BaseBoolInt? = null,
-    @SerializedName(value="count")
+    @SerializedName("can_view")
+    val canView: BaseBoolInt? = null,
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="groups_can_post")
+    @SerializedName("groups_can_post")
     val groupsCanPost: Boolean? = null,
-    @SerializedName(value="donut")
+    @SerializedName("donut")
     val donut: WallWallpostCommentsDonut? = null
 )

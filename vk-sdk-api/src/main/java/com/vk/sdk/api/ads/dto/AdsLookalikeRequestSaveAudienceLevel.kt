@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param level Save audience level id, which is used in save audience queries
- * @param audienceCount Saved audience audience size for according level
+ * @param level - Save audience level id, which is used in save audience queries
+ * @param audienceCount - Saved audience audience size for according level
  */
 data class AdsLookalikeRequestSaveAudienceLevel(
-    @SerializedName(value="level")
+    @SerializedName("level")
     val level: Int? = null,
-    @SerializedName(value="audience_count")
+    @SerializedName("audience_count")
     val audienceCount: Int? = null
 )

@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param friendStatus no description
- * @param userId User ID
- * @param sign MD5 hash for the result validation
+ * @param friendStatus
+ * @param userId - User ID
+ * @param sign - MD5 hash for the result validation
  */
 data class FriendsFriendStatus(
-    @SerializedName(value="friend_status")
+    @SerializedName("friend_status")
     val friendStatus: FriendsFriendStatusStatus,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int,
-    @SerializedName(value="sign")
+    @SerializedName("sign")
     val sign: String? = null
 )

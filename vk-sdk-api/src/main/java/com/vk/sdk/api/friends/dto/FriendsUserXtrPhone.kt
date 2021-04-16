@@ -27,14 +27,6 @@
 // *********************************************************************
 package com.vk.sdk.api.friends.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.audio.dto.AudioAudio
 import com.vk.sdk.api.base.dto.BaseBoolInt
@@ -59,7 +51,6 @@ import com.vk.sdk.api.users.dto.UsersUserMin
 import com.vk.sdk.api.users.dto.UsersUserRelation
 import com.vk.sdk.api.users.dto.UsersUserType
 import com.vk.sdk.api.video.dto.VideoLiveInfo
-import java.lang.reflect.Type
 import kotlin.Boolean
 import kotlin.Float
 import kotlin.Int
@@ -67,433 +58,425 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param phone User phone
- * @param firstNameNom User's first name in nominative case
- * @param firstNameGen User's first name in genitive case
- * @param firstNameDat User's first name in dative case
- * @param firstNameAcc User's first name in accusative case
- * @param firstNameIns User's first name in instrumental case
- * @param firstNameAbl User's first name in prepositional case
- * @param lastNameNom User's last name in nominative case
- * @param lastNameGen User's last name in genitive case
- * @param lastNameDat User's last name in dative case
- * @param lastNameAcc User's last name in accusative case
- * @param lastNameIns User's last name in instrumental case
- * @param lastNameAbl User's last name in prepositional case
- * @param nickname User nickname
- * @param maidenName User maiden name
- * @param contactName User contact name
- * @param domain Domain name of the user's page
- * @param bdate User's date of birth
- * @param city no description
- * @param country no description
- * @param timezone User's timezone
- * @param ownerState no description
- * @param photo200 URL of square photo of the user with 200 pixels in width
- * @param photoMax URL of square photo of the user with maximum width
- * @param photo200Orig URL of user's photo with 200 pixels in width
- * @param photo400Orig URL of user's photo with 400 pixels in width
- * @param photoMaxOrig URL of user's photo of maximum size
- * @param photoId ID of the user's main photo
- * @param hasPhoto Information whether the user has main photo
- * @param hasMobile Information whether the user specified his phone number
- * @param isFriend Information whether the user is a friend of current user
- * @param wallComments Information whether current user can comment wall posts
- * @param canPost Information whether current user can post on the user's wall
- * @param canSeeAllPosts Information whether current user can see other users' audio on the wall
- * @param canSeeAudio Information whether current user can see the user's audio
- * @param type no description
- * @param email no description
- * @param skype no description
- * @param facebook no description
- * @param facebookName no description
- * @param twitter no description
- * @param livejournal no description
- * @param instagram no description
- * @param test no description
- * @param videoLive no description
- * @param isVideoLiveNotificationsBlocked no description
- * @param isService no description
- * @param serviceDescription no description
- * @param photo no description
- * @param photoBig no description
- * @param photo400 no description
- * @param photoMaxSize no description
- * @param language no description
- * @param storiesArchiveCount no description
- * @param wallDefault no description
- * @param canCall Information whether current user can call
- * @param canSeeWishes Information whether current user can see the user's wishes
- * @param canSeeGifts Information whether current user can see the user's gifts
- * @param interests no description
- * @param books no description
- * @param tv no description
- * @param quotes no description
- * @param about no description
- * @param games no description
- * @param movies no description
- * @param activities no description
- * @param music no description
- * @param canWritePrivateMessage Information whether current user can write private message
- * @param canSendFriendRequest Information whether current user can send a friend request
- * @param canBeInvitedGroup Information whether current user can be invited to the community
- * @param mobilePhone User's mobile phone number
- * @param homePhone User's additional phone number
- * @param site User's website
- * @param statusAudio no description
- * @param status User's status
- * @param activity User's status
- * @param lastSeen no description
- * @param exports no description
- * @param cropPhoto no description
- * @param followersCount Number of user's followers
- * @param videoLiveLevel User level in live streams achievements
- * @param videoLiveCount Number of user's live streams
- * @param clipsCount Number of user's clips
- * @param blacklisted Information whether current user is in the requested user's blacklist.
- * @param blacklistedByMe Information whether the requested user is in current user's blacklist
- * @param isFavorite Information whether the requested user is in faves of current user
- * @param isHiddenFromFeed Information whether the requested user is hidden from current user's
+ * @param phone - User phone
+ * @param firstNameNom - User's first name in nominative case
+ * @param firstNameGen - User's first name in genitive case
+ * @param firstNameDat - User's first name in dative case
+ * @param firstNameAcc - User's first name in accusative case
+ * @param firstNameIns - User's first name in instrumental case
+ * @param firstNameAbl - User's first name in prepositional case
+ * @param lastNameNom - User's last name in nominative case
+ * @param lastNameGen - User's last name in genitive case
+ * @param lastNameDat - User's last name in dative case
+ * @param lastNameAcc - User's last name in accusative case
+ * @param lastNameIns - User's last name in instrumental case
+ * @param lastNameAbl - User's last name in prepositional case
+ * @param nickname - User nickname
+ * @param maidenName - User maiden name
+ * @param contactName - User contact name
+ * @param domain - Domain name of the user's page
+ * @param bdate - User's date of birth
+ * @param city
+ * @param country
+ * @param timezone - User's timezone
+ * @param ownerState
+ * @param photo200 - URL of square photo of the user with 200 pixels in width
+ * @param photoMax - URL of square photo of the user with maximum width
+ * @param photo200Orig - URL of user's photo with 200 pixels in width
+ * @param photo400Orig - URL of user's photo with 400 pixels in width
+ * @param photoMaxOrig - URL of user's photo of maximum size
+ * @param photoId - ID of the user's main photo
+ * @param hasPhoto - Information whether the user has main photo
+ * @param hasMobile - Information whether the user specified his phone number
+ * @param isFriend - Information whether the user is a friend of current user
+ * @param wallComments - Information whether current user can comment wall posts
+ * @param canPost - Information whether current user can post on the user's wall
+ * @param canSeeAllPosts - Information whether current user can see other users' audio on the wall
+ * @param canSeeAudio - Information whether current user can see the user's audio
+ * @param type
+ * @param email
+ * @param skype
+ * @param facebook
+ * @param facebookName
+ * @param twitter
+ * @param livejournal
+ * @param instagram
+ * @param test
+ * @param videoLive
+ * @param isVideoLiveNotificationsBlocked
+ * @param isService
+ * @param serviceDescription
+ * @param photoRec
+ * @param photoMedium
+ * @param photoMediumRec
+ * @param photo
+ * @param photoBig
+ * @param photo400
+ * @param photoMaxSize
+ * @param language
+ * @param storiesArchiveCount
+ * @param wallDefault
+ * @param canCall - Information whether current user can call
+ * @param canSeeWishes - Information whether current user can see the user's wishes
+ * @param canSeeGifts - Information whether current user can see the user's gifts
+ * @param interests
+ * @param books
+ * @param tv
+ * @param quotes
+ * @param about
+ * @param games
+ * @param movies
+ * @param activities
+ * @param music
+ * @param canWritePrivateMessage - Information whether current user can write private message
+ * @param canSendFriendRequest - Information whether current user can send a friend request
+ * @param canBeInvitedGroup - Information whether current user can be invited to the community
+ * @param mobilePhone - User's mobile phone number
+ * @param homePhone - User's additional phone number
+ * @param site - User's website
+ * @param statusAudio
+ * @param status - User's status
+ * @param activity - User's status
+ * @param lastSeen
+ * @param exports
+ * @param cropPhoto
+ * @param followersCount - Number of user's followers
+ * @param videoLiveLevel - User level in live streams achievements
+ * @param videoLiveCount - Number of user's live streams
+ * @param clipsCount - Number of user's clips
+ * @param blacklisted - Information whether current user is in the requested user's blacklist.
+ * @param blacklistedByMe - Information whether the requested user is in current user's blacklist
+ * @param isFavorite - Information whether the requested user is in faves of current user
+ * @param isHiddenFromFeed - Information whether the requested user is hidden from current user's
  * newsfeed
- * @param commonCount Number of common friends with current user
- * @param occupation no description
- * @param career no description
- * @param military no description
- * @param university University ID
- * @param universityName University name
- * @param universityGroupId no description
- * @param faculty Faculty ID
- * @param facultyName Faculty name
- * @param graduation Graduation year
- * @param educationForm Education form
- * @param educationStatus User's education status
- * @param homeTown User hometown
- * @param relation User relationship status
- * @param relationPartner no description
- * @param personal no description
- * @param universities no description
- * @param schools no description
- * @param relatives no description
- * @param isSubscribedPodcasts Information whether current user is subscribed to podcasts
- * @param canSubscribePodcasts Owner in whitelist or not
- * @param canSubscribePosts Can subscribe to wall
- * @param counters no description
- * @param accessKey no description
- * @param canUploadDoc no description
- * @param hash no description
- * @param hasEmail no description
- * @param sex User sex
- * @param screenName Domain name of the user's page
- * @param photo50 URL of square photo of the user with 50 pixels in width
- * @param photo100 URL of square photo of the user with 100 pixels in width
- * @param onlineInfo no description
- * @param online Information whether the user is online
- * @param onlineMobile Information whether the user is online in mobile site or application
- * @param onlineApp Application ID
- * @param verified Information whether the user is verified
- * @param trending Information whether the user has a "fire" pictogram.
- * @param friendStatus no description
- * @param mutual no description
- * @param deactivated Returns if a profile is deleted or blocked
- * @param firstName User first name
- * @param hidden Returns if a profile is hidden.
- * @param id User ID
- * @param lastName User last name
- * @param canAccessClosed no description
- * @param isClosed no description
+ * @param commonCount - Number of common friends with current user
+ * @param occupation
+ * @param career
+ * @param military
+ * @param university - University ID
+ * @param universityName - University name
+ * @param universityGroupId
+ * @param faculty - Faculty ID
+ * @param facultyName - Faculty name
+ * @param graduation - Graduation year
+ * @param educationForm - Education form
+ * @param educationStatus - User's education status
+ * @param homeTown - User hometown
+ * @param relation - User relationship status
+ * @param relationPartner
+ * @param personal
+ * @param universities
+ * @param schools
+ * @param relatives
+ * @param isSubscribedPodcasts - Information whether current user is subscribed to podcasts
+ * @param canSubscribePodcasts - Owner in whitelist or not
+ * @param canSubscribePosts - Can subscribe to wall
+ * @param counters
+ * @param accessKey
+ * @param canUploadDoc
+ * @param hash
+ * @param hasEmail
+ * @param sex - User sex
+ * @param screenName - Domain name of the user's page
+ * @param photo50 - URL of square photo of the user with 50 pixels in width
+ * @param photo100 - URL of square photo of the user with 100 pixels in width
+ * @param onlineInfo
+ * @param online - Information whether the user is online
+ * @param onlineMobile - Information whether the user is online in mobile site or application
+ * @param onlineApp - Application ID
+ * @param verified - Information whether the user is verified
+ * @param trending - Information whether the user has a "fire" pictogram.
+ * @param friendStatus
+ * @param mutual
+ * @param deactivated - Returns if a profile is deleted or blocked
+ * @param firstName - User first name
+ * @param hidden - Returns if a profile is hidden.
+ * @param id - User ID
+ * @param lastName - User last name
+ * @param canAccessClosed
+ * @param isClosed
  */
 data class FriendsUserXtrPhone(
-    @SerializedName(value="phone")
+    @SerializedName("phone")
     val phone: String? = null,
-    @SerializedName(value="first_name_nom")
+    @SerializedName("first_name_nom")
     val firstNameNom: String? = null,
-    @SerializedName(value="first_name_gen")
+    @SerializedName("first_name_gen")
     val firstNameGen: String? = null,
-    @SerializedName(value="first_name_dat")
+    @SerializedName("first_name_dat")
     val firstNameDat: String? = null,
-    @SerializedName(value="first_name_acc")
+    @SerializedName("first_name_acc")
     val firstNameAcc: String? = null,
-    @SerializedName(value="first_name_ins")
+    @SerializedName("first_name_ins")
     val firstNameIns: String? = null,
-    @SerializedName(value="first_name_abl")
+    @SerializedName("first_name_abl")
     val firstNameAbl: String? = null,
-    @SerializedName(value="last_name_nom")
+    @SerializedName("last_name_nom")
     val lastNameNom: String? = null,
-    @SerializedName(value="last_name_gen")
+    @SerializedName("last_name_gen")
     val lastNameGen: String? = null,
-    @SerializedName(value="last_name_dat")
+    @SerializedName("last_name_dat")
     val lastNameDat: String? = null,
-    @SerializedName(value="last_name_acc")
+    @SerializedName("last_name_acc")
     val lastNameAcc: String? = null,
-    @SerializedName(value="last_name_ins")
+    @SerializedName("last_name_ins")
     val lastNameIns: String? = null,
-    @SerializedName(value="last_name_abl")
+    @SerializedName("last_name_abl")
     val lastNameAbl: String? = null,
-    @SerializedName(value="nickname")
+    @SerializedName("nickname")
     val nickname: String? = null,
-    @SerializedName(value="maiden_name")
+    @SerializedName("maiden_name")
     val maidenName: String? = null,
-    @SerializedName(value="contact_name")
+    @SerializedName("contact_name")
     val contactName: String? = null,
-    @SerializedName(value="domain")
+    @SerializedName("domain")
     val domain: String? = null,
-    @SerializedName(value="bdate")
+    @SerializedName("bdate")
     val bdate: String? = null,
-    @SerializedName(value="city")
+    @SerializedName("city")
     val city: BaseCity? = null,
-    @SerializedName(value="country")
+    @SerializedName("country")
     val country: BaseCountry? = null,
-    @SerializedName(value="timezone")
+    @SerializedName("timezone")
     val timezone: Float? = null,
-    @SerializedName(value="owner_state")
+    @SerializedName("owner_state")
     val ownerState: OwnerState? = null,
-    @SerializedName(value="photo_200")
+    @SerializedName("photo_200")
     val photo200: String? = null,
-    @SerializedName(value="photo_max")
+    @SerializedName("photo_max")
     val photoMax: String? = null,
-    @SerializedName(value="photo_200_orig")
+    @SerializedName("photo_200_orig")
     val photo200Orig: String? = null,
-    @SerializedName(value="photo_400_orig")
+    @SerializedName("photo_400_orig")
     val photo400Orig: String? = null,
-    @SerializedName(value="photo_max_orig")
+    @SerializedName("photo_max_orig")
     val photoMaxOrig: String? = null,
-    @SerializedName(value="photo_id")
+    @SerializedName("photo_id")
     val photoId: String? = null,
-    @SerializedName(value="has_photo")
+    @SerializedName("has_photo")
     val hasPhoto: BaseBoolInt? = null,
-    @SerializedName(value="has_mobile")
+    @SerializedName("has_mobile")
     val hasMobile: BaseBoolInt? = null,
-    @SerializedName(value="is_friend")
+    @SerializedName("is_friend")
     val isFriend: BaseBoolInt? = null,
-    @SerializedName(value="wall_comments")
+    @SerializedName("wall_comments")
     val wallComments: BaseBoolInt? = null,
-    @SerializedName(value="can_post")
+    @SerializedName("can_post")
     val canPost: BaseBoolInt? = null,
-    @SerializedName(value="can_see_all_posts")
+    @SerializedName("can_see_all_posts")
     val canSeeAllPosts: BaseBoolInt? = null,
-    @SerializedName(value="can_see_audio")
+    @SerializedName("can_see_audio")
     val canSeeAudio: BaseBoolInt? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: UsersUserType? = null,
-    @SerializedName(value="email")
+    @SerializedName("email")
     val email: String? = null,
-    @SerializedName(value="skype")
+    @SerializedName("skype")
     val skype: String? = null,
-    @SerializedName(value="facebook")
+    @SerializedName("facebook")
     val facebook: String? = null,
-    @SerializedName(value="facebook_name")
+    @SerializedName("facebook_name")
     val facebookName: String? = null,
-    @SerializedName(value="twitter")
+    @SerializedName("twitter")
     val twitter: String? = null,
-    @SerializedName(value="livejournal")
+    @SerializedName("livejournal")
     val livejournal: String? = null,
-    @SerializedName(value="instagram")
+    @SerializedName("instagram")
     val instagram: String? = null,
-    @SerializedName(value="test")
+    @SerializedName("test")
     val test: BaseBoolInt? = null,
-    @SerializedName(value="video_live")
+    @SerializedName("video_live")
     val videoLive: VideoLiveInfo? = null,
-    @SerializedName(value="is_video_live_notifications_blocked")
+    @SerializedName("is_video_live_notifications_blocked")
     val isVideoLiveNotificationsBlocked: BaseBoolInt? = null,
-    @SerializedName(value="is_service")
+    @SerializedName("is_service")
     val isService: Boolean? = null,
-    @SerializedName(value="service_description")
+    @SerializedName("service_description")
     val serviceDescription: String? = null,
-    @SerializedName(value="photo")
+    @SerializedName("photo_rec")
+    val photoRec: String? = null,
+    @SerializedName("photo_medium")
+    val photoMedium: String? = null,
+    @SerializedName("photo_medium_rec")
+    val photoMediumRec: String? = null,
+    @SerializedName("photo")
     val photo: String? = null,
-    @SerializedName(value="photo_big")
+    @SerializedName("photo_big")
     val photoBig: String? = null,
-    @SerializedName(value="photo_400")
+    @SerializedName("photo_400")
     val photo400: String? = null,
-    @SerializedName(value="photo_max_size")
+    @SerializedName("photo_max_size")
     val photoMaxSize: PhotosPhoto? = null,
-    @SerializedName(value="language")
+    @SerializedName("language")
     val language: String? = null,
-    @SerializedName(value="stories_archive_count")
+    @SerializedName("stories_archive_count")
     val storiesArchiveCount: Int? = null,
-    @SerializedName(value="wall_default")
-    val wallDefault: WallDefault? = null,
-    @SerializedName(value="can_call")
+    @SerializedName("wall_default")
+    val wallDefault: FriendsUserXtrPhone.WallDefault? = null,
+    @SerializedName("can_call")
     val canCall: Boolean? = null,
-    @SerializedName(value="can_see_wishes")
+    @SerializedName("can_see_wishes")
     val canSeeWishes: Boolean? = null,
-    @SerializedName(value="can_see_gifts")
+    @SerializedName("can_see_gifts")
     val canSeeGifts: BaseBoolInt? = null,
-    @SerializedName(value="interests")
+    @SerializedName("interests")
     val interests: String? = null,
-    @SerializedName(value="books")
+    @SerializedName("books")
     val books: String? = null,
-    @SerializedName(value="tv")
+    @SerializedName("tv")
     val tv: String? = null,
-    @SerializedName(value="quotes")
+    @SerializedName("quotes")
     val quotes: String? = null,
-    @SerializedName(value="about")
+    @SerializedName("about")
     val about: String? = null,
-    @SerializedName(value="games")
+    @SerializedName("games")
     val games: String? = null,
-    @SerializedName(value="movies")
+    @SerializedName("movies")
     val movies: String? = null,
-    @SerializedName(value="activities")
+    @SerializedName("activities")
     val activities: String? = null,
-    @SerializedName(value="music")
+    @SerializedName("music")
     val music: String? = null,
-    @SerializedName(value="can_write_private_message")
+    @SerializedName("can_write_private_message")
     val canWritePrivateMessage: BaseBoolInt? = null,
-    @SerializedName(value="can_send_friend_request")
+    @SerializedName("can_send_friend_request")
     val canSendFriendRequest: BaseBoolInt? = null,
-    @SerializedName(value="can_be_invited_group")
+    @SerializedName("can_be_invited_group")
     val canBeInvitedGroup: Boolean? = null,
-    @SerializedName(value="mobile_phone")
+    @SerializedName("mobile_phone")
     val mobilePhone: String? = null,
-    @SerializedName(value="home_phone")
+    @SerializedName("home_phone")
     val homePhone: String? = null,
-    @SerializedName(value="site")
+    @SerializedName("site")
     val site: String? = null,
-    @SerializedName(value="status_audio")
+    @SerializedName("status_audio")
     val statusAudio: AudioAudio? = null,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: String? = null,
-    @SerializedName(value="activity")
+    @SerializedName("activity")
     val activity: String? = null,
-    @SerializedName(value="last_seen")
+    @SerializedName("last_seen")
     val lastSeen: UsersLastSeen? = null,
-    @SerializedName(value="exports")
+    @SerializedName("exports")
     val exports: UsersExports? = null,
-    @SerializedName(value="crop_photo")
+    @SerializedName("crop_photo")
     val cropPhoto: BaseCropPhoto? = null,
-    @SerializedName(value="followers_count")
+    @SerializedName("followers_count")
     val followersCount: Int? = null,
-    @SerializedName(value="video_live_level")
+    @SerializedName("video_live_level")
     val videoLiveLevel: Int? = null,
-    @SerializedName(value="video_live_count")
+    @SerializedName("video_live_count")
     val videoLiveCount: Int? = null,
-    @SerializedName(value="clips_count")
+    @SerializedName("clips_count")
     val clipsCount: Int? = null,
-    @SerializedName(value="blacklisted")
+    @SerializedName("blacklisted")
     val blacklisted: BaseBoolInt? = null,
-    @SerializedName(value="blacklisted_by_me")
+    @SerializedName("blacklisted_by_me")
     val blacklistedByMe: BaseBoolInt? = null,
-    @SerializedName(value="is_favorite")
+    @SerializedName("is_favorite")
     val isFavorite: BaseBoolInt? = null,
-    @SerializedName(value="is_hidden_from_feed")
+    @SerializedName("is_hidden_from_feed")
     val isHiddenFromFeed: BaseBoolInt? = null,
-    @SerializedName(value="common_count")
+    @SerializedName("common_count")
     val commonCount: Int? = null,
-    @SerializedName(value="occupation")
+    @SerializedName("occupation")
     val occupation: UsersOccupation? = null,
-    @SerializedName(value="career")
+    @SerializedName("career")
     val career: List<UsersCareer>? = null,
-    @SerializedName(value="military")
+    @SerializedName("military")
     val military: List<UsersMilitary>? = null,
-    @SerializedName(value="university")
+    @SerializedName("university")
     val university: Int? = null,
-    @SerializedName(value="university_name")
+    @SerializedName("university_name")
     val universityName: String? = null,
-    @SerializedName(value="university_group_id")
+    @SerializedName("university_group_id")
     val universityGroupId: Int? = null,
-    @SerializedName(value="faculty")
+    @SerializedName("faculty")
     val faculty: Int? = null,
-    @SerializedName(value="faculty_name")
+    @SerializedName("faculty_name")
     val facultyName: String? = null,
-    @SerializedName(value="graduation")
+    @SerializedName("graduation")
     val graduation: Int? = null,
-    @SerializedName(value="education_form")
+    @SerializedName("education_form")
     val educationForm: String? = null,
-    @SerializedName(value="education_status")
+    @SerializedName("education_status")
     val educationStatus: String? = null,
-    @SerializedName(value="home_town")
+    @SerializedName("home_town")
     val homeTown: String? = null,
-    @SerializedName(value="relation")
+    @SerializedName("relation")
     val relation: UsersUserRelation? = null,
-    @SerializedName(value="relation_partner")
+    @SerializedName("relation_partner")
     val relationPartner: UsersUserMin? = null,
-    @SerializedName(value="personal")
+    @SerializedName("personal")
     val personal: UsersPersonal? = null,
-    @SerializedName(value="universities")
+    @SerializedName("universities")
     val universities: List<UsersUniversity>? = null,
-    @SerializedName(value="schools")
+    @SerializedName("schools")
     val schools: List<UsersSchool>? = null,
-    @SerializedName(value="relatives")
+    @SerializedName("relatives")
     val relatives: List<UsersRelative>? = null,
-    @SerializedName(value="is_subscribed_podcasts")
+    @SerializedName("is_subscribed_podcasts")
     val isSubscribedPodcasts: Boolean? = null,
-    @SerializedName(value="can_subscribe_podcasts")
+    @SerializedName("can_subscribe_podcasts")
     val canSubscribePodcasts: Boolean? = null,
-    @SerializedName(value="can_subscribe_posts")
+    @SerializedName("can_subscribe_posts")
     val canSubscribePosts: Boolean? = null,
-    @SerializedName(value="counters")
+    @SerializedName("counters")
     val counters: UsersUserCounters? = null,
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="can_upload_doc")
+    @SerializedName("can_upload_doc")
     val canUploadDoc: BaseBoolInt? = null,
-    @SerializedName(value="hash")
+    @SerializedName("hash")
     val hash: String? = null,
-    @SerializedName(value="has_email")
+    @SerializedName("has_email")
     val hasEmail: Boolean? = null,
-    @SerializedName(value="sex")
+    @SerializedName("sex")
     val sex: BaseSex? = null,
-    @SerializedName(value="screen_name")
+    @SerializedName("screen_name")
     val screenName: String? = null,
-    @SerializedName(value="photo_50")
+    @SerializedName("photo_50")
     val photo50: String? = null,
-    @SerializedName(value="photo_100")
+    @SerializedName("photo_100")
     val photo100: String? = null,
-    @SerializedName(value="online_info")
+    @SerializedName("online_info")
     val onlineInfo: UsersOnlineInfo? = null,
-    @SerializedName(value="online")
+    @SerializedName("online")
     val online: BaseBoolInt? = null,
-    @SerializedName(value="online_mobile")
+    @SerializedName("online_mobile")
     val onlineMobile: BaseBoolInt? = null,
-    @SerializedName(value="online_app")
+    @SerializedName("online_app")
     val onlineApp: Int? = null,
-    @SerializedName(value="verified")
+    @SerializedName("verified")
     val verified: BaseBoolInt? = null,
-    @SerializedName(value="trending")
+    @SerializedName("trending")
     val trending: BaseBoolInt? = null,
-    @SerializedName(value="friend_status")
+    @SerializedName("friend_status")
     val friendStatus: FriendsFriendStatusStatus? = null,
-    @SerializedName(value="mutual")
+    @SerializedName("mutual")
     val mutual: FriendsRequestsMutual? = null,
-    @SerializedName(value="deactivated")
+    @SerializedName("deactivated")
     val deactivated: String? = null,
-    @SerializedName(value="first_name")
+    @SerializedName("first_name")
     val firstName: String? = null,
-    @SerializedName(value="hidden")
+    @SerializedName("hidden")
     val hidden: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="last_name")
+    @SerializedName("last_name")
     val lastName: String? = null,
-    @SerializedName(value="can_access_closed")
+    @SerializedName("can_access_closed")
     val canAccessClosed: Boolean? = null,
-    @SerializedName(value="is_closed")
+    @SerializedName("is_closed")
     val isClosed: Boolean? = null
 ) {
     enum class WallDefault(
         val value: String
     ) {
+        @SerializedName("owner")
         OWNER("owner"),
 
+        @SerializedName("all")
         ALL("all");
-
-        class Serializer : JsonSerializer<WallDefault>, JsonDeserializer<WallDefault> {
-            override fun serialize(
-                src: WallDefault?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): WallDefault {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

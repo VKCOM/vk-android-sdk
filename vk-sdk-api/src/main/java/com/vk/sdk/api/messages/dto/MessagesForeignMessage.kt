@@ -35,45 +35,45 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param date Date when the message was created
- * @param fromId Message author's ID
- * @param text Message text
- * @param attachments no description
- * @param conversationMessageId Conversation message ID
- * @param fwdMessages no description
- * @param geo no description
- * @param id Message ID
- * @param peerId Peer ID
- * @param replyMessage no description
- * @param updateTime Date when the message has been updated in Unixtime
- * @param wasListened Was the audio message inside already listened by you
- * @param payload Additional data sent along with message for developer convenience
+ * @param date - Date when the message was created
+ * @param fromId - Message author's ID
+ * @param text - Message text
+ * @param attachments
+ * @param conversationMessageId - Conversation message ID
+ * @param fwdMessages
+ * @param geo
+ * @param id - Message ID
+ * @param peerId - Peer ID
+ * @param replyMessage
+ * @param updateTime - Date when the message has been updated in Unixtime
+ * @param wasListened - Was the audio message inside already listened by you
+ * @param payload - Additional data sent along with message for developer convenience
  */
 data class MessagesForeignMessage(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="attachments")
+    @SerializedName("attachments")
     val attachments: List<MessagesMessageAttachment>? = null,
-    @SerializedName(value="conversation_message_id")
+    @SerializedName("conversation_message_id")
     val conversationMessageId: Int? = null,
-    @SerializedName(value="fwd_messages")
+    @SerializedName("fwd_messages")
     val fwdMessages: List<MessagesForeignMessage>? = null,
-    @SerializedName(value="geo")
+    @SerializedName("geo")
     val geo: BaseGeo? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="peer_id")
+    @SerializedName("peer_id")
     val peerId: Int? = null,
-    @SerializedName(value="reply_message")
+    @SerializedName("reply_message")
     val replyMessage: MessagesForeignMessage? = null,
-    @SerializedName(value="update_time")
+    @SerializedName("update_time")
     val updateTime: Int? = null,
-    @SerializedName(value="was_listened")
+    @SerializedName("was_listened")
     val wasListened: Boolean? = null,
-    @SerializedName(value="payload")
+    @SerializedName("payload")
     val payload: String? = null
 )

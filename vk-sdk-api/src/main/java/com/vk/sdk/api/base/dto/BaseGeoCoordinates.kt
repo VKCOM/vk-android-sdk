@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Float
 
 /**
- * @param latitude no description
- * @param longitude no description
+ * @param latitude
+ * @param longitude
  */
 data class BaseGeoCoordinates(
-    @SerializedName(value="latitude")
+    @SerializedName("latitude")
     val latitude: Float,
-    @SerializedName(value="longitude")
+    @SerializedName("longitude")
     val longitude: Float
 )

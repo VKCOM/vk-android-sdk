@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param majorId Major id for sorting conversations
- * @param minorId Minor id for sorting conversations
+ * @param majorId - Major id for sorting conversations
+ * @param minorId - Minor id for sorting conversations
  */
 data class MessagesConversationSortId(
-    @SerializedName(value="major_id")
+    @SerializedName("major_id")
     val majorId: Int,
-    @SerializedName(value="minor_id")
+    @SerializedName("minor_id")
     val minorId: Int
 )

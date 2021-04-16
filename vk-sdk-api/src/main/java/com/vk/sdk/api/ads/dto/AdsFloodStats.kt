@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param left Requests left
- * @param refresh Time to refresh in seconds
+ * @param left - Requests left
+ * @param refresh - Time to refresh in seconds
  */
 data class AdsFloodStats(
-    @SerializedName(value="left")
+    @SerializedName("left")
     val left: Int,
-    @SerializedName(value="refresh")
+    @SerializedName("refresh")
     val refresh: Int
 )

@@ -30,12 +30,12 @@ package com.vk.sdk.api.messages.dto
 import com.google.gson.annotations.SerializedName
 
 /**
- * @param conversation no description
- * @param lastMessage no description
+ * @param conversation
+ * @param lastMessage
  */
 data class MessagesConversationWithMessage(
-    @SerializedName(value="conversation")
+    @SerializedName("conversation")
     val conversation: MessagesConversation,
-    @SerializedName(value="last_message")
+    @SerializedName("last_message")
     val lastMessage: MessagesMessage? = null
 )

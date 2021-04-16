@@ -33,33 +33,33 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param comments no description
- * @param date Date when widgets on the page has been initialized firstly in Unixtime
- * @param description Page description
- * @param id Page ID
- * @param likes no description
- * @param pageId page_id parameter value
- * @param photo URL of the preview image
- * @param title Page title
- * @param url Page absolute URL
+ * @param comments
+ * @param date - Date when widgets on the page has been initialized firstly in Unixtime
+ * @param description - Page description
+ * @param id - Page ID
+ * @param likes
+ * @param pageId - page_id parameter value
+ * @param photo - URL of the preview image
+ * @param title - Page title
+ * @param url - Page absolute URL
  */
 data class WidgetsWidgetPage(
-    @SerializedName(value="comments")
+    @SerializedName("comments")
     val comments: BaseObjectCount? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseObjectCount? = null,
-    @SerializedName(value="page_id")
+    @SerializedName("page_id")
     val pageId: String? = null,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: String? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null
 )

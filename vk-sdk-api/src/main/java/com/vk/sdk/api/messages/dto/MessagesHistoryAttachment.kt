@@ -31,18 +31,18 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param attachment no description
- * @param messageId Message ID
- * @param fromId Message author's ID
- * @param forwardLevel Forward level (optional)
+ * @param attachment
+ * @param messageId - Message ID
+ * @param fromId - Message author's ID
+ * @param forwardLevel - Forward level (optional)
  */
 data class MessagesHistoryAttachment(
-    @SerializedName(value="attachment")
+    @SerializedName("attachment")
     val attachment: MessagesHistoryMessageAttachment,
-    @SerializedName(value="message_id")
+    @SerializedName("message_id")
     val messageId: Int,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int,
-    @SerializedName(value="forward_level")
+    @SerializedName("forward_level")
     val forwardLevel: Int? = null
 )

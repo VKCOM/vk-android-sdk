@@ -33,39 +33,39 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param address Place address
- * @param checkins Checkins number
- * @param city City name
- * @param country Country name
- * @param created Date of the place creation in Unixtime
- * @param icon URL of the place's icon
- * @param id Place ID
- * @param latitude Place latitude
- * @param longitude Place longitude
- * @param title Place title
- * @param type Place type
+ * @param address - Place address
+ * @param checkins - Checkins number
+ * @param city - City name
+ * @param country - Country name
+ * @param created - Date of the place creation in Unixtime
+ * @param icon - URL of the place's icon
+ * @param id - Place ID
+ * @param latitude - Place latitude
+ * @param longitude - Place longitude
+ * @param title - Place title
+ * @param type - Place type
  */
 data class BasePlace(
-    @SerializedName(value="address")
+    @SerializedName("address")
     val address: String? = null,
-    @SerializedName(value="checkins")
+    @SerializedName("checkins")
     val checkins: Int? = null,
-    @SerializedName(value="city")
+    @SerializedName("city")
     val city: String? = null,
-    @SerializedName(value="country")
+    @SerializedName("country")
     val country: String? = null,
-    @SerializedName(value="created")
+    @SerializedName("created")
     val created: Int? = null,
-    @SerializedName(value="icon")
+    @SerializedName("icon")
     val icon: String? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="latitude")
+    @SerializedName("latitude")
     val latitude: Float? = null,
-    @SerializedName(value="longitude")
+    @SerializedName("longitude")
     val longitude: Float? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: String? = null
 )

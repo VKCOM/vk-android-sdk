@@ -34,27 +34,27 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param contactId Contact person ID
- * @param currency no description
- * @param currencyText Currency name
- * @param enabled Information whether the market is enabled
- * @param mainAlbumId Main market album ID
- * @param priceMax Maximum price
- * @param priceMin Minimum price
+ * @param contactId - Contact person ID
+ * @param currency
+ * @param currencyText - Currency name
+ * @param enabled - Information whether the market is enabled
+ * @param mainAlbumId - Main market album ID
+ * @param priceMax - Maximum price
+ * @param priceMin - Minimum price
  */
 data class GroupsMarketInfo(
-    @SerializedName(value="contact_id")
+    @SerializedName("contact_id")
     val contactId: Int? = null,
-    @SerializedName(value="currency")
+    @SerializedName("currency")
     val currency: MarketCurrency? = null,
-    @SerializedName(value="currency_text")
+    @SerializedName("currency_text")
     val currencyText: String? = null,
-    @SerializedName(value="enabled")
+    @SerializedName("enabled")
     val enabled: BaseBoolInt? = null,
-    @SerializedName(value="main_album_id")
+    @SerializedName("main_album_id")
     val mainAlbumId: Int? = null,
-    @SerializedName(value="price_max")
+    @SerializedName("price_max")
     val priceMax: String? = null,
-    @SerializedName(value="price_min")
+    @SerializedName("price_min")
     val priceMin: String? = null
 )

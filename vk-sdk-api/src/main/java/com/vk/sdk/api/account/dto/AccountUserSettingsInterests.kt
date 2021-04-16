@@ -30,33 +30,33 @@ package com.vk.sdk.api.account.dto
 import com.google.gson.annotations.SerializedName
 
 /**
- * @param activities no description
- * @param interests no description
- * @param music no description
- * @param tv no description
- * @param movies no description
- * @param books no description
- * @param games no description
- * @param quotes no description
- * @param about no description
+ * @param activities
+ * @param interests
+ * @param music
+ * @param tv
+ * @param movies
+ * @param books
+ * @param games
+ * @param quotes
+ * @param about
  */
 data class AccountUserSettingsInterests(
-    @SerializedName(value="activities")
+    @SerializedName("activities")
     val activities: AccountUserSettingsInterest? = null,
-    @SerializedName(value="interests")
+    @SerializedName("interests")
     val interests: AccountUserSettingsInterest? = null,
-    @SerializedName(value="music")
+    @SerializedName("music")
     val music: AccountUserSettingsInterest? = null,
-    @SerializedName(value="tv")
+    @SerializedName("tv")
     val tv: AccountUserSettingsInterest? = null,
-    @SerializedName(value="movies")
+    @SerializedName("movies")
     val movies: AccountUserSettingsInterest? = null,
-    @SerializedName(value="books")
+    @SerializedName("books")
     val books: AccountUserSettingsInterest? = null,
-    @SerializedName(value="games")
+    @SerializedName("games")
     val games: AccountUserSettingsInterest? = null,
-    @SerializedName(value="quotes")
+    @SerializedName("quotes")
     val quotes: AccountUserSettingsInterest? = null,
-    @SerializedName(value="about")
+    @SerializedName("about")
     val about: AccountUserSettingsInterest? = null
 )

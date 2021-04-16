@@ -34,27 +34,27 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param stickerId Sticker ID
- * @param productId Pack ID
- * @param images no description
- * @param imagesWithBackground no description
- * @param animationUrl URL of sticker animation script
- * @param animations Array of sticker animation script objects
- * @param isAllowed Information whether the sticker is allowed
+ * @param stickerId - Sticker ID
+ * @param productId - Pack ID
+ * @param images
+ * @param imagesWithBackground
+ * @param animationUrl - URL of sticker animation script
+ * @param animations - Array of sticker animation script objects
+ * @param isAllowed - Information whether the sticker is allowed
  */
 data class BaseSticker(
-    @SerializedName(value="sticker_id")
+    @SerializedName("sticker_id")
     val stickerId: Int? = null,
-    @SerializedName(value="product_id")
+    @SerializedName("product_id")
     val productId: Int? = null,
-    @SerializedName(value="images")
+    @SerializedName("images")
     val images: List<BaseImage>? = null,
-    @SerializedName(value="images_with_background")
+    @SerializedName("images_with_background")
     val imagesWithBackground: List<BaseImage>? = null,
-    @SerializedName(value="animation_url")
+    @SerializedName("animation_url")
     val animationUrl: String? = null,
-    @SerializedName(value="animations")
+    @SerializedName("animations")
     val animations: List<BaseStickerAnimation>? = null,
-    @SerializedName(value="is_allowed")
+    @SerializedName("is_allowed")
     val isAllowed: Boolean? = null
 )

@@ -36,30 +36,30 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param date Date when the comment has been added in Unixtime
- * @param fromId Author ID
- * @param id Comment ID
- * @param text Comment text
- * @param attachments no description
- * @param realOffset Real position of the comment
- * @param canEdit Information whether current user can edit the comment
- * @param likes no description
+ * @param date - Date when the comment has been added in Unixtime
+ * @param fromId - Author ID
+ * @param id - Comment ID
+ * @param text - Comment text
+ * @param attachments
+ * @param realOffset - Real position of the comment
+ * @param canEdit - Information whether current user can edit the comment
+ * @param likes
  */
 data class BoardTopicComment(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="attachments")
+    @SerializedName("attachments")
     val attachments: List<WallCommentAttachment>? = null,
-    @SerializedName(value="real_offset")
+    @SerializedName("real_offset")
     val realOffset: Int? = null,
-    @SerializedName(value="can_edit")
+    @SerializedName("can_edit")
     val canEdit: BaseBoolInt? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseLikesInfo? = null
 )

@@ -32,12 +32,12 @@ import com.vk.sdk.api.base.dto.BaseBoolInt
 import kotlin.Int
 
 /**
- * @param online Information whether user is online
- * @param time Time when user was online in Unixtime
+ * @param online - Information whether user is online
+ * @param time - Time when user was online in Unixtime
  */
 data class MessagesLastActivity(
-    @SerializedName(value="online")
+    @SerializedName("online")
     val online: BaseBoolInt,
-    @SerializedName(value="time")
+    @SerializedName("time")
     val time: Int
 )

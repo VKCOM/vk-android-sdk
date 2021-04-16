@@ -30,18 +30,18 @@ package com.vk.sdk.api.docs.dto
 import com.google.gson.annotations.SerializedName
 
 /**
- * @param audioMsg no description
- * @param graffiti no description
- * @param photo no description
- * @param video no description
+ * @param audioMsg
+ * @param graffiti
+ * @param photo
+ * @param video
  */
 data class DocsDocPreview(
-    @SerializedName(value="audio_msg")
+    @SerializedName("audio_msg")
     val audioMsg: DocsDocPreviewAudioMsg? = null,
-    @SerializedName(value="graffiti")
+    @SerializedName("graffiti")
     val graffiti: DocsDocPreviewGraffiti? = null,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: DocsDocPreviewPhoto? = null,
-    @SerializedName(value="video")
+    @SerializedName("video")
     val video: DocsDocPreviewVideo? = null
 )

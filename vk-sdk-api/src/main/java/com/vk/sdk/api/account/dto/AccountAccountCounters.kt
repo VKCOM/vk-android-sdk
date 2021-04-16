@@ -31,54 +31,57 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param appRequests New app requests number
- * @param events New events number
- * @param faves New faves number
- * @param friends New friends requests number
- * @param friendsSuggestions New friends suggestions number
- * @param friendsRecommendations New friends recommendations number
- * @param gifts New gifts number
- * @param groups New groups number
- * @param menuDiscoverBadge 
- * @param menuClipsBadge no description
- * @param messages New messages number
- * @param memories New memories number
- * @param notes New notes number
- * @param notifications New notifications number
- * @param photos New photo tags number
- * @param sdk New sdk number
+ * @param appRequests - New app requests number
+ * @param events - New events number
+ * @param faves - New faves number
+ * @param friends - New friends requests number
+ * @param friendsSuggestions - New friends suggestions number
+ * @param friendsRecommendations - New friends recommendations number
+ * @param gifts - New gifts number
+ * @param groups - New groups number
+ * @param menuDiscoverBadge - 
+ * @param menuClipsBadge
+ * @param messages - New messages number
+ * @param memories - New memories number
+ * @param notes - New notes number
+ * @param notifications - New notifications number
+ * @param photos - New photo tags number
+ * @param sdk - New sdk number
+ * @param messagesUnreadUnmuted - Unread unmuted dialogs count
  */
 data class AccountAccountCounters(
-    @SerializedName(value="app_requests")
+    @SerializedName("app_requests")
     val appRequests: Int? = null,
-    @SerializedName(value="events")
+    @SerializedName("events")
     val events: Int? = null,
-    @SerializedName(value="faves")
+    @SerializedName("faves")
     val faves: Int? = null,
-    @SerializedName(value="friends")
+    @SerializedName("friends")
     val friends: Int? = null,
-    @SerializedName(value="friends_suggestions")
+    @SerializedName("friends_suggestions")
     val friendsSuggestions: Int? = null,
-    @SerializedName(value="friends_recommendations")
+    @SerializedName("friends_recommendations")
     val friendsRecommendations: Int? = null,
-    @SerializedName(value="gifts")
+    @SerializedName("gifts")
     val gifts: Int? = null,
-    @SerializedName(value="groups")
+    @SerializedName("groups")
     val groups: Int? = null,
-    @SerializedName(value="menu_discover_badge")
+    @SerializedName("menu_discover_badge")
     val menuDiscoverBadge: Int? = null,
-    @SerializedName(value="menu_clips_badge")
+    @SerializedName("menu_clips_badge")
     val menuClipsBadge: Int? = null,
-    @SerializedName(value="messages")
+    @SerializedName("messages")
     val messages: Int? = null,
-    @SerializedName(value="memories")
+    @SerializedName("memories")
     val memories: Int? = null,
-    @SerializedName(value="notes")
+    @SerializedName("notes")
     val notes: Int? = null,
-    @SerializedName(value="notifications")
+    @SerializedName("notifications")
     val notifications: Int? = null,
-    @SerializedName(value="photos")
+    @SerializedName("photos")
     val photos: Int? = null,
-    @SerializedName(value="sdk")
-    val sdk: Int? = null
+    @SerializedName("sdk")
+    val sdk: Int? = null,
+    @SerializedName("messages_unread_unmuted")
+    val messagesUnreadUnmuted: Int? = null
 )

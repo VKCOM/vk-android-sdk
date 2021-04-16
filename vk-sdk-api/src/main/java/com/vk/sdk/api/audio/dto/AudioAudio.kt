@@ -32,39 +32,39 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param artist Artist name
- * @param id Audio ID
- * @param ownerId Audio owner's ID
- * @param title Title
- * @param duration Duration in seconds
- * @param accessKey Access key for the audio
- * @param url URL of mp3 file
- * @param date Date when uploaded
- * @param albumId Album ID
- * @param genreId Genre ID
- * @param performer Performer name
+ * @param artist - Artist name
+ * @param id - Audio ID
+ * @param ownerId - Audio owner's ID
+ * @param title - Title
+ * @param duration - Duration in seconds
+ * @param accessKey - Access key for the audio
+ * @param url - URL of mp3 file
+ * @param date - Date when uploaded
+ * @param albumId - Album ID
+ * @param genreId - Genre ID
+ * @param performer - Performer name
  */
 data class AudioAudio(
-    @SerializedName(value="artist")
+    @SerializedName("artist")
     val artist: String,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="duration")
+    @SerializedName("duration")
     val duration: Int,
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="album_id")
+    @SerializedName("album_id")
     val albumId: Int? = null,
-    @SerializedName(value="genre_id")
+    @SerializedName("genre_id")
     val genreId: Int? = null,
-    @SerializedName(value="performer")
+    @SerializedName("performer")
     val performer: String? = null
 )

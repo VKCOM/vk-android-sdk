@@ -31,75 +31,75 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param albums Albums number
- * @param audios Audios number
- * @param followers Followers number
- * @param friends Friends number
- * @param gifts Gifts number
- * @param groups Communities number
- * @param notes Notes number
- * @param onlineFriends Online friends number
- * @param pages Public pages number
- * @param photos Photos number
- * @param subscriptions Subscriptions number
- * @param userPhotos Number of photos with user
- * @param userVideos Number of videos with user
- * @param videos Videos number
- * @param newPhotoTags no description
- * @param newRecognitionTags no description
- * @param mutualFriends no description
- * @param posts no description
- * @param articles no description
- * @param wishes no description
- * @param podcasts no description
- * @param clips no description
- * @param clipsFollowers no description
+ * @param albums - Albums number
+ * @param audios - Audios number
+ * @param followers - Followers number
+ * @param friends - Friends number
+ * @param gifts - Gifts number
+ * @param groups - Communities number
+ * @param notes - Notes number
+ * @param onlineFriends - Online friends number
+ * @param pages - Public pages number
+ * @param photos - Photos number
+ * @param subscriptions - Subscriptions number
+ * @param userPhotos - Number of photos with user
+ * @param userVideos - Number of videos with user
+ * @param videos - Videos number
+ * @param newPhotoTags
+ * @param newRecognitionTags
+ * @param mutualFriends
+ * @param posts
+ * @param articles
+ * @param wishes
+ * @param podcasts
+ * @param clips
+ * @param clipsFollowers
  */
 data class UsersUserCounters(
-    @SerializedName(value="albums")
+    @SerializedName("albums")
     val albums: Int? = null,
-    @SerializedName(value="audios")
+    @SerializedName("audios")
     val audios: Int? = null,
-    @SerializedName(value="followers")
+    @SerializedName("followers")
     val followers: Int? = null,
-    @SerializedName(value="friends")
+    @SerializedName("friends")
     val friends: Int? = null,
-    @SerializedName(value="gifts")
+    @SerializedName("gifts")
     val gifts: Int? = null,
-    @SerializedName(value="groups")
+    @SerializedName("groups")
     val groups: Int? = null,
-    @SerializedName(value="notes")
+    @SerializedName("notes")
     val notes: Int? = null,
-    @SerializedName(value="online_friends")
+    @SerializedName("online_friends")
     val onlineFriends: Int? = null,
-    @SerializedName(value="pages")
+    @SerializedName("pages")
     val pages: Int? = null,
-    @SerializedName(value="photos")
+    @SerializedName("photos")
     val photos: Int? = null,
-    @SerializedName(value="subscriptions")
+    @SerializedName("subscriptions")
     val subscriptions: Int? = null,
-    @SerializedName(value="user_photos")
+    @SerializedName("user_photos")
     val userPhotos: Int? = null,
-    @SerializedName(value="user_videos")
+    @SerializedName("user_videos")
     val userVideos: Int? = null,
-    @SerializedName(value="videos")
+    @SerializedName("videos")
     val videos: Int? = null,
-    @SerializedName(value="new_photo_tags")
+    @SerializedName("new_photo_tags")
     val newPhotoTags: Int? = null,
-    @SerializedName(value="new_recognition_tags")
+    @SerializedName("new_recognition_tags")
     val newRecognitionTags: Int? = null,
-    @SerializedName(value="mutual_friends")
+    @SerializedName("mutual_friends")
     val mutualFriends: Int? = null,
-    @SerializedName(value="posts")
+    @SerializedName("posts")
     val posts: Int? = null,
-    @SerializedName(value="articles")
+    @SerializedName("articles")
     val articles: Int? = null,
-    @SerializedName(value="wishes")
+    @SerializedName("wishes")
     val wishes: Int? = null,
-    @SerializedName(value="podcasts")
+    @SerializedName("podcasts")
     val podcasts: Int? = null,
-    @SerializedName(value="clips")
+    @SerializedName("clips")
     val clips: Int? = null,
-    @SerializedName(value="clips_followers")
+    @SerializedName("clips_followers")
     val clipsFollowers: Int? = null
 )

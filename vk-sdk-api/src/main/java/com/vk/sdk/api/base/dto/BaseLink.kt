@@ -35,54 +35,54 @@ import kotlin.Boolean
 import kotlin.String
 
 /**
- * @param url Link URL
- * @param application no description
- * @param button no description
- * @param caption Link caption
- * @param description Link description
- * @param id Link ID
- * @param isFavorite no description
- * @param photo no description
- * @param previewPage String ID of the page with article preview
- * @param previewUrl URL of the page with article preview
- * @param product no description
- * @param rating no description
- * @param title Link title
- * @param targetObject no description
- * @param isExternal Information whether the current link is external
- * @param video Video from link
+ * @param url - Link URL
+ * @param application
+ * @param button
+ * @param caption - Link caption
+ * @param description - Link description
+ * @param id - Link ID
+ * @param isFavorite
+ * @param photo
+ * @param previewPage - String ID of the page with article preview
+ * @param previewUrl - URL of the page with article preview
+ * @param product
+ * @param rating
+ * @param title - Link title
+ * @param targetObject
+ * @param isExternal - Information whether the current link is external
+ * @param video - Video from link
  */
 data class BaseLink(
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String,
-    @SerializedName(value="application")
+    @SerializedName("application")
     val application: BaseLinkApplication? = null,
-    @SerializedName(value="button")
+    @SerializedName("button")
     val button: BaseLinkButton? = null,
-    @SerializedName(value="caption")
+    @SerializedName("caption")
     val caption: String? = null,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: String? = null,
-    @SerializedName(value="is_favorite")
+    @SerializedName("is_favorite")
     val isFavorite: Boolean? = null,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: PhotosPhoto? = null,
-    @SerializedName(value="preview_page")
+    @SerializedName("preview_page")
     val previewPage: String? = null,
-    @SerializedName(value="preview_url")
+    @SerializedName("preview_url")
     val previewUrl: String? = null,
-    @SerializedName(value="product")
+    @SerializedName("product")
     val product: BaseLinkProduct? = null,
-    @SerializedName(value="rating")
+    @SerializedName("rating")
     val rating: BaseLinkRating? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="target_object")
+    @SerializedName("target_object")
     val targetObject: LinkTargetObject? = null,
-    @SerializedName(value="is_external")
+    @SerializedName("is_external")
     val isExternal: Boolean? = null,
-    @SerializedName(value="video")
+    @SerializedName("video")
     val video: VideoVideo? = null
 )

@@ -31,15 +31,15 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Float
 
 /**
- * @param clicksRate Clicks rate
- * @param impressionsRate Impressions rate
- * @param value no description
+ * @param clicksRate - Clicks rate
+ * @param impressionsRate - Impressions rate
+ * @param value
  */
 data class AdsStatsSex(
-    @SerializedName(value="clicks_rate")
+    @SerializedName("clicks_rate")
     val clicksRate: Float? = null,
-    @SerializedName(value="impressions_rate")
+    @SerializedName("impressions_rate")
     val impressionsRate: Float? = null,
-    @SerializedName(value="value")
+    @SerializedName("value")
     val value: AdsStatsSexValue? = null
 )

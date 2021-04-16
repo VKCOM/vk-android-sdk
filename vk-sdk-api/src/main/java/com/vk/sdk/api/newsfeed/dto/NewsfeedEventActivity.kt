@@ -34,24 +34,24 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param buttonText text of attach
- * @param friends array of friends ids
- * @param memberStatus Current user's member status
- * @param text text of attach
- * @param address address of event
- * @param time event start time
+ * @param buttonText - text of attach
+ * @param friends - array of friends ids
+ * @param memberStatus - Current user's member status
+ * @param text - text of attach
+ * @param address - address of event
+ * @param time - event start time
  */
 data class NewsfeedEventActivity(
-    @SerializedName(value="button_text")
+    @SerializedName("button_text")
     val buttonText: String,
-    @SerializedName(value="friends")
+    @SerializedName("friends")
     val friends: List<Int>,
-    @SerializedName(value="member_status")
+    @SerializedName("member_status")
     val memberStatus: GroupsGroupFullMemberStatus,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="address")
+    @SerializedName("address")
     val address: String? = null,
-    @SerializedName(value="time")
+    @SerializedName("time")
     val time: Int? = null
 )

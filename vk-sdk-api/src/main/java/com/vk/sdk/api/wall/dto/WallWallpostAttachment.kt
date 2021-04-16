@@ -44,63 +44,63 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param type no description
- * @param accessKey Access key for the audio
- * @param album no description
- * @param app no description
- * @param audio no description
- * @param doc no description
- * @param event no description
- * @param group no description
- * @param graffiti no description
- * @param link no description
- * @param market no description
- * @param marketAlbum no description
- * @param note no description
- * @param page no description
- * @param photo no description
- * @param photosList no description
- * @param poll no description
- * @param postedPhoto no description
- * @param video no description
+ * @param type
+ * @param accessKey - Access key for the audio
+ * @param album
+ * @param app
+ * @param audio
+ * @param doc
+ * @param event
+ * @param group
+ * @param graffiti
+ * @param link
+ * @param market
+ * @param marketAlbum
+ * @param note
+ * @param page
+ * @param photo
+ * @param photosList
+ * @param poll
+ * @param postedPhoto
+ * @param video
  */
 data class WallWallpostAttachment(
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: WallWallpostAttachmentType,
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="album")
+    @SerializedName("album")
     val album: PhotosPhotoAlbum? = null,
-    @SerializedName(value="app")
+    @SerializedName("app")
     val app: WallAppPost? = null,
-    @SerializedName(value="audio")
+    @SerializedName("audio")
     val audio: AudioAudio? = null,
-    @SerializedName(value="doc")
+    @SerializedName("doc")
     val doc: DocsDoc? = null,
-    @SerializedName(value="event")
+    @SerializedName("event")
     val event: EventsEventAttach? = null,
-    @SerializedName(value="group")
+    @SerializedName("group")
     val group: GroupsGroupAttach? = null,
-    @SerializedName(value="graffiti")
+    @SerializedName("graffiti")
     val graffiti: WallGraffiti? = null,
-    @SerializedName(value="link")
+    @SerializedName("link")
     val link: BaseLink? = null,
-    @SerializedName(value="market")
+    @SerializedName("market")
     val market: MarketMarketItem? = null,
-    @SerializedName(value="market_album")
+    @SerializedName("market_album")
     val marketAlbum: MarketMarketAlbum? = null,
-    @SerializedName(value="note")
+    @SerializedName("note")
     val note: WallAttachedNote? = null,
-    @SerializedName(value="page")
+    @SerializedName("page")
     val page: PagesWikipageFull? = null,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: PhotosPhoto? = null,
-    @SerializedName(value="photos_list")
+    @SerializedName("photos_list")
     val photosList: List<String>? = null,
-    @SerializedName(value="poll")
+    @SerializedName("poll")
     val poll: PollsPoll? = null,
-    @SerializedName(value="posted_photo")
+    @SerializedName("posted_photo")
     val postedPhoto: WallPostedPhoto? = null,
-    @SerializedName(value="video")
+    @SerializedName("video")
     val video: VideoVideo? = null
 )

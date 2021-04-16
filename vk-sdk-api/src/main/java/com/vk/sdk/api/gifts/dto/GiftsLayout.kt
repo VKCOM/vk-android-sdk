@@ -33,33 +33,33 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Gift ID
- * @param thumb512 URL of the preview image with 512 px in width
- * @param thumb256 URL of the preview image with 256 px in width
- * @param thumb48 URL of the preview image with 48 px in width
- * @param thumb96 URL of the preview image with 96 px in width
- * @param stickersProductId ID of the sticker pack, if the gift is representing one
- * @param isStickersStyle Information whether gift represents a stickers style
- * @param buildId ID of the build of constructor gift
- * @param keywords Keywords used for search
+ * @param id - Gift ID
+ * @param thumb512 - URL of the preview image with 512 px in width
+ * @param thumb256 - URL of the preview image with 256 px in width
+ * @param thumb48 - URL of the preview image with 48 px in width
+ * @param thumb96 - URL of the preview image with 96 px in width
+ * @param stickersProductId - ID of the sticker pack, if the gift is representing one
+ * @param isStickersStyle - Information whether gift represents a stickers style
+ * @param buildId - ID of the build of constructor gift
+ * @param keywords - Keywords used for search
  */
 data class GiftsLayout(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="thumb_512")
+    @SerializedName("thumb_512")
     val thumb512: String? = null,
-    @SerializedName(value="thumb_256")
+    @SerializedName("thumb_256")
     val thumb256: String? = null,
-    @SerializedName(value="thumb_48")
+    @SerializedName("thumb_48")
     val thumb48: String? = null,
-    @SerializedName(value="thumb_96")
+    @SerializedName("thumb_96")
     val thumb96: String? = null,
-    @SerializedName(value="stickers_product_id")
+    @SerializedName("stickers_product_id")
     val stickersProductId: Int? = null,
-    @SerializedName(value="is_stickers_style")
+    @SerializedName("is_stickers_style")
     val isStickersStyle: Boolean? = null,
-    @SerializedName(value="build_id")
+    @SerializedName("build_id")
     val buildId: String? = null,
-    @SerializedName(value="keywords")
+    @SerializedName("keywords")
     val keywords: String? = null
 )

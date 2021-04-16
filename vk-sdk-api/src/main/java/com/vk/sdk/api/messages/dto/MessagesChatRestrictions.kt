@@ -31,21 +31,21 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Boolean
 
 /**
- * @param adminsPromoteUsers Only admins can promote users to admins
- * @param onlyAdminsEditInfo Only admins can change chat info
- * @param onlyAdminsEditPin Only admins can edit pinned message
- * @param onlyAdminsInvite Only admins can invite users to this chat
- * @param onlyAdminsKick Only admins can kick users from this chat
+ * @param adminsPromoteUsers - Only admins can promote users to admins
+ * @param onlyAdminsEditInfo - Only admins can change chat info
+ * @param onlyAdminsEditPin - Only admins can edit pinned message
+ * @param onlyAdminsInvite - Only admins can invite users to this chat
+ * @param onlyAdminsKick - Only admins can kick users from this chat
  */
 data class MessagesChatRestrictions(
-    @SerializedName(value="admins_promote_users")
+    @SerializedName("admins_promote_users")
     val adminsPromoteUsers: Boolean? = null,
-    @SerializedName(value="only_admins_edit_info")
+    @SerializedName("only_admins_edit_info")
     val onlyAdminsEditInfo: Boolean? = null,
-    @SerializedName(value="only_admins_edit_pin")
+    @SerializedName("only_admins_edit_pin")
     val onlyAdminsEditPin: Boolean? = null,
-    @SerializedName(value="only_admins_invite")
+    @SerializedName("only_admins_invite")
     val onlyAdminsInvite: Boolean? = null,
-    @SerializedName(value="only_admins_kick")
+    @SerializedName("only_admins_kick")
     val onlyAdminsKick: Boolean? = null
 )

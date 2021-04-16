@@ -27,57 +27,39 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class MessagesTemplateActionTypeNames(
     val value: String
 ) {
+    @SerializedName("text")
     TEXT("text"),
 
+    @SerializedName("start")
     START("start"),
 
+    @SerializedName("location")
     LOCATION("location"),
 
+    @SerializedName("vkpay")
     VKPAY("vkpay"),
 
+    @SerializedName("open_app")
     OPEN_APP("open_app"),
 
+    @SerializedName("open_photo")
     OPEN_PHOTO("open_photo"),
 
+    @SerializedName("open_link")
     OPEN_LINK("open_link"),
 
+    @SerializedName("callback")
     CALLBACK("callback"),
 
+    @SerializedName("intent_subscribe")
     INTENT_SUBSCRIBE("intent_subscribe"),
 
+    @SerializedName("intent_unsubscribe")
     INTENT_UNSUBSCRIBE("intent_unsubscribe");
-
-    class Serializer : JsonSerializer<MessagesTemplateActionTypeNames>,
-            JsonDeserializer<MessagesTemplateActionTypeNames> {
-        override fun serialize(
-            src: MessagesTemplateActionTypeNames?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): MessagesTemplateActionTypeNames {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

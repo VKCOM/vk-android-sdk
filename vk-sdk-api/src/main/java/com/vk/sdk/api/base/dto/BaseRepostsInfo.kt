@@ -31,18 +31,19 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param count Total reposts counter. Sum of wall and mail reposts counters
- * @param wallCount Wall reposts counter
- * @param mailCount Mail reposts counter
- * @param userReposted Information whether current user has reposted the post
+ * Count of views
+ * @param count - Total reposts counter. Sum of wall and mail reposts counters
+ * @param wallCount - Wall reposts counter
+ * @param mailCount - Mail reposts counter
+ * @param userReposted - Information whether current user has reposted the post
  */
 data class BaseRepostsInfo(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int,
-    @SerializedName(value="wall_count")
+    @SerializedName("wall_count")
     val wallCount: Int? = null,
-    @SerializedName(value="mail_count")
+    @SerializedName("mail_count")
     val mailCount: Int? = null,
-    @SerializedName(value="user_reposted")
+    @SerializedName("user_reposted")
     val userReposted: Int? = null
 )

@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Doc type ID
- * @param name Doc type title
- * @param count Number of docs
+ * @param id - Doc type ID
+ * @param name - Doc type title
+ * @param count - Number of docs
  */
 data class DocsDocTypes(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int
 )

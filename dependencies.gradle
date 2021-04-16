@@ -23,8 +23,8 @@ SOFTWARE.
 */
 
 ext.sdkVersions = [
-        code                            : '21',
-        name                            : '2.6.0',
+        code                            : '23',
+        name                            : '3.0.0',
 
         minSdk                          : 21,
         targetSdk                       : 29,
@@ -68,17 +68,21 @@ ext.testLibraries = [
 ext.sdkGradlePlugins = [
         android                         : "com.android.tools.build:gradle:$sdkVersions.androidGradlePlugin",
         kotlinGradle                    : "org.jetbrains.kotlin:kotlin-gradle-plugin:$sdkVersions.kotlin",
-        bintryRelease                   : "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4",
+        bintryRelease                   : "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5",
 ]
 
 ext.sdkPublish = [
         POM_NAME                        : "VK API library",
-        POM_ARTIFACT_ID                 : 'androidsdk',
+        POM_ARTIFACT_ID                 : 'android-sdk-core',
         POM_DESCRIPTION                 : 'Main VK Android API library',
         POM_URL                         : 'https://github.com/VKCOM/vk-android-sdk',
         POM_SCM_URL                     : 'https://github.com/VKCOM/vk-android-sdk',
         POM_SCM_CONNECTION              : 'scm:git:git://github.com/VKCOM/vk-android-sdk.git',
         POM_SCM_DEV_CONNECTION          : 'scm:git:git://github.com/VKCOM/vk-android-sdk.git',
         POM_LICENCE_URL                 : 'https://github.com/VKCOM/vk-android-sdk/raw/master/LICENSE',
+
+        POM_API_NAME                    : 'VK API Models library',
+        POM_API_ARTIFACT_ID             : 'android-sdk-api',
+        POM_API_DESCRIPTION             : 'VK Android API generated library',
 ]
 

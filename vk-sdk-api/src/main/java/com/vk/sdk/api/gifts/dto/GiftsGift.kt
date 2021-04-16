@@ -32,27 +32,27 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param date Date when gist has been sent in Unixtime
- * @param fromId Gift sender ID
- * @param gift no description
- * @param giftHash Hash
- * @param id Gift ID
- * @param message Comment text
- * @param privacy no description
+ * @param date - Date when gist has been sent in Unixtime
+ * @param fromId - Gift sender ID
+ * @param gift
+ * @param giftHash - Hash
+ * @param id - Gift ID
+ * @param message - Comment text
+ * @param privacy
  */
 data class GiftsGift(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int? = null,
-    @SerializedName(value="gift")
+    @SerializedName("gift")
     val gift: GiftsLayout? = null,
-    @SerializedName(value="gift_hash")
+    @SerializedName("gift_hash")
     val giftHash: String? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="message")
+    @SerializedName("message")
     val message: String? = null,
-    @SerializedName(value="privacy")
+    @SerializedName("privacy")
     val privacy: GiftsGiftPrivacy? = null
 )

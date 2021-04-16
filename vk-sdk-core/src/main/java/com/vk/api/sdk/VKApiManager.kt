@@ -62,6 +62,14 @@ open class VKApiManager(val config: VKApiConfig) {
     }
 
     /**
+     * Override credentials
+     * @param credentialsProvider provider of pair accessToken and secret with lazy getting
+     */
+    fun setCredentials(credentialsProvider: Lazy<VKApiCredentials>) {
+        executor.setCredentials(credentialsProvider)
+    }
+
+    /**
      * Ignore all method requests with specific access token. All executions of that requests will
      * throw [com.vk.api.sdk.exceptions.IgnoredAccessTokenException]
      *

@@ -28,22 +28,23 @@
 package com.vk.sdk.api.store.dto
 
 import com.google.gson.annotations.SerializedName
+import kotlin.Any
 import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param words no description
- * @param userStickers no description
- * @param promotedStickers no description
- * @param stickers no description
+ * @param words
+ * @param userStickers
+ * @param promotedStickers
+ * @param stickers
  */
 data class StoreStickersKeyword(
-    @SerializedName(value="words")
+    @SerializedName("words")
     val words: List<String>,
-    @SerializedName(value="user_stickers")
-    val userStickers: StoreStickersKeywordStickers? = null,
-    @SerializedName(value="promoted_stickers")
-    val promotedStickers: StoreStickersKeywordStickers? = null,
-    @SerializedName(value="stickers")
+    @SerializedName("user_stickers")
+    val userStickers: Any? = null,
+    @SerializedName("promoted_stickers")
+    val promotedStickers: Any? = null,
+    @SerializedName("stickers")
     val stickers: List<StoreStickersKeywordSticker>? = null
 )

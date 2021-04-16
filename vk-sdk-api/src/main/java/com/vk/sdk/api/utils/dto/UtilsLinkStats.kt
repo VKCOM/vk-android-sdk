@@ -32,12 +32,12 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param key Link key (characters after vk.cc/)
- * @param stats no description
+ * @param key - Link key (characters after vk.cc/)
+ * @param stats
  */
 data class UtilsLinkStats(
-    @SerializedName(value="key")
+    @SerializedName("key")
     val key: String? = null,
-    @SerializedName(value="stats")
+    @SerializedName("stats")
     val stats: List<UtilsStats>? = null
 )

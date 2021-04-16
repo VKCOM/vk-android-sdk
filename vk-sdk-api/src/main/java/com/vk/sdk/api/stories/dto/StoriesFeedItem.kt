@@ -27,80 +27,70 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.apps.dto.AppsAppMin
+import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param type Type of Feed Item
- * @param id no description
- * @param stories Author stories
- * @param grouped Grouped stories of various authors (for types
+ * @param type - Type of Feed Item
+ * @param id
+ * @param stories - Author stories
+ * @param grouped - Grouped stories of various authors (for types
  * community_grouped_stories/app_grouped_stories type)
- * @param app App, which stories has been grouped (for type app_grouped_stories)
- * @param promoData Additional data for promo stories (for type promo_stories)
- * @param birthdayUserId no description
+ * @param app - App, which stories has been grouped (for type app_grouped_stories)
+ * @param promoData - Additional data for promo stories (for type promo_stories)
+ * @param birthdayUserId
+ * @param trackCode
+ * @param hasUnseen
+ * @param name
  */
 data class StoriesFeedItem(
-    @SerializedName(value="type")
-    val type: Type,
-    @SerializedName(value="id")
+    @SerializedName("type")
+    val type: StoriesFeedItem.Type,
+    @SerializedName("id")
     val id: String? = null,
-    @SerializedName(value="stories")
+    @SerializedName("stories")
     val stories: List<StoriesStory>? = null,
-    @SerializedName(value="grouped")
+    @SerializedName("grouped")
     val grouped: List<StoriesFeedItem>? = null,
-    @SerializedName(value="app")
+    @SerializedName("app")
     val app: AppsAppMin? = null,
-    @SerializedName(value="promo_data")
+    @SerializedName("promo_data")
     val promoData: StoriesPromoBlock? = null,
-    @SerializedName(value="birthday_user_id")
-    val birthdayUserId: Int? = null
+    @SerializedName("birthday_user_id")
+    val birthdayUserId: Int? = null,
+    @SerializedName("track_code")
+    val trackCode: String? = null,
+    @SerializedName("has_unseen")
+    val hasUnseen: Boolean? = null,
+    @SerializedName("name")
+    val name: String? = null
 ) {
     enum class Type(
         val value: String
     ) {
+        @SerializedName("promo_stories")
         PROMO_STORIES("promo_stories"),
 
+        @SerializedName("stories")
         STORIES("stories"),
 
+        @SerializedName("live_active")
         LIVE_ACTIVE("live_active"),
 
+        @SerializedName("live_finished")
         LIVE_FINISHED("live_finished"),
 
+        @SerializedName("community_grouped_stories")
         COMMUNITY_GROUPED_STORIES("community_grouped_stories"),
 
+        @SerializedName("app_grouped_stories")
         APP_GROUPED_STORIES("app_grouped_stories"),
 
+        @SerializedName("birthday")
         BIRTHDAY("birthday");
-
-        class Serializer : JsonSerializer<Type>, JsonDeserializer<Type> {
-            override fun serialize(
-                src: Type?,
-                typeOfSrc: java.lang.reflect.Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: java.lang.reflect.Type?,
-                context: JsonDeserializationContext?
-            ): Type {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

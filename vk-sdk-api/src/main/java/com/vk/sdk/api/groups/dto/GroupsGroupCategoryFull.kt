@@ -33,21 +33,21 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param id Category ID
- * @param name Category name
- * @param pageCount Pages number
- * @param pagePreviews no description
- * @param subcategories no description
+ * @param id - Category ID
+ * @param name - Category name
+ * @param pageCount - Pages number
+ * @param pagePreviews
+ * @param subcategories
  */
 data class GroupsGroupCategoryFull(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="page_count")
+    @SerializedName("page_count")
     val pageCount: Int,
-    @SerializedName(value="page_previews")
+    @SerializedName("page_previews")
     val pagePreviews: List<GroupsGroup>,
-    @SerializedName(value="subcategories")
+    @SerializedName("subcategories")
     val subcategories: List<GroupsGroupCategory>? = null
 )

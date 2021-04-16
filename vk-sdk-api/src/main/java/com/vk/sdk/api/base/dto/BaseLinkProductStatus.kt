@@ -27,47 +27,24 @@
 // *********************************************************************
 package com.vk.sdk.api.base.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class BaseLinkProductStatus(
     val value: String
 ) {
+    @SerializedName("active")
     ACTIVE("active"),
 
+    @SerializedName("blocked")
     BLOCKED("blocked"),
 
+    @SerializedName("sold")
     SOLD("sold"),
 
+    @SerializedName("deleted")
     DELETED("deleted"),
 
+    @SerializedName("archived")
     ARCHIVED("archived");
-
-    class Serializer : JsonSerializer<BaseLinkProductStatus>,
-            JsonDeserializer<BaseLinkProductStatus> {
-        override fun serialize(
-            src: BaseLinkProductStatus?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): BaseLinkProductStatus {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

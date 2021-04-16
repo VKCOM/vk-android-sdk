@@ -35,42 +35,42 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param adminId Chat creator ID
- * @param id Chat ID
- * @param type Chat type
- * @param users no description
- * @param kicked Shows that user has been kicked from the chat
- * @param left Shows that user has been left the chat
- * @param photo100 URL of the preview image with 100 px in width
- * @param photo200 URL of the preview image with 200 px in width
- * @param photo50 URL of the preview image with 50 px in width
- * @param pushSettings no description
- * @param title Chat title
- * @param isDefaultPhoto If provided photo is default
+ * @param adminId - Chat creator ID
+ * @param id - Chat ID
+ * @param type - Chat type
+ * @param users
+ * @param kicked - Shows that user has been kicked from the chat
+ * @param left - Shows that user has been left the chat
+ * @param photo100 - URL of the preview image with 100 px in width
+ * @param photo200 - URL of the preview image with 200 px in width
+ * @param photo50 - URL of the preview image with 50 px in width
+ * @param pushSettings
+ * @param title - Chat title
+ * @param isDefaultPhoto - If provided photo is default
  */
 data class MessagesChat(
-    @SerializedName(value="admin_id")
+    @SerializedName("admin_id")
     val adminId: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: String,
-    @SerializedName(value="users")
+    @SerializedName("users")
     val users: List<Int>,
-    @SerializedName(value="kicked")
+    @SerializedName("kicked")
     val kicked: BaseBoolInt? = null,
-    @SerializedName(value="left")
+    @SerializedName("left")
     val left: BaseBoolInt? = null,
-    @SerializedName(value="photo_100")
+    @SerializedName("photo_100")
     val photo100: String? = null,
-    @SerializedName(value="photo_200")
+    @SerializedName("photo_200")
     val photo200: String? = null,
-    @SerializedName(value="photo_50")
+    @SerializedName("photo_50")
     val photo50: String? = null,
-    @SerializedName(value="push_settings")
+    @SerializedName("push_settings")
     val pushSettings: MessagesChatPushSettings? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="is_default_photo")
+    @SerializedName("is_default_photo")
     val isDefaultPhoto: Boolean? = null
 )

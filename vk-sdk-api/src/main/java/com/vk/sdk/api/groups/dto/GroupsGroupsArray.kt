@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count Communities number
- * @param items no description
+ * @param count - Communities number
+ * @param items
  */
 data class GroupsGroupsArray(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int,
-    @SerializedName(value="items")
+    @SerializedName("items")
     val items: List<Int>
 )

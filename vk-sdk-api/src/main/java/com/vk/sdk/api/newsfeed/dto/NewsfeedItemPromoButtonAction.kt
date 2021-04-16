@@ -31,15 +31,15 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param url no description
- * @param type no description
- * @param target no description
+ * @param url
+ * @param type
+ * @param target
  */
 data class NewsfeedItemPromoButtonAction(
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: String? = null,
-    @SerializedName(value="target")
+    @SerializedName("target")
     val target: String? = null
 )

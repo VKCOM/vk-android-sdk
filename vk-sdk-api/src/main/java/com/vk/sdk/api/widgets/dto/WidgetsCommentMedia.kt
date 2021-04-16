@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param itemId Media item ID
- * @param ownerId Media owner's ID
- * @param thumbSrc URL of the preview image (type=photo only)
- * @param type no description
+ * @param itemId - Media item ID
+ * @param ownerId - Media owner's ID
+ * @param thumbSrc - URL of the preview image (type=photo only)
+ * @param type
  */
 data class WidgetsCommentMedia(
-    @SerializedName(value="item_id")
+    @SerializedName("item_id")
     val itemId: Int? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="thumb_src")
+    @SerializedName("thumb_src")
     val thumbSrc: String? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: WidgetsCommentMediaType? = null
 )

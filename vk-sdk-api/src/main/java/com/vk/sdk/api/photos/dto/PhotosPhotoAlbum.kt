@@ -32,30 +32,30 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param created Date when the album has been created in Unixtime
- * @param id Photo album ID
- * @param ownerId Album owner's ID
- * @param size Photos number
- * @param title Photo album title
- * @param updated Date when the album has been updated last time in Unixtime
- * @param description Photo album description
- * @param thumb no description
+ * @param created - Date when the album has been created in Unixtime
+ * @param id - Photo album ID
+ * @param ownerId - Album owner's ID
+ * @param size - Photos number
+ * @param title - Photo album title
+ * @param updated - Date when the album has been updated last time in Unixtime
+ * @param description - Photo album description
+ * @param thumb
  */
 data class PhotosPhotoAlbum(
-    @SerializedName(value="created")
+    @SerializedName("created")
     val created: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="size")
+    @SerializedName("size")
     val size: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="updated")
+    @SerializedName("updated")
     val updated: Int,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null,
-    @SerializedName(value="thumb")
+    @SerializedName("thumb")
     val thumb: PhotosPhoto? = null
 )

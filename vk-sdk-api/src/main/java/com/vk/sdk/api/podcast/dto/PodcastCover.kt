@@ -32,9 +32,9 @@ import com.vk.sdk.api.photos.dto.PhotosPhotoSizes
 import kotlin.collections.List
 
 /**
- * @param sizes no description
+ * @param sizes
  */
 data class PodcastCover(
-    @SerializedName(value="sizes")
+    @SerializedName("sizes")
     val sizes: List<PhotosPhotoSizes>? = null
 )

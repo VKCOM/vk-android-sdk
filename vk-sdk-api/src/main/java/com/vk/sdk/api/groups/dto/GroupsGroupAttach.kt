@@ -33,21 +33,21 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id group ID
- * @param text text of attach
- * @param status activity or category of group
- * @param size size of group
- * @param isFavorite is favorite
+ * @param id - group ID
+ * @param text - text of attach
+ * @param status - activity or category of group
+ * @param size - size of group
+ * @param isFavorite - is favorite
  */
 data class GroupsGroupAttach(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: String,
-    @SerializedName(value="size")
+    @SerializedName("size")
     val size: Int,
-    @SerializedName(value="is_favorite")
+    @SerializedName("is_favorite")
     val isFavorite: Boolean
 )

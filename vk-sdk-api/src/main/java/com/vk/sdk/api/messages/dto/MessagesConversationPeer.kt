@@ -31,15 +31,15 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param id no description
- * @param type no description
- * @param localId no description
+ * @param id
+ * @param type
+ * @param localId
  */
 data class MessagesConversationPeer(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: MessagesConversationPeerType,
-    @SerializedName(value="local_id")
+    @SerializedName("local_id")
     val localId: Int? = null
 )

@@ -32,24 +32,62 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param amount Amount
- * @param currency no description
- * @param text Text
- * @param discountRate no description
- * @param oldAmount no description
- * @param oldAmountText Textual representation of old price
+ * @param amount - Amount
+ * @param currency
+ * @param text - Text
+ * @param amountTo - Amount to for price_type=2
+ * @param priceType
+ * @param priceUnit
+ * @param discountRate
+ * @param oldAmount
+ * @param oldAmountText - Textual representation of old price
  */
 data class MarketPrice(
-    @SerializedName(value="amount")
+    @SerializedName("amount")
     val amount: String,
-    @SerializedName(value="currency")
+    @SerializedName("currency")
     val currency: MarketCurrency,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="discount_rate")
+    @SerializedName("amount_to")
+    val amountTo: String? = null,
+    @SerializedName("price_type")
+    val priceType: MarketPrice.PriceType? = null,
+    @SerializedName("price_unit")
+    val priceUnit: MarketPrice.PriceUnit? = null,
+    @SerializedName("discount_rate")
     val discountRate: Int? = null,
-    @SerializedName(value="old_amount")
+    @SerializedName("old_amount")
     val oldAmount: String? = null,
-    @SerializedName(value="old_amount_text")
+    @SerializedName("old_amount_text")
     val oldAmountText: String? = null
-)
+) {
+    enum class PriceType(
+        val value: Int
+    ) {
+        @SerializedName("0")
+        EXACT(0),
+
+        @SerializedName("2")
+        RANGE(2),
+
+        @SerializedName("3")
+        BY_AGREEMENT(3);
+    }
+
+    enum class PriceUnit(
+        val value: Int
+    ) {
+        @SerializedName("0")
+        ITEM(0),
+
+        @SerializedName("2")
+        HOUR(2),
+
+        @SerializedName("3")
+        M2(3),
+
+        @SerializedName("4")
+        M3(4);
+    }
+}

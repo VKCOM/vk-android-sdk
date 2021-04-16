@@ -32,12 +32,12 @@ import kotlin.Float
 import kotlin.Int
 
 /**
- * @param reviewsCount Count of reviews
- * @param stars Count of stars
+ * @param reviewsCount - Count of reviews
+ * @param stars - Count of stars
  */
 data class BaseLinkRating(
-    @SerializedName(value="reviews_count")
+    @SerializedName("reviews_count")
     val reviewsCount: Int? = null,
-    @SerializedName(value="stars")
+    @SerializedName("stars")
     val stars: Float? = null
 )

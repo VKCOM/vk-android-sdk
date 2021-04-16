@@ -32,12 +32,12 @@ import kotlin.Boolean
 import kotlin.Int
 
 /**
- * @param isEnabled Information whether addresses is enabled
- * @param mainAddressId Main address id for group
+ * @param isEnabled - Information whether addresses is enabled
+ * @param mainAddressId - Main address id for group
  */
 data class GroupsAddressesInfo(
-    @SerializedName(value="is_enabled")
+    @SerializedName("is_enabled")
     val isEnabled: Boolean,
-    @SerializedName(value="main_address_id")
+    @SerializedName("main_address_id")
     val mainAddressId: Int? = null
 )

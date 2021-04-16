@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param clientId Client ID
- * @param role no description
+ * @param clientId - Client ID
+ * @param role
  */
 data class AdsAccesses(
-    @SerializedName(value="client_id")
+    @SerializedName("client_id")
     val clientId: String? = null,
-    @SerializedName(value="role")
+    @SerializedName("role")
     val role: AdsAccessRole? = null
 )

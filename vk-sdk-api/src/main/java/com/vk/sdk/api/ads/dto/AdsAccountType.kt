@@ -27,40 +27,15 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class AdsAccountType(
     val value: String
 ) {
+    @SerializedName("general")
     GENERAL("general"),
 
+    @SerializedName("agency")
     AGENCY("agency");
-
-    class Serializer : JsonSerializer<AdsAccountType>, JsonDeserializer<AdsAccountType> {
-        override fun serialize(
-            src: AdsAccountType?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): AdsAccountType {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

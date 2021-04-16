@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param count Replies number.
- * @param new New replies number.
+ * @param count - Replies number.
+ * @param new - New replies number.
  */
 data class StoriesReplies(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int,
-    @SerializedName(value="new")
+    @SerializedName("new")
     val new: Int? = null
 )

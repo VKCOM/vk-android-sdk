@@ -32,27 +32,27 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param comments Comments number
- * @param date Date when the note has been created in Unixtime
- * @param id Note ID
- * @param ownerId Note owner's ID
- * @param readComments Read comments number
- * @param title Note title
- * @param viewUrl URL of the page with note preview
+ * @param comments - Comments number
+ * @param date - Date when the note has been created in Unixtime
+ * @param id - Note ID
+ * @param ownerId - Note owner's ID
+ * @param readComments - Read comments number
+ * @param title - Note title
+ * @param viewUrl - URL of the page with note preview
  */
 data class WallAttachedNote(
-    @SerializedName(value="comments")
+    @SerializedName("comments")
     val comments: Int,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="read_comments")
+    @SerializedName("read_comments")
     val readComments: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="view_url")
+    @SerializedName("view_url")
     val viewUrl: String
 )

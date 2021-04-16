@@ -27,46 +27,24 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class StoriesStoryType(
     val value: String
 ) {
+    @SerializedName("photo")
     PHOTO("photo"),
 
+    @SerializedName("video")
     VIDEO("video"),
 
+    @SerializedName("live_active")
     LIVE_ACTIVE("live_active"),
 
+    @SerializedName("live_finished")
     LIVE_FINISHED("live_finished"),
 
+    @SerializedName("birthday_invite")
     BIRTHDAY_INVITE("birthday_invite");
-
-    class Serializer : JsonSerializer<StoriesStoryType>, JsonDeserializer<StoriesStoryType> {
-        override fun serialize(
-            src: StoriesStoryType?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): StoriesStoryType {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

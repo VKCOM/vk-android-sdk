@@ -33,72 +33,72 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param adFormat Ad format
- * @param allLimit Total limit
- * @param approved no description
- * @param campaignId Campaign ID
- * @param costType no description
- * @param id Ad ID
- * @param name Ad title
- * @param status no description
- * @param adPlatform Ad platform
- * @param category1Id Category ID
- * @param category2Id Additional category ID
- * @param cpc Cost of a click, kopecks
- * @param cpm Cost of 1000 impressions, kopecks
- * @param cpa Cost of an action, kopecks
- * @param ocpm Cost of 1000 impressions optimized, kopecks
- * @param autobiddingMaxCost Max cost of target actions for autobidding, kopecks
- * @param disclaimerMedical Information whether disclaimer is enabled
- * @param disclaimerSpecialist Information whether disclaimer is enabled
- * @param disclaimerSupplements Information whether disclaimer is enabled
- * @param impressionsLimit Impressions limit
- * @param impressionsLimited Information whether impressions are limited
- * @param video Information whether the ad is a video
+ * @param adFormat - Ad format
+ * @param allLimit - Total limit
+ * @param approved
+ * @param campaignId - Campaign ID
+ * @param costType
+ * @param id - Ad ID
+ * @param name - Ad title
+ * @param status
+ * @param adPlatform - Ad platform
+ * @param category1Id - Category ID
+ * @param category2Id - Additional category ID
+ * @param cpc - Cost of a click, kopecks
+ * @param cpm - Cost of 1000 impressions, kopecks
+ * @param cpa - Cost of an action, kopecks
+ * @param ocpm - Cost of 1000 impressions optimized, kopecks
+ * @param autobiddingMaxCost - Max cost of target actions for autobidding, kopecks
+ * @param disclaimerMedical - Information whether disclaimer is enabled
+ * @param disclaimerSpecialist - Information whether disclaimer is enabled
+ * @param disclaimerSupplements - Information whether disclaimer is enabled
+ * @param impressionsLimit - Impressions limit
+ * @param impressionsLimited - Information whether impressions are limited
+ * @param video - Information whether the ad is a video
  */
 data class AdsAd(
-    @SerializedName(value="ad_format")
+    @SerializedName("ad_format")
     val adFormat: Int,
-    @SerializedName(value="all_limit")
+    @SerializedName("all_limit")
     val allLimit: Int,
-    @SerializedName(value="approved")
+    @SerializedName("approved")
     val approved: AdsAdApproved,
-    @SerializedName(value="campaign_id")
+    @SerializedName("campaign_id")
     val campaignId: Int,
-    @SerializedName(value="cost_type")
+    @SerializedName("cost_type")
     val costType: AdsAdCostType,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: AdsAdStatus,
-    @SerializedName(value="ad_platform")
+    @SerializedName("ad_platform")
     val adPlatform: Int? = null,
-    @SerializedName(value="category1_id")
+    @SerializedName("category1_id")
     val category1Id: Int? = null,
-    @SerializedName(value="category2_id")
+    @SerializedName("category2_id")
     val category2Id: Int? = null,
-    @SerializedName(value="cpc")
+    @SerializedName("cpc")
     val cpc: Int? = null,
-    @SerializedName(value="cpm")
+    @SerializedName("cpm")
     val cpm: Int? = null,
-    @SerializedName(value="cpa")
+    @SerializedName("cpa")
     val cpa: Int? = null,
-    @SerializedName(value="ocpm")
+    @SerializedName("ocpm")
     val ocpm: Int? = null,
-    @SerializedName(value="autobidding_max_cost")
+    @SerializedName("autobidding_max_cost")
     val autobiddingMaxCost: Int? = null,
-    @SerializedName(value="disclaimer_medical")
+    @SerializedName("disclaimer_medical")
     val disclaimerMedical: BaseBoolInt? = null,
-    @SerializedName(value="disclaimer_specialist")
+    @SerializedName("disclaimer_specialist")
     val disclaimerSpecialist: BaseBoolInt? = null,
-    @SerializedName(value="disclaimer_supplements")
+    @SerializedName("disclaimer_supplements")
     val disclaimerSupplements: BaseBoolInt? = null,
-    @SerializedName(value="impressions_limit")
+    @SerializedName("impressions_limit")
     val impressionsLimit: Int? = null,
-    @SerializedName(value="impressions_limited")
+    @SerializedName("impressions_limited")
     val impressionsLimited: BaseBoolInt? = null,
-    @SerializedName(value="video")
+    @SerializedName("video")
     val video: BaseBoolInt? = null
 )

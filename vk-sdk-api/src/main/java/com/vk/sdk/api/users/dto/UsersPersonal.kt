@@ -33,33 +33,33 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param alcohol User's views on alcohol
- * @param inspiredBy User's inspired by
- * @param langs no description
- * @param lifeMain User's personal priority in life
- * @param peopleMain User's personal priority in people
- * @param political User's political views
- * @param religion User's religion
- * @param religionId User's religion id
- * @param smoking User's views on smoking
+ * @param alcohol - User's views on alcohol
+ * @param inspiredBy - User's inspired by
+ * @param langs
+ * @param lifeMain - User's personal priority in life
+ * @param peopleMain - User's personal priority in people
+ * @param political - User's political views
+ * @param religion - User's religion
+ * @param religionId - User's religion id
+ * @param smoking - User's views on smoking
  */
 data class UsersPersonal(
-    @SerializedName(value="alcohol")
+    @SerializedName("alcohol")
     val alcohol: Int? = null,
-    @SerializedName(value="inspired_by")
+    @SerializedName("inspired_by")
     val inspiredBy: String? = null,
-    @SerializedName(value="langs")
+    @SerializedName("langs")
     val langs: List<String>? = null,
-    @SerializedName(value="life_main")
+    @SerializedName("life_main")
     val lifeMain: Int? = null,
-    @SerializedName(value="people_main")
+    @SerializedName("people_main")
     val peopleMain: Int? = null,
-    @SerializedName(value="political")
+    @SerializedName("political")
     val political: Int? = null,
-    @SerializedName(value="religion")
+    @SerializedName("religion")
     val religion: String? = null,
-    @SerializedName(value="religion_id")
+    @SerializedName("religion_id")
     val religionId: Int? = null,
-    @SerializedName(value="smoking")
+    @SerializedName("smoking")
     val smoking: Int? = null
 )

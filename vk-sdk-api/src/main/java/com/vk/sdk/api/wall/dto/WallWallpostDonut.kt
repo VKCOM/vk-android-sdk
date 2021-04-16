@@ -27,63 +27,38 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
 
 /**
- * @param isDonut Post only for dons
- * @param paidDuration Value of this field need to pass in wall.post/edit in donut_paid_duration
- * @param placeholder If placeholder was respond, text and all attachments will be hidden
- * @param canPublishFreeCopy Says whether group admin can post free copy of this donut post
- * @param editMode Says what user can edit in post about donut properties
+ * Info about paid wall post
+ * @param isDonut - Post only for dons
+ * @param paidDuration - Value of this field need to pass in wall.post/edit in donut_paid_duration
+ * @param placeholder - If placeholder was respond, text and all attachments will be hidden
+ * @param canPublishFreeCopy - Says whether group admin can post free copy of this donut post
+ * @param editMode - Says what user can edit in post about donut properties
  */
 data class WallWallpostDonut(
-    @SerializedName(value="is_donut")
+    @SerializedName("is_donut")
     val isDonut: Boolean,
-    @SerializedName(value="paid_duration")
+    @SerializedName("paid_duration")
     val paidDuration: Int? = null,
-    @SerializedName(value="placeholder")
+    @SerializedName("placeholder")
     val placeholder: WallWallpostDonutPlaceholder? = null,
-    @SerializedName(value="can_publish_free_copy")
+    @SerializedName("can_publish_free_copy")
     val canPublishFreeCopy: Boolean? = null,
-    @SerializedName(value="edit_mode")
-    val editMode: EditMode? = null
+    @SerializedName("edit_mode")
+    val editMode: WallWallpostDonut.EditMode? = null
 ) {
     enum class EditMode(
         val value: String
     ) {
+        @SerializedName("all")
         ALL("all"),
 
+        @SerializedName("duration")
         DURATION("duration");
-
-        class Serializer : JsonSerializer<EditMode>, JsonDeserializer<EditMode> {
-            override fun serialize(
-                src: EditMode?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): EditMode {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

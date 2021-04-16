@@ -32,15 +32,15 @@ import kotlin.Boolean
 import kotlin.Int
 
 /**
- * @param userId User ID
- * @param status Notification status
- * @param error no description
+ * @param userId - User ID
+ * @param status - Notification status
+ * @param error
  */
 data class NotificationsSendMessageItem(
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int? = null,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: Boolean? = null,
-    @SerializedName(value="error")
+    @SerializedName("error")
     val error: NotificationsSendMessageError? = null
 )

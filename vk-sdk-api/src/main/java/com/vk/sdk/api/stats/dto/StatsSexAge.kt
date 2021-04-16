@@ -32,21 +32,21 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param value Sex/age value
- * @param count Visitors number
- * @param reach no description
- * @param reachSubscribers no description
- * @param countSubscribers no description
+ * @param value - Sex/age value
+ * @param count - Visitors number
+ * @param reach
+ * @param reachSubscribers
+ * @param countSubscribers
  */
 data class StatsSexAge(
-    @SerializedName(value="value")
+    @SerializedName("value")
     val value: String,
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="reach")
+    @SerializedName("reach")
     val reach: Int? = null,
-    @SerializedName(value="reach_subscribers")
+    @SerializedName("reach_subscribers")
     val reachSubscribers: Int? = null,
-    @SerializedName(value="count_subscribers")
+    @SerializedName("count_subscribers")
     val countSubscribers: Int? = null
 )

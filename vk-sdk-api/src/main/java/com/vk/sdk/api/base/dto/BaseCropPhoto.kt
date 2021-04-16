@@ -31,15 +31,15 @@ import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 
 /**
- * @param photo no description
- * @param crop no description
- * @param rect no description
+ * @param photo
+ * @param crop
+ * @param rect
  */
 data class BaseCropPhoto(
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: PhotosPhoto,
-    @SerializedName(value="crop")
+    @SerializedName("crop")
     val crop: BaseCropPhotoCrop,
-    @SerializedName(value="rect")
+    @SerializedName("rect")
     val rect: BaseCropPhotoRect
 )

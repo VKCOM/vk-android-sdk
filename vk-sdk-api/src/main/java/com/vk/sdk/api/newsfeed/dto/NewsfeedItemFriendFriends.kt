@@ -33,12 +33,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count Number of friends has been added
- * @param items no description
+ * @param count - Number of friends has been added
+ * @param items
  */
 data class NewsfeedItemFriendFriends(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="items")
+    @SerializedName("items")
     val items: List<BaseUserId>? = null
 )

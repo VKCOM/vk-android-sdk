@@ -32,30 +32,33 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param action Button action
- * @param title Button title
- * @param blockId Target block id
- * @param sectionId Target section id
- * @param curatorId curator id
- * @param ownerId Owner id
- * @param icon Button icon name, e.g. 'phone' or 'gift'
- * @param style no description
+ * @param action - Button action
+ * @param title - Button title
+ * @param blockId - Target block id
+ * @param sectionId - Target section id
+ * @param artistId - artist id
+ * @param curatorId - curator id
+ * @param ownerId - Owner id
+ * @param icon - Button icon name, e.g. 'phone' or 'gift'
+ * @param style
  */
 data class BaseLinkButton(
-    @SerializedName(value="action")
+    @SerializedName("action")
     val action: BaseLinkButtonAction? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="block_id")
+    @SerializedName("block_id")
     val blockId: String? = null,
-    @SerializedName(value="section_id")
+    @SerializedName("section_id")
     val sectionId: String? = null,
-    @SerializedName(value="curator_id")
+    @SerializedName("artist_id")
+    val artistId: String? = null,
+    @SerializedName("curator_id")
     val curatorId: Int? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="icon")
+    @SerializedName("icon")
     val icon: String? = null,
-    @SerializedName(value="style")
+    @SerializedName("style")
     val style: BaseLinkButtonStyle? = null
 )

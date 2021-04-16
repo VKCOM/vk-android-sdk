@@ -33,24 +33,24 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param cid Comment ID
- * @param date Date when the comment has been added in Unixtime
- * @param likes no description
- * @param text Comment text
- * @param uid User ID
- * @param user no description
+ * @param cid - Comment ID
+ * @param date - Date when the comment has been added in Unixtime
+ * @param likes
+ * @param text - Comment text
+ * @param uid - User ID
+ * @param user
  */
 data class WidgetsCommentRepliesItem(
-    @SerializedName(value="cid")
+    @SerializedName("cid")
     val cid: Int? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: WidgetsWidgetLikes? = null,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String? = null,
-    @SerializedName(value="uid")
+    @SerializedName("uid")
     val uid: Int? = null,
-    @SerializedName(value="user")
+    @SerializedName("user")
     val user: UsersUserFull? = null
 )

@@ -32,22 +32,22 @@ import kotlin.Boolean
 import kotlin.Int
 
 /**
- * @param disabledForever Information whether push notifications are disabled forever
- * @param noSound Information whether the sound is on
- * @param disabledUntil Time until what notifications are disabled
- * @param disabledMentions Information whether the mentions are disabled
- * @param disabledMassMentions Information whether the mass mentions (like '@all', '@online') are
+ * @param disabledForever - Information whether push notifications are disabled forever
+ * @param noSound - Information whether the sound is on
+ * @param disabledUntil - Time until what notifications are disabled
+ * @param disabledMentions - Information whether the mentions are disabled
+ * @param disabledMassMentions - Information whether the mass mentions (like '@all', '@online') are
  * disabled
  */
 data class MessagesPushSettings(
-    @SerializedName(value="disabled_forever")
+    @SerializedName("disabled_forever")
     val disabledForever: Boolean,
-    @SerializedName(value="no_sound")
+    @SerializedName("no_sound")
     val noSound: Boolean,
-    @SerializedName(value="disabled_until")
+    @SerializedName("disabled_until")
     val disabledUntil: Int? = null,
-    @SerializedName(value="disabled_mentions")
+    @SerializedName("disabled_mentions")
     val disabledMentions: Boolean? = null,
-    @SerializedName(value="disabled_mass_mentions")
+    @SerializedName("disabled_mass_mentions")
     val disabledMassMentions: Boolean? = null
 )

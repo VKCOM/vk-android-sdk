@@ -36,45 +36,45 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param wishlistsAePromoBannerShow no description
- * @param twoFaRequired Two factor authentication is enabled
- * @param country Country code
- * @param httpsRequired Information whether HTTPS-only is enabled
- * @param intro Information whether user has been processed intro
- * @param showVkAppsIntro no description
- * @param miniAppsAdsSlotId Ads slot id for MyTarget
- * @param qrPromotion no description
- * @param linkRedirects no description
- * @param lang Language ID
- * @param noWallReplies Information whether wall comments should be hidden
- * @param ownPostsDefault Information whether only owners posts should be shown
- * @param subscriptions no description
+ * @param wishlistsAePromoBannerShow
+ * @param 2faRequired - Two factor authentication is enabled
+ * @param country - Country code
+ * @param httpsRequired - Information whether HTTPS-only is enabled
+ * @param intro - Information whether user has been processed intro
+ * @param showVkAppsIntro
+ * @param miniAppsAdsSlotId - Ads slot id for MyTarget
+ * @param qrPromotion
+ * @param linkRedirects
+ * @param lang - Language ID
+ * @param noWallReplies - Information whether wall comments should be hidden
+ * @param ownPostsDefault - Information whether only owners posts should be shown
+ * @param subscriptions
  */
 data class AccountInfo(
-    @SerializedName(value="wishlists_ae_promo_banner_show")
+    @SerializedName("wishlists_ae_promo_banner_show")
     val wishlistsAePromoBannerShow: BaseBoolInt? = null,
-    @SerializedName(value="2fa_required")
-    val twoFaRequired: BaseBoolInt? = null,
-    @SerializedName(value="country")
+    @SerializedName("2fa_required")
+    val `2faRequired`: BaseBoolInt? = null,
+    @SerializedName("country")
     val country: String? = null,
-    @SerializedName(value="https_required")
+    @SerializedName("https_required")
     val httpsRequired: BaseBoolInt? = null,
-    @SerializedName(value="intro")
+    @SerializedName("intro")
     val intro: BaseBoolInt? = null,
-    @SerializedName(value="show_vk_apps_intro")
+    @SerializedName("show_vk_apps_intro")
     val showVkAppsIntro: Boolean? = null,
-    @SerializedName(value="mini_apps_ads_slot_id")
+    @SerializedName("mini_apps_ads_slot_id")
     val miniAppsAdsSlotId: Int? = null,
-    @SerializedName(value="qr_promotion")
+    @SerializedName("qr_promotion")
     val qrPromotion: Int? = null,
-    @SerializedName(value="link_redirects")
+    @SerializedName("link_redirects")
     val linkRedirects: Any? = null,
-    @SerializedName(value="lang")
+    @SerializedName("lang")
     val lang: Int? = null,
-    @SerializedName(value="no_wall_replies")
+    @SerializedName("no_wall_replies")
     val noWallReplies: BaseBoolInt? = null,
-    @SerializedName(value="own_posts_default")
+    @SerializedName("own_posts_default")
     val ownPostsDefault: BaseBoolInt? = null,
-    @SerializedName(value="subscriptions")
+    @SerializedName("subscriptions")
     val subscriptions: List<Int>? = null
 )

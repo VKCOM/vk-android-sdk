@@ -31,21 +31,21 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param date Transaction date in Unixtime
- * @param id Transaction ID
- * @param uidFrom From ID
- * @param uidTo To ID
- * @param votes Votes number
+ * @param date - Transaction date in Unixtime
+ * @param id - Transaction ID
+ * @param uidFrom - From ID
+ * @param uidTo - To ID
+ * @param votes - Votes number
  */
 data class SecureTransaction(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="uid_from")
+    @SerializedName("uid_from")
     val uidFrom: Int? = null,
-    @SerializedName(value="uid_to")
+    @SerializedName("uid_to")
     val uidTo: Int? = null,
-    @SerializedName(value="votes")
+    @SerializedName("votes")
     val votes: Int? = null
 )

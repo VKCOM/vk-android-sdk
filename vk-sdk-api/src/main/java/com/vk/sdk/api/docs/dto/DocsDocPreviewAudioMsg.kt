@@ -33,18 +33,18 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param duration Audio message duration in seconds
- * @param linkMp3 MP3 file URL
- * @param linkOgg OGG file URL
- * @param waveform no description
+ * @param duration - Audio message duration in seconds
+ * @param linkMp3 - MP3 file URL
+ * @param linkOgg - OGG file URL
+ * @param waveform
  */
 data class DocsDocPreviewAudioMsg(
-    @SerializedName(value="duration")
+    @SerializedName("duration")
     val duration: Int,
-    @SerializedName(value="link_mp3")
+    @SerializedName("link_mp3")
     val linkMp3: String,
-    @SerializedName(value="link_ogg")
+    @SerializedName("link_ogg")
     val linkOgg: String,
-    @SerializedName(value="waveform")
+    @SerializedName("waveform")
     val waveform: List<Int>
 )

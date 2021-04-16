@@ -27,14 +27,6 @@
 // *********************************************************************
 package com.vk.sdk.api.polls.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseGradientPoint
 import com.vk.sdk.api.base.dto.BaseImage
@@ -43,60 +35,43 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param angle Gradient angle with 0 on positive X axis
- * @param color Hex color code without #
- * @param height Original height of pattern tile
- * @param id no description
- * @param name no description
- * @param images Pattern tiles
- * @param points Gradient points
- * @param type no description
- * @param width Original with of pattern tile
+ * @param angle - Gradient angle with 0 on positive X axis
+ * @param color - Hex color code without #
+ * @param height - Original height of pattern tile
+ * @param id
+ * @param name
+ * @param images - Pattern tiles
+ * @param points - Gradient points
+ * @param type
+ * @param width - Original with of pattern tile
  */
 data class PollsBackground(
-    @SerializedName(value="angle")
+    @SerializedName("angle")
     val angle: Int? = null,
-    @SerializedName(value="color")
+    @SerializedName("color")
     val color: String? = null,
-    @SerializedName(value="height")
+    @SerializedName("height")
     val height: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null,
-    @SerializedName(value="images")
+    @SerializedName("images")
     val images: List<BaseImage>? = null,
-    @SerializedName(value="points")
+    @SerializedName("points")
     val points: List<BaseGradientPoint>? = null,
-    @SerializedName(value="type")
-    val type: Type? = null,
-    @SerializedName(value="width")
+    @SerializedName("type")
+    val type: PollsBackground.Type? = null,
+    @SerializedName("width")
     val width: Int? = null
 ) {
     enum class Type(
         val value: String
     ) {
+        @SerializedName("gradient")
         GRADIENT("gradient"),
 
+        @SerializedName("tile")
         TILE("tile");
-
-        class Serializer : JsonSerializer<Type>, JsonDeserializer<Type> {
-            override fun serialize(
-                src: Type?,
-                typeOfSrc: java.lang.reflect.Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: java.lang.reflect.Type?,
-                context: JsonDeserializationContext?
-            ): Type {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

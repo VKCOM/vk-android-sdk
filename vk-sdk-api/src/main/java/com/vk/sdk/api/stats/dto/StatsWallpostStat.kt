@@ -32,48 +32,48 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param postId no description
- * @param hide Hidings number
- * @param joinGroup People have joined the group
- * @param links Link clickthrough
- * @param reachSubscribers Subscribers reach
- * @param reachSubscribersCount no description
- * @param reachTotal Total reach
- * @param reachTotalCount no description
- * @param reachViral no description
- * @param reachAds no description
- * @param report Reports number
- * @param toGroup Clickthrough to community
- * @param unsubscribe Unsubscribed members
- * @param sexAge no description
+ * @param postId
+ * @param hide - Hidings number
+ * @param joinGroup - People have joined the group
+ * @param links - Link clickthrough
+ * @param reachSubscribers - Subscribers reach
+ * @param reachSubscribersCount
+ * @param reachTotal - Total reach
+ * @param reachTotalCount
+ * @param reachViral
+ * @param reachAds
+ * @param report - Reports number
+ * @param toGroup - Clickthrough to community
+ * @param unsubscribe - Unsubscribed members
+ * @param sexAge
  */
 data class StatsWallpostStat(
-    @SerializedName(value="post_id")
+    @SerializedName("post_id")
     val postId: Int? = null,
-    @SerializedName(value="hide")
+    @SerializedName("hide")
     val hide: Int? = null,
-    @SerializedName(value="join_group")
+    @SerializedName("join_group")
     val joinGroup: Int? = null,
-    @SerializedName(value="links")
+    @SerializedName("links")
     val links: Int? = null,
-    @SerializedName(value="reach_subscribers")
+    @SerializedName("reach_subscribers")
     val reachSubscribers: Int? = null,
-    @SerializedName(value="reach_subscribers_count")
+    @SerializedName("reach_subscribers_count")
     val reachSubscribersCount: Int? = null,
-    @SerializedName(value="reach_total")
+    @SerializedName("reach_total")
     val reachTotal: Int? = null,
-    @SerializedName(value="reach_total_count")
+    @SerializedName("reach_total_count")
     val reachTotalCount: Int? = null,
-    @SerializedName(value="reach_viral")
+    @SerializedName("reach_viral")
     val reachViral: Int? = null,
-    @SerializedName(value="reach_ads")
+    @SerializedName("reach_ads")
     val reachAds: Int? = null,
-    @SerializedName(value="report")
+    @SerializedName("report")
     val report: Int? = null,
-    @SerializedName(value="to_group")
+    @SerializedName("to_group")
     val toGroup: Int? = null,
-    @SerializedName(value="unsubscribe")
+    @SerializedName("unsubscribe")
     val unsubscribe: Int? = null,
-    @SerializedName(value="sex_age")
+    @SerializedName("sex_age")
     val sexAge: List<StatsSexAge>? = null
 )

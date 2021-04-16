@@ -27,123 +27,89 @@
 // *********************************************************************
 package com.vk.sdk.api.ads.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param id Lookalike request ID
- * @param createTime Lookalike request create time, as Unixtime
- * @param updateTime Lookalike request update time, as Unixtime
- * @param status Lookalike request status
- * @param sourceType Lookalike request source type
- * @param scheduledDeleteTime Time by which lookalike request would be deleted, as Unixtime
- * @param sourceRetargetingGroupId Retargeting group id, which was used as lookalike seed
- * @param sourceName Lookalike request seed name (retargeting group name)
- * @param audienceCount Lookalike request seed audience size
- * @param saveAudienceLevels no description
+ * @param id - Lookalike request ID
+ * @param createTime - Lookalike request create time, as Unixtime
+ * @param updateTime - Lookalike request update time, as Unixtime
+ * @param status - Lookalike request status
+ * @param sourceType - Lookalike request source type
+ * @param scheduledDeleteTime - Time by which lookalike request would be deleted, as Unixtime
+ * @param sourceRetargetingGroupId - Retargeting group id, which was used as lookalike seed
+ * @param sourceName - Lookalike request seed name (retargeting group name)
+ * @param audienceCount - Lookalike request seed audience size
+ * @param saveAudienceLevels
  */
 data class AdsLookalikeRequest(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="create_time")
+    @SerializedName("create_time")
     val createTime: Int,
-    @SerializedName(value="update_time")
+    @SerializedName("update_time")
     val updateTime: Int,
-    @SerializedName(value="status")
-    val status: Status,
-    @SerializedName(value="source_type")
-    val sourceType: SourceType,
-    @SerializedName(value="scheduled_delete_time")
+    @SerializedName("status")
+    val status: AdsLookalikeRequest.Status,
+    @SerializedName("source_type")
+    val sourceType: AdsLookalikeRequest.SourceType,
+    @SerializedName("scheduled_delete_time")
     val scheduledDeleteTime: Int? = null,
-    @SerializedName(value="source_retargeting_group_id")
+    @SerializedName("source_retargeting_group_id")
     val sourceRetargetingGroupId: Int? = null,
-    @SerializedName(value="source_name")
+    @SerializedName("source_name")
     val sourceName: String? = null,
-    @SerializedName(value="audience_count")
+    @SerializedName("audience_count")
     val audienceCount: Int? = null,
-    @SerializedName(value="save_audience_levels")
+    @SerializedName("save_audience_levels")
     val saveAudienceLevels: List<AdsLookalikeRequestSaveAudienceLevel>? = null
 ) {
-    enum class SourceType(
-        val value: String
-    ) {
-        UNKNOWN("unknown"),
-
-        RETARGETING_GROUP("retargeting_group"),
-
-        PROMOTED_POST("promoted_post");
-
-        class Serializer : JsonSerializer<SourceType>, JsonDeserializer<SourceType> {
-            override fun serialize(
-                src: SourceType?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): SourceType {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
-    }
-
     enum class Status(
         val value: String
     ) {
+        @SerializedName("unknown")
         UNKNOWN("unknown"),
 
+        @SerializedName("new")
         NEW("new"),
 
+        @SerializedName("search_queued")
         SEARCH_QUEUED("search_queued"),
 
+        @SerializedName("search_in_progress")
         SEARCH_IN_PROGRESS("search_in_progress"),
 
+        @SerializedName("search_failed")
         SEARCH_FAILED("search_failed"),
 
+        @SerializedName("search_done")
         SEARCH_DONE("search_done"),
 
+        @SerializedName("save_in_progress")
         SAVE_IN_PROGRESS("save_in_progress"),
 
+        @SerializedName("save_failed")
         SAVE_FAILED("save_failed"),
 
+        @SerializedName("save_done")
         SAVE_DONE("save_done"),
 
+        @SerializedName("canceled")
         CANCELED("canceled");
+    }
 
-        class Serializer : JsonSerializer<Status>, JsonDeserializer<Status> {
-            override fun serialize(
-                src: Status?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+    enum class SourceType(
+        val value: String
+    ) {
+        @SerializedName("unknown")
+        UNKNOWN("unknown"),
 
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Status {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
+        @SerializedName("retargeting_group")
+        RETARGETING_GROUP("retargeting_group"),
+
+        @SerializedName("promoted_post")
+        PROMOTED_POST("promoted_post");
     }
 }

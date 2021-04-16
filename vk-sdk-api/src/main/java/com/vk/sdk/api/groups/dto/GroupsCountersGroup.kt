@@ -31,33 +31,33 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param addresses Addresses number
- * @param albums Photo albums number
- * @param audios Audios number
- * @param audioPlaylists Audio playlists number
- * @param docs Docs number
- * @param market Market items number
- * @param photos Photos number
- * @param topics Topics number
- * @param videos Videos number
+ * @param addresses - Addresses number
+ * @param albums - Photo albums number
+ * @param audios - Audios number
+ * @param audioPlaylists - Audio playlists number
+ * @param docs - Docs number
+ * @param market - Market items number
+ * @param photos - Photos number
+ * @param topics - Topics number
+ * @param videos - Videos number
  */
 data class GroupsCountersGroup(
-    @SerializedName(value="addresses")
+    @SerializedName("addresses")
     val addresses: Int? = null,
-    @SerializedName(value="albums")
+    @SerializedName("albums")
     val albums: Int? = null,
-    @SerializedName(value="audios")
+    @SerializedName("audios")
     val audios: Int? = null,
-    @SerializedName(value="audio_playlists")
+    @SerializedName("audio_playlists")
     val audioPlaylists: Int? = null,
-    @SerializedName(value="docs")
+    @SerializedName("docs")
     val docs: Int? = null,
-    @SerializedName(value="market")
+    @SerializedName("market")
     val market: Int? = null,
-    @SerializedName(value="photos")
+    @SerializedName("photos")
     val photos: Int? = null,
-    @SerializedName(value="topics")
+    @SerializedName("topics")
     val topics: Int? = null,
-    @SerializedName(value="videos")
+    @SerializedName("videos")
     val videos: Int? = null
 )

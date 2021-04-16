@@ -33,27 +33,27 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param age no description
- * @param cities no description
- * @param day Day as YYYY-MM-DD
- * @param month Month as YYYY-MM
- * @param overall 1 if period=overall
- * @param sex no description
- * @param sexAge no description
+ * @param age
+ * @param cities
+ * @param day - Day as YYYY-MM-DD
+ * @param month - Month as YYYY-MM
+ * @param overall - 1 if period=overall
+ * @param sex
+ * @param sexAge
  */
 data class AdsDemostatsFormat(
-    @SerializedName(value="age")
+    @SerializedName("age")
     val age: List<AdsStatsAge>? = null,
-    @SerializedName(value="cities")
+    @SerializedName("cities")
     val cities: List<AdsStatsCities>? = null,
-    @SerializedName(value="day")
+    @SerializedName("day")
     val day: String? = null,
-    @SerializedName(value="month")
+    @SerializedName("month")
     val month: String? = null,
-    @SerializedName(value="overall")
+    @SerializedName("overall")
     val overall: Int? = null,
-    @SerializedName(value="sex")
+    @SerializedName("sex")
     val sex: List<AdsStatsSex>? = null,
-    @SerializedName(value="sex_age")
+    @SerializedName("sex_age")
     val sexAge: List<AdsStatsSexAge>? = null
 )

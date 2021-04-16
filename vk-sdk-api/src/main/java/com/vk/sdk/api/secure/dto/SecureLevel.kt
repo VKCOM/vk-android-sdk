@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param level Level
- * @param uid User ID
+ * @param level - Level
+ * @param uid - User ID
  */
 data class SecureLevel(
-    @SerializedName(value="level")
+    @SerializedName("level")
     val level: Int? = null,
-    @SerializedName(value="uid")
+    @SerializedName("uid")
     val uid: Int? = null
 )

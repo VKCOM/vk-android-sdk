@@ -33,15 +33,15 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param isEnabled Information whether live covers is enabled
- * @param isScalable Information whether live covers photo scaling is enabled
- * @param storyIds no description
+ * @param isEnabled - Information whether live covers is enabled
+ * @param isScalable - Information whether live covers photo scaling is enabled
+ * @param storyIds
  */
 data class GroupsLiveCovers(
-    @SerializedName(value="is_enabled")
+    @SerializedName("is_enabled")
     val isEnabled: Boolean,
-    @SerializedName(value="is_scalable")
+    @SerializedName("is_scalable")
     val isScalable: Boolean? = null,
-    @SerializedName(value="story_ids")
+    @SerializedName("story_ids")
     val storyIds: List<String>? = null
 )

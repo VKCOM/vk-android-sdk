@@ -34,72 +34,75 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param anonymous Information whether the field is anonymous
- * @param multiple Information whether the poll with multiple choices
- * @param endDate no description
- * @param closed no description
- * @param isBoard no description
- * @param canEdit no description
- * @param canVote no description
- * @param canReport no description
- * @param canShare no description
- * @param answers no description
- * @param created Date when poll has been created in Unixtime
- * @param id Poll ID
- * @param ownerId Poll owner's ID
- * @param question Poll question
- * @param votes Votes number
- * @param disableUnvote no description
- * @param friends no description
- * @param answerId Current user's answer ID
- * @param answerIds Current user's answer IDs
- * @param photo no description
- * @param authorId Poll author's ID
- * @param background no description
+ * @param anonymous
+ * @param multiple - Information whether the poll with multiple choices
+ * @param endDate
+ * @param closed
+ * @param isBoard
+ * @param canEdit
+ * @param canVote
+ * @param canReport
+ * @param canShare
+ * @param answers
+ * @param created - Date when poll has been created in Unixtime
+ * @param id - Poll ID
+ * @param ownerId - Poll owner's ID
+ * @param question - Poll question
+ * @param votes - Votes number
+ * @param disableUnvote
+ * @param friends
+ * @param answerId - Current user's answer ID
+ * @param answerIds - Current user's answer IDs
+ * @param embedHash
+ * @param photo
+ * @param authorId - Poll author's ID
+ * @param background
  */
 data class PollsPoll(
-    @SerializedName(value="anonymous")
+    @SerializedName("anonymous")
     val anonymous: Boolean,
-    @SerializedName(value="multiple")
+    @SerializedName("multiple")
     val multiple: Boolean,
-    @SerializedName(value="end_date")
+    @SerializedName("end_date")
     val endDate: Int,
-    @SerializedName(value="closed")
+    @SerializedName("closed")
     val closed: Boolean,
-    @SerializedName(value="is_board")
+    @SerializedName("is_board")
     val isBoard: Boolean,
-    @SerializedName(value="can_edit")
+    @SerializedName("can_edit")
     val canEdit: Boolean,
-    @SerializedName(value="can_vote")
+    @SerializedName("can_vote")
     val canVote: Boolean,
-    @SerializedName(value="can_report")
+    @SerializedName("can_report")
     val canReport: Boolean,
-    @SerializedName(value="can_share")
+    @SerializedName("can_share")
     val canShare: Boolean,
-    @SerializedName(value="answers")
+    @SerializedName("answers")
     val answers: List<PollsAnswer>,
-    @SerializedName(value="created")
+    @SerializedName("created")
     val created: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="question")
+    @SerializedName("question")
     val question: String,
-    @SerializedName(value="votes")
+    @SerializedName("votes")
     val votes: Int,
-    @SerializedName(value="disable_unvote")
+    @SerializedName("disable_unvote")
     val disableUnvote: Boolean,
-    @SerializedName(value="friends")
+    @SerializedName("friends")
     val friends: List<PollsFriend>? = null,
-    @SerializedName(value="answer_id")
+    @SerializedName("answer_id")
     val answerId: Int? = null,
-    @SerializedName(value="answer_ids")
+    @SerializedName("answer_ids")
     val answerIds: List<Int>? = null,
-    @SerializedName(value="photo")
+    @SerializedName("embed_hash")
+    val embedHash: String? = null,
+    @SerializedName("photo")
     val photo: PollsBackground? = null,
-    @SerializedName(value="author_id")
+    @SerializedName("author_id")
     val authorId: Int? = null,
-    @SerializedName(value="background")
+    @SerializedName("background")
     val background: PollsBackground? = null
 )

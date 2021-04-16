@@ -27,115 +27,126 @@
 // *********************************************************************
 package com.vk.sdk.api.base.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class BaseLinkButtonActionType(
     val value: String
 ) {
+    @SerializedName("open_url")
     OPEN_URL("open_url"),
 
+    @SerializedName("join_group_and_open_url")
     JOIN_GROUP_AND_OPEN_URL("join_group_and_open_url"),
 
+    @SerializedName("open_section")
     OPEN_SECTION("open_section"),
 
+    @SerializedName("follow")
     FOLLOW("follow"),
 
+    @SerializedName("upload_video")
     UPLOAD_VIDEO("upload_video"),
 
+    @SerializedName("create_playlist")
     CREATE_PLAYLIST("create_playlist"),
 
+    @SerializedName("create_album")
     CREATE_ALBUM("create_album"),
 
+    @SerializedName("friends_lists")
     FRIENDS_LISTS("friends_lists"),
 
+    @SerializedName("friends_sort_modes")
     FRIENDS_SORT_MODES("friends_sort_modes"),
 
+    @SerializedName("add_friend")
     ADD_FRIEND("add_friend"),
 
+    @SerializedName("qr_camera")
     QR_CAMERA("qr_camera"),
 
+    @SerializedName("friends_requests")
     FRIENDS_REQUESTS("friends_requests"),
 
+    @SerializedName("open_screen")
     OPEN_SCREEN("open_screen"),
 
+    @SerializedName("open_screen_large")
     OPEN_SCREEN_LARGE("open_screen_large"),
 
+    @SerializedName("friends_message")
     FRIENDS_MESSAGE("friends_message"),
 
+    @SerializedName("friends_call")
     FRIENDS_CALL("friends_call"),
 
+    @SerializedName("friends_send_gift")
     FRIENDS_SEND_GIFT("friends_send_gift"),
 
+    @SerializedName("friends_label")
     FRIENDS_LABEL("friends_label"),
 
+    @SerializedName("play_audios_from_block")
     PLAY_AUDIOS_FROM_BLOCK("play_audios_from_block"),
 
+    @SerializedName("play_shuffled_audios_from_block")
     PLAY_SHUFFLED_AUDIOS_FROM_BLOCK("play_shuffled_audios_from_block"),
 
+    @SerializedName("unfollow_artist")
     UNFOLLOW_ARTIST("unfollow_artist"),
 
+    @SerializedName("create_group")
     CREATE_GROUP("create_group"),
 
+    @SerializedName("close_notification")
     CLOSE_NOTIFICATION("close_notification"),
 
+    @SerializedName("switch_section")
     SWITCH_SECTION("switch_section"),
 
+    @SerializedName("clear_recent_groups")
     CLEAR_RECENT_GROUPS("clear_recent_groups"),
 
+    @SerializedName("close_catalog_banner")
     CLOSE_CATALOG_BANNER("close_catalog_banner"),
 
+    @SerializedName("enable_top_newsfeed")
     ENABLE_TOP_NEWSFEED("enable_top_newsfeed"),
 
+    @SerializedName("groups_advertisement")
     GROUPS_ADVERTISEMENT("groups_advertisement"),
 
+    @SerializedName("owner_button")
     OWNER_BUTTON("owner_button"),
 
+    @SerializedName("enter_edit_mode")
     ENTER_EDIT_MODE("enter_edit_mode"),
 
+    @SerializedName("playlists_lists")
     PLAYLISTS_LISTS("playlists_lists"),
 
+    @SerializedName("unfollow_curator")
     UNFOLLOW_CURATOR("unfollow_curator"),
 
+    @SerializedName("reorder_items")
     REORDER_ITEMS("reorder_items"),
 
+    @SerializedName("edit_items")
     EDIT_ITEMS("edit_items"),
 
+    @SerializedName("select_sorting")
     SELECT_SORTING("select_sorting"),
 
+    @SerializedName("market_abandoned_carts")
     MARKET_ABANDONED_CARTS("market_abandoned_carts"),
 
-    WRITE_IM("write_im"),
+    @SerializedName("market_write")
+    MARKET_WRITE("market_write"),
 
+    @SerializedName("call")
     CALL("call"),
 
+    @SerializedName("modal_page")
     MODAL_PAGE("modal_page");
-
-    class Serializer : JsonSerializer<BaseLinkButtonActionType>,
-            JsonDeserializer<BaseLinkButtonActionType> {
-        override fun serialize(
-            src: BaseLinkButtonActionType?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): BaseLinkButtonActionType {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

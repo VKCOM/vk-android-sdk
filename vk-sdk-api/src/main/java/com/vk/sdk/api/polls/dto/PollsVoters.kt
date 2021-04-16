@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param answerId Answer ID
- * @param users no description
+ * @param answerId - Answer ID
+ * @param users
  */
 data class PollsVoters(
-    @SerializedName(value="answer_id")
+    @SerializedName("answer_id")
     val answerId: Int? = null,
-    @SerializedName(value="users")
+    @SerializedName("users")
     val users: PollsVotersUsers? = null
 )

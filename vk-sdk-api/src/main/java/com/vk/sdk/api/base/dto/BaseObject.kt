@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Object ID
- * @param title Object title
+ * @param id - Object ID
+ * @param title - Object title
  */
 data class BaseObject(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String
 )

@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param list no description
- * @param count Participants count
+ * @param list
+ * @param count - Participants count
  */
 data class CallsParticipants(
-    @SerializedName(value="list")
+    @SerializedName("list")
     val list: List<Int>? = null,
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null
 )

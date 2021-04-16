@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Float
 
 /**
- * @param appId Application Id
- * @param store no description
+ * @param appId - Application Id
+ * @param store
  */
 data class BaseLinkApplication(
-    @SerializedName(value="app_id")
+    @SerializedName("app_id")
     val appId: Float? = null,
-    @SerializedName(value="store")
+    @SerializedName("store")
     val store: BaseLinkApplicationStore? = null
 )

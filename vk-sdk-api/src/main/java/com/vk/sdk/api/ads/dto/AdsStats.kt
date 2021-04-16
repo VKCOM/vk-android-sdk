@@ -31,18 +31,18 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param id Object ID
- * @param stats no description
- * @param type no description
- * @param viewsTimes no description
+ * @param id - Object ID
+ * @param stats
+ * @param type
+ * @param viewsTimes
  */
 data class AdsStats(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="stats")
+    @SerializedName("stats")
     val stats: AdsStatsFormat? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: AdsObjectType? = null,
-    @SerializedName(value="views_times")
+    @SerializedName("views_times")
     val viewsTimes: AdsStatsViewsTimes? = null
 )

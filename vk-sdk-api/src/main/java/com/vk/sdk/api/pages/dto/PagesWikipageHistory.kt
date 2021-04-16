@@ -32,21 +32,21 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Version ID
- * @param length Page size in bytes
- * @param date Date when the page has been edited in Unixtime
- * @param editorId Last editor ID
- * @param editorName Last editor name
+ * @param id - Version ID
+ * @param length - Page size in bytes
+ * @param date - Date when the page has been edited in Unixtime
+ * @param editorId - Last editor ID
+ * @param editorName - Last editor name
  */
 data class PagesWikipageHistory(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="length")
+    @SerializedName("length")
     val length: Int,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="editor_id")
+    @SerializedName("editor_id")
     val editorId: Int,
-    @SerializedName(value="editor_name")
+    @SerializedName("editor_name")
     val editorName: String
 )

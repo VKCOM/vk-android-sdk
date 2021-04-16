@@ -34,89 +34,102 @@ import com.vk.sdk.api.base.dto.BaseLink
 import com.vk.sdk.api.base.dto.BaseRepostsInfo
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 import kotlin.Boolean
+import kotlin.Float
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param albumsIds no description
- * @param photos no description
- * @param canComment Information whether current use can comment the item
- * @param canRepost Information whether current use can repost the item
- * @param likes no description
- * @param reposts no description
- * @param viewsCount Views number
- * @param wishlistItemId Object identifier in wishlist of viewer
- * @param cancelInfo Information for cancel and revert order
- * @param userAgreementInfo User agreement info
- * @param accessKey Access key for the market item
- * @param availability no description
- * @param buttonTitle Title for button for url
- * @param category no description
- * @param date Date when the item has been created in Unixtime
- * @param description Item description
- * @param externalId no description
- * @param id Item ID
- * @param isFavorite no description
- * @param ownerId Item owner's ID
- * @param price no description
- * @param thumbPhoto URL of the preview image
- * @param title Item title
- * @param url URL to item
- * @param variantsGroupingId no description
- * @param isMainVariant no description
+ * @param albumsIds
+ * @param photos
+ * @param canComment - Information whether current use can comment the item
+ * @param canRepost - Information whether current use can repost the item
+ * @param likes
+ * @param reposts
+ * @param viewsCount - Views number
+ * @param wishlistItemId - Object identifier in wishlist of viewer
+ * @param rating - Rating of product
+ * @param ordersCount - Count of product orders
+ * @param cancelInfo - Information for cancel and revert order
+ * @param userAgreementInfo - User agreement info
+ * @param accessKey - Access key for the market item
+ * @param availability
+ * @param buttonTitle - Title for button for url
+ * @param category
+ * @param date - Date when the item has been created in Unixtime
+ * @param description - Item description
+ * @param externalId
+ * @param id - Item ID
+ * @param isFavorite
+ * @param ownerId - Item owner's ID
+ * @param price
+ * @param thumbPhoto - URL of the preview image
+ * @param title - Item title
+ * @param url - URL to item
+ * @param variantsGroupingId
+ * @param isMainVariant
+ * @param sku
+ * @param stockAmount - Inventory balances
  */
 data class MarketMarketItemFull(
-    @SerializedName(value="albums_ids")
+    @SerializedName("albums_ids")
     val albumsIds: List<Int>? = null,
-    @SerializedName(value="photos")
+    @SerializedName("photos")
     val photos: List<PhotosPhoto>? = null,
-    @SerializedName(value="can_comment")
+    @SerializedName("can_comment")
     val canComment: BaseBoolInt? = null,
-    @SerializedName(value="can_repost")
+    @SerializedName("can_repost")
     val canRepost: BaseBoolInt? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseLikes? = null,
-    @SerializedName(value="reposts")
+    @SerializedName("reposts")
     val reposts: BaseRepostsInfo? = null,
-    @SerializedName(value="views_count")
+    @SerializedName("views_count")
     val viewsCount: Int? = null,
-    @SerializedName(value="wishlist_item_id")
+    @SerializedName("wishlist_item_id")
     val wishlistItemId: Int? = null,
-    @SerializedName(value="cancel_info")
+    @SerializedName("rating")
+    val rating: Float? = null,
+    @SerializedName("orders_count")
+    val ordersCount: Int? = null,
+    @SerializedName("cancel_info")
     val cancelInfo: BaseLink? = null,
-    @SerializedName(value="user_agreement_info")
+    @SerializedName("user_agreement_info")
     val userAgreementInfo: String? = null,
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="availability")
+    @SerializedName("availability")
     val availability: MarketMarketItemAvailability? = null,
-    @SerializedName(value="button_title")
+    @SerializedName("button_title")
     val buttonTitle: String? = null,
-    @SerializedName(value="category")
+    @SerializedName("category")
     val category: MarketMarketCategory? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null,
-    @SerializedName(value="external_id")
+    @SerializedName("external_id")
     val externalId: String? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="is_favorite")
+    @SerializedName("is_favorite")
     val isFavorite: Boolean? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="price")
+    @SerializedName("price")
     val price: MarketPrice? = null,
-    @SerializedName(value="thumb_photo")
+    @SerializedName("thumb_photo")
     val thumbPhoto: String? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null,
-    @SerializedName(value="variants_grouping_id")
+    @SerializedName("variants_grouping_id")
     val variantsGroupingId: Int? = null,
-    @SerializedName(value="is_main_variant")
-    val isMainVariant: Boolean? = null
+    @SerializedName("is_main_variant")
+    val isMainVariant: Boolean? = null,
+    @SerializedName("sku")
+    val sku: String? = null,
+    @SerializedName("stock_amount")
+    val stockAmount: Int? = null
 )

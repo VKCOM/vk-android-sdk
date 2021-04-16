@@ -36,27 +36,27 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param attachments no description
- * @param fromId Reply author's ID
- * @param geo no description
- * @param id Item ID
- * @param likes no description
- * @param text Reply text
- * @param toId Wall owner's ID
+ * @param attachments
+ * @param fromId - Reply author's ID
+ * @param geo
+ * @param id - Item ID
+ * @param likes
+ * @param text - Reply text
+ * @param toId - Wall owner's ID
  */
 data class NotificationsFeedback(
-    @SerializedName(value="attachments")
+    @SerializedName("attachments")
     val attachments: List<WallWallpostAttachment>? = null,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int? = null,
-    @SerializedName(value="geo")
+    @SerializedName("geo")
     val geo: BaseGeo? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseLikesInfo? = null,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String? = null,
-    @SerializedName(value="to_id")
+    @SerializedName("to_id")
     val toId: Int? = null
 )

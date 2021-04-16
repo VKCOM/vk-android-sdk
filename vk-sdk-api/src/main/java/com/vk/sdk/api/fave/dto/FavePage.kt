@@ -35,24 +35,24 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param description Some info about user or group
- * @param tags no description
- * @param type Item type
- * @param group no description
- * @param updatedDate Timestamp, when this page was bookmarked
- * @param user no description
+ * @param description - Some info about user or group
+ * @param tags
+ * @param type - Item type
+ * @param group
+ * @param updatedDate - Timestamp, when this page was bookmarked
+ * @param user
  */
 data class FavePage(
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String,
-    @SerializedName(value="tags")
+    @SerializedName("tags")
     val tags: List<FaveTag>,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: FavePageType,
-    @SerializedName(value="group")
+    @SerializedName("group")
     val group: GroupsGroupFull? = null,
-    @SerializedName(value="updated_date")
+    @SerializedName("updated_date")
     val updatedDate: Int? = null,
-    @SerializedName(value="user")
+    @SerializedName("user")
     val user: UsersUserFull? = null
 )

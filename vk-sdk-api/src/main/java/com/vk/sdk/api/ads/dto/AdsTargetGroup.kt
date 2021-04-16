@@ -32,24 +32,24 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param audienceCount Audience
- * @param domain Site domain
- * @param id Group ID
- * @param lifetime Number of days for user to be in group
- * @param name Group name
- * @param pixel Pixel code
+ * @param audienceCount - Audience
+ * @param domain - Site domain
+ * @param id - Group ID
+ * @param lifetime - Number of days for user to be in group
+ * @param name - Group name
+ * @param pixel - Pixel code
  */
 data class AdsTargetGroup(
-    @SerializedName(value="audience_count")
+    @SerializedName("audience_count")
     val audienceCount: Int? = null,
-    @SerializedName(value="domain")
+    @SerializedName("domain")
     val domain: String? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="lifetime")
+    @SerializedName("lifetime")
     val lifetime: Int? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null,
-    @SerializedName(value="pixel")
+    @SerializedName("pixel")
     val pixel: String? = null
 )

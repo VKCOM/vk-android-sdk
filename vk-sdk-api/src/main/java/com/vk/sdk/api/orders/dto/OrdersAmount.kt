@@ -32,12 +32,12 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param amounts no description
- * @param currency Currency name
+ * @param amounts
+ * @param currency - Currency name
  */
 data class OrdersAmount(
-    @SerializedName(value="amounts")
+    @SerializedName("amounts")
     val amounts: List<OrdersAmountItem>? = null,
-    @SerializedName(value="currency")
+    @SerializedName("currency")
     val currency: String? = null
 )

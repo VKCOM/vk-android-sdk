@@ -28,14 +28,17 @@
 package com.vk.sdk.api.search.dto
 
 import com.google.gson.annotations.SerializedName
+import kotlin.String
 
-enum class SearchHintSection {
-    @SerializedName(value="vk_apps")
-    VK_APPS,
+enum class SearchHintSection(
+    val value: String
+) {
+    @SerializedName("vk_apps")
+    VK_APPS("vk_apps"),
 
-    @SerializedName(value="apps")
-    APPS,
+    @SerializedName("apps")
+    APPS("apps"),
 
-    @SerializedName(value="direct_games")
-    DIRECT_GAMES
+    @SerializedName("direct_games")
+    DIRECT_GAMES("direct_games");
 }

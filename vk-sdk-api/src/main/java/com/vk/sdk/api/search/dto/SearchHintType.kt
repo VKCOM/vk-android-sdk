@@ -27,46 +27,24 @@
 // *********************************************************************
 package com.vk.sdk.api.search.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class SearchHintType(
     val value: String
 ) {
+    @SerializedName("group")
     GROUP("group"),
 
+    @SerializedName("profile")
     PROFILE("profile"),
 
+    @SerializedName("vk_app")
     VK_APP("vk_app"),
 
+    @SerializedName("app")
     APP("app"),
 
+    @SerializedName("html5_game")
     HTML5_GAME("html5_game");
-
-    class Serializer : JsonSerializer<SearchHintType>, JsonDeserializer<SearchHintType> {
-        override fun serialize(
-            src: SearchHintType?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): SearchHintType {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

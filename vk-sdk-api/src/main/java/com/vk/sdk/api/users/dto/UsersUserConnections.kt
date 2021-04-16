@@ -31,24 +31,24 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param skype User's Skype nickname
- * @param facebook User's Facebook account
- * @param twitter User's Twitter account
- * @param instagram User's Instagram account
- * @param facebookName User's Facebook name
- * @param livejournal User's Livejournal account
+ * @param skype - User's Skype nickname
+ * @param facebook - User's Facebook account
+ * @param twitter - User's Twitter account
+ * @param instagram - User's Instagram account
+ * @param facebookName - User's Facebook name
+ * @param livejournal - User's Livejournal account
  */
 data class UsersUserConnections(
-    @SerializedName(value="skype")
+    @SerializedName("skype")
     val skype: String,
-    @SerializedName(value="facebook")
+    @SerializedName("facebook")
     val facebook: String,
-    @SerializedName(value="twitter")
+    @SerializedName("twitter")
     val twitter: String,
-    @SerializedName(value="instagram")
+    @SerializedName("instagram")
     val instagram: String,
-    @SerializedName(value="facebook_name")
+    @SerializedName("facebook_name")
     val facebookName: String? = null,
-    @SerializedName(value="livejournal")
+    @SerializedName("livejournal")
     val livejournal: String? = null
 )

@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseBoolInt
 
 /**
- * @param enabled no description
- * @param isNotificationsBlocked no description
+ * @param enabled
+ * @param isNotificationsBlocked
  */
 data class VideoLiveInfo(
-    @SerializedName(value="enabled")
+    @SerializedName("enabled")
     val enabled: BaseBoolInt? = null,
-    @SerializedName(value="is_notifications_blocked")
+    @SerializedName("is_notifications_blocked")
     val isNotificationsBlocked: BaseBoolInt? = null
 )

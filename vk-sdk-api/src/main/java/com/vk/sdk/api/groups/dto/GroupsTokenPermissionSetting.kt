@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param name no description
- * @param setting no description
+ * @param name
+ * @param setting
  */
 data class GroupsTokenPermissionSetting(
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="setting")
+    @SerializedName("setting")
     val setting: Int
 )

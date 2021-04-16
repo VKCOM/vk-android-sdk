@@ -27,73 +27,50 @@
 // *********************************************************************
 package com.vk.sdk.api.users.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
 
 /**
- * @param visible Whether you can see real online status of user or not
- * @param lastSeen Last time we saw user being active
- * @param isOnline Whether user is currently online or not
- * @param appId Application id from which user is currently online or was last seen online
- * @param isMobile Is user online from desktop app or mobile app
- * @param status In case user online is not visible, it indicates approximate timeframe of user
+ * @param visible - Whether you can see real online status of user or not
+ * @param lastSeen - Last time we saw user being active
+ * @param isOnline - Whether user is currently online or not
+ * @param appId - Application id from which user is currently online or was last seen online
+ * @param isMobile - Is user online from desktop app or mobile app
+ * @param status - In case user online is not visible, it indicates approximate timeframe of user
  * online
  */
 data class UsersOnlineInfo(
-    @SerializedName(value="visible")
+    @SerializedName("visible")
     val visible: Boolean,
-    @SerializedName(value="last_seen")
+    @SerializedName("last_seen")
     val lastSeen: Int? = null,
-    @SerializedName(value="is_online")
+    @SerializedName("is_online")
     val isOnline: Boolean? = null,
-    @SerializedName(value="app_id")
+    @SerializedName("app_id")
     val appId: Int? = null,
-    @SerializedName(value="is_mobile")
+    @SerializedName("is_mobile")
     val isMobile: Boolean? = null,
-    @SerializedName(value="status")
-    val status: Status? = null
+    @SerializedName("status")
+    val status: UsersOnlineInfo.Status? = null
 ) {
     enum class Status(
         val value: String
     ) {
+        @SerializedName("recently")
         RECENTLY("recently"),
 
+        @SerializedName("last_week")
         LAST_WEEK("last_week"),
 
+        @SerializedName("last_month")
         LAST_MONTH("last_month"),
 
+        @SerializedName("long_ago")
         LONG_AGO("long_ago"),
 
+        @SerializedName("not_show")
         NOT_SHOW("not_show");
-
-        class Serializer : JsonSerializer<Status>, JsonDeserializer<Status> {
-            override fun serialize(
-                src: Status?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Status {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

@@ -31,156 +31,156 @@ import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseBoolInt
 
 /**
- * @param audioNew no description
- * @param boardPostDelete no description
- * @param boardPostEdit no description
- * @param boardPostNew no description
- * @param boardPostRestore no description
- * @param groupChangePhoto no description
- * @param groupChangeSettings no description
- * @param groupJoin no description
- * @param groupLeave no description
- * @param groupOfficersEdit no description
- * @param marketCommentDelete no description
- * @param marketCommentEdit no description
- * @param marketCommentNew no description
- * @param marketCommentRestore no description
- * @param messageAllow no description
- * @param messageDeny no description
- * @param messageNew no description
- * @param messageRead no description
- * @param messageReply no description
- * @param messageTypingState no description
- * @param messageEdit no description
- * @param photoCommentDelete no description
- * @param photoCommentEdit no description
- * @param photoCommentNew no description
- * @param photoCommentRestore no description
- * @param photoNew no description
- * @param pollVoteNew no description
- * @param userBlock no description
- * @param userUnblock no description
- * @param videoCommentDelete no description
- * @param videoCommentEdit no description
- * @param videoCommentNew no description
- * @param videoCommentRestore no description
- * @param videoNew no description
- * @param wallPostNew no description
- * @param wallReplyDelete no description
- * @param wallReplyEdit no description
- * @param wallReplyNew no description
- * @param wallReplyRestore no description
- * @param wallRepost no description
- * @param leadFormsNew no description
- * @param marketOrderNew no description
- * @param marketOrderEdit no description
- * @param donutSubscriptionCreate no description
- * @param donutSubscriptionProlonged no description
- * @param donutSubscriptionCancelled no description
- * @param donutSubscriptionExpired no description
- * @param donutSubscriptionPriceChanged no description
- * @param donutMoneyWithdraw no description
- * @param donutMoneyWithdrawError no description
+ * @param audioNew
+ * @param boardPostDelete
+ * @param boardPostEdit
+ * @param boardPostNew
+ * @param boardPostRestore
+ * @param groupChangePhoto
+ * @param groupChangeSettings
+ * @param groupJoin
+ * @param groupLeave
+ * @param groupOfficersEdit
+ * @param marketCommentDelete
+ * @param marketCommentEdit
+ * @param marketCommentNew
+ * @param marketCommentRestore
+ * @param messageAllow
+ * @param messageDeny
+ * @param messageNew
+ * @param messageRead
+ * @param messageReply
+ * @param messageTypingState
+ * @param messageEdit
+ * @param photoCommentDelete
+ * @param photoCommentEdit
+ * @param photoCommentNew
+ * @param photoCommentRestore
+ * @param photoNew
+ * @param pollVoteNew
+ * @param userBlock
+ * @param userUnblock
+ * @param videoCommentDelete
+ * @param videoCommentEdit
+ * @param videoCommentNew
+ * @param videoCommentRestore
+ * @param videoNew
+ * @param wallPostNew
+ * @param wallReplyDelete
+ * @param wallReplyEdit
+ * @param wallReplyNew
+ * @param wallReplyRestore
+ * @param wallRepost
+ * @param leadFormsNew
+ * @param marketOrderNew
+ * @param marketOrderEdit
+ * @param donutSubscriptionCreate
+ * @param donutSubscriptionProlonged
+ * @param donutSubscriptionCancelled
+ * @param donutSubscriptionExpired
+ * @param donutSubscriptionPriceChanged
+ * @param donutMoneyWithdraw
+ * @param donutMoneyWithdrawError
  */
 data class GroupsLongPollEvents(
-    @SerializedName(value="audio_new")
+    @SerializedName("audio_new")
     val audioNew: BaseBoolInt,
-    @SerializedName(value="board_post_delete")
+    @SerializedName("board_post_delete")
     val boardPostDelete: BaseBoolInt,
-    @SerializedName(value="board_post_edit")
+    @SerializedName("board_post_edit")
     val boardPostEdit: BaseBoolInt,
-    @SerializedName(value="board_post_new")
+    @SerializedName("board_post_new")
     val boardPostNew: BaseBoolInt,
-    @SerializedName(value="board_post_restore")
+    @SerializedName("board_post_restore")
     val boardPostRestore: BaseBoolInt,
-    @SerializedName(value="group_change_photo")
+    @SerializedName("group_change_photo")
     val groupChangePhoto: BaseBoolInt,
-    @SerializedName(value="group_change_settings")
+    @SerializedName("group_change_settings")
     val groupChangeSettings: BaseBoolInt,
-    @SerializedName(value="group_join")
+    @SerializedName("group_join")
     val groupJoin: BaseBoolInt,
-    @SerializedName(value="group_leave")
+    @SerializedName("group_leave")
     val groupLeave: BaseBoolInt,
-    @SerializedName(value="group_officers_edit")
+    @SerializedName("group_officers_edit")
     val groupOfficersEdit: BaseBoolInt,
-    @SerializedName(value="market_comment_delete")
+    @SerializedName("market_comment_delete")
     val marketCommentDelete: BaseBoolInt,
-    @SerializedName(value="market_comment_edit")
+    @SerializedName("market_comment_edit")
     val marketCommentEdit: BaseBoolInt,
-    @SerializedName(value="market_comment_new")
+    @SerializedName("market_comment_new")
     val marketCommentNew: BaseBoolInt,
-    @SerializedName(value="market_comment_restore")
+    @SerializedName("market_comment_restore")
     val marketCommentRestore: BaseBoolInt,
-    @SerializedName(value="message_allow")
+    @SerializedName("message_allow")
     val messageAllow: BaseBoolInt,
-    @SerializedName(value="message_deny")
+    @SerializedName("message_deny")
     val messageDeny: BaseBoolInt,
-    @SerializedName(value="message_new")
+    @SerializedName("message_new")
     val messageNew: BaseBoolInt,
-    @SerializedName(value="message_read")
+    @SerializedName("message_read")
     val messageRead: BaseBoolInt,
-    @SerializedName(value="message_reply")
+    @SerializedName("message_reply")
     val messageReply: BaseBoolInt,
-    @SerializedName(value="message_typing_state")
+    @SerializedName("message_typing_state")
     val messageTypingState: BaseBoolInt,
-    @SerializedName(value="message_edit")
+    @SerializedName("message_edit")
     val messageEdit: BaseBoolInt,
-    @SerializedName(value="photo_comment_delete")
+    @SerializedName("photo_comment_delete")
     val photoCommentDelete: BaseBoolInt,
-    @SerializedName(value="photo_comment_edit")
+    @SerializedName("photo_comment_edit")
     val photoCommentEdit: BaseBoolInt,
-    @SerializedName(value="photo_comment_new")
+    @SerializedName("photo_comment_new")
     val photoCommentNew: BaseBoolInt,
-    @SerializedName(value="photo_comment_restore")
+    @SerializedName("photo_comment_restore")
     val photoCommentRestore: BaseBoolInt,
-    @SerializedName(value="photo_new")
+    @SerializedName("photo_new")
     val photoNew: BaseBoolInt,
-    @SerializedName(value="poll_vote_new")
+    @SerializedName("poll_vote_new")
     val pollVoteNew: BaseBoolInt,
-    @SerializedName(value="user_block")
+    @SerializedName("user_block")
     val userBlock: BaseBoolInt,
-    @SerializedName(value="user_unblock")
+    @SerializedName("user_unblock")
     val userUnblock: BaseBoolInt,
-    @SerializedName(value="video_comment_delete")
+    @SerializedName("video_comment_delete")
     val videoCommentDelete: BaseBoolInt,
-    @SerializedName(value="video_comment_edit")
+    @SerializedName("video_comment_edit")
     val videoCommentEdit: BaseBoolInt,
-    @SerializedName(value="video_comment_new")
+    @SerializedName("video_comment_new")
     val videoCommentNew: BaseBoolInt,
-    @SerializedName(value="video_comment_restore")
+    @SerializedName("video_comment_restore")
     val videoCommentRestore: BaseBoolInt,
-    @SerializedName(value="video_new")
+    @SerializedName("video_new")
     val videoNew: BaseBoolInt,
-    @SerializedName(value="wall_post_new")
+    @SerializedName("wall_post_new")
     val wallPostNew: BaseBoolInt,
-    @SerializedName(value="wall_reply_delete")
+    @SerializedName("wall_reply_delete")
     val wallReplyDelete: BaseBoolInt,
-    @SerializedName(value="wall_reply_edit")
+    @SerializedName("wall_reply_edit")
     val wallReplyEdit: BaseBoolInt,
-    @SerializedName(value="wall_reply_new")
+    @SerializedName("wall_reply_new")
     val wallReplyNew: BaseBoolInt,
-    @SerializedName(value="wall_reply_restore")
+    @SerializedName("wall_reply_restore")
     val wallReplyRestore: BaseBoolInt,
-    @SerializedName(value="wall_repost")
+    @SerializedName("wall_repost")
     val wallRepost: BaseBoolInt,
-    @SerializedName(value="lead_forms_new")
+    @SerializedName("lead_forms_new")
     val leadFormsNew: BaseBoolInt? = null,
-    @SerializedName(value="market_order_new")
+    @SerializedName("market_order_new")
     val marketOrderNew: BaseBoolInt? = null,
-    @SerializedName(value="market_order_edit")
+    @SerializedName("market_order_edit")
     val marketOrderEdit: BaseBoolInt? = null,
-    @SerializedName(value="donut_subscription_create")
+    @SerializedName("donut_subscription_create")
     val donutSubscriptionCreate: BaseBoolInt? = null,
-    @SerializedName(value="donut_subscription_prolonged")
+    @SerializedName("donut_subscription_prolonged")
     val donutSubscriptionProlonged: BaseBoolInt? = null,
-    @SerializedName(value="donut_subscription_cancelled")
+    @SerializedName("donut_subscription_cancelled")
     val donutSubscriptionCancelled: BaseBoolInt? = null,
-    @SerializedName(value="donut_subscription_expired")
+    @SerializedName("donut_subscription_expired")
     val donutSubscriptionExpired: BaseBoolInt? = null,
-    @SerializedName(value="donut_subscription_price_changed")
+    @SerializedName("donut_subscription_price_changed")
     val donutSubscriptionPriceChanged: BaseBoolInt? = null,
-    @SerializedName(value="donut_money_withdraw")
+    @SerializedName("donut_money_withdraw")
     val donutMoneyWithdraw: BaseBoolInt? = null,
-    @SerializedName(value="donut_money_withdraw_error")
+    @SerializedName("donut_money_withdraw_error")
     val donutMoneyWithdrawError: BaseBoolInt? = null
 )

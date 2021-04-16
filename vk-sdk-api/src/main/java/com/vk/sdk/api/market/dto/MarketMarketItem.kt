@@ -33,54 +33,60 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param availability no description
- * @param category no description
- * @param description Item description
- * @param id Item ID
- * @param ownerId Item owner's ID
- * @param price no description
- * @param title Item title
- * @param accessKey Access key for the market item
- * @param buttonTitle Title for button for url
- * @param date Date when the item has been created in Unixtime
- * @param externalId no description
- * @param isFavorite no description
- * @param thumbPhoto URL of the preview image
- * @param url URL to item
- * @param variantsGroupingId no description
- * @param isMainVariant no description
+ * @param availability
+ * @param category
+ * @param description - Item description
+ * @param id - Item ID
+ * @param ownerId - Item owner's ID
+ * @param price
+ * @param title - Item title
+ * @param accessKey - Access key for the market item
+ * @param buttonTitle - Title for button for url
+ * @param date - Date when the item has been created in Unixtime
+ * @param externalId
+ * @param isFavorite
+ * @param thumbPhoto - URL of the preview image
+ * @param url - URL to item
+ * @param variantsGroupingId
+ * @param isMainVariant
+ * @param sku
+ * @param stockAmount - Inventory balances
  */
 data class MarketMarketItem(
-    @SerializedName(value="availability")
+    @SerializedName("availability")
     val availability: MarketMarketItemAvailability,
-    @SerializedName(value="category")
+    @SerializedName("category")
     val category: MarketMarketCategory,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="price")
+    @SerializedName("price")
     val price: MarketPrice,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="button_title")
+    @SerializedName("button_title")
     val buttonTitle: String? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="external_id")
+    @SerializedName("external_id")
     val externalId: String? = null,
-    @SerializedName(value="is_favorite")
+    @SerializedName("is_favorite")
     val isFavorite: Boolean? = null,
-    @SerializedName(value="thumb_photo")
+    @SerializedName("thumb_photo")
     val thumbPhoto: String? = null,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null,
-    @SerializedName(value="variants_grouping_id")
+    @SerializedName("variants_grouping_id")
     val variantsGroupingId: Int? = null,
-    @SerializedName(value="is_main_variant")
-    val isMainVariant: Boolean? = null
+    @SerializedName("is_main_variant")
+    val isMainVariant: Boolean? = null,
+    @SerializedName("sku")
+    val sku: String? = null,
+    @SerializedName("stock_amount")
+    val stockAmount: Int? = null
 )

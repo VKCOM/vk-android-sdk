@@ -53,7 +53,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: '*.jar')
     implementation sdkLibraries.kotlin
     implementation sdkLibrariesSupport.recyclerView
     implementation sdkLibrariesSupport.appCompat
@@ -62,5 +61,4 @@ dependencies {
 
     implementation project(':libapi-sdk-core')
     implementation project(':libapi-sdk-api')
-    //implementation 'com.vk:androidsdk:2.0.0'
 }

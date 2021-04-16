@@ -33,45 +33,45 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param createTime Date of creation in Unixtime
- * @param id Subscription ID
- * @param itemId Subscription order item
- * @param period Subscription period
- * @param periodStartTime Date of last period start in Unixtime
- * @param price Subscription price
- * @param status Subscription status
- * @param updateTime Date of last change in Unixtime
- * @param cancelReason Cancel reason
- * @param nextBillTime Date of next bill in Unixtime
- * @param pendingCancel Pending cancel state
- * @param testMode Is test subscription
- * @param trialExpireTime Date of trial expire in Unixtime
+ * @param createTime - Date of creation in Unixtime
+ * @param id - Subscription ID
+ * @param itemId - Subscription order item
+ * @param period - Subscription period
+ * @param periodStartTime - Date of last period start in Unixtime
+ * @param price - Subscription price
+ * @param status - Subscription status
+ * @param updateTime - Date of last change in Unixtime
+ * @param cancelReason - Cancel reason
+ * @param nextBillTime - Date of next bill in Unixtime
+ * @param pendingCancel - Pending cancel state
+ * @param testMode - Is test subscription
+ * @param trialExpireTime - Date of trial expire in Unixtime
  */
 data class OrdersSubscription(
-    @SerializedName(value="create_time")
+    @SerializedName("create_time")
     val createTime: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="item_id")
+    @SerializedName("item_id")
     val itemId: String,
-    @SerializedName(value="period")
+    @SerializedName("period")
     val period: Int,
-    @SerializedName(value="period_start_time")
+    @SerializedName("period_start_time")
     val periodStartTime: Int,
-    @SerializedName(value="price")
+    @SerializedName("price")
     val price: Int,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: String,
-    @SerializedName(value="update_time")
+    @SerializedName("update_time")
     val updateTime: Int,
-    @SerializedName(value="cancel_reason")
+    @SerializedName("cancel_reason")
     val cancelReason: String? = null,
-    @SerializedName(value="next_bill_time")
+    @SerializedName("next_bill_time")
     val nextBillTime: Int? = null,
-    @SerializedName(value="pending_cancel")
+    @SerializedName("pending_cancel")
     val pendingCancel: Boolean? = null,
-    @SerializedName(value="test_mode")
+    @SerializedName("test_mode")
     val testMode: Boolean? = null,
-    @SerializedName(value="trial_expire_time")
+    @SerializedName("trial_expire_time")
     val trialExpireTime: Int? = null
 )

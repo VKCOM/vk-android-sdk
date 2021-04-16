@@ -31,18 +31,18 @@ import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.users.dto.UsersUser
 
 /**
- * @param banInfo no description
- * @param group Information about group if type = group
- * @param profile Information about group if type = profile
- * @param type no description
+ * @param banInfo
+ * @param group - Information about group if type = group
+ * @param profile - Information about group if type = profile
+ * @param type
  */
 data class GroupsBannedItem(
-    @SerializedName(value="ban_info")
+    @SerializedName("ban_info")
     val banInfo: GroupsBanInfo? = null,
-    @SerializedName(value="group")
+    @SerializedName("group")
     val group: GroupsGroup? = null,
-    @SerializedName(value="profile")
+    @SerializedName("profile")
     val profile: UsersUser? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: GroupsOwnerXtrBanInfoType? = null
 )

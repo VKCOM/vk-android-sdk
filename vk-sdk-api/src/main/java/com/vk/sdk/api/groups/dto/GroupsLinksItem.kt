@@ -33,27 +33,27 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param desc Link description
- * @param editTitle Information whether the link title can be edited
- * @param id Link ID
- * @param name Link title
- * @param photo100 URL of square image of the link with 100 pixels in width
- * @param photo50 URL of square image of the link with 50 pixels in width
- * @param url Link URL
+ * @param desc - Link description
+ * @param editTitle - Information whether the link title can be edited
+ * @param id - Link ID
+ * @param name - Link title
+ * @param photo100 - URL of square image of the link with 100 pixels in width
+ * @param photo50 - URL of square image of the link with 50 pixels in width
+ * @param url - Link URL
  */
 data class GroupsLinksItem(
-    @SerializedName(value="desc")
+    @SerializedName("desc")
     val desc: String? = null,
-    @SerializedName(value="edit_title")
+    @SerializedName("edit_title")
     val editTitle: BaseBoolInt? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null,
-    @SerializedName(value="photo_100")
+    @SerializedName("photo_100")
     val photo100: String? = null,
-    @SerializedName(value="photo_50")
+    @SerializedName("photo_50")
     val photo50: String? = null,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null
 )

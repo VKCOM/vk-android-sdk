@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param packId Pack id
- * @param stickerId Sticker id
+ * @param packId - Pack id
+ * @param stickerId - Sticker id
  */
 data class StoreStickersKeywordSticker(
-    @SerializedName(value="pack_id")
+    @SerializedName("pack_id")
     val packId: Int,
-    @SerializedName(value="sticker_id")
+    @SerializedName("sticker_id")
     val stickerId: Int
 )

@@ -33,15 +33,15 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param id Category ID
- * @param name Category name
- * @param children no description
+ * @param id - Category ID
+ * @param name - Category name
+ * @param children
  */
 data class MarketMarketCategoryTree(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="children")
+    @SerializedName("children")
     val children: List<MarketMarketCategoryTree>? = null
 )

@@ -34,24 +34,24 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param accessRole no description
- * @param accountId Account ID
- * @param accountStatus Information whether account is active
- * @param accountType no description
- * @param accountName Account name
- * @param canViewBudget Can user view account budget
+ * @param accessRole
+ * @param accountId - Account ID
+ * @param accountStatus - Information whether account is active
+ * @param accountType
+ * @param accountName - Account name
+ * @param canViewBudget - Can user view account budget
  */
 data class AdsAccount(
-    @SerializedName(value="access_role")
+    @SerializedName("access_role")
     val accessRole: AdsAccessRole,
-    @SerializedName(value="account_id")
+    @SerializedName("account_id")
     val accountId: Int,
-    @SerializedName(value="account_status")
+    @SerializedName("account_status")
     val accountStatus: BaseBoolInt,
-    @SerializedName(value="account_type")
+    @SerializedName("account_type")
     val accountType: AdsAccountType,
-    @SerializedName(value="account_name")
+    @SerializedName("account_name")
     val accountName: String,
-    @SerializedName(value="can_view_budget")
+    @SerializedName("can_view_budget")
     val canViewBudget: Boolean
 )

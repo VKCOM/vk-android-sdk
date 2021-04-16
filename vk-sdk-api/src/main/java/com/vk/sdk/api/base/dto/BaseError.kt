@@ -33,21 +33,21 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param errorCode Error code
- * @param errorSubcode Error subcode
- * @param errorMsg Error message
- * @param errorText Localized error message
- * @param requestParams no description
+ * @param errorCode - Error code
+ * @param errorSubcode - Error subcode
+ * @param errorMsg - Error message
+ * @param errorText - Localized error message
+ * @param requestParams
  */
 data class BaseError(
-    @SerializedName(value="error_code")
+    @SerializedName("error_code")
     val errorCode: Int? = null,
-    @SerializedName(value="error_subcode")
+    @SerializedName("error_subcode")
     val errorSubcode: Int? = null,
-    @SerializedName(value="error_msg")
+    @SerializedName("error_msg")
     val errorMsg: String? = null,
-    @SerializedName(value="error_text")
+    @SerializedName("error_text")
     val errorText: String? = null,
-    @SerializedName(value="request_params")
+    @SerializedName("request_params")
     val requestParams: List<BaseRequestParam>? = null
 )

@@ -36,39 +36,39 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param date Date when the comment has been added in Unixtime
- * @param fromId Author ID
- * @param id Comment ID
- * @param pid Photo ID
- * @param text Comment text
- * @param attachments no description
- * @param likes no description
- * @param replyToComment Replied comment ID
- * @param replyToUser Replied user ID
- * @param parentsStack no description
- * @param thread no description
+ * @param date - Date when the comment has been added in Unixtime
+ * @param fromId - Author ID
+ * @param id - Comment ID
+ * @param pid - Photo ID
+ * @param text - Comment text
+ * @param attachments
+ * @param likes
+ * @param replyToComment - Replied comment ID
+ * @param replyToUser - Replied user ID
+ * @param parentsStack
+ * @param thread
  */
 data class PhotosCommentXtrPid(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="pid")
+    @SerializedName("pid")
     val pid: Int,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="attachments")
+    @SerializedName("attachments")
     val attachments: List<WallCommentAttachment>? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseLikesInfo? = null,
-    @SerializedName(value="reply_to_comment")
+    @SerializedName("reply_to_comment")
     val replyToComment: Int? = null,
-    @SerializedName(value="reply_to_user")
+    @SerializedName("reply_to_user")
     val replyToUser: Int? = null,
-    @SerializedName(value="parents_stack")
+    @SerializedName("parents_stack")
     val parentsStack: List<Int>? = null,
-    @SerializedName(value="thread")
+    @SerializedName("thread")
     val thread: CommentThread? = null
 )

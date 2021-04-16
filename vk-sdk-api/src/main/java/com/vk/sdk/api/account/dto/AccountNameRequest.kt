@@ -32,27 +32,27 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param firstName First name in request
- * @param id Request ID needed to cancel the request
- * @param lastName Last name in request
- * @param status no description
- * @param lang Text to display to user
- * @param linkHref href for link in lang field
- * @param linkLabel label to display for link in lang field
+ * @param firstName - First name in request
+ * @param id - Request ID needed to cancel the request
+ * @param lastName - Last name in request
+ * @param status
+ * @param lang - Text to display to user
+ * @param linkHref - href for link in lang field
+ * @param linkLabel - label to display for link in lang field
  */
 data class AccountNameRequest(
-    @SerializedName(value="first_name")
+    @SerializedName("first_name")
     val firstName: String? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="last_name")
+    @SerializedName("last_name")
     val lastName: String? = null,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: AccountNameRequestStatus? = null,
-    @SerializedName(value="lang")
+    @SerializedName("lang")
     val lang: String? = null,
-    @SerializedName(value="link_href")
+    @SerializedName("link_href")
     val linkHref: String? = null,
-    @SerializedName(value="link_label")
+    @SerializedName("link_label")
     val linkLabel: String? = null
 )

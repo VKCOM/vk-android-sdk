@@ -27,59 +27,34 @@
 // *********************************************************************
 package com.vk.sdk.api.donut.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.Int
 import kotlin.String
 
 /**
- * @param ownerId no description
- * @param nextPaymentDate no description
- * @param amount no description
- * @param status no description
+ * Info about user VK Donut subscription
+ * @param ownerId
+ * @param nextPaymentDate
+ * @param amount
+ * @param status
  */
 data class DonutDonatorSubscriptionInfo(
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="next_payment_date")
+    @SerializedName("next_payment_date")
     val nextPaymentDate: Int,
-    @SerializedName(value="amount")
+    @SerializedName("amount")
     val amount: Int,
-    @SerializedName(value="status")
-    val status: Status
+    @SerializedName("status")
+    val status: DonutDonatorSubscriptionInfo.Status
 ) {
     enum class Status(
         val value: String
     ) {
+        @SerializedName("active")
         ACTIVE("active"),
 
+        @SerializedName("expiring")
         EXPIRING("expiring");
-
-        class Serializer : JsonSerializer<Status>, JsonDeserializer<Status> {
-            override fun serialize(
-                src: Status?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Status {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

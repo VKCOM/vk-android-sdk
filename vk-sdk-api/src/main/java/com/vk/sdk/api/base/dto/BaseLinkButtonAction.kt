@@ -31,15 +31,15 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param type no description
- * @param url Action URL
- * @param consumeReason no description
+ * @param type
+ * @param url - Action URL
+ * @param consumeReason
  */
 data class BaseLinkButtonAction(
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: BaseLinkButtonActionType,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null,
-    @SerializedName(value="consume_reason")
+    @SerializedName("consume_reason")
     val consumeReason: String? = null
 )

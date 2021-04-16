@@ -33,21 +33,21 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param userId no description
- * @param role no description
- * @param grantAccessToAllClients no description
- * @param clientIds no description
- * @param viewBudget no description
+ * @param userId
+ * @param role
+ * @param grantAccessToAllClients
+ * @param clientIds
+ * @param viewBudget
  */
 data class AdsUserSpecification(
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int,
-    @SerializedName(value="role")
+    @SerializedName("role")
     val role: AdsAccessRolePublic,
-    @SerializedName(value="grant_access_to_all_clients")
+    @SerializedName("grant_access_to_all_clients")
     val grantAccessToAllClients: Boolean? = null,
-    @SerializedName(value="client_ids")
+    @SerializedName("client_ids")
     val clientIds: List<Int>? = null,
-    @SerializedName(value="view_budget")
+    @SerializedName("view_budget")
     val viewBudget: Boolean? = null
 )

@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Graffiti ID
- * @param ownerId Graffiti owner's ID
- * @param photo200 URL of the preview image with 200 px in width
- * @param photo586 URL of the preview image with 586 px in width
+ * @param id - Graffiti ID
+ * @param ownerId - Graffiti owner's ID
+ * @param photo200 - URL of the preview image with 200 px in width
+ * @param photo586 - URL of the preview image with 586 px in width
  */
 data class WallGraffiti(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="photo_200")
+    @SerializedName("photo_200")
     val photo200: String? = null,
-    @SerializedName(value="photo_586")
+    @SerializedName("photo_586")
     val photo586: String? = null
 )

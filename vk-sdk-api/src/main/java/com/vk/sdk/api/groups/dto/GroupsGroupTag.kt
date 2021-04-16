@@ -27,95 +27,87 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.Int
 import kotlin.String
 
 /**
- * @param id no description
- * @param name no description
- * @param color no description
- * @param uses no description
+ * @param id
+ * @param name
+ * @param color
+ * @param uses
  */
 data class GroupsGroupTag(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="color")
-    val color: Color,
-    @SerializedName(value="uses")
+    @SerializedName("color")
+    val color: GroupsGroupTag.Color,
+    @SerializedName("uses")
     val uses: Int? = null
 ) {
     enum class Color(
         val value: String
     ) {
+        @SerializedName("454647")
         FORTY_FIVE_4647("454647"),
 
+        @SerializedName("45678f")
         FORTY_FIVE_678F("45678f"),
 
+        @SerializedName("4bb34b")
         FOUR_BB34B("4bb34b"),
 
+        @SerializedName("5181b8")
         FIFTY_ONE_81B8("5181b8"),
 
+        @SerializedName("539b9c")
         FIFTY_THREE_9B9C("539b9c"),
 
+        @SerializedName("5c9ce6")
         FIVE_C9CE6("5c9ce6"),
 
+        @SerializedName("63b9ba")
         SIXTY_THREE_B9BA("63b9ba"),
 
+        @SerializedName("6bc76b")
         SIX_BC76B("6bc76b"),
 
+        @SerializedName("76787a")
         SEVENTY_SIX_787A("76787a"),
 
+        @SerializedName("792ec0")
         SEVENTY_NINE_2EC0("792ec0"),
 
+        @SerializedName("7a6c4f")
         SEVEN_A6C4F("7a6c4f"),
 
+        @SerializedName("7ececf")
         SEVEN_ECECF("7ececf"),
 
+        @SerializedName("9e8d6b")
         NINE_E8D6B("9e8d6b"),
 
+        @SerializedName("a162de")
         A162DE("a162de"),
 
+        @SerializedName("aaaeb3")
         AAAEB3("aaaeb3"),
 
+        @SerializedName("bbaa84")
         BBAA84("bbaa84"),
 
+        @SerializedName("e64646")
         E64646("e64646"),
 
+        @SerializedName("ff5c5c")
         FF5C5C("ff5c5c"),
 
+        @SerializedName("ffa000")
         FFA000("ffa000"),
 
+        @SerializedName("ffc107")
         FFC107("ffc107");
-
-        class Serializer : JsonSerializer<Color>, JsonDeserializer<Color> {
-            override fun serialize(
-                src: Color?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Color {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

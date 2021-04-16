@@ -32,33 +32,33 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param cityId City ID
- * @param cityName City name
- * @param company Company name
- * @param countryId Country ID
- * @param from From year
- * @param groupId Community ID
- * @param id Career ID
- * @param position Position
- * @param until Till year
+ * @param cityId - City ID
+ * @param cityName - City name
+ * @param company - Company name
+ * @param countryId - Country ID
+ * @param from - From year
+ * @param groupId - Community ID
+ * @param id - Career ID
+ * @param position - Position
+ * @param until - Till year
  */
 data class UsersCareer(
-    @SerializedName(value="city_id")
+    @SerializedName("city_id")
     val cityId: Int? = null,
-    @SerializedName(value="city_name")
+    @SerializedName("city_name")
     val cityName: String? = null,
-    @SerializedName(value="company")
+    @SerializedName("company")
     val company: String? = null,
-    @SerializedName(value="country_id")
+    @SerializedName("country_id")
     val countryId: Int? = null,
-    @SerializedName(value="from")
+    @SerializedName("from")
     val from: Int? = null,
-    @SerializedName(value="group_id")
+    @SerializedName("group_id")
     val groupId: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="position")
+    @SerializedName("position")
     val position: String? = null,
-    @SerializedName(value="until")
+    @SerializedName("until")
     val until: Int? = null
 )

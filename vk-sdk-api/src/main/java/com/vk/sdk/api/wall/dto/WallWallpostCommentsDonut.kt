@@ -30,9 +30,9 @@ package com.vk.sdk.api.wall.dto
 import com.google.gson.annotations.SerializedName
 
 /**
- * @param placeholder no description
+ * @param placeholder
  */
 data class WallWallpostCommentsDonut(
-    @SerializedName(value="placeholder")
+    @SerializedName("placeholder")
     val placeholder: WallWallpostCommentsDonutPlaceholder? = null
 )

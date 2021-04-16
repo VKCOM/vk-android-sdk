@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count no description
- * @param memberIds no description
+ * @param count
+ * @param memberIds
  */
 data class MessagesOutReadBy(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="member_ids")
+    @SerializedName("member_ids")
     val memberIds: List<Int>? = null
 )

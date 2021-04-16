@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param text Link text
- * @param url Link URL
+ * @param text - Link text
+ * @param url - Link URL
  */
 data class StoriesStoryLink(
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String
 )

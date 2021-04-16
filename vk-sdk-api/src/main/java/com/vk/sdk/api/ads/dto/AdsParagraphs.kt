@@ -31,9 +31,9 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param paragraph Rules paragraph
+ * @param paragraph - Rules paragraph
  */
 data class AdsParagraphs(
-    @SerializedName(value="paragraph")
+    @SerializedName("paragraph")
     val paragraph: String? = null
 )

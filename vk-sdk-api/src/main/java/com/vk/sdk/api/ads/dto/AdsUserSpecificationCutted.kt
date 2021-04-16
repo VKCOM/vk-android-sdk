@@ -32,18 +32,18 @@ import kotlin.Boolean
 import kotlin.Int
 
 /**
- * @param userId no description
- * @param role no description
- * @param clientId no description
- * @param viewBudget no description
+ * @param userId
+ * @param role
+ * @param clientId
+ * @param viewBudget
  */
 data class AdsUserSpecificationCutted(
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int,
-    @SerializedName(value="role")
+    @SerializedName("role")
     val role: AdsAccessRolePublic,
-    @SerializedName(value="client_id")
+    @SerializedName("client_id")
     val clientId: Int? = null,
-    @SerializedName(value="view_budget")
+    @SerializedName("view_budget")
     val viewBudget: Boolean? = null
 )

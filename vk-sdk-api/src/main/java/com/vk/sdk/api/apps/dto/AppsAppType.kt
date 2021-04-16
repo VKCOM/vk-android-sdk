@@ -28,14 +28,11 @@
 package com.vk.sdk.api.apps.dto
 
 import com.google.gson.annotations.SerializedName
+import kotlin.String
 
-enum class AppsAppType {
-    @SerializedName(value="vk_app")
-    VK_APP,
-
-    @SerializedName(value="community_app")
-    COMMUNITY_APP,
-
-    @SerializedName(value="html5_game")
-    HTML5_GAME
+enum class AppsAppType(
+    val value: String
+) {
+    @SerializedName("mini_app")
+    MINI_APP("mini_app");
 }

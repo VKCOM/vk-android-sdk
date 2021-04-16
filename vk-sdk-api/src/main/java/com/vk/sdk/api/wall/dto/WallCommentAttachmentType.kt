@@ -27,57 +27,39 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class WallCommentAttachmentType(
     val value: String
 ) {
+    @SerializedName("photo")
     PHOTO("photo"),
 
+    @SerializedName("audio")
     AUDIO("audio"),
 
+    @SerializedName("video")
     VIDEO("video"),
 
+    @SerializedName("doc")
     DOC("doc"),
 
+    @SerializedName("link")
     LINK("link"),
 
+    @SerializedName("note")
     NOTE("note"),
 
+    @SerializedName("page")
     PAGE("page"),
 
+    @SerializedName("market_market_album")
     MARKET_MARKET_ALBUM("market_market_album"),
 
+    @SerializedName("market")
     MARKET("market"),
 
+    @SerializedName("sticker")
     STICKER("sticker");
-
-    class Serializer : JsonSerializer<WallCommentAttachmentType>,
-            JsonDeserializer<WallCommentAttachmentType> {
-        override fun serialize(
-            src: WallCommentAttachmentType?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): WallCommentAttachmentType {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

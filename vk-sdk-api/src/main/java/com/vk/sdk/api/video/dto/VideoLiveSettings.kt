@@ -32,15 +32,16 @@ import com.vk.sdk.api.base.dto.BaseBoolInt
 import kotlin.Int
 
 /**
- * @param canRewind If user car rewind live or not
- * @param isEndless If live is endless or not
- * @param maxDuration Max possible time for rewind
+ * Video live settings
+ * @param canRewind - If user car rewind live or not
+ * @param isEndless - If live is endless or not
+ * @param maxDuration - Max possible time for rewind
  */
 data class VideoLiveSettings(
-    @SerializedName(value="can_rewind")
+    @SerializedName("can_rewind")
     val canRewind: BaseBoolInt? = null,
-    @SerializedName(value="is_endless")
+    @SerializedName("is_endless")
     val isEndless: BaseBoolInt? = null,
-    @SerializedName(value="max_duration")
+    @SerializedName("max_duration")
     val maxDuration: Int? = null
 )

@@ -32,39 +32,39 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param viewsAdsTimes1 no description
- * @param viewsAdsTimes2 no description
- * @param viewsAdsTimes3 no description
- * @param viewsAdsTimes4 no description
- * @param viewsAdsTimes5 no description
- * @param viewsAdsTimes6 no description
- * @param viewsAdsTimes7 no description
- * @param viewsAdsTimes8 no description
- * @param viewsAdsTimes9 no description
- * @param viewsAdsTimes10 no description
- * @param viewsAdsTimes11Plus no description
+ * @param viewsAdsTimes1
+ * @param viewsAdsTimes2
+ * @param viewsAdsTimes3
+ * @param viewsAdsTimes4
+ * @param viewsAdsTimes5
+ * @param viewsAdsTimes6
+ * @param viewsAdsTimes7
+ * @param viewsAdsTimes8
+ * @param viewsAdsTimes9
+ * @param viewsAdsTimes10
+ * @param viewsAdsTimes11Plus
  */
 data class AdsStatsViewsTimes(
-    @SerializedName(value="views_ads_times_1")
+    @SerializedName("views_ads_times_1")
     val viewsAdsTimes1: Int? = null,
-    @SerializedName(value="views_ads_times_2")
+    @SerializedName("views_ads_times_2")
     val viewsAdsTimes2: Int? = null,
-    @SerializedName(value="views_ads_times_3")
+    @SerializedName("views_ads_times_3")
     val viewsAdsTimes3: Int? = null,
-    @SerializedName(value="views_ads_times_4")
+    @SerializedName("views_ads_times_4")
     val viewsAdsTimes4: Int? = null,
-    @SerializedName(value="views_ads_times_5")
+    @SerializedName("views_ads_times_5")
     val viewsAdsTimes5: String? = null,
-    @SerializedName(value="views_ads_times_6")
+    @SerializedName("views_ads_times_6")
     val viewsAdsTimes6: Int? = null,
-    @SerializedName(value="views_ads_times_7")
+    @SerializedName("views_ads_times_7")
     val viewsAdsTimes7: Int? = null,
-    @SerializedName(value="views_ads_times_8")
+    @SerializedName("views_ads_times_8")
     val viewsAdsTimes8: Int? = null,
-    @SerializedName(value="views_ads_times_9")
+    @SerializedName("views_ads_times_9")
     val viewsAdsTimes9: Int? = null,
-    @SerializedName(value="views_ads_times_10")
+    @SerializedName("views_ads_times_10")
     val viewsAdsTimes10: Int? = null,
-    @SerializedName(value="views_ads_times_11_plus")
+    @SerializedName("views_ads_times_11_plus")
     val viewsAdsTimes11Plus: Int? = null
 )

@@ -31,18 +31,18 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param userId User ID
- * @param level Level
- * @param points Points number
- * @param score Score number
+ * @param userId - User ID
+ * @param level - Level
+ * @param points - Points number
+ * @param score - Score number
  */
 data class AppsLeaderboard(
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int,
-    @SerializedName(value="level")
+    @SerializedName("level")
     val level: Int? = null,
-    @SerializedName(value="points")
+    @SerializedName("points")
     val points: Int? = null,
-    @SerializedName(value="score")
+    @SerializedName("score")
     val score: Int? = null
 )

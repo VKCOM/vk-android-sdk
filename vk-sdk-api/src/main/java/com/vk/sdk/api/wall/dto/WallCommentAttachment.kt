@@ -39,39 +39,39 @@ import com.vk.sdk.api.photos.dto.PhotosPhoto
 import com.vk.sdk.api.video.dto.VideoVideo
 
 /**
- * @param type no description
- * @param audio no description
- * @param doc no description
- * @param link no description
- * @param market no description
- * @param marketMarketAlbum no description
- * @param note no description
- * @param page no description
- * @param photo no description
- * @param sticker no description
- * @param video no description
+ * @param type
+ * @param audio
+ * @param doc
+ * @param link
+ * @param market
+ * @param marketMarketAlbum
+ * @param note
+ * @param page
+ * @param photo
+ * @param sticker
+ * @param video
  */
 data class WallCommentAttachment(
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: WallCommentAttachmentType,
-    @SerializedName(value="audio")
+    @SerializedName("audio")
     val audio: AudioAudio? = null,
-    @SerializedName(value="doc")
+    @SerializedName("doc")
     val doc: DocsDoc? = null,
-    @SerializedName(value="link")
+    @SerializedName("link")
     val link: BaseLink? = null,
-    @SerializedName(value="market")
+    @SerializedName("market")
     val market: MarketMarketItem? = null,
-    @SerializedName(value="market_market_album")
+    @SerializedName("market_market_album")
     val marketMarketAlbum: MarketMarketAlbum? = null,
-    @SerializedName(value="note")
+    @SerializedName("note")
     val note: WallAttachedNote? = null,
-    @SerializedName(value="page")
+    @SerializedName("page")
     val page: PagesWikipageFull? = null,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: PhotosPhoto? = null,
-    @SerializedName(value="sticker")
+    @SerializedName("sticker")
     val sticker: BaseSticker? = null,
-    @SerializedName(value="video")
+    @SerializedName("video")
     val video: VideoVideo? = null
 )

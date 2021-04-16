@@ -34,39 +34,39 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param date Date when the message has been sent in Unixtime
- * @param fromId Message author's ID
- * @param id Message ID
- * @param peerId Peer ID
- * @param text Message text
- * @param attachments no description
- * @param conversationMessageId Unique auto-incremented number for all messages with this peer
- * @param fwdMessages Forwarded messages
- * @param geo no description
- * @param replyMessage no description
- * @param keyboard no description
+ * @param date - Date when the message has been sent in Unixtime
+ * @param fromId - Message author's ID
+ * @param id - Message ID
+ * @param peerId - Peer ID
+ * @param text - Message text
+ * @param attachments
+ * @param conversationMessageId - Unique auto-incremented number for all messages with this peer
+ * @param fwdMessages - Forwarded messages
+ * @param geo
+ * @param replyMessage
+ * @param keyboard
  */
 data class MessagesPinnedMessage(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="peer_id")
+    @SerializedName("peer_id")
     val peerId: Int,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="attachments")
+    @SerializedName("attachments")
     val attachments: List<MessagesMessageAttachment>? = null,
-    @SerializedName(value="conversation_message_id")
+    @SerializedName("conversation_message_id")
     val conversationMessageId: Int? = null,
-    @SerializedName(value="fwd_messages")
+    @SerializedName("fwd_messages")
     val fwdMessages: List<MessagesForeignMessage>? = null,
-    @SerializedName(value="geo")
+    @SerializedName("geo")
     val geo: BaseGeo? = null,
-    @SerializedName(value="reply_message")
+    @SerializedName("reply_message")
     val replyMessage: MessagesForeignMessage? = null,
-    @SerializedName(value="keyboard")
+    @SerializedName("keyboard")
     val keyboard: MessagesKeyboard? = null
 )

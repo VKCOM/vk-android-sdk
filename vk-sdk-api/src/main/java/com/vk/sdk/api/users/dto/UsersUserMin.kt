@@ -33,27 +33,27 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param firstName User first name
- * @param id User ID
- * @param lastName User last name
- * @param deactivated Returns if a profile is deleted or blocked
- * @param hidden Returns if a profile is hidden.
- * @param canAccessClosed no description
- * @param isClosed no description
+ * @param firstName - User first name
+ * @param id - User ID
+ * @param lastName - User last name
+ * @param deactivated - Returns if a profile is deleted or blocked
+ * @param hidden - Returns if a profile is hidden.
+ * @param canAccessClosed
+ * @param isClosed
  */
 data class UsersUserMin(
-    @SerializedName(value="first_name")
+    @SerializedName("first_name")
     val firstName: String,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="last_name")
+    @SerializedName("last_name")
     val lastName: String,
-    @SerializedName(value="deactivated")
+    @SerializedName("deactivated")
     val deactivated: String? = null,
-    @SerializedName(value="hidden")
+    @SerializedName("hidden")
     val hidden: Int? = null,
-    @SerializedName(value="can_access_closed")
+    @SerializedName("can_access_closed")
     val canAccessClosed: Boolean? = null,
-    @SerializedName(value="is_closed")
+    @SerializedName("is_closed")
     val isClosed: Boolean? = null
 )

@@ -31,27 +31,33 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param external URL of the external player
- * @param mp4240 URL of the mpeg4 file with 240p quality
- * @param mp4360 URL of the mpeg4 file with 360p quality
- * @param mp4480 URL of the mpeg4 file with 480p quality
- * @param mp4720 URL of the mpeg4 file with 720p quality
- * @param mp41080 URL of the mpeg4 file with 1080p quality
- * @param flv320 URL of the flv file with 320p quality
+ * @param external - URL of the external player
+ * @param mp4240 - URL of the mpeg4 file with 240p quality
+ * @param mp4360 - URL of the mpeg4 file with 360p quality
+ * @param mp4480 - URL of the mpeg4 file with 480p quality
+ * @param mp4720 - URL of the mpeg4 file with 720p quality
+ * @param mp41080 - URL of the mpeg4 file with 1080p quality
+ * @param mp41440 - URL of the mpeg4 file with 2K quality
+ * @param mp42160 - URL of the mpeg4 file with 4K quality
+ * @param flv320 - URL of the flv file with 320p quality
  */
 data class VideoVideoFiles(
-    @SerializedName(value="external")
+    @SerializedName("external")
     val external: String? = null,
-    @SerializedName(value="mp4_240")
+    @SerializedName("mp4_240")
     val mp4240: String? = null,
-    @SerializedName(value="mp4_360")
+    @SerializedName("mp4_360")
     val mp4360: String? = null,
-    @SerializedName(value="mp4_480")
+    @SerializedName("mp4_480")
     val mp4480: String? = null,
-    @SerializedName(value="mp4_720")
+    @SerializedName("mp4_720")
     val mp4720: String? = null,
-    @SerializedName(value="mp4_1080")
+    @SerializedName("mp4_1080")
     val mp41080: String? = null,
-    @SerializedName(value="flv_320")
+    @SerializedName("mp4_1440")
+    val mp41440: String? = null,
+    @SerializedName("mp4_2160")
+    val mp42160: String? = null,
+    @SerializedName("flv_320")
     val flv320: String? = null
 )

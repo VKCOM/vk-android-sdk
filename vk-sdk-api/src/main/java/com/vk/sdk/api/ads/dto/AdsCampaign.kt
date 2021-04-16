@@ -32,30 +32,42 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param allLimit Campaign's total limit, rubles
- * @param dayLimit Campaign's day limit, rubles
- * @param id Campaign ID
- * @param name Campaign title
- * @param startTime Campaign start time, as Unixtime
- * @param status no description
- * @param stopTime Campaign stop time, as Unixtime
- * @param type no description
+ * @param allLimit - Campaign's total limit, rubles
+ * @param dayLimit - Campaign's day limit, rubles
+ * @param id - Campaign ID
+ * @param name - Campaign title
+ * @param startTime - Campaign start time, as Unixtime
+ * @param status
+ * @param stopTime - Campaign stop time, as Unixtime
+ * @param type
+ * @param adsCount - Amount of active ads in campaign
+ * @param createTime - Campaign create time, as Unixtime
+ * @param updateTime - Campaign update time, as Unixtime
+ * @param viewsLimit - Limit of views per user per campaign
  */
 data class AdsCampaign(
-    @SerializedName(value="all_limit")
+    @SerializedName("all_limit")
     val allLimit: String,
-    @SerializedName(value="day_limit")
+    @SerializedName("day_limit")
     val dayLimit: String,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="start_time")
+    @SerializedName("start_time")
     val startTime: Int,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: AdsCampaignStatus,
-    @SerializedName(value="stop_time")
+    @SerializedName("stop_time")
     val stopTime: Int,
-    @SerializedName(value="type")
-    val type: AdsCampaignType
+    @SerializedName("type")
+    val type: AdsCampaignType,
+    @SerializedName("ads_count")
+    val adsCount: Int? = null,
+    @SerializedName("create_time")
+    val createTime: Int? = null,
+    @SerializedName("update_time")
+    val updateTime: Int? = null,
+    @SerializedName("views_limit")
+    val viewsLimit: Int? = null
 )

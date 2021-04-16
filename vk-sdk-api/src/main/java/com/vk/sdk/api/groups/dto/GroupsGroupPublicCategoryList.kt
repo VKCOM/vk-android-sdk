@@ -33,15 +33,15 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param id no description
- * @param name no description
- * @param subcategories no description
+ * @param id
+ * @param name
+ * @param subcategories
  */
 data class GroupsGroupPublicCategoryList(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null,
-    @SerializedName(value="subcategories")
+    @SerializedName("subcategories")
     val subcategories: List<GroupsGroupCategoryType>? = null
 )

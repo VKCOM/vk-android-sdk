@@ -31,18 +31,18 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Float
 
 /**
- * @param x Coordinate X of the left upper corner
- * @param y Coordinate Y of the left upper corner
- * @param x2 Coordinate X of the right lower corner
- * @param y2 Coordinate Y of the right lower corner
+ * @param x - Coordinate X of the left upper corner
+ * @param y - Coordinate Y of the left upper corner
+ * @param x2 - Coordinate X of the right lower corner
+ * @param y2 - Coordinate Y of the right lower corner
  */
 data class BaseCropPhotoRect(
-    @SerializedName(value="x")
+    @SerializedName("x")
     val x: Float,
-    @SerializedName(value="y")
+    @SerializedName("y")
     val y: Float,
-    @SerializedName(value="x2")
+    @SerializedName("x2")
     val x2: Float,
-    @SerializedName(value="y2")
+    @SerializedName("y2")
     val y2: Float
 )

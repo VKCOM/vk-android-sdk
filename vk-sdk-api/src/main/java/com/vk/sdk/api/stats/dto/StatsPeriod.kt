@@ -28,24 +28,24 @@
 package com.vk.sdk.api.stats.dto
 
 import com.google.gson.annotations.SerializedName
-import kotlin.String
+import kotlin.Any
 
 /**
- * @param activity no description
- * @param periodFrom Day (YYYY-MM-DD)
- * @param periodTo Day (YYYY-MM-DD)
- * @param reach no description
- * @param visitors no description
+ * @param activity
+ * @param periodFrom
+ * @param periodTo
+ * @param reach
+ * @param visitors
  */
 data class StatsPeriod(
-    @SerializedName(value="activity")
+    @SerializedName("activity")
     val activity: StatsActivity? = null,
-    @SerializedName(value="period_from")
-    val periodFrom: String? = null,
-    @SerializedName(value="period_to")
-    val periodTo: String? = null,
-    @SerializedName(value="reach")
-    val reach: StatsReach? = null,
-    @SerializedName(value="visitors")
-    val visitors: StatsViews? = null
+    @SerializedName("period_from")
+    val periodFrom: Any? = null,
+    @SerializedName("period_to")
+    val periodTo: Any? = null,
+    @SerializedName("reach")
+    val reach: Any? = null,
+    @SerializedName("visitors")
+    val visitors: Any? = null
 )

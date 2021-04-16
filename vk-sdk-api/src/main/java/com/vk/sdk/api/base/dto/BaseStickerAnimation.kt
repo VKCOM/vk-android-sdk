@@ -27,51 +27,26 @@
 // *********************************************************************
 package com.vk.sdk.api.base.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param type Type of animation script
- * @param url URL of animation script
+ * @param type - Type of animation script
+ * @param url - URL of animation script
  */
 data class BaseStickerAnimation(
-    @SerializedName(value="type")
-    val type: Type? = null,
-    @SerializedName(value="url")
+    @SerializedName("type")
+    val type: BaseStickerAnimation.Type? = null,
+    @SerializedName("url")
     val url: String? = null
 ) {
     enum class Type(
         val value: String
     ) {
+        @SerializedName("light")
         LIGHT("light"),
 
+        @SerializedName("dark")
         DARK("dark");
-
-        class Serializer : JsonSerializer<Type>, JsonDeserializer<Type> {
-            override fun serialize(
-                src: Type?,
-                typeOfSrc: java.lang.reflect.Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: java.lang.reflect.Type?,
-                context: JsonDeserializationContext?
-            ): Type {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

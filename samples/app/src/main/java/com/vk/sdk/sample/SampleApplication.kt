@@ -26,6 +26,7 @@ package com.vk.sdk.sample
 
 import android.app.Application
 import com.vk.api.sdk.VK
+import com.vk.api.sdk.VKApiConfig
 import com.vk.api.sdk.VKTokenExpiredHandler
 
 class SampleApplication: Application() {

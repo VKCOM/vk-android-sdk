@@ -32,12 +32,12 @@ import kotlin.Float
 import kotlin.String
 
 /**
- * @param color Hex color code without #
- * @param position Point position
+ * @param color - Hex color code without #
+ * @param position - Point position
  */
 data class BaseGradientPoint(
-    @SerializedName(value="color")
+    @SerializedName("color")
     val color: String,
-    @SerializedName(value="position")
+    @SerializedName("position")
     val position: Float
 )

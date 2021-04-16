@@ -33,33 +33,33 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param comments Comments number
- * @param created Date when the topic has been created in Unixtime
- * @param createdBy Creator ID
- * @param id Topic ID
- * @param isClosed Information whether the topic is closed
- * @param isFixed Information whether the topic is fixed
- * @param title Topic title
- * @param updated Date when the topic has been updated in Unixtime
- * @param updatedBy ID of user who updated the topic
+ * @param comments - Comments number
+ * @param created - Date when the topic has been created in Unixtime
+ * @param createdBy - Creator ID
+ * @param id - Topic ID
+ * @param isClosed - Information whether the topic is closed
+ * @param isFixed - Information whether the topic is fixed
+ * @param title - Topic title
+ * @param updated - Date when the topic has been updated in Unixtime
+ * @param updatedBy - ID of user who updated the topic
  */
 data class BoardTopic(
-    @SerializedName(value="comments")
+    @SerializedName("comments")
     val comments: Int? = null,
-    @SerializedName(value="created")
+    @SerializedName("created")
     val created: Int? = null,
-    @SerializedName(value="created_by")
+    @SerializedName("created_by")
     val createdBy: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="is_closed")
+    @SerializedName("is_closed")
     val isClosed: BaseBoolInt? = null,
-    @SerializedName(value="is_fixed")
+    @SerializedName("is_fixed")
     val isFixed: BaseBoolInt? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="updated")
+    @SerializedName("updated")
     val updated: Int? = null,
-    @SerializedName(value="updated_by")
+    @SerializedName("updated_by")
     val updatedBy: Int? = null
 )

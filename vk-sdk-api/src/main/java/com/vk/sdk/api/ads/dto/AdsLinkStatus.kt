@@ -31,15 +31,15 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param description Reject reason
- * @param redirectUrl URL
- * @param status Link status
+ * @param description - Reject reason
+ * @param redirectUrl - URL
+ * @param status - Link status
  */
 data class AdsLinkStatus(
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String,
-    @SerializedName(value="redirect_url")
+    @SerializedName("redirect_url")
     val redirectUrl: String,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: String
 )

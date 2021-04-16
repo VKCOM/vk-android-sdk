@@ -37,57 +37,57 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param attachments no description
- * @param comments no description
- * @param copyOwnerId ID of the source post owner
- * @param copyPostId ID of the source post
- * @param date Date of publishing in Unixtime
- * @param fromId Post author ID
- * @param geo no description
- * @param id Post ID
- * @param isFavorite Information whether the post in favorites list
- * @param likes no description
- * @param postId wall post ID (if comment)
- * @param postSource no description
- * @param postType no description
- * @param reposts no description
- * @param signerId Post signer ID
- * @param text Post text
- * @param toId Wall owner's ID
+ * @param attachments
+ * @param comments
+ * @param copyOwnerId - ID of the source post owner
+ * @param copyPostId - ID of the source post
+ * @param date - Date of publishing in Unixtime
+ * @param fromId - Post author ID
+ * @param geo
+ * @param id - Post ID
+ * @param isFavorite - Information whether the post in favorites list
+ * @param likes
+ * @param postId - wall post ID (if comment)
+ * @param postSource
+ * @param postType
+ * @param reposts
+ * @param signerId - Post signer ID
+ * @param text - Post text
+ * @param toId - Wall owner's ID
  */
 data class WallWallpostToId(
-    @SerializedName(value="attachments")
+    @SerializedName("attachments")
     val attachments: List<WallWallpostAttachment>? = null,
-    @SerializedName(value="comments")
+    @SerializedName("comments")
     val comments: BaseCommentsInfo? = null,
-    @SerializedName(value="copy_owner_id")
+    @SerializedName("copy_owner_id")
     val copyOwnerId: Int? = null,
-    @SerializedName(value="copy_post_id")
+    @SerializedName("copy_post_id")
     val copyPostId: Int? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int? = null,
-    @SerializedName(value="geo")
+    @SerializedName("geo")
     val geo: WallGeo? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="is_favorite")
+    @SerializedName("is_favorite")
     val isFavorite: Boolean? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseLikesInfo? = null,
-    @SerializedName(value="post_id")
+    @SerializedName("post_id")
     val postId: Int? = null,
-    @SerializedName(value="post_source")
+    @SerializedName("post_source")
     val postSource: WallPostSource? = null,
-    @SerializedName(value="post_type")
+    @SerializedName("post_type")
     val postType: WallPostType? = null,
-    @SerializedName(value="reposts")
+    @SerializedName("reposts")
     val reposts: BaseRepostsInfo? = null,
-    @SerializedName(value="signer_id")
+    @SerializedName("signer_id")
     val signerId: Int? = null,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String? = null,
-    @SerializedName(value="to_id")
+    @SerializedName("to_id")
     val toId: Int? = null
 )

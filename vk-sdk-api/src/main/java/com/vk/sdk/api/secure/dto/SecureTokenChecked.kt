@@ -31,18 +31,18 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param date Date when access_token has been generated in Unixtime
- * @param expire Date when access_token will expire in Unixtime
- * @param success Returns if successfully processed
- * @param userId User ID
+ * @param date - Date when access_token has been generated in Unixtime
+ * @param expire - Date when access_token will expire in Unixtime
+ * @param success - Returns if successfully processed
+ * @param userId - User ID
  */
 data class SecureTokenChecked(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="expire")
+    @SerializedName("expire")
     val expire: Int? = null,
-    @SerializedName(value="success")
+    @SerializedName("success")
     val success: Int? = null,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int? = null
 )

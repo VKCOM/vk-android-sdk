@@ -27,87 +27,84 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class NewsfeedNewsfeedItemType(
     val value: String
 ) {
+    @SerializedName("post")
     POST("post"),
 
+    @SerializedName("photo")
     PHOTO("photo"),
 
+    @SerializedName("photo_tag")
     PHOTO_TAG("photo_tag"),
 
+    @SerializedName("wall_photo")
     WALL_PHOTO("wall_photo"),
 
+    @SerializedName("friend")
     FRIEND("friend"),
 
+    @SerializedName("audio")
     AUDIO("audio"),
 
+    @SerializedName("video")
     VIDEO("video"),
 
+    @SerializedName("topic")
     TOPIC("topic"),
 
+    @SerializedName("digest")
     DIGEST("digest"),
 
+    @SerializedName("stories")
     STORIES("stories"),
 
+    @SerializedName("clips")
     CLIPS("clips"),
 
+    @SerializedName("promo_button")
     PROMO_BUTTON("promo_button"),
 
+    @SerializedName("recommended_groups")
     RECOMMENDED_GROUPS("recommended_groups"),
 
+    @SerializedName("tags_suggestions")
     TAGS_SUGGESTIONS("tags_suggestions"),
 
+    @SerializedName("games_carousel")
     GAMES_CAROUSEL("games_carousel"),
 
+    @SerializedName("feedback_poll")
     FEEDBACK_POLL("feedback_poll"),
 
+    @SerializedName("animated_block")
     ANIMATED_BLOCK("animated_block"),
 
+    @SerializedName("textlive")
     TEXTLIVE("textlive"),
 
+    @SerializedName("videos_promo")
     VIDEOS_PROMO("videos_promo"),
 
+    @SerializedName("recommended_artists")
     RECOMMENDED_ARTISTS("recommended_artists"),
 
+    @SerializedName("recommended_playlists")
     RECOMMENDED_PLAYLISTS("recommended_playlists"),
 
+    @SerializedName("clips_autoplay")
     CLIPS_AUTOPLAY("clips_autoplay"),
 
+    @SerializedName("recommended_game")
     RECOMMENDED_GAME("recommended_game"),
 
+    @SerializedName("clips_challenges")
     CLIPS_CHALLENGES("clips_challenges"),
 
+    @SerializedName("expert_card")
     EXPERT_CARD("expert_card");
-
-    class Serializer : JsonSerializer<NewsfeedNewsfeedItemType>,
-            JsonDeserializer<NewsfeedNewsfeedItemType> {
-        override fun serialize(
-            src: NewsfeedNewsfeedItemType?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): NewsfeedNewsfeedItemType {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

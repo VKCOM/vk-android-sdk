@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param coordinates no description
- * @param place no description
- * @param showmap Information whether a map is showed
- * @param type Place type
+ * @param coordinates
+ * @param place
+ * @param showmap - Information whether a map is showed
+ * @param type - Place type
  */
 data class BaseGeo(
-    @SerializedName(value="coordinates")
+    @SerializedName("coordinates")
     val coordinates: BaseGeoCoordinates? = null,
-    @SerializedName(value="place")
+    @SerializedName("place")
     val place: BasePlace? = null,
-    @SerializedName(value="showmap")
+    @SerializedName("showmap")
     val showmap: Int? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: String? = null
 )

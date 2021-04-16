@@ -32,15 +32,15 @@ import kotlin.Float
 import kotlin.String
 
 /**
- * @param clicksRate Clicks rate
- * @param impressionsRate Impressions rate
- * @param value Age interval
+ * @param clicksRate - Clicks rate
+ * @param impressionsRate - Impressions rate
+ * @param value - Age interval
  */
 data class AdsStatsAge(
-    @SerializedName(value="clicks_rate")
+    @SerializedName("clicks_rate")
     val clicksRate: Float? = null,
-    @SerializedName(value="impressions_rate")
+    @SerializedName("impressions_rate")
     val impressionsRate: Float? = null,
-    @SerializedName(value="value")
+    @SerializedName("value")
     val value: String? = null
 )

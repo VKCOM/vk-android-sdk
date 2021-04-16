@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Tag id
- * @param name Tag name
+ * @param id - Tag id
+ * @param name - Tag name
  */
 data class FaveTag(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null
 )

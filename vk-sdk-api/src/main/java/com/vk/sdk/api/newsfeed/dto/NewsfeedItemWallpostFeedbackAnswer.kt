@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param title no description
- * @param id no description
+ * @param title
+ * @param id
  */
 data class NewsfeedItemWallpostFeedbackAnswer(
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: String
 )

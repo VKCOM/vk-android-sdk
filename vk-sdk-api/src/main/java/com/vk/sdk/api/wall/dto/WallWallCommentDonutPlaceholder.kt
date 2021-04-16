@@ -31,9 +31,9 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param text no description
+ * @param text
  */
 data class WallWallCommentDonutPlaceholder(
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String
 )

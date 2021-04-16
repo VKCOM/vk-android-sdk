@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param width no description
- * @param height no description
- * @param url no description
+ * @param width
+ * @param height
+ * @param url
  */
 data class NewsfeedItemPromoButtonImage(
-    @SerializedName(value="width")
+    @SerializedName("width")
     val width: Int? = null,
-    @SerializedName(value="height")
+    @SerializedName("height")
     val height: Int? = null,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null
 )

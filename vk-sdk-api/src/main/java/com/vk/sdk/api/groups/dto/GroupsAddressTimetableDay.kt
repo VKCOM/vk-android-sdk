@@ -31,18 +31,19 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param closeTime Close time in minutes
- * @param openTime Open time in minutes
- * @param breakCloseTime Close time of the break in minutes
- * @param breakOpenTime Start time of the break in minutes
+ * Timetable for one day
+ * @param closeTime - Close time in minutes
+ * @param openTime - Open time in minutes
+ * @param breakCloseTime - Close time of the break in minutes
+ * @param breakOpenTime - Start time of the break in minutes
  */
 data class GroupsAddressTimetableDay(
-    @SerializedName(value="close_time")
+    @SerializedName("close_time")
     val closeTime: Int,
-    @SerializedName(value="open_time")
+    @SerializedName("open_time")
     val openTime: Int,
-    @SerializedName(value="break_close_time")
+    @SerializedName("break_close_time")
     val breakCloseTime: Int? = null,
-    @SerializedName(value="break_open_time")
+    @SerializedName("break_open_time")
     val breakOpenTime: Int? = null
 )

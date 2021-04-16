@@ -34,54 +34,54 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param ownerId no description
- * @param title Chat title
- * @param state no description
- * @param activeIds no description
- * @param acl no description
- * @param membersCount no description
- * @param friendsCount no description
- * @param pinnedMessage no description
- * @param photo no description
- * @param adminIds Ids of chat admins
- * @param isGroupChannel no description
- * @param permissions no description
- * @param isDisappearing no description
- * @param theme no description
- * @param disappearingChatLink no description
- * @param isService no description
+ * @param ownerId
+ * @param title - Chat title
+ * @param state
+ * @param activeIds
+ * @param acl
+ * @param membersCount
+ * @param friendsCount
+ * @param pinnedMessage
+ * @param photo
+ * @param adminIds - Ids of chat admins
+ * @param isGroupChannel
+ * @param permissions
+ * @param isDisappearing
+ * @param theme
+ * @param disappearingChatLink
+ * @param isService
  */
 data class MessagesChatSettings(
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="state")
+    @SerializedName("state")
     val state: MessagesChatSettingsState,
-    @SerializedName(value="active_ids")
+    @SerializedName("active_ids")
     val activeIds: List<Int>,
-    @SerializedName(value="acl")
+    @SerializedName("acl")
     val acl: MessagesChatSettingsAcl,
-    @SerializedName(value="members_count")
+    @SerializedName("members_count")
     val membersCount: Int? = null,
-    @SerializedName(value="friends_count")
+    @SerializedName("friends_count")
     val friendsCount: Int? = null,
-    @SerializedName(value="pinned_message")
+    @SerializedName("pinned_message")
     val pinnedMessage: MessagesPinnedMessage? = null,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: MessagesChatSettingsPhoto? = null,
-    @SerializedName(value="admin_ids")
+    @SerializedName("admin_ids")
     val adminIds: List<Int>? = null,
-    @SerializedName(value="is_group_channel")
+    @SerializedName("is_group_channel")
     val isGroupChannel: Boolean? = null,
-    @SerializedName(value="permissions")
+    @SerializedName("permissions")
     val permissions: MessagesChatSettingsPermissions? = null,
-    @SerializedName(value="is_disappearing")
+    @SerializedName("is_disappearing")
     val isDisappearing: Boolean? = null,
-    @SerializedName(value="theme")
+    @SerializedName("theme")
     val theme: String? = null,
-    @SerializedName(value="disappearing_chat_link")
+    @SerializedName("disappearing_chat_link")
     val disappearingChatLink: String? = null,
-    @SerializedName(value="is_service")
+    @SerializedName("is_service")
     val isService: Boolean? = null
 )

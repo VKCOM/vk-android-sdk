@@ -33,18 +33,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param clicksRate Clicks rate
- * @param impressionsRate Impressions rate
- * @param name City name
- * @param value City ID
+ * @param clicksRate - Clicks rate
+ * @param impressionsRate - Impressions rate
+ * @param name - City name
+ * @param value - City ID
  */
 data class AdsStatsCities(
-    @SerializedName(value="clicks_rate")
+    @SerializedName("clicks_rate")
     val clicksRate: Float? = null,
-    @SerializedName(value="impressions_rate")
+    @SerializedName("impressions_rate")
     val impressionsRate: Float? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null,
-    @SerializedName(value="value")
+    @SerializedName("value")
     val value: Int? = null
 )

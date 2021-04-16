@@ -35,105 +35,105 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param authorUrl Application author's URL
- * @param banner1120 URL of the app banner with 1120 px in width
- * @param banner560 URL of the app banner with 560 px in width
- * @param icon16 URL of the app icon with 16 px in width
- * @param isNew Is new flag
- * @param pushEnabled Is push enabled
- * @param screenOrientation Screen orientation
- * @param friends no description
- * @param catalogPosition Catalog position
- * @param description Application description
- * @param genre Genre name
- * @param genreId Genre ID
- * @param international Information whether the application is multilanguage
- * @param isInCatalog Information whether application is in mobile catalog
- * @param leaderboardType no description
- * @param membersCount Members number
- * @param platformId Application ID in store
- * @param publishedDate Date when the application has been published in Unixtime
- * @param screenName Screen name
- * @param section Application section name
- * @param type no description
- * @param id Application ID
- * @param title Application title
- * @param authorOwnerId Application author's ID
- * @param isInstalled Is application installed
- * @param icon139 URL of the app icon with 139 px in width
- * @param icon150 URL of the app icon with 150 px in width
- * @param icon278 URL of the app icon with 278 px in width
- * @param icon576 URL of the app icon with 576 px in width
- * @param backgroundLoaderColor Hex color code without hash sign
- * @param loaderIcon SVG data
- * @param icon75 URL of the app icon with 75 px in width
- * @param openInExternalBrowser Open in external browser
+ * @param authorUrl - Application author's URL
+ * @param banner1120 - URL of the app banner with 1120 px in width
+ * @param banner560 - URL of the app banner with 560 px in width
+ * @param icon16 - URL of the app icon with 16 px in width
+ * @param isNew - Is new flag
+ * @param pushEnabled - Is push enabled
+ * @param screenOrientation - Screen orientation
+ * @param friends
+ * @param catalogPosition - Catalog position
+ * @param description - Application description
+ * @param genre - Genre name
+ * @param genreId - Genre ID
+ * @param international - Information whether the application is multilanguage
+ * @param isInCatalog - Information whether application is in mobile catalog
+ * @param leaderboardType
+ * @param membersCount - Members number
+ * @param platformId - Application ID in store
+ * @param publishedDate - Date when the application has been published in Unixtime
+ * @param screenName - Screen name
+ * @param section - Application section name
+ * @param type
+ * @param id - Application ID
+ * @param title - Application title
+ * @param authorOwnerId - Application author's ID
+ * @param isInstalled - Is application installed
+ * @param icon139 - URL of the app icon with 139 px in width
+ * @param icon150 - URL of the app icon with 150 px in width
+ * @param icon278 - URL of the app icon with 278 px in width
+ * @param icon576 - URL of the app icon with 576 px in width
+ * @param backgroundLoaderColor - Hex color code without hash sign
+ * @param loaderIcon - SVG data
+ * @param icon75 - URL of the app icon with 75 px in width
+ * @param openInExternalBrowser - Open in external browser
  */
 data class AppsApp(
-    @SerializedName(value="author_url")
+    @SerializedName("author_url")
     val authorUrl: String? = null,
-    @SerializedName(value="banner_1120")
+    @SerializedName("banner_1120")
     val banner1120: String? = null,
-    @SerializedName(value="banner_560")
+    @SerializedName("banner_560")
     val banner560: String? = null,
-    @SerializedName(value="icon_16")
+    @SerializedName("icon_16")
     val icon16: String? = null,
-    @SerializedName(value="is_new")
+    @SerializedName("is_new")
     val isNew: BaseBoolInt? = null,
-    @SerializedName(value="push_enabled")
+    @SerializedName("push_enabled")
     val pushEnabled: BaseBoolInt? = null,
-    @SerializedName(value="screen_orientation")
+    @SerializedName("screen_orientation")
     val screenOrientation: Int? = null,
-    @SerializedName(value="friends")
+    @SerializedName("friends")
     val friends: List<Int>? = null,
-    @SerializedName(value="catalog_position")
+    @SerializedName("catalog_position")
     val catalogPosition: Int? = null,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null,
-    @SerializedName(value="genre")
+    @SerializedName("genre")
     val genre: String? = null,
-    @SerializedName(value="genre_id")
+    @SerializedName("genre_id")
     val genreId: Int? = null,
-    @SerializedName(value="international")
+    @SerializedName("international")
     val international: Boolean? = null,
-    @SerializedName(value="is_in_catalog")
+    @SerializedName("is_in_catalog")
     val isInCatalog: Int? = null,
-    @SerializedName(value="leaderboard_type")
+    @SerializedName("leaderboard_type")
     val leaderboardType: AppsAppLeaderboardType? = null,
-    @SerializedName(value="members_count")
+    @SerializedName("members_count")
     val membersCount: Int? = null,
-    @SerializedName(value="platform_id")
+    @SerializedName("platform_id")
     val platformId: String? = null,
-    @SerializedName(value="published_date")
+    @SerializedName("published_date")
     val publishedDate: Int? = null,
-    @SerializedName(value="screen_name")
+    @SerializedName("screen_name")
     val screenName: String? = null,
-    @SerializedName(value="section")
+    @SerializedName("section")
     val section: String? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: AppsAppType? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="author_owner_id")
+    @SerializedName("author_owner_id")
     val authorOwnerId: Int? = null,
-    @SerializedName(value="is_installed")
+    @SerializedName("is_installed")
     val isInstalled: Boolean? = null,
-    @SerializedName(value="icon_139")
+    @SerializedName("icon_139")
     val icon139: String? = null,
-    @SerializedName(value="icon_150")
+    @SerializedName("icon_150")
     val icon150: String? = null,
-    @SerializedName(value="icon_278")
+    @SerializedName("icon_278")
     val icon278: String? = null,
-    @SerializedName(value="icon_576")
+    @SerializedName("icon_576")
     val icon576: String? = null,
-    @SerializedName(value="background_loader_color")
+    @SerializedName("background_loader_color")
     val backgroundLoaderColor: String? = null,
-    @SerializedName(value="loader_icon")
+    @SerializedName("loader_icon")
     val loaderIcon: String? = null,
-    @SerializedName(value="icon_75")
+    @SerializedName("icon_75")
     val icon75: String? = null,
-    @SerializedName(value="open_in_external_browser")
+    @SerializedName("open_in_external_browser")
     val openInExternalBrowser: Boolean? = null
 )

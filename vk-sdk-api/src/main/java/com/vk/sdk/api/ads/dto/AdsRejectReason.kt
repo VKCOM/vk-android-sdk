@@ -32,12 +32,12 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param comment Comment text
- * @param rules no description
+ * @param comment - Comment text
+ * @param rules
  */
 data class AdsRejectReason(
-    @SerializedName(value="comment")
+    @SerializedName("comment")
     val comment: String? = null,
-    @SerializedName(value="rules")
+    @SerializedName("rules")
     val rules: List<AdsRules>? = null
 )

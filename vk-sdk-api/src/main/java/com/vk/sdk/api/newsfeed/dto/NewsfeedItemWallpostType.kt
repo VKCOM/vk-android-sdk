@@ -27,43 +27,18 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class NewsfeedItemWallpostType(
     val value: String
 ) {
+    @SerializedName("post")
     POST("post"),
 
+    @SerializedName("copy")
     COPY("copy"),
 
+    @SerializedName("reply")
     REPLY("reply");
-
-    class Serializer : JsonSerializer<NewsfeedItemWallpostType>,
-            JsonDeserializer<NewsfeedItemWallpostType> {
-        override fun serialize(
-            src: NewsfeedItemWallpostType?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): NewsfeedItemWallpostType {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

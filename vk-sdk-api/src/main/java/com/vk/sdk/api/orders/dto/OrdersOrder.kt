@@ -32,36 +32,36 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param amount Amount
- * @param appOrderId App order ID
- * @param cancelTransactionId Cancel transaction ID
- * @param date Date of creation in Unixtime
- * @param id Order ID
- * @param item Order item
- * @param receiverId Receiver ID
- * @param status Order status
- * @param transactionId Transaction ID
- * @param userId User ID
+ * @param amount - Amount
+ * @param appOrderId - App order ID
+ * @param cancelTransactionId - Cancel transaction ID
+ * @param date - Date of creation in Unixtime
+ * @param id - Order ID
+ * @param item - Order item
+ * @param receiverId - Receiver ID
+ * @param status - Order status
+ * @param transactionId - Transaction ID
+ * @param userId - User ID
  */
 data class OrdersOrder(
-    @SerializedName(value="amount")
+    @SerializedName("amount")
     val amount: Int? = null,
-    @SerializedName(value="app_order_id")
+    @SerializedName("app_order_id")
     val appOrderId: Int? = null,
-    @SerializedName(value="cancel_transaction_id")
+    @SerializedName("cancel_transaction_id")
     val cancelTransactionId: Int? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="item")
+    @SerializedName("item")
     val item: String? = null,
-    @SerializedName(value="receiver_id")
+    @SerializedName("receiver_id")
     val receiverId: Int? = null,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: String? = null,
-    @SerializedName(value="transaction_id")
+    @SerializedName("transaction_id")
     val transactionId: Int? = null,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int? = null
 )

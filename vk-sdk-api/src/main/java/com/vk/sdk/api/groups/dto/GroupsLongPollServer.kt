@@ -31,15 +31,15 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param key Long Poll key
- * @param server Long Poll server address
- * @param ts Number of the last event
+ * @param key - Long Poll key
+ * @param server - Long Poll server address
+ * @param ts - Number of the last event
  */
 data class GroupsLongPollServer(
-    @SerializedName(value="key")
+    @SerializedName("key")
     val key: String,
-    @SerializedName(value="server")
+    @SerializedName("server")
     val server: String,
-    @SerializedName(value="ts")
+    @SerializedName("ts")
     val ts: String
 )

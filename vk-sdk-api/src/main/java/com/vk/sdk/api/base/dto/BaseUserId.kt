@@ -31,9 +31,9 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param userId User ID
+ * @param userId - User ID
  */
 data class BaseUserId(
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int? = null
 )

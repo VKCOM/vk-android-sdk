@@ -27,42 +27,18 @@
 // *********************************************************************
 package com.vk.sdk.api.calls.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class CallsEndState(
     val value: String
 ) {
+    @SerializedName("canceled_by_initiator")
     CANCELED_BY_INITIATOR("canceled_by_initiator"),
 
+    @SerializedName("canceled_by_receiver")
     CANCELED_BY_RECEIVER("canceled_by_receiver"),
 
+    @SerializedName("reached")
     REACHED("reached");
-
-    class Serializer : JsonSerializer<CallsEndState>, JsonDeserializer<CallsEndState> {
-        override fun serialize(
-            src: CallsEndState?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): CallsEndState {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

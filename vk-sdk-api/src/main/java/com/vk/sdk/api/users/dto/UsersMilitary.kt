@@ -32,24 +32,24 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param countryId Country ID
- * @param unit Unit name
- * @param unitId Unit ID
- * @param from From year
- * @param id Military ID
- * @param until Till year
+ * @param countryId - Country ID
+ * @param unit - Unit name
+ * @param unitId - Unit ID
+ * @param from - From year
+ * @param id - Military ID
+ * @param until - Till year
  */
 data class UsersMilitary(
-    @SerializedName(value="country_id")
+    @SerializedName("country_id")
     val countryId: Int,
-    @SerializedName(value="unit")
+    @SerializedName("unit")
     val unit: String,
-    @SerializedName(value="unit_id")
+    @SerializedName("unit_id")
     val unitId: Int,
-    @SerializedName(value="from")
+    @SerializedName("from")
     val from: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="until")
+    @SerializedName("until")
     val until: Int? = null
 )

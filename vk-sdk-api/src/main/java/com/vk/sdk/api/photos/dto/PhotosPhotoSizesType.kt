@@ -27,87 +27,84 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class PhotosPhotoSizesType(
     val value: String
 ) {
+    @SerializedName("s")
     S("s"),
 
+    @SerializedName("m")
     M("m"),
 
+    @SerializedName("x")
     X("x"),
 
+    @SerializedName("o")
     O("o"),
 
+    @SerializedName("p")
     P("p"),
 
+    @SerializedName("q")
     Q("q"),
 
+    @SerializedName("r")
     R("r"),
 
+    @SerializedName("k")
     K("k"),
 
+    @SerializedName("l")
     L("l"),
 
+    @SerializedName("y")
     Y("y"),
 
+    @SerializedName("z")
     Z("z"),
 
+    @SerializedName("c")
     C("c"),
 
+    @SerializedName("w")
     W("w"),
 
+    @SerializedName("a")
     A("a"),
 
+    @SerializedName("b")
     B("b"),
 
+    @SerializedName("e")
     E("e"),
 
+    @SerializedName("i")
     I("i"),
 
+    @SerializedName("d")
     D("d"),
 
+    @SerializedName("j")
     J("j"),
 
+    @SerializedName("temp")
     TEMP("temp"),
 
+    @SerializedName("h")
     H("h"),
 
+    @SerializedName("g")
     G("g"),
 
+    @SerializedName("n")
     N("n"),
 
+    @SerializedName("f")
     F("f"),
 
+    @SerializedName("max")
     MAX("max");
-
-    class Serializer : JsonSerializer<PhotosPhotoSizesType>, JsonDeserializer<PhotosPhotoSizesType>
-            {
-        override fun serialize(
-            src: PhotosPhotoSizesType?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): PhotosPhotoSizesType {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

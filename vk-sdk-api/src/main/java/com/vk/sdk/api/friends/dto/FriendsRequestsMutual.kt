@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count Total mutual friends number
- * @param users no description
+ * @param count - Total mutual friends number
+ * @param users
  */
 data class FriendsRequestsMutual(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="users")
+    @SerializedName("users")
     val users: List<Int>? = null
 )

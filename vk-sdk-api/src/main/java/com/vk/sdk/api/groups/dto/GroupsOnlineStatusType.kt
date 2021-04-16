@@ -27,43 +27,18 @@
 // *********************************************************************
 package com.vk.sdk.api.groups.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class GroupsOnlineStatusType(
     val value: String
 ) {
+    @SerializedName("none")
     NONE("none"),
 
+    @SerializedName("online")
     ONLINE("online"),
 
+    @SerializedName("answer_mark")
     ANSWER_MARK("answer_mark");
-
-    class Serializer : JsonSerializer<GroupsOnlineStatusType>,
-            JsonDeserializer<GroupsOnlineStatusType> {
-        override fun serialize(
-            src: GroupsOnlineStatusType?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): GroupsOnlineStatusType {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

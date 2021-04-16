@@ -27,53 +27,33 @@
 // *********************************************************************
 package com.vk.sdk.api.account.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class AccountNameRequestStatus(
     val value: String
 ) {
+    @SerializedName("success")
     SUCCESS("success"),
 
+    @SerializedName("processing")
     PROCESSING("processing"),
 
+    @SerializedName("declined")
     DECLINED("declined"),
 
+    @SerializedName("was_accepted")
     WAS_ACCEPTED("was_accepted"),
 
+    @SerializedName("was_declined")
     WAS_DECLINED("was_declined"),
 
+    @SerializedName("declined_with_link")
     DECLINED_WITH_LINK("declined_with_link"),
 
+    @SerializedName("response")
     RESPONSE("response"),
 
+    @SerializedName("response_with_link")
     RESPONSE_WITH_LINK("response_with_link");
-
-    class Serializer : JsonSerializer<AccountNameRequestStatus>,
-            JsonDeserializer<AccountNameRequestStatus> {
-        override fun serialize(
-            src: AccountNameRequestStatus?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): AccountNameRequestStatus {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

@@ -27,66 +27,54 @@
 // *********************************************************************
 package com.vk.sdk.api.addresses.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class AddressesFields(
     val value: String
 ) {
+    @SerializedName("id")
     ID("id"),
 
+    @SerializedName("title")
     TITLE("title"),
 
+    @SerializedName("address")
     ADDRESS("address"),
 
+    @SerializedName("additional_address")
     ADDITIONAL_ADDRESS("additional_address"),
 
+    @SerializedName("country_id")
     COUNTRY_ID("country_id"),
 
+    @SerializedName("city_id")
     CITY_ID("city_id"),
 
+    @SerializedName("metro_station_id")
     METRO_STATION_ID("metro_station_id"),
 
+    @SerializedName("latitude")
     LATITUDE("latitude"),
 
+    @SerializedName("longitude")
     LONGITUDE("longitude"),
 
+    @SerializedName("distance")
     DISTANCE("distance"),
 
+    @SerializedName("work_info_status")
     WORK_INFO_STATUS("work_info_status"),
 
+    @SerializedName("timetable")
     TIMETABLE("timetable"),
 
+    @SerializedName("phone")
     PHONE("phone"),
 
+    @SerializedName("time_offset")
     TIME_OFFSET("time_offset"),
 
+    @SerializedName("has_vk_taxi")
     HAS_VK_TAXI("has_vk_taxi");
-
-    class Serializer : JsonSerializer<AddressesFields>, JsonDeserializer<AddressesFields> {
-        override fun serialize(
-            src: AddressesFields?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): AddressesFields {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

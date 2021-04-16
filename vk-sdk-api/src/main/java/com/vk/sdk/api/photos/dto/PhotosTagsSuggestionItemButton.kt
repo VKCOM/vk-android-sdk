@@ -27,84 +27,42 @@
 // *********************************************************************
 package com.vk.sdk.api.photos.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.String
 
 /**
- * @param title no description
- * @param action no description
- * @param style no description
+ * @param title
+ * @param action
+ * @param style
  */
 data class PhotosTagsSuggestionItemButton(
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="action")
-    val action: Action? = null,
-    @SerializedName(value="style")
-    val style: Style? = null
+    @SerializedName("action")
+    val action: PhotosTagsSuggestionItemButton.Action? = null,
+    @SerializedName("style")
+    val style: PhotosTagsSuggestionItemButton.Style? = null
 ) {
     enum class Action(
         val value: String
     ) {
+        @SerializedName("confirm")
         CONFIRM("confirm"),
 
+        @SerializedName("decline")
         DECLINE("decline"),
 
+        @SerializedName("show_tags")
         SHOW_TAGS("show_tags");
-
-        class Serializer : JsonSerializer<Action>, JsonDeserializer<Action> {
-            override fun serialize(
-                src: Action?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Action {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 
     enum class Style(
         val value: String
     ) {
+        @SerializedName("primary")
         PRIMARY("primary"),
 
+        @SerializedName("secondary")
         SECONDARY("secondary");
-
-        class Serializer : JsonSerializer<Style>, JsonDeserializer<Style> {
-            override fun serialize(
-                src: Style?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Style {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

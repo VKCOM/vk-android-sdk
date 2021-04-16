@@ -28,8 +28,11 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import kotlin.String
 
-enum class MessagesMessageAttachmentType {
-    @SerializedName(value="call")
-    CALL
+enum class MessagesMessageAttachmentType(
+    val value: String
+) {
+    @SerializedName("mini_app")
+    MINI_APP("mini_app");
 }

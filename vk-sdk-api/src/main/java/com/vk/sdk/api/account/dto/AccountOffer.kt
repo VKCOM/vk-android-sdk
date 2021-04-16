@@ -27,86 +27,61 @@
 // *********************************************************************
 package com.vk.sdk.api.account.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.Float
 import kotlin.Int
 import kotlin.String
 
 /**
- * @param description Offer description
- * @param id Offer ID
- * @param img URL of the preview image
- * @param instruction Instruction how to process the offer
- * @param instructionHtml Instruction how to process the offer (HTML format)
- * @param price Offer price
- * @param shortDescription Offer short description
- * @param tag Offer tag
- * @param title Offer title
- * @param currencyAmount Currency amount
- * @param linkId Link id
- * @param linkType Link type
+ * @param description - Offer description
+ * @param id - Offer ID
+ * @param img - URL of the preview image
+ * @param instruction - Instruction how to process the offer
+ * @param instructionHtml - Instruction how to process the offer (HTML format)
+ * @param price - Offer price
+ * @param shortDescription - Offer short description
+ * @param tag - Offer tag
+ * @param title - Offer title
+ * @param currencyAmount - Currency amount
+ * @param linkId - Link id
+ * @param linkType - Link type
  */
 data class AccountOffer(
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="img")
+    @SerializedName("img")
     val img: String? = null,
-    @SerializedName(value="instruction")
+    @SerializedName("instruction")
     val instruction: String? = null,
-    @SerializedName(value="instruction_html")
+    @SerializedName("instruction_html")
     val instructionHtml: String? = null,
-    @SerializedName(value="price")
+    @SerializedName("price")
     val price: Int? = null,
-    @SerializedName(value="short_description")
+    @SerializedName("short_description")
     val shortDescription: String? = null,
-    @SerializedName(value="tag")
+    @SerializedName("tag")
     val tag: String? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="currency_amount")
+    @SerializedName("currency_amount")
     val currencyAmount: Float? = null,
-    @SerializedName(value="link_id")
+    @SerializedName("link_id")
     val linkId: Int? = null,
-    @SerializedName(value="link_type")
-    val linkType: LinkType? = null
+    @SerializedName("link_type")
+    val linkType: AccountOffer.LinkType? = null
 ) {
     enum class LinkType(
         val value: String
     ) {
+        @SerializedName("profile")
         PROFILE("profile"),
 
+        @SerializedName("group")
         GROUP("group"),
 
+        @SerializedName("app")
         APP("app");
-
-        class Serializer : JsonSerializer<LinkType>, JsonDeserializer<LinkType> {
-            override fun serialize(
-                src: LinkType?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): LinkType {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

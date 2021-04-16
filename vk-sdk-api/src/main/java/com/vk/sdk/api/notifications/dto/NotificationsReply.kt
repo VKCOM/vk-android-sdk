@@ -31,15 +31,15 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param date Date when the reply has been created in Unixtime
- * @param id Reply ID
- * @param text Reply text
+ * @param date - Date when the reply has been created in Unixtime
+ * @param id - Reply ID
+ * @param text - Reply text
  */
 data class NotificationsReply(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: Int? = null
 )

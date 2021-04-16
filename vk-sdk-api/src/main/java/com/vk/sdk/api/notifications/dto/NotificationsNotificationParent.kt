@@ -27,15 +27,9 @@
 // *********************************************************************
 package com.vk.sdk.api.notifications.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
+import com.vk.sdk.api.audio.dto.AudioArtist
+import com.vk.sdk.api.audio.dto.AudioGenre
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseLikes
 import com.vk.sdk.api.base.dto.BasePropertyExists
@@ -59,300 +53,285 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param attachments no description
- * @param comments Number of comments
- * @param copyOwnerId ID of the source post owner
- * @param copyPostId ID of the source post
- * @param date Date when the comment has been added in Unixtime
- * @param fromId Post author ID
- * @param geo no description
- * @param id Comment ID
- * @param isFavorite Whether video is added to bookmarks
- * @param likes no description
- * @param postId Post ID
- * @param postSource no description
- * @param postType no description
- * @param reposts no description
- * @param signerId Post signer ID
- * @param text Comment text
- * @param toId Wall owner's ID
- * @param accessKey Video access key
- * @param albumId Album ID
- * @param height Video height
- * @param images no description
- * @param lat Latitude
- * @param long Longitude
- * @param ownerId Author ID
- * @param photo256 URL of image with 2560 px width
- * @param canComment Information whether current user can comment the video
- * @param place no description
- * @param sizes no description
- * @param userId Id of the user who uploaded the video if it was uploaded to a group by member
- * @param width Video width
- * @param hasTags Whether photo has attached tag links
- * @param restrictions no description
- * @param created Date when the topic has been created in Unixtime
- * @param createdBy Creator ID
- * @param isClosed Information whether the topic is closed
- * @param isFixed Information whether the topic is fixed
- * @param title Video title
- * @param updated Date when the topic has been updated in Unixtime
- * @param updatedBy ID of user who updated the topic
- * @param addingDate Date when the video has been added in Unixtime
- * @param canEdit Information whether current user can edit the video
- * @param canLike Information whether current user can like the video
- * @param canRepost Information whether current user can repost the video
- * @param canSubscribe Information whether current user can subscribe to author of the video
- * @param canAddToFaves Information whether current user can add the video to favourites
- * @param canAdd Information whether current user can add the video
- * @param canAttachLink Information whether current user can attach action button to the video
- * @param isPrivate 1 if video is private
- * @param description Video description
- * @param duration Video duration in seconds
- * @param image no description
- * @param firstFrame no description
- * @param player Video embed URL
- * @param processing Returns if the video is processing
- * @param converting 1 if  video is being converted
- * @param restriction no description
- * @param added 1 if video is added to user's albums
- * @param isSubscribed 1 if user is subscribed to author of the video
- * @param trackCode no description
- * @param repeat Information whether the video is repeated
- * @param type no description
- * @param views Number of views
- * @param localViews If video is external, number of views on vk
- * @param contentRestricted Restriction code
- * @param contentRestrictedMessage Restriction text
- * @param balance Live donations balance
- * @param liveStatus Live stream status
- * @param live 1 if the video is a live stream
- * @param upcoming 1 if the video is an upcoming stream
- * @param liveStartTime Date in Unixtime when the live stream is scheduled to start by the author
- * @param liveNotify Whether current user is subscribed to the upcoming live stream notification (if
- * not subscribed to the author)
- * @param spectators Number of spectators of the stream
- * @param platform External platform
- * @param photo no description
- * @param post no description
- * @param topic no description
- * @param video no description
+ * @param attachments
+ * @param comments - Number of comments
+ * @param copyOwnerId - ID of the source post owner
+ * @param copyPostId - ID of the source post
+ * @param date - Date when the comment has been added in Unixtime
+ * @param fromId - Post author ID
+ * @param geo
+ * @param id - Comment ID
+ * @param isFavorite - Whether video is added to bookmarks
+ * @param likes
+ * @param postId - Post ID
+ * @param postSource
+ * @param postType
+ * @param reposts
+ * @param signerId - Post signer ID
+ * @param text - Comment text
+ * @param toId - Wall owner's ID
+ * @param accessKey - Video access key
+ * @param height - Video height
+ * @param images
+ * @param lat - Latitude
+ * @param long - Longitude
+ * @param ownerId - Author ID
+ * @param photo256 - URL of image with 2560 px width
+ * @param canComment - Information whether current user can comment the video
+ * @param place
+ * @param sizes
+ * @param userId - Id of the user who uploaded the video if it was uploaded to a group by member
+ * @param width - Video width
+ * @param hasTags - Whether photo has attached tag links
+ * @param restrictions
+ * @param created - Date when the topic has been created in Unixtime
+ * @param createdBy - Creator ID
+ * @param isClosed - Information whether the topic is closed
+ * @param isFixed - Information whether the topic is fixed
+ * @param title - Video title
+ * @param updated - Date when the topic has been updated in Unixtime
+ * @param updatedBy - ID of user who updated the topic
+ * @param addingDate - Date when the video has been added in Unixtime
+ * @param canEdit - Information whether current user can edit the video
+ * @param canLike - Information whether current user can like the video
+ * @param canRepost - Information whether current user can repost the video
+ * @param canSubscribe - Information whether current user can subscribe to author of the video
+ * @param canAddToFaves - Information whether current user can add the video to favourites
+ * @param canAdd - Information whether current user can add the video
+ * @param canAttachLink - Information whether current user can attach action button to the video
+ * @param isPrivate - 1 if video is private
+ * @param description - Video description
+ * @param duration - Video duration in seconds
+ * @param image
+ * @param firstFrame
+ * @param player - Video embed URL
+ * @param processing - Returns if the video is processing
+ * @param converting - 1 if  video is being converted
+ * @param restriction
+ * @param added - 1 if video is added to user's albums
+ * @param isSubscribed - 1 if user is subscribed to author of the video
+ * @param trackCode
+ * @param repeat - Information whether the video is repeated
+ * @param type
+ * @param views - Number of views
+ * @param localViews - If video is external, number of views on vk
+ * @param contentRestricted - Restriction code
+ * @param contentRestrictedMessage - Restriction text
+ * @param balance - Live donations balance
+ * @param liveStatus - Live stream status
+ * @param live - 1 if the video is a live stream
+ * @param upcoming - 1 if the video is an upcoming stream
+ * @param liveStartTime - Date in Unixtime when the live stream is scheduled to start by the author
+ * @param liveNotify - Whether current user is subscribed to the upcoming live stream notification
+ * (if not subscribed to the author)
+ * @param spectators - Number of spectators of the stream
+ * @param platform - External platform
+ * @param isExplicit - 1 if music clip and has explicit content
+ * @param mainArtists - Main music artists of the clip
+ * @param featuredArtists - Featured music artists of the clip
+ * @param subtitle - Music clip subtitle
+ * @param releaseDate - Release date of the music clip
+ * @param genres - Music genres of the clip
+ * @param photo
+ * @param post
+ * @param topic
+ * @param video
  */
 data class NotificationsNotificationParent(
-    @SerializedName(value="attachments")
+    @SerializedName("attachments")
     val attachments: List<WallWallpostAttachment>? = null,
-    @SerializedName(value="comments")
+    @SerializedName("comments")
     val comments: Int? = null,
-    @SerializedName(value="copy_owner_id")
+    @SerializedName("copy_owner_id")
     val copyOwnerId: Int? = null,
-    @SerializedName(value="copy_post_id")
+    @SerializedName("copy_post_id")
     val copyPostId: Int? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int? = null,
-    @SerializedName(value="geo")
+    @SerializedName("geo")
     val geo: WallGeo? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="is_favorite")
+    @SerializedName("is_favorite")
     val isFavorite: Boolean? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseLikes? = null,
-    @SerializedName(value="post_id")
+    @SerializedName("post_id")
     val postId: Int? = null,
-    @SerializedName(value="post_source")
+    @SerializedName("post_source")
     val postSource: WallPostSource? = null,
-    @SerializedName(value="post_type")
+    @SerializedName("post_type")
     val postType: WallPostType? = null,
-    @SerializedName(value="reposts")
+    @SerializedName("reposts")
     val reposts: BaseRepostsInfo? = null,
-    @SerializedName(value="signer_id")
+    @SerializedName("signer_id")
     val signerId: Int? = null,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String? = null,
-    @SerializedName(value="to_id")
+    @SerializedName("to_id")
     val toId: Int? = null,
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="album_id")
-    val albumId: Int? = null,
-    @SerializedName(value="height")
+    @SerializedName("height")
     val height: Int? = null,
-    @SerializedName(value="images")
+    @SerializedName("images")
     val images: List<PhotosImage>? = null,
-    @SerializedName(value="lat")
+    @SerializedName("lat")
     val lat: Float? = null,
-    @SerializedName(value="long")
+    @SerializedName("long")
     val long: Float? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="photo_256")
+    @SerializedName("photo_256")
     val photo256: String? = null,
-    @SerializedName(value="can_comment")
+    @SerializedName("can_comment")
     val canComment: BaseBoolInt? = null,
-    @SerializedName(value="place")
+    @SerializedName("place")
     val place: String? = null,
-    @SerializedName(value="sizes")
+    @SerializedName("sizes")
     val sizes: List<PhotosPhotoSizes>? = null,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int? = null,
-    @SerializedName(value="width")
+    @SerializedName("width")
     val width: Int? = null,
-    @SerializedName(value="has_tags")
+    @SerializedName("has_tags")
     val hasTags: Boolean? = null,
-    @SerializedName(value="restrictions")
+    @SerializedName("restrictions")
     val restrictions: MediaRestriction? = null,
-    @SerializedName(value="created")
+    @SerializedName("created")
     val created: Int? = null,
-    @SerializedName(value="created_by")
+    @SerializedName("created_by")
     val createdBy: Int? = null,
-    @SerializedName(value="is_closed")
+    @SerializedName("is_closed")
     val isClosed: BaseBoolInt? = null,
-    @SerializedName(value="is_fixed")
+    @SerializedName("is_fixed")
     val isFixed: BaseBoolInt? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="updated")
+    @SerializedName("updated")
     val updated: Int? = null,
-    @SerializedName(value="updated_by")
+    @SerializedName("updated_by")
     val updatedBy: Int? = null,
-    @SerializedName(value="adding_date")
+    @SerializedName("adding_date")
     val addingDate: Int? = null,
-    @SerializedName(value="can_edit")
+    @SerializedName("can_edit")
     val canEdit: BaseBoolInt? = null,
-    @SerializedName(value="can_like")
+    @SerializedName("can_like")
     val canLike: BaseBoolInt? = null,
-    @SerializedName(value="can_repost")
+    @SerializedName("can_repost")
     val canRepost: BaseBoolInt? = null,
-    @SerializedName(value="can_subscribe")
+    @SerializedName("can_subscribe")
     val canSubscribe: BaseBoolInt? = null,
-    @SerializedName(value="can_add_to_faves")
+    @SerializedName("can_add_to_faves")
     val canAddToFaves: BaseBoolInt? = null,
-    @SerializedName(value="can_add")
+    @SerializedName("can_add")
     val canAdd: BaseBoolInt? = null,
-    @SerializedName(value="can_attach_link")
+    @SerializedName("can_attach_link")
     val canAttachLink: BaseBoolInt? = null,
-    @SerializedName(value="is_private")
+    @SerializedName("is_private")
     val isPrivate: BaseBoolInt? = null,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null,
-    @SerializedName(value="duration")
+    @SerializedName("duration")
     val duration: Int? = null,
-    @SerializedName(value="image")
+    @SerializedName("image")
     val image: List<VideoVideoImage>? = null,
-    @SerializedName(value="first_frame")
+    @SerializedName("first_frame")
     val firstFrame: List<VideoVideoImage>? = null,
-    @SerializedName(value="player")
+    @SerializedName("player")
     val player: String? = null,
-    @SerializedName(value="processing")
+    @SerializedName("processing")
     val processing: BasePropertyExists? = null,
-    @SerializedName(value="converting")
+    @SerializedName("converting")
     val converting: BaseBoolInt? = null,
-    @SerializedName(value="restriction")
+    @SerializedName("restriction")
     val restriction: MediaRestriction? = null,
-    @SerializedName(value="added")
+    @SerializedName("added")
     val added: BaseBoolInt? = null,
-    @SerializedName(value="is_subscribed")
+    @SerializedName("is_subscribed")
     val isSubscribed: BaseBoolInt? = null,
-    @SerializedName(value="track_code")
+    @SerializedName("track_code")
     val trackCode: String? = null,
-    @SerializedName(value="repeat")
+    @SerializedName("repeat")
     val repeat: BasePropertyExists? = null,
-    @SerializedName(value="type")
-    val type: Type? = null,
-    @SerializedName(value="views")
+    @SerializedName("type")
+    val type: NotificationsNotificationParent.Type? = null,
+    @SerializedName("views")
     val views: Int? = null,
-    @SerializedName(value="local_views")
+    @SerializedName("local_views")
     val localViews: Int? = null,
-    @SerializedName(value="content_restricted")
+    @SerializedName("content_restricted")
     val contentRestricted: Int? = null,
-    @SerializedName(value="content_restricted_message")
+    @SerializedName("content_restricted_message")
     val contentRestrictedMessage: String? = null,
-    @SerializedName(value="balance")
+    @SerializedName("balance")
     val balance: Int? = null,
-    @SerializedName(value="live_status")
-    val liveStatus: LiveStatus? = null,
-    @SerializedName(value="live")
+    @SerializedName("live_status")
+    val liveStatus: NotificationsNotificationParent.LiveStatus? = null,
+    @SerializedName("live")
     val live: BasePropertyExists? = null,
-    @SerializedName(value="upcoming")
+    @SerializedName("upcoming")
     val upcoming: BasePropertyExists? = null,
-    @SerializedName(value="live_start_time")
+    @SerializedName("live_start_time")
     val liveStartTime: Int? = null,
-    @SerializedName(value="live_notify")
+    @SerializedName("live_notify")
     val liveNotify: BaseBoolInt? = null,
-    @SerializedName(value="spectators")
+    @SerializedName("spectators")
     val spectators: Int? = null,
-    @SerializedName(value="platform")
+    @SerializedName("platform")
     val platform: String? = null,
-    @SerializedName(value="photo")
+    @SerializedName("is_explicit")
+    val isExplicit: BaseBoolInt? = null,
+    @SerializedName("main_artists")
+    val mainArtists: List<AudioArtist>? = null,
+    @SerializedName("featured_artists")
+    val featuredArtists: List<AudioArtist>? = null,
+    @SerializedName("subtitle")
+    val subtitle: String? = null,
+    @SerializedName("release_date")
+    val releaseDate: Int? = null,
+    @SerializedName("genres")
+    val genres: List<AudioGenre>? = null,
+    @SerializedName("photo")
     val photo: PhotosPhoto? = null,
-    @SerializedName(value="post")
+    @SerializedName("post")
     val post: WallWallpost? = null,
-    @SerializedName(value="topic")
+    @SerializedName("topic")
     val topic: BoardTopic? = null,
-    @SerializedName(value="video")
+    @SerializedName("video")
     val video: VideoVideo? = null
 ) {
     enum class Type(
         val value: String
     ) {
+        @SerializedName("video")
         VIDEO("video"),
 
+        @SerializedName("music_video")
         MUSIC_VIDEO("music_video"),
 
+        @SerializedName("movie")
         MOVIE("movie");
-
-        class Serializer : JsonSerializer<Type>, JsonDeserializer<Type> {
-            override fun serialize(
-                src: Type?,
-                typeOfSrc: java.lang.reflect.Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: java.lang.reflect.Type?,
-                context: JsonDeserializationContext?
-            ): Type {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 
     enum class LiveStatus(
         val value: String
     ) {
+        @SerializedName("waiting")
         WAITING("waiting"),
 
+        @SerializedName("started")
         STARTED("started"),
 
+        @SerializedName("finished")
         FINISHED("finished"),
 
+        @SerializedName("failed")
         FAILED("failed"),
 
+        @SerializedName("upcoming")
         UPCOMING("upcoming");
-
-        class Serializer : JsonSerializer<LiveStatus>, JsonDeserializer<LiveStatus> {
-            override fun serialize(
-                src: LiveStatus?,
-                typeOfSrc: java.lang.reflect.Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: java.lang.reflect.Type?,
-                context: JsonDeserializationContext?
-            ): LiveStatus {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

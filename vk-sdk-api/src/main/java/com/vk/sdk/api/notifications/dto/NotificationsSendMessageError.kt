@@ -27,57 +27,33 @@
 // *********************************************************************
 package com.vk.sdk.api.notifications.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.Int
 import kotlin.String
 
 /**
- * @param code Error code
- * @param description Error description
+ * @param code - Error code
+ * @param description - Error description
  */
 data class NotificationsSendMessageError(
-    @SerializedName(value="code")
-    val code: Code? = null,
-    @SerializedName(value="description")
+    @SerializedName("code")
+    val code: NotificationsSendMessageError.Code? = null,
+    @SerializedName("description")
     val description: String? = null
 ) {
     enum class Code(
         val value: Int
     ) {
+        @SerializedName("1")
         NOTIFICATIONS_DISABLED(1),
 
+        @SerializedName("2")
         FLOOD_CONTROL_PER_HOUR(2),
 
+        @SerializedName("3")
         FLOOD_CONTROL_PER_DAY(3),
 
+        @SerializedName("4")
         APP_IS_NOT_INSTALLED(4);
-
-        class Serializer : JsonSerializer<Code>, JsonDeserializer<Code> {
-            override fun serialize(
-                src: Code?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Code {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

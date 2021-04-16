@@ -32,22 +32,22 @@ import com.vk.sdk.api.base.dto.BaseBoolInt
 import kotlin.Int
 
 /**
- * @param disabledUntil Time until that notifications are disabled in seconds
- * @param peerId Peer ID
- * @param sound Information whether the sound are enabled
- * @param disabledMentions Information whether the mentions are disabled
- * @param disabledMassMentions Information whether the mass mentions (like '@all', '@online') are
+ * @param disabledUntil - Time until that notifications are disabled in seconds
+ * @param peerId - Peer ID
+ * @param sound - Information whether the sound are enabled
+ * @param disabledMentions - Information whether the mentions are disabled
+ * @param disabledMassMentions - Information whether the mass mentions (like '@all', '@online') are
  * disabled. Can be affected by 'disabled_mentions'
  */
 data class AccountPushConversationsItem(
-    @SerializedName(value="disabled_until")
+    @SerializedName("disabled_until")
     val disabledUntil: Int,
-    @SerializedName(value="peer_id")
+    @SerializedName("peer_id")
     val peerId: Int,
-    @SerializedName(value="sound")
+    @SerializedName("sound")
     val sound: BaseBoolInt,
-    @SerializedName(value="disabled_mentions")
+    @SerializedName("disabled_mentions")
     val disabledMentions: BaseBoolInt? = null,
-    @SerializedName(value="disabled_mass_mentions")
+    @SerializedName("disabled_mass_mentions")
     val disabledMassMentions: BaseBoolInt? = null
 )

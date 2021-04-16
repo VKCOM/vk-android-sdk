@@ -32,21 +32,21 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param cities no description
- * @param countries no description
- * @param sexAge no description
- * @param timestamp Start time
- * @param views Total views number
+ * @param cities
+ * @param countries
+ * @param sexAge
+ * @param timestamp - Start time
+ * @param views - Total views number
  */
 data class UtilsStatsExtended(
-    @SerializedName(value="cities")
+    @SerializedName("cities")
     val cities: List<UtilsStatsCity>? = null,
-    @SerializedName(value="countries")
+    @SerializedName("countries")
     val countries: List<UtilsStatsCountry>? = null,
-    @SerializedName(value="sex_age")
+    @SerializedName("sex_age")
     val sexAge: List<UtilsStatsSexAge>? = null,
-    @SerializedName(value="timestamp")
+    @SerializedName("timestamp")
     val timestamp: Int? = null,
-    @SerializedName(value="views")
+    @SerializedName("views")
     val views: Int? = null
 )

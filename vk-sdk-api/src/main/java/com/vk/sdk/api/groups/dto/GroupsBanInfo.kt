@@ -33,27 +33,27 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param adminId Administrator ID
- * @param comment Comment for a ban
- * @param commentVisible Show comment for user
- * @param isClosed no description
- * @param date Date when user has been added to blacklist in Unixtime
- * @param endDate Date when user will be removed from blacklist in Unixtime
- * @param reason no description
+ * @param adminId - Administrator ID
+ * @param comment - Comment for a ban
+ * @param commentVisible - Show comment for user
+ * @param isClosed
+ * @param date - Date when user has been added to blacklist in Unixtime
+ * @param endDate - Date when user will be removed from blacklist in Unixtime
+ * @param reason
  */
 data class GroupsBanInfo(
-    @SerializedName(value="admin_id")
+    @SerializedName("admin_id")
     val adminId: Int? = null,
-    @SerializedName(value="comment")
+    @SerializedName("comment")
     val comment: String? = null,
-    @SerializedName(value="comment_visible")
+    @SerializedName("comment_visible")
     val commentVisible: Boolean? = null,
-    @SerializedName(value="is_closed")
+    @SerializedName("is_closed")
     val isClosed: Boolean? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="end_date")
+    @SerializedName("end_date")
     val endDate: Int? = null,
-    @SerializedName(value="reason")
+    @SerializedName("reason")
     val reason: GroupsBanInfoReason? = null
 )

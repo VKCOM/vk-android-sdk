@@ -34,39 +34,39 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param date Date when tag has been added in Unixtime
- * @param id Tag ID
- * @param placerId ID of the tag creator
- * @param taggedName Tag description
- * @param userId Tagged user ID
- * @param viewed Information whether the tag is reviewed
- * @param x Coordinate X of the left upper corner
- * @param x2 Coordinate X of the right lower corner
- * @param y Coordinate Y of the left upper corner
- * @param y2 Coordinate Y of the right lower corner
- * @param description Tagged description.
+ * @param date - Date when tag has been added in Unixtime
+ * @param id - Tag ID
+ * @param placerId - ID of the tag creator
+ * @param taggedName - Tag description
+ * @param userId - Tagged user ID
+ * @param viewed - Information whether the tag is reviewed
+ * @param x - Coordinate X of the left upper corner
+ * @param x2 - Coordinate X of the right lower corner
+ * @param y - Coordinate Y of the left upper corner
+ * @param y2 - Coordinate Y of the right lower corner
+ * @param description - Tagged description.
  */
 data class PhotosPhotoTag(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="placer_id")
+    @SerializedName("placer_id")
     val placerId: Int,
-    @SerializedName(value="tagged_name")
+    @SerializedName("tagged_name")
     val taggedName: String,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int,
-    @SerializedName(value="viewed")
+    @SerializedName("viewed")
     val viewed: BaseBoolInt,
-    @SerializedName(value="x")
+    @SerializedName("x")
     val x: Float,
-    @SerializedName(value="x2")
+    @SerializedName("x2")
     val x2: Float,
-    @SerializedName(value="y")
+    @SerializedName("y")
     val y: Float,
-    @SerializedName(value="y2")
+    @SerializedName("y2")
     val y2: Float,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null
 )

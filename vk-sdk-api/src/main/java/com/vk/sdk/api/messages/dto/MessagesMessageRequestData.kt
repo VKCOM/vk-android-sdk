@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param status Status of message request
- * @param inviterId Message request sender id
- * @param requestDate Message request date
+ * @param status - Status of message request
+ * @param inviterId - Message request sender id
+ * @param requestDate - Message request date
  */
 data class MessagesMessageRequestData(
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: String? = null,
-    @SerializedName(value="inviter_id")
+    @SerializedName("inviter_id")
     val inviterId: Int? = null,
-    @SerializedName(value="request_date")
+    @SerializedName("request_date")
     val requestDate: Int? = null
 )

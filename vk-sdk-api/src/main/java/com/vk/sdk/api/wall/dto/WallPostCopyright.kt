@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param link no description
- * @param name no description
- * @param type no description
- * @param id no description
+ * @param link
+ * @param name
+ * @param type
+ * @param id
  */
 data class WallPostCopyright(
-    @SerializedName(value="link")
+    @SerializedName("link")
     val link: String,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: String,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null
 )

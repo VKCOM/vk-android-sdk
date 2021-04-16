@@ -27,14 +27,6 @@
 // *********************************************************************
 package com.vk.sdk.api.stories.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.apps.dto.AppsAppMin
 import com.vk.sdk.api.audio.dto.AudioAudio
@@ -47,214 +39,183 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param clickableArea no description
- * @param id Clickable sticker ID
- * @param type no description
- * @param hashtag no description
- * @param linkObject no description
- * @param mention no description
- * @param tooltipText no description
- * @param ownerId no description
- * @param storyId no description
- * @param question no description
- * @param questionButton no description
- * @param placeId no description
- * @param marketItem no description
- * @param audio no description
- * @param audioStartTime no description
- * @param style no description
- * @param subtype no description
- * @param postOwnerId no description
- * @param postId no description
- * @param poll no description
- * @param color Color, hex format
- * @param stickerId Sticker ID
- * @param stickerPackId Sticker pack ID
- * @param app no description
- * @param appContext Additional context for app sticker
- * @param hasNewInteractions Whether current user has unread interaction with this app
- * @param isBroadcastNotifyAllowed Whether current user allowed broadcast notify from this app
- * @param situationalThemeId no description
- * @param situationalAppUrl no description
+ * @param clickableArea
+ * @param id - Clickable sticker ID
+ * @param type
+ * @param hashtag
+ * @param linkObject
+ * @param mention
+ * @param tooltipText
+ * @param ownerId
+ * @param storyId
+ * @param question
+ * @param questionButton
+ * @param placeId
+ * @param marketItem
+ * @param audio
+ * @param audioStartTime
+ * @param style
+ * @param subtype
+ * @param postOwnerId
+ * @param postId
+ * @param poll
+ * @param color - Color, hex format
+ * @param stickerId - Sticker ID
+ * @param stickerPackId - Sticker pack ID
+ * @param app
+ * @param appContext - Additional context for app sticker
+ * @param hasNewInteractions - Whether current user has unread interaction with this app
+ * @param isBroadcastNotifyAllowed - Whether current user allowed broadcast notify from this app
+ * @param situationalThemeId
+ * @param situationalAppUrl
  */
 data class StoriesClickableSticker(
-    @SerializedName(value="clickable_area")
+    @SerializedName("clickable_area")
     val clickableArea: List<StoriesClickableArea>,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="type")
-    val type: Type,
-    @SerializedName(value="hashtag")
+    @SerializedName("type")
+    val type: StoriesClickableSticker.Type,
+    @SerializedName("hashtag")
     val hashtag: String? = null,
-    @SerializedName(value="link_object")
+    @SerializedName("link_object")
     val linkObject: BaseLink? = null,
-    @SerializedName(value="mention")
+    @SerializedName("mention")
     val mention: String? = null,
-    @SerializedName(value="tooltip_text")
+    @SerializedName("tooltip_text")
     val tooltipText: String? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="story_id")
+    @SerializedName("story_id")
     val storyId: Int? = null,
-    @SerializedName(value="question")
+    @SerializedName("question")
     val question: String? = null,
-    @SerializedName(value="question_button")
+    @SerializedName("question_button")
     val questionButton: String? = null,
-    @SerializedName(value="place_id")
+    @SerializedName("place_id")
     val placeId: Int? = null,
-    @SerializedName(value="market_item")
+    @SerializedName("market_item")
     val marketItem: MarketMarketItem? = null,
-    @SerializedName(value="audio")
+    @SerializedName("audio")
     val audio: AudioAudio? = null,
-    @SerializedName(value="audio_start_time")
+    @SerializedName("audio_start_time")
     val audioStartTime: Int? = null,
-    @SerializedName(value="style")
-    val style: Style? = null,
-    @SerializedName(value="subtype")
-    val subtype: Subtype? = null,
-    @SerializedName(value="post_owner_id")
+    @SerializedName("style")
+    val style: StoriesClickableSticker.Style? = null,
+    @SerializedName("subtype")
+    val subtype: StoriesClickableSticker.Subtype? = null,
+    @SerializedName("post_owner_id")
     val postOwnerId: Int? = null,
-    @SerializedName(value="post_id")
+    @SerializedName("post_id")
     val postId: Int? = null,
-    @SerializedName(value="poll")
+    @SerializedName("poll")
     val poll: PollsPoll? = null,
-    @SerializedName(value="color")
+    @SerializedName("color")
     val color: String? = null,
-    @SerializedName(value="sticker_id")
+    @SerializedName("sticker_id")
     val stickerId: Int? = null,
-    @SerializedName(value="sticker_pack_id")
+    @SerializedName("sticker_pack_id")
     val stickerPackId: Int? = null,
-    @SerializedName(value="app")
+    @SerializedName("app")
     val app: AppsAppMin? = null,
-    @SerializedName(value="app_context")
+    @SerializedName("app_context")
     val appContext: String? = null,
-    @SerializedName(value="has_new_interactions")
+    @SerializedName("has_new_interactions")
     val hasNewInteractions: Boolean? = null,
-    @SerializedName(value="is_broadcast_notify_allowed")
+    @SerializedName("is_broadcast_notify_allowed")
     val isBroadcastNotifyAllowed: Boolean? = null,
-    @SerializedName(value="situational_theme_id")
+    @SerializedName("situational_theme_id")
     val situationalThemeId: Int? = null,
-    @SerializedName(value="situational_app_url")
+    @SerializedName("situational_app_url")
     val situationalAppUrl: String? = null
 ) {
-    enum class Subtype(
+    enum class Type(
         val value: String
     ) {
+        @SerializedName("hashtag")
+        HASHTAG("hashtag"),
+
+        @SerializedName("mention")
+        MENTION("mention"),
+
+        @SerializedName("link")
+        LINK("link"),
+
+        @SerializedName("question")
+        QUESTION("question"),
+
+        @SerializedName("place")
+        PLACE("place"),
+
+        @SerializedName("market_item")
         MARKET_ITEM("market_item"),
 
-        ALIEXPRESS_PRODUCT("aliexpress_product");
+        @SerializedName("music")
+        MUSIC("music"),
 
-        class Serializer : JsonSerializer<Subtype>, JsonDeserializer<Subtype> {
-            override fun serialize(
-                src: Subtype?,
-                typeOfSrc: java.lang.reflect.Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+        @SerializedName("story_reply")
+        STORY_REPLY("story_reply"),
 
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: java.lang.reflect.Type?,
-                context: JsonDeserializationContext?
-            ): Subtype {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
+        @SerializedName("owner")
+        OWNER("owner"),
+
+        @SerializedName("post")
+        POST("post"),
+
+        @SerializedName("poll")
+        POLL("poll"),
+
+        @SerializedName("sticker")
+        STICKER("sticker"),
+
+        @SerializedName("app")
+        APP("app"),
+
+        @SerializedName("situational_theme")
+        SITUATIONAL_THEME("situational_theme");
     }
 
     enum class Style(
         val value: String
     ) {
+        @SerializedName("transparent")
         TRANSPARENT("transparent"),
 
+        @SerializedName("blue_gradient")
         BLUE_GRADIENT("blue_gradient"),
 
+        @SerializedName("red_gradient")
         RED_GRADIENT("red_gradient"),
 
+        @SerializedName("underline")
         UNDERLINE("underline"),
 
+        @SerializedName("blue")
         BLUE("blue"),
 
+        @SerializedName("green")
         GREEN("green"),
 
+        @SerializedName("white")
         WHITE("white"),
 
+        @SerializedName("question_reply")
         QUESTION_REPLY("question_reply"),
 
+        @SerializedName("light")
         LIGHT("light"),
 
+        @SerializedName("impressive")
         IMPRESSIVE("impressive");
-
-        class Serializer : JsonSerializer<Style>, JsonDeserializer<Style> {
-            override fun serialize(
-                src: Style?,
-                typeOfSrc: java.lang.reflect.Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: java.lang.reflect.Type?,
-                context: JsonDeserializationContext?
-            ): Style {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 
-    enum class Type(
+    enum class Subtype(
         val value: String
     ) {
-        HASHTAG("hashtag"),
-
-        MENTION("mention"),
-
-        LINK("link"),
-
-        QUESTION("question"),
-
-        PLACE("place"),
-
+        @SerializedName("market_item")
         MARKET_ITEM("market_item"),
 
-        MUSIC("music"),
-
-        STORY_REPLY("story_reply"),
-
-        OWNER("owner"),
-
-        POST("post"),
-
-        POLL("poll"),
-
-        STICKER("sticker"),
-
-        APP("app"),
-
-        SITUATIONAL_THEME("situational_theme");
-
-        class Serializer : JsonSerializer<Type>, JsonDeserializer<Type> {
-            override fun serialize(
-                src: Type?,
-                typeOfSrc: java.lang.reflect.Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: java.lang.reflect.Type?,
-                context: JsonDeserializationContext?
-            ): Type {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
+        @SerializedName("aliexpress_product")
+        ALIEXPRESS_PRODUCT("aliexpress_product");
     }
 }

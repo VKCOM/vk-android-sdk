@@ -28,11 +28,14 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import kotlin.String
 
-enum class MessagesHistoryMessageAttachmentType {
-    @SerializedName(value="graffiti")
-    GRAFFITI,
+enum class MessagesHistoryMessageAttachmentType(
+    val value: String
+) {
+    @SerializedName("graffiti")
+    GRAFFITI("graffiti"),
 
-    @SerializedName(value="audio_message")
-    AUDIO_MESSAGE
+    @SerializedName("audio_message")
+    AUDIO_MESSAGE("audio_message");
 }

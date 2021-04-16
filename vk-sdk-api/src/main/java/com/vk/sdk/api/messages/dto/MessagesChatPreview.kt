@@ -34,27 +34,27 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param adminId no description
- * @param joined no description
- * @param localId no description
- * @param members no description
- * @param membersCount no description
- * @param title no description
- * @param isMember no description
+ * @param adminId
+ * @param joined
+ * @param localId
+ * @param members
+ * @param membersCount
+ * @param title
+ * @param isMember
  */
 data class MessagesChatPreview(
-    @SerializedName(value="admin_id")
+    @SerializedName("admin_id")
     val adminId: Int? = null,
-    @SerializedName(value="joined")
+    @SerializedName("joined")
     val joined: Boolean? = null,
-    @SerializedName(value="local_id")
+    @SerializedName("local_id")
     val localId: Int? = null,
-    @SerializedName(value="members")
+    @SerializedName("members")
     val members: List<Int>? = null,
-    @SerializedName(value="members_count")
+    @SerializedName("members_count")
     val membersCount: Int? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="is_member")
+    @SerializedName("is_member")
     val isMember: Boolean? = null
 )

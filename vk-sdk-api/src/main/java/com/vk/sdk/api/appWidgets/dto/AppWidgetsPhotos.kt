@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count no description
- * @param items no description
+ * @param count
+ * @param items
  */
 data class AppWidgetsPhotos(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="items")
+    @SerializedName("items")
     val items: List<AppWidgetsPhoto>? = null
 )

@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Station ID
- * @param name Station name
- * @param cityId City ID
- * @param color Hex color code without #
+ * @param id - Station ID
+ * @param name - Station name
+ * @param cityId - City ID
+ * @param color - Hex color code without #
  */
 data class DatabaseStation(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="city_id")
+    @SerializedName("city_id")
     val cityId: Int? = null,
-    @SerializedName(value="color")
+    @SerializedName("color")
     val color: String? = null
 )

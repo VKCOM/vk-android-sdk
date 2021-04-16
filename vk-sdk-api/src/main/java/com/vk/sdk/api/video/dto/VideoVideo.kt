@@ -27,15 +27,9 @@
 // *********************************************************************
 package com.vk.sdk.api.video.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
+import com.vk.sdk.api.audio.dto.AudioArtist
+import com.vk.sdk.api.audio.dto.AudioGenre
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseLikes
 import com.vk.sdk.api.base.dto.BasePropertyExists
@@ -47,210 +41,198 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param accessKey Video access key
- * @param addingDate Date when the video has been added in Unixtime
- * @param canComment Information whether current user can comment the video
- * @param canEdit Information whether current user can edit the video
- * @param canLike Information whether current user can like the video
- * @param canRepost Information whether current user can repost the video
- * @param canSubscribe Information whether current user can subscribe to author of the video
- * @param canAddToFaves Information whether current user can add the video to favourites
- * @param canAdd Information whether current user can add the video
- * @param canAttachLink Information whether current user can attach action button to the video
- * @param isPrivate 1 if video is private
- * @param comments Number of comments
- * @param date Date when video has been uploaded in Unixtime
- * @param description Video description
- * @param duration Video duration in seconds
- * @param image no description
- * @param firstFrame no description
- * @param width Video width
- * @param height Video height
- * @param id Video ID
- * @param ownerId Video owner ID
- * @param userId Id of the user who uploaded the video if it was uploaded to a group by member
- * @param title Video title
- * @param isFavorite Whether video is added to bookmarks
- * @param player Video embed URL
- * @param processing Returns if the video is processing
- * @param converting 1 if  video is being converted
- * @param restriction no description
- * @param added 1 if video is added to user's albums
- * @param isSubscribed 1 if user is subscribed to author of the video
- * @param trackCode no description
- * @param repeat Information whether the video is repeated
- * @param type no description
- * @param views Number of views
- * @param localViews If video is external, number of views on vk
- * @param contentRestricted Restriction code
- * @param contentRestrictedMessage Restriction text
- * @param balance Live donations balance
- * @param liveStatus Live stream status
- * @param live 1 if the video is a live stream
- * @param upcoming 1 if the video is an upcoming stream
- * @param liveStartTime Date in Unixtime when the live stream is scheduled to start by the author
- * @param liveNotify Whether current user is subscribed to the upcoming live stream notification (if
- * not subscribed to the author)
- * @param spectators Number of spectators of the stream
- * @param platform External platform
- * @param likes no description
- * @param reposts no description
+ * @param accessKey - Video access key
+ * @param addingDate - Date when the video has been added in Unixtime
+ * @param canComment - Information whether current user can comment the video
+ * @param canEdit - Information whether current user can edit the video
+ * @param canLike - Information whether current user can like the video
+ * @param canRepost - Information whether current user can repost the video
+ * @param canSubscribe - Information whether current user can subscribe to author of the video
+ * @param canAddToFaves - Information whether current user can add the video to favourites
+ * @param canAdd - Information whether current user can add the video
+ * @param canAttachLink - Information whether current user can attach action button to the video
+ * @param isPrivate - 1 if video is private
+ * @param comments - Number of comments
+ * @param date - Date when video has been uploaded in Unixtime
+ * @param description - Video description
+ * @param duration - Video duration in seconds
+ * @param image
+ * @param firstFrame
+ * @param width - Video width
+ * @param height - Video height
+ * @param id - Video ID
+ * @param ownerId - Video owner ID
+ * @param userId - Id of the user who uploaded the video if it was uploaded to a group by member
+ * @param title - Video title
+ * @param isFavorite - Whether video is added to bookmarks
+ * @param player - Video embed URL
+ * @param processing - Returns if the video is processing
+ * @param converting - 1 if  video is being converted
+ * @param restriction
+ * @param added - 1 if video is added to user's albums
+ * @param isSubscribed - 1 if user is subscribed to author of the video
+ * @param trackCode
+ * @param repeat - Information whether the video is repeated
+ * @param type
+ * @param views - Number of views
+ * @param localViews - If video is external, number of views on vk
+ * @param contentRestricted - Restriction code
+ * @param contentRestrictedMessage - Restriction text
+ * @param balance - Live donations balance
+ * @param liveStatus - Live stream status
+ * @param live - 1 if the video is a live stream
+ * @param upcoming - 1 if the video is an upcoming stream
+ * @param liveStartTime - Date in Unixtime when the live stream is scheduled to start by the author
+ * @param liveNotify - Whether current user is subscribed to the upcoming live stream notification
+ * (if not subscribed to the author)
+ * @param spectators - Number of spectators of the stream
+ * @param platform - External platform
+ * @param likes
+ * @param reposts
+ * @param isExplicit - 1 if music clip and has explicit content
+ * @param mainArtists - Main music artists of the clip
+ * @param featuredArtists - Featured music artists of the clip
+ * @param subtitle - Music clip subtitle
+ * @param releaseDate - Release date of the music clip
+ * @param genres - Music genres of the clip
  */
 data class VideoVideo(
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="adding_date")
+    @SerializedName("adding_date")
     val addingDate: Int? = null,
-    @SerializedName(value="can_comment")
+    @SerializedName("can_comment")
     val canComment: BaseBoolInt? = null,
-    @SerializedName(value="can_edit")
+    @SerializedName("can_edit")
     val canEdit: BaseBoolInt? = null,
-    @SerializedName(value="can_like")
+    @SerializedName("can_like")
     val canLike: BaseBoolInt? = null,
-    @SerializedName(value="can_repost")
+    @SerializedName("can_repost")
     val canRepost: BaseBoolInt? = null,
-    @SerializedName(value="can_subscribe")
+    @SerializedName("can_subscribe")
     val canSubscribe: BaseBoolInt? = null,
-    @SerializedName(value="can_add_to_faves")
+    @SerializedName("can_add_to_faves")
     val canAddToFaves: BaseBoolInt? = null,
-    @SerializedName(value="can_add")
+    @SerializedName("can_add")
     val canAdd: BaseBoolInt? = null,
-    @SerializedName(value="can_attach_link")
+    @SerializedName("can_attach_link")
     val canAttachLink: BaseBoolInt? = null,
-    @SerializedName(value="is_private")
+    @SerializedName("is_private")
     val isPrivate: BaseBoolInt? = null,
-    @SerializedName(value="comments")
+    @SerializedName("comments")
     val comments: Int? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null,
-    @SerializedName(value="duration")
+    @SerializedName("duration")
     val duration: Int? = null,
-    @SerializedName(value="image")
+    @SerializedName("image")
     val image: List<VideoVideoImage>? = null,
-    @SerializedName(value="first_frame")
+    @SerializedName("first_frame")
     val firstFrame: List<VideoVideoImage>? = null,
-    @SerializedName(value="width")
+    @SerializedName("width")
     val width: Int? = null,
-    @SerializedName(value="height")
+    @SerializedName("height")
     val height: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="is_favorite")
+    @SerializedName("is_favorite")
     val isFavorite: Boolean? = null,
-    @SerializedName(value="player")
+    @SerializedName("player")
     val player: String? = null,
-    @SerializedName(value="processing")
+    @SerializedName("processing")
     val processing: BasePropertyExists? = null,
-    @SerializedName(value="converting")
+    @SerializedName("converting")
     val converting: BaseBoolInt? = null,
-    @SerializedName(value="restriction")
+    @SerializedName("restriction")
     val restriction: MediaRestriction? = null,
-    @SerializedName(value="added")
+    @SerializedName("added")
     val added: BaseBoolInt? = null,
-    @SerializedName(value="is_subscribed")
+    @SerializedName("is_subscribed")
     val isSubscribed: BaseBoolInt? = null,
-    @SerializedName(value="track_code")
+    @SerializedName("track_code")
     val trackCode: String? = null,
-    @SerializedName(value="repeat")
+    @SerializedName("repeat")
     val repeat: BasePropertyExists? = null,
-    @SerializedName(value="type")
-    val type: Type? = null,
-    @SerializedName(value="views")
+    @SerializedName("type")
+    val type: VideoVideo.Type? = null,
+    @SerializedName("views")
     val views: Int? = null,
-    @SerializedName(value="local_views")
+    @SerializedName("local_views")
     val localViews: Int? = null,
-    @SerializedName(value="content_restricted")
+    @SerializedName("content_restricted")
     val contentRestricted: Int? = null,
-    @SerializedName(value="content_restricted_message")
+    @SerializedName("content_restricted_message")
     val contentRestrictedMessage: String? = null,
-    @SerializedName(value="balance")
+    @SerializedName("balance")
     val balance: Int? = null,
-    @SerializedName(value="live_status")
-    val liveStatus: LiveStatus? = null,
-    @SerializedName(value="live")
+    @SerializedName("live_status")
+    val liveStatus: VideoVideo.LiveStatus? = null,
+    @SerializedName("live")
     val live: BasePropertyExists? = null,
-    @SerializedName(value="upcoming")
+    @SerializedName("upcoming")
     val upcoming: BasePropertyExists? = null,
-    @SerializedName(value="live_start_time")
+    @SerializedName("live_start_time")
     val liveStartTime: Int? = null,
-    @SerializedName(value="live_notify")
+    @SerializedName("live_notify")
     val liveNotify: BaseBoolInt? = null,
-    @SerializedName(value="spectators")
+    @SerializedName("spectators")
     val spectators: Int? = null,
-    @SerializedName(value="platform")
+    @SerializedName("platform")
     val platform: String? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseLikes? = null,
-    @SerializedName(value="reposts")
-    val reposts: BaseRepostsInfo? = null
+    @SerializedName("reposts")
+    val reposts: BaseRepostsInfo? = null,
+    @SerializedName("is_explicit")
+    val isExplicit: BaseBoolInt? = null,
+    @SerializedName("main_artists")
+    val mainArtists: List<AudioArtist>? = null,
+    @SerializedName("featured_artists")
+    val featuredArtists: List<AudioArtist>? = null,
+    @SerializedName("subtitle")
+    val subtitle: String? = null,
+    @SerializedName("release_date")
+    val releaseDate: Int? = null,
+    @SerializedName("genres")
+    val genres: List<AudioGenre>? = null
 ) {
     enum class Type(
         val value: String
     ) {
+        @SerializedName("video")
         VIDEO("video"),
 
+        @SerializedName("music_video")
         MUSIC_VIDEO("music_video"),
 
+        @SerializedName("movie")
         MOVIE("movie");
-
-        class Serializer : JsonSerializer<Type>, JsonDeserializer<Type> {
-            override fun serialize(
-                src: Type?,
-                typeOfSrc: java.lang.reflect.Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: java.lang.reflect.Type?,
-                context: JsonDeserializationContext?
-            ): Type {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 
     enum class LiveStatus(
         val value: String
     ) {
+        @SerializedName("waiting")
         WAITING("waiting"),
 
+        @SerializedName("started")
         STARTED("started"),
 
+        @SerializedName("finished")
         FINISHED("finished"),
 
+        @SerializedName("failed")
         FAILED("failed"),
 
+        @SerializedName("upcoming")
         UPCOMING("upcoming");
-
-        class Serializer : JsonSerializer<LiveStatus>, JsonDeserializer<LiveStatus> {
-            override fun serialize(
-                src: LiveStatus?,
-                typeOfSrc: java.lang.reflect.Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: java.lang.reflect.Type?,
-                context: JsonDeserializationContext?
-            ): LiveStatus {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

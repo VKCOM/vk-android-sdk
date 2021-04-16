@@ -33,15 +33,15 @@ import kotlin.Boolean
 import kotlin.Int
 
 /**
- * @param userId no description
- * @param isSuccess no description
- * @param error no description
+ * @param userId
+ * @param isSuccess
+ * @param error
  */
 data class AdsUpdateOfficeUsersResult(
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int,
-    @SerializedName(value="is_success")
+    @SerializedName("is_success")
     val isSuccess: Boolean,
-    @SerializedName(value="error")
+    @SerializedName("error")
     val error: BaseError? = null
 )

@@ -32,24 +32,27 @@ import kotlin.Boolean
 import kotlin.Int
 
 /**
- * @param initiatorId Caller initiator
- * @param receiverId Caller receiver
- * @param state no description
- * @param time Timestamp for call
- * @param duration Call duration
- * @param video Was this call initiated as video call
+ * @param initiatorId - Caller initiator
+ * @param receiverId - Caller receiver
+ * @param state
+ * @param time - Timestamp for call
+ * @param duration - Call duration
+ * @param video - Was this call initiated as video call
+ * @param participants
  */
 data class CallsCall(
-    @SerializedName(value="initiator_id")
+    @SerializedName("initiator_id")
     val initiatorId: Int,
-    @SerializedName(value="receiver_id")
+    @SerializedName("receiver_id")
     val receiverId: Int,
-    @SerializedName(value="state")
+    @SerializedName("state")
     val state: CallsEndState,
-    @SerializedName(value="time")
+    @SerializedName("time")
     val time: Int,
-    @SerializedName(value="duration")
+    @SerializedName("duration")
     val duration: Int? = null,
-    @SerializedName(value="video")
-    val video: Boolean? = null
+    @SerializedName("video")
+    val video: Boolean? = null,
+    @SerializedName("participants")
+    val participants: CallsParticipants? = null
 )

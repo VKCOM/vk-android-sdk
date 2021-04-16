@@ -69,9 +69,8 @@ object VK {
         this.config = config
         apiManager = VKApiManager(config)
         authManager = VKAuthManager(config.keyValueStorage)
-        authManager.getCurrentToken()?.let {
-            apiManager.setCredentials(it.accessToken, it.secret)
-        }
+
+        apiManager.setCredentials(VKApiCredentials.lazyFrom { authManager.getCurrentToken() })
     }
 
     /**

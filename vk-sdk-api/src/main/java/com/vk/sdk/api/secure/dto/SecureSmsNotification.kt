@@ -31,21 +31,21 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param appId Application ID
- * @param date Date when message has been sent in Unixtime
- * @param id Notification ID
- * @param message Messsage text
- * @param userId User ID
+ * @param appId - Application ID
+ * @param date - Date when message has been sent in Unixtime
+ * @param id - Notification ID
+ * @param message - Messsage text
+ * @param userId - User ID
  */
 data class SecureSmsNotification(
-    @SerializedName(value="app_id")
+    @SerializedName("app_id")
     val appId: String? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: String? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: String? = null,
-    @SerializedName(value="message")
+    @SerializedName("message")
     val message: String? = null,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: String? = null
 )

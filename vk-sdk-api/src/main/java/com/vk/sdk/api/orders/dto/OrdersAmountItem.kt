@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param amount Votes amount in user's currency
- * @param description Amount description
- * @param votes Votes number
+ * @param amount - Votes amount in user's currency
+ * @param description - Amount description
+ * @param votes - Votes number
  */
 data class OrdersAmountItem(
-    @SerializedName(value="amount")
+    @SerializedName("amount")
     val amount: Int? = null,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null,
-    @SerializedName(value="votes")
+    @SerializedName("votes")
     val votes: String? = null
 )

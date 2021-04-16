@@ -32,18 +32,18 @@ import com.vk.sdk.api.base.dto.BaseBoolInt
 import kotlin.Int
 
 /**
- * @param disabled Information whether notifications are disabled
- * @param disabledUntil Time until that notifications are disabled in Unixtime
- * @param settings no description
- * @param conversations no description
+ * @param disabled - Information whether notifications are disabled
+ * @param disabledUntil - Time until that notifications are disabled in Unixtime
+ * @param settings
+ * @param conversations
  */
 data class AccountPushSettings(
-    @SerializedName(value="disabled")
+    @SerializedName("disabled")
     val disabled: BaseBoolInt? = null,
-    @SerializedName(value="disabled_until")
+    @SerializedName("disabled_until")
     val disabledUntil: Int? = null,
-    @SerializedName(value="settings")
+    @SerializedName("settings")
     val settings: AccountPushParams? = null,
-    @SerializedName(value="conversations")
+    @SerializedName("conversations")
     val conversations: AccountPushConversations? = null
 )

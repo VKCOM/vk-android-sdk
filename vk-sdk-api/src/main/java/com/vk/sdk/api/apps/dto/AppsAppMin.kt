@@ -33,45 +33,45 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param type no description
- * @param id Application ID
- * @param title Application title
- * @param authorOwnerId Application author's ID
- * @param isInstalled Is application installed
- * @param icon139 URL of the app icon with 139 px in width
- * @param icon150 URL of the app icon with 150 px in width
- * @param icon278 URL of the app icon with 278 px in width
- * @param icon576 URL of the app icon with 576 px in width
- * @param backgroundLoaderColor Hex color code without hash sign
- * @param loaderIcon SVG data
- * @param icon75 URL of the app icon with 75 px in width
- * @param openInExternalBrowser Open in external browser
+ * @param type
+ * @param id - Application ID
+ * @param title - Application title
+ * @param authorOwnerId - Application author's ID
+ * @param isInstalled - Is application installed
+ * @param icon139 - URL of the app icon with 139 px in width
+ * @param icon150 - URL of the app icon with 150 px in width
+ * @param icon278 - URL of the app icon with 278 px in width
+ * @param icon576 - URL of the app icon with 576 px in width
+ * @param backgroundLoaderColor - Hex color code without hash sign
+ * @param loaderIcon - SVG data
+ * @param icon75 - URL of the app icon with 75 px in width
+ * @param openInExternalBrowser - Open in external browser
  */
 data class AppsAppMin(
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: AppsAppType,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="author_owner_id")
+    @SerializedName("author_owner_id")
     val authorOwnerId: Int? = null,
-    @SerializedName(value="is_installed")
+    @SerializedName("is_installed")
     val isInstalled: Boolean? = null,
-    @SerializedName(value="icon_139")
+    @SerializedName("icon_139")
     val icon139: String? = null,
-    @SerializedName(value="icon_150")
+    @SerializedName("icon_150")
     val icon150: String? = null,
-    @SerializedName(value="icon_278")
+    @SerializedName("icon_278")
     val icon278: String? = null,
-    @SerializedName(value="icon_576")
+    @SerializedName("icon_576")
     val icon576: String? = null,
-    @SerializedName(value="background_loader_color")
+    @SerializedName("background_loader_color")
     val backgroundLoaderColor: String? = null,
-    @SerializedName(value="loader_icon")
+    @SerializedName("loader_icon")
     val loaderIcon: String? = null,
-    @SerializedName(value="icon_75")
+    @SerializedName("icon_75")
     val icon75: String? = null,
-    @SerializedName(value="open_in_external_browser")
+    @SerializedName("open_in_external_browser")
     val openInExternalBrowser: Boolean? = null
 )

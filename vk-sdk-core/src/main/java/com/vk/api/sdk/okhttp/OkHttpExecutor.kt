@@ -25,15 +25,13 @@ package com.vk.api.sdk.okhttp
 
 import android.net.Uri
 import android.os.Looper
-import androidx.collection.LongSparseArray
+import com.vk.api.sdk.VKApiCredentials
 import com.vk.api.sdk.VKApiProgressListener
 import com.vk.api.sdk.VKOkHttpProvider
 import com.vk.api.sdk.exceptions.*
 import com.vk.api.sdk.internal.HttpMultipartEntry
 import com.vk.api.sdk.internal.QueryStringGenerator
-import com.vk.api.sdk.internal.Validation
 import com.vk.api.sdk.utils.log.Logger
-import com.vk.api.sdk.utils.set
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -41,7 +39,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import java.net.HttpURLConnection.HTTP_ENTITY_TOO_LARGE
 import java.net.URLEncoder
-import java.util.concurrent.TimeUnit
 
 open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
     protected val context = config.context
@@ -55,19 +52,26 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
     }
     val host: String
         get() = config.hostProvider()
-    @Volatile var accessToken = config.accessToken
-        private set
-    @Volatile var secret = config.secret
-        private set
+
+    @Volatile
+    private var credentialsProvider = VKApiCredentials.lazyFrom(config.accessToken, config.secret)
+
+    val accessToken: String
+        get() = credentialsProvider.value.accessToken
+    val secret: String?
+        get() = credentialsProvider.value.secret
+
     private val customEndpoint = config.customEndpoint
 
     @Volatile var ignoredAccessToken: String? = null
         private set
 
     fun setCredentials(accessToken: String, secret: String?) {
-        Validation.assertAccessTokenValid(accessToken)
-        this.accessToken = accessToken
-        this.secret = secret
+        this.credentialsProvider =  VKApiCredentials.lazyFrom(accessToken, secret)
+    }
+
+    internal fun setCredentials(credentialsProvider: Lazy<VKApiCredentials>) {
+        this.credentialsProvider = credentialsProvider
     }
 
     fun ignoreAccessToken(accessToken: String?) {

@@ -32,12 +32,12 @@ import kotlin.Float
 import kotlin.String
 
 /**
- * @param id Store Id
- * @param name Store name
+ * @param id - Store Id
+ * @param name - Store name
  */
 data class BaseLinkApplicationStore(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Float? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null
 )

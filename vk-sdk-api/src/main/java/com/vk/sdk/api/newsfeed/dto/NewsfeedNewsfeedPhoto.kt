@@ -41,72 +41,72 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param likes no description
- * @param comments no description
- * @param canRepost Information whether current user can repost the photo
- * @param accessKey Access key for the photo
- * @param albumId Album ID
- * @param date Date when uploaded
- * @param height Original photo height
- * @param id Photo ID
- * @param images no description
- * @param lat Latitude
- * @param long Longitude
- * @param ownerId Photo owner's ID
- * @param photo256 URL of image with 2560 px width
- * @param canComment Information whether current user can comment the photo
- * @param place no description
- * @param postId Post ID
- * @param sizes no description
- * @param text Photo caption
- * @param userId ID of the user who have uploaded the photo
- * @param width Original photo width
- * @param hasTags Whether photo has attached tag links
- * @param restrictions no description
+ * @param likes
+ * @param comments
+ * @param canRepost - Information whether current user can repost the photo
+ * @param accessKey - Access key for the photo
+ * @param albumId - Album ID
+ * @param date - Date when uploaded
+ * @param height - Original photo height
+ * @param id - Photo ID
+ * @param images
+ * @param lat - Latitude
+ * @param long - Longitude
+ * @param ownerId - Photo owner's ID
+ * @param photo256 - URL of image with 2560 px width
+ * @param canComment - Information whether current user can comment the photo
+ * @param place
+ * @param postId - Post ID
+ * @param sizes
+ * @param text - Photo caption
+ * @param userId - ID of the user who have uploaded the photo
+ * @param width - Original photo width
+ * @param hasTags - Whether photo has attached tag links
+ * @param restrictions
  */
 data class NewsfeedNewsfeedPhoto(
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseLikes? = null,
-    @SerializedName(value="comments")
+    @SerializedName("comments")
     val comments: BaseObjectCount? = null,
-    @SerializedName(value="can_repost")
+    @SerializedName("can_repost")
     val canRepost: BaseBoolInt? = null,
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="album_id")
+    @SerializedName("album_id")
     val albumId: Int? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="height")
+    @SerializedName("height")
     val height: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="images")
+    @SerializedName("images")
     val images: List<PhotosImage>? = null,
-    @SerializedName(value="lat")
+    @SerializedName("lat")
     val lat: Float? = null,
-    @SerializedName(value="long")
+    @SerializedName("long")
     val long: Float? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="photo_256")
+    @SerializedName("photo_256")
     val photo256: String? = null,
-    @SerializedName(value="can_comment")
+    @SerializedName("can_comment")
     val canComment: BaseBoolInt? = null,
-    @SerializedName(value="place")
+    @SerializedName("place")
     val place: String? = null,
-    @SerializedName(value="post_id")
+    @SerializedName("post_id")
     val postId: Int? = null,
-    @SerializedName(value="sizes")
+    @SerializedName("sizes")
     val sizes: List<PhotosPhotoSizes>? = null,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String? = null,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int? = null,
-    @SerializedName(value="width")
+    @SerializedName("width")
     val width: Int? = null,
-    @SerializedName(value="has_tags")
+    @SerializedName("has_tags")
     val hasTags: Boolean? = null,
-    @SerializedName(value="restrictions")
+    @SerializedName("restrictions")
     val restrictions: MediaRestriction? = null
 )

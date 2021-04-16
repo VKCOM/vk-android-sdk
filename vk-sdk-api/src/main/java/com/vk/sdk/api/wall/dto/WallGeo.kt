@@ -33,18 +33,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param coordinates Coordinates as string. <latitude> <longtitude>
- * @param place no description
- * @param showmap Information whether a map is showed
- * @param type Place type
+ * @param coordinates - Coordinates as string. <latitude> <longtitude>
+ * @param place
+ * @param showmap - Information whether a map is showed
+ * @param type - Place type
  */
 data class WallGeo(
-    @SerializedName(value="coordinates")
+    @SerializedName("coordinates")
     val coordinates: String? = null,
-    @SerializedName(value="place")
+    @SerializedName("place")
     val place: BasePlace? = null,
-    @SerializedName(value="showmap")
+    @SerializedName("showmap")
     val showmap: Int? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: String? = null
 )

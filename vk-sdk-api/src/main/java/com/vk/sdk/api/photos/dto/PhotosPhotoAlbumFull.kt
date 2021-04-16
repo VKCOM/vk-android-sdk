@@ -34,48 +34,48 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param created Date when the album has been created in Unixtime
- * @param id Photo album ID
- * @param ownerId Album owner's ID
- * @param size Photos number
- * @param title Photo album title
- * @param updated Date when the album has been updated last time in Unixtime
- * @param canUpload Information whether current user can upload photo to the album
- * @param commentsDisabled Information whether album comments are disabled
- * @param description Photo album description
- * @param sizes no description
- * @param thumbId Thumb photo ID
- * @param thumbIsLast Information whether the album thumb is last photo
- * @param thumbSrc URL of the thumb image
- * @param uploadByAdminsOnly Information whether only community administrators can upload photos
+ * @param created - Date when the album has been created in Unixtime
+ * @param id - Photo album ID
+ * @param ownerId - Album owner's ID
+ * @param size - Photos number
+ * @param title - Photo album title
+ * @param updated - Date when the album has been updated last time in Unixtime
+ * @param canUpload - Information whether current user can upload photo to the album
+ * @param commentsDisabled - Information whether album comments are disabled
+ * @param description - Photo album description
+ * @param sizes
+ * @param thumbId - Thumb photo ID
+ * @param thumbIsLast - Information whether the album thumb is last photo
+ * @param thumbSrc - URL of the thumb image
+ * @param uploadByAdminsOnly - Information whether only community administrators can upload photos
  */
 data class PhotosPhotoAlbumFull(
-    @SerializedName(value="created")
+    @SerializedName("created")
     val created: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="size")
+    @SerializedName("size")
     val size: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="updated")
+    @SerializedName("updated")
     val updated: Int,
-    @SerializedName(value="can_upload")
+    @SerializedName("can_upload")
     val canUpload: BaseBoolInt? = null,
-    @SerializedName(value="comments_disabled")
+    @SerializedName("comments_disabled")
     val commentsDisabled: BaseBoolInt? = null,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null,
-    @SerializedName(value="sizes")
+    @SerializedName("sizes")
     val sizes: List<PhotosPhotoSizes>? = null,
-    @SerializedName(value="thumb_id")
+    @SerializedName("thumb_id")
     val thumbId: Int? = null,
-    @SerializedName(value="thumb_is_last")
+    @SerializedName("thumb_is_last")
     val thumbIsLast: BaseBoolInt? = null,
-    @SerializedName(value="thumb_src")
+    @SerializedName("thumb_src")
     val thumbSrc: String? = null,
-    @SerializedName(value="upload_by_admins_only")
+    @SerializedName("upload_by_admins_only")
     val uploadByAdminsOnly: BaseBoolInt? = null
 )

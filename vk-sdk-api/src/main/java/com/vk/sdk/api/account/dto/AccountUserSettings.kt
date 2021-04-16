@@ -43,93 +43,93 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param photo200 URL of square photo of the user with 200 pixels in width
- * @param isServiceAccount flag about service account
- * @param deactivated Returns if a profile is deleted or blocked
- * @param firstName User first name
- * @param hidden Returns if a profile is hidden.
- * @param id User ID
- * @param lastName User last name
- * @param canAccessClosed no description
- * @param isClosed no description
- * @param connections no description
- * @param bdate User's date of birth
- * @param bdateVisibility Information whether user's birthdate are hidden
- * @param city no description
- * @param country no description
- * @param homeTown User's hometown
- * @param maidenName User maiden name
- * @param nameRequest no description
- * @param personal no description
- * @param phone User phone number with some hidden digits
- * @param relation User relationship status
- * @param relationPartner no description
- * @param relationPending Information whether relation status is pending
- * @param relationRequests no description
- * @param screenName Domain name of the user's page
- * @param sex User sex
- * @param status User status
- * @param statusAudio no description
- * @param interests no description
- * @param languages no description
+ * @param photo200 - URL of square photo of the user with 200 pixels in width
+ * @param isServiceAccount - flag about service account
+ * @param deactivated - Returns if a profile is deleted or blocked
+ * @param firstName - User first name
+ * @param hidden - Returns if a profile is hidden.
+ * @param id - User ID
+ * @param lastName - User last name
+ * @param canAccessClosed
+ * @param isClosed
+ * @param connections
+ * @param bdate - User's date of birth
+ * @param bdateVisibility - Information whether user's birthdate are hidden
+ * @param city
+ * @param country
+ * @param homeTown - User's hometown
+ * @param maidenName - User maiden name
+ * @param nameRequest
+ * @param personal
+ * @param phone - User phone number with some hidden digits
+ * @param relation - User relationship status
+ * @param relationPartner
+ * @param relationPending - Information whether relation status is pending
+ * @param relationRequests
+ * @param screenName - Domain name of the user's page
+ * @param sex - User sex
+ * @param status - User status
+ * @param statusAudio
+ * @param interests
+ * @param languages
  */
 data class AccountUserSettings(
-    @SerializedName(value="photo_200")
+    @SerializedName("photo_200")
     val photo200: String? = null,
-    @SerializedName(value="is_service_account")
+    @SerializedName("is_service_account")
     val isServiceAccount: Boolean? = null,
-    @SerializedName(value="deactivated")
+    @SerializedName("deactivated")
     val deactivated: String? = null,
-    @SerializedName(value="first_name")
+    @SerializedName("first_name")
     val firstName: String? = null,
-    @SerializedName(value="hidden")
+    @SerializedName("hidden")
     val hidden: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="last_name")
+    @SerializedName("last_name")
     val lastName: String? = null,
-    @SerializedName(value="can_access_closed")
+    @SerializedName("can_access_closed")
     val canAccessClosed: Boolean? = null,
-    @SerializedName(value="is_closed")
+    @SerializedName("is_closed")
     val isClosed: Boolean? = null,
-    @SerializedName(value="connections")
+    @SerializedName("connections")
     val connections: UsersUserConnections? = null,
-    @SerializedName(value="bdate")
+    @SerializedName("bdate")
     val bdate: String? = null,
-    @SerializedName(value="bdate_visibility")
+    @SerializedName("bdate_visibility")
     val bdateVisibility: Int? = null,
-    @SerializedName(value="city")
+    @SerializedName("city")
     val city: BaseCity? = null,
-    @SerializedName(value="country")
+    @SerializedName("country")
     val country: BaseCountry? = null,
-    @SerializedName(value="home_town")
+    @SerializedName("home_town")
     val homeTown: String? = null,
-    @SerializedName(value="maiden_name")
+    @SerializedName("maiden_name")
     val maidenName: String? = null,
-    @SerializedName(value="name_request")
+    @SerializedName("name_request")
     val nameRequest: AccountNameRequest? = null,
-    @SerializedName(value="personal")
+    @SerializedName("personal")
     val personal: UsersPersonal? = null,
-    @SerializedName(value="phone")
+    @SerializedName("phone")
     val phone: String? = null,
-    @SerializedName(value="relation")
+    @SerializedName("relation")
     val relation: UsersUserRelation? = null,
-    @SerializedName(value="relation_partner")
+    @SerializedName("relation_partner")
     val relationPartner: UsersUserMin? = null,
-    @SerializedName(value="relation_pending")
+    @SerializedName("relation_pending")
     val relationPending: BaseBoolInt? = null,
-    @SerializedName(value="relation_requests")
+    @SerializedName("relation_requests")
     val relationRequests: List<UsersUserMin>? = null,
-    @SerializedName(value="screen_name")
+    @SerializedName("screen_name")
     val screenName: String? = null,
-    @SerializedName(value="sex")
+    @SerializedName("sex")
     val sex: BaseSex? = null,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: String? = null,
-    @SerializedName(value="status_audio")
+    @SerializedName("status_audio")
     val statusAudio: AudioAudio? = null,
-    @SerializedName(value="interests")
+    @SerializedName("interests")
     val interests: AccountUserSettingsInterests? = null,
-    @SerializedName(value="languages")
+    @SerializedName("languages")
     val languages: List<String>? = null
 )

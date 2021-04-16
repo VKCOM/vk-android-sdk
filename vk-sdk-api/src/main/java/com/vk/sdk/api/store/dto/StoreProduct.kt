@@ -27,14 +27,6 @@
 // *********************************************************************
 package com.vk.sdk.api.store.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseImage
@@ -45,72 +37,71 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param id Id of the product
- * @param type Product type
- * @param purchased Information whether the product is purchased (1 - yes, 0 - no)
- * @param active Information whether the product is active (1 - yes, 0 - no)
- * @param promoted Information whether the product is promoted (1 - yes, 0 - no)
- * @param purchaseDate Date (Unix time) when the product was purchased
- * @param title Title of the product
- * @param stickers no description
- * @param icon no description
- * @param previews Array of preview images of the product (for stickers product type)
- * @param hasAnimation Information whether the product is an animated sticker pack (for stickers
+ * @param id - Id of the product
+ * @param type - Product type
+ * @param isNew - Information whether sticker product wasn't used after being purchased
+ * @param copyright - Product copyright information
+ * @param baseId - Id of the base pack (for sticker pack styles)
+ * @param styleIds - Array of style ids available for the sticker pack
+ * @param purchased - Information whether the product is purchased (1 - yes, 0 - no)
+ * @param active - Information whether the product is active (1 - yes, 0 - no)
+ * @param promoted - Information whether the product is promoted (1 - yes, 0 - no)
+ * @param purchaseDate - Date (Unix time) when the product was purchased
+ * @param title - Title of the product
+ * @param stickers
+ * @param styleStickerIds - Array of style sticker ids (for sticker pack styles)
+ * @param icon - Array of icon images or icon set object of the product (for stickers product type)
+ * @param previews - Array of preview images of the product (for stickers product type)
+ * @param hasAnimation - Information whether the product is an animated sticker pack (for stickers
  * product type)
- * @param subtitle Subtitle of the product
+ * @param subtitle - Subtitle of the product
  */
 data class StoreProduct(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="type")
-    val type: Type,
-    @SerializedName(value="purchased")
+    @SerializedName("type")
+    val type: StoreProduct.Type,
+    @SerializedName("is_new")
+    val isNew: Boolean? = null,
+    @SerializedName("copyright")
+    val copyright: String? = null,
+    @SerializedName("base_id")
+    val baseId: Int? = null,
+    @SerializedName("style_ids")
+    val styleIds: List<Int>? = null,
+    @SerializedName("purchased")
     val purchased: BaseBoolInt? = null,
-    @SerializedName(value="active")
+    @SerializedName("active")
     val active: BaseBoolInt? = null,
-    @SerializedName(value="promoted")
+    @SerializedName("promoted")
     val promoted: BaseBoolInt? = null,
-    @SerializedName(value="purchase_date")
+    @SerializedName("purchase_date")
     val purchaseDate: Int? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="stickers")
+    @SerializedName("stickers")
     val stickers: List<BaseSticker>? = null,
-    @SerializedName(value="icon")
-    val icon: List<BaseImage>? = null,
-    @SerializedName(value="previews")
+    @SerializedName("style_sticker_ids")
+    val styleStickerIds: List<Int>? = null,
+    @SerializedName("icon")
+    val icon: StoreProductIcon? = null,
+    @SerializedName("previews")
     val previews: List<BaseImage>? = null,
-    @SerializedName(value="has_animation")
+    @SerializedName("has_animation")
     val hasAnimation: Boolean? = null,
-    @SerializedName(value="subtitle")
+    @SerializedName("subtitle")
     val subtitle: String? = null
 ) {
     enum class Type(
         val value: String
     ) {
+        @SerializedName("stickers")
         STICKERS("stickers"),
 
+        @SerializedName("votes")
         VOTES("votes"),
 
+        @SerializedName("subscriprions")
         SUBSCRIPRIONS("subscriprions");
-
-        class Serializer : JsonSerializer<Type>, JsonDeserializer<Type> {
-            override fun serialize(
-                src: Type?,
-                typeOfSrc: java.lang.reflect.Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: java.lang.reflect.Type?,
-                context: JsonDeserializationContext?
-            ): Type {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

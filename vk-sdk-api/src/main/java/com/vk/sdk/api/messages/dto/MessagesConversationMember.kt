@@ -32,30 +32,30 @@ import kotlin.Boolean
 import kotlin.Int
 
 /**
- * @param memberId no description
- * @param canKick Is it possible for user to kick this member
- * @param invitedBy no description
- * @param isAdmin no description
- * @param isOwner no description
- * @param isMessageRequest no description
- * @param joinDate no description
- * @param requestDate Message request date
+ * @param memberId
+ * @param canKick - Is it possible for user to kick this member
+ * @param invitedBy
+ * @param isAdmin
+ * @param isOwner
+ * @param isMessageRequest
+ * @param joinDate
+ * @param requestDate - Message request date
  */
 data class MessagesConversationMember(
-    @SerializedName(value="member_id")
+    @SerializedName("member_id")
     val memberId: Int,
-    @SerializedName(value="can_kick")
+    @SerializedName("can_kick")
     val canKick: Boolean? = null,
-    @SerializedName(value="invited_by")
+    @SerializedName("invited_by")
     val invitedBy: Int? = null,
-    @SerializedName(value="is_admin")
+    @SerializedName("is_admin")
     val isAdmin: Boolean? = null,
-    @SerializedName(value="is_owner")
+    @SerializedName("is_owner")
     val isOwner: Boolean? = null,
-    @SerializedName(value="is_message_request")
+    @SerializedName("is_message_request")
     val isMessageRequest: Boolean? = null,
-    @SerializedName(value="join_date")
+    @SerializedName("join_date")
     val joinDate: Int? = null,
-    @SerializedName(value="request_date")
+    @SerializedName("request_date")
     val requestDate: Int? = null
 )

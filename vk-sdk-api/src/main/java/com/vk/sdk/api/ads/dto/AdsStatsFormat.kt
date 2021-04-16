@@ -32,42 +32,48 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param clicks Clicks number
- * @param day Day as YYYY-MM-DD
- * @param impressions Impressions number
- * @param joinRate Events number
- * @param month Month as YYYY-MM
- * @param overall 1 if period=overall
- * @param reach Reach 
- * @param spent Spent funds
- * @param videoClicksSite Clickthoughs to the advertised site
- * @param videoViews Video views number
- * @param videoViewsFull Video views (full video)
- * @param videoViewsHalf Video views (half of video)
+ * @param clicks - Clicks number
+ * @param linkOwnerClicks - Group clicks number
+ * @param linkExternalClicks - External clicks number
+ * @param day - Day as YYYY-MM-DD
+ * @param impressions - Impressions number
+ * @param joinRate - Events number
+ * @param month - Month as YYYY-MM
+ * @param overall - 1 if period=overall
+ * @param reach - Reach 
+ * @param spent - Spent funds
+ * @param videoClicksSite - Clickthoughs to the advertised site
+ * @param videoViews - Video views number
+ * @param videoViewsFull - Video views (full video)
+ * @param videoViewsHalf - Video views (half of video)
  */
 data class AdsStatsFormat(
-    @SerializedName(value="clicks")
+    @SerializedName("clicks")
     val clicks: Int? = null,
-    @SerializedName(value="day")
+    @SerializedName("link_owner_clicks")
+    val linkOwnerClicks: Int? = null,
+    @SerializedName("link_external_clicks")
+    val linkExternalClicks: Int? = null,
+    @SerializedName("day")
     val day: String? = null,
-    @SerializedName(value="impressions")
+    @SerializedName("impressions")
     val impressions: Int? = null,
-    @SerializedName(value="join_rate")
+    @SerializedName("join_rate")
     val joinRate: Int? = null,
-    @SerializedName(value="month")
+    @SerializedName("month")
     val month: String? = null,
-    @SerializedName(value="overall")
+    @SerializedName("overall")
     val overall: Int? = null,
-    @SerializedName(value="reach")
+    @SerializedName("reach")
     val reach: Int? = null,
-    @SerializedName(value="spent")
+    @SerializedName("spent")
     val spent: Int? = null,
-    @SerializedName(value="video_clicks_site")
+    @SerializedName("video_clicks_site")
     val videoClicksSite: Int? = null,
-    @SerializedName(value="video_views")
+    @SerializedName("video_views")
     val videoViews: Int? = null,
-    @SerializedName(value="video_views_full")
+    @SerializedName("video_views_full")
     val videoViewsFull: Int? = null,
-    @SerializedName(value="video_views_half")
+    @SerializedName("video_views_half")
     val videoViewsHalf: Int? = null
 )

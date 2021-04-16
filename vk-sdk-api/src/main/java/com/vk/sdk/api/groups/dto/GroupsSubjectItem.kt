@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Subject ID
- * @param name Subject title
+ * @param id - Subject ID
+ * @param name - Subject title
  */
 data class GroupsSubjectItem(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String
 )

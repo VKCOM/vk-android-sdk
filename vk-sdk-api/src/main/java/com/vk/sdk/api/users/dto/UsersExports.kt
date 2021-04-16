@@ -31,15 +31,15 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param facebook no description
- * @param livejournal no description
- * @param twitter no description
+ * @param facebook
+ * @param livejournal
+ * @param twitter
  */
 data class UsersExports(
-    @SerializedName(value="facebook")
+    @SerializedName("facebook")
     val facebook: Int? = null,
-    @SerializedName(value="livejournal")
+    @SerializedName("livejournal")
     val livejournal: Int? = null,
-    @SerializedName(value="twitter")
+    @SerializedName("twitter")
     val twitter: Int? = null
 )

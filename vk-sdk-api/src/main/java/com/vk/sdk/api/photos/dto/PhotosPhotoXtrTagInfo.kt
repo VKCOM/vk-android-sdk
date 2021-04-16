@@ -34,72 +34,72 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param albumId Album ID
- * @param date Date when uploaded
- * @param id Photo ID
- * @param ownerId Photo owner's ID
- * @param accessKey Access key for the photo
- * @param height Original photo height
- * @param lat Latitude
- * @param long Longitude
- * @param photo1280 URL of image with 1280 px width
- * @param photo130 URL of image with 130 px width
- * @param photo2560 URL of image with 2560 px width
- * @param photo604 URL of image with 604 px width
- * @param photo75 URL of image with 75 px width
- * @param photo807 URL of image with 807 px width
- * @param placerId ID of the tag creator
- * @param postId Post ID
- * @param sizes no description
- * @param tagCreated Date when tag has been added in Unixtime
- * @param tagId Tag ID
- * @param text Photo caption
- * @param userId ID of the user who have uploaded the photo
- * @param width Original photo width
+ * @param albumId - Album ID
+ * @param date - Date when uploaded
+ * @param id - Photo ID
+ * @param ownerId - Photo owner's ID
+ * @param accessKey - Access key for the photo
+ * @param height - Original photo height
+ * @param lat - Latitude
+ * @param long - Longitude
+ * @param photo1280 - URL of image with 1280 px width
+ * @param photo130 - URL of image with 130 px width
+ * @param photo2560 - URL of image with 2560 px width
+ * @param photo604 - URL of image with 604 px width
+ * @param photo75 - URL of image with 75 px width
+ * @param photo807 - URL of image with 807 px width
+ * @param placerId - ID of the tag creator
+ * @param postId - Post ID
+ * @param sizes
+ * @param tagCreated - Date when tag has been added in Unixtime
+ * @param tagId - Tag ID
+ * @param text - Photo caption
+ * @param userId - ID of the user who have uploaded the photo
+ * @param width - Original photo width
  */
 data class PhotosPhotoXtrTagInfo(
-    @SerializedName(value="album_id")
+    @SerializedName("album_id")
     val albumId: Int,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="height")
+    @SerializedName("height")
     val height: Int? = null,
-    @SerializedName(value="lat")
+    @SerializedName("lat")
     val lat: Float? = null,
-    @SerializedName(value="long")
+    @SerializedName("long")
     val long: Float? = null,
-    @SerializedName(value="photo_1280")
+    @SerializedName("photo_1280")
     val photo1280: String? = null,
-    @SerializedName(value="photo_130")
+    @SerializedName("photo_130")
     val photo130: String? = null,
-    @SerializedName(value="photo_2560")
+    @SerializedName("photo_2560")
     val photo2560: String? = null,
-    @SerializedName(value="photo_604")
+    @SerializedName("photo_604")
     val photo604: String? = null,
-    @SerializedName(value="photo_75")
+    @SerializedName("photo_75")
     val photo75: String? = null,
-    @SerializedName(value="photo_807")
+    @SerializedName("photo_807")
     val photo807: String? = null,
-    @SerializedName(value="placer_id")
+    @SerializedName("placer_id")
     val placerId: Int? = null,
-    @SerializedName(value="post_id")
+    @SerializedName("post_id")
     val postId: Int? = null,
-    @SerializedName(value="sizes")
+    @SerializedName("sizes")
     val sizes: List<PhotosPhotoSizes>? = null,
-    @SerializedName(value="tag_created")
+    @SerializedName("tag_created")
     val tagCreated: Int? = null,
-    @SerializedName(value="tag_id")
+    @SerializedName("tag_id")
     val tagId: Int? = null,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String? = null,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int? = null,
-    @SerializedName(value="width")
+    @SerializedName("width")
     val width: Int? = null
 )

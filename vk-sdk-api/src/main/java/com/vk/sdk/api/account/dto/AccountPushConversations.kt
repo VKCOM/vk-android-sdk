@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count Items count
- * @param items no description
+ * @param count - Items count
+ * @param items
  */
 data class AccountPushConversations(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="items")
+    @SerializedName("items")
     val items: List<AccountPushConversationsItem>? = null
 )

@@ -31,24 +31,25 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param comments Comments number
- * @param copies Reposts number
- * @param hidden Hidden from news count
- * @param likes Likes number
- * @param subscribed New subscribers count
- * @param unsubscribed Unsubscribed count
+ * Activity stats
+ * @param comments - Comments number
+ * @param copies - Reposts number
+ * @param hidden - Hidden from news count
+ * @param likes - Likes number
+ * @param subscribed - New subscribers count
+ * @param unsubscribed - Unsubscribed count
  */
 data class StatsActivity(
-    @SerializedName(value="comments")
+    @SerializedName("comments")
     val comments: Int? = null,
-    @SerializedName(value="copies")
+    @SerializedName("copies")
     val copies: Int? = null,
-    @SerializedName(value="hidden")
+    @SerializedName("hidden")
     val hidden: Int? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: Int? = null,
-    @SerializedName(value="subscribed")
+    @SerializedName("subscribed")
     val subscribed: Int? = null,
-    @SerializedName(value="unsubscribed")
+    @SerializedName("unsubscribed")
     val unsubscribed: Int? = null
 )

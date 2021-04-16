@@ -1,7 +1,7 @@
 VK SDK for Android
 ==========
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.vk/androidsdk.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.vk%22%20AND%20a:%22androidsdk%22)
+[![Maven Central](https://img.shields.io/maven-central/v/com.vk/android-sdk-core.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.vk%22%20AND%20a:%22android-sdk-core%22)
 
 Library for working with VK API, authorization through VK app, using VK functions. Minimal version of Android is 5.0
 
@@ -52,22 +52,26 @@ Connecting VK SDK to Your Android Application
 
 Connecting With Maven
 ----------
+[![Core Release](https://img.shields.io/maven-central/v/com.vk/android-sdk-core.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.vk%22%20AND%20a:%22android-sdk-core%22)
+
+
 You can add next maven dependency in your project:
 
-You may also need to add the following to your `project/build.gradle` file.
+The available library modules are listed below.
 
-`implementation 'com.vk:androidsdk:2.4.0`
+* `android-sdk-core`: Core functionality (required).
+* `android-sdk-api` : Api generated models and methods.
+
+* `androidsdk`: deprecated copy version of the android-sdk-core(will be removed in future releases).
+* `androidsdkapi` : deprecated copy version of the android-sdk-api(will be removed in future releases).
 
 For example, your `app/build.gradle` script will contains such dependencies:
 ```
 dependencies {
-    implementation 'com.vk:androidsdk:2.4.0
+    implementation 'com.vk:android-sdk-core:3.0.0
+    implementation 'com.vk:android-sdk-api:3.0.0 // generated models and api methods
 }
 ```
-
-Older version
-----------
-Older version of sdk can be found **[here](https://github.com/VKCOM/vk-android-sdk/releases/tag/1.6.7)**
 
 Using SDK
 ==========
@@ -136,17 +140,19 @@ class SampleApplication: Application() {
 API Requests
 ==========
 
-Run request with VK.execute:
-
+Run request with VK.execute and auto generated methods(android-sdk-api dependency is required):
 
 ```kotlin
-VK.execute(UsersGet(), object: VKApiCallback<List<UsersUserXtrCounters>> {
-    override fun success(result: List<UsersUserXtrCounters>) {
-    }
-    override fun fail(error: VKApiExecutionException) {
-    }
-})
+VK.execute(FriendsService().friendsGet(fields = fields), object: VKApiCallback<FriendsGetFieldsResponse> {
+            override fun success(result: FriendsGetFieldsResponse) {
+                // you stuff is here
+            }
+            override fun fail(error: Exception) {
+                Log.e(TAG, error.toString())
+            }
+        })
 ```
+
 
 If you are using RxJava in your project, you can do something like this:
 

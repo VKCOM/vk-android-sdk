@@ -33,33 +33,33 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param cardId Card ID (long int returned as string)
- * @param linkUrl Link URL
- * @param photo Photo ID (format "<owner_id>_<media_id>")
- * @param title Title
- * @param button Button key
- * @param buttonText Button text in current language
- * @param images no description
- * @param price Price if set (decimal number returned as string)
- * @param priceOld Old price if set (decimal number returned as string)
+ * @param cardId - Card ID (long int returned as string)
+ * @param linkUrl - Link URL
+ * @param photo - Photo ID (format "<owner_id>_<media_id>")
+ * @param title - Title
+ * @param button - Button key
+ * @param buttonText - Button text in current language
+ * @param images
+ * @param price - Price if set (decimal number returned as string)
+ * @param priceOld - Old price if set (decimal number returned as string)
  */
 data class PrettyCardsPrettyCard(
-    @SerializedName(value="card_id")
+    @SerializedName("card_id")
     val cardId: String,
-    @SerializedName(value="link_url")
+    @SerializedName("link_url")
     val linkUrl: String,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: String,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="button")
+    @SerializedName("button")
     val button: String? = null,
-    @SerializedName(value="button_text")
+    @SerializedName("button_text")
     val buttonText: String? = null,
-    @SerializedName(value="images")
+    @SerializedName("images")
     val images: List<BaseImage>? = null,
-    @SerializedName(value="price")
+    @SerializedName("price")
     val price: String? = null,
-    @SerializedName(value="price_old")
+    @SerializedName("price_old")
     val priceOld: String? = null
 )

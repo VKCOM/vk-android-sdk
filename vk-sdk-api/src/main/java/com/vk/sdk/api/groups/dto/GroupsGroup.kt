@@ -33,51 +33,51 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Community ID
- * @param name Community name
- * @param screenName Domain of the community page
- * @param isClosed no description
- * @param type no description
- * @param isAdmin Information whether current user is administrator
- * @param adminLevel no description
- * @param isMember Information whether current user is member
- * @param isAdvertiser Information whether current user is advertiser
- * @param startDate Start date in Unixtime format
- * @param finishDate Finish date in Unixtime format
- * @param deactivated Information whether community is banned
- * @param photo50 URL of square photo of the community with 50 pixels in width
- * @param photo100 URL of square photo of the community with 100 pixels in width
- * @param photo200 URL of square photo of the community with 200 pixels in width
+ * @param id - Community ID
+ * @param name - Community name
+ * @param screenName - Domain of the community page
+ * @param isClosed
+ * @param type
+ * @param isAdmin - Information whether current user is administrator
+ * @param adminLevel
+ * @param isMember - Information whether current user is member
+ * @param isAdvertiser - Information whether current user is advertiser
+ * @param startDate - Start date in Unixtime format
+ * @param finishDate - Finish date in Unixtime format
+ * @param deactivated - Information whether community is banned
+ * @param photo50 - URL of square photo of the community with 50 pixels in width
+ * @param photo100 - URL of square photo of the community with 100 pixels in width
+ * @param photo200 - URL of square photo of the community with 200 pixels in width
  */
 data class GroupsGroup(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="screen_name")
+    @SerializedName("screen_name")
     val screenName: String,
-    @SerializedName(value="is_closed")
+    @SerializedName("is_closed")
     val isClosed: GroupsGroupIsClosed,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: GroupsGroupType? = null,
-    @SerializedName(value="is_admin")
+    @SerializedName("is_admin")
     val isAdmin: BaseBoolInt? = null,
-    @SerializedName(value="admin_level")
+    @SerializedName("admin_level")
     val adminLevel: GroupsGroupAdminLevel? = null,
-    @SerializedName(value="is_member")
+    @SerializedName("is_member")
     val isMember: BaseBoolInt? = null,
-    @SerializedName(value="is_advertiser")
+    @SerializedName("is_advertiser")
     val isAdvertiser: BaseBoolInt? = null,
-    @SerializedName(value="start_date")
+    @SerializedName("start_date")
     val startDate: Int? = null,
-    @SerializedName(value="finish_date")
+    @SerializedName("finish_date")
     val finishDate: Int? = null,
-    @SerializedName(value="deactivated")
+    @SerializedName("deactivated")
     val deactivated: String? = null,
-    @SerializedName(value="photo_50")
+    @SerializedName("photo_50")
     val photo50: String? = null,
-    @SerializedName(value="photo_100")
+    @SerializedName("photo_100")
     val photo100: String? = null,
-    @SerializedName(value="photo_200")
+    @SerializedName("photo_200")
     val photo200: String? = null
 )

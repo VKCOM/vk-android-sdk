@@ -33,12 +33,12 @@ import com.vk.sdk.api.base.dto.BaseImage
 import kotlin.collections.List
 
 /**
- * @param enabled Information whether cover is enabled
- * @param images no description
+ * @param enabled - Information whether cover is enabled
+ * @param images
  */
 data class GroupsCover(
-    @SerializedName(value="enabled")
+    @SerializedName("enabled")
     val enabled: BaseBoolInt,
-    @SerializedName(value="images")
+    @SerializedName("images")
     val images: List<BaseImage>? = null
 )

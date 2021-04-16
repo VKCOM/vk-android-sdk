@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param link Link URL
- * @param status no description
+ * @param link - Link URL
+ * @param status
  */
 data class UtilsLinkChecked(
-    @SerializedName(value="link")
+    @SerializedName("link")
     val link: String? = null,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: UtilsLinkCheckedStatus? = null
 )

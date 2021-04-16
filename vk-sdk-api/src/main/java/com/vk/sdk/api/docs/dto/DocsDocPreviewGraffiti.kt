@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param src Graffiti file URL
- * @param width Graffiti width
- * @param height Graffiti height
+ * @param src - Graffiti file URL
+ * @param width - Graffiti width
+ * @param height - Graffiti height
  */
 data class DocsDocPreviewGraffiti(
-    @SerializedName(value="src")
+    @SerializedName("src")
     val src: String,
-    @SerializedName(value="width")
+    @SerializedName("width")
     val width: Int,
-    @SerializedName(value="height")
+    @SerializedName("height")
     val height: Int
 )

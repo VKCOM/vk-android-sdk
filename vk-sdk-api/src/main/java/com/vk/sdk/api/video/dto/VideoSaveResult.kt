@@ -32,24 +32,24 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param accessKey Video access key
- * @param description Video description
- * @param ownerId Video owner ID
- * @param title Video title
- * @param uploadUrl URL for the video uploading
- * @param videoId Video ID
+ * @param accessKey - Video access key
+ * @param description - Video description
+ * @param ownerId - Video owner ID
+ * @param title - Video title
+ * @param uploadUrl - URL for the video uploading
+ * @param videoId - Video ID
  */
 data class VideoSaveResult(
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="upload_url")
+    @SerializedName("upload_url")
     val uploadUrl: String? = null,
-    @SerializedName(value="video_id")
+    @SerializedName("video_id")
     val videoId: Int? = null
 )

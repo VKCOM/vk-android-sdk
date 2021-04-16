@@ -31,9 +31,9 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param count Items count
+ * @param count - Items count
  */
 data class BaseObjectCount(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null
 )

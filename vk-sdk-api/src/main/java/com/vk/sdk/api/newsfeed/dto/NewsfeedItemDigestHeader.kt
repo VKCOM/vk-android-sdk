@@ -27,58 +27,35 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.String
 
 /**
- * @param title Title of the header
- * @param style no description
- * @param subtitle Subtitle of the header, when title have two strings
- * @param button no description
+ * @param title - Title of the header
+ * @param style
+ * @param subtitle - Subtitle of the header, when title have two strings
+ * @param badgeText - Optional field for red badge in Trends feed blocks
+ * @param button
  */
 data class NewsfeedItemDigestHeader(
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="style")
-    val style: Style,
-    @SerializedName(value="subtitle")
+    @SerializedName("style")
+    val style: NewsfeedItemDigestHeader.Style,
+    @SerializedName("subtitle")
     val subtitle: String? = null,
-    @SerializedName(value="button")
+    @SerializedName("badge_text")
+    val badgeText: String? = null,
+    @SerializedName("button")
     val button: NewsfeedItemDigestButton? = null
 ) {
     enum class Style(
         val value: String
     ) {
+        @SerializedName("singleline")
         SINGLELINE("singleline"),
 
+        @SerializedName("multiline")
         MULTILINE("multiline");
-
-        class Serializer : JsonSerializer<Style>, JsonDeserializer<Style> {
-            override fun serialize(
-                src: Style?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Style {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

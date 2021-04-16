@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param apiVersion API version used for the events
- * @param events no description
+ * @param apiVersion - API version used for the events
+ * @param events
  */
 data class GroupsCallbackSettings(
-    @SerializedName(value="api_version")
+    @SerializedName("api_version")
     val apiVersion: String? = null,
-    @SerializedName(value="events")
+    @SerializedName("events")
     val events: GroupsLongPollEvents? = null
 )

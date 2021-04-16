@@ -33,15 +33,15 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param canPost Information whether current user can comment the post
- * @param count Comments number
- * @param replies no description
+ * @param canPost - Information whether current user can comment the post
+ * @param count - Comments number
+ * @param replies
  */
 data class WidgetsCommentReplies(
-    @SerializedName(value="can_post")
+    @SerializedName("can_post")
     val canPost: BaseBoolInt? = null,
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="replies")
+    @SerializedName("replies")
     val replies: List<WidgetsCommentRepliesItem>? = null
 )

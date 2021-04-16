@@ -84,6 +84,7 @@ open class VKRequest<T>(var method: String, val requestApiVersion: String? = nul
         val version = requestApiVersion ?: config.version
         params["lang"] = config.lang
         params["device_id"] = config.deviceId.value
+        config.externalDeviceId.value?.let { params["external_device_id"] = it }
         params["v"] = version
 
         val callBuilder = createBaseCallBuilder(config)

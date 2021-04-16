@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id School ID
- * @param title School title
+ * @param id - School ID
+ * @param title - School title
  */
 data class DatabaseSchool(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null
 )

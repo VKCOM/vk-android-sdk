@@ -36,51 +36,51 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param date Date when the comment has been added in Unixtime
- * @param fromId Author ID
- * @param id Comment ID
- * @param text Comment text
- * @param attachments no description
- * @param donut no description
- * @param likes no description
- * @param realOffset Real position of the comment
- * @param replyToComment Replied comment ID
- * @param replyToUser Replied user ID
- * @param thread no description
- * @param postId no description
- * @param ownerId no description
- * @param parentsStack no description
- * @param deleted no description
+ * @param date - Date when the comment has been added in Unixtime
+ * @param fromId - Author ID
+ * @param id - Comment ID
+ * @param text - Comment text
+ * @param attachments
+ * @param donut
+ * @param likes
+ * @param realOffset - Real position of the comment
+ * @param replyToComment - Replied comment ID
+ * @param replyToUser - Replied user ID
+ * @param thread
+ * @param postId
+ * @param ownerId
+ * @param parentsStack
+ * @param deleted
  */
 data class WallWallComment(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="attachments")
+    @SerializedName("attachments")
     val attachments: List<WallCommentAttachment>? = null,
-    @SerializedName(value="donut")
+    @SerializedName("donut")
     val donut: WallWallCommentDonut? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseLikesInfo? = null,
-    @SerializedName(value="real_offset")
+    @SerializedName("real_offset")
     val realOffset: Int? = null,
-    @SerializedName(value="reply_to_comment")
+    @SerializedName("reply_to_comment")
     val replyToComment: Int? = null,
-    @SerializedName(value="reply_to_user")
+    @SerializedName("reply_to_user")
     val replyToUser: Int? = null,
-    @SerializedName(value="thread")
+    @SerializedName("thread")
     val thread: CommentThread? = null,
-    @SerializedName(value="post_id")
+    @SerializedName("post_id")
     val postId: Int? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="parents_stack")
+    @SerializedName("parents_stack")
     val parentsStack: List<Int>? = null,
-    @SerializedName(value="deleted")
+    @SerializedName("deleted")
     val deleted: Boolean? = null
 )

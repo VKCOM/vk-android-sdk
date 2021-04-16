@@ -31,21 +31,21 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param url Url of the podcast page
- * @param ownerUrl Url of the podcasts owner community
- * @param title Podcast title
- * @param ownerName Name of the podcasts owner community
- * @param cover Podcast cover
+ * @param url - Url of the podcast page
+ * @param ownerUrl - Url of the podcasts owner community
+ * @param title - Podcast title
+ * @param ownerName - Name of the podcasts owner community
+ * @param cover - Podcast cover
  */
 data class PodcastExternalData(
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null,
-    @SerializedName(value="owner_url")
+    @SerializedName("owner_url")
     val ownerUrl: String? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="owner_name")
+    @SerializedName("owner_name")
     val ownerName: String? = null,
-    @SerializedName(value="cover")
+    @SerializedName("cover")
     val cover: PodcastCover? = null
 )

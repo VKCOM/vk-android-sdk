@@ -31,18 +31,18 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param data Additional data
- * @param platform Platform name
- * @param type no description
- * @param url URL to an external site used to publish the post
+ * @param data - Additional data
+ * @param platform - Platform name
+ * @param type
+ * @param url - URL to an external site used to publish the post
  */
 data class WallPostSource(
-    @SerializedName(value="data")
+    @SerializedName("data")
     val data: String? = null,
-    @SerializedName(value="platform")
+    @SerializedName("platform")
     val platform: String? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: WallPostSourceType? = null,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null
 )

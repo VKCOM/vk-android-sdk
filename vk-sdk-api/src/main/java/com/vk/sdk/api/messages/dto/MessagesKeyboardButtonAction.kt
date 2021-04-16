@@ -32,27 +32,28 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param type Button type
- * @param appId Fragment value in app link like vk.com/app{app_id}_-654321#hash
- * @param hash Fragment value in app link like vk.com/app123456_-654321#{hash}
- * @param label Label for button
- * @param link link for button
- * @param ownerId Fragment value in app link like vk.com/app123456_{owner_id}#hash
- * @param payload Additional data sent along with message for developer convenience
+ * Description of the action, that should be performed on button click
+ * @param type - Button type
+ * @param appId - Fragment value in app link like vk.com/app{app_id}_-654321#hash
+ * @param hash - Fragment value in app link like vk.com/app123456_-654321#{hash}
+ * @param label - Label for button
+ * @param link - link for button
+ * @param ownerId - Fragment value in app link like vk.com/app123456_{owner_id}#hash
+ * @param payload - Additional data sent along with message for developer convenience
  */
 data class MessagesKeyboardButtonAction(
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: MessagesTemplateActionTypeNames,
-    @SerializedName(value="app_id")
+    @SerializedName("app_id")
     val appId: Int? = null,
-    @SerializedName(value="hash")
+    @SerializedName("hash")
     val hash: String? = null,
-    @SerializedName(value="label")
+    @SerializedName("label")
     val label: String? = null,
-    @SerializedName(value="link")
+    @SerializedName("link")
     val link: String? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="payload")
+    @SerializedName("payload")
     val payload: String? = null
 )

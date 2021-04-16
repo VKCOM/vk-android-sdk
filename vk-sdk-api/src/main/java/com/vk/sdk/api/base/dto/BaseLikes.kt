@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param count Likes number
- * @param userLikes Information whether current user likes the photo
+ * @param count - Likes number
+ * @param userLikes - Information whether current user likes the photo
  */
 data class BaseLikes(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null,
-    @SerializedName(value="user_likes")
+    @SerializedName("user_likes")
     val userLikes: BaseBoolInt? = null
 )

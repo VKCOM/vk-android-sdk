@@ -32,12 +32,12 @@ import com.vk.sdk.api.base.dto.BaseBoolInt
 import kotlin.Int
 
 /**
- * @param disabledUntil Time until that notifications are disabled
- * @param sound Information whether the sound is on
+ * @param disabledUntil - Time until that notifications are disabled
+ * @param sound - Information whether the sound is on
  */
 data class MessagesChatPushSettings(
-    @SerializedName(value="disabled_until")
+    @SerializedName("disabled_until")
     val disabledUntil: Int? = null,
-    @SerializedName(value="sound")
+    @SerializedName("sound")
     val sound: BaseBoolInt? = null
 )

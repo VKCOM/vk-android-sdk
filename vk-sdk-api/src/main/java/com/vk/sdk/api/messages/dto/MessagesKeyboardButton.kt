@@ -27,56 +27,32 @@
 // *********************************************************************
 package com.vk.sdk.api.messages.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.String
 
 /**
- * @param action no description
- * @param color Button color
+ * @param action
+ * @param color - Button color
  */
 data class MessagesKeyboardButton(
-    @SerializedName(value="action")
+    @SerializedName("action")
     val action: MessagesKeyboardButtonAction,
-    @SerializedName(value="color")
-    val color: Color? = null
+    @SerializedName("color")
+    val color: MessagesKeyboardButton.Color? = null
 ) {
     enum class Color(
         val value: String
     ) {
+        @SerializedName("default")
         DEFAULT("default"),
 
+        @SerializedName("positive")
         POSITIVE("positive"),
 
+        @SerializedName("negative")
         NEGATIVE("negative"),
 
+        @SerializedName("primary")
         PRIMARY("primary");
-
-        class Serializer : JsonSerializer<Color>, JsonDeserializer<Color> {
-            override fun serialize(
-                src: Color?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Color {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

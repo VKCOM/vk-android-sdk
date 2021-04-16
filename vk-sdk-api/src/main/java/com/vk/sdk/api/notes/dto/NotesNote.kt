@@ -33,36 +33,36 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param comments Comments number
- * @param date Date when the note has been created in Unixtime
- * @param id Note ID
- * @param ownerId Note owner's ID
- * @param title Note title
- * @param viewUrl URL of the page with note preview
- * @param readComments no description
- * @param canComment Information whether current user can comment the note
- * @param text Note text
- * @param textWiki Note text in wiki format
+ * @param comments - Comments number
+ * @param date - Date when the note has been created in Unixtime
+ * @param id - Note ID
+ * @param ownerId - Note owner's ID
+ * @param title - Note title
+ * @param viewUrl - URL of the page with note preview
+ * @param readComments
+ * @param canComment - Information whether current user can comment the note
+ * @param text - Note text
+ * @param textWiki - Note text in wiki format
  */
 data class NotesNote(
-    @SerializedName(value="comments")
+    @SerializedName("comments")
     val comments: Int,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="view_url")
+    @SerializedName("view_url")
     val viewUrl: String,
-    @SerializedName(value="read_comments")
+    @SerializedName("read_comments")
     val readComments: Int? = null,
-    @SerializedName(value="can_comment")
+    @SerializedName("can_comment")
     val canComment: BaseBoolInt? = null,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String? = null,
-    @SerializedName(value="text_wiki")
+    @SerializedName("text_wiki")
     val textWiki: String? = null
 )

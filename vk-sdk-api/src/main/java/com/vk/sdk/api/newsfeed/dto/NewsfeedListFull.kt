@@ -34,18 +34,18 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param noReposts Information whether reposts hiding is enabled
- * @param sourceIds no description
- * @param id List ID
- * @param title List title
+ * @param noReposts - Information whether reposts hiding is enabled
+ * @param sourceIds
+ * @param id - List ID
+ * @param title - List title
  */
 data class NewsfeedListFull(
-    @SerializedName(value="no_reposts")
+    @SerializedName("no_reposts")
     val noReposts: BaseBoolInt? = null,
-    @SerializedName(value="source_ids")
+    @SerializedName("source_ids")
     val sourceIds: List<Int>? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null
 )

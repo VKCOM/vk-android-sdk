@@ -37,63 +37,63 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param sex User sex
- * @param screenName Domain name of the user's page
- * @param photo50 URL of square photo of the user with 50 pixels in width
- * @param photo100 URL of square photo of the user with 100 pixels in width
- * @param onlineInfo no description
- * @param online Information whether the user is online
- * @param onlineMobile Information whether the user is online in mobile site or application
- * @param onlineApp Application ID
- * @param verified Information whether the user is verified
- * @param trending Information whether the user has a "fire" pictogram.
- * @param friendStatus no description
- * @param mutual no description
- * @param deactivated Returns if a profile is deleted or blocked
- * @param firstName User first name
- * @param hidden Returns if a profile is hidden.
- * @param id User ID
- * @param lastName User last name
- * @param canAccessClosed no description
- * @param isClosed no description
+ * @param sex - User sex
+ * @param screenName - Domain name of the user's page
+ * @param photo50 - URL of square photo of the user with 50 pixels in width
+ * @param photo100 - URL of square photo of the user with 100 pixels in width
+ * @param onlineInfo
+ * @param online - Information whether the user is online
+ * @param onlineMobile - Information whether the user is online in mobile site or application
+ * @param onlineApp - Application ID
+ * @param verified - Information whether the user is verified
+ * @param trending - Information whether the user has a "fire" pictogram.
+ * @param friendStatus
+ * @param mutual
+ * @param deactivated - Returns if a profile is deleted or blocked
+ * @param firstName - User first name
+ * @param hidden - Returns if a profile is hidden.
+ * @param id - User ID
+ * @param lastName - User last name
+ * @param canAccessClosed
+ * @param isClosed
  */
 data class UsersUser(
-    @SerializedName(value="sex")
+    @SerializedName("sex")
     val sex: BaseSex? = null,
-    @SerializedName(value="screen_name")
+    @SerializedName("screen_name")
     val screenName: String? = null,
-    @SerializedName(value="photo_50")
+    @SerializedName("photo_50")
     val photo50: String? = null,
-    @SerializedName(value="photo_100")
+    @SerializedName("photo_100")
     val photo100: String? = null,
-    @SerializedName(value="online_info")
+    @SerializedName("online_info")
     val onlineInfo: UsersOnlineInfo? = null,
-    @SerializedName(value="online")
+    @SerializedName("online")
     val online: BaseBoolInt? = null,
-    @SerializedName(value="online_mobile")
+    @SerializedName("online_mobile")
     val onlineMobile: BaseBoolInt? = null,
-    @SerializedName(value="online_app")
+    @SerializedName("online_app")
     val onlineApp: Int? = null,
-    @SerializedName(value="verified")
+    @SerializedName("verified")
     val verified: BaseBoolInt? = null,
-    @SerializedName(value="trending")
+    @SerializedName("trending")
     val trending: BaseBoolInt? = null,
-    @SerializedName(value="friend_status")
+    @SerializedName("friend_status")
     val friendStatus: FriendsFriendStatusStatus? = null,
-    @SerializedName(value="mutual")
+    @SerializedName("mutual")
     val mutual: FriendsRequestsMutual? = null,
-    @SerializedName(value="deactivated")
+    @SerializedName("deactivated")
     val deactivated: String? = null,
-    @SerializedName(value="first_name")
+    @SerializedName("first_name")
     val firstName: String? = null,
-    @SerializedName(value="hidden")
+    @SerializedName("hidden")
     val hidden: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="last_name")
+    @SerializedName("last_name")
     val lastName: String? = null,
-    @SerializedName(value="can_access_closed")
+    @SerializedName("can_access_closed")
     val canAccessClosed: Boolean? = null,
-    @SerializedName(value="is_closed")
+    @SerializedName("is_closed")
     val isClosed: Boolean? = null
 )

@@ -35,27 +35,27 @@ import com.vk.sdk.api.users.dto.UsersUserMin
 import kotlin.String
 
 /**
- * @param description Object description
- * @param section no description
- * @param type no description
- * @param app no description
- * @param global Information whether the object has been found globally
- * @param group no description
- * @param profile no description
+ * @param description - Object description
+ * @param section
+ * @param type
+ * @param app
+ * @param global - Information whether the object has been found globally
+ * @param group
+ * @param profile
  */
 data class SearchHint(
-    @SerializedName(value="description")
+    @SerializedName("description")
     val description: String,
-    @SerializedName(value="section")
+    @SerializedName("section")
     val section: SearchHintSection,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: SearchHintType,
-    @SerializedName(value="app")
+    @SerializedName("app")
     val app: AppsApp? = null,
-    @SerializedName(value="global")
+    @SerializedName("global")
     val global: BaseBoolInt? = null,
-    @SerializedName(value="group")
+    @SerializedName("group")
     val group: GroupsGroup? = null,
-    @SerializedName(value="profile")
+    @SerializedName("profile")
     val profile: UsersUserMin? = null
 )

@@ -32,18 +32,19 @@ import kotlin.Boolean
 import kotlin.String
 
 /**
- * @param name Promo story title
- * @param photo50 RL of square photo of the story with 50 pixels in width
- * @param photo100 RL of square photo of the story with 100 pixels in width
- * @param notAnimated Hide animation for promo story
+ * Additional data for promo stories
+ * @param name - Promo story title
+ * @param photo50 - RL of square photo of the story with 50 pixels in width
+ * @param photo100 - RL of square photo of the story with 100 pixels in width
+ * @param notAnimated - Hide animation for promo story
  */
 data class StoriesPromoBlock(
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String,
-    @SerializedName(value="photo_50")
+    @SerializedName("photo_50")
     val photo50: String,
-    @SerializedName(value="photo_100")
+    @SerializedName("photo_100")
     val photo100: String,
-    @SerializedName(value="not_animated")
+    @SerializedName("not_animated")
     val notAnimated: Boolean
 )

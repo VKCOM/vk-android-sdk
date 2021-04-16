@@ -34,30 +34,30 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param count Total number of videos in album
- * @param ownerId Album owner's ID
- * @param title Album title
- * @param updatedTime Date when the album has been updated last time in Unixtime
- * @param id Album ID
- * @param image Album cover image in different sizes
- * @param imageBlur Need blur album thumb or not
- * @param isSystem Information whether album is system
+ * @param count - Total number of videos in album
+ * @param ownerId - Album owner's ID
+ * @param title - Album title
+ * @param updatedTime - Date when the album has been updated last time in Unixtime
+ * @param id - Album ID
+ * @param image - Album cover image in different sizes
+ * @param imageBlur - Need blur album thumb or not
+ * @param isSystem - Information whether album is system
  */
 data class VideoVideoAlbumFull(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="updated_time")
+    @SerializedName("updated_time")
     val updatedTime: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="image")
+    @SerializedName("image")
     val image: List<VideoVideoImage>? = null,
-    @SerializedName(value="image_blur")
+    @SerializedName("image_blur")
     val imageBlur: BasePropertyExists? = null,
-    @SerializedName(value="is_system")
+    @SerializedName("is_system")
     val isSystem: BasePropertyExists? = null
 )

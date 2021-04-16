@@ -27,70 +27,54 @@
 // *********************************************************************
 package com.vk.sdk.api.apps.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.String
 
 /**
- * @param name Scope name
- * @param title Scope title
+ * Scope description
+ * @param name - Scope name
+ * @param title - Scope title
  */
 data class AppsScope(
-    @SerializedName(value="name")
-    val name: Name,
-    @SerializedName(value="title")
+    @SerializedName("name")
+    val name: AppsScope.Name,
+    @SerializedName("title")
     val title: String? = null
 ) {
     enum class Name(
         val value: String
     ) {
+        @SerializedName("friends")
         FRIENDS("friends"),
 
+        @SerializedName("photos")
         PHOTOS("photos"),
 
+        @SerializedName("video")
         VIDEO("video"),
 
+        @SerializedName("pages")
         PAGES("pages"),
 
+        @SerializedName("status")
         STATUS("status"),
 
+        @SerializedName("notes")
         NOTES("notes"),
 
+        @SerializedName("wall")
         WALL("wall"),
 
+        @SerializedName("docs")
         DOCS("docs"),
 
+        @SerializedName("groups")
         GROUPS("groups"),
 
+        @SerializedName("stats")
         STATS("stats"),
 
+        @SerializedName("market")
         MARKET("market");
-
-        class Serializer : JsonSerializer<Name>, JsonDeserializer<Name> {
-            override fun serialize(
-                src: Name?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Name {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

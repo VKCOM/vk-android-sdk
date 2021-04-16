@@ -31,9 +31,9 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param count Count
+ * @param count - Count
  */
 data class WallViews(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int? = null
 )

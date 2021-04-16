@@ -31,18 +31,18 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param accessKey Access key for private stats
- * @param key Link key (characters after vk.cc/)
- * @param shortUrl Short link URL
- * @param url Full URL
+ * @param accessKey - Access key for private stats
+ * @param key - Link key (characters after vk.cc/)
+ * @param shortUrl - Short link URL
+ * @param url - Full URL
  */
 data class UtilsShortLink(
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="key")
+    @SerializedName("key")
     val key: String? = null,
-    @SerializedName(value="short_url")
+    @SerializedName("short_url")
     val shortUrl: String? = null,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null
 )

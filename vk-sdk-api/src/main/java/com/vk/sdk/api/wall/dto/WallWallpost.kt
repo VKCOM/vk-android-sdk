@@ -37,69 +37,69 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param accessKey Access key to private object
- * @param attachments no description
- * @param copyright Information about the source of the post
- * @param date Date of publishing in Unixtime
- * @param edited Date of editing in Unixtime
- * @param fromId Post author ID
- * @param geo no description
- * @param id Post ID
- * @param isArchived Is post archived, only for post owners
- * @param isFavorite Information whether the post in favorites list
- * @param likes Count of likes
- * @param ownerId Wall owner's ID
- * @param poster no description
- * @param postId If post type 'reply', contains original post ID
- * @param parentsStack If post type 'reply', contains original parent IDs stack
- * @param postSource no description
- * @param postType no description
- * @param reposts no description
- * @param signerId Post signer ID
- * @param text Post text
- * @param views Count of views
+ * @param accessKey - Access key to private object
+ * @param attachments
+ * @param copyright - Information about the source of the post
+ * @param date - Date of publishing in Unixtime
+ * @param edited - Date of editing in Unixtime
+ * @param fromId - Post author ID
+ * @param geo
+ * @param id - Post ID
+ * @param isArchived - Is post archived, only for post owners
+ * @param isFavorite - Information whether the post in favorites list
+ * @param likes - Count of likes
+ * @param ownerId - Wall owner's ID
+ * @param poster
+ * @param postId - If post type 'reply', contains original post ID
+ * @param parentsStack - If post type 'reply', contains original parent IDs stack
+ * @param postSource
+ * @param postType
+ * @param reposts
+ * @param signerId - Post signer ID
+ * @param text - Post text
+ * @param views - Count of views
  */
 data class WallWallpost(
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="attachments")
+    @SerializedName("attachments")
     val attachments: List<WallWallpostAttachment>? = null,
-    @SerializedName(value="copyright")
+    @SerializedName("copyright")
     val copyright: WallPostCopyright? = null,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int? = null,
-    @SerializedName(value="edited")
+    @SerializedName("edited")
     val edited: Int? = null,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int? = null,
-    @SerializedName(value="geo")
+    @SerializedName("geo")
     val geo: WallGeo? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="is_archived")
+    @SerializedName("is_archived")
     val isArchived: Boolean? = null,
-    @SerializedName(value="is_favorite")
+    @SerializedName("is_favorite")
     val isFavorite: Boolean? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseLikesInfo? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="poster")
+    @SerializedName("poster")
     val poster: Any? = null,
-    @SerializedName(value="post_id")
+    @SerializedName("post_id")
     val postId: Int? = null,
-    @SerializedName(value="parents_stack")
+    @SerializedName("parents_stack")
     val parentsStack: List<Int>? = null,
-    @SerializedName(value="post_source")
+    @SerializedName("post_source")
     val postSource: WallPostSource? = null,
-    @SerializedName(value="post_type")
+    @SerializedName("post_type")
     val postType: WallPostType? = null,
-    @SerializedName(value="reposts")
+    @SerializedName("reposts")
     val reposts: BaseRepostsInfo? = null,
-    @SerializedName(value="signer_id")
+    @SerializedName("signer_id")
     val signerId: Int? = null,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String? = null,
-    @SerializedName(value="views")
+    @SerializedName("views")
     val views: WallViews? = null
 )

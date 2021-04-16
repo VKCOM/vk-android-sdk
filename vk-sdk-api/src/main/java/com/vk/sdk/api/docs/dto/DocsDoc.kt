@@ -34,42 +34,42 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param id Document ID
- * @param ownerId Document owner ID
- * @param title Document title
- * @param size File size in bites
- * @param ext File extension
- * @param date Date when file has been uploaded in Unixtime
- * @param type Document type
- * @param url File URL
- * @param preview no description
- * @param isLicensed no description
- * @param accessKey Access key for the document
- * @param tags Document tags
+ * @param id - Document ID
+ * @param ownerId - Document owner ID
+ * @param title - Document title
+ * @param size - File size in bites
+ * @param ext - File extension
+ * @param date - Date when file has been uploaded in Unixtime
+ * @param type - Document type
+ * @param url - File URL
+ * @param preview
+ * @param isLicensed
+ * @param accessKey - Access key for the document
+ * @param tags - Document tags
  */
 data class DocsDoc(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="size")
+    @SerializedName("size")
     val size: Int,
-    @SerializedName(value="ext")
+    @SerializedName("ext")
     val ext: String,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: Int,
-    @SerializedName(value="url")
+    @SerializedName("url")
     val url: String? = null,
-    @SerializedName(value="preview")
+    @SerializedName("preview")
     val preview: DocsDocPreview? = null,
-    @SerializedName(value="is_licensed")
+    @SerializedName("is_licensed")
     val isLicensed: BaseBoolInt? = null,
-    @SerializedName(value="access_key")
+    @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName(value="tags")
+    @SerializedName("tags")
     val tags: List<String>? = null
 )

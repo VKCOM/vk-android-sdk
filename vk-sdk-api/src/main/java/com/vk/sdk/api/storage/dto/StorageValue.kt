@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param key no description
- * @param value no description
+ * @param key
+ * @param value
  */
 data class StorageValue(
-    @SerializedName(value="key")
+    @SerializedName("key")
     val key: String,
-    @SerializedName(value="value")
+    @SerializedName("value")
     val value: String
 )

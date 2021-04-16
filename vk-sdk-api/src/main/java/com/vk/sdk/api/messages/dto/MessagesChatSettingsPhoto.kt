@@ -32,18 +32,18 @@ import kotlin.Boolean
 import kotlin.String
 
 /**
- * @param photo50 URL of the preview image with 50px in width
- * @param photo100 URL of the preview image with 100px in width
- * @param photo200 URL of the preview image with 200px in width
- * @param isDefaultPhoto If provided photo is default
+ * @param photo50 - URL of the preview image with 50px in width
+ * @param photo100 - URL of the preview image with 100px in width
+ * @param photo200 - URL of the preview image with 200px in width
+ * @param isDefaultPhoto - If provided photo is default
  */
 data class MessagesChatSettingsPhoto(
-    @SerializedName(value="photo_50")
+    @SerializedName("photo_50")
     val photo50: String? = null,
-    @SerializedName(value="photo_100")
+    @SerializedName("photo_100")
     val photo100: String? = null,
-    @SerializedName(value="photo_200")
+    @SerializedName("photo_200")
     val photo200: String? = null,
-    @SerializedName(value="is_default_photo")
+    @SerializedName("is_default_photo")
     val isDefaultPhoto: Boolean? = null
 )

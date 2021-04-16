@@ -31,63 +31,63 @@ import com.google.gson.annotations.SerializedName
 import kotlin.collections.List
 
 /**
- * @param msg no description
- * @param chat no description
- * @param like no description
- * @param repost no description
- * @param comment no description
- * @param mention no description
- * @param reply no description
- * @param newPost no description
- * @param wallPost no description
- * @param wallPublish no description
- * @param friend no description
- * @param friendFound no description
- * @param friendAccepted no description
- * @param groupInvite no description
- * @param groupAccepted no description
- * @param birthday no description
- * @param eventSoon no description
- * @param appRequest no description
- * @param sdkOpen no description
+ * @param msg
+ * @param chat
+ * @param like
+ * @param repost
+ * @param comment
+ * @param mention
+ * @param reply
+ * @param newPost
+ * @param wallPost
+ * @param wallPublish
+ * @param friend
+ * @param friendFound
+ * @param friendAccepted
+ * @param groupInvite
+ * @param groupAccepted
+ * @param birthday
+ * @param eventSoon
+ * @param appRequest
+ * @param sdkOpen
  */
 data class AccountPushParams(
-    @SerializedName(value="msg")
+    @SerializedName("msg")
     val msg: List<AccountPushParamsMode>? = null,
-    @SerializedName(value="chat")
+    @SerializedName("chat")
     val chat: List<AccountPushParamsMode>? = null,
-    @SerializedName(value="like")
+    @SerializedName("like")
     val like: List<AccountPushParamsSettings>? = null,
-    @SerializedName(value="repost")
+    @SerializedName("repost")
     val repost: List<AccountPushParamsSettings>? = null,
-    @SerializedName(value="comment")
+    @SerializedName("comment")
     val comment: List<AccountPushParamsSettings>? = null,
-    @SerializedName(value="mention")
+    @SerializedName("mention")
     val mention: List<AccountPushParamsSettings>? = null,
-    @SerializedName(value="reply")
+    @SerializedName("reply")
     val reply: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="new_post")
+    @SerializedName("new_post")
     val newPost: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="wall_post")
+    @SerializedName("wall_post")
     val wallPost: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="wall_publish")
+    @SerializedName("wall_publish")
     val wallPublish: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="friend")
+    @SerializedName("friend")
     val friend: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="friend_found")
+    @SerializedName("friend_found")
     val friendFound: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="friend_accepted")
+    @SerializedName("friend_accepted")
     val friendAccepted: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="group_invite")
+    @SerializedName("group_invite")
     val groupInvite: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="group_accepted")
+    @SerializedName("group_accepted")
     val groupAccepted: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="birthday")
+    @SerializedName("birthday")
     val birthday: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="event_soon")
+    @SerializedName("event_soon")
     val eventSoon: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="app_request")
+    @SerializedName("app_request")
     val appRequest: List<AccountPushParamsOnoff>? = null,
-    @SerializedName(value="sdk_open")
+    @SerializedName("sdk_open")
     val sdkOpen: List<AccountPushParamsOnoff>? = null
 )

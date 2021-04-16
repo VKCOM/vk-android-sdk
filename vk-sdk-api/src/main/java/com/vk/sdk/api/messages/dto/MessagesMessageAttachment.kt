@@ -44,57 +44,57 @@ import com.vk.sdk.api.wall.dto.WallWallComment
 import com.vk.sdk.api.wall.dto.WallWallpostFull
 
 /**
- * @param type no description
- * @param audio no description
- * @param audioMessage no description
- * @param call no description
- * @param doc no description
- * @param gift no description
- * @param graffiti no description
- * @param link no description
- * @param market no description
- * @param marketMarketAlbum no description
- * @param photo no description
- * @param sticker no description
- * @param story no description
- * @param video no description
- * @param wall no description
- * @param wallReply no description
- * @param poll no description
+ * @param type
+ * @param audio
+ * @param audioMessage
+ * @param call
+ * @param doc
+ * @param gift
+ * @param graffiti
+ * @param link
+ * @param market
+ * @param marketMarketAlbum
+ * @param photo
+ * @param sticker
+ * @param story
+ * @param video
+ * @param wall
+ * @param wallReply
+ * @param poll
  */
 data class MessagesMessageAttachment(
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: MessagesMessageAttachmentType,
-    @SerializedName(value="audio")
+    @SerializedName("audio")
     val audio: AudioAudio? = null,
-    @SerializedName(value="audio_message")
+    @SerializedName("audio_message")
     val audioMessage: MessagesAudioMessage? = null,
-    @SerializedName(value="call")
+    @SerializedName("call")
     val call: CallsCall? = null,
-    @SerializedName(value="doc")
+    @SerializedName("doc")
     val doc: DocsDoc? = null,
-    @SerializedName(value="gift")
+    @SerializedName("gift")
     val gift: GiftsLayout? = null,
-    @SerializedName(value="graffiti")
+    @SerializedName("graffiti")
     val graffiti: MessagesGraffiti? = null,
-    @SerializedName(value="link")
+    @SerializedName("link")
     val link: BaseLink? = null,
-    @SerializedName(value="market")
+    @SerializedName("market")
     val market: MarketMarketItem? = null,
-    @SerializedName(value="market_market_album")
+    @SerializedName("market_market_album")
     val marketMarketAlbum: MarketMarketAlbum? = null,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: PhotosPhoto? = null,
-    @SerializedName(value="sticker")
+    @SerializedName("sticker")
     val sticker: BaseSticker? = null,
-    @SerializedName(value="story")
+    @SerializedName("story")
     val story: StoriesStory? = null,
-    @SerializedName(value="video")
+    @SerializedName("video")
     val video: VideoVideo? = null,
-    @SerializedName(value="wall")
+    @SerializedName("wall")
     val wall: WallWallpostFull? = null,
-    @SerializedName(value="wall_reply")
+    @SerializedName("wall_reply")
     val wallReply: WallWallComment? = null,
-    @SerializedName(value="poll")
+    @SerializedName("poll")
     val poll: PollsPoll? = null
 )

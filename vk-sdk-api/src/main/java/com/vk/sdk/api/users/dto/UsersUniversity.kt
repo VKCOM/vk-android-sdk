@@ -32,42 +32,42 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param chair Chair ID
- * @param chairName Chair name
- * @param city City ID
- * @param country Country ID
- * @param educationForm Education form
- * @param educationStatus Education status
- * @param faculty Faculty ID
- * @param facultyName Faculty name
- * @param graduation Graduation year
- * @param id University ID
- * @param name University name
- * @param universityGroupId no description
+ * @param chair - Chair ID
+ * @param chairName - Chair name
+ * @param city - City ID
+ * @param country - Country ID
+ * @param educationForm - Education form
+ * @param educationStatus - Education status
+ * @param faculty - Faculty ID
+ * @param facultyName - Faculty name
+ * @param graduation - Graduation year
+ * @param id - University ID
+ * @param name - University name
+ * @param universityGroupId
  */
 data class UsersUniversity(
-    @SerializedName(value="chair")
+    @SerializedName("chair")
     val chair: Int? = null,
-    @SerializedName(value="chair_name")
+    @SerializedName("chair_name")
     val chairName: String? = null,
-    @SerializedName(value="city")
+    @SerializedName("city")
     val city: Int? = null,
-    @SerializedName(value="country")
+    @SerializedName("country")
     val country: Int? = null,
-    @SerializedName(value="education_form")
+    @SerializedName("education_form")
     val educationForm: String? = null,
-    @SerializedName(value="education_status")
+    @SerializedName("education_status")
     val educationStatus: String? = null,
-    @SerializedName(value="faculty")
+    @SerializedName("faculty")
     val faculty: Int? = null,
-    @SerializedName(value="faculty_name")
+    @SerializedName("faculty_name")
     val facultyName: String? = null,
-    @SerializedName(value="graduation")
+    @SerializedName("graduation")
     val graduation: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null,
-    @SerializedName(value="university_group_id")
+    @SerializedName("university_group_id")
     val universityGroupId: Int? = null
 )

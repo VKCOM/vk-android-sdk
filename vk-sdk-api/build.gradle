@@ -3,6 +3,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply from: "../dependencies.gradle"
 
+version = sdkVersions.name
+group = 'com.vk'
+sdkPublish.POM_ARTIFACT_ID = sdkPublish.POM_API_ARTIFACT_ID
+sdkPublish.POM_NAME = sdkPublish.POM_API_NAME
+sdkPublish.POM_DESCRIPTION = sdkPublish.POM_API_DESCRIPTION
+
 android {
     compileSdkVersion "$sdkVersions.compileSdk".toInteger()
     buildToolsVersion "$sdkVersions.buildTools"
@@ -24,9 +30,16 @@ android {
     }
 }
 
+configurations {
+    // Used for correct javadoc generation
+    javadocDeps
+}
+
 dependencies {
     implementation project(':libapi-sdk-core')
 
     implementation sdkLibraries.kotlin
     implementation sdkLibraries.gson
 }
+
+apply from: "../publish.gradle"

@@ -32,12 +32,12 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id List ID
- * @param name List title
+ * @param id - List ID
+ * @param name - List title
  */
 data class FriendsFriendsList(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String
 )

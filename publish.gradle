@@ -22,8 +22,6 @@
  * SOFTWARE.
  ******************************************************************************/
 
-apply from: '../dependencies.gradle'
-
 static def getRepoUrl() {
     return "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
 }
@@ -33,6 +31,11 @@ static def getRepoUsername() {
 
 static def getRepoPassword() {
     return System.getenv('NEXUS_PASSWORD')
+}
+
+def getArtifactId() {
+    def envArtifactId = System.getenv('POM_ARTIFACT_ID')
+    return envArtifactId != null ? envArtifactId : sdkPublish.POM_ARTIFACT_ID
 }
 
 if (System.getenv('SDK_UPDATE') == "1") {
@@ -50,7 +53,7 @@ if (System.getenv('SDK_UPDATE') == "1") {
             mavenDeployer {
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-                pom.artifactId = sdkPublish.POM_ARTIFACT_ID
+                pom.artifactId = getArtifactId()
 
                 repository(url: sonatypeRepositoryUrl) {
                     authentication(userName: getRepoUsername(), password: getRepoPassword())

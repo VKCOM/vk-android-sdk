@@ -32,39 +32,39 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param city City ID
- * @param class School class letter
- * @param country Country ID
- * @param id School ID
- * @param name School name
- * @param type School type ID
- * @param typeStr School type name
- * @param yearFrom Year the user started to study
- * @param yearGraduated Graduation year
- * @param yearTo Year the user finished to study
- * @param speciality no description
+ * @param city - City ID
+ * @param class - School class letter
+ * @param country - Country ID
+ * @param id - School ID
+ * @param name - School name
+ * @param type - School type ID
+ * @param typeStr - School type name
+ * @param yearFrom - Year the user started to study
+ * @param yearGraduated - Graduation year
+ * @param yearTo - Year the user finished to study
+ * @param speciality
  */
 data class UsersSchool(
-    @SerializedName(value="city")
+    @SerializedName("city")
     val city: Int? = null,
-    @SerializedName(value="class")
+    @SerializedName("class")
     val `class`: String? = null,
-    @SerializedName(value="country")
+    @SerializedName("country")
     val country: Int? = null,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: String? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: Int? = null,
-    @SerializedName(value="type_str")
+    @SerializedName("type_str")
     val typeStr: String? = null,
-    @SerializedName(value="year_from")
+    @SerializedName("year_from")
     val yearFrom: Int? = null,
-    @SerializedName(value="year_graduated")
+    @SerializedName("year_graduated")
     val yearGraduated: Int? = null,
-    @SerializedName(value="year_to")
+    @SerializedName("year_to")
     val yearTo: Int? = null,
-    @SerializedName(value="speciality")
+    @SerializedName("speciality")
     val speciality: String? = null
 )

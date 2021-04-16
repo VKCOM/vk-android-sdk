@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param x no description
- * @param y no description
+ * @param x
+ * @param y
  */
 data class StoriesClickableArea(
-    @SerializedName(value="x")
+    @SerializedName("x")
     val x: Int? = null,
-    @SerializedName(value="y")
+    @SerializedName("y")
     val y: Int? = null
 )

@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param server Server URL
- * @param key Key
- * @param ts Timestamp
- * @param pts Persistent timestamp
+ * @param server - Server URL
+ * @param key - Key
+ * @param ts - Timestamp
+ * @param pts - Persistent timestamp
  */
 data class MessagesLongpollParams(
-    @SerializedName(value="server")
+    @SerializedName("server")
     val server: String,
-    @SerializedName(value="key")
+    @SerializedName("key")
     val key: String,
-    @SerializedName(value="ts")
+    @SerializedName("ts")
     val ts: Int,
-    @SerializedName(value="pts")
+    @SerializedName("pts")
     val pts: Int? = null
 )

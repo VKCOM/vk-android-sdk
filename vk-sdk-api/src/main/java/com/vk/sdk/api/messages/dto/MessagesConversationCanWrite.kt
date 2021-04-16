@@ -32,12 +32,12 @@ import kotlin.Boolean
 import kotlin.Int
 
 /**
- * @param allowed no description
- * @param reason no description
+ * @param allowed
+ * @param reason
  */
 data class MessagesConversationCanWrite(
-    @SerializedName(value="allowed")
+    @SerializedName("allowed")
     val allowed: Boolean,
-    @SerializedName(value="reason")
+    @SerializedName("reason")
     val reason: Int? = null
 )

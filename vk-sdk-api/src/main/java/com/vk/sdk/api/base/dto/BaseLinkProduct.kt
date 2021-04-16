@@ -33,15 +33,27 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param price no description
- * @param merchant no description
- * @param ordersCount no description
+ * @param price
+ * @param merchant
+ * @param category
+ * @param geo
+ * @param distance
+ * @param status
+ * @param ordersCount
  */
 data class BaseLinkProduct(
-    @SerializedName(value="price")
+    @SerializedName("price")
     val price: MarketPrice,
-    @SerializedName(value="merchant")
+    @SerializedName("merchant")
     val merchant: String? = null,
-    @SerializedName(value="orders_count")
+    @SerializedName("category")
+    val category: BaseLinkProductCategory? = null,
+    @SerializedName("geo")
+    val geo: BaseGeoCoordinates? = null,
+    @SerializedName("distance")
+    val distance: Int? = null,
+    @SerializedName("status")
+    val status: BaseLinkProductStatus? = null,
+    @SerializedName("orders_count")
     val ordersCount: Int? = null
 )

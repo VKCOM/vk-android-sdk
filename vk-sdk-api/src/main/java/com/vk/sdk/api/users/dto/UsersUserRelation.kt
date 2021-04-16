@@ -27,54 +27,36 @@
 // *********************************************************************
 package com.vk.sdk.api.users.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 enum class UsersUserRelation(
     val value: Int
 ) {
+    @SerializedName("0")
     NOT_SPECIFIED(0),
 
+    @SerializedName("1")
     SINGLE(1),
 
+    @SerializedName("2")
     IN_A_RELATIONSHIP(2),
 
+    @SerializedName("3")
     ENGAGED(3),
 
+    @SerializedName("4")
     MARRIED(4),
 
+    @SerializedName("5")
     COMPLICATED(5),
 
+    @SerializedName("6")
     ACTIVELY_SEARCHING(6),
 
+    @SerializedName("7")
     IN_LOVE(7),
 
+    @SerializedName("8")
     IN_A_CIVIL_UNION(8);
-
-    class Serializer : JsonSerializer<UsersUserRelation>, JsonDeserializer<UsersUserRelation> {
-        override fun serialize(
-            src: UsersUserRelation?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): UsersUserRelation {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

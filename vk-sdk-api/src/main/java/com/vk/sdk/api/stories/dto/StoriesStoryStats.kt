@@ -30,30 +30,30 @@ package com.vk.sdk.api.stories.dto
 import com.google.gson.annotations.SerializedName
 
 /**
- * @param answer no description
- * @param bans no description
- * @param openLink no description
- * @param replies no description
- * @param shares no description
- * @param subscribers no description
- * @param views no description
- * @param likes no description
+ * @param answer
+ * @param bans
+ * @param openLink
+ * @param replies
+ * @param shares
+ * @param subscribers
+ * @param views
+ * @param likes
  */
 data class StoriesStoryStats(
-    @SerializedName(value="answer")
+    @SerializedName("answer")
     val answer: StoriesStoryStatsStat,
-    @SerializedName(value="bans")
+    @SerializedName("bans")
     val bans: StoriesStoryStatsStat,
-    @SerializedName(value="open_link")
+    @SerializedName("open_link")
     val openLink: StoriesStoryStatsStat,
-    @SerializedName(value="replies")
+    @SerializedName("replies")
     val replies: StoriesStoryStatsStat,
-    @SerializedName(value="shares")
+    @SerializedName("shares")
     val shares: StoriesStoryStatsStat,
-    @SerializedName(value="subscribers")
+    @SerializedName("subscribers")
     val subscribers: StoriesStoryStatsStat,
-    @SerializedName(value="views")
+    @SerializedName("views")
     val views: StoriesStoryStatsStat,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: StoriesStoryStatsStat
 )

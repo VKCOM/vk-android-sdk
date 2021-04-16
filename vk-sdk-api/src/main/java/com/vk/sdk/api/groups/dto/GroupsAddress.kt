@@ -33,48 +33,51 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Address id
- * @param additionalAddress Additional address to the place (6 floor, left door)
- * @param address String address to the place (Nevsky, 28)
- * @param cityId City id of address
- * @param countryId Country id of address
- * @param distance Distance from the point
- * @param latitude Address latitude
- * @param longitude Address longitude
- * @param metroStationId Metro id of address
- * @param phone Address phone
- * @param timeOffset Time offset int minutes from utc time
- * @param timetable Week timetable for the address
- * @param title Title of the place (Zinger, etc)
- * @param workInfoStatus Status of information about timetable
+ * @param id - Address id
+ * @param additionalAddress - Additional address to the place (6 floor, left door)
+ * @param address - String address to the place (Nevsky, 28)
+ * @param cityId - City id of address
+ * @param countryId - Country id of address
+ * @param distance - Distance from the point
+ * @param latitude - Address latitude
+ * @param longitude - Address longitude
+ * @param metroStationId - Metro id of address
+ * @param phone - Address phone
+ * @param timeOffset - Time offset int minutes from utc time
+ * @param timetable - Week timetable for the address
+ * @param title - Title of the place (Zinger, etc)
+ * @param workInfoStatus - Status of information about timetable
+ * @param placeId
  */
 data class GroupsAddress(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="additional_address")
+    @SerializedName("additional_address")
     val additionalAddress: String? = null,
-    @SerializedName(value="address")
+    @SerializedName("address")
     val address: String? = null,
-    @SerializedName(value="city_id")
+    @SerializedName("city_id")
     val cityId: Int? = null,
-    @SerializedName(value="country_id")
+    @SerializedName("country_id")
     val countryId: Int? = null,
-    @SerializedName(value="distance")
+    @SerializedName("distance")
     val distance: Int? = null,
-    @SerializedName(value="latitude")
+    @SerializedName("latitude")
     val latitude: Float? = null,
-    @SerializedName(value="longitude")
+    @SerializedName("longitude")
     val longitude: Float? = null,
-    @SerializedName(value="metro_station_id")
+    @SerializedName("metro_station_id")
     val metroStationId: Int? = null,
-    @SerializedName(value="phone")
+    @SerializedName("phone")
     val phone: String? = null,
-    @SerializedName(value="time_offset")
+    @SerializedName("time_offset")
     val timeOffset: Int? = null,
-    @SerializedName(value="timetable")
+    @SerializedName("timetable")
     val timetable: GroupsAddressTimetable? = null,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="work_info_status")
-    val workInfoStatus: GroupsAddressWorkInfoStatus? = null
+    @SerializedName("work_info_status")
+    val workInfoStatus: GroupsAddressWorkInfoStatus? = null,
+    @SerializedName("place_id")
+    val placeId: Int? = null
 )

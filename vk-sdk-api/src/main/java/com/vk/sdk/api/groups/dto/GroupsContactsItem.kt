@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param userId User ID
- * @param desc Contact description
- * @param phone Contact phone
- * @param email Contact email
+ * @param userId - User ID
+ * @param desc - Contact description
+ * @param phone - Contact phone
+ * @param email - Contact email
  */
 data class GroupsContactsItem(
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int? = null,
-    @SerializedName(value="desc")
+    @SerializedName("desc")
     val desc: String? = null,
-    @SerializedName(value="phone")
+    @SerializedName("phone")
     val phone: String? = null,
-    @SerializedName(value="email")
+    @SerializedName("email")
     val email: String? = null
 )

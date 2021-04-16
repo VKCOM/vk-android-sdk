@@ -32,27 +32,27 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param date Date when the comment has beed added in Unixtime
- * @param id Comment ID
- * @param message Comment text
- * @param nid Note ID
- * @param oid Note ID
- * @param uid Comment author's ID
- * @param replyTo ID of replied comment 
+ * @param date - Date when the comment has beed added in Unixtime
+ * @param id - Comment ID
+ * @param message - Comment text
+ * @param nid - Note ID
+ * @param oid - Note ID
+ * @param uid - Comment author's ID
+ * @param replyTo - ID of replied comment 
  */
 data class NotesNoteComment(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="message")
+    @SerializedName("message")
     val message: String,
-    @SerializedName(value="nid")
+    @SerializedName("nid")
     val nid: Int,
-    @SerializedName(value="oid")
+    @SerializedName("oid")
     val oid: Int,
-    @SerializedName(value="uid")
+    @SerializedName("uid")
     val uid: Int,
-    @SerializedName(value="reply_to")
+    @SerializedName("reply_to")
     val replyTo: Int? = null
 )

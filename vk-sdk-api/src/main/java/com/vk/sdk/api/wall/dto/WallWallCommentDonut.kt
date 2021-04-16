@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Boolean
 
 /**
- * @param isDon Means commentator is donator
- * @param placeholder no description
+ * @param isDon - Means commentator is donator
+ * @param placeholder
  */
 data class WallWallCommentDonut(
-    @SerializedName(value="is_don")
+    @SerializedName("is_don")
     val isDon: Boolean? = null,
-    @SerializedName(value="placeholder")
+    @SerializedName("placeholder")
     val placeholder: WallWallCommentDonutPlaceholder? = null
 )

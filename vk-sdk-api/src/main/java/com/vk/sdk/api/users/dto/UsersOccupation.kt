@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id ID of school, university, company group
- * @param name Name of occupation
- * @param type Type of occupation
+ * @param id - ID of school, university, company group
+ * @param name - Name of occupation
+ * @param type - Type of occupation
  */
 data class UsersOccupation(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int? = null,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String? = null,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: String? = null
 )

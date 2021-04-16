@@ -31,9 +31,9 @@ import com.google.gson.annotations.SerializedName
 import kotlin.collections.List
 
 /**
- * @param sizes no description
+ * @param sizes
  */
 data class DocsDocPreviewPhoto(
-    @SerializedName(value="sizes")
+    @SerializedName("sizes")
     val sizes: List<DocsDocPreviewPhotoSizes>? = null
 )

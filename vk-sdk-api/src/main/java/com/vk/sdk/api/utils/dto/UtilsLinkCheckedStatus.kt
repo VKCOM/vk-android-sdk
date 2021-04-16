@@ -27,43 +27,18 @@
 // *********************************************************************
 package com.vk.sdk.api.utils.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class UtilsLinkCheckedStatus(
     val value: String
 ) {
+    @SerializedName("not_banned")
     NOT_BANNED("not_banned"),
 
+    @SerializedName("banned")
     BANNED("banned"),
 
+    @SerializedName("processing")
     PROCESSING("processing");
-
-    class Serializer : JsonSerializer<UtilsLinkCheckedStatus>,
-            JsonDeserializer<UtilsLinkCheckedStatus> {
-        override fun serialize(
-            src: UtilsLinkCheckedStatus?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): UtilsLinkCheckedStatus {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

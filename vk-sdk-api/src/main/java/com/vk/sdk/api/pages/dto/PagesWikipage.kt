@@ -32,36 +32,36 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param groupId Community ID
- * @param id Page ID
- * @param title Page title
- * @param views Views number
- * @param whoCanEdit Edit settings of the page
- * @param whoCanView View settings of the page
- * @param creatorId Page creator ID
- * @param creatorName Page creator name
- * @param editorId Last editor ID
- * @param editorName Last editor name
+ * @param groupId - Community ID
+ * @param id - Page ID
+ * @param title - Page title
+ * @param views - Views number
+ * @param whoCanEdit - Edit settings of the page
+ * @param whoCanView - View settings of the page
+ * @param creatorId - Page creator ID
+ * @param creatorName - Page creator name
+ * @param editorId - Last editor ID
+ * @param editorName - Last editor name
  */
 data class PagesWikipage(
-    @SerializedName(value="group_id")
+    @SerializedName("group_id")
     val groupId: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="views")
+    @SerializedName("views")
     val views: Int,
-    @SerializedName(value="who_can_edit")
+    @SerializedName("who_can_edit")
     val whoCanEdit: PagesPrivacySettings,
-    @SerializedName(value="who_can_view")
+    @SerializedName("who_can_view")
     val whoCanView: PagesPrivacySettings,
-    @SerializedName(value="creator_id")
+    @SerializedName("creator_id")
     val creatorId: Int? = null,
-    @SerializedName(value="creator_name")
+    @SerializedName("creator_name")
     val creatorName: Int? = null,
-    @SerializedName(value="editor_id")
+    @SerializedName("editor_id")
     val editorId: Int? = null,
-    @SerializedName(value="editor_name")
+    @SerializedName("editor_name")
     val editorName: String? = null
 )

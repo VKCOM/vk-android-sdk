@@ -27,43 +27,18 @@
 // *********************************************************************
 package com.vk.sdk.api.docs.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class DocsDocAttachmentType(
     val value: String
 ) {
+    @SerializedName("doc")
     DOC("doc"),
 
+    @SerializedName("graffiti")
     GRAFFITI("graffiti"),
 
+    @SerializedName("audio_message")
     AUDIO_MESSAGE("audio_message");
-
-    class Serializer : JsonSerializer<DocsDocAttachmentType>,
-            JsonDeserializer<DocsDocAttachmentType> {
-        override fun serialize(
-            src: DocsDocAttachmentType?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): DocsDocAttachmentType {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
 }

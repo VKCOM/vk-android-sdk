@@ -35,33 +35,34 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param title no description
- * @param text no description
- * @param button no description
- * @param alwaysShown Need show restriction always or not
- * @param blur Need blur current video or not
- * @param canPlay Can play video or not
- * @param canPreview Can preview video or not
- * @param cardIcon no description
- * @param listIcon no description
+ * Media restrictions
+ * @param title
+ * @param text
+ * @param button
+ * @param alwaysShown - Need show restriction always or not
+ * @param blur - Need blur current video or not
+ * @param canPlay - Can play video or not
+ * @param canPreview - Can preview video or not
+ * @param cardIcon
+ * @param listIcon
  */
 data class MediaRestriction(
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String? = null,
-    @SerializedName(value="button")
+    @SerializedName("button")
     val button: VideoRestrictionButton? = null,
-    @SerializedName(value="always_shown")
+    @SerializedName("always_shown")
     val alwaysShown: BaseBoolInt? = null,
-    @SerializedName(value="blur")
+    @SerializedName("blur")
     val blur: BaseBoolInt? = null,
-    @SerializedName(value="can_play")
+    @SerializedName("can_play")
     val canPlay: BaseBoolInt? = null,
-    @SerializedName(value="can_preview")
+    @SerializedName("can_preview")
     val canPreview: BaseBoolInt? = null,
-    @SerializedName(value="card_icon")
+    @SerializedName("card_icon")
     val cardIcon: List<BaseImage>? = null,
-    @SerializedName(value="list_icon")
+    @SerializedName("list_icon")
     val listIcon: List<BaseImage>? = null
 )

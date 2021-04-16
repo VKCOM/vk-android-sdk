@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param type Object type
- * @param ownerId Owner ID
- * @param itemId Item ID
+ * @param type - Object type
+ * @param ownerId - Owner ID
+ * @param itemId - Item ID
  */
 data class LinkTargetObject(
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: String? = null,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int? = null,
-    @SerializedName(value="item_id")
+    @SerializedName("item_id")
     val itemId: Int? = null
 )

@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param allLimit Client's total limit, rubles
- * @param dayLimit Client's day limit, rubles
- * @param id Client ID
- * @param name Client name
+ * @param allLimit - Client's total limit, rubles
+ * @param dayLimit - Client's day limit, rubles
+ * @param id - Client ID
+ * @param name - Client name
  */
 data class AdsClient(
-    @SerializedName(value="all_limit")
+    @SerializedName("all_limit")
     val allLimit: String,
-    @SerializedName(value="day_limit")
+    @SerializedName("day_limit")
     val dayLimit: String,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
+    @SerializedName("name")
     val name: String
 )

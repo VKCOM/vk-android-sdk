@@ -34,30 +34,30 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param ownerId no description
- * @param itemId no description
- * @param price no description
- * @param quantity no description
- * @param item no description
- * @param title no description
- * @param photo no description
- * @param variants no description
+ * @param ownerId
+ * @param itemId
+ * @param price
+ * @param quantity
+ * @param item
+ * @param title
+ * @param photo
+ * @param variants
  */
 data class MarketOrderItem(
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="item_id")
+    @SerializedName("item_id")
     val itemId: Int,
-    @SerializedName(value="price")
+    @SerializedName("price")
     val price: MarketPrice,
-    @SerializedName(value="quantity")
+    @SerializedName("quantity")
     val quantity: Int,
-    @SerializedName(value="item")
+    @SerializedName("item")
     val item: MarketMarketItem,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String? = null,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: PhotosPhoto? = null,
-    @SerializedName(value="variants")
+    @SerializedName("variants")
     val variants: List<String>? = null
 )

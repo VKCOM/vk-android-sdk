@@ -33,24 +33,24 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param count Items number
- * @param id Market album ID
- * @param ownerId Market album owner's ID
- * @param title Market album title
- * @param updatedTime Date when album has been updated last time in Unixtime
- * @param photo no description
+ * @param count - Items number
+ * @param id - Market album ID
+ * @param ownerId - Market album owner's ID
+ * @param title - Market album title
+ * @param updatedTime - Date when album has been updated last time in Unixtime
+ * @param photo
  */
 data class MarketMarketAlbum(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="owner_id")
+    @SerializedName("owner_id")
     val ownerId: Int,
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="updated_time")
+    @SerializedName("updated_time")
     val updatedTime: Int,
-    @SerializedName(value="photo")
+    @SerializedName("photo")
     val photo: PhotosPhoto? = null
 )

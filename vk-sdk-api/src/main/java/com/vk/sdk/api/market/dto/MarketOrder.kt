@@ -29,59 +29,72 @@ package com.vk.sdk.api.market.dto
 
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseLink
+import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param id no description
- * @param groupId no description
- * @param userId no description
- * @param date no description
- * @param status no description
- * @param itemsCount no description
- * @param totalPrice no description
- * @param displayOrderId no description
- * @param trackNumber no description
- * @param trackLink no description
- * @param comment no description
- * @param address no description
- * @param merchantComment no description
- * @param weight no description
- * @param previewOrderItems Several order items for preview
- * @param cancelInfo Information for cancel and revert order
+ * @param id
+ * @param groupId
+ * @param userId
+ * @param date
+ * @param status
+ * @param itemsCount
+ * @param totalPrice
+ * @param displayOrderId
+ * @param trackNumber
+ * @param trackLink
+ * @param comment
+ * @param address
+ * @param merchantComment
+ * @param weight
+ * @param discount
+ * @param previewOrderItems - Several order items for preview
+ * @param cancelInfo - Information for cancel and revert order
+ * @param commentForUser - Seller comment for user
+ * @param isViewedByAdmin
+ * @param dateViewed
  */
 data class MarketOrder(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="group_id")
+    @SerializedName("group_id")
     val groupId: Int,
-    @SerializedName(value="user_id")
+    @SerializedName("user_id")
     val userId: Int,
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="status")
+    @SerializedName("status")
     val status: Int,
-    @SerializedName(value="items_count")
+    @SerializedName("items_count")
     val itemsCount: Int,
-    @SerializedName(value="total_price")
+    @SerializedName("total_price")
     val totalPrice: MarketPrice,
-    @SerializedName(value="display_order_id")
+    @SerializedName("display_order_id")
     val displayOrderId: String? = null,
-    @SerializedName(value="track_number")
+    @SerializedName("track_number")
     val trackNumber: String? = null,
-    @SerializedName(value="track_link")
+    @SerializedName("track_link")
     val trackLink: String? = null,
-    @SerializedName(value="comment")
+    @SerializedName("comment")
     val comment: String? = null,
-    @SerializedName(value="address")
+    @SerializedName("address")
     val address: String? = null,
-    @SerializedName(value="merchant_comment")
+    @SerializedName("merchant_comment")
     val merchantComment: String? = null,
-    @SerializedName(value="weight")
+    @SerializedName("weight")
     val weight: Int? = null,
-    @SerializedName(value="preview_order_items")
+    @SerializedName("discount")
+    val discount: MarketPrice? = null,
+    @SerializedName("preview_order_items")
     val previewOrderItems: List<MarketOrderItem>? = null,
-    @SerializedName(value="cancel_info")
-    val cancelInfo: BaseLink? = null
+    @SerializedName("cancel_info")
+    val cancelInfo: BaseLink? = null,
+    @SerializedName("comment_for_user")
+    val commentForUser: String? = null,
+    @SerializedName("is_viewed_by_admin")
+    val isViewedByAdmin: Boolean? = null,
+    @SerializedName("date_viewed")
+    val dateViewed: Int? = null
 )

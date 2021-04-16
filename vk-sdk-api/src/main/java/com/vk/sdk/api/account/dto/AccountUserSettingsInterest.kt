@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 /**
- * @param title no description
- * @param value no description
+ * @param title
+ * @param value
  */
 data class AccountUserSettingsInterest(
-    @SerializedName(value="title")
+    @SerializedName("title")
     val title: String,
-    @SerializedName(value="value")
+    @SerializedName("value")
     val value: String
 )

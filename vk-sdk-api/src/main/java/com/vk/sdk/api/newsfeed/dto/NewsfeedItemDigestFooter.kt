@@ -27,55 +27,29 @@
 // *********************************************************************
 package com.vk.sdk.api.newsfeed.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Type
 import kotlin.String
 
 /**
- * @param style no description
- * @param text text for invite to enable smart feed
- * @param button no description
+ * @param style
+ * @param text - text for invite to enable smart feed
+ * @param button
  */
 data class NewsfeedItemDigestFooter(
-    @SerializedName(value="style")
-    val style: Style,
-    @SerializedName(value="text")
+    @SerializedName("style")
+    val style: NewsfeedItemDigestFooter.Style,
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="button")
+    @SerializedName("button")
     val button: NewsfeedItemDigestButton? = null
 ) {
     enum class Style(
         val value: String
     ) {
+        @SerializedName("text")
         TEXT("text"),
 
+        @SerializedName("button")
         BUTTON("button");
-
-        class Serializer : JsonSerializer<Style>, JsonDeserializer<Style> {
-            override fun serialize(
-                src: Style?,
-                typeOfSrc: Type?,
-                context: JsonSerializationContext?
-            ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
-
-            override fun deserialize(
-                json: JsonElement?,
-                typeOfT: Type?,
-                context: JsonDeserializationContext?
-            ): Style {
-                val value = values().firstOrNull {
-                    it.value.toString() == json?.asJsonPrimitive?.asString
-                }
-                return value ?: throw JsonParseException(json.toString())
-            }
-        }
     }
 }

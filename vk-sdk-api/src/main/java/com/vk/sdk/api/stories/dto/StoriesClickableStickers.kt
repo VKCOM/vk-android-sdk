@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param clickableStickers no description
- * @param originalHeight no description
- * @param originalWidth no description
+ * @param clickableStickers
+ * @param originalHeight
+ * @param originalWidth
  */
 data class StoriesClickableStickers(
-    @SerializedName(value="clickable_stickers")
+    @SerializedName("clickable_stickers")
     val clickableStickers: List<StoriesClickableSticker>,
-    @SerializedName(value="original_height")
+    @SerializedName("original_height")
     val originalHeight: Int,
-    @SerializedName(value="original_width")
+    @SerializedName("original_width")
     val originalWidth: Int
 )

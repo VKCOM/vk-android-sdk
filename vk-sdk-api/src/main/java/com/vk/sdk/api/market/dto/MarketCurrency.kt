@@ -32,12 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param id Currency ID
- * @param name Currency sign
+ * @param id - Currency ID
+ * @param name - Currency sign
+ * @param title - Currency title
  */
 data class MarketCurrency(
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="name")
-    val name: String
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("title")
+    val title: String
 )

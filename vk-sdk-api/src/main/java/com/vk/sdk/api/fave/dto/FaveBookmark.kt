@@ -37,30 +37,30 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param addedDate Timestamp, when this item was bookmarked
- * @param seen Has user seen this item
- * @param tags no description
- * @param type Item type
- * @param link no description
- * @param post no description
- * @param product no description
- * @param video no description
+ * @param addedDate - Timestamp, when this item was bookmarked
+ * @param seen - Has user seen this item
+ * @param tags
+ * @param type - Item type
+ * @param link
+ * @param post
+ * @param product
+ * @param video
  */
 data class FaveBookmark(
-    @SerializedName(value="added_date")
+    @SerializedName("added_date")
     val addedDate: Int,
-    @SerializedName(value="seen")
+    @SerializedName("seen")
     val seen: Boolean,
-    @SerializedName(value="tags")
+    @SerializedName("tags")
     val tags: List<FaveTag>,
-    @SerializedName(value="type")
+    @SerializedName("type")
     val type: FaveBookmarkType,
-    @SerializedName(value="link")
+    @SerializedName("link")
     val link: BaseLink? = null,
-    @SerializedName(value="post")
+    @SerializedName("post")
     val post: WallWallpostFull? = null,
-    @SerializedName(value="product")
+    @SerializedName("product")
     val product: MarketMarketItem? = null,
-    @SerializedName(value="video")
+    @SerializedName("video")
     val video: VideoVideo? = null
 )

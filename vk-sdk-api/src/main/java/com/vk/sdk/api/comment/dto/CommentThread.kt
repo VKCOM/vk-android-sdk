@@ -34,21 +34,21 @@ import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param count Comments number
- * @param canPost Information whether current user can comment the post
- * @param groupsCanPost Information whether groups can comment the post
- * @param items no description
- * @param showReplyButton Information whether recommended to display reply button
+ * @param count - Comments number
+ * @param canPost - Information whether current user can comment the post
+ * @param groupsCanPost - Information whether groups can comment the post
+ * @param items
+ * @param showReplyButton - Information whether recommended to display reply button
  */
 data class CommentThread(
-    @SerializedName(value="count")
+    @SerializedName("count")
     val count: Int,
-    @SerializedName(value="can_post")
+    @SerializedName("can_post")
     val canPost: Boolean? = null,
-    @SerializedName(value="groups_can_post")
+    @SerializedName("groups_can_post")
     val groupsCanPost: Boolean? = null,
-    @SerializedName(value="items")
+    @SerializedName("items")
     val items: List<WallWallComment>? = null,
-    @SerializedName(value="show_reply_button")
+    @SerializedName("show_reply_button")
     val showReplyButton: Boolean? = null
 )

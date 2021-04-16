@@ -54,7 +54,7 @@ internal class TooManyRequestRetryChainCall<T>(manager: VKApiManager, retryLimit
 
     private object Backoff {
         const val TIMEOUT: Long = 1000
-        private val bf = ExponentialBackoff(TIMEOUT, TIMEOUT * 8, 1.2f)
+        private val bf = ExponentialBackoff(minDelayMs = TIMEOUT, maxDelayMs = TIMEOUT * 8, factor = 1.2f)
 
         @Synchronized
         fun shouldWait(): Boolean = bf.shouldWait()

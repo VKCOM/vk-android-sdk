@@ -27,73 +27,72 @@
 // *********************************************************************
 package com.vk.sdk.api.wall.dto
 
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonParseException
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.annotations.SerializedName
 import kotlin.String
 
 enum class WallWallpostAttachmentType(
     val value: String
 ) {
+    @SerializedName("photo")
     PHOTO("photo"),
 
+    @SerializedName("posted_photo")
     POSTED_PHOTO("posted_photo"),
 
+    @SerializedName("audio")
     AUDIO("audio"),
 
+    @SerializedName("video")
     VIDEO("video"),
 
+    @SerializedName("doc")
     DOC("doc"),
 
+    @SerializedName("link")
     LINK("link"),
 
+    @SerializedName("graffiti")
     GRAFFITI("graffiti"),
 
+    @SerializedName("note")
     NOTE("note"),
 
+    @SerializedName("app")
     APP("app"),
 
+    @SerializedName("poll")
     POLL("poll"),
 
+    @SerializedName("page")
     PAGE("page"),
 
+    @SerializedName("album")
     ALBUM("album"),
 
+    @SerializedName("photos_list")
     PHOTOS_LIST("photos_list"),
 
+    @SerializedName("market_market_album")
     MARKET_MARKET_ALBUM("market_market_album"),
 
+    @SerializedName("market")
     MARKET("market"),
 
+    @SerializedName("event")
     EVENT("event"),
 
+    @SerializedName("mini_app")
     MINI_APP("mini_app"),
 
-    DONUT_LINK("donut_link");
+    @SerializedName("donut_link")
+    DONUT_LINK("donut_link"),
 
-    class Serializer : JsonSerializer<WallWallpostAttachmentType>,
-            JsonDeserializer<WallWallpostAttachmentType> {
-        override fun serialize(
-            src: WallWallpostAttachmentType?,
-            typeOfSrc: Type?,
-            context: JsonSerializationContext?
-        ): JsonElement = src?.let { JsonPrimitive(src.value) } ?: JsonNull.INSTANCE
+    @SerializedName("article")
+    ARTICLE("article"),
 
-        override fun deserialize(
-            json: JsonElement?,
-            typeOfT: Type?,
-            context: JsonDeserializationContext?
-        ): WallWallpostAttachmentType {
-            val value = values().firstOrNull {
-                it.value.toString() == json?.asJsonPrimitive?.asString
-            }
-            return value ?: throw JsonParseException(json.toString())
-        }
-    }
+    @SerializedName("textlive")
+    TEXTLIVE("textlive"),
+
+    @SerializedName("textpost")
+    TEXTPOST("textpost");
 }

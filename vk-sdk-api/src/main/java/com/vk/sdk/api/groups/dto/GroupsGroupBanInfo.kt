@@ -32,15 +32,15 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param comment Ban comment
- * @param endDate End date of ban in Unixtime
- * @param reason no description
+ * @param comment - Ban comment
+ * @param endDate - End date of ban in Unixtime
+ * @param reason
  */
 data class GroupsGroupBanInfo(
-    @SerializedName(value="comment")
+    @SerializedName("comment")
     val comment: String? = null,
-    @SerializedName(value="end_date")
+    @SerializedName("end_date")
     val endDate: Int? = null,
-    @SerializedName(value="reason")
+    @SerializedName("reason")
     val reason: GroupsBanInfoReason? = null
 )

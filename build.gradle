@@ -27,9 +27,14 @@ apply from: 'dependencies.gradle'
 subprojects { Project subproject ->
     buildscript {
         repositories {
+            jcenter {
+                content {
+                    includeModule("com.jfrog.bintray.gradle", "gradle-bintray-plugin")
+                    includeModule("org.codehaus.groovy.modules.http-builder", "http-builder")
+                }
+            }
             google()
             mavenCentral()
-            jcenter()
             maven { url 'https://maven.google.com' }
         }
 
@@ -42,7 +47,7 @@ subprojects { Project subproject ->
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 

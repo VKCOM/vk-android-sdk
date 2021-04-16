@@ -39,48 +39,48 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param date Date when the comment has been added in Unixtime
- * @param fromId Comment author ID
- * @param id Comment ID
- * @param postType Post type
- * @param text Comment text
- * @param toId Wall owner
- * @param attachments no description
- * @param canDelete Information whether current user can delete the comment
- * @param comments no description
- * @param likes no description
- * @param media no description
- * @param postSource no description
- * @param reposts no description
- * @param user no description
+ * @param date - Date when the comment has been added in Unixtime
+ * @param fromId - Comment author ID
+ * @param id - Comment ID
+ * @param postType - Post type
+ * @param text - Comment text
+ * @param toId - Wall owner
+ * @param attachments
+ * @param canDelete - Information whether current user can delete the comment
+ * @param comments
+ * @param likes
+ * @param media
+ * @param postSource
+ * @param reposts
+ * @param user
  */
 data class WidgetsWidgetComment(
-    @SerializedName(value="date")
+    @SerializedName("date")
     val date: Int,
-    @SerializedName(value="from_id")
+    @SerializedName("from_id")
     val fromId: Int,
-    @SerializedName(value="id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName(value="post_type")
+    @SerializedName("post_type")
     val postType: Int,
-    @SerializedName(value="text")
+    @SerializedName("text")
     val text: String,
-    @SerializedName(value="to_id")
+    @SerializedName("to_id")
     val toId: Int,
-    @SerializedName(value="attachments")
+    @SerializedName("attachments")
     val attachments: List<WallCommentAttachment>? = null,
-    @SerializedName(value="can_delete")
+    @SerializedName("can_delete")
     val canDelete: BaseBoolInt? = null,
-    @SerializedName(value="comments")
+    @SerializedName("comments")
     val comments: WidgetsCommentReplies? = null,
-    @SerializedName(value="likes")
+    @SerializedName("likes")
     val likes: BaseLikesInfo? = null,
-    @SerializedName(value="media")
+    @SerializedName("media")
     val media: WidgetsCommentMedia? = null,
-    @SerializedName(value="post_source")
+    @SerializedName("post_source")
     val postSource: WallPostSource? = null,
-    @SerializedName(value="reposts")
+    @SerializedName("reposts")
     val reposts: BaseRepostsInfo? = null,
-    @SerializedName(value="user")
+    @SerializedName("user")
     val user: UsersUserFull? = null
 )

@@ -31,12 +31,12 @@ import com.google.gson.annotations.SerializedName
 import kotlin.Int
 
 /**
- * @param cityId City ID
- * @param views Views number
+ * @param cityId - City ID
+ * @param views - Views number
  */
 data class UtilsStatsCity(
-    @SerializedName(value="city_id")
+    @SerializedName("city_id")
     val cityId: Int? = null,
-    @SerializedName(value="views")
+    @SerializedName("views")
     val views: Int? = null
 )
