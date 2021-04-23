@@ -62,14 +62,14 @@ The available library modules are listed below.
 * `android-sdk-core`: Core functionality (required).
 * `android-sdk-api` : Api generated models and methods.
 
-* `androidsdk`: deprecated copy version of the android-sdk-core(will be removed in future releases).
-* `androidsdkapi` : deprecated copy version of the android-sdk-api(will be removed in future releases).
+* `androidsdk`: deprecated copy version of the android-sdk-core(will be removed in future releases since 01.09.2021).
+* `androidsdkapi` : deprecated copy version of the android-sdk-api(will be removed in future releases since 01.09.2021).
 
 For example, your `app/build.gradle` script will contains such dependencies:
 ```
 dependencies {
-    implementation 'com.vk:android-sdk-core:3.0.0
-    implementation 'com.vk:android-sdk-api:3.0.0 // generated models and api methods
+    implementation 'com.vk:android-sdk-core:3.x.x
+    implementation 'com.vk:android-sdk-api:3.x.x // generated models and api methods
 }
 ```
 

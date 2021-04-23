@@ -54,6 +54,7 @@ object VKApiCodes {
     const val CODE_TOKEN_CONFIRMATION_REQUIRED = 25
     const val CODE_RATE_LIMIT_REACHED = 29
     const val CODE_PRIVATE_PROFILE = 30
+    const val CODE_CLIENT_UPDATE_NEEDED = 35
     const val CODE_REQUIRED_ARG_NOT_FOUND = 100
     const val CODE_INVALID_APP_IDENTIFIER = 101
     const val CODE_ERROR_LIMITS = 103

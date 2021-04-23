@@ -38,6 +38,11 @@ def getArtifactId() {
     return envArtifactId != null ? envArtifactId : sdkPublish.POM_ARTIFACT_ID
 }
 
+def getArtifactDescription() {
+    def envArtifactId = System.getenv('POM_ARTIFACT_DESCRIPTION')
+    return envArtifactId != null ? envArtifactId : sdkPublish.POM_ARTIFACT_DESCRIPTION
+}
+
 if (System.getenv('SDK_UPDATE') == "1") {
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'maven-publish'
@@ -62,7 +67,7 @@ if (System.getenv('SDK_UPDATE') == "1") {
                 pom.project {
                     packaging 'aar'
                     name sdkPublish.POM_NAME
-                    description sdkPublish.POM_DESCRIPTION
+                    description getArtifactDescription()
                     url sdkPublish.POM_URL
 
                     scm {

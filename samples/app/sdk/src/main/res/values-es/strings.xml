@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="login">Войти</string>
-    <string name="logout">Выйти</string>
-    <string name="share_to_wall">Publicar en el muro</string>
-    <string name="message_hint">Ваше сообщение</string>
-    <string name="wall_ok">Publicada</string>
-</resources>

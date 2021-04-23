@@ -86,6 +86,9 @@ open class VKApiExecutionException
             }
         }
 
+    val isAppUpdateNeeded: Boolean
+        get() = code == VKApiCodes.CODE_CLIENT_UPDATE_NEEDED
+
     val isUserConfirmRequired: Boolean
         get() = code == VKApiCodes.CODE_USER_CONFIRM_REQUIRED
 
