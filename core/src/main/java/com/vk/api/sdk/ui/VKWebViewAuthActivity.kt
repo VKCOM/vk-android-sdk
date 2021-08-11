@@ -156,6 +156,7 @@ open class VKWebViewAuthActivity: Activity() {
                 } else if (uri.getQueryParameter("cancel") != null) {
                     notifyLockerAndFinish()
                 }
+                return false
             } else {
                 if (!url.startsWith(redirectUrl)) {
                     return false
