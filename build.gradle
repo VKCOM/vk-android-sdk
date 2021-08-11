@@ -35,7 +35,6 @@ subprojects { Project subproject ->
             }
             google()
             mavenCentral()
-            maven { url 'https://maven.google.com' }
         }
 
         dependencies {

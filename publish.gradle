@@ -56,7 +56,7 @@ if (System.getenv('SDK_UPDATE') == "1") {
     uploadArchives {
         repositories {
             mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+                beforeDeployment { deployment -> signing.signPom(deployment) }
 
                 pom.artifactId = getArtifactId()
 

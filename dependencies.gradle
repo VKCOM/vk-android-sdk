@@ -23,8 +23,8 @@ SOFTWARE.
 */
 
 ext.sdkVersions = [
-        code                            : '24',
-        name                            : '3.1.0',
+        code                            : '25',
+        name                            : '3.2.0',
 
         minSdk                          : 21,
         targetSdk                       : 29,
@@ -72,17 +72,22 @@ ext.sdkGradlePlugins = [
 ]
 
 ext.sdkPublish = [
-        POM_NAME                        : "VK API library",
-        POM_ARTIFACT_ID                 : 'android-sdk-core',
-        POM_DESCRIPTION                 : 'Main VK Android API library',
         POM_URL                         : 'https://github.com/VKCOM/vk-android-sdk',
         POM_SCM_URL                     : 'https://github.com/VKCOM/vk-android-sdk',
         POM_SCM_CONNECTION              : 'scm:git:git://github.com/VKCOM/vk-android-sdk.git',
         POM_SCM_DEV_CONNECTION          : 'scm:git:git://github.com/VKCOM/vk-android-sdk.git',
         POM_LICENCE_URL                 : 'https://github.com/VKCOM/vk-android-sdk/raw/master/LICENSE',
 
+        POM_NAME                        : "VK API library",
+        POM_ARTIFACT_ID                 : 'android-sdk-core',
+        POM_DESCRIPTION                 : 'Main VK Android API library',
+
         POM_API_NAME                    : 'VK API Models library',
         POM_API_ARTIFACT_ID             : 'android-sdk-api',
         POM_API_DESCRIPTION             : 'VK Android API generated library',
+
+        POM_ID_NAME                     : 'VK User Id library',
+        POM_ID_ARTIFACT_ID              : 'android-sdk-id',
+        POM_ID_DESCRIPTION              : 'VK Android User Id library',
 ]
 

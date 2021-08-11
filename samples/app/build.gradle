@@ -59,6 +59,7 @@ dependencies {
     implementation (sdkLibraries.picasso) { transitive = false }
     implementation sdkLibraries.okHttp
 
-    implementation project(':libapi-sdk-core')
-    implementation project(':libapi-sdk-api')
+    implementation project(':core')
+    implementation project(':api')
+    implementation project(':id')
 }

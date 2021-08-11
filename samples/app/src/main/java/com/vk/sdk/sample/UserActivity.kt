@@ -45,6 +45,7 @@ import com.vk.sdk.api.users.dto.UsersFields
 import com.vk.sdk.sample.models.VKUser
 import com.vk.sdk.sample.requests.VKUsersCommand
 import com.vk.sdk.sample.requests.VKWallPostCommand
+import com.vk.dto.common.id.UserId
 
 class UserActivity: Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,7 +103,7 @@ class UserActivity: Activity() {
                 if (!isFinishing && friends.isNotEmpty()) {
                     val vkUsers = friends.map { friend ->
                         VKUser(
-                            id = friend.id ?: 0,
+                            id = friend.id?.value ?: 0,
                             firstName = friend.firstName ?: "",
                             lastName = friend.lastName ?: "",
                             photo = friend.photo200 ?: "",
@@ -164,7 +165,7 @@ class UserActivity: Activity() {
         })
     }
 
-    private fun createOnClickListener(userId: Int) = View.OnClickListener {
+    private fun createOnClickListener(userId: Long) = View.OnClickListener {
         VK.urlResolver.open(it.context, "https://vk.com/id$userId")
     }
 

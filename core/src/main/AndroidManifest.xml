@@ -1,0 +1,59 @@
+<!-- *******************************************************************************
+# The MIT License (MIT)
+#
+# Copyright (c) 2019 vk.com
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+# ****************************************************************************** -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.vk.api.sdk">
+
+    <queries>
+        <!-- For auth with vk client -->
+        <intent>
+            <action android:name="com.vkontakte.android.action.SDK_AUTH" />
+        </intent>
+
+        <!-- For available browsers request -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="http" />
+        </intent>
+    </queries>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application>
+        <activity android:name=".ui.VKWebViewAuthActivity"
+            android:theme="@style/VK.Transparent" />
+        <activity android:name=".ui.VKCaptchaActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".ui.VKConfirmationActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <provider
+            android:authorities="${applicationId}.VKInitProvider"
+            android:name="com.vk.api.sdk.internal.VKInitProvider"
+            android:exported="false"
+            android:enabled="@bool/com_vk_sdk_init_provider_enabled"/>
+    </application>
+
+</manifest>
