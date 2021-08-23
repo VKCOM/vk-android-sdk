@@ -34,26 +34,32 @@ import com.vk.api.sdk.utils.VKUtils
 import java.util.*
 
 internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
-    fun login(activity: Activity, scopes: Collection<VKScope>) {
+    fun login(activity: Activity, scopes: Collection<VKScope>, launcher: Any?) {
         val params = VKAuthParams(VK.getAppId(activity), scope = scopes)
         if (VKUtils.isIntentAvailable(activity, VK_APP_AUTH_ACTION, null, VK_APP_PACKAGE_ID)) {
-            startAuthActivity(activity, params)
+            startAuthActivity(activity, params, launcher)
         } else {
             // start dialog with webview
-            startInternalAuthActivity(activity, params)
+            startInternalAuthActivity(activity, params, launcher)
         }
     }
 
-    private fun startAuthActivity(activity: Activity, params: VKAuthParams) {
+    private fun startAuthActivity(activity: Activity, params: VKAuthParams, launcher: Any?) {
         val intent = Intent(VK_APP_AUTH_ACTION, null).apply {
             setPackage(VK_APP_PACKAGE_ID)
             putExtras(params.toExtraBundle())
         }
-        activity.startActivityForResult(intent, VK_APP_AUTH_CODE)
+        if (launcher == null) {
+            activity.startActivityForResult(intent, VK_APP_AUTH_CODE)
+        } else {
+            Class.forName("androidx.activity.result.ActivityResultLauncher")
+                .getDeclaredMethod("launch", Any::class.java)
+                .invoke(launcher, intent)
+        }
     }
 
-    private fun startInternalAuthActivity(activity: Activity, params: VKAuthParams) {
-        VKWebViewAuthActivity.startForAuth(activity, params, VK_APP_AUTH_CODE)
+    private fun startInternalAuthActivity(activity: Activity, params: VKAuthParams, launcher: Any?) {
+        VKWebViewAuthActivity.startForAuth(activity, params, launcher, VK_APP_AUTH_CODE)
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, callback: VKAuthCallback): Boolean {

@@ -78,11 +78,12 @@ object VK {
      * Otherwise, WebView with vk.com will be used
      * @param activity current activity
      * @param scopes list of scopes required for app
+     * @param activityResultLauncher ActivityResultLauncher which will launch for result
      */
     @JvmStatic
     @JvmOverloads
-    fun login(activity: Activity, scopes: Collection<VKScope> = emptySet()) {
-        authManager.login(activity, scopes)
+    fun login(activity: Activity, scopes: Collection<VKScope> = emptySet(), activityResultLauncher: Any? = null) {
+        authManager.login(activity, scopes, activityResultLauncher)
     }
 
     /**

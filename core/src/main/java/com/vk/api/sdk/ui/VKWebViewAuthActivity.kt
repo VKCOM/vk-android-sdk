@@ -249,10 +249,16 @@ open class VKWebViewAuthActivity: Activity() {
 
         var validationResult: VKApiValidationHandler.Credentials? = null
 
-        fun startForAuth(activity: Activity, params: VKAuthParams, code: Int) {
+        fun startForAuth(activity: Activity, params: VKAuthParams, launcher: Any?, code: Int) {
             val intent = Intent(activity, VKWebViewAuthActivity::class.java)
                 .putExtra(VK_EXTRA_AUTH_PARAMS, params.toBundle())
-            activity.startActivityForResult(intent, code)
+            if (launcher == null) {
+                activity.startActivityForResult(intent, code)
+            } else {
+                Class.forName("androidx.activity.result.ActivityResultLauncher")
+                    .getDeclaredMethod("launch", Any::class.java)
+                    .invoke(launcher, intent)
+            }
         }
 
         fun startForValidation(context: Context, validationUrl: String) {
