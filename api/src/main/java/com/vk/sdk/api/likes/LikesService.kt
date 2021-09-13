@@ -28,13 +28,16 @@
 package com.vk.sdk.api.likes
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.likes.dto.FilterParam
-import com.vk.sdk.api.likes.dto.FriendsOnlyParam
 import com.vk.sdk.api.likes.dto.LikesAddResponse
 import com.vk.sdk.api.likes.dto.LikesDeleteResponse
+import com.vk.sdk.api.likes.dto.LikesGetListExtendedFilter
+import com.vk.sdk.api.likes.dto.LikesGetListExtendedFriendsOnly
 import com.vk.sdk.api.likes.dto.LikesGetListExtendedResponse
+import com.vk.sdk.api.likes.dto.LikesGetListFilter
+import com.vk.sdk.api.likes.dto.LikesGetListFriendsOnly
 import com.vk.sdk.api.likes.dto.LikesGetListResponse
 import com.vk.sdk.api.likes.dto.LikesIsLikedResponse
 import kotlin.Boolean
@@ -45,7 +48,7 @@ class LikesService {
     /**
      * Adds the specified object to the 'Likes' list of the current user.
      *
-     * @param type - Object type: 'post' - post on user or community wall, 'comment' - comment on a
+     * @param type - Object type_ 'post' - post on user or community wall, 'comment' - comment on a
      * wall post, 'photo' - photo, 'audio' - audio, 'video' - video, 'note' - note, 'photo_comment' -
      * comment on the photo, 'video_comment' - comment on the video, 'topic_comment' - comment in the
      * discussion, 'sitepage' - page of the site where the [vk.com/dev/Like|Like widget] is installed
@@ -57,7 +60,7 @@ class LikesService {
     fun likesAdd(
         type: String,
         itemId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         accessKey: String? = null
     ): VKRequest<LikesAddResponse> = NewApiRequest("likes.add") {
         GsonHolder.gson.fromJson(it, LikesAddResponse::class.java)
@@ -72,7 +75,7 @@ class LikesService {
     /**
      * Deletes the specified object from the 'Likes' list of the current user.
      *
-     * @param type - Object type: 'post' - post on user or community wall, 'comment' - comment on a
+     * @param type - Object type_ 'post' - post on user or community wall, 'comment' - comment on a
      * wall post, 'photo' - photo, 'audio' - audio, 'video' - video, 'note' - note, 'photo_comment' -
      * comment on the photo, 'video_comment' - comment on the video, 'topic_comment' - comment in the
      * discussion, 'sitepage' - page of the site where the [vk.com/dev/Like|Like widget] is installed
@@ -84,7 +87,7 @@ class LikesService {
     fun likesDelete(
         type: String,
         itemId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         accessKey: String? = null
     ): VKRequest<LikesDeleteResponse> = NewApiRequest("likes.delete") {
         GsonHolder.gson.fromJson(it, LikesDeleteResponse::class.java)
@@ -99,7 +102,7 @@ class LikesService {
     /**
      * Returns a list of IDs of users who added the specified object to their 'Likes' list.
      *
-     * @param type - , Object type: 'post' - post on user or community wall, 'comment' - comment on
+     * @param type - , Object type_ 'post' - post on user or community wall, 'comment' - comment on
      * a wall post, 'photo' - photo, 'audio' - audio, 'video' - video, 'note' - note, 'photo_comment' -
      * comment on the photo, 'video_comment' - comment on the video, 'topic_comment' - comment in the
      * discussion, 'sitepage' - page of the site where the [vk.com/dev/Like|Like widget] is installed
@@ -112,10 +115,10 @@ class LikesService {
      * 'page_id' parameter value used during initialization of the [vk.com/dev/Like|Like widget].
      * @param pageUrl - URL of the page where the [vk.com/dev/Like|Like widget] is installed. Used
      * instead of the 'item_id' parameter.
-     * @param filter - Filters to apply: 'likes' - returns information about all users who liked the
+     * @param filter - Filters to apply_ 'likes' - returns information about all users who liked the
      * object (default), 'copies' - returns information only about users who told their friends about
      * the object
-     * @param friendsOnly - Specifies which users are returned: '1' - to return only the current
+     * @param friendsOnly - Specifies which users are returned_ '1' - to return only the current
      * user's friends, '0' - to return all users (default)
      * @param offset - Offset needed to select a specific subset of users.
      * @param count - Number of user IDs to return (maximum '1000'). Default is '100' if
@@ -125,11 +128,11 @@ class LikesService {
      */
     fun likesGetList(
         type: String,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         itemId: Int? = null,
         pageUrl: String? = null,
-        filter: FilterParam? = null,
-        friendsOnly: FriendsOnlyParam? = null,
+        filter: LikesGetListFilter? = null,
+        friendsOnly: LikesGetListFriendsOnly? = null,
         offset: Int? = null,
         count: Int? = null,
         skipOwn: Boolean? = null
@@ -151,7 +154,7 @@ class LikesService {
     /**
      * Returns a list of IDs of users who added the specified object to their 'Likes' list.
      *
-     * @param type - , Object type: 'post' - post on user or community wall, 'comment' - comment on
+     * @param type - , Object type_ 'post' - post on user or community wall, 'comment' - comment on
      * a wall post, 'photo' - photo, 'audio' - audio, 'video' - video, 'note' - note, 'photo_comment' -
      * comment on the photo, 'video_comment' - comment on the video, 'topic_comment' - comment in the
      * discussion, 'sitepage' - page of the site where the [vk.com/dev/Like|Like widget] is installed
@@ -164,10 +167,10 @@ class LikesService {
      * 'page_id' parameter value used during initialization of the [vk.com/dev/Like|Like widget].
      * @param pageUrl - URL of the page where the [vk.com/dev/Like|Like widget] is installed. Used
      * instead of the 'item_id' parameter.
-     * @param filter - Filters to apply: 'likes' - returns information about all users who liked the
+     * @param filter - Filters to apply_ 'likes' - returns information about all users who liked the
      * object (default), 'copies' - returns information only about users who told their friends about
      * the object
-     * @param friendsOnly - Specifies which users are returned: '1' - to return only the current
+     * @param friendsOnly - Specifies which users are returned_ '1' - to return only the current
      * user's friends, '0' - to return all users (default)
      * @param offset - Offset needed to select a specific subset of users.
      * @param count - Number of user IDs to return (maximum '1000'). Default is '100' if
@@ -177,11 +180,11 @@ class LikesService {
      */
     fun likesGetListExtended(
         type: String,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         itemId: Int? = null,
         pageUrl: String? = null,
-        filter: FilterParam? = null,
-        friendsOnly: FriendsOnlyParam? = null,
+        filter: LikesGetListExtendedFilter? = null,
+        friendsOnly: LikesGetListExtendedFriendsOnly? = null,
         offset: Int? = null,
         count: Int? = null,
         skipOwn: Boolean? = null
@@ -204,7 +207,7 @@ class LikesService {
     /**
      * Checks for the object in the 'Likes' list of the specified user.
      *
-     * @param type - Object type: 'post' - post on user or community wall, 'comment' - comment on a
+     * @param type - Object type_ 'post' - post on user or community wall, 'comment' - comment on a
      * wall post, 'photo' - photo, 'audio' - audio, 'video' - video, 'note' - note, 'photo_comment' -
      * comment on the photo, 'video_comment' - comment on the video, 'topic_comment' - comment in the
      * discussion
@@ -216,8 +219,8 @@ class LikesService {
     fun likesIsLiked(
         type: String,
         itemId: Int,
-        userId: Int? = null,
-        ownerId: Int? = null
+        userId: UserId? = null,
+        ownerId: UserId? = null
     ): VKRequest<LikesIsLikedResponse> = NewApiRequest("likes.isLiked") {
         GsonHolder.gson.fromJson(it, LikesIsLikedResponse::class.java)
     }

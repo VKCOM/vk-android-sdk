@@ -151,5 +151,8 @@ enum class BaseLinkButtonActionType(
     MODAL_PAGE("modal_page"),
 
     @SerializedName("live_categories")
-    LIVE_CATEGORIES("live_categories");
+    LIVE_CATEGORIES("live_categories"),
+
+    @SerializedName("toggle_video_album_subscription")
+    TOGGLE_VIDEO_ALBUM_SUBSCRIPTION("toggle_video_album_subscription");
 }

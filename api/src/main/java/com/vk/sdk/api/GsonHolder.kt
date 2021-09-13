@@ -30,7 +30,6 @@ package com.vk.sdk.api
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.vk.dto.common.id.UserId
-import com.vk.dto.common.id.UserId.GsonSerializer
 import com.vk.sdk.api.newsfeed.dto.NewsfeedNewsfeedItem
 import com.vk.sdk.api.users.dto.UsersSubscriptionsItem
 

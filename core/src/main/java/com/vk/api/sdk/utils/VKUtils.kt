@@ -31,11 +31,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Point
 import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
+import android.view.Display
+import android.view.WindowManager
 import android.webkit.CookieManager
 import android.webkit.CookieSyncManager
+import androidx.annotation.RequiresApi
+import okio.Buffer
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.util.*
@@ -148,6 +153,50 @@ object VKUtils {
 
     fun width(context: Context): Int {
         return context.resources.displayMetrics.widthPixels
+    }
+
+    fun getPhysicalDisplaySize(context: Context): Point {
+        val size = Point()
+        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val display = wm.defaultDisplay
+        if (Build.VERSION.SDK_INT >= 23) {
+            getDisplaySizeV23(display, size)
+        } else {
+            getDisplaySizePreV23(display, size)
+        }
+        return size
+    }
+
+    private fun getDisplaySizePreV23(display: Display?, size: Point) {
+        display?.getRealSize(size)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun getDisplaySizeV23(display: Display?, size: Point) {
+        val mode = display?.mode
+        size.x = mode?.physicalWidth ?: 0
+        size.y = mode?.physicalHeight ?: 0
+    }
+
+    @JvmStatic
+    fun toHumanReadableAscii(string: String?): String {
+        if (string == null) return ""
+        var i = 0
+        while (i < string.length) {
+            var c = string.codePointAt(i)
+            i += Character.charCount(c)
+            if (c in 0x20 .. 0x7e) continue
+
+            val buffer = Buffer()
+            buffer.writeUtf8(string, 0, i)
+            while (i < string.length) {
+                c = string.codePointAt(i)
+                buffer.writeUtf8CodePoint(if (c in 0x20 .. 0x7e) c else '?'.toInt())
+                i += Character.charCount(c)
+            }
+            return buffer.readUtf8()
+        }
+        return string
     }
 
     object MD5 {

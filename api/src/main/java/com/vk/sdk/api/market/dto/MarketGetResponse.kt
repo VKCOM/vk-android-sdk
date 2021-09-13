@@ -34,10 +34,13 @@ import kotlin.collections.List
 /**
  * @param count - Total number
  * @param items
+ * @param variants
  */
 data class MarketGetResponse(
     @SerializedName("count")
     val count: Int? = null,
     @SerializedName("items")
-    val items: List<MarketMarketItem>? = null
+    val items: List<MarketMarketItem>? = null,
+    @SerializedName("variants")
+    val variants: List<MarketMarketItem>? = null
 )

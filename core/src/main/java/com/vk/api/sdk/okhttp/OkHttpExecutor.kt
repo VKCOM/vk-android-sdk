@@ -102,7 +102,8 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
                 .tag(Map::class.java, call.tag?.toMap())
                 .build()
         val executorAccessToken = accessToken
-        return MethodResponse(readResponse(executeRequest(request)), executorAccessToken)
+        val okHttpResponse = executeRequest(request)
+        return MethodResponse(readResponse(okHttpResponse), okHttpResponse.headers, executorAccessToken)
     }
 
     @Throws(InterruptedException::class, IOException::class, VKApiException::class)
@@ -226,6 +227,7 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
 
     data class MethodResponse(
             val response: String?,
+            val headers: Headers,
             val executorRequestAccessToken: String?)
 
     companion object {

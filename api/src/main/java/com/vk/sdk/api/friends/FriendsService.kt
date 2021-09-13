@@ -29,10 +29,10 @@ package com.vk.sdk.api.friends
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.friends.dto.FilterParam
 import com.vk.sdk.api.friends.dto.FriendsAddListResponse
 import com.vk.sdk.api.friends.dto.FriendsAddResponse
 import com.vk.sdk.api.friends.dto.FriendsDeleteResponse
@@ -40,13 +40,16 @@ import com.vk.sdk.api.friends.dto.FriendsFriendExtendedStatus
 import com.vk.sdk.api.friends.dto.FriendsFriendStatus
 import com.vk.sdk.api.friends.dto.FriendsGetFieldsResponse
 import com.vk.sdk.api.friends.dto.FriendsGetListsResponse
+import com.vk.sdk.api.friends.dto.FriendsGetNameCase
+import com.vk.sdk.api.friends.dto.FriendsGetOrder
 import com.vk.sdk.api.friends.dto.FriendsGetRequestsResponse
+import com.vk.sdk.api.friends.dto.FriendsGetRequestsSort
+import com.vk.sdk.api.friends.dto.FriendsGetSuggestionsFilter
+import com.vk.sdk.api.friends.dto.FriendsGetSuggestionsNameCase
 import com.vk.sdk.api.friends.dto.FriendsGetSuggestionsResponse
+import com.vk.sdk.api.friends.dto.FriendsSearchNameCase
 import com.vk.sdk.api.friends.dto.FriendsSearchResponse
 import com.vk.sdk.api.friends.dto.FriendsUserXtrPhone
-import com.vk.sdk.api.friends.dto.NameCaseParam
-import com.vk.sdk.api.friends.dto.OrderParam
-import com.vk.sdk.api.friends.dto.SortParam
 import com.vk.sdk.api.users.dto.UsersFields
 import kotlin.Boolean
 import kotlin.Int
@@ -64,7 +67,7 @@ class FriendsService {
      * @return [VKRequest] with [FriendsAddResponse]
      */
     fun friendsAdd(
-        userId: Int? = null,
+        userId: UserId? = null,
         text: String? = null,
         follow: Boolean? = null
     ): VKRequest<FriendsAddResponse> = NewApiRequest("friends.add") {
@@ -98,7 +101,7 @@ class FriendsService {
      * @param userIds - IDs of the users whose friendship status to check.
      * @param needSign - '1' - to return 'sign' field. 'sign' is
      * md5("{id}_{user_id}_{friends_status}_{application_secret}"), where id is current user ID. This
-     * field allows to check that data has not been modified by the client. By default: '0'.
+     * field allows to check that data has not been modified by the client. By default_ '0'.
      * @return [VKRequest] with [Unit]
      */
     fun friendsAreFriends(userIds: List<Int>, needSign: Boolean? = null):
@@ -117,7 +120,7 @@ class FriendsService {
      * @param userIds - IDs of the users whose friendship status to check.
      * @param needSign - '1' - to return 'sign' field. 'sign' is
      * md5("{id}_{user_id}_{friends_status}_{application_secret}"), where id is current user ID. This
-     * field allows to check that data has not been modified by the client. By default: '0'.
+     * field allows to check that data has not been modified by the client. By default_ '0'.
      * @return [VKRequest] with [Unit]
      */
     fun friendsAreFriendsExtended(userIds: List<Int>, needSign: Boolean? = null):
@@ -138,7 +141,7 @@ class FriendsService {
      * from the current user's friend list.
      * @return [VKRequest] with [FriendsDeleteResponse]
      */
-    fun friendsDelete(userId: Int? = null): VKRequest<FriendsDeleteResponse> =
+    fun friendsDelete(userId: UserId? = null): VKRequest<FriendsDeleteResponse> =
             NewApiRequest("friends.delete") {
         GsonHolder.gson.fromJson(it, FriendsDeleteResponse::class.java)
     }
@@ -177,7 +180,7 @@ class FriendsService {
      * @param listIds - IDs of the friend lists to which to add the user.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun friendsEdit(userId: Int, listIds: List<Int>? = null): VKRequest<BaseOkResponse> =
+    fun friendsEdit(userId: UserId, listIds: List<Int>? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("friends.edit") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -219,7 +222,7 @@ class FriendsService {
      * Returns a list of user IDs or detailed information about a user's friends.
      *
      * @param userId - User ID. By default, the current user ID.
-     * @param order - Sort order: , 'name' - by name (enabled only if the 'fields' parameter is
+     * @param order - Sort order_ , 'name' - by name (enabled only if the 'fields' parameter is
      * used), 'hints' - by rating, similar to how friends are sorted in My friends section, , This
      * parameter is available only for [vk.com/dev/standalone|desktop applications].
      * @param listId - ID of the friend list returned by the
@@ -228,23 +231,23 @@ class FriendsService {
      * is available only for [vk.com/dev/standalone|desktop applications].
      * @param count - Number of friends to return.
      * @param offset - Offset needed to return a specific subset of friends.
-     * @param fields - Profile fields to return. Sample values: 'uid', 'first_name', 'last_name',
+     * @param fields - Profile fields to return. Sample values_ 'uid', 'first_name', 'last_name',
      * 'nickname', 'sex', 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium',
      * 'photo_big', 'domain', 'has_mobile', 'rate', 'contacts', 'education'.
-     * @param nameCase - Case for declension of user name and surname: , 'nom' - nominative
+     * @param nameCase - Case for declension of user name and surname_ , 'nom' - nominative
      * (default) , 'gen' - genitive , 'dat' - dative , 'acc' - accusative , 'ins' - instrumental ,
      * 'abl' - prepositional
      * @param ref
      * @return [VKRequest] with [FriendsGetFieldsResponse]
      */
     fun friendsGet(
-        userId: Int? = null,
-        order: OrderParam? = null,
+        userId: UserId? = null,
+        order: FriendsGetOrder? = null,
         listId: Int? = null,
         count: Int? = null,
         offset: Int? = null,
         fields: List<UsersFields>? = null,
-        nameCase: NameCaseParam? = null,
+        nameCase: FriendsGetNameCase? = null,
         ref: String? = null
     ): VKRequest<FriendsGetFieldsResponse> = NewApiRequest("friends.get") {
         GsonHolder.gson.fromJson(it, FriendsGetFieldsResponse::class.java)
@@ -277,9 +280,9 @@ class FriendsService {
      * Returns a list of the current user's friends whose phone numbers, validated or specified in a
      * profile, are in a given list.
      *
-     * @param phones - List of phone numbers in MSISDN format (maximum 1000). Example:
+     * @param phones - List of phone numbers in MSISDN format (maximum 1000). Example_
      * "+79219876543,+79111234567"
-     * @param fields - Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex',
+     * @param fields - Profile fields to return. Sample values_ 'nickname', 'screen_name', 'sex',
      * 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big',
      * 'has_mobile', 'rate', 'contacts', 'education', 'online, counters'.
      * @return [VKRequest] with [Unit]
@@ -301,10 +304,10 @@ class FriendsService {
      * Returns a list of the user's friend lists.
      *
      * @param userId - User ID.
-     * @param returnSystem - '1' - to return system friend lists. By default: '0'.
+     * @param returnSystem - '1' - to return system friend lists. By default_ '0'.
      * @return [VKRequest] with [FriendsGetListsResponse]
      */
-    fun friendsGetLists(userId: Int? = null, returnSystem: Boolean? = null):
+    fun friendsGetLists(userId: UserId? = null, returnSystem: Boolean? = null):
             VKRequest<FriendsGetListsResponse> = NewApiRequest("friends.getLists") {
         GsonHolder.gson.fromJson(it, FriendsGetListsResponse::class.java)
     }
@@ -322,7 +325,7 @@ class FriendsService {
      * user specified in 'source_uid'.
      * @param targetUids - IDs of the users whose friends will be checked against the friends of the
      * user specified in 'source_uid'.
-     * @param order - Sort order: 'random' - random order
+     * @param order - Sort order_ 'random' - random order
      * @param count - Number of mutual friends to return.
      * @param offset - Offset needed to return a specific subset of mutual friends.
      * @return [VKRequest] with [Unit]
@@ -354,13 +357,13 @@ class FriendsService {
      * @param listId - Friend list ID. If this parameter is not set, information about all online
      * friends is returned.
      * @param onlineMobile - '1' - to return an additional 'online_mobile' field, '0' - (default),
-     * @param order - Sort order: 'random' - random order
+     * @param order - Sort order_ 'random' - random order
      * @param count - Number of friends to return.
      * @param offset - Offset needed to return a specific subset of friends.
      * @return [VKRequest] with [Unit]
      */
     fun friendsGetOnline(
-        userId: Int? = null,
+        userId: UserId? = null,
         listId: Int? = null,
         onlineMobile: Boolean? = null,
         order: String? = null,
@@ -401,7 +404,7 @@ class FriendsService {
      * @param count - Number of friend requests to return (default 100, maximum 1000).
      * @param needMutual - '1' - to return a list of mutual friends (up to 20), if any
      * @param out - '1' - to return outgoing requests, '0' - to return incoming requests (default)
-     * @param sort - Sort order: '1' - by number of mutual friends, '0' - by date
+     * @param sort - Sort order_ '1' - by number of mutual friends, '0' - by date
      * @param needViewed
      * @param suggested - '1' - to return a list of suggested friends, '0' - to return friend
      * requests (default)
@@ -414,7 +417,7 @@ class FriendsService {
         count: Int? = null,
         needMutual: Boolean? = null,
         out: Boolean? = null,
-        sort: SortParam? = null,
+        sort: FriendsGetRequestsSort? = null,
         needViewed: Boolean? = null,
         suggested: Boolean? = null,
         ref: String? = null,
@@ -440,27 +443,27 @@ class FriendsService {
     /**
      * Returns a list of profiles of users whom the current user may know.
      *
-     * @param filter - Types of potential friends to return: 'mutual' - users with many mutual
+     * @param filter - Types of potential friends to return_ 'mutual' - users with many mutual
      * friends , 'contacts' - users found with the
      * [vk.com/dev/account.importContacts|account.importContacts] method , 'mutual_contacts' - users
      * who imported the same contacts as the current user with the
      * [vk.com/dev/account.importContacts|account.importContacts] method
      * @param count - Number of suggestions to return.
      * @param offset - Offset needed to return a specific subset of suggestions.
-     * @param fields - Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex',
+     * @param fields - Profile fields to return. Sample values_ 'nickname', 'screen_name', 'sex',
      * 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big',
      * 'has_mobile', 'rate', 'contacts', 'education', 'online', 'counters'.
-     * @param nameCase - Case for declension of user name and surname: , 'nom' - nominative
+     * @param nameCase - Case for declension of user name and surname_ , 'nom' - nominative
      * (default) , 'gen' - genitive , 'dat' - dative , 'acc' - accusative , 'ins' - instrumental ,
      * 'abl' - prepositional
      * @return [VKRequest] with [FriendsGetSuggestionsResponse]
      */
     fun friendsGetSuggestions(
-        filter: List<FilterParam>? = null,
+        filter: List<FriendsGetSuggestionsFilter>? = null,
         count: Int? = null,
         offset: Int? = null,
         fields: List<UsersFields>? = null,
-        nameCase: NameCaseParam? = null
+        nameCase: FriendsGetSuggestionsNameCase? = null
     ): VKRequest<FriendsGetSuggestionsResponse> = NewApiRequest("friends.getSuggestions") {
         GsonHolder.gson.fromJson(it, FriendsGetSuggestionsResponse::class.java)
     }
@@ -483,10 +486,10 @@ class FriendsService {
      *
      * @param userId - User ID.
      * @param q - Search query string (e.g., 'Vasya Babich').
-     * @param fields - Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex',
+     * @param fields - Profile fields to return. Sample values_ 'nickname', 'screen_name', 'sex',
      * 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big',
      * 'has_mobile', 'rate', 'contacts', 'education', 'online',
-     * @param nameCase - Case for declension of user name and surname: 'nom' - nominative (default),
+     * @param nameCase - Case for declension of user name and surname_ 'nom' - nominative (default),
      * 'gen' - genitive , 'dat' - dative, 'acc' - accusative , 'ins' - instrumental , 'abl' -
      * prepositional
      * @param offset - Offset needed to return a specific subset of friends.
@@ -494,10 +497,10 @@ class FriendsService {
      * @return [VKRequest] with [FriendsSearchResponse]
      */
     fun friendsSearch(
-        userId: Int,
+        userId: UserId,
         q: String? = null,
         fields: List<UsersFields>? = null,
-        nameCase: NameCaseParam? = null,
+        nameCase: FriendsSearchNameCase? = null,
         offset: Int? = null,
         count: Int? = null
     ): VKRequest<FriendsSearchResponse> = NewApiRequest("friends.search") {

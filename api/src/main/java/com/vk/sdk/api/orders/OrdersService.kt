@@ -29,11 +29,12 @@ package com.vk.sdk.api.orders
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseBoolInt
-import com.vk.sdk.api.orders.dto.ActionParam
 import com.vk.sdk.api.orders.dto.OrdersAmount
+import com.vk.sdk.api.orders.dto.OrdersChangeStateAction
 import com.vk.sdk.api.orders.dto.OrdersGetUserSubscriptionsResponse
 import com.vk.sdk.api.orders.dto.OrdersOrder
 import com.vk.sdk.api.orders.dto.OrdersSubscription
@@ -50,7 +51,7 @@ class OrdersService {
      * @return [VKRequest] with [BaseBoolInt]
      */
     fun ordersCancelSubscription(
-        userId: Int,
+        userId: UserId,
         subscriptionId: Int,
         pendingCancel: Boolean? = null
     ): VKRequest<BaseBoolInt> = NewApiRequest("orders.cancelSubscription") {
@@ -66,7 +67,7 @@ class OrdersService {
      * Changes order status.
      *
      * @param orderId - order ID.
-     * @param action - action to be done with the order. Available actions: *cancel - to cancel
+     * @param action - action to be done with the order. Available actions_ *cancel - to cancel
      * unconfirmed order. *charge - to confirm unconfirmed order. Applies only if processing of
      * [vk.com/dev/payments_status|order_change_state] notification failed. *refund - to cancel
      * confirmed order.
@@ -77,7 +78,7 @@ class OrdersService {
      */
     fun ordersChangeState(
         orderId: Int,
-        action: ActionParam,
+        action: OrdersChangeStateAction,
         appOrderId: Int? = null,
         testMode: Boolean? = null
     ): VKRequest<String> = NewApiRequest("orders.changeState") {
@@ -116,11 +117,12 @@ class OrdersService {
     /**
      * @param userId
      * @param votes
-     * @return [VKRequest] with [OrdersAmount]
+     * @return [VKRequest] with [Unit]
      */
-    fun ordersGetAmount(userId: Int, votes: List<String>): VKRequest<OrdersAmount> =
+    fun ordersGetAmount(userId: UserId, votes: List<String>): VKRequest<List<OrdersAmount>> =
             NewApiRequest("orders.getAmount") {
-        GsonHolder.gson.fromJson(it, OrdersAmount::class.java)
+        val typeToken = object: TypeToken<List<OrdersAmount>>() {}.type
+        GsonHolder.gson.fromJson<List<OrdersAmount>>(it, typeToken)
     }
     .apply {
         addParam("user_id", userId)
@@ -155,7 +157,7 @@ class OrdersService {
      * @param subscriptionId
      * @return [VKRequest] with [OrdersSubscription]
      */
-    fun ordersGetUserSubscriptionById(userId: Int, subscriptionId: Int):
+    fun ordersGetUserSubscriptionById(userId: UserId, subscriptionId: Int):
             VKRequest<OrdersSubscription> = NewApiRequest("orders.getUserSubscriptionById") {
         GsonHolder.gson.fromJson(it, OrdersSubscription::class.java)
     }
@@ -168,7 +170,7 @@ class OrdersService {
      * @param userId
      * @return [VKRequest] with [OrdersGetUserSubscriptionsResponse]
      */
-    fun ordersGetUserSubscriptions(userId: Int): VKRequest<OrdersGetUserSubscriptionsResponse> =
+    fun ordersGetUserSubscriptions(userId: UserId): VKRequest<OrdersGetUserSubscriptionsResponse> =
             NewApiRequest("orders.getUserSubscriptions") {
         GsonHolder.gson.fromJson(it, OrdersGetUserSubscriptionsResponse::class.java)
     }
@@ -183,7 +185,7 @@ class OrdersService {
      * @return [VKRequest] with [BaseBoolInt]
      */
     fun ordersUpdateSubscription(
-        userId: Int,
+        userId: UserId,
         subscriptionId: Int,
         price: Int
     ): VKRequest<BaseBoolInt> = NewApiRequest("orders.updateSubscription") {

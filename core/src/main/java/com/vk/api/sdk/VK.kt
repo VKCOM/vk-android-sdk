@@ -28,6 +28,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
+import android.content.pm.PackageManager
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKAuthManager
@@ -38,6 +40,7 @@ import com.vk.api.sdk.internal.ApiCommand
 import com.vk.api.sdk.requests.VKBooleanRequest
 import com.vk.api.sdk.utils.VKUrlResolver
 import com.vk.api.sdk.utils.VKUtils
+import com.vk.api.sdk.utils.DefaultUserAgent
 import java.io.IOException
 
 /**
@@ -45,6 +48,9 @@ import java.io.IOException
  */
 object VK {
     private const val SDK_APP_ID = "com_vk_sdk_AppId"
+    private const val SDK_UA_PREFIX = "VKAndroidSDK"
+    private const val SDK_VERSION = "VKSdkVersion"
+    private const val SDK_VERSION_CODE = "VKSdkVersionCode"
 
     @SuppressLint("StaticFieldLeak")
     private lateinit var config: VKApiConfig
@@ -147,8 +153,15 @@ object VK {
      * Use this method to handle authorization result from your activity
      */
     @JvmStatic
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, callback: VKAuthCallback): Boolean {
-        val result = authManager.onActivityResult(requestCode, resultCode, data, callback)
+    @JvmOverloads
+    fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?,
+        callback: VKAuthCallback,
+        showErrorToast: Boolean = true
+    ): Boolean {
+        val result = authManager.onActivityResult(config.context, requestCode, resultCode, data, callback, showErrorToast)
         if (result && isLoggedIn()) {
             trackVisitor()
         }
@@ -250,6 +263,20 @@ object VK {
         if (::authManager.isInitialized) {
             authManager.clearAccessToken()
         }
+    }
+
+    internal fun getSDKUserAgent(): DefaultUserAgent {
+        if (!::config.isInitialized) {
+            throw RuntimeException("please call VK.initialize first!")
+        }
+        val metaData = config.context.packageManager
+            .getApplicationInfo(config.context.packageName, PackageManager.GET_META_DATA)
+        return DefaultUserAgent(
+            SDK_UA_PREFIX,
+            metaData.metaData[SDK_VERSION].toString(),
+            metaData.metaData[SDK_VERSION_CODE].toString(),
+            VKUtils.getPhysicalDisplaySize(config.context)
+        )
     }
 
     private fun trackVisitor() {

@@ -5,4 +5,7 @@
     <string name="share_to_wall">Отправить на стену</string>
     <string name="message_hint">Ваше сообщение</string>
     <string name="wall_ok">Запись опубликована</string>
+    <string name="message_connection_error">Ошибка подключения</string>
+    <string name="message_unknown_error">Неизвестная ошибка, попробуйте позже</string>
+    <string name="app_name" translatable="false">VK SDK sample</string>
 </resources>

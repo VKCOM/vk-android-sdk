@@ -60,7 +60,7 @@ class TooManyRequestRetryChainCall<T>(
 
     companion object {
         private const val TIMEOUT: Long = 1000
-        private const val MAX_CALLS_PER_SECOND = 4
+        private const val MAX_CALLS_PER_SECOND = 3
         private const val MAX_LIMIT = 1000L
 
         private val errorBackoff = ExponentialBackoff(

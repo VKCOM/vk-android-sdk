@@ -28,6 +28,7 @@
 package com.vk.sdk.api.donut
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseBoolInt
@@ -48,7 +49,7 @@ class DonutService {
      * @return [VKRequest] with [GroupsGetMembersFieldsResponse]
      */
     fun donutGetFriends(
-        ownerId: Int,
+        ownerId: UserId,
         offset: Int? = null,
         count: Int? = null,
         fields: List<String>? = null
@@ -66,7 +67,7 @@ class DonutService {
      * @param ownerId
      * @return [VKRequest] with [DonutDonatorSubscriptionInfo]
      */
-    fun donutGetSubscription(ownerId: Int): VKRequest<DonutDonatorSubscriptionInfo> =
+    fun donutGetSubscription(ownerId: UserId): VKRequest<DonutDonatorSubscriptionInfo> =
             NewApiRequest("donut.getSubscription") {
         GsonHolder.gson.fromJson(it, DonutDonatorSubscriptionInfo::class.java)
     }
@@ -102,7 +103,7 @@ class DonutService {
      * @param ownerId
      * @return [VKRequest] with [BaseBoolInt]
      */
-    fun donutIsDon(ownerId: Int): VKRequest<BaseBoolInt> = NewApiRequest("donut.isDon") {
+    fun donutIsDon(ownerId: UserId): VKRequest<BaseBoolInt> = NewApiRequest("donut.isDon") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {

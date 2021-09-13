@@ -112,6 +112,7 @@ object VKApiCodes {
 
     const val CODE_CALL_REQUIRES_AUTH = 960
     const val CODE_CALL_LINK_OUTDATED = 961
+    const val CODE_CHAT_STYLE_ALREADY_SET = 964
 
     const val CODE_PHONE_PARAM_PHONE = 1000
     const val CODE_PHONE_ALREADY_USED = 1004
@@ -143,6 +144,7 @@ object VKApiCodes {
     const val CODE_ERROR_ALREADY_HAS_EXTERNAL_BINDING = 3612
 
     const val CODE_ERROR_UNAVAILABLE_REGISTRATION = 5400
+    const val CODE_ERROR_CANNOT_TRANSFER_MONEY_YOURSELF = 5800
 
     const val EXTRA_CAPTCHA_SID = "captcha_sid"
     const val EXTRA_CAPTCHA_KEY = "captcha_key"
@@ -153,6 +155,8 @@ object VKApiCodes {
     const val EXTRA_CONFIRMATION_TEXT = "confirmation_text"
     const val EXTRA_EXTENSION_HASH = "extend_hash"
     const val EXTRA_ACCESS_TOKEN = "access_token"
+    const val EXTRA_AUTH_ERROR = "error"
+    const val EXTRA_VW_LOGIN_ERROR = "vw_login_error"
 
     const val PARAM_DEVICE_ID = "device_id"
     const val PARAM_LANG = "lang"

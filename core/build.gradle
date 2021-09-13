@@ -38,6 +38,18 @@ android {
         targetSdkVersion "$sdkVersions.targetSdk"
         versionCode "$sdkVersions.code".toInteger()
         versionName "$sdkVersions.name"
+        manifestPlaceholders = [VKSdkVersion: version, VKSdkVersionCode: sdkVersions.code]
+    }
+
+    packagingOptions {
+        exclude("builddef.lst")
+        exclude("**/com/**")
+        exclude("META-INF/*.kotlin_module")
+        exclude("META-INF/*.version")
+        exclude("autoTest/**")
+        exclude("META-INF/spring.*")
+        exclude("META-INF/notice.txt")
+        exclude("mockito-extensions/org.mockito.plugins.MockMaker")
     }
 
     lintOptions {
@@ -58,6 +70,8 @@ dependencies {
 
     testImplementation testLibraries.junit
     testImplementation testLibraries.mockito
+
+    implementation project(":id")
 }
 
 apply from: "../publish.gradle"

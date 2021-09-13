@@ -28,21 +28,22 @@
 package com.vk.sdk.api.account
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.account.dto.AccountAccountCounters
 import com.vk.sdk.api.account.dto.AccountChangePasswordResponse
 import com.vk.sdk.api.account.dto.AccountGetActiveOffersResponse
 import com.vk.sdk.api.account.dto.AccountGetBannedResponse
+import com.vk.sdk.api.account.dto.AccountGetCountersFilter
+import com.vk.sdk.api.account.dto.AccountGetInfoFields
 import com.vk.sdk.api.account.dto.AccountInfo
 import com.vk.sdk.api.account.dto.AccountPushSettings
+import com.vk.sdk.api.account.dto.AccountSaveProfileInfoBdateVisibility
+import com.vk.sdk.api.account.dto.AccountSaveProfileInfoRelation
 import com.vk.sdk.api.account.dto.AccountSaveProfileInfoResponse
+import com.vk.sdk.api.account.dto.AccountSaveProfileInfoSex
 import com.vk.sdk.api.account.dto.AccountUserSettings
-import com.vk.sdk.api.account.dto.BdateVisibilityParam
-import com.vk.sdk.api.account.dto.FieldsParam
-import com.vk.sdk.api.account.dto.FilterParam
-import com.vk.sdk.api.account.dto.RelationParam
-import com.vk.sdk.api.account.dto.SexParam
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import kotlin.Boolean
 import kotlin.Int
@@ -54,7 +55,8 @@ class AccountService {
      * @param ownerId
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun accountBan(ownerId: Int? = null): VKRequest<BaseOkResponse> = NewApiRequest("account.ban") {
+    fun accountBan(ownerId: UserId? = null): VKRequest<BaseOkResponse> =
+            NewApiRequest("account.ban") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
@@ -108,10 +110,10 @@ class AccountService {
     /**
      * Gets settings of the user in this application.
      *
-     * @param userId - User ID whose settings information shall be got. By default: current user.
+     * @param userId - User ID whose settings information shall be got. By default_ current user.
      * @return [VKRequest] with [Int]
      */
-    fun accountGetAppPermissions(userId: Int): VKRequest<Int> =
+    fun accountGetAppPermissions(userId: UserId): VKRequest<Int> =
             NewApiRequest("account.getAppPermissions") {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
@@ -142,7 +144,7 @@ class AccountService {
      * @param userId - User ID
      * @return [VKRequest] with [AccountAccountCounters]
      */
-    fun accountGetCounters(filter: List<FilterParam>? = null, userId: Int? = null):
+    fun accountGetCounters(filter: List<AccountGetCountersFilter>? = null, userId: UserId? = null):
             VKRequest<AccountAccountCounters> = NewApiRequest("account.getCounters") {
         GsonHolder.gson.fromJson(it, AccountAccountCounters::class.java)
     }
@@ -157,13 +159,13 @@ class AccountService {
     /**
      * Returns current account info.
      *
-     * @param fields - Fields to return. Possible values: *'country' - user country,,
+     * @param fields - Fields to return. Possible values_ *'country' - user country,,
      * *'https_required' - is "HTTPS only" option enabled,, *'own_posts_default' - is "Show my posts
      * only" option is enabled,, *'no_wall_replies' - are wall replies disabled or not,, *'intro' - is
-     * intro passed by user or not,, *'lang' - user language. By default: all.
+     * intro passed by user or not,, *'lang' - user language. By default_ all.
      * @return [VKRequest] with [AccountInfo]
      */
-    fun accountGetInfo(fields: List<FieldsParam>? = null): VKRequest<AccountInfo> =
+    fun accountGetInfo(fields: List<AccountGetInfoFields>? = null): VKRequest<AccountInfo> =
             NewApiRequest("account.getInfo") {
         GsonHolder.gson.fromJson(it, AccountInfo::class.java)
     }
@@ -241,13 +243,13 @@ class AccountService {
      * @param screenName - User screen name.
      * @param cancelRequestId - ID of the name change request to be canceled. If this parameter is
      * sent, all the others are ignored.
-     * @param sex - User sex. Possible values: , * '1' - female,, * '2' - male.
-     * @param relation - User relationship status. Possible values: , * '1' - single,, * '2' - in a
+     * @param sex - User sex. Possible values_ , * '1' - female,, * '2' - male.
+     * @param relation - User relationship status. Possible values_ , * '1' - single,, * '2' - in a
      * relationship,, * '3' - engaged,, * '4' - married,, * '5' - it's complicated,, * '6' - actively
      * searching,, * '7' - in love,, * '0' - not specified.
      * @param relationPartnerId - ID of the relationship partner.
-     * @param bdate - User birth date, format: DD.MM.YYYY.
-     * @param bdateVisibility - Birth date visibility. Returned values: , * '1' - show birth date,,
+     * @param bdate - User birth date, format_ DD.MM.YYYY.
+     * @param bdateVisibility - Birth date visibility. Returned values_ , * '1' - show birth date,,
      * * '2' - show only month and day,, * '0' - hide birth date.
      * @param homeTown - User home town.
      * @param countryId - User country.
@@ -261,11 +263,11 @@ class AccountService {
         maidenName: String? = null,
         screenName: String? = null,
         cancelRequestId: Int? = null,
-        sex: SexParam? = null,
-        relation: RelationParam? = null,
+        sex: AccountSaveProfileInfoSex? = null,
+        relation: AccountSaveProfileInfoRelation? = null,
         relationPartnerId: Int? = null,
         bdate: String? = null,
-        bdateVisibility: BdateVisibilityParam? = null,
+        bdateVisibility: AccountSaveProfileInfoBdateVisibility? = null,
         homeTown: String? = null,
         countryId: Int? = null,
         cityId: Int? = null,
@@ -314,7 +316,7 @@ class AccountService {
      * @param name - Application screen name.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun accountSetNameInMenu(userId: Int, name: String? = null): VKRequest<BaseOkResponse> =
+    fun accountSetNameInMenu(userId: UserId, name: String? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("account.setNameInMenu") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -376,8 +378,8 @@ class AccountService {
      * @param deviceId - Unique device ID.
      * @param time - Time in seconds for what notifications should be disabled. '-1' to disable
      * forever.
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'Chat ID', e.g. '2000000001'. For community: '- Community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'Chat ID', e.g. '2000000001'. For community_ '- Community ID', e.g. '-12345'. "
      * @param sound - '1' - to enable sound in this dialog, '0' - to disable sound. Only if
      * 'peer_id' contains user or community ID.
      * @return [VKRequest] with [BaseOkResponse]
@@ -401,7 +403,7 @@ class AccountService {
      * @param ownerId
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun accountUnban(ownerId: Int? = null): VKRequest<BaseOkResponse> =
+    fun accountUnban(ownerId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("account.unban") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }

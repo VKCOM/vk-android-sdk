@@ -29,14 +29,12 @@ package com.vk.sdk.api.messages
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
-import com.vk.sdk.api.messages.dto.FilterParam
-import com.vk.sdk.api.messages.dto.IntentParam
-import com.vk.sdk.api.messages.dto.MediaTypeParam
 import com.vk.sdk.api.messages.dto.MessagesDeleteChatPhotoResponse
 import com.vk.sdk.api.messages.dto.MessagesDeleteConversationResponse
 import com.vk.sdk.api.messages.dto.MessagesGetByConversationMessageIdResponse
@@ -45,12 +43,17 @@ import com.vk.sdk.api.messages.dto.MessagesGetByIdResponse
 import com.vk.sdk.api.messages.dto.MessagesGetChatPreviewResponse
 import com.vk.sdk.api.messages.dto.MessagesGetConversationById
 import com.vk.sdk.api.messages.dto.MessagesGetConversationMembersResponse
+import com.vk.sdk.api.messages.dto.MessagesGetConversationsFilter
 import com.vk.sdk.api.messages.dto.MessagesGetConversationsResponse
+import com.vk.sdk.api.messages.dto.MessagesGetHistoryAttachmentsMediaType
 import com.vk.sdk.api.messages.dto.MessagesGetHistoryAttachmentsResponse
 import com.vk.sdk.api.messages.dto.MessagesGetHistoryExtendedResponse
+import com.vk.sdk.api.messages.dto.MessagesGetHistoryExtendedRev
 import com.vk.sdk.api.messages.dto.MessagesGetHistoryResponse
+import com.vk.sdk.api.messages.dto.MessagesGetHistoryRev
 import com.vk.sdk.api.messages.dto.MessagesGetImportantMessagesExtendedResponse
 import com.vk.sdk.api.messages.dto.MessagesGetImportantMessagesResponse
+import com.vk.sdk.api.messages.dto.MessagesGetIntentUsersIntent
 import com.vk.sdk.api.messages.dto.MessagesGetIntentUsersResponse
 import com.vk.sdk.api.messages.dto.MessagesGetInviteLinkResponse
 import com.vk.sdk.api.messages.dto.MessagesGetLongPollHistoryResponse
@@ -63,9 +66,9 @@ import com.vk.sdk.api.messages.dto.MessagesSearchConversationsExtendedResponse
 import com.vk.sdk.api.messages.dto.MessagesSearchConversationsResponse
 import com.vk.sdk.api.messages.dto.MessagesSearchExtendedResponse
 import com.vk.sdk.api.messages.dto.MessagesSearchResponse
+import com.vk.sdk.api.messages.dto.MessagesSendIntent
+import com.vk.sdk.api.messages.dto.MessagesSetActivityType
 import com.vk.sdk.api.messages.dto.MessagesSetChatPhotoResponse
-import com.vk.sdk.api.messages.dto.RevParam
-import com.vk.sdk.api.messages.dto.TypeParam
 import com.vk.sdk.api.users.dto.UsersFields
 import kotlin.Any
 import kotlin.Boolean
@@ -85,7 +88,7 @@ class MessagesService {
      */
     fun messagesAddChatUser(
         chatId: Int,
-        userId: Int? = null,
+        userId: UserId? = null,
         visibleMessagesCount: Int? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("messages.addChatUser") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
@@ -103,8 +106,8 @@ class MessagesService {
      * @param key
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun messagesAllowMessagesFromGroup(groupId: Int, key: String? = null): VKRequest<BaseOkResponse>
-            = NewApiRequest("messages.allowMessagesFromGroup") {
+    fun messagesAllowMessagesFromGroup(groupId: UserId, key: String? = null):
+            VKRequest<BaseOkResponse> = NewApiRequest("messages.allowMessagesFromGroup") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
@@ -123,7 +126,7 @@ class MessagesService {
     fun messagesCreateChat(
         userIds: List<Int>? = null,
         title: String? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<Int> = NewApiRequest("messages.createChat") {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
@@ -140,15 +143,15 @@ class MessagesService {
      * @param spam - '1' - to mark message as spam.
      * @param groupId - Group ID (for group messages with user access token)
      * @param deleteForAll - '1' - delete message for for all.
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param conversationMessageIds - Conversation message IDs.
      * @return [VKRequest] with [Any]
      */
     fun messagesDelete(
         messageIds: List<Int>? = null,
         spam: Boolean? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         deleteForAll: Boolean? = null,
         peerId: Int? = null,
         conversationMessageIds: List<Int>? = null
@@ -171,7 +174,7 @@ class MessagesService {
      * @param groupId
      * @return [VKRequest] with [MessagesDeleteChatPhotoResponse]
      */
-    fun messagesDeleteChatPhoto(chatId: Int, groupId: Int? = null):
+    fun messagesDeleteChatPhoto(chatId: Int, groupId: UserId? = null):
             VKRequest<MessagesDeleteChatPhotoResponse> = NewApiRequest("messages.deleteChatPhoto") {
         GsonHolder.gson.fromJson(it, MessagesDeleteChatPhotoResponse::class.java)
     }
@@ -184,15 +187,15 @@ class MessagesService {
      * Deletes all private messages in a conversation.
      *
      * @param userId - User ID. To clear a chat history use 'chat_id'
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param groupId - Group ID (for group messages with user access token)
      * @return [VKRequest] with [MessagesDeleteConversationResponse]
      */
     fun messagesDeleteConversation(
         userId: Int? = null,
         peerId: Int? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesDeleteConversationResponse> =
             NewApiRequest("messages.deleteConversation") {
         GsonHolder.gson.fromJson(it, MessagesDeleteConversationResponse::class.java)
@@ -209,7 +212,7 @@ class MessagesService {
      * @param groupId - Group ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun messagesDenyMessagesFromGroup(groupId: Int): VKRequest<BaseOkResponse> =
+    fun messagesDenyMessagesFromGroup(groupId: UserId): VKRequest<BaseOkResponse> =
             NewApiRequest("messages.denyMessagesFromGroup") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -220,16 +223,16 @@ class MessagesService {
     /**
      * Edits the message.
      *
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param message - (Required if 'attachments' is not set.) Text of the message.
      * @param lat - Geographical latitude of a check-in, in degrees (from -90 to 90).
      * @param long - Geographical longitude of a check-in, in degrees (from -180 to 180).
      * @param attachment - (Required if 'message' is not set.) List of objects attached to the
-     * message, separated by commas, in the following format: "<owner_id>_<media_id>", '' - Type of
-     * media attachment: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'wall' -
+     * message, separated by commas, in the following format_ "<owner_id>_<media_id>", '' - Type of
+     * media attachment_ 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'wall' -
      * wall post, '<owner_id>' - ID of the media attachment owner. '<media_id>' - media attachment ID.
-     * Example: "photo100172_166443618"
+     * Example_ "photo100172_166443618"
      * @param keepForwardMessages - '1' - to keep forwarded, messages.
      * @param keepSnippets - '1' - to keep attached snippets.
      * @param groupId - Group ID (for group messages with user access token)
@@ -248,7 +251,7 @@ class MessagesService {
         attachment: String? = null,
         keepForwardMessages: Boolean? = null,
         keepSnippets: Boolean? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         dontParseLinks: Boolean? = null,
         messageId: Int? = null,
         conversationMessageId: Int? = null,
@@ -292,8 +295,8 @@ class MessagesService {
     /**
      * Returns messages by their IDs within the conversation.
      *
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param conversationMessageIds - Conversation message IDs.
      * @param fields - Profile fields to return.
      * @param groupId - Group ID (for group messages with group access token)
@@ -303,7 +306,7 @@ class MessagesService {
         peerId: Int,
         conversationMessageIds: List<Int>,
         fields: List<UsersFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesGetByConversationMessageIdResponse> =
             NewApiRequest("messages.getByConversationMessageId") {
         GsonHolder.gson.fromJson(it, MessagesGetByConversationMessageIdResponse::class.java)
@@ -323,7 +326,7 @@ class MessagesService {
      *
      * @param messageIds - Message IDs.
      * @param previewLength - Number of characters after which to truncate a previewed message. To
-     * preview the full message, specify '0'. "NOTE: Messages are not truncated by default. Messages
+     * preview the full message, specify '0'. "NOTE_ Messages are not truncated by default. Messages
      * are truncated by words."
      * @param fields - Profile fields to return.
      * @param groupId - Group ID (for group messages with group access token)
@@ -333,7 +336,7 @@ class MessagesService {
         messageIds: List<Int>,
         previewLength: Int? = null,
         fields: List<UsersFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesGetByIdResponse> = NewApiRequest("messages.getById") {
         GsonHolder.gson.fromJson(it, MessagesGetByIdResponse::class.java)
     }
@@ -352,7 +355,7 @@ class MessagesService {
      *
      * @param messageIds - Message IDs.
      * @param previewLength - Number of characters after which to truncate a previewed message. To
-     * preview the full message, specify '0'. "NOTE: Messages are not truncated by default. Messages
+     * preview the full message, specify '0'. "NOTE_ Messages are not truncated by default. Messages
      * are truncated by words."
      * @param fields - Profile fields to return.
      * @param groupId - Group ID (for group messages with group access token)
@@ -362,7 +365,7 @@ class MessagesService {
         messageIds: List<Int>,
         previewLength: Int? = null,
         fields: List<UsersFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesGetByIdExtendedResponse> = NewApiRequest("messages.getById") {
         GsonHolder.gson.fromJson(it, MessagesGetByIdExtendedResponse::class.java)
     }
@@ -410,7 +413,7 @@ class MessagesService {
     fun messagesGetConversationMembers(
         peerId: Int,
         fields: List<UsersFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesGetConversationMembersResponse> =
             NewApiRequest("messages.getConversationMembers") {
         GsonHolder.gson.fromJson(it, MessagesGetConversationMembersResponse::class.java)
@@ -429,7 +432,7 @@ class MessagesService {
      *
      * @param offset - Offset needed to return a specific subset of conversations.
      * @param count - Number of conversations to return.
-     * @param filter - Filter to apply: 'all' - all conversations, 'unread' - conversations with
+     * @param filter - Filter to apply_ 'all' - all conversations, 'unread' - conversations with
      * unread messages, 'important' - conversations, marked as important (only for community messages),
      * 'unanswered' - conversations, marked as unanswered (only for community messages)
      * @param startMessageId - ID of the message from what to return dialogs.
@@ -440,10 +443,10 @@ class MessagesService {
     fun messagesGetConversations(
         offset: Int? = null,
         count: Int? = null,
-        filter: FilterParam? = null,
+        filter: MessagesGetConversationsFilter? = null,
         startMessageId: Int? = null,
         fields: List<BaseUserGroupFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesGetConversationsResponse> = NewApiRequest("messages.getConversations") {
         GsonHolder.gson.fromJson(it, MessagesGetConversationsResponse::class.java)
     }
@@ -462,8 +465,8 @@ class MessagesService {
     /**
      * Returns conversations by their IDs
      *
-     * @param peerIds - Destination IDs. "For user: 'User ID', e.g. '12345'. For chat:
-     * '2000000000' + 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
+     * @param peerIds - Destination IDs. "For user_ 'User ID', e.g. '12345'. For chat_
+     * '2000000000' + 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param fields - Profile and communities fields to return.
      * @param groupId - Group ID (for group messages with group access token)
      * @return [VKRequest] with [MessagesGetConversationById]
@@ -471,7 +474,7 @@ class MessagesService {
     fun messagesGetConversationsById(
         peerIds: List<Int>,
         fields: List<BaseUserGroupFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesGetConversationById> = NewApiRequest("messages.getConversationsById") {
         GsonHolder.gson.fromJson(it, MessagesGetConversationById::class.java)
     }
@@ -487,8 +490,8 @@ class MessagesService {
     /**
      * Returns conversations by their IDs
      *
-     * @param peerIds - Destination IDs. "For user: 'User ID', e.g. '12345'. For chat:
-     * '2000000000' + 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
+     * @param peerIds - Destination IDs. "For user_ 'User ID', e.g. '12345'. For chat_
+     * '2000000000' + 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param fields - Profile and communities fields to return.
      * @param groupId - Group ID (for group messages with group access token)
      * @return [VKRequest] with [Any]
@@ -496,7 +499,7 @@ class MessagesService {
     fun messagesGetConversationsByIdExtended(
         peerIds: List<Int>,
         fields: List<BaseUserGroupFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<Any> = NewApiRequest("messages.getConversationsById") {
         GsonHolder.gson.fromJson(it, Any::class.java)
     }
@@ -518,7 +521,7 @@ class MessagesService {
      * @param userId - ID of the user whose message history you want to return.
      * @param peerId
      * @param startMessageId - Starting message ID from which to return history.
-     * @param rev - Sort order: '1' - return messages in chronological order. '0' - return messages
+     * @param rev - Sort order_ '1' - return messages in chronological order. '0' - return messages
      * in reverse chronological order.
      * @param fields - Profile fields to return.
      * @param groupId - Group ID (for group messages with group access token)
@@ -530,9 +533,9 @@ class MessagesService {
         userId: Int? = null,
         peerId: Int? = null,
         startMessageId: Int? = null,
-        rev: RevParam? = null,
+        rev: MessagesGetHistoryRev? = null,
         fields: List<UsersFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesGetHistoryResponse> = NewApiRequest("messages.getHistory") {
         GsonHolder.gson.fromJson(it, MessagesGetHistoryResponse::class.java)
     }
@@ -558,7 +561,7 @@ class MessagesService {
      * @param userId - ID of the user whose message history you want to return.
      * @param peerId
      * @param startMessageId - Starting message ID from which to return history.
-     * @param rev - Sort order: '1' - return messages in chronological order. '0' - return messages
+     * @param rev - Sort order_ '1' - return messages in chronological order. '0' - return messages
      * in reverse chronological order.
      * @param fields - Profile fields to return.
      * @param groupId - Group ID (for group messages with group access token)
@@ -570,9 +573,9 @@ class MessagesService {
         userId: Int? = null,
         peerId: Int? = null,
         startMessageId: Int? = null,
-        rev: RevParam? = null,
+        rev: MessagesGetHistoryExtendedRev? = null,
         fields: List<UsersFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesGetHistoryExtendedResponse> = NewApiRequest("messages.getHistory") {
         GsonHolder.gson.fromJson(it, MessagesGetHistoryExtendedResponse::class.java)
     }
@@ -594,9 +597,9 @@ class MessagesService {
     /**
      * Returns media files from the dialog or group chat.
      *
-     * @param peerId - Peer ID. ", For group chat: '2000000000 + chat ID' , , For community:
+     * @param peerId - Peer ID. ", For group chat_ '2000000000 + chat ID' , , For community_
      * '-community ID'"
-     * @param mediaType - Type of media files to return: *'photo',, *'video',, *'audio',, *'doc',,
+     * @param mediaType - Type of media files to return_ *'photo',, *'video',, *'audio',, *'doc',,
      * *'link'.,*'market'.,*'wall'.,*'share'
      * @param startFrom - Message ID to start return results from.
      * @param count - Number of objects to return.
@@ -609,12 +612,12 @@ class MessagesService {
      */
     fun messagesGetHistoryAttachments(
         peerId: Int,
-        mediaType: MediaTypeParam? = null,
+        mediaType: MessagesGetHistoryAttachmentsMediaType? = null,
         startFrom: String? = null,
         count: Int? = null,
         photoSizes: Boolean? = null,
         fields: List<UsersFields>? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         preserveOrder: Boolean? = null,
         maxForwardsLevel: Int? = null
     ): VKRequest<MessagesGetHistoryAttachmentsResponse> =
@@ -653,7 +656,7 @@ class MessagesService {
         startMessageId: Int? = null,
         previewLength: Int? = null,
         fields: List<BaseUserGroupFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesGetImportantMessagesResponse> =
             NewApiRequest("messages.getImportantMessages") {
         GsonHolder.gson.fromJson(it, MessagesGetImportantMessagesResponse::class.java)
@@ -687,7 +690,7 @@ class MessagesService {
         startMessageId: Int? = null,
         previewLength: Int? = null,
         fields: List<BaseUserGroupFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesGetImportantMessagesExtendedResponse> =
             NewApiRequest("messages.getImportantMessages") {
         GsonHolder.gson.fromJson(it, MessagesGetImportantMessagesExtendedResponse::class.java)
@@ -715,7 +718,7 @@ class MessagesService {
      * @return [VKRequest] with [MessagesGetIntentUsersResponse]
      */
     fun messagesGetIntentUsers(
-        intent: IntentParam,
+        intent: MessagesGetIntentUsersIntent,
         subscribeId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
@@ -742,7 +745,7 @@ class MessagesService {
     fun messagesGetInviteLink(
         peerId: Int,
         reset: Boolean? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesGetInviteLinkResponse> = NewApiRequest("messages.getInviteLink") {
         GsonHolder.gson.fromJson(it, MessagesGetInviteLinkResponse::class.java)
     }
@@ -758,7 +761,7 @@ class MessagesService {
      * @param userId - User ID.
      * @return [VKRequest] with [MessagesLastActivity]
      */
-    fun messagesGetLastActivity(userId: Int): VKRequest<MessagesLastActivity> =
+    fun messagesGetLastActivity(userId: UserId): VKRequest<MessagesLastActivity> =
             NewApiRequest("messages.getLastActivity") {
         GsonHolder.gson.fromJson(it, MessagesLastActivity::class.java)
     }
@@ -774,7 +777,7 @@ class MessagesService {
      * @param pts - Lsat value of 'pts' parameter returned from the Long Poll server or by using
      * [vk.com/dev/messages.getLongPollHistory|messages.getLongPollHistory] method.
      * @param previewLength - Number of characters after which to truncate a previewed message. To
-     * preview the full message, specify '0'. "NOTE: Messages are not truncated by default. Messages
+     * preview the full message, specify '0'. "NOTE_ Messages are not truncated by default. Messages
      * are truncated by words."
      * @param onlines - '1' - to return history with online users only.
      * @param fields - Additional profile [vk.com/dev/fields|fields] to return.
@@ -798,7 +801,7 @@ class MessagesService {
         eventsLimit: Int? = null,
         msgsLimit: Int? = null,
         maxMsgId: Int? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         lpVersion: Int? = null,
         lastN: Int? = null,
         credentials: Boolean? = null
@@ -835,7 +838,7 @@ class MessagesService {
      */
     fun messagesGetLongPollServer(
         needPts: Boolean? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         lpVersion: Int? = null
     ): VKRequest<MessagesLongpollParams> = NewApiRequest("messages.getLongPollServer") {
         GsonHolder.gson.fromJson(it, MessagesLongpollParams::class.java)
@@ -853,7 +856,7 @@ class MessagesService {
      * @param userId - User ID.
      * @return [VKRequest] with [MessagesIsMessagesFromGroupAllowedResponse]
      */
-    fun messagesIsMessagesFromGroupAllowed(groupId: Int, userId: Int):
+    fun messagesIsMessagesFromGroupAllowed(groupId: UserId, userId: UserId):
             VKRequest<MessagesIsMessagesFromGroupAllowedResponse> =
             NewApiRequest("messages.isMessagesFromGroupAllowed") {
         GsonHolder.gson.fromJson(it, MessagesIsMessagesFromGroupAllowedResponse::class.java)
@@ -886,7 +889,7 @@ class MessagesService {
     fun messagesMarkAsAnsweredConversation(
         peerId: Int,
         answered: Boolean? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("messages.markAsAnsweredConversation") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -924,7 +927,7 @@ class MessagesService {
     fun messagesMarkAsImportantConversation(
         peerId: Int,
         important: Boolean? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("messages.markAsImportantConversation") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -938,8 +941,8 @@ class MessagesService {
      * Marks messages as read.
      *
      * @param messageIds - IDs of messages to mark as read.
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param startMessageId - Message ID to start from.
      * @param groupId - Group ID (for group messages with user access token)
      * @param markConversationAsRead
@@ -949,7 +952,7 @@ class MessagesService {
         messageIds: List<Int>? = null,
         peerId: Int? = null,
         startMessageId: Int? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         markConversationAsRead: Boolean? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("messages.markAsRead") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
@@ -965,8 +968,8 @@ class MessagesService {
     /**
      * Pin a message.
      *
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'Chat ID', e.g. '2000000001'. For community: '- Community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'Chat ID', e.g. '2000000001'. For community_ '- Community ID', e.g. '-12345'. "
      * @param messageId - Message ID
      * @param conversationMessageId - Conversation message ID
      * @return [VKRequest] with [MessagesPinnedMessage]
@@ -1013,7 +1016,7 @@ class MessagesService {
      * @param groupId - Group ID (for group messages with user access token)
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun messagesRestore(messageId: Int, groupId: Int? = null): VKRequest<BaseOkResponse> =
+    fun messagesRestore(messageId: Int, groupId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("messages.restore") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -1026,11 +1029,11 @@ class MessagesService {
      * Returns a list of the current user's private messages that match search criteria.
      *
      * @param q - Search query string.
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param date - Date to search message before in Unixtime.
      * @param previewLength - Number of characters after which to truncate a previewed message. To
-     * preview the full message, specify '0'. "NOTE: Messages are not truncated by default. Messages
+     * preview the full message, specify '0'. "NOTE_ Messages are not truncated by default. Messages
      * are truncated by words."
      * @param offset - Offset needed to return a specific subset of messages.
      * @param count - Number of messages to return.
@@ -1046,7 +1049,7 @@ class MessagesService {
         offset: Int? = null,
         count: Int? = null,
         fields: List<String>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesSearchResponse> = NewApiRequest("messages.search") {
         GsonHolder.gson.fromJson(it, MessagesSearchResponse::class.java)
     }
@@ -1065,11 +1068,11 @@ class MessagesService {
      * Returns a list of the current user's private messages that match search criteria.
      *
      * @param q - Search query string.
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param date - Date to search message before in Unixtime.
      * @param previewLength - Number of characters after which to truncate a previewed message. To
-     * preview the full message, specify '0'. "NOTE: Messages are not truncated by default. Messages
+     * preview the full message, specify '0'. "NOTE_ Messages are not truncated by default. Messages
      * are truncated by words."
      * @param offset - Offset needed to return a specific subset of messages.
      * @param count - Number of messages to return.
@@ -1085,7 +1088,7 @@ class MessagesService {
         offset: Int? = null,
         count: Int? = null,
         fields: List<String>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesSearchExtendedResponse> = NewApiRequest("messages.search") {
         GsonHolder.gson.fromJson(it, MessagesSearchExtendedResponse::class.java)
     }
@@ -1114,7 +1117,7 @@ class MessagesService {
         q: String? = null,
         count: Int? = null,
         fields: List<UsersFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesSearchConversationsResponse> =
             NewApiRequest("messages.searchConversations") {
         GsonHolder.gson.fromJson(it, MessagesSearchConversationsResponse::class.java)
@@ -1142,7 +1145,7 @@ class MessagesService {
         q: String? = null,
         count: Int? = null,
         fields: List<UsersFields>? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<MessagesSearchConversationsExtendedResponse> =
             NewApiRequest("messages.searchConversations") {
         GsonHolder.gson.fromJson(it, MessagesSearchConversationsExtendedResponse::class.java)
@@ -1163,8 +1166,8 @@ class MessagesService {
      *
      * @param userId - User ID (by default - current user).
      * @param randomId - Unique identifier to avoid resending the message.
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param peerIds - IDs of message recipients. (See peer_id)
      * @param domain - User's short address (for example, 'illarionov').
      * @param chatId - ID of conversation the message will relate to.
@@ -1173,13 +1176,13 @@ class MessagesService {
      * @param lat - Geographical latitude of a check-in, in degrees (from -90 to 90).
      * @param long - Geographical longitude of a check-in, in degrees (from -180 to 180).
      * @param attachment - (Required if 'message' is not set.) List of objects attached to the
-     * message, separated by commas, in the following format: "<owner_id>_<media_id>", '' - Type of
-     * media attachment: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'wall' -
+     * message, separated by commas, in the following format_ "<owner_id>_<media_id>", '' - Type of
+     * media attachment_ 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'wall' -
      * wall post, '<owner_id>' - ID of the media attachment owner. '<media_id>' - media attachment ID.
-     * Example: "photo100172_166443618"
+     * Example_ "photo100172_166443618"
      * @param replyTo
      * @param forwardMessages - ID of forwarded messages, separated with a comma. Listed messages of
-     * the sender will be shown in the message body at the recipient's. Example: "123,431,544"
+     * the sender will be shown in the message body at the recipient's. Example_ "123,431,544"
      * @param forward - JSON describing the forwarded message or reply
      * @param stickerId - Sticker id.
      * @param groupId - Group ID (for group messages with group access token)
@@ -1209,14 +1212,14 @@ class MessagesService {
         forwardMessages: List<Int>? = null,
         forward: String? = null,
         stickerId: Int? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         keyboard: String? = null,
         template: String? = null,
         payload: String? = null,
         contentSource: String? = null,
         dontParseLinks: Boolean? = null,
         disableMentions: Boolean? = null,
-        intent: IntentParam? = null,
+        intent: MessagesSendIntent? = null,
         subscribeId: Int? = null
     ): VKRequest<Int> = NewApiRequest("messages.send") {
         GsonHolder.gson.fromJson(it, Int::class.java)
@@ -1257,7 +1260,7 @@ class MessagesService {
      */
     fun messagesSendMessageEventAnswer(
         eventId: String,
-        userId: Int,
+        userId: UserId,
         peerId: Int,
         eventData: String? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("messages.sendMessageEventAnswer") {
@@ -1275,16 +1278,16 @@ class MessagesService {
      *
      * @param userId - User ID.
      * @param type - 'typing' - user has started to type.
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'chat_id', e.g. '2000000001'. For community: '- community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param groupId - Group ID (for group messages with group access token)
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun messagesSetActivity(
         userId: Int? = null,
-        type: TypeParam? = null,
+        type: MessagesSetActivityType? = null,
         peerId: Int? = null,
-        groupId: Int? = null
+        groupId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("messages.setActivity") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -1316,7 +1319,7 @@ class MessagesService {
      * @param groupId
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun messagesUnpin(peerId: Int, groupId: Int? = null): VKRequest<BaseOkResponse> =
+    fun messagesUnpin(peerId: Int, groupId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("messages.unpin") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }

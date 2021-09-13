@@ -41,7 +41,6 @@ import com.vk.sdk.api.base.dto.BaseSex
 import com.vk.sdk.api.friends.dto.FriendsFriendStatusStatus
 import com.vk.sdk.api.friends.dto.FriendsRequestsMutual
 import com.vk.sdk.api.groups.dto.GroupsAddressesInfo
-import com.vk.sdk.api.groups.dto.GroupsAppButton
 import com.vk.sdk.api.groups.dto.GroupsContactsItem
 import com.vk.sdk.api.groups.dto.GroupsCountersGroup
 import com.vk.sdk.api.groups.dto.GroupsCover
@@ -215,13 +214,8 @@ sealed class UsersSubscriptionsItem {
      * @param estDate - Established date
      * @param publicDateLabel - Public date label
      * @param photoMaxSize
-     * @param appButton
-     * @param appButtons
      * @param isVideoLiveNotificationsBlocked
      * @param videoLive
-     * @param hadTorch
-     * @param audioArtistId
-     * @param audioCuratorId
      */
     data class GroupsGroupFull(
         @SerializedName("market")
@@ -382,20 +376,10 @@ sealed class UsersSubscriptionsItem {
         val publicDateLabel: String? = null,
         @SerializedName("photo_max_size")
         val photoMaxSize: GroupsPhotoSize? = null,
-        @SerializedName("app_button")
-        val appButton: GroupsAppButton? = null,
-        @SerializedName("app_buttons")
-        val appButtons: List<GroupsAppButton>? = null,
         @SerializedName("is_video_live_notifications_blocked")
         val isVideoLiveNotificationsBlocked: BaseBoolInt? = null,
         @SerializedName("video_live")
-        val videoLive: VideoLiveInfo? = null,
-        @SerializedName("had_torch")
-        val hadTorch: Boolean? = null,
-        @SerializedName("audio_artist_id")
-        val audioArtistId: String? = null,
-        @SerializedName("audio_curator_id")
-        val audioCuratorId: Int? = null
+        val videoLive: VideoLiveInfo? = null
     ) : UsersSubscriptionsItem() {
         enum class Wall(
             val value: Int

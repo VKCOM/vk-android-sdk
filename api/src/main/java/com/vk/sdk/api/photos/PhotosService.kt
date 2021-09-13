@@ -29,6 +29,7 @@ package com.vk.sdk.api.photos
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseBoolInt
@@ -40,7 +41,9 @@ import com.vk.sdk.api.photos.dto.PhotosGetAllCommentsResponse
 import com.vk.sdk.api.photos.dto.PhotosGetAllExtendedResponse
 import com.vk.sdk.api.photos.dto.PhotosGetAllResponse
 import com.vk.sdk.api.photos.dto.PhotosGetCommentsExtendedResponse
+import com.vk.sdk.api.photos.dto.PhotosGetCommentsExtendedSort
 import com.vk.sdk.api.photos.dto.PhotosGetCommentsResponse
+import com.vk.sdk.api.photos.dto.PhotosGetCommentsSort
 import com.vk.sdk.api.photos.dto.PhotosGetExtendedResponse
 import com.vk.sdk.api.photos.dto.PhotosGetNewTagsResponse
 import com.vk.sdk.api.photos.dto.PhotosGetResponse
@@ -51,10 +54,10 @@ import com.vk.sdk.api.photos.dto.PhotosPhotoAlbumFull
 import com.vk.sdk.api.photos.dto.PhotosPhotoFull
 import com.vk.sdk.api.photos.dto.PhotosPhotoTag
 import com.vk.sdk.api.photos.dto.PhotosPhotoUpload
+import com.vk.sdk.api.photos.dto.PhotosReportCommentReason
+import com.vk.sdk.api.photos.dto.PhotosReportReason
 import com.vk.sdk.api.photos.dto.PhotosSaveOwnerPhotoResponse
 import com.vk.sdk.api.photos.dto.PhotosSearchResponse
-import com.vk.sdk.api.photos.dto.ReasonParam
-import com.vk.sdk.api.photos.dto.SortParam
 import com.vk.sdk.api.users.dto.UsersFields
 import kotlin.Boolean
 import kotlin.Float
@@ -74,7 +77,7 @@ class PhotosService {
     fun photosConfirmTag(
         photoId: String,
         tagId: Int,
-        ownerId: Int? = null
+        ownerId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("photos.confirmTag") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -93,7 +96,7 @@ class PhotosService {
      * @return [VKRequest] with [Int]
      */
     fun photosCopy(
-        ownerId: Int,
+        ownerId: UserId,
         photoId: Int,
         accessKey: String? = null
     ): VKRequest<Int> = NewApiRequest("photos.copy") {
@@ -119,7 +122,7 @@ class PhotosService {
      */
     fun photosCreateAlbum(
         title: String,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         description: String? = null,
         privacyView: List<String>? = null,
         privacyComment: List<String>? = null,
@@ -145,9 +148,9 @@ class PhotosService {
      * @param ownerId - ID of the user or community that owns the photo.
      * @param message - Comment text.
      * @param attachments - (Required if 'message' is not set.) List of objects attached to the
-     * post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
-     * attachment: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' -
-     * Media attachment owner ID. '<media_id>' - Media attachment ID. Example:
+     * post, in the following format_ "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
+     * attachment_ 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' -
+     * Media attachment owner ID. '<media_id>' - Media attachment ID. Example_
      * "photo100172_166443618,photo66748_265827614"
      * @param fromGroup - '1' - to post a comment from the community
      * @param replyToComment
@@ -158,7 +161,7 @@ class PhotosService {
      */
     fun photosCreateComment(
         photoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         message: String? = null,
         attachments: List<String>? = null,
         fromGroup: Boolean? = null,
@@ -188,7 +191,7 @@ class PhotosService {
      * @param ownerId - ID of the user or community that owns the photo.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun photosDelete(photoId: Int, ownerId: Int? = null): VKRequest<BaseOkResponse> =
+    fun photosDelete(photoId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("photos.delete") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -204,7 +207,7 @@ class PhotosService {
      * @param groupId - ID of the community that owns the album.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun photosDeleteAlbum(albumId: Int, groupId: Int? = null): VKRequest<BaseOkResponse> =
+    fun photosDeleteAlbum(albumId: Int, groupId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("photos.deleteAlbum") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -220,7 +223,7 @@ class PhotosService {
      * @param ownerId - ID of the user or community that owns the photo.
      * @return [VKRequest] with [BaseBoolInt]
      */
-    fun photosDeleteComment(commentId: Int, ownerId: Int? = null): VKRequest<BaseBoolInt> =
+    fun photosDeleteComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseBoolInt> =
             NewApiRequest("photos.deleteComment") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
@@ -245,7 +248,7 @@ class PhotosService {
      */
     fun photosEdit(
         photoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         caption: String? = null,
         latitude: Float? = null,
         longitude: Float? = null,
@@ -283,7 +286,7 @@ class PhotosService {
         albumId: Int,
         title: String? = null,
         description: String? = null,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         privacyView: List<String>? = null,
         privacyComment: List<String>? = null,
         uploadByAdminsOnly: Boolean? = null,
@@ -309,15 +312,15 @@ class PhotosService {
      * @param ownerId - ID of the user or community that owns the photo.
      * @param message - New text of the comment.
      * @param attachments - (Required if 'message' is not set.) List of objects attached to the
-     * post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
-     * attachment: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' -
-     * Media attachment owner ID. '<media_id>' - Media attachment ID. Example:
+     * post, in the following format_ "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
+     * attachment_ 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' -
+     * Media attachment owner ID. '<media_id>' - Media attachment ID. Example_
      * "photo100172_166443618,photo66748_265827614"
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun photosEditComment(
         commentId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         message: String? = null,
         attachments: List<String>? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("photos.editComment") {
@@ -336,9 +339,9 @@ class PhotosService {
      * @param ownerId - ID of the user or community that owns the photos. Use a negative value to
      * designate a community ID.
      * @param albumId - Photo album ID. To return information about photos from service albums, use
-     * the following string values: 'profile, wall, saved'.
+     * the following string values_ 'profile, wall, saved'.
      * @param photoIds - Photo IDs.
-     * @param rev - Sort order: '1' - reverse chronological, '0' - chronological
+     * @param rev - Sort order_ '1' - reverse chronological, '0' - chronological
      * @param feedType - Type of feed obtained in 'feed' field of the method.
      * @param feed - unixtime, that can be obtained with [vk.com/dev/newsfeed.get|newsfeed.get]
      * method in date field to get all photos uploaded by the user on a specific day, or photos the
@@ -350,7 +353,7 @@ class PhotosService {
      * @return [VKRequest] with [PhotosGetResponse]
      */
     fun photosGet(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         albumId: String? = null,
         photoIds: List<String>? = null,
         rev: Boolean? = null,
@@ -380,9 +383,9 @@ class PhotosService {
      * @param ownerId - ID of the user or community that owns the photos. Use a negative value to
      * designate a community ID.
      * @param albumId - Photo album ID. To return information about photos from service albums, use
-     * the following string values: 'profile, wall, saved'.
+     * the following string values_ 'profile, wall, saved'.
      * @param photoIds - Photo IDs.
-     * @param rev - Sort order: '1' - reverse chronological, '0' - chronological
+     * @param rev - Sort order_ '1' - reverse chronological, '0' - chronological
      * @param feedType - Type of feed obtained in 'feed' field of the method.
      * @param feed - unixtime, that can be obtained with [vk.com/dev/newsfeed.get|newsfeed.get]
      * method in date field to get all photos uploaded by the user on a specific day, or photos the
@@ -394,7 +397,7 @@ class PhotosService {
      * @return [VKRequest] with [PhotosGetExtendedResponse]
      */
     fun photosGetExtended(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         albumId: String? = null,
         photoIds: List<String>? = null,
         rev: Boolean? = null,
@@ -432,7 +435,7 @@ class PhotosService {
      * @return [VKRequest] with [PhotosGetAlbumsResponse]
      */
     fun photosGetAlbums(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         albumIds: List<Int>? = null,
         offset: Int? = null,
         count: Int? = null,
@@ -459,7 +462,7 @@ class PhotosService {
      * @param groupId - Community ID.
      * @return [VKRequest] with [Int]
      */
-    fun photosGetAlbumsCount(userId: Int? = null, groupId: Int? = null): VKRequest<Int> =
+    fun photosGetAlbumsCount(userId: UserId? = null, groupId: UserId? = null): VKRequest<Int> =
             NewApiRequest("photos.getAlbumsCount") {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
@@ -485,7 +488,7 @@ class PhotosService {
      * @return [VKRequest] with [PhotosGetAllResponse]
      */
     fun photosGetAll(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         offset: Int? = null,
         count: Int? = null,
         photoSizes: Boolean? = null,
@@ -522,7 +525,7 @@ class PhotosService {
      * @return [VKRequest] with [PhotosGetAllExtendedResponse]
      */
     fun photosGetAllExtended(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         offset: Int? = null,
         count: Int? = null,
         photoSizes: Boolean? = null,
@@ -556,7 +559,7 @@ class PhotosService {
      * @return [VKRequest] with [PhotosGetAllCommentsResponse]
      */
     fun photosGetAllComments(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         albumId: Int? = null,
         needLikes: Boolean? = null,
         offset: Int? = null,
@@ -577,7 +580,7 @@ class PhotosService {
      *
      * @param photos - IDs separated with a comma, that are IDs of users who posted photos and IDs
      * of photos themselves with an underscore character between such IDs. To get information about a
-     * photo in the group album, you shall specify group ID instead of user ID. Example:
+     * photo in the group album, you shall specify group ID instead of user ID. Example_
      * "1_129207899,6492_135055734, , -20629724_271945303"
      * @param photoSizes - '1' - to return photo sizes in a
      * @return [VKRequest] with [Unit]
@@ -597,7 +600,7 @@ class PhotosService {
      *
      * @param photos - IDs separated with a comma, that are IDs of users who posted photos and IDs
      * of photos themselves with an underscore character between such IDs. To get information about a
-     * photo in the group album, you shall specify group ID instead of user ID. Example:
+     * photo in the group album, you shall specify group ID instead of user ID. Example_
      * "1_129207899,6492_135055734, , -20629724_271945303"
      * @param photoSizes - '1' - to return photo sizes in a
      * @return [VKRequest] with [Unit]
@@ -646,19 +649,19 @@ class PhotosService {
      * @param startCommentId
      * @param offset - Offset needed to return a specific subset of comments. By default, '0'.
      * @param count - Number of comments to return.
-     * @param sort - Sort order: 'asc' - old first, 'desc' - new first
+     * @param sort - Sort order_ 'asc' - old first, 'desc' - new first
      * @param accessKey
      * @param fields
      * @return [VKRequest] with [PhotosGetCommentsResponse]
      */
     fun photosGetComments(
         photoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         needLikes: Boolean? = null,
         startCommentId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: SortParam? = null,
+        sort: PhotosGetCommentsSort? = null,
         accessKey: String? = null,
         fields: List<UsersFields>? = null
     ): VKRequest<PhotosGetCommentsResponse> = NewApiRequest("photos.getComments") {
@@ -688,19 +691,19 @@ class PhotosService {
      * @param startCommentId
      * @param offset - Offset needed to return a specific subset of comments. By default, '0'.
      * @param count - Number of comments to return.
-     * @param sort - Sort order: 'asc' - old first, 'desc' - new first
+     * @param sort - Sort order_ 'asc' - old first, 'desc' - new first
      * @param accessKey
      * @param fields
      * @return [VKRequest] with [PhotosGetCommentsExtendedResponse]
      */
     fun photosGetCommentsExtended(
         photoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         needLikes: Boolean? = null,
         startCommentId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: SortParam? = null,
+        sort: PhotosGetCommentsExtendedSort? = null,
         accessKey: String? = null,
         fields: List<UsersFields>? = null
     ): VKRequest<PhotosGetCommentsExtendedResponse> = NewApiRequest("photos.getComments") {
@@ -728,7 +731,7 @@ class PhotosService {
      * @param groupId - Community ID.
      * @return [VKRequest] with [BaseUploadServer]
      */
-    fun photosGetMarketAlbumUploadServer(groupId: Int): VKRequest<BaseUploadServer> =
+    fun photosGetMarketAlbumUploadServer(groupId: UserId): VKRequest<BaseUploadServer> =
             NewApiRequest("photos.getMarketAlbumUploadServer") {
         GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
     }
@@ -747,7 +750,7 @@ class PhotosService {
      * @return [VKRequest] with [BaseUploadServer]
      */
     fun photosGetMarketUploadServer(
-        groupId: Int,
+        groupId: UserId,
         mainPhoto: Boolean? = null,
         cropX: Int? = null,
         cropY: Int? = null,
@@ -766,8 +769,8 @@ class PhotosService {
     /**
      * Returns the server address for photo upload in a private message for a user.
      *
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'Chat ID', e.g. '2000000001'. For community: '- Community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'Chat ID', e.g. '2000000001'. For community_ '- Community ID', e.g. '-12345'. "
      * @return [VKRequest] with [PhotosPhotoUpload]
      */
     fun photosGetMessagesUploadServer(peerId: Int? = null): VKRequest<PhotosPhotoUpload> =
@@ -806,7 +809,7 @@ class PhotosService {
      * @return [VKRequest] with [BaseUploadServer]
      */
     fun photosGetOwnerCoverPhotoUploadServer(
-        groupId: Int,
+        groupId: UserId,
         cropX: Int? = null,
         cropY: Int? = null,
         cropX2: Int? = null,
@@ -829,7 +832,7 @@ class PhotosService {
      * negative. 'owner_id=1' - user, 'owner_id=-1' - community, "
      * @return [VKRequest] with [BaseUploadServer]
      */
-    fun photosGetOwnerPhotoUploadServer(ownerId: Int? = null): VKRequest<BaseUploadServer> =
+    fun photosGetOwnerPhotoUploadServer(ownerId: UserId? = null): VKRequest<BaseUploadServer> =
             NewApiRequest("photos.getOwnerPhotoUploadServer") {
         GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
     }
@@ -847,7 +850,7 @@ class PhotosService {
      */
     fun photosGetTags(
         photoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         accessKey: String? = null
     ): VKRequest<List<PhotosPhotoTag>> = NewApiRequest("photos.getTags") {
         val typeToken = object: TypeToken<List<PhotosPhotoTag>>() {}.type
@@ -867,7 +870,7 @@ class PhotosService {
      * @param albumId
      * @return [VKRequest] with [PhotosPhotoUpload]
      */
-    fun photosGetUploadServer(groupId: Int? = null, albumId: Int? = null):
+    fun photosGetUploadServer(groupId: UserId? = null, albumId: Int? = null):
             VKRequest<PhotosPhotoUpload> = NewApiRequest("photos.getUploadServer") {
         GsonHolder.gson.fromJson(it, PhotosPhotoUpload::class.java)
     }
@@ -882,12 +885,12 @@ class PhotosService {
      * @param userId - User ID.
      * @param offset - Offset needed to return a specific subset of photos. By default, '0'.
      * @param count - Number of photos to return. Maximum value is 1000.
-     * @param sort - Sort order: '1' - by date the tag was added in ascending order, '0' - by date
+     * @param sort - Sort order_ '1' - by date the tag was added in ascending order, '0' - by date
      * the tag was added in descending order
      * @return [VKRequest] with [PhotosGetUserPhotosResponse]
      */
     fun photosGetUserPhotos(
-        userId: Int? = null,
+        userId: UserId? = null,
         offset: Int? = null,
         count: Int? = null,
         sort: String? = null
@@ -907,12 +910,12 @@ class PhotosService {
      * @param userId - User ID.
      * @param offset - Offset needed to return a specific subset of photos. By default, '0'.
      * @param count - Number of photos to return. Maximum value is 1000.
-     * @param sort - Sort order: '1' - by date the tag was added in ascending order, '0' - by date
+     * @param sort - Sort order_ '1' - by date the tag was added in ascending order, '0' - by date
      * the tag was added in descending order
      * @return [VKRequest] with [PhotosGetUserPhotosExtendedResponse]
      */
     fun photosGetUserPhotosExtended(
-        userId: Int? = null,
+        userId: UserId? = null,
         offset: Int? = null,
         count: Int? = null,
         sort: String? = null
@@ -951,7 +954,7 @@ class PhotosService {
      */
     fun photosMakeCover(
         photoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         albumId: Int? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("photos.makeCover") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
@@ -973,7 +976,7 @@ class PhotosService {
     fun photosMove(
         targetAlbumId: Int,
         photoId: Int,
-        ownerId: Int? = null
+        ownerId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("photos.move") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -1001,8 +1004,8 @@ class PhotosService {
      */
     fun photosPutTag(
         photoId: Int,
-        userId: Int,
-        ownerId: Int? = null,
+        userId: UserId,
+        ownerId: UserId? = null,
         x: Float? = null,
         y: Float? = null,
         x2: Float? = null,
@@ -1031,7 +1034,7 @@ class PhotosService {
     fun photosRemoveTag(
         photoId: Int,
         tagId: Int,
-        ownerId: Int? = null
+        ownerId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("photos.removeTag") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -1052,7 +1055,7 @@ class PhotosService {
      */
     fun photosReorderAlbums(
         albumId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         before: Int? = null,
         after: Int? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("photos.reorderAlbums") {
@@ -1076,7 +1079,7 @@ class PhotosService {
      */
     fun photosReorderPhotos(
         photoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         before: Int? = null,
         after: Int? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("photos.reorderPhotos") {
@@ -1094,14 +1097,14 @@ class PhotosService {
      *
      * @param ownerId - ID of the user or community that owns the photo.
      * @param photoId - Photo ID.
-     * @param reason - Reason for the complaint: '0' - spam, '1' - child pornography, '2' -
+     * @param reason - Reason for the complaint_ '0' - spam, '1' - child pornography, '2' -
      * extremism, '3' - violence, '4' - drug propaganda, '5' - adult material, '6' - insult, abuse
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun photosReport(
-        ownerId: Int,
+        ownerId: UserId,
         photoId: Int,
-        reason: ReasonParam? = null
+        reason: PhotosReportReason? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("photos.report") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -1116,14 +1119,14 @@ class PhotosService {
      *
      * @param ownerId - ID of the user or community that owns the photo.
      * @param commentId - ID of the comment being reported.
-     * @param reason - Reason for the complaint: '0' - spam, '1' - child pornography, '2' -
+     * @param reason - Reason for the complaint_ '0' - spam, '1' - child pornography, '2' -
      * extremism, '3' - violence, '4' - drug propaganda, '5' - adult material, '6' - insult, abuse
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun photosReportComment(
-        ownerId: Int,
+        ownerId: UserId,
         commentId: Int,
-        reason: ReasonParam? = null
+        reason: PhotosReportCommentReason? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("photos.reportComment") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -1140,7 +1143,7 @@ class PhotosService {
      * @param ownerId - ID of the user or community that owns the photo.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun photosRestore(photoId: Int, ownerId: Int? = null): VKRequest<BaseOkResponse> =
+    fun photosRestore(photoId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("photos.restore") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -1156,7 +1159,7 @@ class PhotosService {
      * @param ownerId - ID of the user or community that owns the photo.
      * @return [VKRequest] with [BaseBoolInt]
      */
-    fun photosRestoreComment(commentId: Int, ownerId: Int? = null): VKRequest<BaseBoolInt> =
+    fun photosRestoreComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseBoolInt> =
             NewApiRequest("photos.restoreComment") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
@@ -1183,7 +1186,7 @@ class PhotosService {
      */
     fun photosSave(
         albumId: Int? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         server: Int? = null,
         photosList: String? = null,
         hash: String? = null,
@@ -1218,7 +1221,7 @@ class PhotosService {
      * @return [VKRequest] with [Unit]
      */
     fun photosSaveMarketAlbumPhoto(
-        groupId: Int,
+        groupId: UserId,
         photo: String,
         server: Int,
         hash: String
@@ -1253,7 +1256,7 @@ class PhotosService {
         photo: String,
         server: Int,
         hash: String,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         cropData: String? = null,
         cropHash: String? = null
     ): VKRequest<List<PhotosPhoto>> = NewApiRequest("photos.saveMarketPhoto") {
@@ -1350,8 +1353,8 @@ class PhotosService {
      */
     fun photosSaveWallPhoto(
         photo: String,
-        userId: Int? = null,
-        groupId: Int? = null,
+        userId: UserId? = null,
+        groupId: UserId? = null,
         server: Int? = null,
         hash: String? = null,
         latitude: Float? = null,
@@ -1380,10 +1383,10 @@ class PhotosService {
      * @param long - Geographical longitude, in degrees (from '-180' to '180').
      * @param startTime
      * @param endTime
-     * @param sort - Sort order:
+     * @param sort - Sort order_
      * @param offset - Offset needed to return a specific subset of photos.
      * @param count - Number of photos to return.
-     * @param radius - Radius of search in meters (works very approximately). Available values:
+     * @param radius - Radius of search in meters (works very approximately). Available values_
      * '10', '100', '800', '6000', '50000'.
      * @return [VKRequest] with [PhotosSearchResponse]
      */

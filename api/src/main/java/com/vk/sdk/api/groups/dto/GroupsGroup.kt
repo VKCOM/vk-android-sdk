@@ -31,10 +31,8 @@ import com.google.gson.annotations.SerializedName
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.video.dto.VideoLiveInfo
-import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
-import kotlin.collections.List
 
 /**
  * @param id - Community ID
@@ -60,13 +58,8 @@ import kotlin.collections.List
  * @param estDate - Established date
  * @param publicDateLabel - Public date label
  * @param photoMaxSize
- * @param appButton
- * @param appButtons
  * @param isVideoLiveNotificationsBlocked
  * @param videoLive
- * @param hadTorch
- * @param audioArtistId
- * @param audioCuratorId
  */
 data class GroupsGroup(
     @SerializedName("id")
@@ -115,18 +108,8 @@ data class GroupsGroup(
     val publicDateLabel: String? = null,
     @SerializedName("photo_max_size")
     val photoMaxSize: GroupsPhotoSize? = null,
-    @SerializedName("app_button")
-    val appButton: GroupsAppButton? = null,
-    @SerializedName("app_buttons")
-    val appButtons: List<GroupsAppButton>? = null,
     @SerializedName("is_video_live_notifications_blocked")
     val isVideoLiveNotificationsBlocked: BaseBoolInt? = null,
     @SerializedName("video_live")
-    val videoLive: VideoLiveInfo? = null,
-    @SerializedName("had_torch")
-    val hadTorch: Boolean? = null,
-    @SerializedName("audio_artist_id")
-    val audioArtistId: String? = null,
-    @SerializedName("audio_curator_id")
-    val audioCuratorId: Int? = null
+    val videoLive: VideoLiveInfo? = null
 )

@@ -31,12 +31,15 @@ import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
+import com.vk.sdk.api.appWidgets.dto.AppWidgetsGetAppImageUploadServerImageType
 import com.vk.sdk.api.appWidgets.dto.AppWidgetsGetAppImageUploadServerResponse
+import com.vk.sdk.api.appWidgets.dto.AppWidgetsGetAppImagesImageType
+import com.vk.sdk.api.appWidgets.dto.AppWidgetsGetGroupImageUploadServerImageType
 import com.vk.sdk.api.appWidgets.dto.AppWidgetsGetGroupImageUploadServerResponse
+import com.vk.sdk.api.appWidgets.dto.AppWidgetsGetGroupImagesImageType
 import com.vk.sdk.api.appWidgets.dto.AppWidgetsPhoto
 import com.vk.sdk.api.appWidgets.dto.AppWidgetsPhotos
-import com.vk.sdk.api.appWidgets.dto.ImageTypeParam
-import com.vk.sdk.api.appWidgets.dto.TypeParam
+import com.vk.sdk.api.appWidgets.dto.AppWidgetsUpdateType
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import kotlin.Int
 import kotlin.String
@@ -49,7 +52,7 @@ class AppWidgetsService {
      * @param imageType
      * @return [VKRequest] with [AppWidgetsGetAppImageUploadServerResponse]
      */
-    fun appWidgetsGetAppImageUploadServer(imageType: ImageTypeParam):
+    fun appWidgetsGetAppImageUploadServer(imageType: AppWidgetsGetAppImageUploadServerImageType):
             VKRequest<AppWidgetsGetAppImageUploadServerResponse> =
             NewApiRequest("appWidgets.getAppImageUploadServer") {
         GsonHolder.gson.fromJson(it, AppWidgetsGetAppImageUploadServerResponse::class.java)
@@ -69,7 +72,7 @@ class AppWidgetsService {
     fun appWidgetsGetAppImages(
         offset: Int? = null,
         count: Int? = null,
-        imageType: ImageTypeParam? = null
+        imageType: AppWidgetsGetAppImagesImageType? = null
     ): VKRequest<AppWidgetsPhotos> = NewApiRequest("appWidgets.getAppImages") {
         GsonHolder.gson.fromJson(it, AppWidgetsPhotos::class.java)
     }
@@ -85,7 +88,7 @@ class AppWidgetsService {
      * @param imageType
      * @return [VKRequest] with [AppWidgetsGetGroupImageUploadServerResponse]
      */
-    fun appWidgetsGetGroupImageUploadServer(imageType: ImageTypeParam):
+    fun appWidgetsGetGroupImageUploadServer(imageType: AppWidgetsGetGroupImageUploadServerImageType):
             VKRequest<AppWidgetsGetGroupImageUploadServerResponse> =
             NewApiRequest("appWidgets.getGroupImageUploadServer") {
         GsonHolder.gson.fromJson(it, AppWidgetsGetGroupImageUploadServerResponse::class.java)
@@ -105,7 +108,7 @@ class AppWidgetsService {
     fun appWidgetsGetGroupImages(
         offset: Int? = null,
         count: Int? = null,
-        imageType: ImageTypeParam? = null
+        imageType: AppWidgetsGetGroupImagesImageType? = null
     ): VKRequest<AppWidgetsPhotos> = NewApiRequest("appWidgets.getGroupImages") {
         GsonHolder.gson.fromJson(it, AppWidgetsPhotos::class.java)
     }
@@ -169,7 +172,7 @@ class AppWidgetsService {
      * @param type
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun appWidgetsUpdate(code: String, type: TypeParam): VKRequest<BaseOkResponse> =
+    fun appWidgetsUpdate(code: String, type: AppWidgetsUpdateType): VKRequest<BaseOkResponse> =
             NewApiRequest("appWidgets.update") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }

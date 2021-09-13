@@ -29,10 +29,11 @@ package com.vk.sdk.api.stats
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.stats.dto.IntervalParam
+import com.vk.sdk.api.stats.dto.StatsGetInterval
 import com.vk.sdk.api.stats.dto.StatsPeriod
 import com.vk.sdk.api.stats.dto.StatsWallpostStat
 import kotlin.Int
@@ -54,11 +55,11 @@ class StatsService {
      * @return [VKRequest] with [Unit]
      */
     fun statsGet(
-        groupId: Int? = null,
+        groupId: UserId? = null,
         appId: Int? = null,
         timestampFrom: Int? = null,
         timestampTo: Int? = null,
-        interval: IntervalParam? = null,
+        interval: StatsGetInterval? = null,
         intervalsCount: Int? = null,
         filters: List<String>? = null,
         statsGroups: List<String>? = null

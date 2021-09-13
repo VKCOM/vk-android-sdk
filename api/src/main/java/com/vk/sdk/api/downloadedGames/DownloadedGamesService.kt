@@ -28,17 +28,17 @@
 package com.vk.sdk.api.downloadedGames
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.downloadedGames.dto.DownloadedGamesPaidStatusResponse
-import kotlin.Int
 
 class DownloadedGamesService {
     /**
      * @param userId
      * @return [VKRequest] with [DownloadedGamesPaidStatusResponse]
      */
-    fun downloadedGamesGetPaidStatus(userId: Int? = null):
+    fun downloadedGamesGetPaidStatus(userId: UserId? = null):
             VKRequest<DownloadedGamesPaidStatusResponse> =
             NewApiRequest("downloadedGames.getPaidStatus") {
         GsonHolder.gson.fromJson(it, DownloadedGamesPaidStatusResponse::class.java)

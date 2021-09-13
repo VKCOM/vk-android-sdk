@@ -29,19 +29,21 @@ package com.vk.sdk.api.users
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.users.dto.NameCaseParam
-import com.vk.sdk.api.users.dto.SexParam
-import com.vk.sdk.api.users.dto.SortParam
-import com.vk.sdk.api.users.dto.StatusParam
-import com.vk.sdk.api.users.dto.TypeParam
 import com.vk.sdk.api.users.dto.UsersFields
 import com.vk.sdk.api.users.dto.UsersGetFollowersFieldsResponse
+import com.vk.sdk.api.users.dto.UsersGetFollowersNameCase
+import com.vk.sdk.api.users.dto.UsersGetNameCase
 import com.vk.sdk.api.users.dto.UsersGetSubscriptionsExtendedResponse
 import com.vk.sdk.api.users.dto.UsersGetSubscriptionsResponse
+import com.vk.sdk.api.users.dto.UsersReportType
 import com.vk.sdk.api.users.dto.UsersSearchResponse
+import com.vk.sdk.api.users.dto.UsersSearchSex
+import com.vk.sdk.api.users.dto.UsersSearchSort
+import com.vk.sdk.api.users.dto.UsersSearchStatus
 import com.vk.sdk.api.users.dto.UsersUserXtrCounters
 import kotlin.Boolean
 import kotlin.Int
@@ -53,12 +55,12 @@ class UsersService {
      * Returns detailed information on users.
      *
      * @param userIds - User IDs or screen names ('screen_name'). By default, current user ID.
-     * @param fields - Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex',
+     * @param fields - Profile fields to return. Sample values_ 'nickname', 'screen_name', 'sex',
      * 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big',
      * 'has_mobile', 'contacts', 'education', 'online', 'counters', 'relation', 'last_seen',
      * 'activity', 'can_write_private_message', 'can_see_all_posts', 'can_post', 'universities',
      * 'can_invite_to_chats'
-     * @param nameCase - Case for declension of user name and surname: 'nom' - nominative (default),
+     * @param nameCase - Case for declension of user name and surname_ 'nom' - nominative (default),
      * 'gen' - genitive , 'dat' - dative, 'acc' - accusative , 'ins' - instrumental , 'abl' -
      * prepositional
      * @return [VKRequest] with [Unit]
@@ -66,7 +68,7 @@ class UsersService {
     fun usersGet(
         userIds: List<String>? = null,
         fields: List<UsersFields>? = null,
-        nameCase: NameCaseParam? = null
+        nameCase: UsersGetNameCase? = null
     ): VKRequest<List<UsersUserXtrCounters>> = NewApiRequest("users.get") {
         val typeToken = object: TypeToken<List<UsersUserXtrCounters>>() {}.type
         GsonHolder.gson.fromJson<List<UsersUserXtrCounters>>(it, typeToken)
@@ -87,20 +89,20 @@ class UsersService {
      * @param userId - User ID.
      * @param offset - Offset needed to return a specific subset of followers.
      * @param count - Number of followers to return.
-     * @param fields - Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex',
+     * @param fields - Profile fields to return. Sample values_ 'nickname', 'screen_name', 'sex',
      * 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big',
      * 'has_mobile', 'rate', 'contacts', 'education', 'online'.
-     * @param nameCase - Case for declension of user name and surname: 'nom' - nominative (default),
+     * @param nameCase - Case for declension of user name and surname_ 'nom' - nominative (default),
      * 'gen' - genitive , 'dat' - dative, 'acc' - accusative , 'ins' - instrumental , 'abl' -
      * prepositional
      * @return [VKRequest] with [UsersGetFollowersFieldsResponse]
      */
     fun usersGetFollowers(
-        userId: Int? = null,
+        userId: UserId? = null,
         offset: Int? = null,
         count: Int? = null,
         fields: List<UsersFields>? = null,
-        nameCase: NameCaseParam? = null
+        nameCase: UsersGetFollowersNameCase? = null
     ): VKRequest<UsersGetFollowersFieldsResponse> = NewApiRequest("users.getFollowers") {
         GsonHolder.gson.fromJson(it, UsersGetFollowersFieldsResponse::class.java)
     }
@@ -125,7 +127,7 @@ class UsersService {
      * @return [VKRequest] with [UsersGetSubscriptionsResponse]
      */
     fun usersGetSubscriptions(
-        userId: Int? = null,
+        userId: UserId? = null,
         offset: Int? = null,
         count: Int? = null,
         fields: List<UsersFields>? = null
@@ -152,7 +154,7 @@ class UsersService {
      * @return [VKRequest] with [UsersGetSubscriptionsExtendedResponse]
      */
     fun usersGetSubscriptionsExtended(
-        userId: Int? = null,
+        userId: UserId? = null,
         offset: Int? = null,
         count: Int? = null,
         fields: List<UsersFields>? = null
@@ -174,14 +176,14 @@ class UsersService {
      * Reports (submits a complain about) a user.
      *
      * @param userId - ID of the user about whom a complaint is being made.
-     * @param type - Type of complaint: 'porn' - pornography, 'spam' - spamming, 'insult' - abusive
+     * @param type - Type of complaint_ 'porn' - pornography, 'spam' - spamming, 'insult' - abusive
      * behavior, 'advertisement' - disruptive advertisements
      * @param comment - Comment describing the complaint.
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun usersReport(
-        userId: Int,
-        type: TypeParam,
+        userId: UserId,
+        type: UsersReportType,
         comment: String? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("users.report") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
@@ -196,10 +198,10 @@ class UsersService {
      * Returns a list of users matching the search criteria.
      *
      * @param q - Search query string (e.g., 'Vasya Babich').
-     * @param sort - Sort order: '1' - by date registered, '0' - by rating
+     * @param sort - Sort order_ '1' - by date registered, '0' - by rating
      * @param offset - Offset needed to return a specific subset of users.
      * @param count - Number of users to return.
-     * @param fields - Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex',
+     * @param fields - Profile fields to return. Sample values_ 'nickname', 'screen_name', 'sex',
      * 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big',
      * 'has_mobile', 'rate', 'contacts', 'education', 'online',
      * @param city - City ID.
@@ -211,7 +213,7 @@ class UsersService {
      * @param universityFaculty - Faculty ID.
      * @param universityChair - Chair ID.
      * @param sex - '1' - female, '2' - male, '0' - any (default)
-     * @param status - Relationship status: '1' - Not married, '2' - In a relationship, '3' -
+     * @param status - Relationship status_ '1' - Not married, '2' - In a relationship, '3' -
      * Engaged, '4' - Married, '5' - It's complicated, '6' - Actively searching, '7' - In love
      * @param ageFrom - Minimum age.
      * @param ageTo - Maximum age.
@@ -234,7 +236,7 @@ class UsersService {
      */
     fun usersSearch(
         q: String? = null,
-        sort: SortParam? = null,
+        sort: UsersSearchSort? = null,
         offset: Int? = null,
         count: Int? = null,
         fields: List<UsersFields>? = null,
@@ -246,8 +248,8 @@ class UsersService {
         universityYear: Int? = null,
         universityFaculty: Int? = null,
         universityChair: Int? = null,
-        sex: SexParam? = null,
-        status: StatusParam? = null,
+        sex: UsersSearchSex? = null,
+        status: UsersSearchStatus? = null,
         ageFrom: Int? = null,
         ageTo: Int? = null,
         birthDay: Int? = null,
@@ -263,7 +265,7 @@ class UsersService {
         religion: String? = null,
         company: String? = null,
         position: String? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         fromList: List<String>? = null
     ): VKRequest<UsersSearchResponse> = NewApiRequest("users.search") {
         GsonHolder.gson.fromJson(it, UsersSearchResponse::class.java)

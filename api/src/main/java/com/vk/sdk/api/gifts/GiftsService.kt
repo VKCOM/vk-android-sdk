@@ -28,6 +28,7 @@
 package com.vk.sdk.api.gifts
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.gifts.dto.GiftsGetResponse
@@ -43,7 +44,7 @@ class GiftsService {
      * @return [VKRequest] with [GiftsGetResponse]
      */
     fun giftsGet(
-        userId: Int? = null,
+        userId: UserId? = null,
         count: Int? = null,
         offset: Int? = null
     ): VKRequest<GiftsGetResponse> = NewApiRequest("gifts.get") {

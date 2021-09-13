@@ -28,19 +28,22 @@
 package com.vk.sdk.api.fave
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
+import com.vk.sdk.api.fave.dto.FaveAddTagPosition
+import com.vk.sdk.api.fave.dto.FaveGetExtendedItemType
 import com.vk.sdk.api.fave.dto.FaveGetExtendedResponse
+import com.vk.sdk.api.fave.dto.FaveGetItemType
 import com.vk.sdk.api.fave.dto.FaveGetPagesResponse
+import com.vk.sdk.api.fave.dto.FaveGetPagesType
 import com.vk.sdk.api.fave.dto.FaveGetResponse
 import com.vk.sdk.api.fave.dto.FaveGetTagsResponse
+import com.vk.sdk.api.fave.dto.FaveSetTagsItemType
 import com.vk.sdk.api.fave.dto.FaveTag
-import com.vk.sdk.api.fave.dto.ItemTypeParam
-import com.vk.sdk.api.fave.dto.PositionParam
-import com.vk.sdk.api.fave.dto.TypeParam
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -76,7 +79,7 @@ class FaveService {
      * @param groupId
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun faveAddPage(userId: Int? = null, groupId: Int? = null): VKRequest<BaseOkResponse> =
+    fun faveAddPage(userId: UserId? = null, groupId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("fave.addPage") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -92,7 +95,7 @@ class FaveService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun faveAddPost(
-        ownerId: Int,
+        ownerId: UserId,
         id: Int,
         accessKey: String? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("fave.addPost") {
@@ -111,7 +114,7 @@ class FaveService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun faveAddProduct(
-        ownerId: Int,
+        ownerId: UserId,
         id: Int,
         accessKey: String? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("fave.addProduct") {
@@ -128,7 +131,7 @@ class FaveService {
      * @param position
      * @return [VKRequest] with [FaveTag]
      */
-    fun faveAddTag(name: String? = null, position: PositionParam? = null): VKRequest<FaveTag> =
+    fun faveAddTag(name: String? = null, position: FaveAddTagPosition? = null): VKRequest<FaveTag> =
             NewApiRequest("fave.addTag") {
         GsonHolder.gson.fromJson(it, FaveTag::class.java)
     }
@@ -144,7 +147,7 @@ class FaveService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun faveAddVideo(
-        ownerId: Int,
+        ownerId: UserId,
         id: Int,
         accessKey: String? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("fave.addVideo") {
@@ -180,7 +183,7 @@ class FaveService {
      * @return [VKRequest] with [FaveGetResponse]
      */
     fun faveGet(
-        itemType: ItemTypeParam? = null,
+        itemType: FaveGetItemType? = null,
         tagId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
@@ -208,7 +211,7 @@ class FaveService {
      * @return [VKRequest] with [FaveGetExtendedResponse]
      */
     fun faveGetExtended(
-        itemType: ItemTypeParam? = null,
+        itemType: FaveGetExtendedItemType? = null,
         tagId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
@@ -238,7 +241,7 @@ class FaveService {
     fun faveGetPages(
         offset: Int? = null,
         count: Int? = null,
-        type: TypeParam? = null,
+        type: FaveGetPagesType? = null,
         fields: List<BaseUserGroupFields>? = null,
         tagId: Int? = null
     ): VKRequest<FaveGetPagesResponse> = NewApiRequest("fave.getPages") {
@@ -274,7 +277,7 @@ class FaveService {
      * @param articleId
      * @return [VKRequest] with [BaseBoolInt]
      */
-    fun faveRemoveArticle(ownerId: Int, articleId: Int): VKRequest<BaseBoolInt> =
+    fun faveRemoveArticle(ownerId: UserId, articleId: Int): VKRequest<BaseBoolInt> =
             NewApiRequest("fave.removeArticle") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
@@ -305,7 +308,7 @@ class FaveService {
      * @param groupId
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun faveRemovePage(userId: Int? = null, groupId: Int? = null): VKRequest<BaseOkResponse> =
+    fun faveRemovePage(userId: UserId? = null, groupId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("fave.removePage") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -319,7 +322,7 @@ class FaveService {
      * @param id
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun faveRemovePost(ownerId: Int, id: Int): VKRequest<BaseOkResponse> =
+    fun faveRemovePost(ownerId: UserId, id: Int): VKRequest<BaseOkResponse> =
             NewApiRequest("fave.removePost") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -333,7 +336,7 @@ class FaveService {
      * @param id
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun faveRemoveProduct(ownerId: Int, id: Int): VKRequest<BaseOkResponse> =
+    fun faveRemoveProduct(ownerId: UserId, id: Int): VKRequest<BaseOkResponse> =
             NewApiRequest("fave.removeProduct") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -358,7 +361,7 @@ class FaveService {
      * @param id
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun faveRemoveVideo(ownerId: Int, id: Int): VKRequest<BaseOkResponse> =
+    fun faveRemoveVideo(ownerId: UserId, id: Int): VKRequest<BaseOkResponse> =
             NewApiRequest("fave.removeVideo") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -386,8 +389,8 @@ class FaveService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun faveSetPageTags(
-        userId: Int? = null,
-        groupId: Int? = null,
+        userId: UserId? = null,
+        groupId: UserId? = null,
         tagIds: List<Int>? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("fave.setPageTags") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
@@ -408,7 +411,7 @@ class FaveService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun faveSetTags(
-        itemType: ItemTypeParam? = null,
+        itemType: FaveSetTagsItemType? = null,
         itemOwnerId: Int? = null,
         itemId: Int? = null,
         tagIds: List<Int>? = null,
@@ -431,7 +434,7 @@ class FaveService {
      * @param groupId
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun faveTrackPageInteraction(userId: Int? = null, groupId: Int? = null):
+    fun faveTrackPageInteraction(userId: UserId? = null, groupId: UserId? = null):
             VKRequest<BaseOkResponse> = NewApiRequest("fave.trackPageInteraction") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }

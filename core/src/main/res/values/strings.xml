@@ -3,4 +3,5 @@
     <string name="vk_retry">Retry</string>
     <string name="vk_captcha_hint">Please enter the code from the picture</string>
     <string name="vk_confirm">Please confirm</string>
+    <string name="vk_message_login_error">Login error occurred</string>
 </resources>

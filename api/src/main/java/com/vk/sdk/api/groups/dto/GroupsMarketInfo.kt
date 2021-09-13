@@ -31,7 +31,6 @@ import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.market.dto.MarketCurrency
 import com.vk.sdk.api.market.dto.MarketPrice
-import com.vk.sdk.api.pages.dto.PagesWikipageFull
 import kotlin.Int
 import kotlin.String
 
@@ -45,7 +44,6 @@ import kotlin.String
  * @param priceMax - Maximum price
  * @param priceMin - Minimum price
  * @param minOrderPrice
- * @param wiki
  */
 data class GroupsMarketInfo(
     @SerializedName("type")
@@ -65,7 +63,5 @@ data class GroupsMarketInfo(
     @SerializedName("price_min")
     val priceMin: String? = null,
     @SerializedName("min_order_price")
-    val minOrderPrice: MarketPrice? = null,
-    @SerializedName("wiki")
-    val wiki: PagesWikipageFull? = null
+    val minOrderPrice: MarketPrice? = null
 )

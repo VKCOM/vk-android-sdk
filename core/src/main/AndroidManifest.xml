@@ -54,6 +54,8 @@
             android:name="com.vk.api.sdk.internal.VKInitProvider"
             android:exported="false"
             android:enabled="@bool/com_vk_sdk_init_provider_enabled"/>
+        <meta-data android:name="VKSdkVersion" android:value="${VKSdkVersion}"/>
+        <meta-data android:name="VKSdkVersionCode" android:value="${VKSdkVersionCode}"/>
     </application>
 
 </manifest>

@@ -29,14 +29,17 @@ package com.vk.sdk.api.polls
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.base.dto.BaseUploadServer
-import com.vk.sdk.api.polls.dto.BackgroundIdParam
-import com.vk.sdk.api.polls.dto.NameCaseParam
 import com.vk.sdk.api.polls.dto.PollsBackground
+import com.vk.sdk.api.polls.dto.PollsCreateBackgroundId
+import com.vk.sdk.api.polls.dto.PollsEditBackgroundId
+import com.vk.sdk.api.polls.dto.PollsGetByIdNameCase
+import com.vk.sdk.api.polls.dto.PollsGetVotersNameCase
 import com.vk.sdk.api.polls.dto.PollsPoll
 import com.vk.sdk.api.polls.dto.PollsVoters
 import com.vk.sdk.api.users.dto.UsersFields
@@ -59,7 +62,7 @@ class PollsService {
     fun pollsAddVote(
         pollId: Int,
         answerIds: List<Int>,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         isBoard: Boolean? = null
     ): VKRequest<BaseBoolInt> = NewApiRequest("polls.addVote") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
@@ -82,7 +85,7 @@ class PollsService {
      * @param ownerId - If a poll will be added to a communty it is required to send a negative
      * group identifier. Current user by default.
      * @param appId
-     * @param addAnswers - available answers list, for example: " ["yes","no","maybe"]", There can
+     * @param addAnswers - available answers list, for example_ " ["yes","no","maybe"]", There can
      * be from 1 to 10 answers.
      * @param photoId
      * @param backgroundId
@@ -94,11 +97,11 @@ class PollsService {
         isAnonymous: Boolean? = null,
         isMultiple: Boolean? = null,
         endDate: Int? = null,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         appId: Int? = null,
         addAnswers: String? = null,
         photoId: Int? = null,
-        backgroundId: BackgroundIdParam? = null,
+        backgroundId: PollsCreateBackgroundId? = null,
         disableUnvote: Boolean? = null
     ): VKRequest<PollsPoll> = NewApiRequest("polls.create") {
         GsonHolder.gson.fromJson(it, PollsPoll::class.java)
@@ -129,7 +132,7 @@ class PollsService {
     fun pollsDeleteVote(
         pollId: Int,
         answerId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         isBoard: Boolean? = null
     ): VKRequest<BaseBoolInt> = NewApiRequest("polls.deleteVote") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
@@ -147,10 +150,10 @@ class PollsService {
      * @param pollId - edited poll's id
      * @param ownerId - poll owner id
      * @param question - new question text
-     * @param addAnswers - answers list, for example: , "["yes","no","maybe"]"
+     * @param addAnswers - answers list, for example_ , "["yes","no","maybe"]"
      * @param editAnswers - object containing answers that need to be edited,, key - answer id,
-     * value - new answer text. Example: {"382967099":"option1", "382967103":"option2"}"
-     * @param deleteAnswers - list of answer ids to be deleted. For example: "[382967099,
+     * value - new answer text. Example_ {"382967099"_"option1", "382967103"_"option2"}"
+     * @param deleteAnswers - list of answer ids to be deleted. For example_ "[382967099,
      * 382967103]"
      * @param endDate
      * @param photoId
@@ -159,14 +162,14 @@ class PollsService {
      */
     fun pollsEdit(
         pollId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         question: String? = null,
         addAnswers: String? = null,
         editAnswers: String? = null,
         deleteAnswers: String? = null,
         endDate: Int? = null,
         photoId: Int? = null,
-        backgroundId: BackgroundIdParam? = null
+        backgroundId: PollsEditBackgroundId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("polls.edit") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -205,11 +208,11 @@ class PollsService {
      */
     fun pollsGetById(
         pollId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         isBoard: Boolean? = null,
         friendsCount: Int? = null,
         fields: List<String>? = null,
-        nameCase: NameCaseParam? = null
+        nameCase: PollsGetByIdNameCase? = null
     ): VKRequest<PollsPoll> = NewApiRequest("polls.getById") {
         GsonHolder.gson.fromJson(it, PollsPoll::class.java)
     }
@@ -226,7 +229,7 @@ class PollsService {
      * @param ownerId
      * @return [VKRequest] with [BaseUploadServer]
      */
-    fun pollsGetPhotoUploadServer(ownerId: Int? = null): VKRequest<BaseUploadServer> =
+    fun pollsGetPhotoUploadServer(ownerId: UserId? = null): VKRequest<BaseUploadServer> =
             NewApiRequest("polls.getPhotoUploadServer") {
         GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
     }
@@ -247,10 +250,10 @@ class PollsService {
      * @param offset - Offset needed to return a specific subset of voters. '0' - (default)
      * @param count - Number of user IDs to return (if the 'friends_only' parameter is not set,
      * maximum '1000', otherwise '10'). '100' - (default)
-     * @param fields - Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex',
+     * @param fields - Profile fields to return. Sample values_ 'nickname', 'screen_name', 'sex',
      * 'bdate (birthdate)', 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big',
      * 'has_mobile', 'rate', 'contacts', 'education', 'online', 'counters'.
-     * @param nameCase - Case for declension of user name and surname: , 'nom' - nominative
+     * @param nameCase - Case for declension of user name and surname_ , 'nom' - nominative
      * (default) , 'gen' - genitive , 'dat' - dative , 'acc' - accusative , 'ins' - instrumental ,
      * 'abl' - prepositional
      * @return [VKRequest] with [Unit]
@@ -258,13 +261,13 @@ class PollsService {
     fun pollsGetVoters(
         pollId: Int,
         answerIds: List<Int>,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         isBoard: Boolean? = null,
         friendsOnly: Boolean? = null,
         offset: Int? = null,
         count: Int? = null,
         fields: List<UsersFields>? = null,
-        nameCase: NameCaseParam? = null
+        nameCase: PollsGetVotersNameCase? = null
     ): VKRequest<List<PollsVoters>> = NewApiRequest("polls.getVoters") {
         val typeToken = object: TypeToken<List<PollsVoters>>() {}.type
         GsonHolder.gson.fromJson<List<PollsVoters>>(it, typeToken)

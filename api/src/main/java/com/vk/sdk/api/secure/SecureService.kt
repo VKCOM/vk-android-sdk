@@ -29,6 +29,7 @@ package com.vk.sdk.api.secure
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
@@ -47,14 +48,14 @@ class SecureService {
      * Adds user activity information to an application
      *
      * @param userId - ID of a user to save the data
-     * @param activityId - there are 2 default activities: , * 1 - level. Works similar to ,, * 2 -
+     * @param activityId - there are 2 default activities_ , * 1 - level. Works similar to ,, * 2 -
      * points, saves points amount, Any other value is for saving completed missions
-     * @param value - depends on activity_id: * 1 - number, current level number,, * 2 - number,
+     * @param value - depends on activity_id_ * 1 - number, current level number,, * 2 - number,
      * current user's points amount, , Any other value is ignored
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun secureAddAppEvent(
-        userId: Int,
+        userId: UserId,
         activityId: Int,
         value: Int? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("secure.addAppEvent") {
@@ -105,7 +106,7 @@ class SecureService {
      * @return [VKRequest] with [Unit]
      */
     fun secureGetSMSHistory(
-        userId: Int? = null,
+        userId: UserId? = null,
         dateFrom: Int? = null,
         dateTo: Int? = null,
         limit: Int? = null
@@ -195,7 +196,7 @@ class SecureService {
     fun secureSendNotification(
         message: String,
         userIds: List<Int>? = null,
-        userId: Int? = null
+        userId: UserId? = null
     ): VKRequest<List<Int>> = NewApiRequest("secure.sendNotification") {
         val typeToken = object: TypeToken<List<Int>>() {}.type
         GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
@@ -215,7 +216,7 @@ class SecureService {
      * are allowed. Maximum size is '160' characters.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun secureSendSMSNotification(userId: Int, message: String): VKRequest<BaseOkResponse> =
+    fun secureSendSMSNotification(userId: UserId, message: String): VKRequest<BaseOkResponse> =
             NewApiRequest("secure.sendSMSNotification") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -235,7 +236,7 @@ class SecureService {
      */
     fun secureSetCounter(
         counters: List<String>? = null,
-        userId: Int? = null,
+        userId: UserId? = null,
         counter: Int? = null,
         increment: Boolean? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("secure.setCounter") {

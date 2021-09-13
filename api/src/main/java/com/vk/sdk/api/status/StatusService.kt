@@ -28,11 +28,11 @@
 package com.vk.sdk.api.status
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.status.dto.StatusStatus
-import kotlin.Int
 import kotlin.String
 
 class StatusService {
@@ -43,7 +43,7 @@ class StatusService {
      * @param groupId
      * @return [VKRequest] with [StatusStatus]
      */
-    fun statusGet(userId: Int? = null, groupId: Int? = null): VKRequest<StatusStatus> =
+    fun statusGet(userId: UserId? = null, groupId: UserId? = null): VKRequest<StatusStatus> =
             NewApiRequest("status.get") {
         GsonHolder.gson.fromJson(it, StatusStatus::class.java)
     }
@@ -60,7 +60,7 @@ class StatusService {
      * set to current user.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun statusSet(text: String? = null, groupId: Int? = null): VKRequest<BaseOkResponse> =
+    fun statusSet(text: String? = null, groupId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("status.set") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }

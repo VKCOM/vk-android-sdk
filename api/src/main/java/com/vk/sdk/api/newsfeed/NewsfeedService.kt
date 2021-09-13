@@ -28,14 +28,16 @@
 package com.vk.sdk.api.newsfeed
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
-import com.vk.sdk.api.newsfeed.dto.NameCaseParam
 import com.vk.sdk.api.newsfeed.dto.NewsfeedCommentsFilters
 import com.vk.sdk.api.newsfeed.dto.NewsfeedFilters
+import com.vk.sdk.api.newsfeed.dto.NewsfeedGetBannedExtendedNameCase
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetBannedExtendedResponse
+import com.vk.sdk.api.newsfeed.dto.NewsfeedGetBannedNameCase
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetBannedResponse
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetCommentsResponse
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetListsExtendedResponse
@@ -46,7 +48,7 @@ import com.vk.sdk.api.newsfeed.dto.NewsfeedGetResponse
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetSuggestedSourcesResponse
 import com.vk.sdk.api.newsfeed.dto.NewsfeedSearchExtendedResponse
 import com.vk.sdk.api.newsfeed.dto.NewsfeedSearchResponse
-import com.vk.sdk.api.newsfeed.dto.TypeParam
+import com.vk.sdk.api.newsfeed.dto.NewsfeedUnsubscribeType
 import com.vk.sdk.api.users.dto.UsersFields
 import kotlin.Boolean
 import kotlin.Float
@@ -104,7 +106,7 @@ class NewsfeedService {
     /**
      * Returns data required to show newsfeed for the current user.
      *
-     * @param filters - Filters to apply: 'post' - new wall posts, 'photo' - new photos,
+     * @param filters - Filters to apply_ 'post' - new wall posts, 'photo' - new photos,
      * 'photo_tag' - new photo tags, 'wall_photo' - new wall photos, 'friend' - new friends
      * @param returnBanned - '1' - to return news items from banned sources
      * @param startTime - Earliest timestamp (in Unix time) of a news item to return. By default, 24
@@ -163,13 +165,13 @@ class NewsfeedService {
      * Returns a list of users and communities banned from the current user's newsfeed.
      *
      * @param fields - Profile fields to return.
-     * @param nameCase - Case for declension of user name and surname: 'nom' - nominative (default),
+     * @param nameCase - Case for declension of user name and surname_ 'nom' - nominative (default),
      * 'gen' - genitive , 'dat' - dative, 'acc' - accusative , 'ins' - instrumental , 'abl' -
      * prepositional
      * @return [VKRequest] with [NewsfeedGetBannedResponse]
      */
-    fun newsfeedGetBanned(fields: List<UsersFields>? = null, nameCase: NameCaseParam? = null):
-            VKRequest<NewsfeedGetBannedResponse> = NewApiRequest("newsfeed.getBanned") {
+    fun newsfeedGetBanned(fields: List<UsersFields>? = null, nameCase: NewsfeedGetBannedNameCase? =
+            null): VKRequest<NewsfeedGetBannedResponse> = NewApiRequest("newsfeed.getBanned") {
         GsonHolder.gson.fromJson(it, NewsfeedGetBannedResponse::class.java)
     }
     .apply {
@@ -184,14 +186,14 @@ class NewsfeedService {
      * Returns a list of users and communities banned from the current user's newsfeed.
      *
      * @param fields - Profile fields to return.
-     * @param nameCase - Case for declension of user name and surname: 'nom' - nominative (default),
+     * @param nameCase - Case for declension of user name and surname_ 'nom' - nominative (default),
      * 'gen' - genitive , 'dat' - dative, 'acc' - accusative , 'ins' - instrumental , 'abl' -
      * prepositional
      * @return [VKRequest] with [NewsfeedGetBannedExtendedResponse]
      */
-    fun newsfeedGetBannedExtended(fields: List<UsersFields>? = null, nameCase: NameCaseParam? =
-            null): VKRequest<NewsfeedGetBannedExtendedResponse> =
-            NewApiRequest("newsfeed.getBanned") {
+    fun newsfeedGetBannedExtended(fields: List<UsersFields>? = null,
+            nameCase: NewsfeedGetBannedExtendedNameCase? = null):
+            VKRequest<NewsfeedGetBannedExtendedResponse> = NewApiRequest("newsfeed.getBanned") {
         GsonHolder.gson.fromJson(it, NewsfeedGetBannedExtendedResponse::class.java)
     }
     .apply {
@@ -208,7 +210,7 @@ class NewsfeedService {
      *
      * @param count - Number of comments to return. For auto feed, you can use the 'new_offset'
      * parameter returned by this method.
-     * @param filters - Filters to apply: 'post' - new comments on wall posts, 'photo' - new
+     * @param filters - Filters to apply_ 'post' - new comments on wall posts, 'photo' - new
      * comments on photos, 'video' - new comments on videos, 'topic' - new comments on discussions,
      * 'note' - new comments on notes,
      * @param reposts - Object ID, comments on repost of which shall be returned, e.g.
@@ -295,7 +297,7 @@ class NewsfeedService {
      * @return [VKRequest] with [NewsfeedGetMentionsResponse]
      */
     fun newsfeedGetMentions(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         startTime: Int? = null,
         endTime: Int? = null,
         offset: Int? = null,
@@ -379,7 +381,7 @@ class NewsfeedService {
     /**
      * Hides an item from the newsfeed.
      *
-     * @param type - Item type. Possible values: *'wall' - post on the wall,, *'tag' - tag on a
+     * @param type - Item type. Possible values_ *'wall' - post on the wall,, *'tag' - tag on a
      * photo,, *'profilephoto' - profile photo,, *'video' - video,, *'audio' - audio.
      * @param ownerId - Item owner's identifier (user or community), "Note that community id must be
      * negative. 'owner_id=1' - user , 'owner_id=-1' - community "
@@ -388,7 +390,7 @@ class NewsfeedService {
      */
     fun newsfeedIgnoreItem(
         type: String,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         itemId: Int? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("newsfeed.ignoreItem") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
@@ -514,7 +516,7 @@ class NewsfeedService {
     /**
      * Returns a hidden item to the newsfeed.
      *
-     * @param type - Item type. Possible values: *'wall' - post on the wall,, *'tag' - tag on a
+     * @param type - Item type. Possible values_ *'wall' - post on the wall,, *'tag' - tag on a
      * photo,, *'profilephoto' - profile photo,, *'video' - video,, *'audio' - audio.
      * @param ownerId - Item owner's identifier (user or community), "Note that community id must be
      * negative. 'owner_id=1' - user , 'owner_id=-1' - community "
@@ -524,7 +526,7 @@ class NewsfeedService {
      */
     fun newsfeedUnignoreItem(
         type: String,
-        ownerId: Int,
+        ownerId: UserId,
         itemId: Int,
         trackCode: String? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("newsfeed.unignoreItem") {
@@ -540,16 +542,16 @@ class NewsfeedService {
     /**
      * Unsubscribes the current user from specified newsfeeds.
      *
-     * @param type - Type of object from which to unsubscribe: 'note' - note, 'photo' - photo,
+     * @param type - Type of object from which to unsubscribe_ 'note' - note, 'photo' - photo,
      * 'post' - post on user wall or community wall, 'topic' - topic, 'video' - video
      * @param itemId - Object ID.
      * @param ownerId - Object owner ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun newsfeedUnsubscribe(
-        type: TypeParam,
+        type: NewsfeedUnsubscribeType,
         itemId: Int,
-        ownerId: Int? = null
+        ownerId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("newsfeed.unsubscribe") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }

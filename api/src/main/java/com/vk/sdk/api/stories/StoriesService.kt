@@ -28,6 +28,7 @@
 package com.vk.sdk.api.stories
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
@@ -72,7 +73,7 @@ class StoriesService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun storiesDelete(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         storyId: Int? = null,
         stories: List<String>? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("stories.delete") {
@@ -91,7 +92,7 @@ class StoriesService {
      * @param fields
      * @return [VKRequest] with [StoriesGetV5113Response]
      */
-    fun storiesGet(ownerId: Int? = null, fields: List<BaseUserGroupFields>? = null):
+    fun storiesGet(ownerId: UserId? = null, fields: List<BaseUserGroupFields>? = null):
             VKRequest<StoriesGetV5113Response> = NewApiRequest("stories.get") {
         GsonHolder.gson.fromJson(it, StoriesGetV5113Response::class.java)
     }
@@ -186,7 +187,7 @@ class StoriesService {
      * @param userIds - List of users IDs who can see the story.
      * @param replyToStory - ID of the story to reply with the current.
      * @param linkText - Link text (for community's stories only).
-     * @param linkUrl - Link URL. Internal links on https://vk.com only.
+     * @param linkUrl - Link URL. Internal links on https_//vk.com only.
      * @param groupId - ID of the community to upload the story (should be verified or with the
      * "fire" icon).
      * @param clickableStickers
@@ -198,7 +199,7 @@ class StoriesService {
         replyToStory: String? = null,
         linkText: String? = null,
         linkUrl: String? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         clickableStickers: String? = null
     ): VKRequest<StoriesGetPhotoUploadServerResponse> =
             NewApiRequest("stories.getPhotoUploadServer") {
@@ -224,7 +225,7 @@ class StoriesService {
      * @return [VKRequest] with [StoriesGetV5113Response]
      */
     fun storiesGetReplies(
-        ownerId: Int,
+        ownerId: UserId,
         storyId: Int,
         accessKey: String? = null,
         fields: List<BaseUserGroupFields>? = null
@@ -248,7 +249,7 @@ class StoriesService {
      * @param storyId - Story ID.
      * @return [VKRequest] with [StoriesStoryStats]
      */
-    fun storiesGetStats(ownerId: Int, storyId: Int): VKRequest<StoriesStoryStats> =
+    fun storiesGetStats(ownerId: UserId, storyId: Int): VKRequest<StoriesStoryStats> =
             NewApiRequest("stories.getStats") {
         GsonHolder.gson.fromJson(it, StoriesStoryStats::class.java)
     }
@@ -264,7 +265,7 @@ class StoriesService {
      * @param userIds - List of users IDs who can see the story.
      * @param replyToStory - ID of the story to reply with the current.
      * @param linkText - Link text (for community's stories only).
-     * @param linkUrl - Link URL. Internal links on https://vk.com only.
+     * @param linkUrl - Link URL. Internal links on https_//vk.com only.
      * @param groupId - ID of the community to upload the story (should be verified or with the
      * "fire" icon).
      * @param clickableStickers
@@ -276,7 +277,7 @@ class StoriesService {
         replyToStory: String? = null,
         linkText: String? = null,
         linkUrl: String? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         clickableStickers: String? = null
     ): VKRequest<StoriesGetVideoUploadServerResponse> =
             NewApiRequest("stories.getVideoUploadServer") {
@@ -302,7 +303,7 @@ class StoriesService {
      * @return [VKRequest] with [StoriesGetViewersExtendedV5115Response]
      */
     fun storiesGetViewers(
-        ownerId: Int,
+        ownerId: UserId,
         storyId: Int,
         count: Int? = null,
         offset: Int? = null
@@ -326,7 +327,7 @@ class StoriesService {
      * @return [VKRequest] with [StoriesGetViewersExtendedV5115Response]
      */
     fun storiesGetViewersExtended(
-        ownerId: Int,
+        ownerId: UserId,
         storyId: Int,
         count: Int? = null,
         offset: Int? = null
@@ -348,7 +349,7 @@ class StoriesService {
      * @param groupId
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun storiesHideAllReplies(ownerId: Int, groupId: Int? = null): VKRequest<BaseOkResponse> =
+    fun storiesHideAllReplies(ownerId: UserId, groupId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("stories.hideAllReplies") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -364,7 +365,7 @@ class StoriesService {
      * @param storyId - Story ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun storiesHideReply(ownerId: Int, storyId: Int): VKRequest<BaseOkResponse> =
+    fun storiesHideReply(ownerId: UserId, storyId: Int): VKRequest<BaseOkResponse> =
             NewApiRequest("stories.hideReply") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }

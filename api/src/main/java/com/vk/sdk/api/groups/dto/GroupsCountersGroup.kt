@@ -46,7 +46,6 @@ import kotlin.Int
  * @param narratives - Narratives number
  * @param clips - Clips number
  * @param clipsFollowers - Clips followers number
- * @param classifiedYoula - Classified youla number
  */
 data class GroupsCountersGroup(
     @SerializedName("addresses")
@@ -78,7 +77,5 @@ data class GroupsCountersGroup(
     @SerializedName("clips")
     val clips: Int? = null,
     @SerializedName("clips_followers")
-    val clipsFollowers: Int? = null,
-    @SerializedName("classified_youla")
-    val classifiedYoula: Int? = null
+    val clipsFollowers: Int? = null
 )
