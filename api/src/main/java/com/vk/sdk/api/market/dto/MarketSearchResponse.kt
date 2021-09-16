@@ -35,6 +35,7 @@ import kotlin.collections.List
  * @param count - Total number
  * @param viewType
  * @param items
+ * @param variants
  */
 data class MarketSearchResponse(
     @SerializedName("count")
@@ -42,5 +43,7 @@ data class MarketSearchResponse(
     @SerializedName("view_type")
     val viewType: MarketServicesViewType,
     @SerializedName("items")
-    val items: List<MarketMarketItem>
+    val items: List<MarketMarketItem>,
+    @SerializedName("variants")
+    val variants: List<MarketMarketItem>? = null
 )

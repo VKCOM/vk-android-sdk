@@ -28,20 +28,25 @@
 package com.vk.sdk.api.apps
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.apps.dto.AppsCatalogList
+import com.vk.sdk.api.apps.dto.AppsGetCatalogFilter
+import com.vk.sdk.api.apps.dto.AppsGetCatalogSort
 import com.vk.sdk.api.apps.dto.AppsGetFriendsListResponse
+import com.vk.sdk.api.apps.dto.AppsGetFriendsListType
 import com.vk.sdk.api.apps.dto.AppsGetLeaderboardExtendedResponse
+import com.vk.sdk.api.apps.dto.AppsGetLeaderboardExtendedType
 import com.vk.sdk.api.apps.dto.AppsGetLeaderboardResponse
+import com.vk.sdk.api.apps.dto.AppsGetLeaderboardType
 import com.vk.sdk.api.apps.dto.AppsGetMiniAppPoliciesResponse
+import com.vk.sdk.api.apps.dto.AppsGetNameCase
+import com.vk.sdk.api.apps.dto.AppsGetPlatform
 import com.vk.sdk.api.apps.dto.AppsGetResponse
 import com.vk.sdk.api.apps.dto.AppsGetScopesResponse
-import com.vk.sdk.api.apps.dto.FilterParam
-import com.vk.sdk.api.apps.dto.NameCaseParam
-import com.vk.sdk.api.apps.dto.PlatformParam
-import com.vk.sdk.api.apps.dto.SortParam
-import com.vk.sdk.api.apps.dto.TypeParam
+import com.vk.sdk.api.apps.dto.AppsGetScopesType
+import com.vk.sdk.api.apps.dto.AppsSendRequestType
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.users.dto.UsersFields
@@ -66,15 +71,15 @@ class AppsService {
      *
      * @param appId - Application ID
      * @param appIds - List of application ID
-     * @param platform - platform. Possible values: *'ios' - iOS,, *'android' - Android,,
-     * *'winphone' - Windows Phone,, *'web' - ---------- -- vk.com. By default: 'web'.
+     * @param platform - platform. Possible values_ *'ios' - iOS,, *'android' - Android,,
+     * *'winphone' - Windows Phone,, *'web' - ---------- -- vk.com. By default_ 'web'.
      * @param returnFriends
-     * @param fields - Profile fields to return. Sample values: 'nickname', 'screen_name', 'sex',
+     * @param fields - Profile fields to return. Sample values_ 'nickname', 'screen_name', 'sex',
      * 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium', 'photo_big',
      * 'has_mobile', 'contacts', 'education', 'online', 'counters', 'relation', 'last_seen',
      * 'activity', 'can_write_private_message', 'can_see_all_posts', 'can_post', 'universities', (only
      * if return_friends - 1)
-     * @param nameCase - Case for declension of user name and surname: 'nom' - nominative
+     * @param nameCase - Case for declension of user name and surname_ 'nom' - nominative
      * (default),, 'gen' - genitive,, 'dat' - dative,, 'acc' - accusative,, 'ins' - instrumental,,
      * 'abl' - prepositional. (only if 'return_friends' = '1')
      * @return [VKRequest] with [AppsGetResponse]
@@ -82,10 +87,10 @@ class AppsService {
     fun appsGet(
         appId: Int? = null,
         appIds: List<String>? = null,
-        platform: PlatformParam? = null,
+        platform: AppsGetPlatform? = null,
         returnFriends: Boolean? = null,
         fields: List<UsersFields>? = null,
-        nameCase: NameCaseParam? = null
+        nameCase: AppsGetNameCase? = null
     ): VKRequest<AppsGetResponse> = NewApiRequest("apps.get") {
         GsonHolder.gson.fromJson(it, AppsGetResponse::class.java)
     }
@@ -105,7 +110,7 @@ class AppsService {
      * Returns a list of applications (apps) available to users in the App Catalog.
      *
      * @param count - Number of apps to return.
-     * @param sort - Sort order: 'popular_today' - popular for one day (default), 'visitors' - by
+     * @param sort - Sort order_ 'popular_today' - popular for one day (default), 'visitors' - by
      * visitors number , 'create_date' - by creation date, 'growth_rate' - by growth rate,
      * 'popular_week' - popular for one week
      * @param offset - Offset required to return a specific subset of apps.
@@ -120,7 +125,7 @@ class AppsService {
      */
     fun appsGetCatalog(
         count: Int,
-        sort: SortParam? = null,
+        sort: AppsGetCatalogSort? = null,
         offset: Int? = null,
         platform: String? = null,
         returnFriends: Boolean? = null,
@@ -128,7 +133,7 @@ class AppsService {
         nameCase: String? = null,
         q: String? = null,
         genreId: Int? = null,
-        filter: FilterParam? = null
+        filter: AppsGetCatalogFilter? = null
     ): VKRequest<AppsCatalogList> = NewApiRequest("apps.getCatalog") {
         GsonHolder.gson.fromJson(it, AppsCatalogList::class.java)
     }
@@ -153,15 +158,15 @@ class AppsService {
      *
      * @param count - List size.
      * @param offset
-     * @param type - List type. Possible values: * 'invite' - available for invites (don't play the
-     * game),, * 'request' - available for request (play the game). By default: 'invite'.
+     * @param type - List type. Possible values_ * 'invite' - available for invites (don't play the
+     * game),, * 'request' - available for request (play the game). By default_ 'invite'.
      * @param fields - Additional profile fields, see [vk.com/dev/fields|description].
      * @return [VKRequest] with [AppsGetFriendsListResponse]
      */
     fun appsGetFriendsList(
         count: Int? = null,
         offset: Int? = null,
-        type: TypeParam? = null,
+        type: AppsGetFriendsListType? = null,
         fields: List<UsersFields>? = null
     ): VKRequest<AppsGetFriendsListResponse> = NewApiRequest("apps.getFriendsList") {
         GsonHolder.gson.fromJson(it, AppsGetFriendsListResponse::class.java)
@@ -179,13 +184,13 @@ class AppsService {
     /**
      * Returns players rating in the game.
      *
-     * @param type - Leaderboard type. Possible values: *'level' - by level,, *'points' - by mission
+     * @param type - Leaderboard type. Possible values_ *'level' - by level,, *'points' - by mission
      * points,, *'score' - by score ().
-     * @param global - Rating type. Possible values: *'1' - global rating among all players,, *'0' -
+     * @param global - Rating type. Possible values_ *'1' - global rating among all players,, *'0' -
      * rating among user friends.
      * @return [VKRequest] with [AppsGetLeaderboardResponse]
      */
-    fun appsGetLeaderboard(type: TypeParam, global: Boolean? = null):
+    fun appsGetLeaderboard(type: AppsGetLeaderboardType, global: Boolean? = null):
             VKRequest<AppsGetLeaderboardResponse> = NewApiRequest("apps.getLeaderboard") {
         GsonHolder.gson.fromJson(it, AppsGetLeaderboardResponse::class.java)
     }
@@ -197,13 +202,13 @@ class AppsService {
     /**
      * Returns players rating in the game.
      *
-     * @param type - Leaderboard type. Possible values: *'level' - by level,, *'points' - by mission
+     * @param type - Leaderboard type. Possible values_ *'level' - by level,, *'points' - by mission
      * points,, *'score' - by score ().
-     * @param global - Rating type. Possible values: *'1' - global rating among all players,, *'0' -
+     * @param global - Rating type. Possible values_ *'1' - global rating among all players,, *'0' -
      * rating among user friends.
      * @return [VKRequest] with [AppsGetLeaderboardExtendedResponse]
      */
-    fun appsGetLeaderboardExtended(type: TypeParam, global: Boolean? = null):
+    fun appsGetLeaderboardExtended(type: AppsGetLeaderboardExtendedType, global: Boolean? = null):
             VKRequest<AppsGetLeaderboardExtendedResponse> = NewApiRequest("apps.getLeaderboard") {
         GsonHolder.gson.fromJson(it, AppsGetLeaderboardExtendedResponse::class.java)
     }
@@ -233,7 +238,7 @@ class AppsService {
      * @param type
      * @return [VKRequest] with [AppsGetScopesResponse]
      */
-    fun appsGetScopes(type: TypeParam? = null): VKRequest<AppsGetScopesResponse> =
+    fun appsGetScopes(type: AppsGetScopesType? = null): VKRequest<AppsGetScopesResponse> =
             NewApiRequest("apps.getScopes") {
         GsonHolder.gson.fromJson(it, AppsGetScopesResponse::class.java)
     }
@@ -247,7 +252,7 @@ class AppsService {
      * @param userId
      * @return [VKRequest] with [Int]
      */
-    fun appsGetScore(userId: Int): VKRequest<Int> = NewApiRequest("apps.getScore") {
+    fun appsGetScore(userId: UserId): VKRequest<Int> = NewApiRequest("apps.getScore") {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
     .apply {
@@ -259,7 +264,7 @@ class AppsService {
      * @param userId
      * @return [VKRequest] with [BaseBoolInt]
      */
-    fun appsPromoHasActiveGift(promoId: Int, userId: Int? = null): VKRequest<BaseBoolInt> =
+    fun appsPromoHasActiveGift(promoId: Int, userId: UserId? = null): VKRequest<BaseBoolInt> =
             NewApiRequest("apps.promoHasActiveGift") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
@@ -273,7 +278,7 @@ class AppsService {
      * @param userId
      * @return [VKRequest] with [BaseBoolInt]
      */
-    fun appsPromoUseGift(promoId: Int, userId: Int? = null): VKRequest<BaseBoolInt> =
+    fun appsPromoUseGift(promoId: Int, userId: UserId? = null): VKRequest<BaseBoolInt> =
             NewApiRequest("apps.promoUseGift") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
@@ -287,7 +292,7 @@ class AppsService {
      *
      * @param userId - id of the user to send a request
      * @param text - request text
-     * @param type - request type. Values: 'invite' - if the request is sent to a user who does not
+     * @param type - request type. Values_ 'invite' - if the request is sent to a user who does not
      * have the app installed,, 'request' - if a user has already installed the app
      * @param name
      * @param key - special string key to be sent with the request
@@ -295,9 +300,9 @@ class AppsService {
      * @return [VKRequest] with [Int]
      */
     fun appsSendRequest(
-        userId: Int,
+        userId: UserId,
         text: String? = null,
-        type: TypeParam? = null,
+        type: AppsSendRequestType? = null,
         name: String? = null,
         key: String? = null,
         separate: Boolean? = null

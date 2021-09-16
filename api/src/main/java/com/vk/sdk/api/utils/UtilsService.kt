@@ -31,10 +31,12 @@ import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.utils.dto.IntervalParam
-import com.vk.sdk.api.utils.dto.SourceParam
 import com.vk.sdk.api.utils.dto.UtilsDomainResolved
 import com.vk.sdk.api.utils.dto.UtilsGetLastShortenedLinksResponse
+import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsExtendedInterval
+import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsExtendedSource
+import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsInterval
+import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsSource
 import com.vk.sdk.api.utils.dto.UtilsLinkChecked
 import com.vk.sdk.api.utils.dto.UtilsLinkStats
 import com.vk.sdk.api.utils.dto.UtilsLinkStatsExtended
@@ -47,7 +49,7 @@ class UtilsService {
     /**
      * Checks whether a link is blocked in VK.
      *
-     * @param url - Link to check (e.g., 'http://google.com').
+     * @param url - Link to check (e.g., 'http_//google.com').
      * @return [VKRequest] with [UtilsLinkChecked]
      */
     fun utilsCheckLink(url: String): VKRequest<UtilsLinkChecked> =
@@ -101,9 +103,9 @@ class UtilsService {
      */
     fun utilsGetLinkStats(
         key: String,
-        source: SourceParam? = null,
+        source: UtilsGetLinkStatsSource? = null,
         accessKey: String? = null,
-        interval: IntervalParam? = null,
+        interval: UtilsGetLinkStatsInterval? = null,
         intervalsCount: Int? = null
     ): VKRequest<UtilsLinkStats> = NewApiRequest("utils.getLinkStats") {
         GsonHolder.gson.fromJson(it, UtilsLinkStats::class.java)
@@ -128,9 +130,9 @@ class UtilsService {
      */
     fun utilsGetLinkStatsExtended(
         key: String,
-        source: SourceParam? = null,
+        source: UtilsGetLinkStatsExtendedSource? = null,
         accessKey: String? = null,
-        interval: IntervalParam? = null,
+        interval: UtilsGetLinkStatsExtendedInterval? = null,
         intervalsCount: Int? = null
     ): VKRequest<UtilsLinkStatsExtended> = NewApiRequest("utils.getLinkStats") {
         GsonHolder.gson.fromJson(it, UtilsLinkStatsExtended::class.java)

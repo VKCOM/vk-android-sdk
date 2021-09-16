@@ -23,23 +23,25 @@ SOFTWARE.
 */
 
 ext.sdkVersions = [
-        code                            : '27',
-        name                            : '3.2.2',
+        code                            : '28',
+        name                            : '3.3.0',
 
         minSdk                          : 21,
         targetSdk                       : 29,
         compileSdk                      : '29',
         buildTools                      : '29.0.3',
 
-        kotlin                          : '1.4.30',
-        androidX                        : '1.1.0',
-        okHttp                          : '4.5.0',
+        kotlin                          : '1.5.21',
+        androidXAppCompat               : '1.3.1',
+        androidXRV                      : '1.2.1',
+        androidXCollection              : '1.1.0',
+        okHttp                          : '4.9.1',
 
         picasso                         : '2.71828',
 
-        androidGradlePlugin             : '3.6.0',
+        androidGradlePlugin             : '4.2.2',
 
-        gson                            : '2.8.6',
+        gson                            : '2.8.8',
 
         junit                            : '4.12',
         mockito                          : '1.6.0',
@@ -55,9 +57,9 @@ ext.sdkLibraries = [
 ]
 
 ext.sdkLibrariesSupport = [
-        appCompat                       : "androidx.appcompat:appcompat:$sdkVersions.androidX",
-        recyclerView                    : "androidx.recyclerview:recyclerview:$sdkVersions.androidX",
-        collection                      : "androidx.collection:collection:$sdkVersions.androidX",
+        appCompat                       : "androidx.appcompat:appcompat:$sdkVersions.androidXAppCompat",
+        recyclerView                    : "androidx.recyclerview:recyclerview:$sdkVersions.androidXRV",
+        collection                      : "androidx.collection:collection:$sdkVersions.androidXCollection",
 ]
 
 ext.testLibraries = [

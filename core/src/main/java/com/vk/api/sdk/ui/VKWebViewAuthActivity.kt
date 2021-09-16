@@ -26,7 +26,6 @@ package com.vk.api.sdk.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -45,6 +44,7 @@ import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiValidationHandler
 import com.vk.api.sdk.auth.VKAuthManager
 import com.vk.api.sdk.auth.VKAuthParams
+import com.vk.api.sdk.exceptions.VKApiCodes
 import com.vk.api.sdk.extensions.toActivitySafe
 import com.vk.api.sdk.utils.VKUtils
 import com.vk.api.sdk.utils.VKValidationLocker
@@ -191,36 +191,26 @@ open class VKWebViewAuthActivity: Activity() {
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
             super.onReceivedError(view, request, error)
-            val description = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) error?.description?.toString() else null
-            showError(view, description)
+            val errorCode =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) error?.errorCode ?: ERROR_UNKNOWN
+                else ERROR_UNKNOWN
+            onError(errorCode)
         }
 
         @Suppress("DEPRECATION")
         override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
             super.onReceivedError(view, errorCode, description, failingUrl)
-            showError(view, description)
+            onError(errorCode)
         }
 
-        private fun showError(view: WebView?, description: String?) {
+        private fun onError(errorCode: Int) {
             hasError = true
 
-            val builder = AlertDialog.Builder(view?.context)
-                    .setMessage(description)
-                    .setPositiveButton(R.string.vk_retry) { _, _ ->
-                        hasError = false
-                        loadUrl()
-                    }
-                    .setNegativeButton(android.R.string.cancel) { _, _ ->
-                        setResult(RESULT_CANCELED)
-                        finish()
-                    }
-
-            try {
-                builder.show()
-            } catch (e: Exception) {
-                setResult(RESULT_CANCELED)
-                finish()
+            val intent = Intent().apply {
+                putExtra(VKApiCodes.EXTRA_VW_LOGIN_ERROR, errorCode)
             }
+            setResult(RESULT_CANCELED, intent)
+            finish()
         }
     }
 

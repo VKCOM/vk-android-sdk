@@ -24,12 +24,9 @@
 
 package com.vk.api.sdk.auth
 
+import com.vk.api.sdk.exceptions.VKAuthException
+
 interface VKAuthCallback {
     fun onLogin(token: VKAccessToken)
-    fun onLoginFailed(errorCode: Int)
-
-    companion object {
-        const val AUTH_CANCELED = 1
-        const val UNKNOWN_ERROR = 2
-    }
+    fun onLoginFailed(authException: VKAuthException)
 }

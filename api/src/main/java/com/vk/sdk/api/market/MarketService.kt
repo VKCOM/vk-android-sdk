@@ -28,18 +28,21 @@
 package com.vk.sdk.api.market
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.market.dto.MarketAddAlbumResponse
 import com.vk.sdk.api.market.dto.MarketAddResponse
+import com.vk.sdk.api.market.dto.MarketEditOrderPaymentStatus
 import com.vk.sdk.api.market.dto.MarketGetAlbumByIdResponse
 import com.vk.sdk.api.market.dto.MarketGetAlbumsResponse
 import com.vk.sdk.api.market.dto.MarketGetByIdExtendedResponse
 import com.vk.sdk.api.market.dto.MarketGetByIdResponse
 import com.vk.sdk.api.market.dto.MarketGetCategoriesResponse
 import com.vk.sdk.api.market.dto.MarketGetCommentsResponse
+import com.vk.sdk.api.market.dto.MarketGetCommentsSort
 import com.vk.sdk.api.market.dto.MarketGetExtendedResponse
 import com.vk.sdk.api.market.dto.MarketGetGroupOrdersResponse
 import com.vk.sdk.api.market.dto.MarketGetOrderByIdResponse
@@ -47,13 +50,16 @@ import com.vk.sdk.api.market.dto.MarketGetOrderItemsResponse
 import com.vk.sdk.api.market.dto.MarketGetOrdersExtendedResponse
 import com.vk.sdk.api.market.dto.MarketGetOrdersResponse
 import com.vk.sdk.api.market.dto.MarketGetResponse
+import com.vk.sdk.api.market.dto.MarketReportCommentReason
+import com.vk.sdk.api.market.dto.MarketReportReason
 import com.vk.sdk.api.market.dto.MarketSearchExtendedResponse
+import com.vk.sdk.api.market.dto.MarketSearchExtendedRev
+import com.vk.sdk.api.market.dto.MarketSearchExtendedSort
+import com.vk.sdk.api.market.dto.MarketSearchExtendedStatus
 import com.vk.sdk.api.market.dto.MarketSearchResponse
-import com.vk.sdk.api.market.dto.PaymentStatusParam
-import com.vk.sdk.api.market.dto.ReasonParam
-import com.vk.sdk.api.market.dto.RevParam
-import com.vk.sdk.api.market.dto.SortParam
-import com.vk.sdk.api.market.dto.StatusParam
+import com.vk.sdk.api.market.dto.MarketSearchRev
+import com.vk.sdk.api.market.dto.MarketSearchSort
+import com.vk.sdk.api.market.dto.MarketSearchStatus
 import com.vk.sdk.api.users.dto.UsersFields
 import kotlin.Boolean
 import kotlin.Float
@@ -83,7 +89,7 @@ class MarketService {
      * @return [VKRequest] with [MarketAddResponse]
      */
     fun marketAdd(
-        ownerId: Int,
+        ownerId: UserId,
         name: String,
         description: String,
         categoryId: Int,
@@ -130,7 +136,7 @@ class MarketService {
      * @return [VKRequest] with [MarketAddAlbumResponse]
      */
     fun marketAddAlbum(
-        ownerId: Int,
+        ownerId: UserId,
         title: String,
         photoId: Int? = null,
         mainAlbum: Boolean? = null,
@@ -155,7 +161,7 @@ class MarketService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun marketAddToAlbum(
-        ownerId: Int,
+        ownerId: UserId,
         itemIds: List<Int>,
         albumIds: List<Int>
     ): VKRequest<BaseOkResponse> = NewApiRequest("market.addToAlbum") {
@@ -174,9 +180,9 @@ class MarketService {
      * @param itemId - Item ID.
      * @param message - Comment text (required if 'attachments' parameter is not specified)
      * @param attachments - Comma-separated list of objects attached to a comment. The field is
-     * submitted the following way: , "'<owner_id>_<media_id>,<owner_id>_<media_id>'", , '' - media
-     * attachment type: "'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document", ,
-     * '<owner_id>' - media owner id, '<media_id>' - media attachment id, , For example:
+     * submitted the following way_ , "'<owner_id>_<media_id>,<owner_id>_<media_id>'", , '' - media
+     * attachment type_ "'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document", ,
+     * '<owner_id>' - media owner id, '<media_id>' - media attachment id, , For example_
      * "photo100172_166443618,photo66748_265827614",
      * @param fromGroup - '1' - comment will be published on behalf of a community, '0' - on behalf
      * of a user (by default).
@@ -186,7 +192,7 @@ class MarketService {
      * @return [VKRequest] with [Int]
      */
     fun marketCreateComment(
-        ownerId: Int,
+        ownerId: UserId,
         itemId: Int,
         message: String? = null,
         attachments: List<String>? = null,
@@ -215,7 +221,7 @@ class MarketService {
      * @param itemId - Item ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun marketDelete(ownerId: Int, itemId: Int): VKRequest<BaseOkResponse> =
+    fun marketDelete(ownerId: UserId, itemId: Int): VKRequest<BaseOkResponse> =
             NewApiRequest("market.delete") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -231,7 +237,7 @@ class MarketService {
      * @param albumId - Collection ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun marketDeleteAlbum(ownerId: Int, albumId: Int): VKRequest<BaseOkResponse> =
+    fun marketDeleteAlbum(ownerId: UserId, albumId: Int): VKRequest<BaseOkResponse> =
             NewApiRequest("market.deleteAlbum") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -249,7 +255,7 @@ class MarketService {
      * @param commentId - comment id
      * @return [VKRequest] with [BaseBoolInt]
      */
-    fun marketDeleteComment(ownerId: Int, commentId: Int): VKRequest<BaseBoolInt> =
+    fun marketDeleteComment(ownerId: UserId, commentId: Int): VKRequest<BaseBoolInt> =
             NewApiRequest("market.deleteComment") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
@@ -312,7 +318,7 @@ class MarketService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun marketEditAlbum(
-        ownerId: Int,
+        ownerId: UserId,
         albumId: Int,
         title: String,
         photoId: Int? = null,
@@ -338,14 +344,14 @@ class MarketService {
      * @param message - New comment text (required if 'attachments' are not specified), , 2048
      * symbols maximum.
      * @param attachments - Comma-separated list of objects attached to a comment. The field is
-     * submitted the following way: , "'<owner_id>_<media_id>,<owner_id>_<media_id>'", , '' - media
-     * attachment type: "'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document", ,
-     * '<owner_id>' - media owner id, '<media_id>' - media attachment id, , For example:
+     * submitted the following way_ , "'<owner_id>_<media_id>,<owner_id>_<media_id>'", , '' - media
+     * attachment type_ "'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document", ,
+     * '<owner_id>' - media owner id, '<media_id>' - media attachment id, , For example_
      * "photo100172_166443618,photo66748_265827614",
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun marketEditComment(
-        ownerId: Int,
+        ownerId: UserId,
         commentId: Int,
         message: String? = null,
         attachments: List<String>? = null
@@ -376,12 +382,12 @@ class MarketService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun marketEditOrder(
-        userId: Int,
+        userId: UserId,
         orderId: Int,
         merchantComment: String? = null,
         status: Int? = null,
         trackNumber: String? = null,
-        paymentStatus: PaymentStatusParam? = null,
+        paymentStatus: MarketEditOrderPaymentStatus? = null,
         deliveryPrice: Int? = null,
         width: Int? = null,
         length: Int? = null,
@@ -413,8 +419,9 @@ class MarketService {
      * @param albumId
      * @param count - Number of items to return.
      * @param offset - Offset needed to return a specific subset of results.
-     * @param dateFrom - Items update date from (format: yyyy-mm-dd)
-     * @param dateTo - Items update date to (format: yyyy-mm-dd)
+     * @param dateFrom - Items update date from (format_ yyyy-mm-dd)
+     * @param dateTo - Items update date to (format_ yyyy-mm-dd)
+     * @param needVariants - Add variants to response if exist
      * @return [VKRequest] with [MarketGetResponse]
      */
     fun marketGet(
@@ -423,7 +430,8 @@ class MarketService {
         count: Int? = null,
         offset: Int? = null,
         dateFrom: String? = null,
-        dateTo: String? = null
+        dateTo: String? = null,
+        needVariants: Boolean? = null
     ): VKRequest<MarketGetResponse> = NewApiRequest("market.get") {
         GsonHolder.gson.fromJson(it, MarketGetResponse::class.java)
     }
@@ -434,6 +442,7 @@ class MarketService {
         offset?.let { addParam("offset", it) }
         dateFrom?.let { addParam("date_from", it) }
         dateTo?.let { addParam("date_to", it) }
+        needVariants?.let { addParam("need_variants", it) }
     }
 
     /**
@@ -445,8 +454,9 @@ class MarketService {
      * @param albumId
      * @param count - Number of items to return.
      * @param offset - Offset needed to return a specific subset of results.
-     * @param dateFrom - Items update date from (format: yyyy-mm-dd)
-     * @param dateTo - Items update date to (format: yyyy-mm-dd)
+     * @param dateFrom - Items update date from (format_ yyyy-mm-dd)
+     * @param dateTo - Items update date to (format_ yyyy-mm-dd)
+     * @param needVariants - Add variants to response if exist
      * @return [VKRequest] with [MarketGetExtendedResponse]
      */
     fun marketGetExtended(
@@ -455,7 +465,8 @@ class MarketService {
         count: Int? = null,
         offset: Int? = null,
         dateFrom: String? = null,
-        dateTo: String? = null
+        dateTo: String? = null,
+        needVariants: Boolean? = null
     ): VKRequest<MarketGetExtendedResponse> = NewApiRequest("market.get") {
         GsonHolder.gson.fromJson(it, MarketGetExtendedResponse::class.java)
     }
@@ -467,6 +478,7 @@ class MarketService {
         addParam("extended", true)
         dateFrom?.let { addParam("date_from", it) }
         dateTo?.let { addParam("date_to", it) }
+        needVariants?.let { addParam("need_variants", it) }
     }
 
     /**
@@ -478,8 +490,8 @@ class MarketService {
      * @param albumIds - collections identifiers to obtain data from
      * @return [VKRequest] with [MarketGetAlbumByIdResponse]
      */
-    fun marketGetAlbumById(ownerId: Int, albumIds: List<Int>): VKRequest<MarketGetAlbumByIdResponse>
-            = NewApiRequest("market.getAlbumById") {
+    fun marketGetAlbumById(ownerId: UserId, albumIds: List<Int>):
+            VKRequest<MarketGetAlbumByIdResponse> = NewApiRequest("market.getAlbumById") {
         GsonHolder.gson.fromJson(it, MarketGetAlbumByIdResponse::class.java)
     }
     .apply {
@@ -496,7 +508,7 @@ class MarketService {
      * @return [VKRequest] with [MarketGetAlbumsResponse]
      */
     fun marketGetAlbums(
-        ownerId: Int,
+        ownerId: UserId,
         offset: Int? = null,
         count: Int? = null
     ): VKRequest<MarketGetAlbumsResponse> = NewApiRequest("market.getAlbums") {
@@ -511,8 +523,8 @@ class MarketService {
     /**
      * Returns information about market items by their ids.
      *
-     * @param itemIds - Comma-separated ids list: {user id}_{item id}. If an item belongs to a
-     * community -{community id} is used. " 'Videos' value example: ,
+     * @param itemIds - Comma-separated ids list_ {user id}_{item id}. If an item belongs to a
+     * community -{community id} is used. " 'Videos' value example_ ,
      * '-4363_136089719,13245770_137352259'"
      * @return [VKRequest] with [MarketGetByIdResponse]
      */
@@ -527,8 +539,8 @@ class MarketService {
     /**
      * Returns information about market items by their ids.
      *
-     * @param itemIds - Comma-separated ids list: {user id}_{item id}. If an item belongs to a
-     * community -{community id} is used. " 'Videos' value example: ,
+     * @param itemIds - Comma-separated ids list_ {user id}_{item id}. If an item belongs to a
+     * community -{community id} is used. " 'Videos' value example_ ,
      * '-4363_136089719,13245770_137352259'"
      * @return [VKRequest] with [MarketGetByIdExtendedResponse]
      */
@@ -572,13 +584,13 @@ class MarketService {
      * @return [VKRequest] with [MarketGetCommentsResponse]
      */
     fun marketGetComments(
-        ownerId: Int,
+        ownerId: UserId,
         itemId: Int,
         needLikes: Boolean? = null,
         startCommentId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: SortParam? = null,
+        sort: MarketGetCommentsSort? = null,
         fields: List<UsersFields>? = null
     ): VKRequest<MarketGetCommentsResponse> = NewApiRequest("market.getComments") {
         GsonHolder.gson.fromJson(it, MarketGetCommentsResponse::class.java)
@@ -606,7 +618,7 @@ class MarketService {
      * @return [VKRequest] with [MarketGetGroupOrdersResponse]
      */
     fun marketGetGroupOrders(
-        groupId: Int,
+        groupId: UserId,
         offset: Int? = null,
         count: Int? = null
     ): VKRequest<MarketGetGroupOrdersResponse> = NewApiRequest("market.getGroupOrders") {
@@ -625,8 +637,8 @@ class MarketService {
      * @param userId
      * @return [VKRequest] with [MarketGetOrderByIdResponse]
      */
-    fun marketGetOrderById(orderId: Int, userId: Int? = null): VKRequest<MarketGetOrderByIdResponse>
-            = NewApiRequest("market.getOrderById") {
+    fun marketGetOrderById(orderId: Int, userId: UserId? = null):
+            VKRequest<MarketGetOrderByIdResponse> = NewApiRequest("market.getOrderById") {
         GsonHolder.gson.fromJson(it, MarketGetOrderByIdResponse::class.java)
     }
     .apply {
@@ -645,7 +657,7 @@ class MarketService {
      */
     fun marketGetOrderItems(
         orderId: Int,
-        userId: Int? = null,
+        userId: UserId? = null,
         offset: Int? = null,
         count: Int? = null
     ): VKRequest<MarketGetOrderItemsResponse> = NewApiRequest("market.getOrderItems") {
@@ -661,8 +673,8 @@ class MarketService {
     /**
      * @param offset
      * @param count
-     * @param dateFrom - Orders status updated date from (format: yyyy-mm-dd)
-     * @param dateTo - Orders status updated date to (format: yyyy-mm-dd)
+     * @param dateFrom - Orders status updated date from (format_ yyyy-mm-dd)
+     * @param dateTo - Orders status updated date to (format_ yyyy-mm-dd)
      * @return [VKRequest] with [MarketGetOrdersResponse]
      */
     fun marketGetOrders(
@@ -683,8 +695,8 @@ class MarketService {
     /**
      * @param offset
      * @param count
-     * @param dateFrom - Orders status updated date from (format: yyyy-mm-dd)
-     * @param dateTo - Orders status updated date to (format: yyyy-mm-dd)
+     * @param dateFrom - Orders status updated date from (format_ yyyy-mm-dd)
+     * @param dateTo - Orders status updated date to (format_ yyyy-mm-dd)
      * @return [VKRequest] with [MarketGetOrdersExtendedResponse]
      */
     fun marketGetOrdersExtended(
@@ -712,7 +724,7 @@ class MarketService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun marketRemoveFromAlbum(
-        ownerId: Int,
+        ownerId: UserId,
         itemId: Int,
         albumIds: List<Int>
     ): VKRequest<BaseOkResponse> = NewApiRequest("market.removeFromAlbum") {
@@ -734,7 +746,7 @@ class MarketService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun marketReorderAlbums(
-        ownerId: Int,
+        ownerId: UserId,
         albumId: Int,
         before: Int? = null,
         after: Int? = null
@@ -759,7 +771,7 @@ class MarketService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun marketReorderItems(
-        ownerId: Int,
+        ownerId: UserId,
         itemId: Int,
         albumId: Int? = null,
         before: Int? = null,
@@ -780,14 +792,14 @@ class MarketService {
      *
      * @param ownerId - ID of an item owner community.
      * @param itemId - Item ID.
-     * @param reason - Complaint reason. Possible values: *'0' - spam,, *'1' - child porn,, *'2' -
+     * @param reason - Complaint reason. Possible values_ *'0' - spam,, *'1' - child porn,, *'2' -
      * extremism,, *'3' - violence,, *'4' - drugs propaganda,, *'5' - adult materials,, *'6' - insult.
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun marketReport(
-        ownerId: Int,
+        ownerId: UserId,
         itemId: Int,
-        reason: ReasonParam? = null
+        reason: MarketReportReason? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("market.report") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -802,14 +814,14 @@ class MarketService {
      *
      * @param ownerId - ID of an item owner community.
      * @param commentId - Comment ID.
-     * @param reason - Complaint reason. Possible values: *'0' - spam,, *'1' - child porn,, *'2' -
+     * @param reason - Complaint reason. Possible values_ *'0' - spam,, *'1' - child porn,, *'2' -
      * extremism,, *'3' - violence,, *'4' - drugs propaganda,, *'5' - adult materials,, *'6' - insult.
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun marketReportComment(
-        ownerId: Int,
+        ownerId: UserId,
         commentId: Int,
-        reason: ReasonParam
+        reason: MarketReportCommentReason
     ): VKRequest<BaseOkResponse> = NewApiRequest("market.reportComment") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -826,7 +838,7 @@ class MarketService {
      * @param itemId - Deleted item ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun marketRestore(ownerId: Int, itemId: Int): VKRequest<BaseOkResponse> =
+    fun marketRestore(ownerId: UserId, itemId: Int): VKRequest<BaseOkResponse> =
             NewApiRequest("market.restore") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -844,7 +856,7 @@ class MarketService {
      * @param commentId - deleted comment id
      * @return [VKRequest] with [BaseBoolInt]
      */
-    fun marketRestoreComment(ownerId: Int, commentId: Int): VKRequest<BaseBoolInt> =
+    fun marketRestoreComment(ownerId: UserId, commentId: Int): VKRequest<BaseBoolInt> =
             NewApiRequest("market.restoreComment") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
@@ -866,19 +878,21 @@ class MarketService {
      * @param offset - Offset needed to return a specific subset of results.
      * @param count - Number of items to return.
      * @param status
+     * @param needVariants - Add variants to response if exist
      * @return [VKRequest] with [MarketSearchResponse]
      */
     fun marketSearch(
-        ownerId: Int,
+        ownerId: UserId,
         albumId: Int? = null,
         q: String? = null,
         priceFrom: Int? = null,
         priceTo: Int? = null,
-        sort: SortParam? = null,
-        rev: RevParam? = null,
+        sort: MarketSearchSort? = null,
+        rev: MarketSearchRev? = null,
         offset: Int? = null,
         count: Int? = null,
-        status: StatusParam? = null
+        status: MarketSearchStatus? = null,
+        needVariants: Boolean? = null
     ): VKRequest<MarketSearchResponse> = NewApiRequest("market.search") {
         GsonHolder.gson.fromJson(it, MarketSearchResponse::class.java)
     }
@@ -893,6 +907,7 @@ class MarketService {
         offset?.let { addParam("offset", it) }
         count?.let { addParam("count", it) }
         status?.let { addParam("status", it.value) }
+        needVariants?.let { addParam("need_variants", it) }
     }
 
     /**
@@ -908,19 +923,21 @@ class MarketService {
      * @param offset - Offset needed to return a specific subset of results.
      * @param count - Number of items to return.
      * @param status
+     * @param needVariants - Add variants to response if exist
      * @return [VKRequest] with [MarketSearchExtendedResponse]
      */
     fun marketSearchExtended(
-        ownerId: Int,
+        ownerId: UserId,
         albumId: Int? = null,
         q: String? = null,
         priceFrom: Int? = null,
         priceTo: Int? = null,
-        sort: SortParam? = null,
-        rev: RevParam? = null,
+        sort: MarketSearchExtendedSort? = null,
+        rev: MarketSearchExtendedRev? = null,
         offset: Int? = null,
         count: Int? = null,
-        status: StatusParam? = null
+        status: MarketSearchExtendedStatus? = null,
+        needVariants: Boolean? = null
     ): VKRequest<MarketSearchExtendedResponse> = NewApiRequest("market.search") {
         GsonHolder.gson.fromJson(it, MarketSearchExtendedResponse::class.java)
     }
@@ -936,5 +953,6 @@ class MarketService {
         count?.let { addParam("count", it) }
         addParam("extended", true)
         status?.let { addParam("status", it.value) }
+        needVariants?.let { addParam("need_variants", it) }
     }
 }

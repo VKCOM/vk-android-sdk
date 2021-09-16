@@ -24,6 +24,7 @@
 
 package com.vk.api.sdk
 
+import com.vk.api.sdk.okhttp.UserAgentInterceptor
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
@@ -50,6 +51,7 @@ abstract class VKOkHttpProvider {
                         .writeTimeout(20, TimeUnit.SECONDS)
                         .followRedirects(true)
                         .followSslRedirects(true)
+                        .addInterceptor(UserAgentInterceptor(VK.getSDKUserAgent()))
                         .build()
             }
             return okHttpClient!!

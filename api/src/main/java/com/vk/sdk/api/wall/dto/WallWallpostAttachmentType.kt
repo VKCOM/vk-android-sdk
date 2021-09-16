@@ -94,5 +94,8 @@ enum class WallWallpostAttachmentType(
     TEXTLIVE("textlive"),
 
     @SerializedName("textpost")
-    TEXTPOST("textpost");
+    TEXTPOST("textpost"),
+
+    @SerializedName("situational_theme")
+    SITUATIONAL_THEME("situational_theme");
 }

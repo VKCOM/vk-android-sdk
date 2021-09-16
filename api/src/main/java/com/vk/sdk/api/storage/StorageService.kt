@@ -29,6 +29,7 @@ package com.vk.sdk.api.storage
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
@@ -49,7 +50,7 @@ class StorageService {
     fun storageGet(
         key: String? = null,
         keys: List<String>? = null,
-        userId: Int? = null
+        userId: UserId? = null
     ): VKRequest<List<StorageValue>> = NewApiRequest("storage.get") {
         val typeToken = object: TypeToken<List<StorageValue>>() {}.type
         GsonHolder.gson.fromJson<List<StorageValue>>(it, typeToken)
@@ -70,7 +71,7 @@ class StorageService {
      * @return [VKRequest] with [Unit]
      */
     fun storageGetKeys(
-        userId: Int? = null,
+        userId: UserId? = null,
         offset: Int? = null,
         count: Int? = null
     ): VKRequest<List<String>> = NewApiRequest("storage.getKeys") {
@@ -94,7 +95,7 @@ class StorageService {
     fun storageSet(
         key: String,
         value: String? = null,
-        userId: Int? = null
+        userId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("storage.set") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }

@@ -44,6 +44,8 @@ open class MethodChainCall<T>(
         val defaultLang: String,
         val parser: VKApiResponseParser<T>?) : ChainCall<T>(manager) {
 
+    private val responseValidator = manager.config.responseValidator
+
     @Throws(Exception::class)
     override fun call(args: ChainArgs): T? {
         if (args.hasCaptcha()) {
@@ -71,15 +73,28 @@ open class MethodChainCall<T>(
         return runRequest(callBuilder.build())
     }
 
-    open fun runRequest(mc: OkHttpMethodCall) = parseResult(okHttpExecutor.execute(mc), mc.method, null)
+    open fun runRequest(mc: OkHttpMethodCall): T? {
+        return parseResult(okHttpExecutor.execute(mc), mc.method, mc.isExtended(), null)
+    }
 
-    fun parseResult(methodResponse: OkHttpExecutor.MethodResponse, methodName: String, ignoredExecuteErrors: IntArray?): T? {
+    fun parseResult(
+        methodResponse: OkHttpExecutor.MethodResponse,
+        methodName: String,
+        extended: Boolean,
+        ignoredExecuteErrors: IntArray?
+    ): T? {
         val response = methodResponse.response
         return when {
             response == null -> throw VKApiException("Response returned null instead of valid string response")
             response.hasSimpleError() -> throw response.toSimpleError(methodName, methodResponse.executorRequestAccessToken)
             response.hasExecuteError(ignoredExecuteErrors) -> throw response.toExecuteError(methodName, ignoredExecuteErrors)
-            else -> parser?.parse(response)
+            else -> {
+                try {
+                    responseValidator?.validateResponse(methodName, extended, response, methodResponse.headers)
+                } catch (ignore: Throwable) {}
+
+                parser?.parse(response)
+            }
         }
     }
 }

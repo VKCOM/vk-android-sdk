@@ -31,10 +31,10 @@ import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.streaming.dto.IntervalParam
-import com.vk.sdk.api.streaming.dto.MonthlyTierParam
 import com.vk.sdk.api.streaming.dto.StreamingGetServerUrlResponse
-import com.vk.sdk.api.streaming.dto.TypeParam
+import com.vk.sdk.api.streaming.dto.StreamingGetStatsInterval
+import com.vk.sdk.api.streaming.dto.StreamingGetStatsType
+import com.vk.sdk.api.streaming.dto.StreamingSetSettingsMonthlyTier
 import kotlin.Int
 import kotlin.String
 import kotlin.Unit
@@ -64,8 +64,8 @@ class StreamingService {
      * @return [VKRequest] with [Unit]
      */
     fun streamingGetStats(
-        type: TypeParam? = null,
-        interval: IntervalParam? = null,
+        type: StreamingGetStatsType? = null,
+        interval: StreamingGetStatsInterval? = null,
         startTime: Int? = null,
         endTime: Int? = null
     ): VKRequest<Unit> = NewApiRequest("streaming.getStats") {
@@ -91,8 +91,8 @@ class StreamingService {
      * @param monthlyTier
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun streamingSetSettings(monthlyTier: MonthlyTierParam? = null): VKRequest<BaseOkResponse> =
-            NewApiRequest("streaming.setSettings") {
+    fun streamingSetSettings(monthlyTier: StreamingSetSettingsMonthlyTier? = null):
+            VKRequest<BaseOkResponse> = NewApiRequest("streaming.setSettings") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {

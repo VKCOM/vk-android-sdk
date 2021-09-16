@@ -29,14 +29,15 @@ package com.vk.sdk.api.pages
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.pages.dto.EditParam
+import com.vk.sdk.api.pages.dto.PagesSaveAccessEdit
+import com.vk.sdk.api.pages.dto.PagesSaveAccessView
 import com.vk.sdk.api.pages.dto.PagesWikipage
 import com.vk.sdk.api.pages.dto.PagesWikipageFull
 import com.vk.sdk.api.pages.dto.PagesWikipageHistory
-import com.vk.sdk.api.pages.dto.ViewParam
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -70,7 +71,7 @@ class PagesService {
      * @return [VKRequest] with [PagesWikipageFull]
      */
     fun pagesGet(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         pageId: Int? = null,
         global: Boolean? = null,
         sitePreview: Boolean? = null,
@@ -100,8 +101,8 @@ class PagesService {
      */
     fun pagesGetHistory(
         pageId: Int,
-        groupId: Int? = null,
-        userId: Int? = null
+        groupId: UserId? = null,
+        userId: UserId? = null
     ): VKRequest<List<PagesWikipageHistory>> = NewApiRequest("pages.getHistory") {
         val typeToken = object: TypeToken<List<PagesWikipageHistory>>() {}.type
         GsonHolder.gson.fromJson<List<PagesWikipageHistory>>(it, typeToken)
@@ -118,7 +119,7 @@ class PagesService {
      * @param groupId - ID of the community that owns the wiki page.
      * @return [VKRequest] with [Unit]
      */
-    fun pagesGetTitles(groupId: Int? = null): VKRequest<List<PagesWikipage>> =
+    fun pagesGetTitles(groupId: UserId? = null): VKRequest<List<PagesWikipage>> =
             NewApiRequest("pages.getTitles") {
         val typeToken = object: TypeToken<List<PagesWikipage>>() {}.type
         GsonHolder.gson.fromJson<List<PagesWikipage>>(it, typeToken)
@@ -138,8 +139,8 @@ class PagesService {
      */
     fun pagesGetVersion(
         versionId: Int,
-        groupId: Int? = null,
-        userId: Int? = null,
+        groupId: UserId? = null,
+        userId: UserId? = null,
         needHtml: Boolean? = null
     ): VKRequest<PagesWikipageFull> = NewApiRequest("pages.getVersion") {
         GsonHolder.gson.fromJson(it, PagesWikipageFull::class.java)
@@ -158,7 +159,7 @@ class PagesService {
      * @param groupId - ID of the group in the context of which this markup is interpreted.
      * @return [VKRequest] with [String]
      */
-    fun pagesParseWiki(text: String, groupId: Int? = null): VKRequest<String> =
+    fun pagesParseWiki(text: String, groupId: UserId? = null): VKRequest<String> =
             NewApiRequest("pages.parseWiki") {
         GsonHolder.gson.fromJson(it, String::class.java)
     }
@@ -180,8 +181,8 @@ class PagesService {
     fun pagesSave(
         text: String? = null,
         pageId: Int? = null,
-        groupId: Int? = null,
-        userId: Int? = null,
+        groupId: UserId? = null,
+        userId: UserId? = null,
         title: String? = null
     ): VKRequest<Int> = NewApiRequest("pages.save") {
         GsonHolder.gson.fromJson(it, Int::class.java)
@@ -200,18 +201,18 @@ class PagesService {
      * @param pageId - Wiki page ID.
      * @param groupId - ID of the community that owns the wiki page.
      * @param userId
-     * @param view - Who can view the wiki page: '1' - only community members, '2' - all users can
+     * @param view - Who can view the wiki page_ '1' - only community members, '2' - all users can
      * view the page, '0' - only community managers
-     * @param edit - Who can edit the wiki page: '1' - only community members, '2' - all users can
+     * @param edit - Who can edit the wiki page_ '1' - only community members, '2' - all users can
      * edit the page, '0' - only community managers
      * @return [VKRequest] with [Int]
      */
     fun pagesSaveAccess(
         pageId: Int,
-        groupId: Int? = null,
-        userId: Int? = null,
-        view: ViewParam? = null,
-        edit: EditParam? = null
+        groupId: UserId? = null,
+        userId: UserId? = null,
+        view: PagesSaveAccessView? = null,
+        edit: PagesSaveAccessEdit? = null
     ): VKRequest<Int> = NewApiRequest("pages.saveAccess") {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }

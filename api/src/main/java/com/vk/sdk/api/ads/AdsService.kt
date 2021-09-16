@@ -31,18 +31,29 @@ import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.ads.dto.AdFormatParam
 import com.vk.sdk.api.ads.dto.AdsAccount
 import com.vk.sdk.api.ads.dto.AdsAd
 import com.vk.sdk.api.ads.dto.AdsAdLayout
 import com.vk.sdk.api.ads.dto.AdsCampaign
+import com.vk.sdk.api.ads.dto.AdsCheckLinkLinkType
 import com.vk.sdk.api.ads.dto.AdsClient
 import com.vk.sdk.api.ads.dto.AdsCreateTargetGroupResponse
 import com.vk.sdk.api.ads.dto.AdsDemoStats
 import com.vk.sdk.api.ads.dto.AdsFloodStats
+import com.vk.sdk.api.ads.dto.AdsGetCampaignsFields
 import com.vk.sdk.api.ads.dto.AdsGetCategoriesResponse
+import com.vk.sdk.api.ads.dto.AdsGetDemographicsIdsType
+import com.vk.sdk.api.ads.dto.AdsGetDemographicsPeriod
 import com.vk.sdk.api.ads.dto.AdsGetLookalikeRequestsResponse
 import com.vk.sdk.api.ads.dto.AdsGetMusiciansResponse
+import com.vk.sdk.api.ads.dto.AdsGetPostsReachIdsType
+import com.vk.sdk.api.ads.dto.AdsGetStatisticsIdsType
+import com.vk.sdk.api.ads.dto.AdsGetStatisticsPeriod
+import com.vk.sdk.api.ads.dto.AdsGetStatisticsStatsFields
+import com.vk.sdk.api.ads.dto.AdsGetSuggestionsLang
+import com.vk.sdk.api.ads.dto.AdsGetSuggestionsSection
+import com.vk.sdk.api.ads.dto.AdsGetTargetingStatsAdFormat
+import com.vk.sdk.api.ads.dto.AdsGetUploadURLAdFormat
 import com.vk.sdk.api.ads.dto.AdsLinkStatus
 import com.vk.sdk.api.ads.dto.AdsPromotedPostReach
 import com.vk.sdk.api.ads.dto.AdsRejectReason
@@ -53,13 +64,6 @@ import com.vk.sdk.api.ads.dto.AdsTargSuggestions
 import com.vk.sdk.api.ads.dto.AdsTargetGroup
 import com.vk.sdk.api.ads.dto.AdsUpdateOfficeUsersResult
 import com.vk.sdk.api.ads.dto.AdsUsers
-import com.vk.sdk.api.ads.dto.FieldsParam
-import com.vk.sdk.api.ads.dto.IdsTypeParam
-import com.vk.sdk.api.ads.dto.LangParam
-import com.vk.sdk.api.ads.dto.LinkTypeParam
-import com.vk.sdk.api.ads.dto.PeriodParam
-import com.vk.sdk.api.ads.dto.SectionParam
-import com.vk.sdk.api.ads.dto.StatsFieldsParam
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import kotlin.Boolean
 import kotlin.Int
@@ -89,7 +93,7 @@ class AdsService {
      * Allows to check the ad link.
      *
      * @param accountId - Advertising account ID.
-     * @param linkType - Object type: *'community' - community,, *'post' - community post,,
+     * @param linkType - Object type_ *'community' - community,, *'post' - community post,,
      * *'application' - VK application,, *'video' - video,, *'site' - external site.
      * @param linkUrl - Object URL.
      * @param campaignId - Campaign ID
@@ -97,7 +101,7 @@ class AdsService {
      */
     fun adsCheckLink(
         accountId: Int,
-        linkType: LinkTypeParam,
+        linkType: AdsCheckLinkLinkType,
         linkUrl: String,
         campaignId: Int? = null
     ): VKRequest<AdsLinkStatus> = NewApiRequest("ads.checkLink") {
@@ -351,9 +355,9 @@ class AdsService {
      * IDs. If the parameter is null, ads of all campaigns will be shown.
      * @param clientId - 'Available and required for advertising agencies.' ID of the client ads are
      * retrieved from.
-     * @param includeDeleted - Flag that specifies whether archived ads shall be shown: *0 - show
+     * @param includeDeleted - Flag that specifies whether archived ads shall be shown_ *0 - show
      * only active ads,, *1 - show all ads.
-     * @param onlyDeleted - Flag that specifies whether to show only archived ads: *0 - show all
+     * @param onlyDeleted - Flag that specifies whether to show only archived ads_ *0 - show all
      * ads,, *1 - show only archived ads. Available when include_deleted flag is *1
      * @param limit - Limit of number of returned ads. Used only if ad_ids parameter is null, and
      * 'campaign_ids' parameter contains ID of only one campaign.
@@ -391,7 +395,7 @@ class AdsService {
      * @param clientId - 'For advertising agencies.' ID of the client ads are retrieved from.
      * @param includeDeleted - Flag that specifies whether archived ads shall be shown. *0 - show
      * only active ads,, *1 - show all ads.
-     * @param onlyDeleted - Flag that specifies whether to show only archived ads: *0 - show all
+     * @param onlyDeleted - Flag that specifies whether to show only archived ads_ *0 - show all
      * ads,, *1 - show only archived ads. Available when include_deleted flag is *1
      * @param campaignIds - Filter by advertising campaigns. Serialized JSON array with campaign
      * IDs. If the parameter is null, ads of all campaigns will be shown.
@@ -435,7 +439,7 @@ class AdsService {
      * @param campaignIds - Filter by advertising campaigns. Serialized JSON array with campaign
      * IDs. If the parameter is null, ads of all campaigns will be shown.
      * @param clientId - 'For advertising agencies.' ID of the client ads are retrieved from.
-     * @param includeDeleted - flag that specifies whether archived ads shall be shown: *0 - show
+     * @param includeDeleted - flag that specifies whether archived ads shall be shown_ *0 - show
      * only active ads,, *1 - show all ads.
      * @param limit - Limit of number of returned ads. Used only if 'ad_ids' parameter is null, and
      * 'campaign_ids' parameter contains ID of only one campaign.
@@ -496,7 +500,7 @@ class AdsService {
         clientId: Int? = null,
         includeDeleted: Boolean? = null,
         campaignIds: String? = null,
-        fields: List<FieldsParam>? = null
+        fields: List<AdsGetCampaignsFields>? = null
     ): VKRequest<List<AdsCampaign>> = NewApiRequest("ads.getCampaigns") {
         val typeToken = object: TypeToken<List<AdsCampaign>>() {}.type
         GsonHolder.gson.fromJson<List<AdsCampaign>>(it, typeToken)
@@ -546,27 +550,27 @@ class AdsService {
      * Returns demographics for ads or campaigns.
      *
      * @param accountId - Advertising account ID.
-     * @param idsType - Type of requested objects listed in 'ids' parameter: *ad - ads,, *campaign -
+     * @param idsType - Type of requested objects listed in 'ids' parameter_ *ad - ads,, *campaign -
      * campaigns.
      * @param ids - IDs requested ads or campaigns, separated with a comma, depending on the value
      * set in 'ids_type'. Maximum 2000 objects.
-     * @param period - Data grouping by dates: *day - statistics by days,, *month - statistics by
+     * @param period - Data grouping by dates_ *day - statistics by days,, *month - statistics by
      * months,, *overall - overall statistics. 'date_from' and 'date_to' parameters set temporary
      * limits.
      * @param dateFrom - Date to show statistics from. For different value of 'period' different
-     * date format is used: *day: YYYY-MM-DD, example: 2011-09-27 - September 27, 2011, **0 - day it
-     * was created on,, *month: YYYY-MM, example: 2011-09 - September 2011, **0 - month it was created
-     * in,, *overall: 0.
+     * date format is used_ *day_ YYYY-MM-DD, example_ 2011-09-27 - September 27, 2011, **0 - day it
+     * was created on,, *month_ YYYY-MM, example_ 2011-09 - September 2011, **0 - month it was created
+     * in,, *overall_ 0.
      * @param dateTo - Date to show statistics to. For different value of 'period' different date
-     * format is used: *day: YYYY-MM-DD, example: 2011-09-27 - September 27, 2011, **0 - current day,,
-     * *month: YYYY-MM, example: 2011-09 - September 2011, **0 - current month,, *overall: 0.
+     * format is used_ *day_ YYYY-MM-DD, example_ 2011-09-27 - September 27, 2011, **0 - current day,,
+     * *month_ YYYY-MM, example_ 2011-09 - September 2011, **0 - current month,, *overall_ 0.
      * @return [VKRequest] with [Unit]
      */
     fun adsGetDemographics(
         accountId: Int,
-        idsType: IdsTypeParam,
+        idsType: AdsGetDemographicsIdsType,
         ids: String,
-        period: PeriodParam,
+        period: AdsGetDemographicsPeriod,
         dateFrom: String,
         dateTo: String
     ): VKRequest<List<AdsDemoStats>> = NewApiRequest("ads.getDemographics") {
@@ -668,7 +672,7 @@ class AdsService {
      * Returns detailed statistics of promoted posts reach from campaigns and ads.
      *
      * @param accountId - Advertising account ID.
-     * @param idsType - Type of requested objects listed in 'ids' parameter: *ad - ads,, *campaign -
+     * @param idsType - Type of requested objects listed in 'ids' parameter_ *ad - ads,, *campaign -
      * campaigns.
      * @param ids - IDs requested ads or campaigns, separated with a comma, depending on the value
      * set in 'ids_type'. Maximum 100 objects.
@@ -676,7 +680,7 @@ class AdsService {
      */
     fun adsGetPostsReach(
         accountId: Int,
-        idsType: IdsTypeParam,
+        idsType: AdsGetPostsReachIdsType,
         ids: String
     ): VKRequest<List<AdsPromotedPostReach>> = NewApiRequest("ads.getPostsReach") {
         val typeToken = object: TypeToken<List<AdsPromotedPostReach>>() {}.type
@@ -709,31 +713,31 @@ class AdsService {
      * account.
      *
      * @param accountId - Advertising account ID.
-     * @param idsType - Type of requested objects listed in 'ids' parameter: *ad - ads,, *campaign -
+     * @param idsType - Type of requested objects listed in 'ids' parameter_ *ad - ads,, *campaign -
      * campaigns,, *client - clients,, *office - account.
      * @param ids - IDs requested ads, campaigns, clients or account, separated with a comma,
      * depending on the value set in 'ids_type'. Maximum 2000 objects.
-     * @param period - Data grouping by dates: *day - statistics by days,, *month - statistics by
+     * @param period - Data grouping by dates_ *day - statistics by days,, *month - statistics by
      * months,, *overall - overall statistics. 'date_from' and 'date_to' parameters set temporary
      * limits.
      * @param dateFrom - Date to show statistics from. For different value of 'period' different
-     * date format is used: *day: YYYY-MM-DD, example: 2011-09-27 - September 27, 2011, **0 - day it
-     * was created on,, *month: YYYY-MM, example: 2011-09 - September 2011, **0 - month it was created
-     * in,, *overall: 0.
+     * date format is used_ *day_ YYYY-MM-DD, example_ 2011-09-27 - September 27, 2011, **0 - day it
+     * was created on,, *month_ YYYY-MM, example_ 2011-09 - September 2011, **0 - month it was created
+     * in,, *overall_ 0.
      * @param dateTo - Date to show statistics to. For different value of 'period' different date
-     * format is used: *day: YYYY-MM-DD, example: 2011-09-27 - September 27, 2011, **0 - current day,,
-     * *month: YYYY-MM, example: 2011-09 - September 2011, **0 - current month,, *overall: 0.
+     * format is used_ *day_ YYYY-MM-DD, example_ 2011-09-27 - September 27, 2011, **0 - current day,,
+     * *month_ YYYY-MM, example_ 2011-09 - September 2011, **0 - current month,, *overall_ 0.
      * @param statsFields - Additional fields to add to statistics
      * @return [VKRequest] with [Unit]
      */
     fun adsGetStatistics(
         accountId: Int,
-        idsType: IdsTypeParam,
+        idsType: AdsGetStatisticsIdsType,
         ids: String,
-        period: PeriodParam,
+        period: AdsGetStatisticsPeriod,
         dateFrom: String,
         dateTo: String,
-        statsFields: List<StatsFieldsParam>? = null
+        statsFields: List<AdsGetStatisticsStatsFields>? = null
     ): VKRequest<List<AdsStats>> = NewApiRequest("ads.getStatistics") {
         val typeToken = object: TypeToken<List<AdsStats>>() {}.type
         GsonHolder.gson.fromJson<List<AdsStats>>(it, typeToken)
@@ -754,7 +758,7 @@ class AdsService {
     /**
      * Returns a set of auto-suggestions for various targeting parameters.
      *
-     * @param section - Section, suggestions are retrieved in. Available values: *countries -
+     * @param section - Section, suggestions are retrieved in. Available values_ *countries -
      * request of a list of countries. If q is not set or blank, a short list of countries is shown.
      * Otherwise, a full list of countries is shown. *regions - requested list of regions. 'country'
      * parameter is required. *cities - requested list of cities. 'country' parameter is required.
@@ -770,17 +774,17 @@ class AdsService {
      * interests, positions).
      * @param country - ID of the country objects are searched in.
      * @param cities - IDs of cities where objects are searched in, separated with a comma.
-     * @param lang - Language of the returned string values. Supported languages: *ru - Russian,,
+     * @param lang - Language of the returned string values. Supported languages_ *ru - Russian,,
      * *ua - Ukrainian,, *en - English.
      * @return [VKRequest] with [Unit]
      */
     fun adsGetSuggestions(
-        section: SectionParam,
+        section: AdsGetSuggestionsSection,
         ids: String? = null,
         q: String? = null,
         country: Int? = null,
         cities: String? = null,
-        lang: LangParam? = null
+        lang: AdsGetSuggestionsLang? = null
     ): VKRequest<List<AdsTargSuggestions>> = NewApiRequest("ads.getSuggestions") {
         val typeToken = object: TypeToken<List<AdsTargSuggestions>>() {}.type
         GsonHolder.gson.fromJson<List<AdsTargSuggestions>>(it, typeToken)
@@ -834,10 +838,10 @@ class AdsService {
      * @param criteria - Serialized JSON object that describes targeting parameters. Description of
      * 'criteria' object see below.
      * @param adId - ID of an ad which targeting parameters shall be analyzed.
-     * @param adFormat - Ad format. Possible values: *'1' - image and text,, *'2' - big image,,
+     * @param adFormat - Ad format. Possible values_ *'1' - image and text,, *'2' - big image,,
      * *'3' - exclusive format,, *'4' - community, square image,, *'7' - special app format,, *'8' -
      * special community format,, *'9' - post in community,, *'10' - app board.
-     * @param adPlatform - Platforms to use for ad showing. Possible values: (for 'ad_format' =
+     * @param adPlatform - Platforms to use for ad showing. Possible values_ (for 'ad_format' =
      * '1'), *'0' - VK and partner sites,, *'1' - VK only. (for 'ad_format' = '9'), *'all' - all
      * platforms,, *'desktop' - desktop version,, *'mobile' - mobile version and apps.
      * @param adPlatformNoWall
@@ -856,7 +860,7 @@ class AdsService {
         clientId: Int? = null,
         criteria: String? = null,
         adId: Int? = null,
-        adFormat: AdFormatParam? = null,
+        adFormat: AdsGetTargetingStatsAdFormat? = null,
         adPlatform: String? = null,
         adPlatformNoWall: String? = null,
         adPlatformNoAdNetwork: String? = null,
@@ -886,12 +890,12 @@ class AdsService {
     /**
      * Returns URL to upload an ad photo to.
      *
-     * @param adFormat - Ad format: *1 - image and text,, *2 - big image,, *3 - exclusive format,,
+     * @param adFormat - Ad format_ *1 - image and text,, *2 - big image,, *3 - exclusive format,,
      * *4 - community, square image,, *7 - special app format.
      * @param icon
      * @return [VKRequest] with [String]
      */
-    fun adsGetUploadURL(adFormat: AdFormatParam, icon: Int? = null): VKRequest<String> =
+    fun adsGetUploadURL(adFormat: AdsGetUploadURLAdFormat, icon: Int? = null): VKRequest<String> =
             NewApiRequest("ads.getUploadURL") {
         GsonHolder.gson.fromJson(it, String::class.java)
     }

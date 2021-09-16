@@ -29,24 +29,31 @@ package com.vk.sdk.api.video
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.video.dto.FiltersParam
-import com.vk.sdk.api.video.dto.PrivacyParam
-import com.vk.sdk.api.video.dto.ReasonParam
-import com.vk.sdk.api.video.dto.SortParam
+import com.vk.sdk.api.video.dto.VideoAddAlbumPrivacy
 import com.vk.sdk.api.video.dto.VideoAddAlbumResponse
+import com.vk.sdk.api.video.dto.VideoEditAlbumPrivacy
 import com.vk.sdk.api.video.dto.VideoGetAlbumsByVideoExtendedResponse
 import com.vk.sdk.api.video.dto.VideoGetAlbumsExtendedResponse
 import com.vk.sdk.api.video.dto.VideoGetAlbumsResponse
 import com.vk.sdk.api.video.dto.VideoGetCommentsExtendedResponse
+import com.vk.sdk.api.video.dto.VideoGetCommentsExtendedSort
 import com.vk.sdk.api.video.dto.VideoGetCommentsResponse
+import com.vk.sdk.api.video.dto.VideoGetCommentsSort
 import com.vk.sdk.api.video.dto.VideoGetResponse
+import com.vk.sdk.api.video.dto.VideoReportCommentReason
+import com.vk.sdk.api.video.dto.VideoReportReason
 import com.vk.sdk.api.video.dto.VideoSaveResult
+import com.vk.sdk.api.video.dto.VideoSearchExtendedFilters
 import com.vk.sdk.api.video.dto.VideoSearchExtendedResponse
+import com.vk.sdk.api.video.dto.VideoSearchExtendedSort
+import com.vk.sdk.api.video.dto.VideoSearchFilters
 import com.vk.sdk.api.video.dto.VideoSearchResponse
+import com.vk.sdk.api.video.dto.VideoSearchSort
 import com.vk.sdk.api.video.dto.VideoVideoAlbumFull
 import kotlin.Boolean
 import kotlin.Int
@@ -66,7 +73,7 @@ class VideoService {
      */
     fun videoAdd(
         videoId: Int,
-        ownerId: Int,
+        ownerId: UserId,
         targetId: Int? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.add") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
@@ -82,14 +89,14 @@ class VideoService {
      *
      * @param groupId - Community ID (if the album will be created in a community).
      * @param title - Album title.
-     * @param privacy - new access permissions for the album. Possible values: , *'0' - all users,,
+     * @param privacy - new access permissions for the album. Possible values_ , *'0' - all users,,
      * *'1' - friends only,, *'2' - friends and friends of friends,, *'3' - "only me".
      * @return [VKRequest] with [VideoAddAlbumResponse]
      */
     fun videoAddAlbum(
-        groupId: Int? = null,
+        groupId: UserId? = null,
         title: String? = null,
-        privacy: List<PrivacyParam>? = null
+        privacy: List<VideoAddAlbumPrivacy>? = null
     ): VKRequest<VideoAddAlbumResponse> = NewApiRequest("video.addAlbum") {
         GsonHolder.gson.fromJson(it, VideoAddAlbumResponse::class.java)
     }
@@ -111,7 +118,7 @@ class VideoService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun videoAddToAlbum(
-        ownerId: Int,
+        ownerId: UserId,
         videoId: Int,
         targetId: Int? = null,
         albumId: Int? = null,
@@ -133,10 +140,10 @@ class VideoService {
      * @param videoId - Video ID.
      * @param ownerId - ID of the user or community that owns the video.
      * @param message - New comment text.
-     * @param attachments - List of objects attached to the comment, in the following format:
-     * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment: 'photo' - photo,
+     * @param attachments - List of objects attached to the comment, in the following format_
+     * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment_ 'photo' - photo,
      * 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - ID of the media attachment
-     * owner. '<media_id>' - Media attachment ID. Example: "photo100172_166443618,photo66748_265827614"
+     * owner. '<media_id>' - Media attachment ID. Example_ "photo100172_166443618,photo66748_265827614"
      * @param fromGroup - '1' - to post the comment from a community name (only if 'owner_id'<0)
      * @param replyToComment
      * @param stickerId
@@ -145,7 +152,7 @@ class VideoService {
      */
     fun videoCreateComment(
         videoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         message: String? = null,
         attachments: List<String>? = null,
         fromGroup: Boolean? = null,
@@ -176,7 +183,7 @@ class VideoService {
      */
     fun videoDelete(
         videoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         targetId: Int? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.delete") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
@@ -194,7 +201,7 @@ class VideoService {
      * @param groupId - Community ID (if the album is owned by a community).
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun videoDeleteAlbum(albumId: Int, groupId: Int? = null): VKRequest<BaseOkResponse> =
+    fun videoDeleteAlbum(albumId: Int, groupId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("video.deleteAlbum") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -210,7 +217,7 @@ class VideoService {
      * @param ownerId - ID of the user or community that owns the video.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun videoDeleteComment(commentId: Int, ownerId: Int? = null): VKRequest<BaseOkResponse> =
+    fun videoDeleteComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("video.deleteComment") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -236,7 +243,7 @@ class VideoService {
      */
     fun videoEdit(
         videoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         name: String? = null,
         desc: String? = null,
         privacyView: List<String>? = null,
@@ -263,15 +270,15 @@ class VideoService {
      * @param albumId - Album ID.
      * @param title - New album title.
      * @param groupId - Community ID (if the album edited is owned by a community).
-     * @param privacy - new access permissions for the album. Possible values: , *'0' - all users,,
+     * @param privacy - new access permissions for the album. Possible values_ , *'0' - all users,,
      * *'1' - friends only,, *'2' - friends and friends of friends,, *'3' - "only me".
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun videoEditAlbum(
         albumId: Int,
         title: String,
-        groupId: Int? = null,
-        privacy: List<PrivacyParam>? = null
+        groupId: UserId? = null,
+        privacy: List<VideoEditAlbumPrivacy>? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.editAlbum") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -291,15 +298,15 @@ class VideoService {
      * @param commentId - Comment ID.
      * @param ownerId - ID of the user or community that owns the video.
      * @param message - New comment text.
-     * @param attachments - List of objects attached to the comment, in the following format:
-     * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment: 'photo' - photo,
+     * @param attachments - List of objects attached to the comment, in the following format_
+     * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment_ 'photo' - photo,
      * 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - ID of the media attachment
-     * owner. '<media_id>' - Media attachment ID. Example: "photo100172_166443618,photo66748_265827614"
+     * owner. '<media_id>' - Media attachment ID. Example_ "photo100172_166443618,photo66748_265827614"
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun videoEditComment(
         commentId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         message: String? = null,
         attachments: List<String>? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.editComment") {
@@ -316,9 +323,9 @@ class VideoService {
      * Returns detailed information about videos.
      *
      * @param ownerId - ID of the user or community that owns the video(s).
-     * @param videos - Video IDs, in the following format:
+     * @param videos - Video IDs, in the following format_
      * "<owner_id>_<media_id>,<owner_id>_<media_id>", Use a negative value to designate a community ID.
-     * Example: "-4363_136089719,13245770_137352259"
+     * Example_ "-4363_136089719,13245770_137352259"
      * @param albumId - ID of the album containing the video(s).
      * @param count - Number of videos to return.
      * @param offset - Offset needed to return a specific subset of videos.
@@ -326,7 +333,7 @@ class VideoService {
      * @return [VKRequest] with [VideoGetResponse]
      */
     fun videoGet(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         videos: List<String>? = null,
         albumId: Int? = null,
         count: Int? = null,
@@ -352,7 +359,7 @@ class VideoService {
      * designate a community ID.
      * @return [VKRequest] with [VideoVideoAlbumFull]
      */
-    fun videoGetAlbumById(albumId: Int, ownerId: Int? = null): VKRequest<VideoVideoAlbumFull> =
+    fun videoGetAlbumById(albumId: Int, ownerId: UserId? = null): VKRequest<VideoVideoAlbumFull> =
             NewApiRequest("video.getAlbumById") {
         GsonHolder.gson.fromJson(it, VideoVideoAlbumFull::class.java)
     }
@@ -371,7 +378,7 @@ class VideoService {
      * @return [VKRequest] with [VideoGetAlbumsResponse]
      */
     fun videoGetAlbums(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         offset: Int? = null,
         count: Int? = null,
         needSystem: Boolean? = null
@@ -395,7 +402,7 @@ class VideoService {
      * @return [VKRequest] with [VideoGetAlbumsExtendedResponse]
      */
     fun videoGetAlbumsExtended(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         offset: Int? = null,
         count: Int? = null,
         needSystem: Boolean? = null
@@ -417,7 +424,7 @@ class VideoService {
      * @return [VKRequest] with [Unit]
      */
     fun videoGetAlbumsByVideo(
-        ownerId: Int,
+        ownerId: UserId,
         videoId: Int,
         targetId: Int? = null
     ): VKRequest<List<Int>> = NewApiRequest("video.getAlbumsByVideo") {
@@ -437,7 +444,7 @@ class VideoService {
      * @return [VKRequest] with [VideoGetAlbumsByVideoExtendedResponse]
      */
     fun videoGetAlbumsByVideoExtended(
-        ownerId: Int,
+        ownerId: UserId,
         videoId: Int,
         targetId: Int? = null
     ): VKRequest<VideoGetAlbumsByVideoExtendedResponse> = NewApiRequest("video.getAlbumsByVideo") {
@@ -459,18 +466,18 @@ class VideoService {
      * @param startCommentId
      * @param offset - Offset needed to return a specific subset of comments.
      * @param count - Number of comments to return.
-     * @param sort - Sort order: 'asc' - oldest comment first, 'desc' - newest comment first
+     * @param sort - Sort order_ 'asc' - oldest comment first, 'desc' - newest comment first
      * @param fields
      * @return [VKRequest] with [VideoGetCommentsResponse]
      */
     fun videoGetComments(
         videoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         needLikes: Boolean? = null,
         startCommentId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: SortParam? = null,
+        sort: VideoGetCommentsSort? = null,
         fields: List<String>? = null
     ): VKRequest<VideoGetCommentsResponse> = NewApiRequest("video.getComments") {
         GsonHolder.gson.fromJson(it, VideoGetCommentsResponse::class.java)
@@ -495,18 +502,18 @@ class VideoService {
      * @param startCommentId
      * @param offset - Offset needed to return a specific subset of comments.
      * @param count - Number of comments to return.
-     * @param sort - Sort order: 'asc' - oldest comment first, 'desc' - newest comment first
+     * @param sort - Sort order_ 'asc' - oldest comment first, 'desc' - newest comment first
      * @param fields
      * @return [VKRequest] with [VideoGetCommentsExtendedResponse]
      */
     fun videoGetCommentsExtended(
         videoId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         needLikes: Boolean? = null,
         startCommentId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: SortParam? = null,
+        sort: VideoGetCommentsExtendedSort? = null,
         fields: List<String>? = null
     ): VKRequest<VideoGetCommentsExtendedResponse> = NewApiRequest("video.getComments") {
         GsonHolder.gson.fromJson(it, VideoGetCommentsExtendedResponse::class.java)
@@ -532,7 +539,7 @@ class VideoService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun videoRemoveFromAlbum(
-        ownerId: Int,
+        ownerId: UserId,
         videoId: Int,
         targetId: Int? = null,
         albumId: Int? = null,
@@ -559,7 +566,7 @@ class VideoService {
      */
     fun videoReorderAlbums(
         albumId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         before: Int? = null,
         after: Int? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.reorderAlbums") {
@@ -588,7 +595,7 @@ class VideoService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun videoReorderVideos(
-        ownerId: Int,
+        ownerId: UserId,
         videoId: Int,
         targetId: Int? = null,
         albumId: Int? = null,
@@ -615,16 +622,16 @@ class VideoService {
      *
      * @param ownerId - ID of the user or community that owns the video.
      * @param videoId - Video ID.
-     * @param reason - Reason for the complaint: '0' - spam, '1' - child pornography, '2' -
+     * @param reason - Reason for the complaint_ '0' - spam, '1' - child pornography, '2' -
      * extremism, '3' - violence, '4' - drug propaganda, '5' - adult material, '6' - insult, abuse
      * @param comment - Comment describing the complaint.
      * @param searchQuery - (If the video was found in search results.) Search query string.
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun videoReport(
-        ownerId: Int,
+        ownerId: UserId,
         videoId: Int,
-        reason: ReasonParam? = null,
+        reason: VideoReportReason? = null,
         comment: String? = null,
         searchQuery: String? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.report") {
@@ -643,14 +650,14 @@ class VideoService {
      *
      * @param ownerId - ID of the user or community that owns the video.
      * @param commentId - ID of the comment being reported.
-     * @param reason - Reason for the complaint: , 0 - spam , 1 - child pornography , 2 - extremism
+     * @param reason - Reason for the complaint_ , 0 - spam , 1 - child pornography , 2 - extremism
      * , 3 - violence , 4 - drug propaganda , 5 - adult material , 6 - insult, abuse
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun videoReportComment(
-        ownerId: Int,
+        ownerId: UserId,
         commentId: Int,
-        reason: ReasonParam? = null
+        reason: VideoReportCommentReason? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.reportComment") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -667,7 +674,7 @@ class VideoService {
      * @param ownerId - ID of the user or community that owns the video.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun videoRestore(videoId: Int, ownerId: Int? = null): VKRequest<BaseOkResponse> =
+    fun videoRestore(videoId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("video.restore") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -683,7 +690,7 @@ class VideoService {
      * @param ownerId - ID of the user or community that owns the video.
      * @return [VKRequest] with [BaseBoolInt]
      */
-    fun videoRestoreComment(commentId: Int, ownerId: Int? = null): VKRequest<BaseBoolInt> =
+    fun videoRestoreComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseBoolInt> =
             NewApiRequest("video.restoreComment") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
@@ -719,7 +726,7 @@ class VideoService {
         isPrivate: Boolean? = null,
         wallpost: Boolean? = null,
         link: String? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         albumId: Int? = null,
         privacyView: List<String>? = null,
         privacyComment: List<String>? = null,
@@ -748,11 +755,11 @@ class VideoService {
      * Returns a list of videos under the set search criterion.
      *
      * @param q - Search query string (e.g., 'The Beatles').
-     * @param sort - Sort order: '1' - by duration, '2' - by relevance, '0' - by date added
+     * @param sort - Sort order_ '1' - by duration, '2' - by relevance, '0' - by date added
      * @param hd - If not null, only searches for high-definition videos.
      * @param adult - '1' - to disable the Safe Search filter, '0' - to enable the Safe Search
      * filter
-     * @param filters - Filters to apply: 'youtube' - return YouTube videos only, 'vimeo' - return
+     * @param filters - Filters to apply_ 'youtube' - return YouTube videos only, 'vimeo' - return
      * Vimeo videos only, 'short' - return short videos only, 'long' - return long videos only
      * @param searchOwn
      * @param offset - Offset needed to return a specific subset of videos.
@@ -763,10 +770,10 @@ class VideoService {
      */
     fun videoSearch(
         q: String,
-        sort: SortParam? = null,
+        sort: VideoSearchSort? = null,
         hd: Int? = null,
         adult: Boolean? = null,
-        filters: List<FiltersParam>? = null,
+        filters: List<VideoSearchFilters>? = null,
         searchOwn: Boolean? = null,
         offset: Int? = null,
         longer: Int? = null,
@@ -795,11 +802,11 @@ class VideoService {
      * Returns a list of videos under the set search criterion.
      *
      * @param q - Search query string (e.g., 'The Beatles').
-     * @param sort - Sort order: '1' - by duration, '2' - by relevance, '0' - by date added
+     * @param sort - Sort order_ '1' - by duration, '2' - by relevance, '0' - by date added
      * @param hd - If not null, only searches for high-definition videos.
      * @param adult - '1' - to disable the Safe Search filter, '0' - to enable the Safe Search
      * filter
-     * @param filters - Filters to apply: 'youtube' - return YouTube videos only, 'vimeo' - return
+     * @param filters - Filters to apply_ 'youtube' - return YouTube videos only, 'vimeo' - return
      * Vimeo videos only, 'short' - return short videos only, 'long' - return long videos only
      * @param searchOwn
      * @param offset - Offset needed to return a specific subset of videos.
@@ -810,10 +817,10 @@ class VideoService {
      */
     fun videoSearchExtended(
         q: String,
-        sort: SortParam? = null,
+        sort: VideoSearchExtendedSort? = null,
         hd: Int? = null,
         adult: Boolean? = null,
-        filters: List<FiltersParam>? = null,
+        filters: List<VideoSearchExtendedFilters>? = null,
         searchOwn: Boolean? = null,
         offset: Int? = null,
         longer: Int? = null,

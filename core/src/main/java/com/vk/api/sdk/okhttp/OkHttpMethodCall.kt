@@ -87,4 +87,6 @@ open class OkHttpMethodCall {
         this.allowNoAuth= b.allowNoAuth
         this.retryCount = b.retryCount
     }
+
+    fun isExtended() = args["extended"] == "true" || args["extended"] == "1"
 }

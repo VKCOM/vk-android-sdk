@@ -28,13 +28,15 @@
 package com.vk.sdk.api.notes
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.notes.dto.NotesGetCommentsResponse
+import com.vk.sdk.api.notes.dto.NotesGetCommentsSort
 import com.vk.sdk.api.notes.dto.NotesGetResponse
+import com.vk.sdk.api.notes.dto.NotesGetSort
 import com.vk.sdk.api.notes.dto.NotesNote
-import com.vk.sdk.api.notes.dto.SortParam
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -79,7 +81,7 @@ class NotesService {
     fun notesCreateComment(
         noteId: Int,
         message: String,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         replyTo: Int? = null,
         guid: String? = null
     ): VKRequest<Int> = NewApiRequest("notes.createComment") {
@@ -113,7 +115,7 @@ class NotesService {
      * @param ownerId - Note owner ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun notesDeleteComment(commentId: Int, ownerId: Int? = null): VKRequest<BaseOkResponse> =
+    fun notesDeleteComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("notes.deleteComment") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -160,7 +162,7 @@ class NotesService {
     fun notesEditComment(
         commentId: Int,
         message: String,
-        ownerId: Int? = null
+        ownerId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("notes.editComment") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -182,10 +184,10 @@ class NotesService {
      */
     fun notesGet(
         noteIds: List<Int>? = null,
-        userId: Int? = null,
+        userId: UserId? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: SortParam? = null
+        sort: NotesGetSort? = null
     ): VKRequest<NotesGetResponse> = NewApiRequest("notes.get") {
         GsonHolder.gson.fromJson(it, NotesGetResponse::class.java)
     }
@@ -207,7 +209,7 @@ class NotesService {
      */
     fun notesGetById(
         noteId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         needWiki: Boolean? = null
     ): VKRequest<NotesNote> = NewApiRequest("notes.getById") {
         GsonHolder.gson.fromJson(it, NotesNote::class.java)
@@ -230,8 +232,8 @@ class NotesService {
      */
     fun notesGetComments(
         noteId: Int,
-        ownerId: Int? = null,
-        sort: SortParam? = null,
+        ownerId: UserId? = null,
+        sort: NotesGetCommentsSort? = null,
         offset: Int? = null,
         count: Int? = null
     ): VKRequest<NotesGetCommentsResponse> = NewApiRequest("notes.getComments") {
@@ -252,7 +254,7 @@ class NotesService {
      * @param ownerId - Note owner ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun notesRestoreComment(commentId: Int, ownerId: Int? = null): VKRequest<BaseOkResponse> =
+    fun notesRestoreComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("notes.restoreComment") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }

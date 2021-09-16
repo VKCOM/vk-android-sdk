@@ -29,16 +29,18 @@ package com.vk.sdk.api.docs
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.base.dto.BaseUploadServer
 import com.vk.sdk.api.docs.dto.DocsDoc
+import com.vk.sdk.api.docs.dto.DocsGetMessagesUploadServerType
 import com.vk.sdk.api.docs.dto.DocsGetResponse
+import com.vk.sdk.api.docs.dto.DocsGetType
 import com.vk.sdk.api.docs.dto.DocsGetTypesResponse
 import com.vk.sdk.api.docs.dto.DocsSaveResponse
 import com.vk.sdk.api.docs.dto.DocsSearchResponse
-import com.vk.sdk.api.docs.dto.TypeParam
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -56,7 +58,7 @@ class DocsService {
      * @return [VKRequest] with [Int]
      */
     fun docsAdd(
-        ownerId: Int,
+        ownerId: UserId,
         docId: Int,
         accessKey: String? = null
     ): VKRequest<Int> = NewApiRequest("docs.add") {
@@ -76,7 +78,7 @@ class DocsService {
      * @param docId - Document ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun docsDelete(ownerId: Int, docId: Int): VKRequest<BaseOkResponse> =
+    fun docsDelete(ownerId: UserId, docId: Int): VKRequest<BaseOkResponse> =
             NewApiRequest("docs.delete") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -95,7 +97,7 @@ class DocsService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun docsEdit(
-        ownerId: Int,
+        ownerId: UserId,
         docId: Int,
         title: String,
         tags: List<String>? = null
@@ -123,8 +125,8 @@ class DocsService {
     fun docsGet(
         count: Int? = null,
         offset: Int? = null,
-        type: TypeParam? = null,
-        ownerId: Int? = null,
+        type: DocsGetType? = null,
+        ownerId: UserId? = null,
         returnTags: Boolean? = null
     ): VKRequest<DocsGetResponse> = NewApiRequest("docs.get") {
         GsonHolder.gson.fromJson(it, DocsGetResponse::class.java)
@@ -140,7 +142,7 @@ class DocsService {
     /**
      * Returns information about documents by their IDs.
      *
-     * @param docs - Document IDs. Example: , "66748_91488,66748_91455",
+     * @param docs - Document IDs. Example_ , "66748_91488,66748_91455",
      * @param returnTags
      * @return [VKRequest] with [Unit]
      */
@@ -158,12 +160,12 @@ class DocsService {
      * Returns the server address for document upload.
      *
      * @param type - Document type.
-     * @param peerId - Destination ID. "For user: 'User ID', e.g. '12345'. For chat: '2000000000' +
-     * 'Chat ID', e.g. '2000000001'. For community: '- Community ID', e.g. '-12345'. "
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'Chat ID', e.g. '2000000001'. For community_ '- Community ID', e.g. '-12345'. "
      * @return [VKRequest] with [BaseUploadServer]
      */
-    fun docsGetMessagesUploadServer(type: TypeParam? = null, peerId: Int? = null):
-            VKRequest<BaseUploadServer> = NewApiRequest("docs.getMessagesUploadServer") {
+    fun docsGetMessagesUploadServer(type: DocsGetMessagesUploadServerType? = null, peerId: Int? =
+            null): VKRequest<BaseUploadServer> = NewApiRequest("docs.getMessagesUploadServer") {
         GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
     }
     .apply {
@@ -178,7 +180,7 @@ class DocsService {
      * designate a community ID.
      * @return [VKRequest] with [DocsGetTypesResponse]
      */
-    fun docsGetTypes(ownerId: Int): VKRequest<DocsGetTypesResponse> =
+    fun docsGetTypes(ownerId: UserId): VKRequest<DocsGetTypesResponse> =
             NewApiRequest("docs.getTypes") {
         GsonHolder.gson.fromJson(it, DocsGetTypesResponse::class.java)
     }
@@ -192,7 +194,7 @@ class DocsService {
      * @param groupId - Community ID (if the document will be uploaded to the community).
      * @return [VKRequest] with [BaseUploadServer]
      */
-    fun docsGetUploadServer(groupId: Int? = null): VKRequest<BaseUploadServer> =
+    fun docsGetUploadServer(groupId: UserId? = null): VKRequest<BaseUploadServer> =
             NewApiRequest("docs.getUploadServer") {
         GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
     }

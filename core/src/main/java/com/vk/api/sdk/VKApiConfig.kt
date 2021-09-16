@@ -51,14 +51,17 @@ data class VKApiConfig(
     val debugCycleCalls: Lazy<Boolean> = lazy { false },
     val callsPerSecondLimit: Int = 3,
     val httpApiHostProvider: () -> String = { DEFAULT_API_DOMAIN },
-    val lang: String = "en",
+    val langProvider: () -> String = { DEFAULT_LANGUAGE },
     val keyValueStorage: VKKeyValueStorage = VKPreferencesKeyValueStorage(context),
     val customApiEndpoint: Lazy<String> = lazy { DEFAULT_API_ENDPOINT },
     val rateLimitBackoffTimeoutMs: Long = TimeUnit.HOURS.toMillis(1),
     val apiMethodPriorityBackoff: ApiMethodPriorityBackoff = ApiMethodPriorityBackoff.DEFAULT,
     val externalDeviceId: Lazy<String?> = lazy { null },
-    val enableAnonymousToken: Boolean =  true
+    val enableAnonymousToken: Boolean =  true,
+    val responseValidator: VKApiResponseValidator? = null
 ) {
+
+    val lang get() = langProvider()
 
     fun builder(context: Context) = Builder(VKApiConfig(context, validationHandler = VKDefaultValidationHandler(context)))
 
@@ -94,8 +97,8 @@ data class VKApiConfig(
             config = config.copy(keyValueStorage = storage)
         }
 
-        fun setLang(lang: String) = apply {
-            config = config.copy(lang = lang)
+        fun setLangProvider(langProvider: () -> String) = apply {
+            config = config.copy(langProvider = langProvider)
         }
 
         fun setHttpApiHostProvider(hostProvider: () -> String) = apply {
@@ -145,6 +148,7 @@ data class VKApiConfig(
 
     companion object {
         const val DEFAULT_DOMAIN = "vk.com"
+        const val DEFAULT_LANGUAGE = "en"
         const val DEFAULT_API_VERSION = "5.131"
         const val DEFAULT_API_DOMAIN = "api.vk.com"
         const val DEFAULT_OAUTH_DOMAIN = "oauth.vk.com"

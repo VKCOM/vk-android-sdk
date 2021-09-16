@@ -25,18 +25,45 @@ data class UserId(val value: Long): Parcelable {
         dest.writeLong(value)
     }
 
-    class GsonSerializer : JsonSerializer<UserId?>, JsonDeserializer<UserId?> {
+    class GsonSerializer(
+        private val shiftByMaxInt: Boolean = false
+    ) : JsonSerializer<UserId?>, JsonDeserializer<UserId?> {
         override fun serialize(
             src: UserId?,
             typeOfSrc: Type?,
             context: JsonSerializationContext?
-        ): JsonElement = JsonPrimitive(src?.value ?: -1)
+        ): JsonElement {
+            val value = when {
+                src == null -> -1
+                !shiftByMaxInt -> src.value
+                else -> if (src.value < 0) { // is group
+                    src.value - Int.MAX_VALUE
+                } else { // is user
+                    src.value + Int.MAX_VALUE
+                }
+            }
+            return JsonPrimitive(value)
+        }
 
         override fun deserialize(
             json: JsonElement?,
             typeOfT: Type?,
             context: JsonDeserializationContext?
-        ): UserId? = if (json != null && !json.isJsonNull) json.asLong.toUserId() else null
+        ): UserId? {
+           return if (json != null && !json.isJsonNull) {
+               val long = json.asLong
+               if (!shiftByMaxInt) return UserId(long)
+
+               val isGroup = long < 0
+               val absLong = long.absoluteValue
+               // Если не нужно сдвигать на максимальный инт, то возвращаем как есть
+               if (absLong < Int.MAX_VALUE) throw IllegalStateException("abs of owner id should be >= MAX_INT")
+               val shifted = absLong - Int.MAX_VALUE
+               return UserId(if (isGroup) -shifted else shifted)
+            } else {
+                null
+            }
+        }
     }
 
     companion object {

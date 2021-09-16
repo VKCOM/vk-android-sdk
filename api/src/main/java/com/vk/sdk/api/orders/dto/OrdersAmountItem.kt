@@ -28,7 +28,7 @@
 package com.vk.sdk.api.orders.dto
 
 import com.google.gson.annotations.SerializedName
-import kotlin.Int
+import kotlin.Float
 import kotlin.String
 
 /**
@@ -38,7 +38,7 @@ import kotlin.String
  */
 data class OrdersAmountItem(
     @SerializedName("amount")
-    val amount: Int? = null,
+    val amount: Float? = null,
     @SerializedName("description")
     val description: String? = null,
     @SerializedName("votes")

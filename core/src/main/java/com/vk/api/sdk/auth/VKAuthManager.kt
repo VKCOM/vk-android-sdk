@@ -25,17 +25,22 @@
 package com.vk.api.sdk.auth
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.vk.api.sdk.R
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKKeyValueStorage
+import com.vk.api.sdk.exceptions.VKApiCodes
+import com.vk.api.sdk.exceptions.VKAuthException
+import com.vk.api.sdk.extensions.showToast
 import com.vk.api.sdk.ui.VKWebViewAuthActivity
 import com.vk.api.sdk.utils.VKUtils
 import java.util.*
 
 internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
     fun login(activity: Activity, scopes: Collection<VKScope>, launcher: Any?) {
-        val params = VKAuthParams(VK.getAppId(activity), scope = scopes)
+        val params = VKAuthParams(VK.getAppId(activity), scope = prepareScopes(scopes))
         if (VKUtils.isIntentAvailable(activity, VK_APP_AUTH_ACTION, null, VK_APP_PACKAGE_ID)) {
             startAuthActivity(activity, params, launcher)
         } else {
@@ -62,19 +67,33 @@ internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
         VKWebViewAuthActivity.startForAuth(activity, params, launcher, VK_APP_AUTH_CODE)
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, callback: VKAuthCallback): Boolean {
+    fun onActivityResult(
+        context: Context,
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?,
+        callback: VKAuthCallback,
+        showErrorToast: Boolean
+    ): Boolean {
         if (requestCode != VK_APP_AUTH_CODE) {
             return false
         }
 
         if (data == null) {
-            callback.onLoginFailed(VKAuthCallback.AUTH_CANCELED)
+            callback.onLoginFailed(VKAuthException())
             return true
         }
 
         val result = processResult(data)
         if (resultCode != Activity.RESULT_OK || result == null || result.isError) {
-            callback.onLoginFailed(VKAuthCallback.AUTH_CANCELED)
+            val webViewError = data.extras?.getInt(VKApiCodes.EXTRA_VW_LOGIN_ERROR) ?: 0
+            val authError = data.extras?.getString(VKApiCodes.EXTRA_AUTH_ERROR)
+
+            val loginError = VKAuthException(webViewError, authError)
+            callback.onLoginFailed(loginError)
+            if (showErrorToast && !loginError.isCanceled) {
+                context.showToast(R.string.vk_message_login_error)
+            }
         } else {
             result.accessToken!!.save(keyValueStorage)
             VK.apiManager.setCredentials(result.accessToken.accessToken, result.accessToken.secret)
@@ -112,6 +131,12 @@ internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
         } else null
     }
 
+    private fun prepareScopes(scopes: Collection<VKScope>): Collection<VKScope> {
+        if (!scopes.contains(VKScope.OFFLINE)) {
+            return scopes + VKScope.OFFLINE
+        }
+        return scopes
+    }
 
     fun isLoggedIn(): Boolean {
         val token = getCurrentToken()

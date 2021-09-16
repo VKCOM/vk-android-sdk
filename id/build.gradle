@@ -25,6 +25,17 @@ android {
         versionName "$sdkVersions.name"
     }
 
+    packagingOptions {
+        exclude("builddef.lst")
+        exclude("**/com/**")
+        exclude("META-INF/*.kotlin_module")
+        exclude("META-INF/*.version")
+        exclude("autoTest/**")
+        exclude("META-INF/spring.*")
+        exclude("META-INF/notice.txt")
+        exclude("mockito-extensions/org.mockito.plugins.MockMaker")
+    }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -38,6 +49,8 @@ configurations {
 dependencies {
     implementation sdkLibraries.kotlin
     implementation sdkLibraries.gson
+
+    testImplementation testLibraries.junit
 }
 
 apply from: "../publish.gradle"

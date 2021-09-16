@@ -25,13 +25,16 @@
 package com.vk.sdk.sample
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.webkit.WebViewClient
 import android.widget.Button
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
+import com.vk.api.sdk.exceptions.VKAuthException
 import com.vk.api.sdk.auth.VKScope
 
 class WelcomeActivity: Activity() {
@@ -58,7 +61,24 @@ class WelcomeActivity: Activity() {
                 finish()
             }
 
-            override fun onLoginFailed(errorCode: Int) {
+            override fun onLoginFailed(authException: VKAuthException) {
+                if (!authException.isCanceled) {
+                    val descriptionResource =
+                        if (authException.webViewError == WebViewClient.ERROR_HOST_LOOKUP) R.string.message_connection_error
+                        else R.string.message_unknown_error
+                    AlertDialog.Builder(this@WelcomeActivity)
+                        .setMessage(descriptionResource)
+                        .setPositiveButton(R.string.vk_retry) { _, _ ->
+                            VK.login(
+                                this@WelcomeActivity,
+                                arrayListOf(VKScope.WALL, VKScope.PHOTOS)
+                            )
+                        }
+                        .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
+                }
             }
         }
         if (!VK.onActivityResult(requestCode, resultCode, data, callback)) {

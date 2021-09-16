@@ -3,4 +3,5 @@
     <string name="vk_retry">Повторить</string>
     <string name="vk_captcha_hint">Введите код с картинки</string>
     <string name="vk_confirm">Подтверждение</string>
+    <string name="vk_message_login_error">Произошла ошибка авторизации</string>
 </resources>

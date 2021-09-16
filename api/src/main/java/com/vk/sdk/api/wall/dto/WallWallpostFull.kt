@@ -52,6 +52,7 @@ import kotlin.collections.List
  * @param markedAsAds - Information whether the post is marked as ads
  * @param topicId - Topic ID. Allowed values can be obtained from newsfeed.getPostTopics method
  * @param shortTextRate - Preview length control parameter
+ * @param hash - Hash for sharing
  * @param carouselOffset - Index of current carousel element
  * @param accessKey - Access key to private object
  * @param isDeleted
@@ -99,6 +100,8 @@ data class WallWallpostFull(
     val topicId: WallWallpostFull.TopicId? = null,
     @SerializedName("short_text_rate")
     val shortTextRate: Float? = null,
+    @SerializedName("hash")
+    val hash: String? = null,
     @SerializedName("carousel_offset")
     val carouselOffset: Int? = null,
     @SerializedName("access_key")

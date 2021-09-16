@@ -29,13 +29,14 @@ package com.vk.sdk.api.notifications
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseBoolInt
-import com.vk.sdk.api.notifications.dto.FiltersParam
+import com.vk.sdk.api.notifications.dto.NotificationsGetFilters
 import com.vk.sdk.api.notifications.dto.NotificationsGetResponse
 import com.vk.sdk.api.notifications.dto.NotificationsSendMessageItem
-import com.vk.sdk.api.notifications.dto.SendingModeParam
+import com.vk.sdk.api.notifications.dto.NotificationsSendMessageSendingMode
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
@@ -46,7 +47,7 @@ class NotificationsService {
      *
      * @param count - Number of notifications to return.
      * @param startFrom
-     * @param filters - Type of notifications to return: 'wall' - wall posts, 'mentions' - mentions
+     * @param filters - Type of notifications to return_ 'wall' - wall posts, 'mentions' - mentions
      * in wall posts, comments, or topics, 'comments' - comments to wall posts, photos, and videos,
      * 'likes' - likes, 'reposted' - wall posts that are copied from the current user's wall,
      * 'followers' - new followers, 'friends' - accepted friend requests
@@ -59,7 +60,7 @@ class NotificationsService {
     fun notificationsGet(
         count: Int? = null,
         startFrom: String? = null,
-        filters: List<FiltersParam>? = null,
+        filters: List<NotificationsGetFilters>? = null,
         startTime: Int? = null,
         endTime: Int? = null
     ): VKRequest<NotificationsGetResponse> = NewApiRequest("notifications.get") {
@@ -93,7 +94,7 @@ class NotificationsService {
      * @param fragment
      * @param groupId
      * @param randomId
-     * @param sendingMode - Type of sending (delivering) notifications: 'immediately' - push and
+     * @param sendingMode - Type of sending (delivering) notifications_ 'immediately' - push and
      * bell notifications will be delivered as soon as possible, 'delayed' - push and bell
      * notifications will be delivered in the most comfortable time for the user, 'delayed_push' - only
      * push notifications will be delivered in the most comfortable time, while the bell notifications
@@ -104,9 +105,9 @@ class NotificationsService {
         userIds: List<Int>,
         message: String,
         fragment: String? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         randomId: Int? = null,
-        sendingMode: SendingModeParam? = null
+        sendingMode: NotificationsSendMessageSendingMode? = null
     ): VKRequest<List<NotificationsSendMessageItem>> = NewApiRequest("notifications.sendMessage") {
         val typeToken = object: TypeToken<List<NotificationsSendMessageItem>>() {}.type
         GsonHolder.gson.fromJson<List<NotificationsSendMessageItem>>(it, typeToken)

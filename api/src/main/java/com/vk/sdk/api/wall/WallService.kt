@@ -29,26 +29,30 @@ package com.vk.sdk.api.wall
 
 import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
-import com.vk.sdk.api.wall.dto.ReasonParam
-import com.vk.sdk.api.wall.dto.SortParam
-import com.vk.sdk.api.wall.dto.TopicIdParam
 import com.vk.sdk.api.wall.dto.WallCreateCommentResponse
 import com.vk.sdk.api.wall.dto.WallEditResponse
+import com.vk.sdk.api.wall.dto.WallEditTopicId
 import com.vk.sdk.api.wall.dto.WallGetByIdExtendedResponse
 import com.vk.sdk.api.wall.dto.WallGetCommentExtendedResponse
 import com.vk.sdk.api.wall.dto.WallGetCommentResponse
 import com.vk.sdk.api.wall.dto.WallGetCommentsExtendedResponse
+import com.vk.sdk.api.wall.dto.WallGetCommentsExtendedSort
 import com.vk.sdk.api.wall.dto.WallGetCommentsResponse
+import com.vk.sdk.api.wall.dto.WallGetCommentsSort
 import com.vk.sdk.api.wall.dto.WallGetExtendedResponse
 import com.vk.sdk.api.wall.dto.WallGetRepostsResponse
 import com.vk.sdk.api.wall.dto.WallGetResponse
 import com.vk.sdk.api.wall.dto.WallPostAdsStealthResponse
 import com.vk.sdk.api.wall.dto.WallPostResponse
+import com.vk.sdk.api.wall.dto.WallPostTopicId
+import com.vk.sdk.api.wall.dto.WallReportCommentReason
+import com.vk.sdk.api.wall.dto.WallReportPostReason
 import com.vk.sdk.api.wall.dto.WallRepostResponse
 import com.vk.sdk.api.wall.dto.WallSearchExtendedResponse
 import com.vk.sdk.api.wall.dto.WallSearchResponse
@@ -77,7 +81,7 @@ class WallService {
      * @param postId
      * @return [VKRequest] with [BaseBoolInt]
      */
-    fun wallCloseComments(ownerId: Int, postId: Int): VKRequest<BaseBoolInt> =
+    fun wallCloseComments(ownerId: UserId, postId: Int): VKRequest<BaseBoolInt> =
             NewApiRequest("wall.closeComments") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
@@ -95,9 +99,9 @@ class WallService {
      * @param message - (Required if 'attachments' is not set.) Text of the comment.
      * @param replyToComment - ID of comment to reply.
      * @param attachments - (Required if 'message' is not set.) List of media objects attached to
-     * the comment, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type
-     * of media ojbect: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document,
-     * '<owner_id>' - ID of the media owner. '<media_id>' - Media ID. For example:
+     * the comment, in the following format_ "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type
+     * of media ojbect_ 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document,
+     * '<owner_id>' - ID of the media owner. '<media_id>' - Media ID. For example_
      * "photo100172_166443618,photo66748_265827614"
      * @param stickerId - Sticker ID.
      * @param guid - Unique identifier to avoid repeated comments.
@@ -105,7 +109,7 @@ class WallService {
      */
     fun wallCreateComment(
         postId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         fromGroup: Int? = null,
         message: String? = null,
         replyToComment: Int? = null,
@@ -133,7 +137,7 @@ class WallService {
      * @param postId - ID of the post to be deleted.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun wallDelete(ownerId: Int? = null, postId: Int? = null): VKRequest<BaseOkResponse> =
+    fun wallDelete(ownerId: UserId? = null, postId: Int? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("wall.delete") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -149,7 +153,7 @@ class WallService {
      * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun wallDeleteComment(commentId: Int, ownerId: Int? = null): VKRequest<BaseOkResponse> =
+    fun wallDeleteComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("wall.deleteComment") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -166,11 +170,11 @@ class WallService {
      * @param friendsOnly
      * @param message - (Required if 'attachments' is not set.) Text of the post.
      * @param attachments - (Required if 'message' is not set.) List of objects attached to the
-     * post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
-     * attachment: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' -
-     * ID of the media application owner. '<media_id>' - Media application ID. Example:
+     * post, in the following format_ "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
+     * attachment_ 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' -
+     * ID of the media application owner. '<media_id>' - Media application ID. Example_
      * "photo100172_166443618,photo66748_265827614", May contain a link to an external page to include
-     * in the post. Example: "photo66748_265827614,http://habrahabr.ru", "NOTE: If more than one link
+     * in the post. Example_ "photo66748_265827614,http_//habrahabr.ru", "NOTE_ If more than one link
      * is being attached, an error is thrown."
      * @param services
      * @param signed
@@ -190,7 +194,7 @@ class WallService {
      */
     fun wallEdit(
         postId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         friendsOnly: Boolean? = null,
         message: String? = null,
         attachments: List<String>? = null,
@@ -207,7 +211,7 @@ class WallService {
         posterBkgOwnerId: Int? = null,
         posterBkgAccessHash: String? = null,
         copyright: String? = null,
-        topicId: TopicIdParam? = null
+        topicId: WallEditTopicId? = null
     ): VKRequest<WallEditResponse> = NewApiRequest("wall.edit") {
         GsonHolder.gson.fromJson(it, WallEditResponse::class.java)
     }
@@ -240,14 +244,14 @@ class WallService {
      * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
      * @param message - (Required if 'attachments' is not set.) Text of the post.
      * @param attachments - (Required if 'message' is not set.) List of objects attached to the
-     * post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
-     * attachment: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'page' -
+     * post, in the following format_ "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
+     * attachment_ 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'page' -
      * wiki-page, 'note' - note, 'poll' - poll, 'album' - photo album, '<owner_id>' - ID of the media
-     * application owner. '<media_id>' - Media application ID. Example:
+     * application owner. '<media_id>' - Media application ID. Example_
      * "photo100172_166443618,photo66748_265827614", May contain a link to an external page to include
-     * in the post. Example: "photo66748_265827614,http://habrahabr.ru", "NOTE: If more than one link
+     * in the post. Example_ "photo66748_265827614,http_//habrahabr.ru", "NOTE_ If more than one link
      * is being attached, an error will be thrown."
-     * @param signed - Only for posts in communities with 'from_group' set to '1': '1' - post will
+     * @param signed - Only for posts in communities with 'from_group' set to '1'_ '1' - post will
      * be signed with the name of the posting user, '0' - post will not be signed (default)
      * @param lat - Geographical latitude of a check-in, in degrees (from -90 to 90).
      * @param long - Geographical longitude of a check-in, in degrees (from -180 to 180).
@@ -260,7 +264,7 @@ class WallService {
      */
     fun wallEditAdsStealth(
         postId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         message: String? = null,
         attachments: List<String>? = null,
         signed: Boolean? = null,
@@ -295,16 +299,16 @@ class WallService {
      * @param commentId - Comment ID.
      * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
      * @param message - New comment text.
-     * @param attachments - List of objects attached to the comment, in the following format: ,
-     * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment: 'photo' - photo,
+     * @param attachments - List of objects attached to the comment, in the following format_ ,
+     * "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media attachment_ 'photo' - photo,
      * 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - ID of the media attachment
-     * owner. '<media_id>' - Media attachment ID. For example:
+     * owner. '<media_id>' - Media attachment ID. For example_
      * "photo100172_166443618,photo66748_265827614"
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun wallEditComment(
         commentId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         message: String? = null,
         attachments: List<String>? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("wall.editComment") {
@@ -330,7 +334,7 @@ class WallService {
      * @return [VKRequest] with [WallGetResponse]
      */
     fun wallGet(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         domain: String? = null,
         offset: Int? = null,
         count: Int? = null,
@@ -364,7 +368,7 @@ class WallService {
      * @return [VKRequest] with [WallGetExtendedResponse]
      */
     fun wallGetExtended(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         domain: String? = null,
         offset: Int? = null,
         count: Int? = null,
@@ -390,7 +394,7 @@ class WallService {
      * Returns a list of posts from user or community walls by their IDs.
      *
      * @param posts - User or community IDs and post IDs, separated by underscores. Use a negative
-     * value to designate a community ID. Example: "93388_21539,93388_20904,2943_4276,-1_1"
+     * value to designate a community ID. Example_ "93388_21539,93388_20904,2943_4276,-1_1"
      * @param copyHistoryDepth - Sets the number of parent elements to include in the array
      * 'copy_history' that is returned if the post is a repost from another wall.
      * @param fields
@@ -417,7 +421,7 @@ class WallService {
      * Returns a list of posts from user or community walls by their IDs.
      *
      * @param posts - User or community IDs and post IDs, separated by underscores. Use a negative
-     * value to designate a community ID. Example: "93388_21539,93388_20904,2943_4276,-1_1"
+     * value to designate a community ID. Example_ "93388_21539,93388_20904,2943_4276,-1_1"
      * @param copyHistoryDepth - Sets the number of parent elements to include in the array
      * 'copy_history' that is returned if the post is a repost from another wall.
      * @param fields
@@ -450,7 +454,7 @@ class WallService {
      */
     fun wallGetComment(
         commentId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         fields: List<BaseUserGroupFields>? = null
     ): VKRequest<WallGetCommentResponse> = NewApiRequest("wall.getComment") {
         GsonHolder.gson.fromJson(it, WallGetCommentResponse::class.java)
@@ -474,7 +478,7 @@ class WallService {
      */
     fun wallGetCommentExtended(
         commentId: Int,
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         fields: List<BaseUserGroupFields>? = null
     ): VKRequest<WallGetCommentExtendedResponse> = NewApiRequest("wall.getComment") {
         GsonHolder.gson.fromJson(it, WallGetCommentExtendedResponse::class.java)
@@ -499,7 +503,7 @@ class WallService {
      * @param startCommentId
      * @param offset - Offset needed to return a specific subset of comments.
      * @param count - Number of comments to return (maximum 100).
-     * @param sort - Sort order: 'asc' - chronological, 'desc' - reverse chronological
+     * @param sort - Sort order_ 'asc' - chronological, 'desc' - reverse chronological
      * @param previewLength - Number of characters at which to truncate comments when previewed. By
      * default, '90'. Specify '0' if you do not want to truncate comments.
      * @param fields
@@ -508,13 +512,13 @@ class WallService {
      * @return [VKRequest] with [WallGetCommentsResponse]
      */
     fun wallGetComments(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         postId: Int? = null,
         needLikes: Boolean? = null,
         startCommentId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: SortParam? = null,
+        sort: WallGetCommentsSort? = null,
         previewLength: Int? = null,
         fields: List<BaseUserGroupFields>? = null,
         commentId: Int? = null,
@@ -549,7 +553,7 @@ class WallService {
      * @param startCommentId
      * @param offset - Offset needed to return a specific subset of comments.
      * @param count - Number of comments to return (maximum 100).
-     * @param sort - Sort order: 'asc' - chronological, 'desc' - reverse chronological
+     * @param sort - Sort order_ 'asc' - chronological, 'desc' - reverse chronological
      * @param previewLength - Number of characters at which to truncate comments when previewed. By
      * default, '90'. Specify '0' if you do not want to truncate comments.
      * @param fields
@@ -558,13 +562,13 @@ class WallService {
      * @return [VKRequest] with [WallGetCommentsExtendedResponse]
      */
     fun wallGetCommentsExtended(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         postId: Int? = null,
         needLikes: Boolean? = null,
         startCommentId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: SortParam? = null,
+        sort: WallGetCommentsExtendedSort? = null,
         previewLength: Int? = null,
         fields: List<BaseUserGroupFields>? = null,
         commentId: Int? = null,
@@ -601,7 +605,7 @@ class WallService {
      * @return [VKRequest] with [WallGetRepostsResponse]
      */
     fun wallGetReposts(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         postId: Int? = null,
         offset: Int? = null,
         count: Int? = null
@@ -620,7 +624,7 @@ class WallService {
      * @param postId
      * @return [VKRequest] with [BaseBoolInt]
      */
-    fun wallOpenComments(ownerId: Int, postId: Int): VKRequest<BaseBoolInt> =
+    fun wallOpenComments(ownerId: UserId, postId: Int): VKRequest<BaseBoolInt> =
             NewApiRequest("wall.openComments") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
@@ -637,7 +641,7 @@ class WallService {
      * Use a negative value to designate a community ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun wallPin(postId: Int, ownerId: Int? = null): VKRequest<BaseOkResponse> =
+    fun wallPin(postId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("wall.pin") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -653,20 +657,20 @@ class WallService {
      * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
      * @param friendsOnly - '1' - post will be available to friends only, '0' - post will be
      * available to all users (default)
-     * @param fromGroup - For a community: '1' - post will be published by the community, '0' - post
+     * @param fromGroup - For a community_ '1' - post will be published by the community, '0' - post
      * will be published by the user (default)
      * @param message - (Required if 'attachments' is not set.) Text of the post.
      * @param attachments - (Required if 'message' is not set.) List of objects attached to the
-     * post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
-     * attachment: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'page' -
+     * post, in the following format_ "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
+     * attachment_ 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'page' -
      * wiki-page, 'note' - note, 'poll' - poll, 'album' - photo album, '<owner_id>' - ID of the media
-     * application owner. '<media_id>' - Media application ID. Example:
+     * application owner. '<media_id>' - Media application ID. Example_
      * "photo100172_166443618,photo66748_265827614", May contain a link to an external page to include
-     * in the post. Example: "photo66748_265827614,http://habrahabr.ru", "NOTE: If more than one link
+     * in the post. Example_ "photo66748_265827614,http_//habrahabr.ru", "NOTE_ If more than one link
      * is being attached, an error will be thrown."
      * @param services - List of services or websites the update will be exported to, if the user
-     * has so requested. Sample values: 'twitter', 'facebook'.
-     * @param signed - Only for posts in communities with 'from_group' set to '1': '1' - post will
+     * has so requested. Sample values_ 'twitter', 'facebook'.
+     * @param signed - Only for posts in communities with 'from_group' set to '1'_ '1' - post will
      * be signed with the name of the posting user, '0' - post will not be signed (default)
      * @param publishDate - Publication date (in Unix time). If used, posting will be delayed until
      * the set time.
@@ -684,7 +688,7 @@ class WallService {
      * @return [VKRequest] with [WallPostResponse]
      */
     fun wallPost(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         friendsOnly: Boolean? = null,
         fromGroup: Boolean? = null,
         message: String? = null,
@@ -702,7 +706,7 @@ class WallService {
         donutPaidDuration: Int? = null,
         muteNotifications: Boolean? = null,
         copyright: String? = null,
-        topicId: TopicIdParam? = null
+        topicId: WallPostTopicId? = null
     ): VKRequest<WallPostResponse> = NewApiRequest("wall.post") {
         GsonHolder.gson.fromJson(it, WallPostResponse::class.java)
     }
@@ -735,14 +739,14 @@ class WallService {
      * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
      * @param message - (Required if 'attachments' is not set.) Text of the post.
      * @param attachments - (Required if 'message' is not set.) List of objects attached to the
-     * post, in the following format: "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
-     * attachment: 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'page' -
+     * post, in the following format_ "<owner_id>_<media_id>,<owner_id>_<media_id>", '' - Type of media
+     * attachment_ 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document, 'page' -
      * wiki-page, 'note' - note, 'poll' - poll, 'album' - photo album, '<owner_id>' - ID of the media
-     * application owner. '<media_id>' - Media application ID. Example:
+     * application owner. '<media_id>' - Media application ID. Example_
      * "photo100172_166443618,photo66748_265827614", May contain a link to an external page to include
-     * in the post. Example: "photo66748_265827614,http://habrahabr.ru", "NOTE: If more than one link
+     * in the post. Example_ "photo66748_265827614,http_//habrahabr.ru", "NOTE_ If more than one link
      * is being attached, an error will be thrown."
-     * @param signed - Only for posts in communities with 'from_group' set to '1': '1' - post will
+     * @param signed - Only for posts in communities with 'from_group' set to '1'_ '1' - post will
      * be signed with the name of the posting user, '0' - post will not be signed (default)
      * @param lat - Geographical latitude of a check-in, in degrees (from -90 to 90).
      * @param long - Geographical longitude of a check-in, in degrees (from -180 to 180).
@@ -755,7 +759,7 @@ class WallService {
      * @return [VKRequest] with [WallPostAdsStealthResponse]
      */
     fun wallPostAdsStealth(
-        ownerId: Int,
+        ownerId: UserId,
         message: String? = null,
         attachments: List<String>? = null,
         signed: Boolean? = null,
@@ -790,14 +794,14 @@ class WallService {
      *
      * @param ownerId - ID of the user or community that owns the wall.
      * @param commentId - Comment ID.
-     * @param reason - Reason for the complaint: '0' - spam, '1' - child pornography, '2' -
+     * @param reason - Reason for the complaint_ '0' - spam, '1' - child pornography, '2' -
      * extremism, '3' - violence, '4' - drug propaganda, '5' - adult material, '6' - insult, abuse
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun wallReportComment(
-        ownerId: Int,
+        ownerId: UserId,
         commentId: Int,
-        reason: ReasonParam? = null
+        reason: WallReportCommentReason? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("wall.reportComment") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -812,14 +816,14 @@ class WallService {
      *
      * @param ownerId - ID of the user or community that owns the wall.
      * @param postId - Post ID.
-     * @param reason - Reason for the complaint: '0' - spam, '1' - child pornography, '2' -
+     * @param reason - Reason for the complaint_ '0' - spam, '1' - child pornography, '2' -
      * extremism, '3' - violence, '4' - drug propaganda, '5' - adult material, '6' - insult, abuse
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun wallReportPost(
-        ownerId: Int,
+        ownerId: UserId,
         postId: Int,
-        reason: ReasonParam? = null
+        reason: WallReportPostReason? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("wall.reportPost") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -832,7 +836,7 @@ class WallService {
     /**
      * Reposts (copies) an object to a user wall or community wall.
      *
-     * @param objectValue - ID of the object to be reposted on the wall. Example: "wall66748_3675"
+     * @param objectValue - ID of the object to be reposted on the wall. Example_ "wall66748_3675"
      * @param message - Comment to be added along with the reposted object.
      * @param groupId - Target community ID when reposting to a community.
      * @param markAsAds
@@ -842,7 +846,7 @@ class WallService {
     fun wallRepost(
         objectValue: String,
         message: String? = null,
-        groupId: Int? = null,
+        groupId: UserId? = null,
         markAsAds: Boolean? = null,
         muteNotifications: Boolean? = null
     ): VKRequest<WallRepostResponse> = NewApiRequest("wall.repost") {
@@ -864,7 +868,7 @@ class WallService {
      * @param postId - ID of the post to be restored.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun wallRestore(ownerId: Int? = null, postId: Int? = null): VKRequest<BaseOkResponse> =
+    fun wallRestore(ownerId: UserId? = null, postId: Int? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("wall.restore") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -880,7 +884,7 @@ class WallService {
      * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun wallRestoreComment(commentId: Int, ownerId: Int? = null): VKRequest<BaseOkResponse> =
+    fun wallRestoreComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("wall.restoreComment") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -903,7 +907,7 @@ class WallService {
      * @return [VKRequest] with [WallSearchResponse]
      */
     fun wallSearch(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         domain: String? = null,
         query: String? = null,
         ownersOnly: Boolean? = null,
@@ -940,7 +944,7 @@ class WallService {
      * @return [VKRequest] with [WallSearchExtendedResponse]
      */
     fun wallSearchExtended(
-        ownerId: Int? = null,
+        ownerId: UserId? = null,
         domain: String? = null,
         query: String? = null,
         ownersOnly: Boolean? = null,
@@ -972,7 +976,7 @@ class WallService {
      * Use a negative value to designate a community ID.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun wallUnpin(postId: Int, ownerId: Int? = null): VKRequest<BaseOkResponse> =
+    fun wallUnpin(postId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
             NewApiRequest("wall.unpin") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }

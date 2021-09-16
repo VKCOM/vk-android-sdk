@@ -31,6 +31,7 @@ import com.vk.api.sdk.VKMethodCall
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKApiExecutionException
 import com.vk.api.sdk.internal.ApiCommand
+import com.vk.dto.common.id.UserId
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
@@ -62,6 +63,8 @@ open class VKRequest<T>(var method: String, val requestApiVersion: String? = nul
     fun addParam(name: CharSequence, values: Array<*>) = addParam(name.toString(), values.joinToString(","))
     fun addParam(name: CharSequence, values: Iterable<*>) = addParam(name.toString(), values.joinToString(","))
     fun addParam(name: CharSequence, values: IntArray) = addParam(name.toString(), values.joinToString(","))
+    fun addParam(name: String, value: UserId?) = apply { if (value != null) params[name] = value.value.toString() }
+    fun addParam(name: CharSequence, values: List<UserId>) = addParam(name.toString(), values.joinToString(",", transform = { it.value.toString() }))
 
     @Throws(VKApiException::class)
     override fun parse(response: String): T {
