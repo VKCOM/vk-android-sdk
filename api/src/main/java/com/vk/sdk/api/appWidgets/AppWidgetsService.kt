@@ -77,8 +77,8 @@ class AppWidgetsService {
         GsonHolder.gson.fromJson(it, AppWidgetsPhotos::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         imageType?.let { addParam("image_type", it.value) }
     }
 
@@ -113,8 +113,8 @@ class AppWidgetsService {
         GsonHolder.gson.fromJson(it, AppWidgetsPhotos::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         imageType?.let { addParam("image_type", it.value) }
     }
 
@@ -177,7 +177,7 @@ class AppWidgetsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("code", code)
+        addParam("code", code, maxLength = 100000)
         addParam("type", type.value)
     }
 }

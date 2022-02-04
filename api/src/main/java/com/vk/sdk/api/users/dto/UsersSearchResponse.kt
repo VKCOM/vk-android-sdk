@@ -37,7 +37,7 @@ import kotlin.collections.List
  */
 data class UsersSearchResponse(
     @SerializedName("count")
-    val count: Int? = null,
+    val count: Int,
     @SerializedName("items")
-    val items: List<UsersUserFull>? = null
+    val items: List<UsersUserFull>
 )

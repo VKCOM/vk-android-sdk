@@ -33,21 +33,21 @@ import kotlin.Int
 import kotlin.String
 
 /**
+ * @param id - Object ID
+ * @param title - Object title
  * @param area - Area title
  * @param region - Region title
  * @param important - Information whether the city is included in important cities list
- * @param id - Object ID
- * @param title - Object title
  */
 data class DatabaseCity(
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("title")
+    val title: String,
     @SerializedName("area")
     val area: String? = null,
     @SerializedName("region")
     val region: String? = null,
     @SerializedName("important")
-    val important: BaseBoolInt? = null,
-    @SerializedName("id")
-    val id: Int? = null,
-    @SerializedName("title")
-    val title: String? = null
+    val important: BaseBoolInt? = null
 )

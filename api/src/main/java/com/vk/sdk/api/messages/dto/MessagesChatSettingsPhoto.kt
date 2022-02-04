@@ -36,6 +36,7 @@ import kotlin.String
  * @param photo100 - URL of the preview image with 100px in width
  * @param photo200 - URL of the preview image with 200px in width
  * @param isDefaultPhoto - If provided photo is default
+ * @param isDefaultCallPhoto - If provided photo is default call photo
  */
 data class MessagesChatSettingsPhoto(
     @SerializedName("photo_50")
@@ -45,5 +46,7 @@ data class MessagesChatSettingsPhoto(
     @SerializedName("photo_200")
     val photo200: String? = null,
     @SerializedName("is_default_photo")
-    val isDefaultPhoto: Boolean? = null
+    val isDefaultPhoto: Boolean? = null,
+    @SerializedName("is_default_call_photo")
+    val isDefaultCallPhoto: Boolean? = null
 )

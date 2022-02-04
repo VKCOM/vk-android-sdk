@@ -33,21 +33,21 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param withPadding
- * @param id
- * @param height - Image height
  * @param url - Image url
  * @param width - Image width
+ * @param height - Image height
+ * @param withPadding
+ * @param id
  */
 data class VideoVideoImage(
+    @SerializedName("url")
+    val url: String,
+    @SerializedName("width")
+    val width: Int,
+    @SerializedName("height")
+    val height: Int,
     @SerializedName("with_padding")
     val withPadding: BasePropertyExists? = null,
     @SerializedName("id")
-    val id: String? = null,
-    @SerializedName("height")
-    val height: Int? = null,
-    @SerializedName("url")
-    val url: String? = null,
-    @SerializedName("width")
-    val width: Int? = null
+    val id: String? = null
 )

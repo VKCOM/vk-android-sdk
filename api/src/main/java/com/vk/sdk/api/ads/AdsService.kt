@@ -37,6 +37,8 @@ import com.vk.sdk.api.ads.dto.AdsAdLayout
 import com.vk.sdk.api.ads.dto.AdsCampaign
 import com.vk.sdk.api.ads.dto.AdsCheckLinkLinkType
 import com.vk.sdk.api.ads.dto.AdsClient
+import com.vk.sdk.api.ads.dto.AdsCreateAdStatus
+import com.vk.sdk.api.ads.dto.AdsCreateCampaignStatus
 import com.vk.sdk.api.ads.dto.AdsCreateTargetGroupResponse
 import com.vk.sdk.api.ads.dto.AdsDemoStats
 import com.vk.sdk.api.ads.dto.AdsFloodStats
@@ -63,6 +65,8 @@ import com.vk.sdk.api.ads.dto.AdsTargStats
 import com.vk.sdk.api.ads.dto.AdsTargSuggestions
 import com.vk.sdk.api.ads.dto.AdsTargetGroup
 import com.vk.sdk.api.ads.dto.AdsUpdateOfficeUsersResult
+import com.vk.sdk.api.ads.dto.AdsUserSpecification
+import com.vk.sdk.api.ads.dto.AdsUserSpecificationCutted
 import com.vk.sdk.api.ads.dto.AdsUsers
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import kotlin.Boolean
@@ -80,13 +84,13 @@ class AdsService {
      * 'user_specification' objects see below.
      * @return [VKRequest] with [Boolean]
      */
-    fun adsAddOfficeUsers(accountId: Int, data: String): VKRequest<Boolean> =
-            NewApiRequest("ads.addOfficeUsers") {
+    fun adsAddOfficeUsers(accountId: Int, data: List<AdsUserSpecificationCutted>):
+            VKRequest<Boolean> = NewApiRequest("ads.addOfficeUsers") {
         GsonHolder.gson.fromJson(it, Boolean::class.java)
     }
     .apply {
         addParam("account_id", accountId)
-        addParam("data", data)
+        addParam("data", GsonHolder.gson.toJson(data))
     }
 
     /**
@@ -122,10 +126,10 @@ class AdsService {
      * 'ad_specification' objects see below.
      * @return [VKRequest] with [Unit]
      */
-    fun adsCreateAds(accountId: Int, data: String): VKRequest<List<Int>> =
+    fun adsCreateAds(accountId: Int, data: String): VKRequest<List<AdsCreateAdStatus>> =
             NewApiRequest("ads.createAds") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+        val typeToken = object: TypeToken<List<AdsCreateAdStatus>>() {}.type
+        GsonHolder.gson.fromJson<List<AdsCreateAdStatus>>(it, typeToken)
     }
     .apply {
         addParam("account_id", accountId)
@@ -140,10 +144,10 @@ class AdsService {
      * of 'campaign_specification' objects see below.
      * @return [VKRequest] with [Unit]
      */
-    fun adsCreateCampaigns(accountId: Int, data: String): VKRequest<List<Int>> =
+    fun adsCreateCampaigns(accountId: Int, data: String): VKRequest<List<AdsCreateCampaignStatus>> =
             NewApiRequest("ads.createCampaigns") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+        val typeToken = object: TypeToken<List<AdsCreateCampaignStatus>>() {}.type
+        GsonHolder.gson.fromJson<List<AdsCreateCampaignStatus>>(it, typeToken)
     }
     .apply {
         addParam("account_id", accountId)
@@ -216,7 +220,7 @@ class AdsService {
     .apply {
         addParam("account_id", accountId)
         addParam("name", name)
-        addParam("lifetime", lifetime)
+        addParam("lifetime", lifetime, min = 1, max = 720)
         clientId?.let { addParam("client_id", it) }
         targetPixelId?.let { addParam("target_pixel_id", it) }
         targetPixelRules?.let { addParam("target_pixel_rules", it) }
@@ -268,11 +272,12 @@ class AdsService {
      *
      * @param accountId - Advertising account ID.
      * @param ids - Serialized JSON array with IDs of deleted campaigns.
-     * @return [VKRequest] with [Int]
+     * @return [VKRequest] with [Unit]
      */
-    fun adsDeleteCampaigns(accountId: Int, ids: String): VKRequest<Int> =
+    fun adsDeleteCampaigns(accountId: Int, ids: String): VKRequest<List<Int>> =
             NewApiRequest("ads.deleteCampaigns") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        val typeToken = object: TypeToken<List<Int>>() {}.type
+        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
     }
     .apply {
         addParam("account_id", accountId)
@@ -284,11 +289,12 @@ class AdsService {
      *
      * @param accountId - Advertising account ID.
      * @param ids - Serialized JSON array with IDs of deleted clients.
-     * @return [VKRequest] with [Int]
+     * @return [VKRequest] with [Unit]
      */
-    fun adsDeleteClients(accountId: Int, ids: String): VKRequest<Int> =
+    fun adsDeleteClients(accountId: Int, ids: String): VKRequest<List<Int>> =
             NewApiRequest("ads.deleteClients") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        val typeToken = object: TypeToken<List<Int>>() {}.type
+        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
     }
     .apply {
         addParam("account_id", accountId)
@@ -624,8 +630,8 @@ class AdsService {
         addParam("account_id", accountId)
         clientId?.let { addParam("client_id", it) }
         requestsIds?.let { addParam("requests_ids", it) }
-        offset?.let { addParam("offset", it) }
-        limit?.let { addParam("limit", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        limit?.let { addParam("limit", it, min = 0, max = 200) }
         sortBy?.let { addParam("sort_by", it) }
     }
 
@@ -638,7 +644,7 @@ class AdsService {
         GsonHolder.gson.fromJson(it, AdsGetMusiciansResponse::class.java)
     }
     .apply {
-        addParam("artist_name", artistName)
+        addParam("artist_name", artistName, minLength = 3)
     }
 
     /**
@@ -1078,14 +1084,14 @@ class AdsService {
      * 'user_specification' objects see below.
      * @return [VKRequest] with [Unit]
      */
-    fun adsUpdateOfficeUsers(accountId: Int, data: String):
+    fun adsUpdateOfficeUsers(accountId: Int, data: List<AdsUserSpecification>):
             VKRequest<List<AdsUpdateOfficeUsersResult>> = NewApiRequest("ads.updateOfficeUsers") {
         val typeToken = object: TypeToken<List<AdsUpdateOfficeUsersResult>>() {}.type
         GsonHolder.gson.fromJson<List<AdsUpdateOfficeUsersResult>>(it, typeToken)
     }
     .apply {
-        addParam("account_id", accountId)
-        addParam("data", data)
+        addParam("account_id", accountId, min = 0)
+        addParam("data", GsonHolder.gson.toJson(data))
     }
 
     /**
@@ -1120,7 +1126,7 @@ class AdsService {
         addParam("account_id", accountId)
         addParam("target_group_id", targetGroupId)
         addParam("name", name)
-        addParam("lifetime", lifetime)
+        addParam("lifetime", lifetime, min = 1, max = 720)
         clientId?.let { addParam("client_id", it) }
         domain?.let { addParam("domain", it) }
         targetPixelId?.let { addParam("target_pixel_id", it) }

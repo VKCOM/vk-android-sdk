@@ -32,8 +32,11 @@ import kotlin.Int
 
 /**
  * @param marketAlbumId - Album ID
+ * @param albumsCount - Albums count
  */
 data class MarketAddAlbumResponse(
     @SerializedName("market_album_id")
-    val marketAlbumId: Int? = null
+    val marketAlbumId: Int? = null,
+    @SerializedName("albums_count")
+    val albumsCount: Int? = null
 )

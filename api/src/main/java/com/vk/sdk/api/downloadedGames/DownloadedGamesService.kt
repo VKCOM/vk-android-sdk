@@ -44,6 +44,6 @@ class DownloadedGamesService {
         GsonHolder.gson.fromJson(it, DownloadedGamesPaidStatusResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
     }
 }

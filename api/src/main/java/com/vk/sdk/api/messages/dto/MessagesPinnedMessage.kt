@@ -28,15 +28,16 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.base.dto.BaseGeo
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
 
 /**
+ * @param id - Message ID
  * @param date - Date when the message has been sent in Unixtime
  * @param fromId - Message author's ID
- * @param id - Message ID
  * @param peerId - Peer ID
  * @param text - Message text
  * @param attachments
@@ -47,12 +48,12 @@ import kotlin.collections.List
  * @param keyboard
  */
 data class MessagesPinnedMessage(
+    @SerializedName("id")
+    val id: Int,
     @SerializedName("date")
     val date: Int,
     @SerializedName("from_id")
-    val fromId: Int,
-    @SerializedName("id")
-    val id: Int,
+    val fromId: UserId,
     @SerializedName("peer_id")
     val peerId: Int,
     @SerializedName("text")

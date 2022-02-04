@@ -33,6 +33,6 @@ import kotlin.String
 enum class MessagesMessageAttachmentType(
     val value: String
 ) {
-    @SerializedName("mini_app")
-    MINI_APP("mini_app");
+    @SerializedName("group_call_in_progress")
+    GROUP_CALL_IN_PROGRESS("group_call_in_progress");
 }

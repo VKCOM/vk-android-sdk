@@ -66,7 +66,7 @@ class DocsService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("doc_id", docId)
+        addParam("doc_id", docId, min = 0)
         accessKey?.let { addParam("access_key", it) }
     }
 
@@ -84,7 +84,7 @@ class DocsService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("doc_id", docId)
+        addParam("doc_id", docId, min = 0)
     }
 
     /**
@@ -106,8 +106,8 @@ class DocsService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("doc_id", docId)
-        addParam("title", title)
+        addParam("doc_id", docId, min = 0)
+        addParam("title", title, maxLength = 128)
         tags?.let { addParam("tags", it) }
     }
 
@@ -132,8 +132,8 @@ class DocsService {
         GsonHolder.gson.fromJson(it, DocsGetResponse::class.java)
     }
     .apply {
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
         type?.let { addParam("type", it.value) }
         ownerId?.let { addParam("owner_id", it) }
         returnTags?.let { addParam("return_tags", it) }
@@ -199,7 +199,7 @@ class DocsService {
         GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
     }
     .apply {
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -208,12 +208,12 @@ class DocsService {
      * @param groupId - Community ID (if the document will be uploaded to the community).
      * @return [VKRequest] with [BaseUploadServer]
      */
-    fun docsGetWallUploadServer(groupId: Int? = null): VKRequest<BaseUploadServer> =
+    fun docsGetWallUploadServer(groupId: UserId? = null): VKRequest<BaseUploadServer> =
             NewApiRequest("docs.getWallUploadServer") {
         GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
     }
     .apply {
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -261,10 +261,10 @@ class DocsService {
         GsonHolder.gson.fromJson(it, DocsSearchResponse::class.java)
     }
     .apply {
-        addParam("q", q)
+        addParam("q", q, maxLength = 512)
         searchOwn?.let { addParam("search_own", it) }
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
         returnTags?.let { addParam("return_tags", it) }
     }
 }

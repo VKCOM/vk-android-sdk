@@ -38,7 +38,7 @@ import kotlin.collections.List
  */
 data class DatabaseGetCountriesResponse(
     @SerializedName("count")
-    val count: Int? = null,
+    val count: Int,
     @SerializedName("items")
-    val items: List<BaseCountry>? = null
+    val items: List<BaseCountry>
 )

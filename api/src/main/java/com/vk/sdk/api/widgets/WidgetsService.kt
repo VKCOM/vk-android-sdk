@@ -70,8 +70,8 @@ class WidgetsService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 10, max = 200) }
     }
 
     /**
@@ -98,7 +98,7 @@ class WidgetsService {
         widgetApiId?.let { addParam("widget_api_id", it) }
         order?.let { addParam("order", it) }
         period?.let { addParam("period", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 10, max = 200) }
     }
 }

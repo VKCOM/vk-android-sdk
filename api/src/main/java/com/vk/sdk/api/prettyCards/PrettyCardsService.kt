@@ -35,7 +35,7 @@ import com.vk.sdk.api.prettyCards.dto.PrettyCardsCreateResponse
 import com.vk.sdk.api.prettyCards.dto.PrettyCardsDeleteResponse
 import com.vk.sdk.api.prettyCards.dto.PrettyCardsEditResponse
 import com.vk.sdk.api.prettyCards.dto.PrettyCardsGetResponse
-import com.vk.sdk.api.prettyCards.dto.PrettyCardsPrettyCard
+import com.vk.sdk.api.prettyCards.dto.PrettyCardsPrettyCardOrError
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
@@ -66,10 +66,10 @@ class PrettyCardsService {
         addParam("owner_id", ownerId)
         addParam("photo", photo)
         addParam("title", title)
-        addParam("link", link)
-        price?.let { addParam("price", it) }
-        priceOld?.let { addParam("price_old", it) }
-        button?.let { addParam("button", it) }
+        addParam("link", link, maxLength = 2000)
+        price?.let { addParam("price", it, maxLength = 20) }
+        priceOld?.let { addParam("price_old", it, maxLength = 20) }
+        button?.let { addParam("button", it, maxLength = 255) }
     }
 
     /**
@@ -114,10 +114,10 @@ class PrettyCardsService {
         addParam("card_id", cardId)
         photo?.let { addParam("photo", it) }
         title?.let { addParam("title", it) }
-        link?.let { addParam("link", it) }
-        price?.let { addParam("price", it) }
-        priceOld?.let { addParam("price_old", it) }
-        button?.let { addParam("button", it) }
+        link?.let { addParam("link", it, maxLength = 2000) }
+        price?.let { addParam("price", it, maxLength = 20) }
+        priceOld?.let { addParam("price_old", it, maxLength = 20) }
+        button?.let { addParam("button", it, maxLength = 255) }
     }
 
     /**
@@ -135,8 +135,8 @@ class PrettyCardsService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
     }
 
     /**
@@ -144,10 +144,10 @@ class PrettyCardsService {
      * @param cardIds
      * @return [VKRequest] with [Unit]
      */
-    fun prettyCardsGetById(ownerId: Int, cardIds: List<Int>): VKRequest<List<PrettyCardsPrettyCard>>
-            = NewApiRequest("prettyCards.getById") {
-        val typeToken = object: TypeToken<List<PrettyCardsPrettyCard>>() {}.type
-        GsonHolder.gson.fromJson<List<PrettyCardsPrettyCard>>(it, typeToken)
+    fun prettyCardsGetById(ownerId: Int, cardIds: List<Int>):
+            VKRequest<List<PrettyCardsPrettyCardOrError>> = NewApiRequest("prettyCards.getById") {
+        val typeToken = object: TypeToken<List<PrettyCardsPrettyCardOrError>>() {}.type
+        GsonHolder.gson.fromJson<List<PrettyCardsPrettyCardOrError>>(it, typeToken)
     }
     .apply {
         addParam("owner_id", ownerId)

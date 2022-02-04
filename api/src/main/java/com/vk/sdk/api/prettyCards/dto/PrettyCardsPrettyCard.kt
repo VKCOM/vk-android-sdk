@@ -29,6 +29,7 @@ package com.vk.sdk.api.prettyCards.dto
 
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseImage
+import com.vk.sdk.api.base.dto.BaseLinkButton
 import kotlin.String
 import kotlin.collections.List
 
@@ -53,7 +54,7 @@ data class PrettyCardsPrettyCard(
     @SerializedName("title")
     val title: String,
     @SerializedName("button")
-    val button: String? = null,
+    val button: BaseLinkButton? = null,
     @SerializedName("button_text")
     val buttonText: String? = null,
     @SerializedName("images")

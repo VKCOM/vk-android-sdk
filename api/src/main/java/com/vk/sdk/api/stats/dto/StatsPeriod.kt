@@ -28,7 +28,7 @@
 package com.vk.sdk.api.stats.dto
 
 import com.google.gson.annotations.SerializedName
-import kotlin.Any
+import kotlin.Int
 
 /**
  * @param activity
@@ -41,11 +41,11 @@ data class StatsPeriod(
     @SerializedName("activity")
     val activity: StatsActivity? = null,
     @SerializedName("period_from")
-    val periodFrom: Any? = null,
+    val periodFrom: Int? = null,
     @SerializedName("period_to")
-    val periodTo: Any? = null,
+    val periodTo: Int? = null,
     @SerializedName("reach")
-    val reach: Any? = null,
+    val reach: StatsReach? = null,
     @SerializedName("visitors")
-    val visitors: Any? = null
+    val visitors: StatsViews? = null
 )

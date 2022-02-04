@@ -35,13 +35,13 @@ import com.vk.sdk.api.events.dto.EventsEventAttach
 import com.vk.sdk.api.groups.dto.GroupsGroupAttach
 import com.vk.sdk.api.market.dto.MarketMarketAlbum
 import com.vk.sdk.api.market.dto.MarketMarketItem
+import com.vk.sdk.api.notes.dto.NotesNote
 import com.vk.sdk.api.pages.dto.PagesWikipageFull
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 import com.vk.sdk.api.photos.dto.PhotosPhotoAlbum
 import com.vk.sdk.api.polls.dto.PollsPoll
-import com.vk.sdk.api.video.dto.VideoVideo
+import com.vk.sdk.api.video.dto.VideoVideoFull
 import kotlin.String
-import kotlin.collections.List
 
 /**
  * @param type
@@ -59,7 +59,6 @@ import kotlin.collections.List
  * @param note
  * @param page
  * @param photo
- * @param photosList
  * @param poll
  * @param postedPhoto
  * @param video
@@ -90,17 +89,15 @@ data class WallWallpostAttachment(
     @SerializedName("market_album")
     val marketAlbum: MarketMarketAlbum? = null,
     @SerializedName("note")
-    val note: WallAttachedNote? = null,
+    val note: NotesNote? = null,
     @SerializedName("page")
     val page: PagesWikipageFull? = null,
     @SerializedName("photo")
     val photo: PhotosPhoto? = null,
-    @SerializedName("photos_list")
-    val photosList: List<String>? = null,
     @SerializedName("poll")
     val poll: PollsPoll? = null,
     @SerializedName("posted_photo")
     val postedPhoto: WallPostedPhoto? = null,
     @SerializedName("video")
-    val video: VideoVideo? = null
+    val video: VideoVideoFull? = null
 )

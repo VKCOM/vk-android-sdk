@@ -33,10 +33,13 @@ import kotlin.String
 /**
  * @param text - Link text
  * @param url - Link URL
+ * @param linkUrlTarget - How to open url
  */
 data class StoriesStoryLink(
     @SerializedName("text")
     val text: String,
     @SerializedName("url")
-    val url: String
+    val url: String,
+    @SerializedName("link_url_target")
+    val linkUrlTarget: String? = null
 )

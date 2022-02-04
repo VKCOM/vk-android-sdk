@@ -52,6 +52,7 @@ import kotlin.collections.List
  * @param hasAnimation - Information whether the product is an animated sticker pack (for stickers
  * product type)
  * @param subtitle - Subtitle of the product
+ * @param paymentRegion
  */
 data class StoreProduct(
     @SerializedName("id")
@@ -81,7 +82,9 @@ data class StoreProduct(
     @SerializedName("has_animation")
     val hasAnimation: Boolean? = null,
     @SerializedName("subtitle")
-    val subtitle: String? = null
+    val subtitle: String? = null,
+    @SerializedName("payment_region")
+    val paymentRegion: String? = null
 ) {
     enum class Type(
         val value: String

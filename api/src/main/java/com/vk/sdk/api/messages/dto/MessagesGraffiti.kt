@@ -33,16 +33,14 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param height - Graffiti height
  * @param id - Graffiti ID
  * @param ownerId - Graffiti owner ID
  * @param url - Graffiti URL
  * @param width - Graffiti width
+ * @param height - Graffiti height
  * @param accessKey - Access key for graffiti
  */
 data class MessagesGraffiti(
-    @SerializedName("height")
-    val height: Int,
     @SerializedName("id")
     val id: Int,
     @SerializedName("owner_id")
@@ -51,6 +49,8 @@ data class MessagesGraffiti(
     val url: String,
     @SerializedName("width")
     val width: Int,
+    @SerializedName("height")
+    val height: Int,
     @SerializedName("access_key")
     val accessKey: String? = null
 )

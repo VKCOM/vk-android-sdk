@@ -34,6 +34,8 @@ import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.apps.dto.AppsCatalogList
 import com.vk.sdk.api.apps.dto.AppsGetCatalogFilter
 import com.vk.sdk.api.apps.dto.AppsGetCatalogSort
+import com.vk.sdk.api.apps.dto.AppsGetFriendsListExtendedResponse
+import com.vk.sdk.api.apps.dto.AppsGetFriendsListExtendedType
 import com.vk.sdk.api.apps.dto.AppsGetFriendsListResponse
 import com.vk.sdk.api.apps.dto.AppsGetFriendsListType
 import com.vk.sdk.api.apps.dto.AppsGetLeaderboardExtendedResponse
@@ -95,7 +97,7 @@ class AppsService {
         GsonHolder.gson.fromJson(it, AppsGetResponse::class.java)
     }
     .apply {
-        appId?.let { addParam("app_id", it) }
+        appId?.let { addParam("app_id", it, min = 0) }
         appIds?.let { addParam("app_ids", it) }
         platform?.let { addParam("platform", it.value) }
         returnFriends?.let { addParam("return_friends", it) }
@@ -138,9 +140,9 @@ class AppsService {
         GsonHolder.gson.fromJson(it, AppsCatalogList::class.java)
     }
     .apply {
-        addParam("count", count)
+        addParam("count", count, min = 0)
         sort?.let { addParam("sort", it.value) }
-        offset?.let { addParam("offset", it) }
+        offset?.let { addParam("offset", it, min = 0) }
         platform?.let { addParam("platform", it) }
         returnFriends?.let { addParam("return_friends", it) }
         val fieldsJsonConverted = fields?.map {
@@ -149,7 +151,7 @@ class AppsService {
         fieldsJsonConverted?.let { addParam("fields", it) }
         nameCase?.let { addParam("name_case", it) }
         q?.let { addParam("q", it) }
-        genreId?.let { addParam("genre_id", it) }
+        genreId?.let { addParam("genre_id", it, min = 0) }
         filter?.let { addParam("filter", it.value) }
     }
 
@@ -172,8 +174,37 @@ class AppsService {
         GsonHolder.gson.fromJson(it, AppsGetFriendsListResponse::class.java)
     }
     .apply {
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0, max = 5000) }
+        offset?.let { addParam("offset", it, min = 0) }
+        type?.let { addParam("type", it.value) }
+        val fieldsJsonConverted = fields?.map {
+            it.value
+        }
+        fieldsJsonConverted?.let { addParam("fields", it) }
+    }
+
+    /**
+     * Creates friends list for requests and invites in current app.
+     *
+     * @param count - List size.
+     * @param offset
+     * @param type - List type. Possible values_ * 'invite' - available for invites (don't play the
+     * game),, * 'request' - available for request (play the game). By default_ 'invite'.
+     * @param fields - Additional profile fields, see [vk.com/dev/fields|description].
+     * @return [VKRequest] with [AppsGetFriendsListExtendedResponse]
+     */
+    fun appsGetFriendsListExtended(
+        count: Int? = null,
+        offset: Int? = null,
+        type: AppsGetFriendsListExtendedType? = null,
+        fields: List<UsersFields>? = null
+    ): VKRequest<AppsGetFriendsListExtendedResponse> = NewApiRequest("apps.getFriendsList") {
+        GsonHolder.gson.fromJson(it, AppsGetFriendsListExtendedResponse::class.java)
+    }
+    .apply {
+        addParam("extended", true)
+        count?.let { addParam("count", it, min = 0, max = 5000) }
+        offset?.let { addParam("offset", it, min = 0) }
         type?.let { addParam("type", it.value) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -229,7 +260,7 @@ class AppsService {
         GsonHolder.gson.fromJson(it, AppsGetMiniAppPoliciesResponse::class.java)
     }
     .apply {
-        addParam("app_id", appId)
+        addParam("app_id", appId, min = 0)
     }
 
     /**
@@ -256,7 +287,7 @@ class AppsService {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
     .apply {
-        addParam("user_id", userId)
+        addParam("user_id", userId, min = 1)
     }
 
     /**
@@ -269,8 +300,8 @@ class AppsService {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
-        addParam("promo_id", promoId)
-        userId?.let { addParam("user_id", it) }
+        addParam("promo_id", promoId, min = 0)
+        userId?.let { addParam("user_id", it, min = 0) }
     }
 
     /**
@@ -283,8 +314,8 @@ class AppsService {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
-        addParam("promo_id", promoId)
-        userId?.let { addParam("user_id", it) }
+        addParam("promo_id", promoId, min = 0)
+        userId?.let { addParam("user_id", it, min = 0) }
     }
 
     /**
@@ -310,10 +341,10 @@ class AppsService {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
     .apply {
-        addParam("user_id", userId)
+        addParam("user_id", userId, min = 1)
         text?.let { addParam("text", it) }
         type?.let { addParam("type", it.value) }
-        name?.let { addParam("name", it) }
+        name?.let { addParam("name", it, maxLength = 128) }
         key?.let { addParam("key", it) }
         separate?.let { addParam("separate", it) }
     }

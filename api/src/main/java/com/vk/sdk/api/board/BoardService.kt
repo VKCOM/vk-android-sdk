@@ -73,7 +73,7 @@ class BoardService {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         addParam("title", title)
         text?.let { addParam("text", it) }
         fromGroup?.let { addParam("from_group", it) }
@@ -92,8 +92,8 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
+        addParam("group_id", groupId, min = 0)
+        addParam("topic_id", topicId, min = 0)
     }
 
     /**
@@ -124,12 +124,12 @@ class BoardService {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
+        addParam("group_id", groupId, min = 1)
+        addParam("topic_id", topicId, min = 0)
         message?.let { addParam("message", it) }
         attachments?.let { addParam("attachments", it) }
         fromGroup?.let { addParam("from_group", it) }
-        stickerId?.let { addParam("sticker_id", it) }
+        stickerId?.let { addParam("sticker_id", it, min = 0) }
         guid?.let { addParam("guid", it) }
     }
 
@@ -149,9 +149,9 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
-        addParam("comment_id", commentId)
+        addParam("group_id", groupId, min = 1)
+        addParam("topic_id", topicId, min = 1)
+        addParam("comment_id", commentId, min = 1)
     }
 
     /**
@@ -166,8 +166,8 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
+        addParam("group_id", groupId, min = 1)
+        addParam("topic_id", topicId, min = 0)
     }
 
     /**
@@ -194,9 +194,9 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
-        addParam("comment_id", commentId)
+        addParam("group_id", groupId, min = 1)
+        addParam("topic_id", topicId, min = 0)
+        addParam("comment_id", commentId, min = 0)
         message?.let { addParam("message", it) }
         attachments?.let { addParam("attachments", it) }
     }
@@ -217,8 +217,8 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
+        addParam("group_id", groupId, min = 1)
+        addParam("topic_id", topicId, min = 0)
         addParam("title", title)
     }
 
@@ -234,8 +234,8 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
+        addParam("group_id", groupId, min = 0)
+        addParam("topic_id", topicId, min = 0)
     }
 
     /**
@@ -264,12 +264,12 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BoardGetCommentsResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
+        addParam("group_id", groupId, min = 1)
+        addParam("topic_id", topicId, min = 0)
         needLikes?.let { addParam("need_likes", it) }
-        startCommentId?.let { addParam("start_comment_id", it) }
+        startCommentId?.let { addParam("start_comment_id", it, min = 0) }
         offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         sort?.let { addParam("sort", it.value) }
     }
 
@@ -299,12 +299,12 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BoardGetCommentsExtendedResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
+        addParam("group_id", groupId, min = 1)
+        addParam("topic_id", topicId, min = 0)
         needLikes?.let { addParam("need_likes", it) }
-        startCommentId?.let { addParam("start_comment_id", it) }
+        startCommentId?.let { addParam("start_comment_id", it, min = 0) }
         offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         addParam("extended", true)
         sort?.let { addParam("sort", it.value) }
     }
@@ -340,13 +340,13 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BoardGetTopicsResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         topicIds?.let { addParam("topic_ids", it) }
         order?.let { addParam("order", it.value) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         preview?.let { addParam("preview", it.value) }
-        previewLength?.let { addParam("preview_length", it) }
+        previewLength?.let { addParam("preview_length", it, min = 0) }
     }
 
     /**
@@ -380,14 +380,14 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BoardGetTopicsExtendedResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         topicIds?.let { addParam("topic_ids", it) }
         order?.let { addParam("order", it.value) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         addParam("extended", true)
         preview?.let { addParam("preview", it.value) }
-        previewLength?.let { addParam("preview_length", it) }
+        previewLength?.let { addParam("preview_length", it, min = 0) }
     }
 
     /**
@@ -402,8 +402,8 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
+        addParam("group_id", groupId, min = 0)
+        addParam("topic_id", topicId, min = 0)
     }
 
     /**
@@ -422,9 +422,9 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
-        addParam("comment_id", commentId)
+        addParam("group_id", groupId, min = 1)
+        addParam("topic_id", topicId, min = 0)
+        addParam("comment_id", commentId, min = 0)
     }
 
     /**
@@ -439,7 +439,7 @@ class BoardService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("topic_id", topicId)
+        addParam("group_id", groupId, min = 0)
+        addParam("topic_id", topicId, min = 0)
     }
 }

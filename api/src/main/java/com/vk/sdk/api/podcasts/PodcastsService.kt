@@ -50,7 +50,7 @@ class PodcastsService {
     }
     .apply {
         addParam("search_string", searchString)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 1, max = 1000) }
     }
 }

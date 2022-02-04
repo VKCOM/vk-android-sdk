@@ -32,18 +32,18 @@ import kotlin.Int
 import kotlin.String
 
 /**
- * @param height - Image height
  * @param url - Image url
  * @param width - Image width
+ * @param height - Image height
  * @param id
  */
 data class BaseImage(
-    @SerializedName("height")
-    val height: Int,
     @SerializedName("url")
     val url: String,
     @SerializedName("width")
     val width: Int,
+    @SerializedName("height")
+    val height: Int,
     @SerializedName("id")
     val id: String? = null
 )

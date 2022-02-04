@@ -1,3 +1,30 @@
+/**
+ * Copyright (c) 2020 - present, LLC “V Kontakte”
+ *
+ * 1. Permission is hereby granted to any person obtaining a copy of this Software to
+ * use the Software without charge.
+ *
+ * 2. Restrictions
+ * You may not modify, merge, publish, distribute, sublicense, and/or sell copies,
+ * create derivative works based upon the Software or any part thereof.
+ *
+ * 3. Termination
+ * This License is effective until terminated. LLC “V Kontakte” may terminate this
+ * License at any time without any negative consequences to our rights.
+ * You may terminate this License at any time by deleting the Software and all copies
+ * thereof. Upon termination of this license for any reason, you shall continue to be
+ * bound by the provisions of Section 2 above.
+ * Termination will be without prejudice to any rights LLC “V Kontakte” may have as
+ * a result of this agreement.
+ *
+ * 4. Disclaimer of warranty and liability
+ * THE SOFTWARE IS MADE AVAILABLE ON THE “AS IS” BASIS. LLC “V KONTAKTE” DISCLAIMS
+ * ALL WARRANTIES THAT THE SOFTWARE MAY BE SUITABLE OR UNSUITABLE FOR ANY SPECIFIC
+ * PURPOSES OF USE. LLC “V KONTAKTE” CAN NOT GUARANTEE AND DOES NOT PROMISE ANY
+ * SPECIFIC RESULTS OF USE OF THE SOFTWARE.
+ * UNDER NO CIRCUMSTANCES LLC “V KONTAKTE” BEAR LIABILITY TO THE LICENSEE OR ANY
+ * THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
+*/
 /*******************************************************************************
  * The MIT License (MIT)
  *
@@ -95,12 +122,17 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         val requestBody = validateQueryString(call, queryString).toRequestBody(MIME_APPLICATION.toMediaTypeOrNull())
 
         val reqHost = call.requestUrl ?: host
-        val request = Request.Builder()
+        val requestBuilder = Request.Builder()
                 .post(requestBody)
                 .url("${resolveEndpoint(reqHost)}/${call.method}")
                 .cacheControl(CacheControl.FORCE_NETWORK)
                 .tag(Map::class.java, call.tag?.toMap())
-                .build()
+
+        call.customTag?.let { customTag ->
+            requestBuilder.tag(customTag.javaClass, customTag)
+        }
+
+        val request = requestBuilder.build()
         val executorAccessToken = accessToken
         val okHttpResponse = executeRequest(request)
         return MethodResponse(readResponse(okHttpResponse), okHttpResponse.headers, executorAccessToken)
@@ -156,11 +188,11 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
     }
 
     @Throws(InterruptedException::class, IOException::class)
-    protected fun executeRequest(request: Request): Response {
+    fun executeRequest(request: Request): Response {
         return okHttpProvider.getClient().newCall(request).execute()
     }
 
-    protected fun readResponse(response: Response): String? {
+    fun readResponse(response: Response): String? {
         if (response.code == HTTP_ENTITY_TOO_LARGE) {
             throw VKLargeEntityException(response.message)
         }
@@ -210,15 +242,19 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         provider.updateClient(object : VKOkHttpProvider.BuilderUpdateFunction {
             override fun update(builder: OkHttpClient.Builder): OkHttpClient.Builder {
                 if (Logger.LogLevel.NONE != config.logger.logLevel.value) {
-                    builder.addInterceptor(createLoggingInterceptor(config.logFilterCredentials, config.logger))
+                    builder.addInterceptor(createLoggingInterceptor(config.logFilterCredentials, config.logger, config.loggingPrefixer))
                 }
                 return builder
             }
         })
     }
 
-    protected open fun createLoggingInterceptor(filterCredentials: Boolean, logger: Logger): LoggingInterceptor {
-        return LoggingInterceptor(filterCredentials, logger)
+    protected open fun createLoggingInterceptor(
+        filterCredentials: Boolean,
+        logger: Logger, loggingPrefixer:
+        LoggingPrefixer
+    ): LoggingInterceptor {
+        return LoggingInterceptor(filterCredentials, logger, loggingPrefixer)
     }
 
     private fun convertFileNameToSafeValue(fileName: String): String {

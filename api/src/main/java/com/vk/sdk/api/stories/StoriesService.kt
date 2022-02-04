@@ -36,7 +36,6 @@ import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.stories.dto.StoriesGetBannedExtendedResponse
 import com.vk.sdk.api.stories.dto.StoriesGetBannedResponse
 import com.vk.sdk.api.stories.dto.StoriesGetByIdExtendedResponse
-import com.vk.sdk.api.stories.dto.StoriesGetByIdResponse
 import com.vk.sdk.api.stories.dto.StoriesGetPhotoUploadServerResponse
 import com.vk.sdk.api.stories.dto.StoriesGetV5113Response
 import com.vk.sdk.api.stories.dto.StoriesGetVideoUploadServerResponse
@@ -56,7 +55,7 @@ class StoriesService {
      * @param ownersIds - List of sources IDs
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun storiesBanOwner(ownersIds: List<Int>): VKRequest<BaseOkResponse> =
+    fun storiesBanOwner(ownersIds: List<UserId>): VKRequest<BaseOkResponse> =
             NewApiRequest("stories.banOwner") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
@@ -81,7 +80,7 @@ class StoriesService {
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
-        storyId?.let { addParam("story_id", it) }
+        storyId?.let { addParam("story_id", it, min = 0) }
         stories?.let { addParam("stories", it) }
     }
 
@@ -145,35 +144,14 @@ class StoriesService {
      * @param stories - Stories IDs separated by commas. Use format {owner_id}+'_'+{story_id}, for
      * example, 12345_54331.
      * @param fields - Additional fields to return
-     * @return [VKRequest] with [StoriesGetByIdResponse]
-     */
-    fun storiesGetById(stories: List<String>, fields: List<BaseUserGroupFields>? = null):
-            VKRequest<StoriesGetByIdResponse> = NewApiRequest("stories.getById") {
-        GsonHolder.gson.fromJson(it, StoriesGetByIdResponse::class.java)
-    }
-    .apply {
-        addParam("stories", stories)
-        val fieldsJsonConverted = fields?.map {
-            it.value
-        }
-        fieldsJsonConverted?.let { addParam("fields", it) }
-    }
-
-    /**
-     * Returns story by its ID.
-     *
-     * @param stories - Stories IDs separated by commas. Use format {owner_id}+'_'+{story_id}, for
-     * example, 12345_54331.
-     * @param fields - Additional fields to return
      * @return [VKRequest] with [StoriesGetByIdExtendedResponse]
      */
-    fun storiesGetByIdExtended(stories: List<String>, fields: List<BaseUserGroupFields>? = null):
+    fun storiesGetById(stories: List<String>, fields: List<BaseUserGroupFields>? = null):
             VKRequest<StoriesGetByIdExtendedResponse> = NewApiRequest("stories.getById") {
         GsonHolder.gson.fromJson(it, StoriesGetByIdExtendedResponse::class.java)
     }
     .apply {
         addParam("stories", stories)
-        addParam("extended", true)
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -210,8 +188,8 @@ class StoriesService {
         userIds?.let { addParam("user_ids", it) }
         replyToStory?.let { addParam("reply_to_story", it) }
         linkText?.let { addParam("link_text", it) }
-        linkUrl?.let { addParam("link_url", it) }
-        groupId?.let { addParam("group_id", it) }
+        linkUrl?.let { addParam("link_url", it, maxLength = 2048) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         clickableStickers?.let { addParam("clickable_stickers", it) }
     }
 
@@ -234,7 +212,7 @@ class StoriesService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("story_id", storyId)
+        addParam("story_id", storyId, min = 0)
         accessKey?.let { addParam("access_key", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -255,7 +233,7 @@ class StoriesService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("story_id", storyId)
+        addParam("story_id", storyId, min = 0)
     }
 
     /**
@@ -288,8 +266,8 @@ class StoriesService {
         userIds?.let { addParam("user_ids", it) }
         replyToStory?.let { addParam("reply_to_story", it) }
         linkText?.let { addParam("link_text", it) }
-        linkUrl?.let { addParam("link_url", it) }
-        groupId?.let { addParam("group_id", it) }
+        linkUrl?.let { addParam("link_url", it, maxLength = 2048) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         clickableStickers?.let { addParam("clickable_stickers", it) }
     }
 
@@ -312,9 +290,9 @@ class StoriesService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("story_id", storyId)
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        addParam("story_id", storyId, min = 0)
+        count?.let { addParam("count", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
     }
 
     /**
@@ -336,9 +314,9 @@ class StoriesService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("story_id", storyId)
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        addParam("story_id", storyId, min = 0)
+        count?.let { addParam("count", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
         addParam("extended", true)
     }
 
@@ -355,7 +333,7 @@ class StoriesService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -371,7 +349,7 @@ class StoriesService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("story_id", storyId)
+        addParam("story_id", storyId, min = 0)
     }
 
     /**
@@ -412,13 +390,13 @@ class StoriesService {
         GsonHolder.gson.fromJson(it, StoriesGetV5113Response::class.java)
     }
     .apply {
-        q?.let { addParam("q", it) }
-        placeId?.let { addParam("place_id", it) }
+        q?.let { addParam("q", it, maxLength = 255) }
+        placeId?.let { addParam("place_id", it, min = 0) }
         latitude?.let { addParam("latitude", it) }
         longitude?.let { addParam("longitude", it) }
-        radius?.let { addParam("radius", it) }
+        radius?.let { addParam("radius", it, min = 0) }
         mentionedId?.let { addParam("mentioned_id", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 1, max = 1000) }
         fields?.let { addParam("fields", it) }
     }
 
@@ -441,7 +419,7 @@ class StoriesService {
     }
     .apply {
         addParam("access_key", accessKey)
-        message?.let { addParam("message", it) }
+        message?.let { addParam("message", it, maxLength = 1000) }
         isBroadcast?.let { addParam("is_broadcast", it) }
         isAnonymous?.let { addParam("is_anonymous", it) }
         unseenMarker?.let { addParam("unseen_marker", it) }
@@ -453,7 +431,7 @@ class StoriesService {
      * @param ownersIds - List of hidden sources to show stories from.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun storiesUnbanOwner(ownersIds: List<Int>): VKRequest<BaseOkResponse> =
+    fun storiesUnbanOwner(ownersIds: List<UserId>): VKRequest<BaseOkResponse> =
             NewApiRequest("stories.unbanOwner") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }

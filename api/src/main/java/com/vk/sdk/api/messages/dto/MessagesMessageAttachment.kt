@@ -29,7 +29,6 @@ package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.audio.dto.AudioAudio
-import com.vk.sdk.api.base.dto.BaseLink
 import com.vk.sdk.api.base.dto.BaseSticker
 import com.vk.sdk.api.calls.dto.CallsCall
 import com.vk.sdk.api.docs.dto.DocsDoc
@@ -39,9 +38,8 @@ import com.vk.sdk.api.market.dto.MarketMarketItem
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 import com.vk.sdk.api.polls.dto.PollsPoll
 import com.vk.sdk.api.stories.dto.StoriesStory
-import com.vk.sdk.api.video.dto.VideoVideo
+import com.vk.sdk.api.video.dto.VideoVideoFull
 import com.vk.sdk.api.wall.dto.WallWallComment
-import com.vk.sdk.api.wall.dto.WallWallpostFull
 
 /**
  * @param type
@@ -51,14 +49,12 @@ import com.vk.sdk.api.wall.dto.WallWallpostFull
  * @param doc
  * @param gift
  * @param graffiti
- * @param link
  * @param market
  * @param marketMarketAlbum
  * @param photo
  * @param sticker
  * @param story
  * @param video
- * @param wall
  * @param wallReply
  * @param poll
  */
@@ -77,8 +73,6 @@ data class MessagesMessageAttachment(
     val gift: GiftsLayout? = null,
     @SerializedName("graffiti")
     val graffiti: MessagesGraffiti? = null,
-    @SerializedName("link")
-    val link: BaseLink? = null,
     @SerializedName("market")
     val market: MarketMarketItem? = null,
     @SerializedName("market_market_album")
@@ -90,9 +84,7 @@ data class MessagesMessageAttachment(
     @SerializedName("story")
     val story: StoriesStory? = null,
     @SerializedName("video")
-    val video: VideoVideo? = null,
-    @SerializedName("wall")
-    val wall: WallWallpostFull? = null,
+    val video: VideoVideoFull? = null,
     @SerializedName("wall_reply")
     val wallReply: WallWallComment? = null,
     @SerializedName("poll")

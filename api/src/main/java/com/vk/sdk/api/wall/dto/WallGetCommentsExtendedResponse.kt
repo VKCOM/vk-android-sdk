@@ -39,10 +39,10 @@ import kotlin.collections.List
  * @param items
  * @param profiles
  * @param groups
- * @param showReplyButton
- * @param canPost - Information whether current user can comment the post
- * @param groupsCanPost - Information whether groups can comment the post
  * @param currentLevelCount - Count of replies of current level
+ * @param canPost - Information whether current user can comment the post
+ * @param showReplyButton
+ * @param groupsCanPost - Information whether groups can comment the post
  */
 data class WallGetCommentsExtendedResponse(
     @SerializedName("count")
@@ -53,12 +53,12 @@ data class WallGetCommentsExtendedResponse(
     val profiles: List<UsersUser>,
     @SerializedName("groups")
     val groups: List<GroupsGroup>,
-    @SerializedName("show_reply_button")
-    val showReplyButton: Boolean? = null,
+    @SerializedName("current_level_count")
+    val currentLevelCount: Int? = null,
     @SerializedName("can_post")
     val canPost: Boolean? = null,
+    @SerializedName("show_reply_button")
+    val showReplyButton: Boolean? = null,
     @SerializedName("groups_can_post")
-    val groupsCanPost: Boolean? = null,
-    @SerializedName("current_level_count")
-    val currentLevelCount: Int? = null
+    val groupsCanPost: Boolean? = null
 )

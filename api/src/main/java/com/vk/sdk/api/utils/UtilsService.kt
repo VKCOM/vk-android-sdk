@@ -87,8 +87,8 @@ class UtilsService {
         GsonHolder.gson.fromJson(it, UtilsGetLastShortenedLinksResponse::class.java)
     }
     .apply {
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
     }
 
     /**
@@ -115,7 +115,7 @@ class UtilsService {
         source?.let { addParam("source", it.value) }
         accessKey?.let { addParam("access_key", it) }
         interval?.let { addParam("interval", it.value) }
-        intervalsCount?.let { addParam("intervals_count", it) }
+        intervalsCount?.let { addParam("intervals_count", it, min = 0, max = 100) }
     }
 
     /**
@@ -142,7 +142,7 @@ class UtilsService {
         source?.let { addParam("source", it.value) }
         accessKey?.let { addParam("access_key", it) }
         interval?.let { addParam("interval", it.value) }
-        intervalsCount?.let { addParam("intervals_count", it) }
+        intervalsCount?.let { addParam("intervals_count", it, min = 0, max = 100) }
         addParam("extended", true)
     }
 

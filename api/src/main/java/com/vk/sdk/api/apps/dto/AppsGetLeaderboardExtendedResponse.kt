@@ -28,7 +28,7 @@
 package com.vk.sdk.api.apps.dto
 
 import com.google.gson.annotations.SerializedName
-import com.vk.sdk.api.users.dto.UsersUserMin
+import com.vk.sdk.api.users.dto.UsersUser
 import kotlin.Int
 import kotlin.collections.List
 
@@ -43,5 +43,5 @@ data class AppsGetLeaderboardExtendedResponse(
     @SerializedName("items")
     val items: List<AppsLeaderboard>? = null,
     @SerializedName("profiles")
-    val profiles: List<UsersUserMin>? = null
+    val profiles: List<UsersUser>? = null
 )

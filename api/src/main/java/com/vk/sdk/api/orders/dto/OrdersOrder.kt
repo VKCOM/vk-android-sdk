@@ -28,41 +28,61 @@
 package com.vk.sdk.api.orders.dto
 
 import com.google.gson.annotations.SerializedName
-import com.vk.dto.common.id.UserId
-import kotlin.Int
 import kotlin.String
 
 /**
  * @param amount - Amount
  * @param appOrderId - App order ID
- * @param cancelTransactionId - Cancel transaction ID
  * @param date - Date of creation in Unixtime
  * @param id - Order ID
  * @param item - Order item
  * @param receiverId - Receiver ID
  * @param status - Order status
- * @param transactionId - Transaction ID
  * @param userId - User ID
+ * @param cancelTransactionId - Cancel transaction ID
+ * @param transactionId - Transaction ID
  */
 data class OrdersOrder(
     @SerializedName("amount")
-    val amount: Int? = null,
+    val amount: String,
     @SerializedName("app_order_id")
-    val appOrderId: Int? = null,
-    @SerializedName("cancel_transaction_id")
-    val cancelTransactionId: Int? = null,
+    val appOrderId: String,
     @SerializedName("date")
-    val date: Int? = null,
+    val date: String,
     @SerializedName("id")
-    val id: Int? = null,
+    val id: String,
     @SerializedName("item")
-    val item: String? = null,
+    val item: String,
     @SerializedName("receiver_id")
-    val receiverId: Int? = null,
+    val receiverId: String,
     @SerializedName("status")
-    val status: String? = null,
-    @SerializedName("transaction_id")
-    val transactionId: Int? = null,
+    val status: OrdersOrder.Status,
     @SerializedName("user_id")
-    val userId: UserId? = null
-)
+    val userId: String,
+    @SerializedName("cancel_transaction_id")
+    val cancelTransactionId: String? = null,
+    @SerializedName("transaction_id")
+    val transactionId: String? = null
+) {
+    enum class Status(
+        val value: String
+    ) {
+        @SerializedName("created")
+        CREATED("created"),
+
+        @SerializedName("charged")
+        CHARGED("charged"),
+
+        @SerializedName("refunded")
+        REFUNDED("refunded"),
+
+        @SerializedName("chargeable")
+        CHARGEABLE("chargeable"),
+
+        @SerializedName("cancelled")
+        CANCELLED("cancelled"),
+
+        @SerializedName("declined")
+        DECLINED("declined");
+    }
+}

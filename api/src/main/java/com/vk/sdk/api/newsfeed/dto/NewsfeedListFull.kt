@@ -28,24 +28,25 @@
 package com.vk.sdk.api.newsfeed.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param noReposts - Information whether reposts hiding is enabled
- * @param sourceIds
  * @param id - List ID
  * @param title - List title
+ * @param noReposts - Information whether reposts hiding is enabled
+ * @param sourceIds
  */
 data class NewsfeedListFull(
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("title")
+    val title: String,
     @SerializedName("no_reposts")
     val noReposts: BaseBoolInt? = null,
     @SerializedName("source_ids")
-    val sourceIds: List<Int>? = null,
-    @SerializedName("id")
-    val id: Int? = null,
-    @SerializedName("title")
-    val title: String? = null
+    val sourceIds: List<UserId>? = null
 )

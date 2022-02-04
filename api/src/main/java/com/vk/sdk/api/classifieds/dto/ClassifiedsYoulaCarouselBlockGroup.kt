@@ -28,11 +28,11 @@
 package com.vk.sdk.api.classifieds.dto
 
 import com.google.gson.annotations.SerializedName
-import kotlin.Int
+import com.vk.dto.common.id.UserId
 import kotlin.String
 
 /**
- * @param id - Community id
+ * @param id - Community ID
  * @param name - Community name
  * @param photo50 - URL of square photo of the community with 50 pixels in width
  * @param photo100 - URL of square photo of the community with 100 pixels in width
@@ -41,7 +41,7 @@ import kotlin.String
  */
 data class ClassifiedsYoulaCarouselBlockGroup(
     @SerializedName("id")
-    val id: Int,
+    val id: UserId,
     @SerializedName("name")
     val name: String,
     @SerializedName("photo_50")

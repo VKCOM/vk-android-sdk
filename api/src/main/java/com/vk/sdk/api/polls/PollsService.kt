@@ -68,7 +68,7 @@ class PollsService {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
-        addParam("poll_id", pollId)
+        addParam("poll_id", pollId, min = 0)
         addParam("answer_ids", answerIds)
         ownerId?.let { addParam("owner_id", it) }
         isBoard?.let { addParam("is_board", it) }
@@ -110,11 +110,11 @@ class PollsService {
         question?.let { addParam("question", it) }
         isAnonymous?.let { addParam("is_anonymous", it) }
         isMultiple?.let { addParam("is_multiple", it) }
-        endDate?.let { addParam("end_date", it) }
+        endDate?.let { addParam("end_date", it, min = 1550700000) }
         ownerId?.let { addParam("owner_id", it) }
         appId?.let { addParam("app_id", it) }
         addAnswers?.let { addParam("add_answers", it) }
-        photoId?.let { addParam("photo_id", it) }
+        photoId?.let { addParam("photo_id", it, min = 0) }
         backgroundId?.let { addParam("background_id", it.value) }
         disableUnvote?.let { addParam("disable_unvote", it) }
     }
@@ -138,8 +138,8 @@ class PollsService {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
-        addParam("poll_id", pollId)
-        addParam("answer_id", answerId)
+        addParam("poll_id", pollId, min = 0)
+        addParam("answer_id", answerId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         isBoard?.let { addParam("is_board", it) }
     }
@@ -174,14 +174,14 @@ class PollsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("poll_id", pollId)
+        addParam("poll_id", pollId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         question?.let { addParam("question", it) }
         addAnswers?.let { addParam("add_answers", it) }
         editAnswers?.let { addParam("edit_answers", it) }
         deleteAnswers?.let { addParam("delete_answers", it) }
-        endDate?.let { addParam("end_date", it) }
-        photoId?.let { addParam("photo_id", it) }
+        endDate?.let { addParam("end_date", it, min = 0) }
+        photoId?.let { addParam("photo_id", it, min = 0) }
         backgroundId?.let { addParam("background_id", it.value) }
     }
 
@@ -217,10 +217,10 @@ class PollsService {
         GsonHolder.gson.fromJson(it, PollsPoll::class.java)
     }
     .apply {
-        addParam("poll_id", pollId)
+        addParam("poll_id", pollId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         isBoard?.let { addParam("is_board", it) }
-        friendsCount?.let { addParam("friends_count", it) }
+        friendsCount?.let { addParam("friends_count", it, min = 0, max = 100) }
         fields?.let { addParam("fields", it) }
         nameCase?.let { addParam("name_case", it.value) }
     }
@@ -273,13 +273,13 @@ class PollsService {
         GsonHolder.gson.fromJson<List<PollsVoters>>(it, typeToken)
     }
     .apply {
-        addParam("poll_id", pollId)
+        addParam("poll_id", pollId, min = 0)
         addParam("answer_ids", answerIds)
         ownerId?.let { addParam("owner_id", it) }
         isBoard?.let { addParam("is_board", it) }
         friendsOnly?.let { addParam("friends_only", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }

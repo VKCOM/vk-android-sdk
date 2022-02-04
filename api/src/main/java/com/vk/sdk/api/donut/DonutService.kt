@@ -58,8 +58,8 @@ class DonutService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         fields?.let { addParam("fields", it) }
     }
 
@@ -95,8 +95,8 @@ class DonutService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
     }
 
     /**

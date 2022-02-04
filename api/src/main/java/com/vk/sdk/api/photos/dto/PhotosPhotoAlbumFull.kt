@@ -30,6 +30,7 @@ package com.vk.sdk.api.photos.dto
 import com.google.gson.annotations.SerializedName
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.base.dto.BaseBoolInt
+import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
@@ -44,6 +45,7 @@ import kotlin.collections.List
  * @param canUpload - Information whether current user can upload photo to the album
  * @param commentsDisabled - Information whether album comments are disabled
  * @param description - Photo album description
+ * @param canDelete - album can delete
  * @param sizes
  * @param thumbId - Thumb photo ID
  * @param thumbIsLast - Information whether the album thumb is last photo
@@ -69,6 +71,8 @@ data class PhotosPhotoAlbumFull(
     val commentsDisabled: BaseBoolInt? = null,
     @SerializedName("description")
     val description: String? = null,
+    @SerializedName("can_delete")
+    val canDelete: Boolean? = null,
     @SerializedName("sizes")
     val sizes: List<PhotosPhotoSizes>? = null,
     @SerializedName("thumb_id")

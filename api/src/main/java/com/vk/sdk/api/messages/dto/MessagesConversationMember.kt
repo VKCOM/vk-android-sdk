@@ -28,6 +28,7 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import kotlin.Boolean
 import kotlin.Int
 
@@ -43,11 +44,11 @@ import kotlin.Int
  */
 data class MessagesConversationMember(
     @SerializedName("member_id")
-    val memberId: Int,
+    val memberId: UserId,
     @SerializedName("can_kick")
     val canKick: Boolean? = null,
     @SerializedName("invited_by")
-    val invitedBy: Int? = null,
+    val invitedBy: UserId? = null,
     @SerializedName("is_admin")
     val isAdmin: Boolean? = null,
     @SerializedName("is_owner")

@@ -28,6 +28,7 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import kotlin.Int
 import kotlin.collections.List
 
@@ -39,5 +40,5 @@ data class MessagesOutReadBy(
     @SerializedName("count")
     val count: Int? = null,
     @SerializedName("member_ids")
-    val memberIds: List<Int>? = null
+    val memberIds: List<UserId>? = null
 )

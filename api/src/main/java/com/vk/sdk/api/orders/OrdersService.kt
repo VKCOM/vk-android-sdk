@@ -58,8 +58,8 @@ class OrdersService {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
-        addParam("user_id", userId)
-        addParam("subscription_id", subscriptionId)
+        addParam("user_id", userId, min = 1)
+        addParam("subscription_id", subscriptionId, min = 0)
         pendingCancel?.let { addParam("pending_cancel", it) }
     }
 
@@ -85,9 +85,9 @@ class OrdersService {
         GsonHolder.gson.fromJson(it, String::class.java)
     }
     .apply {
-        addParam("order_id", orderId)
+        addParam("order_id", orderId, min = 0)
         addParam("action", action.value)
-        appOrderId?.let { addParam("app_order_id", it) }
+        appOrderId?.let { addParam("app_order_id", it, min = 0) }
         testMode?.let { addParam("test_mode", it) }
     }
 
@@ -109,8 +109,8 @@ class OrdersService {
         GsonHolder.gson.fromJson<List<OrdersOrder>>(it, typeToken)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
         testMode?.let { addParam("test_mode", it) }
     }
 
@@ -125,7 +125,7 @@ class OrdersService {
         GsonHolder.gson.fromJson<List<OrdersAmount>>(it, typeToken)
     }
     .apply {
-        addParam("user_id", userId)
+        addParam("user_id", userId, min = 1)
         addParam("votes", votes)
     }
 
@@ -147,7 +147,7 @@ class OrdersService {
         GsonHolder.gson.fromJson<List<OrdersOrder>>(it, typeToken)
     }
     .apply {
-        orderId?.let { addParam("order_id", it) }
+        orderId?.let { addParam("order_id", it, min = 0) }
         orderIds?.let { addParam("order_ids", it) }
         testMode?.let { addParam("test_mode", it) }
     }
@@ -162,8 +162,8 @@ class OrdersService {
         GsonHolder.gson.fromJson(it, OrdersSubscription::class.java)
     }
     .apply {
-        addParam("user_id", userId)
-        addParam("subscription_id", subscriptionId)
+        addParam("user_id", userId, min = 1)
+        addParam("subscription_id", subscriptionId, min = 0)
     }
 
     /**
@@ -175,7 +175,7 @@ class OrdersService {
         GsonHolder.gson.fromJson(it, OrdersGetUserSubscriptionsResponse::class.java)
     }
     .apply {
-        addParam("user_id", userId)
+        addParam("user_id", userId, min = 1)
     }
 
     /**
@@ -192,8 +192,8 @@ class OrdersService {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
-        addParam("user_id", userId)
-        addParam("subscription_id", subscriptionId)
-        addParam("price", price)
+        addParam("user_id", userId, min = 1)
+        addParam("subscription_id", subscriptionId, min = 0)
+        addParam("price", price, min = 0)
     }
 }

@@ -36,7 +36,7 @@ import kotlin.Int
  */
 data class StoriesClickableArea(
     @SerializedName("x")
-    val x: Int? = null,
+    val x: Int,
     @SerializedName("y")
-    val y: Int? = null
+    val y: Int
 )

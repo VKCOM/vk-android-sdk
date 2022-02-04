@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Кіру</string>
+    <string name="logout">Шығу</string>
+    <string name="share_to_wall">Қабырғаға жіберу</string>
+    <string name="message_hint">Хабарламаңыз</string>
+    <string name="wall_ok">Жазба жарияланды</string>
+    <string name="message_connection_error">Қосылу қателігі</string>
+    <string name="message_unknown_error">Белгісіз қате, кейін байқап көріңіз</string>
+</resources>

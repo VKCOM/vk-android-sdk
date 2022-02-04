@@ -29,6 +29,7 @@ package com.vk.sdk.api.wall.dto
 
 import com.google.gson.annotations.SerializedName
 import com.vk.dto.common.id.UserId
+import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseLikesInfo
 import com.vk.sdk.api.comment.dto.CommentThread
 import kotlin.Boolean
@@ -37,31 +38,47 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
- * @param date - Date when the comment has been added in Unixtime
- * @param fromId - Author ID
  * @param id - Comment ID
+ * @param fromId - Author ID
+ * @param date - Date when the comment has been added in Unixtime
  * @param text - Comment text
+ * @param canEdit
+ * @param postId
+ * @param ownerId
+ * @param parentsStack
+ * @param photoId
+ * @param videoId
  * @param attachments
  * @param donut
  * @param likes
  * @param realOffset - Real position of the comment
- * @param replyToComment - Replied comment ID
  * @param replyToUser - Replied user ID
+ * @param replyToComment - Replied comment ID
  * @param thread
- * @param postId
- * @param ownerId
- * @param parentsStack
  * @param deleted
+ * @param pid - Photo ID
  */
 data class WallWallComment(
-    @SerializedName("date")
-    val date: Int,
-    @SerializedName("from_id")
-    val fromId: Int,
     @SerializedName("id")
     val id: Int,
+    @SerializedName("from_id")
+    val fromId: UserId,
+    @SerializedName("date")
+    val date: Int,
     @SerializedName("text")
     val text: String,
+    @SerializedName("can_edit")
+    val canEdit: BaseBoolInt? = null,
+    @SerializedName("post_id")
+    val postId: Int? = null,
+    @SerializedName("owner_id")
+    val ownerId: UserId? = null,
+    @SerializedName("parents_stack")
+    val parentsStack: List<Int>? = null,
+    @SerializedName("photo_id")
+    val photoId: Int? = null,
+    @SerializedName("video_id")
+    val videoId: Int? = null,
     @SerializedName("attachments")
     val attachments: List<WallCommentAttachment>? = null,
     @SerializedName("donut")
@@ -70,18 +87,14 @@ data class WallWallComment(
     val likes: BaseLikesInfo? = null,
     @SerializedName("real_offset")
     val realOffset: Int? = null,
+    @SerializedName("reply_to_user")
+    val replyToUser: UserId? = null,
     @SerializedName("reply_to_comment")
     val replyToComment: Int? = null,
-    @SerializedName("reply_to_user")
-    val replyToUser: Int? = null,
     @SerializedName("thread")
     val thread: CommentThread? = null,
-    @SerializedName("post_id")
-    val postId: Int? = null,
-    @SerializedName("owner_id")
-    val ownerId: UserId? = null,
-    @SerializedName("parents_stack")
-    val parentsStack: List<Int>? = null,
     @SerializedName("deleted")
-    val deleted: Boolean? = null
+    val deleted: Boolean? = null,
+    @SerializedName("pid")
+    val pid: Int? = null
 )

@@ -129,6 +129,9 @@ enum class BaseLinkButtonActionType(
     @SerializedName("unfollow_curator")
     UNFOLLOW_CURATOR("unfollow_curator"),
 
+    @SerializedName("unfollow_music_owner")
+    UNFOLLOW_MUSIC_OWNER("unfollow_music_owner"),
+
     @SerializedName("reorder_items")
     REORDER_ITEMS("reorder_items"),
 
@@ -153,6 +156,42 @@ enum class BaseLinkButtonActionType(
     @SerializedName("live_categories")
     LIVE_CATEGORIES("live_categories"),
 
+    @SerializedName("movie_categories")
+    MOVIE_CATEGORIES("movie_categories"),
+
     @SerializedName("toggle_video_album_subscription")
-    TOGGLE_VIDEO_ALBUM_SUBSCRIPTION("toggle_video_album_subscription");
+    TOGGLE_VIDEO_ALBUM_SUBSCRIPTION("toggle_video_album_subscription"),
+
+    @SerializedName("clear_video_history")
+    CLEAR_VIDEO_HISTORY("clear_video_history"),
+
+    @SerializedName("help_hint")
+    HELP_HINT("help_hint"),
+
+    @SerializedName("show_recommendations_for_post")
+    SHOW_RECOMMENDATIONS_FOR_POST("show_recommendations_for_post"),
+
+    @SerializedName("show_full_post")
+    SHOW_FULL_POST("show_full_post"),
+
+    @SerializedName("open_vkapp")
+    OPEN_VKAPP("open_vkapp"),
+
+    @SerializedName("open_game")
+    OPEN_GAME("open_game"),
+
+    @SerializedName("open_internal_vkui")
+    OPEN_INTERNAL_VKUI("open_internal_vkui"),
+
+    @SerializedName("specials_perform_action")
+    SPECIALS_PERFORM_ACTION("specials_perform_action"),
+
+    @SerializedName("open_birthday_modal")
+    OPEN_BIRTHDAY_MODAL("open_birthday_modal"),
+
+    @SerializedName("share")
+    SHARE("share"),
+
+    @SerializedName("perform_action_with_url")
+    PERFORM_ACTION_WITH_URL("perform_action_with_url");
 }

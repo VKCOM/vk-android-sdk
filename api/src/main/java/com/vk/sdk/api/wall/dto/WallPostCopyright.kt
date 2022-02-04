@@ -28,7 +28,7 @@
 package com.vk.sdk.api.wall.dto
 
 import com.google.gson.annotations.SerializedName
-import kotlin.Int
+import com.vk.dto.common.id.UserId
 import kotlin.String
 
 /**
@@ -45,5 +45,5 @@ data class WallPostCopyright(
     @SerializedName("type")
     val type: String,
     @SerializedName("id")
-    val id: Int? = null
+    val id: UserId? = null
 )

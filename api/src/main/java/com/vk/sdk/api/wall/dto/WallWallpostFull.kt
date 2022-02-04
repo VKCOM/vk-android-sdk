@@ -33,7 +33,6 @@ import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseCommentsInfo
 import com.vk.sdk.api.base.dto.BaseLikesInfo
 import com.vk.sdk.api.base.dto.BaseRepostsInfo
-import kotlin.Any
 import kotlin.Boolean
 import kotlin.Float
 import kotlin.Int
@@ -67,7 +66,6 @@ import kotlin.collections.List
  * @param isFavorite - Information whether the post in favorites list
  * @param likes - Count of likes
  * @param ownerId - Wall owner's ID
- * @param poster
  * @param postId - If post type 'reply', contains original post ID
  * @param parentsStack - If post type 'reply', contains original parent IDs stack
  * @param postSource
@@ -79,11 +77,11 @@ import kotlin.collections.List
  */
 data class WallWallpostFull(
     @SerializedName("copy_history")
-    val copyHistory: List<WallWallpost>? = null,
+    val copyHistory: List<WallWallpostFull>? = null,
     @SerializedName("can_edit")
     val canEdit: BaseBoolInt? = null,
     @SerializedName("created_by")
-    val createdBy: Int? = null,
+    val createdBy: UserId? = null,
     @SerializedName("can_delete")
     val canDelete: BaseBoolInt? = null,
     @SerializedName("can_pin")
@@ -117,7 +115,7 @@ data class WallWallpostFull(
     @SerializedName("edited")
     val edited: Int? = null,
     @SerializedName("from_id")
-    val fromId: Int? = null,
+    val fromId: UserId? = null,
     @SerializedName("geo")
     val geo: WallGeo? = null,
     @SerializedName("id")
@@ -130,8 +128,6 @@ data class WallWallpostFull(
     val likes: BaseLikesInfo? = null,
     @SerializedName("owner_id")
     val ownerId: UserId? = null,
-    @SerializedName("poster")
-    val poster: Any? = null,
     @SerializedName("post_id")
     val postId: Int? = null,
     @SerializedName("parents_stack")
@@ -143,7 +139,7 @@ data class WallWallpostFull(
     @SerializedName("reposts")
     val reposts: BaseRepostsInfo? = null,
     @SerializedName("signer_id")
-    val signerId: Int? = null,
+    val signerId: UserId? = null,
     @SerializedName("text")
     val text: String? = null,
     @SerializedName("views")

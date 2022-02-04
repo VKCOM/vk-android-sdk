@@ -40,6 +40,13 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
+ * @param availability
+ * @param category
+ * @param description - Item description
+ * @param id - Item ID
+ * @param ownerId - Item owner's ID
+ * @param price
+ * @param title - Item title
  * @param albumsIds
  * @param photos
  * @param canComment - Information whether current use can comment the item
@@ -50,25 +57,33 @@ import kotlin.collections.List
  * @param wishlistItemId - Object identifier in wishlist of viewer
  * @param cancelInfo - Information for cancel and revert order
  * @param userAgreementInfo - User agreement info
+ * @param adId - Contains ad ID if it has
  * @param accessKey - Access key for the market item
- * @param availability
  * @param buttonTitle - Title for button for url
- * @param category
  * @param date - Date when the item has been created in Unixtime
- * @param description - Item description
  * @param externalId
- * @param id - Item ID
  * @param isFavorite
- * @param ownerId - Item owner's ID
- * @param price
  * @param thumbPhoto - URL of the preview image
- * @param title - Item title
  * @param url - URL to item
  * @param variantsGroupingId
  * @param isMainVariant
  * @param sku
  */
 data class MarketMarketItemFull(
+    @SerializedName("availability")
+    val availability: MarketMarketItemAvailability,
+    @SerializedName("category")
+    val category: MarketMarketCategory,
+    @SerializedName("description")
+    val description: String,
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("owner_id")
+    val ownerId: UserId,
+    @SerializedName("price")
+    val price: MarketPrice,
+    @SerializedName("title")
+    val title: String,
     @SerializedName("albums_ids")
     val albumsIds: List<Int>? = null,
     @SerializedName("photos")
@@ -89,32 +104,20 @@ data class MarketMarketItemFull(
     val cancelInfo: BaseLink? = null,
     @SerializedName("user_agreement_info")
     val userAgreementInfo: String? = null,
+    @SerializedName("ad_id")
+    val adId: Int? = null,
     @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName("availability")
-    val availability: MarketMarketItemAvailability? = null,
     @SerializedName("button_title")
     val buttonTitle: String? = null,
-    @SerializedName("category")
-    val category: MarketMarketCategory? = null,
     @SerializedName("date")
     val date: Int? = null,
-    @SerializedName("description")
-    val description: String? = null,
     @SerializedName("external_id")
     val externalId: String? = null,
-    @SerializedName("id")
-    val id: Int? = null,
     @SerializedName("is_favorite")
     val isFavorite: Boolean? = null,
-    @SerializedName("owner_id")
-    val ownerId: UserId? = null,
-    @SerializedName("price")
-    val price: MarketPrice? = null,
     @SerializedName("thumb_photo")
     val thumbPhoto: String? = null,
-    @SerializedName("title")
-    val title: String? = null,
     @SerializedName("url")
     val url: String? = null,
     @SerializedName("variants_grouping_id")

@@ -43,6 +43,7 @@ import com.vk.sdk.api.account.dto.AccountSaveProfileInfoBdateVisibility
 import com.vk.sdk.api.account.dto.AccountSaveProfileInfoRelation
 import com.vk.sdk.api.account.dto.AccountSaveProfileInfoResponse
 import com.vk.sdk.api.account.dto.AccountSaveProfileInfoSex
+import com.vk.sdk.api.account.dto.AccountSetInfoName
 import com.vk.sdk.api.account.dto.AccountUserSettings
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import kotlin.Boolean
@@ -84,7 +85,7 @@ class AccountService {
         GsonHolder.gson.fromJson(it, AccountChangePasswordResponse::class.java)
     }
     .apply {
-        addParam("new_password", newPassword)
+        addParam("new_password", newPassword, minLength = 6)
         restoreSid?.let { addParam("restore_sid", it) }
         changePasswordHash?.let { addParam("change_password_hash", it) }
         oldPassword?.let { addParam("old_password", it) }
@@ -103,8 +104,8 @@ class AccountService {
         GsonHolder.gson.fromJson(it, AccountGetActiveOffersResponse::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
     }
 
     /**
@@ -118,7 +119,7 @@ class AccountService {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
     .apply {
-        addParam("user_id", userId)
+        addParam("user_id", userId, min = 1)
     }
 
     /**
@@ -133,8 +134,8 @@ class AccountService {
         GsonHolder.gson.fromJson(it, AccountGetBannedResponse::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
     }
 
     /**
@@ -153,7 +154,7 @@ class AccountService {
             it.value
         }
         filterJsonConverted?.let { addParam("filter", it) }
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
     }
 
     /**
@@ -265,7 +266,7 @@ class AccountService {
         cancelRequestId: Int? = null,
         sex: AccountSaveProfileInfoSex? = null,
         relation: AccountSaveProfileInfoRelation? = null,
-        relationPartnerId: Int? = null,
+        relationPartnerId: UserId? = null,
         bdate: String? = null,
         bdateVisibility: AccountSaveProfileInfoBdateVisibility? = null,
         homeTown: String? = null,
@@ -280,15 +281,15 @@ class AccountService {
         lastName?.let { addParam("last_name", it) }
         maidenName?.let { addParam("maiden_name", it) }
         screenName?.let { addParam("screen_name", it) }
-        cancelRequestId?.let { addParam("cancel_request_id", it) }
+        cancelRequestId?.let { addParam("cancel_request_id", it, min = 0) }
         sex?.let { addParam("sex", it.value) }
         relation?.let { addParam("relation", it.value) }
-        relationPartnerId?.let { addParam("relation_partner_id", it) }
+        relationPartnerId?.let { addParam("relation_partner_id", it, min = 0) }
         bdate?.let { addParam("bdate", it) }
         bdateVisibility?.let { addParam("bdate_visibility", it.value) }
         homeTown?.let { addParam("home_town", it) }
-        countryId?.let { addParam("country_id", it) }
-        cityId?.let { addParam("city_id", it) }
+        countryId?.let { addParam("country_id", it, min = 0) }
+        cityId?.let { addParam("city_id", it, min = 0) }
         status?.let { addParam("status", it) }
     }
 
@@ -299,30 +300,13 @@ class AccountService {
      * @param value - Setting value.
      * @return [VKRequest] with [BaseOkResponse]
      */
-    fun accountSetInfo(name: String? = null, value: String? = null): VKRequest<BaseOkResponse> =
-            NewApiRequest("account.setInfo") {
+    fun accountSetInfo(name: AccountSetInfoName? = null, value: String? = null):
+            VKRequest<BaseOkResponse> = NewApiRequest("account.setInfo") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        name?.let { addParam("name", it) }
+        name?.let { addParam("name", it.value) }
         value?.let { addParam("value", it) }
-    }
-
-    /**
-     * Sets an application screen name (up to 17 characters), that is shown to the user in the left
-     * menu.
-     *
-     * @param userId - User ID.
-     * @param name - Application screen name.
-     * @return [VKRequest] with [BaseOkResponse]
-     */
-    fun accountSetNameInMenu(userId: UserId, name: String? = null): VKRequest<BaseOkResponse> =
-            NewApiRequest("account.setNameInMenu") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
-    }
-    .apply {
-        addParam("user_id", userId)
-        name?.let { addParam("name", it) }
     }
 
     /**

@@ -28,23 +28,23 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import kotlin.Boolean
-import kotlin.Int
 import kotlin.collections.List
 
 /**
- * @param buttons
  * @param oneTime - Should this keyboard disappear on first use
+ * @param buttons
  * @param authorId - Community or bot, which set this keyboard
  * @param inline
  */
 data class MessagesKeyboard(
-    @SerializedName("buttons")
-    val buttons: List<List<MessagesKeyboardButton>>,
     @SerializedName("one_time")
     val oneTime: Boolean,
+    @SerializedName("buttons")
+    val buttons: List<List<MessagesKeyboardButton>>,
     @SerializedName("author_id")
-    val authorId: Int? = null,
+    val authorId: UserId? = null,
     @SerializedName("inline")
     val inline: Boolean? = null
 )

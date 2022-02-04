@@ -37,7 +37,7 @@ import kotlin.collections.List
  */
 data class DatabaseGetMetroStationsResponse(
     @SerializedName("count")
-    val count: Int? = null,
+    val count: Int,
     @SerializedName("items")
-    val items: List<DatabaseStation>? = null
+    val items: List<DatabaseStation>
 )

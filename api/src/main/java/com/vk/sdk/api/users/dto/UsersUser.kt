@@ -38,6 +38,7 @@ import kotlin.Int
 import kotlin.String
 
 /**
+ * @param id - User ID
  * @param sex - User sex
  * @param screenName - Domain name of the user's page
  * @param photo50 - URL of square photo of the user with 50 pixels in width
@@ -53,12 +54,13 @@ import kotlin.String
  * @param deactivated - Returns if a profile is deleted or blocked
  * @param firstName - User first name
  * @param hidden - Returns if a profile is hidden.
- * @param id - User ID
  * @param lastName - User last name
  * @param canAccessClosed
  * @param isClosed
  */
 data class UsersUser(
+    @SerializedName("id")
+    val id: UserId,
     @SerializedName("sex")
     val sex: BaseSex? = null,
     @SerializedName("screen_name")
@@ -89,8 +91,6 @@ data class UsersUser(
     val firstName: String? = null,
     @SerializedName("hidden")
     val hidden: Int? = null,
-    @SerializedName("id")
-    val id: UserId? = null,
     @SerializedName("last_name")
     val lastName: String? = null,
     @SerializedName("can_access_closed")

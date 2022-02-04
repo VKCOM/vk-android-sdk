@@ -44,12 +44,14 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
+ * @param id - User ID
+ * @param homeTown - User's hometown
+ * @param status - User status
  * @param photo200 - URL of square photo of the user with 200 pixels in width
  * @param isServiceAccount - flag about service account
  * @param deactivated - Returns if a profile is deleted or blocked
  * @param firstName - User first name
  * @param hidden - Returns if a profile is hidden.
- * @param id - User ID
  * @param lastName - User last name
  * @param canAccessClosed
  * @param isClosed
@@ -58,7 +60,6 @@ import kotlin.collections.List
  * @param bdateVisibility - Information whether user's birthdate are hidden
  * @param city
  * @param country
- * @param homeTown - User's hometown
  * @param maidenName - User maiden name
  * @param nameRequest
  * @param personal
@@ -69,12 +70,17 @@ import kotlin.collections.List
  * @param relationRequests
  * @param screenName - Domain name of the user's page
  * @param sex - User sex
- * @param status - User status
  * @param statusAudio
  * @param interests
  * @param languages
  */
 data class AccountUserSettings(
+    @SerializedName("id")
+    val id: UserId,
+    @SerializedName("home_town")
+    val homeTown: String,
+    @SerializedName("status")
+    val status: String,
     @SerializedName("photo_200")
     val photo200: String? = null,
     @SerializedName("is_service_account")
@@ -85,8 +91,6 @@ data class AccountUserSettings(
     val firstName: String? = null,
     @SerializedName("hidden")
     val hidden: Int? = null,
-    @SerializedName("id")
-    val id: UserId? = null,
     @SerializedName("last_name")
     val lastName: String? = null,
     @SerializedName("can_access_closed")
@@ -103,8 +107,6 @@ data class AccountUserSettings(
     val city: BaseCity? = null,
     @SerializedName("country")
     val country: BaseCountry? = null,
-    @SerializedName("home_town")
-    val homeTown: String? = null,
     @SerializedName("maiden_name")
     val maidenName: String? = null,
     @SerializedName("name_request")
@@ -125,8 +127,6 @@ data class AccountUserSettings(
     val screenName: String? = null,
     @SerializedName("sex")
     val sex: BaseSex? = null,
-    @SerializedName("status")
-    val status: String? = null,
     @SerializedName("status_audio")
     val statusAudio: AudioAudio? = null,
     @SerializedName("interests")

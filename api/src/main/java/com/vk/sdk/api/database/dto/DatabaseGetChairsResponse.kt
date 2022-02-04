@@ -38,7 +38,7 @@ import kotlin.collections.List
  */
 data class DatabaseGetChairsResponse(
     @SerializedName("count")
-    val count: Int? = null,
+    val count: Int,
     @SerializedName("items")
-    val items: List<BaseObject>? = null
+    val items: List<BaseObject>
 )

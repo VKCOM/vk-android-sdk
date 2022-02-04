@@ -42,6 +42,7 @@ import kotlin.collections.List
 
 /**
  * @param files
+ * @param trailer
  * @param liveSettings - Settings for live stream
  * @param accessKey - Video access key
  * @param addingDate - Date when the video has been added in Unixtime
@@ -100,6 +101,8 @@ import kotlin.collections.List
 data class VideoVideoFull(
     @SerializedName("files")
     val files: VideoVideoFiles? = null,
+    @SerializedName("trailer")
+    val trailer: VideoVideoFiles? = null,
     @SerializedName("live_settings")
     val liveSettings: VideoLiveSettings? = null,
     @SerializedName("access_key")

@@ -36,6 +36,9 @@ enum class MessagesGetConversationsFilter(
     @SerializedName("all")
     ALL("all"),
 
+    @SerializedName("archive")
+    ARCHIVE("archive"),
+
     @SerializedName("business_notify")
     BUSINESS_NOTIFY("business_notify"),
 

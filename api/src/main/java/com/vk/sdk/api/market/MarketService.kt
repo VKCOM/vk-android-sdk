@@ -55,11 +55,11 @@ import com.vk.sdk.api.market.dto.MarketReportReason
 import com.vk.sdk.api.market.dto.MarketSearchExtendedResponse
 import com.vk.sdk.api.market.dto.MarketSearchExtendedRev
 import com.vk.sdk.api.market.dto.MarketSearchExtendedSort
-import com.vk.sdk.api.market.dto.MarketSearchExtendedStatus
+import com.vk.sdk.api.market.dto.MarketSearchItemsSortBy
+import com.vk.sdk.api.market.dto.MarketSearchItemsSortDirection
 import com.vk.sdk.api.market.dto.MarketSearchResponse
 import com.vk.sdk.api.market.dto.MarketSearchRev
 import com.vk.sdk.api.market.dto.MarketSearchSort
-import com.vk.sdk.api.market.dto.MarketSearchStatus
 import com.vk.sdk.api.users.dto.UsersFields
 import kotlin.Boolean
 import kotlin.Float
@@ -109,20 +109,20 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("name", name)
-        addParam("description", description)
-        addParam("category_id", categoryId)
-        price?.let { addParam("price", it) }
-        oldPrice?.let { addParam("old_price", it) }
+        addParam("name", name, minLength = 4, maxLength = 100)
+        addParam("description", description, minLength = 10)
+        addParam("category_id", categoryId, min = 0)
+        price?.let { addParam("price", it, min = 0.0) }
+        oldPrice?.let { addParam("old_price", it, min = 0.01) }
         deleted?.let { addParam("deleted", it) }
-        mainPhotoId?.let { addParam("main_photo_id", it) }
+        mainPhotoId?.let { addParam("main_photo_id", it, min = 0) }
         photoIds?.let { addParam("photo_ids", it) }
-        url?.let { addParam("url", it) }
-        dimensionWidth?.let { addParam("dimension_width", it) }
-        dimensionHeight?.let { addParam("dimension_height", it) }
-        dimensionLength?.let { addParam("dimension_length", it) }
-        weight?.let { addParam("weight", it) }
-        sku?.let { addParam("sku", it) }
+        url?.let { addParam("url", it, minLength = 0, maxLength = 320) }
+        dimensionWidth?.let { addParam("dimension_width", it, min = 0, max = 100000) }
+        dimensionHeight?.let { addParam("dimension_height", it, min = 0, max = 100000) }
+        dimensionLength?.let { addParam("dimension_length", it, min = 0, max = 100000) }
+        weight?.let { addParam("weight", it, min = 0, max = 100000000) }
+        sku?.let { addParam("sku", it, maxLength = 50) }
     }
 
     /**
@@ -146,8 +146,8 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("title", title)
-        photoId?.let { addParam("photo_id", it) }
+        addParam("title", title, maxLength = 128)
+        photoId?.let { addParam("photo_id", it, min = 0) }
         mainAlbum?.let { addParam("main_album", it) }
         isHidden?.let { addParam("is_hidden", it) }
     }
@@ -205,12 +205,12 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("item_id", itemId)
+        addParam("item_id", itemId, min = 0)
         message?.let { addParam("message", it) }
         attachments?.let { addParam("attachments", it) }
         fromGroup?.let { addParam("from_group", it) }
-        replyToComment?.let { addParam("reply_to_comment", it) }
-        stickerId?.let { addParam("sticker_id", it) }
+        replyToComment?.let { addParam("reply_to_comment", it, min = 0) }
+        stickerId?.let { addParam("sticker_id", it, min = 0) }
         guid?.let { addParam("guid", it) }
     }
 
@@ -227,7 +227,7 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("item_id", itemId)
+        addParam("item_id", itemId, min = 0)
     }
 
     /**
@@ -243,7 +243,7 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("album_id", albumId)
+        addParam("album_id", albumId, min = 0)
     }
 
     /**
@@ -261,7 +261,7 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("comment_id", commentId)
+        addParam("comment_id", commentId, min = 0)
     }
 
     /**
@@ -280,7 +280,7 @@ class MarketService {
      * @return [VKRequest] with [BaseOkResponse]
      */
     fun marketEdit(
-        ownerId: Int,
+        ownerId: UserId,
         itemId: Int,
         name: String,
         description: String,
@@ -295,15 +295,15 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("item_id", itemId)
-        addParam("name", name)
-        addParam("description", description)
-        addParam("category_id", categoryId)
-        price?.let { addParam("price", it) }
+        addParam("item_id", itemId, min = 0)
+        addParam("name", name, minLength = 4, maxLength = 100)
+        addParam("description", description, minLength = 10)
+        addParam("category_id", categoryId, min = 0)
+        price?.let { addParam("price", it, min = 0.0) }
         deleted?.let { addParam("deleted", it) }
-        mainPhotoId?.let { addParam("main_photo_id", it) }
+        mainPhotoId?.let { addParam("main_photo_id", it, min = 0) }
         photoIds?.let { addParam("photo_ids", it) }
-        url?.let { addParam("url", it) }
+        url?.let { addParam("url", it, minLength = 0, maxLength = 320) }
     }
 
     /**
@@ -329,9 +329,9 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("album_id", albumId)
-        addParam("title", title)
-        photoId?.let { addParam("photo_id", it) }
+        addParam("album_id", albumId, min = 0)
+        addParam("title", title, maxLength = 128)
+        photoId?.let { addParam("photo_id", it, min = 0) }
         mainAlbum?.let { addParam("main_album", it) }
         isHidden?.let { addParam("is_hidden", it) }
     }
@@ -360,7 +360,7 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("comment_id", commentId)
+        addParam("comment_id", commentId, min = 0)
         message?.let { addParam("message", it) }
         attachments?.let { addParam("attachments", it) }
     }
@@ -397,17 +397,17 @@ class MarketService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("user_id", userId)
-        addParam("order_id", orderId)
-        merchantComment?.let { addParam("merchant_comment", it) }
-        status?.let { addParam("status", it) }
-        trackNumber?.let { addParam("track_number", it) }
+        addParam("user_id", userId, min = 1)
+        addParam("order_id", orderId, min = 0)
+        merchantComment?.let { addParam("merchant_comment", it, maxLength = 800) }
+        status?.let { addParam("status", it, min = 0) }
+        trackNumber?.let { addParam("track_number", it, maxLength = 60) }
         paymentStatus?.let { addParam("payment_status", it.value) }
-        deliveryPrice?.let { addParam("delivery_price", it) }
-        width?.let { addParam("width", it) }
-        length?.let { addParam("length", it) }
-        height?.let { addParam("height", it) }
-        weight?.let { addParam("weight", it) }
+        deliveryPrice?.let { addParam("delivery_price", it, min = 0) }
+        width?.let { addParam("width", it, min = 0, max = 100000) }
+        length?.let { addParam("length", it, min = 0, max = 100000) }
+        height?.let { addParam("height", it, min = 0, max = 100000) }
+        weight?.let { addParam("weight", it, min = 0, max = 100000000) }
     }
 
     /**
@@ -422,27 +422,30 @@ class MarketService {
      * @param dateFrom - Items update date from (format_ yyyy-mm-dd)
      * @param dateTo - Items update date to (format_ yyyy-mm-dd)
      * @param needVariants - Add variants to response if exist
+     * @param withDisabled - Add disabled items to response
      * @return [VKRequest] with [MarketGetResponse]
      */
     fun marketGet(
-        ownerId: Int,
+        ownerId: UserId,
         albumId: Int? = null,
         count: Int? = null,
         offset: Int? = null,
         dateFrom: String? = null,
         dateTo: String? = null,
-        needVariants: Boolean? = null
+        needVariants: Boolean? = null,
+        withDisabled: Boolean? = null
     ): VKRequest<MarketGetResponse> = NewApiRequest("market.get") {
         GsonHolder.gson.fromJson(it, MarketGetResponse::class.java)
     }
     .apply {
         addParam("owner_id", ownerId)
-        albumId?.let { addParam("album_id", it) }
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        albumId?.let { addParam("album_id", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
+        offset?.let { addParam("offset", it, min = 0) }
         dateFrom?.let { addParam("date_from", it) }
         dateTo?.let { addParam("date_to", it) }
         needVariants?.let { addParam("need_variants", it) }
+        withDisabled?.let { addParam("with_disabled", it) }
     }
 
     /**
@@ -457,28 +460,31 @@ class MarketService {
      * @param dateFrom - Items update date from (format_ yyyy-mm-dd)
      * @param dateTo - Items update date to (format_ yyyy-mm-dd)
      * @param needVariants - Add variants to response if exist
+     * @param withDisabled - Add disabled items to response
      * @return [VKRequest] with [MarketGetExtendedResponse]
      */
     fun marketGetExtended(
-        ownerId: Int,
+        ownerId: UserId,
         albumId: Int? = null,
         count: Int? = null,
         offset: Int? = null,
         dateFrom: String? = null,
         dateTo: String? = null,
-        needVariants: Boolean? = null
+        needVariants: Boolean? = null,
+        withDisabled: Boolean? = null
     ): VKRequest<MarketGetExtendedResponse> = NewApiRequest("market.get") {
         GsonHolder.gson.fromJson(it, MarketGetExtendedResponse::class.java)
     }
     .apply {
         addParam("owner_id", ownerId)
-        albumId?.let { addParam("album_id", it) }
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        albumId?.let { addParam("album_id", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
+        offset?.let { addParam("offset", it, min = 0) }
         addParam("extended", true)
         dateFrom?.let { addParam("date_from", it) }
         dateTo?.let { addParam("date_to", it) }
         needVariants?.let { addParam("need_variants", it) }
+        withDisabled?.let { addParam("with_disabled", it) }
     }
 
     /**
@@ -516,8 +522,8 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
     }
 
     /**
@@ -565,8 +571,8 @@ class MarketService {
         GsonHolder.gson.fromJson(it, MarketGetCategoriesResponse::class.java)
     }
     .apply {
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
+        offset?.let { addParam("offset", it, min = 0) }
     }
 
     /**
@@ -597,11 +603,11 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("item_id", itemId)
+        addParam("item_id", itemId, min = 0)
         needLikes?.let { addParam("need_likes", it) }
-        startCommentId?.let { addParam("start_comment_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        startCommentId?.let { addParam("start_comment_id", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         sort?.let { addParam("sort", it.value) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -625,9 +631,9 @@ class MarketService {
         GsonHolder.gson.fromJson(it, MarketGetGroupOrdersResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        addParam("group_id", groupId, min = 1)
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 1, max = 50) }
     }
 
     /**
@@ -642,8 +648,8 @@ class MarketService {
         GsonHolder.gson.fromJson(it, MarketGetOrderByIdResponse::class.java)
     }
     .apply {
-        addParam("order_id", orderId)
-        userId?.let { addParam("user_id", it) }
+        addParam("order_id", orderId, min = 0)
+        userId?.let { addParam("user_id", it, min = 0) }
     }
 
     /**
@@ -664,10 +670,10 @@ class MarketService {
         GsonHolder.gson.fromJson(it, MarketGetOrderItemsResponse::class.java)
     }
     .apply {
-        addParam("order_id", orderId)
-        userId?.let { addParam("user_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        addParam("order_id", orderId, min = 0)
+        userId?.let { addParam("user_id", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
     }
 
     /**
@@ -686,8 +692,8 @@ class MarketService {
         GsonHolder.gson.fromJson(it, MarketGetOrdersResponse::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 10) }
         dateFrom?.let { addParam("date_from", it) }
         dateTo?.let { addParam("date_to", it) }
     }
@@ -708,8 +714,8 @@ class MarketService {
         GsonHolder.gson.fromJson(it, MarketGetOrdersExtendedResponse::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 10) }
         addParam("extended", true)
         dateFrom?.let { addParam("date_from", it) }
         dateTo?.let { addParam("date_to", it) }
@@ -732,7 +738,7 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("item_id", itemId)
+        addParam("item_id", itemId, min = 0)
         addParam("album_ids", albumIds)
     }
 
@@ -756,8 +762,8 @@ class MarketService {
     .apply {
         addParam("owner_id", ownerId)
         addParam("album_id", albumId)
-        before?.let { addParam("before", it) }
-        after?.let { addParam("after", it) }
+        before?.let { addParam("before", it, min = 0) }
+        after?.let { addParam("after", it, min = 0) }
     }
 
     /**
@@ -781,10 +787,10 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("item_id", itemId)
+        addParam("item_id", itemId, min = 0)
         albumId?.let { addParam("album_id", it) }
-        before?.let { addParam("before", it) }
-        after?.let { addParam("after", it) }
+        before?.let { addParam("before", it, min = 0) }
+        after?.let { addParam("after", it, min = 0) }
     }
 
     /**
@@ -805,7 +811,7 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("item_id", itemId)
+        addParam("item_id", itemId, min = 0)
         reason?.let { addParam("reason", it.value) }
     }
 
@@ -827,7 +833,7 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("comment_id", commentId)
+        addParam("comment_id", commentId, min = 0)
         addParam("reason", reason.value)
     }
 
@@ -844,7 +850,7 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("item_id", itemId)
+        addParam("item_id", itemId, min = 0)
     }
 
     /**
@@ -862,7 +868,7 @@ class MarketService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("comment_id", commentId)
+        addParam("comment_id", commentId, min = 0)
     }
 
     /**
@@ -891,22 +897,22 @@ class MarketService {
         rev: MarketSearchRev? = null,
         offset: Int? = null,
         count: Int? = null,
-        status: MarketSearchStatus? = null,
+        status: List<Int>? = null,
         needVariants: Boolean? = null
     ): VKRequest<MarketSearchResponse> = NewApiRequest("market.search") {
         GsonHolder.gson.fromJson(it, MarketSearchResponse::class.java)
     }
     .apply {
         addParam("owner_id", ownerId)
-        albumId?.let { addParam("album_id", it) }
+        albumId?.let { addParam("album_id", it, min = 0) }
         q?.let { addParam("q", it) }
-        priceFrom?.let { addParam("price_from", it) }
-        priceTo?.let { addParam("price_to", it) }
+        priceFrom?.let { addParam("price_from", it, min = 0) }
+        priceTo?.let { addParam("price_to", it, min = 0) }
         sort?.let { addParam("sort", it.value) }
         rev?.let { addParam("rev", it.value) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
-        status?.let { addParam("status", it.value) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
+        status?.let { addParam("status", it) }
         needVariants?.let { addParam("need_variants", it) }
     }
 
@@ -936,23 +942,63 @@ class MarketService {
         rev: MarketSearchExtendedRev? = null,
         offset: Int? = null,
         count: Int? = null,
-        status: MarketSearchExtendedStatus? = null,
+        status: List<Int>? = null,
         needVariants: Boolean? = null
     ): VKRequest<MarketSearchExtendedResponse> = NewApiRequest("market.search") {
         GsonHolder.gson.fromJson(it, MarketSearchExtendedResponse::class.java)
     }
     .apply {
         addParam("owner_id", ownerId)
-        albumId?.let { addParam("album_id", it) }
+        albumId?.let { addParam("album_id", it, min = 0) }
         q?.let { addParam("q", it) }
-        priceFrom?.let { addParam("price_from", it) }
-        priceTo?.let { addParam("price_to", it) }
+        priceFrom?.let { addParam("price_from", it, min = 0) }
+        priceTo?.let { addParam("price_to", it, min = 0) }
         sort?.let { addParam("sort", it.value) }
         rev?.let { addParam("rev", it.value) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         addParam("extended", true)
-        status?.let { addParam("status", it.value) }
+        status?.let { addParam("status", it) }
         needVariants?.let { addParam("need_variants", it) }
+    }
+
+    /**
+     * @param q
+     * @param offset
+     * @param count
+     * @param categoryId
+     * @param priceFrom
+     * @param priceTo
+     * @param sortBy
+     * @param sortDirection
+     * @param country
+     * @param city
+     * @return [VKRequest] with [MarketSearchResponse]
+     */
+    fun marketSearchItems(
+        q: String,
+        offset: Int? = null,
+        count: Int? = null,
+        categoryId: Int? = null,
+        priceFrom: Int? = null,
+        priceTo: Int? = null,
+        sortBy: MarketSearchItemsSortBy? = null,
+        sortDirection: MarketSearchItemsSortDirection? = null,
+        country: Int? = null,
+        city: Int? = null
+    ): VKRequest<MarketSearchResponse> = NewApiRequest("market.searchItems") {
+        GsonHolder.gson.fromJson(it, MarketSearchResponse::class.java)
+    }
+    .apply {
+        addParam("q", q)
+        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0, max = 300) }
+        categoryId?.let { addParam("category_id", it, min = 0) }
+        priceFrom?.let { addParam("price_from", it, min = 0) }
+        priceTo?.let { addParam("price_to", it, min = 0) }
+        sortBy?.let { addParam("sort_by", it.value) }
+        sortDirection?.let { addParam("sort_direction", it.value) }
+        country?.let { addParam("country", it, min = 0) }
+        city?.let { addParam("city", it, min = 0) }
     }
 }

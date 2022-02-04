@@ -84,6 +84,9 @@ enum class UsersFields(
     @SerializedName("birthdate")
     BIRTHDATE("birthdate"),
 
+    @SerializedName("bdate_visibility")
+    BDATE_VISIBILITY("bdate_visibility"),
+
     @SerializedName("city")
     CITY("city"),
 
@@ -143,6 +146,9 @@ enum class UsersFields(
 
     @SerializedName("profile_buttons_tablet")
     PROFILE_BUTTONS_TABLET("profile_buttons_tablet"),
+
+    @SerializedName("third_party_buttons")
+    THIRD_PARTY_BUTTONS("third_party_buttons"),
 
     @SerializedName("online")
     ONLINE("online"),
@@ -405,6 +411,18 @@ enum class UsersFields(
     @SerializedName("is_subscribed")
     IS_SUBSCRIBED("is_subscribed"),
 
+    @SerializedName("is_subscribed_stories")
+    IS_SUBSCRIBED_STORIES("is_subscribed_stories"),
+
+    @SerializedName("can_subscribe_stories")
+    CAN_SUBSCRIBE_STORIES("can_subscribe_stories"),
+
+    @SerializedName("can_ask_question")
+    CAN_ASK_QUESTION("can_ask_question"),
+
+    @SerializedName("can_ask_anonymous")
+    CAN_ASK_ANONYMOUS("can_ask_anonymous"),
+
     @SerializedName("is_subscribed_podcasts")
     IS_SUBSCRIBED_PODCASTS("is_subscribed_podcasts"),
 
@@ -419,6 +437,12 @@ enum class UsersFields(
 
     @SerializedName("has_rights")
     HAS_RIGHTS("has_rights"),
+
+    @SerializedName("sys_username")
+    SYS_USERNAME("sys_username"),
+
+    @SerializedName("employee_mark")
+    EMPLOYEE_MARK("employee_mark"),
 
     @SerializedName("rights_location")
     RIGHTS_LOCATION("rights_location");

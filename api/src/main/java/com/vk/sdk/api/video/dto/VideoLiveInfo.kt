@@ -36,7 +36,7 @@ import com.vk.sdk.api.base.dto.BaseBoolInt
  */
 data class VideoLiveInfo(
     @SerializedName("enabled")
-    val enabled: BaseBoolInt? = null,
+    val enabled: BaseBoolInt,
     @SerializedName("is_notifications_blocked")
     val isNotificationsBlocked: BaseBoolInt? = null
 )

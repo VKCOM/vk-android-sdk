@@ -28,6 +28,7 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.base.dto.BaseGeo
 import kotlin.Boolean
 import kotlin.Int
@@ -53,7 +54,7 @@ data class MessagesForeignMessage(
     @SerializedName("date")
     val date: Int,
     @SerializedName("from_id")
-    val fromId: Int,
+    val fromId: UserId,
     @SerializedName("text")
     val text: String,
     @SerializedName("attachments")

@@ -68,7 +68,7 @@ data class AdsAdLayout(
     @SerializedName("link_domain")
     val linkDomain: String? = null,
     @SerializedName("preview_link")
-    val previewLink: Int? = null,
+    val previewLink: String? = null,
     @SerializedName("video")
     val video: BaseBoolInt? = null
 )

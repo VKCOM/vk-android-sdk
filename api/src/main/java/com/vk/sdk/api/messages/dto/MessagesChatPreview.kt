@@ -28,6 +28,8 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
+import com.vk.sdk.api.base.dto.BaseLinkButton
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -41,20 +43,32 @@ import kotlin.collections.List
  * @param membersCount
  * @param title
  * @param isMember
+ * @param photo
+ * @param isDon
+ * @param isGroupChannel
+ * @param button
  */
 data class MessagesChatPreview(
     @SerializedName("admin_id")
-    val adminId: Int? = null,
+    val adminId: UserId? = null,
     @SerializedName("joined")
     val joined: Boolean? = null,
     @SerializedName("local_id")
     val localId: Int? = null,
     @SerializedName("members")
-    val members: List<Int>? = null,
+    val members: List<UserId>? = null,
     @SerializedName("members_count")
     val membersCount: Int? = null,
     @SerializedName("title")
     val title: String? = null,
     @SerializedName("is_member")
-    val isMember: Boolean? = null
+    val isMember: Boolean? = null,
+    @SerializedName("photo")
+    val photo: MessagesChatSettingsPhoto? = null,
+    @SerializedName("is_don")
+    val isDon: Boolean? = null,
+    @SerializedName("is_group_channel")
+    val isGroupChannel: Boolean? = null,
+    @SerializedName("button")
+    val button: BaseLinkButton? = null
 )

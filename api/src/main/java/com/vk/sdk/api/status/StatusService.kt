@@ -49,7 +49,7 @@ class StatusService {
     }
     .apply {
         userId?.let { addParam("user_id", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -66,6 +66,6 @@ class StatusService {
     }
     .apply {
         text?.let { addParam("text", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 }

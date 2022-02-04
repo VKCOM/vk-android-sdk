@@ -33,18 +33,18 @@ import kotlin.Boolean
 import kotlin.String
 
 /**
- * @param isRequestUnread - Is friend request from other user unread
  * @param friendStatus
- * @param sign - MD5 hash for the result validation
  * @param userId - User ID
+ * @param isRequestUnread - Is friend request from other user unread
+ * @param sign - MD5 hash for the result validation
  */
 data class FriendsFriendExtendedStatus(
+    @SerializedName("friend_status")
+    val friendStatus: FriendsFriendStatusStatus,
+    @SerializedName("user_id")
+    val userId: UserId,
     @SerializedName("is_request_unread")
     val isRequestUnread: Boolean? = null,
-    @SerializedName("friend_status")
-    val friendStatus: FriendsFriendStatusStatus? = null,
     @SerializedName("sign")
-    val sign: String? = null,
-    @SerializedName("user_id")
-    val userId: UserId? = null
+    val sign: String? = null
 )

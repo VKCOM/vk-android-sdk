@@ -32,7 +32,7 @@ import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseCountry
-import com.vk.sdk.api.base.dto.BaseObject
+import com.vk.sdk.api.database.dto.DatabaseCityById
 import com.vk.sdk.api.database.dto.DatabaseGetChairsResponse
 import com.vk.sdk.api.database.dto.DatabaseGetCitiesResponse
 import com.vk.sdk.api.database.dto.DatabaseGetCountriesResponse
@@ -64,9 +64,9 @@ class DatabaseService {
         GsonHolder.gson.fromJson(it, DatabaseGetChairsResponse::class.java)
     }
     .apply {
-        addParam("faculty_id", facultyId)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        addParam("faculty_id", facultyId, min = 0)
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 10000) }
     }
 
     /**
@@ -92,12 +92,12 @@ class DatabaseService {
         GsonHolder.gson.fromJson(it, DatabaseGetCitiesResponse::class.java)
     }
     .apply {
-        addParam("country_id", countryId)
-        regionId?.let { addParam("region_id", it) }
+        addParam("country_id", countryId, min = 0)
+        regionId?.let { addParam("region_id", it, min = 0) }
         q?.let { addParam("q", it) }
         needAll?.let { addParam("need_all", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -106,10 +106,10 @@ class DatabaseService {
      * @param cityIds - City IDs.
      * @return [VKRequest] with [Unit]
      */
-    fun databaseGetCitiesById(cityIds: List<Int>? = null): VKRequest<List<BaseObject>> =
+    fun databaseGetCitiesById(cityIds: List<Int>? = null): VKRequest<List<DatabaseCityById>> =
             NewApiRequest("database.getCitiesById") {
-        val typeToken = object: TypeToken<List<BaseObject>>() {}.type
-        GsonHolder.gson.fromJson<List<BaseObject>>(it, typeToken)
+        val typeToken = object: TypeToken<List<DatabaseCityById>>() {}.type
+        GsonHolder.gson.fromJson<List<DatabaseCityById>>(it, typeToken)
     }
     .apply {
         cityIds?.let { addParam("city_ids", it) }
@@ -136,8 +136,8 @@ class DatabaseService {
     .apply {
         needAll?.let { addParam("need_all", it) }
         code?.let { addParam("code", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -171,9 +171,9 @@ class DatabaseService {
         GsonHolder.gson.fromJson(it, DatabaseGetFacultiesResponse::class.java)
     }
     .apply {
-        addParam("university_id", universityId)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        addParam("university_id", universityId, min = 0)
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 10000) }
     }
 
     /**
@@ -192,9 +192,9 @@ class DatabaseService {
         GsonHolder.gson.fromJson(it, DatabaseGetMetroStationsResponse::class.java)
     }
     .apply {
-        addParam("city_id", cityId)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        addParam("city_id", cityId, min = 0)
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 500) }
     }
 
     /**
@@ -231,10 +231,10 @@ class DatabaseService {
         GsonHolder.gson.fromJson(it, DatabaseGetRegionsResponse::class.java)
     }
     .apply {
-        addParam("country_id", countryId)
+        addParam("country_id", countryId, min = 0)
         q?.let { addParam("q", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -249,7 +249,7 @@ class DatabaseService {
         GsonHolder.gson.fromJson<List<List<String>>>(it, typeToken)
     }
     .apply {
-        countryId?.let { addParam("country_id", it) }
+        countryId?.let { addParam("country_id", it, min = 0) }
     }
 
     /**
@@ -270,10 +270,10 @@ class DatabaseService {
         GsonHolder.gson.fromJson(it, DatabaseGetSchoolsResponse::class.java)
     }
     .apply {
-        addParam("city_id", cityId)
+        addParam("city_id", cityId, min = 0)
         q?.let { addParam("q", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 10000) }
     }
 
     /**
@@ -297,9 +297,9 @@ class DatabaseService {
     }
     .apply {
         q?.let { addParam("q", it) }
-        countryId?.let { addParam("country_id", it) }
-        cityId?.let { addParam("city_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        countryId?.let { addParam("country_id", it, min = 0) }
+        cityId?.let { addParam("city_id", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 10000) }
     }
 }

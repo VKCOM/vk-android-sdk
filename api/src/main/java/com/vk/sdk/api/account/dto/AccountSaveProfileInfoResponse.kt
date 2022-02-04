@@ -36,7 +36,7 @@ import com.vk.sdk.api.base.dto.BaseBoolInt
  */
 data class AccountSaveProfileInfoResponse(
     @SerializedName("changed")
-    val changed: BaseBoolInt? = null,
+    val changed: BaseBoolInt,
     @SerializedName("name_request")
     val nameRequest: AccountNameRequest? = null
 )

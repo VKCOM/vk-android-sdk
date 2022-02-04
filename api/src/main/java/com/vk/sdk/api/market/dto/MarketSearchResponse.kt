@@ -28,6 +28,7 @@
 package com.vk.sdk.api.market.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.sdk.api.groups.dto.GroupsGroupFull
 import kotlin.Int
 import kotlin.collections.List
 
@@ -36,6 +37,7 @@ import kotlin.collections.List
  * @param viewType
  * @param items
  * @param variants
+ * @param groups
  */
 data class MarketSearchResponse(
     @SerializedName("count")
@@ -45,5 +47,7 @@ data class MarketSearchResponse(
     @SerializedName("items")
     val items: List<MarketMarketItem>,
     @SerializedName("variants")
-    val variants: List<MarketMarketItem>? = null
+    val variants: List<MarketMarketItem>? = null,
+    @SerializedName("groups")
+    val groups: List<GroupsGroupFull>? = null
 )

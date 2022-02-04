@@ -28,6 +28,7 @@
 package com.vk.sdk.api.photos.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.sdk.api.wall.dto.WallWallComment
 import kotlin.Int
 import kotlin.collections.List
 
@@ -39,5 +40,5 @@ data class PhotosGetAllCommentsResponse(
     @SerializedName("count")
     val count: Int? = null,
     @SerializedName("items")
-    val items: List<PhotosCommentXtrPid>? = null
+    val items: List<WallWallComment>? = null
 )

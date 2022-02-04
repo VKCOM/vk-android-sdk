@@ -30,7 +30,7 @@ package com.vk.sdk.api.audio.dto
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.base.dto.BaseImage
 import com.vk.sdk.api.groups.dto.GroupsGroupFull
-import com.vk.sdk.api.users.dto.UsersUserMin
+import com.vk.sdk.api.users.dto.UsersUser
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -46,6 +46,7 @@ import kotlin.collections.List
  * @param photos - Artist photos by type
  * @param isFollowed - Is user follow this artist
  * @param canFollow - Can be this artist followed by user
+ * @param canPlay
  * @param genres - Artist genres
  * @param bio - Artist bio
  * @param pages - Artist pages
@@ -69,6 +70,8 @@ data class AudioArtist(
     val isFollowed: Boolean? = null,
     @SerializedName("can_follow")
     val canFollow: Boolean? = null,
+    @SerializedName("can_play")
+    val canPlay: Boolean? = null,
     @SerializedName("genres")
     val genres: List<AudioGenre>? = null,
     @SerializedName("bio")
@@ -76,7 +79,7 @@ data class AudioArtist(
     @SerializedName("pages")
     val pages: List<Int>? = null,
     @SerializedName("profiles")
-    val profiles: List<UsersUserMin>? = null,
+    val profiles: List<UsersUser>? = null,
     @SerializedName("groups")
     val groups: List<GroupsGroupFull>? = null
 )

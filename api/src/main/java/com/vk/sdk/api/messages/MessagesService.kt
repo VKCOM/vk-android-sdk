@@ -37,12 +37,14 @@ import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.messages.dto.MessagesDeleteChatPhotoResponse
 import com.vk.sdk.api.messages.dto.MessagesDeleteConversationResponse
+import com.vk.sdk.api.messages.dto.MessagesGetByConversationMessageIdExtendedResponse
 import com.vk.sdk.api.messages.dto.MessagesGetByConversationMessageIdResponse
 import com.vk.sdk.api.messages.dto.MessagesGetByIdExtendedResponse
 import com.vk.sdk.api.messages.dto.MessagesGetByIdResponse
 import com.vk.sdk.api.messages.dto.MessagesGetChatPreviewResponse
 import com.vk.sdk.api.messages.dto.MessagesGetConversationById
-import com.vk.sdk.api.messages.dto.MessagesGetConversationMembersResponse
+import com.vk.sdk.api.messages.dto.MessagesGetConversationByIdExtended
+import com.vk.sdk.api.messages.dto.MessagesGetConversationMembers
 import com.vk.sdk.api.messages.dto.MessagesGetConversationsFilter
 import com.vk.sdk.api.messages.dto.MessagesGetConversationsResponse
 import com.vk.sdk.api.messages.dto.MessagesGetHistoryAttachmentsMediaType
@@ -94,9 +96,9 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("chat_id", chatId)
-        userId?.let { addParam("user_id", it) }
-        visibleMessagesCount?.let { addParam("visible_messages_count", it) }
+        addParam("chat_id", chatId, min = 0, max = 100000000)
+        userId?.let { addParam("user_id", it, min = 0) }
+        visibleMessagesCount?.let { addParam("visible_messages_count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -111,8 +113,8 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        key?.let { addParam("key", it) }
+        addParam("group_id", groupId, min = 1)
+        key?.let { addParam("key", it, maxLength = 256) }
     }
 
     /**
@@ -124,7 +126,7 @@ class MessagesService {
      * @return [VKRequest] with [Int]
      */
     fun messagesCreateChat(
-        userIds: List<Int>? = null,
+        userIds: List<UserId>? = null,
         title: String? = null,
         groupId: UserId? = null
     ): VKRequest<Int> = NewApiRequest("messages.createChat") {
@@ -133,7 +135,7 @@ class MessagesService {
     .apply {
         userIds?.let { addParam("user_ids", it) }
         title?.let { addParam("title", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -145,7 +147,7 @@ class MessagesService {
      * @param deleteForAll - '1' - delete message for for all.
      * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
      * 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
-     * @param conversationMessageIds - Conversation message IDs.
+     * @param cmids - Conversation message IDs.
      * @return [VKRequest] with [Any]
      */
     fun messagesDelete(
@@ -154,17 +156,17 @@ class MessagesService {
         groupId: UserId? = null,
         deleteForAll: Boolean? = null,
         peerId: Int? = null,
-        conversationMessageIds: List<Int>? = null
+        cmids: List<Int>? = null
     ): VKRequest<Any> = NewApiRequest("messages.delete") {
         GsonHolder.gson.fromJson(it, Any::class.java)
     }
     .apply {
         messageIds?.let { addParam("message_ids", it) }
         spam?.let { addParam("spam", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         deleteForAll?.let { addParam("delete_for_all", it) }
         peerId?.let { addParam("peer_id", it) }
-        conversationMessageIds?.let { addParam("conversation_message_ids", it) }
+        cmids?.let { addParam("cmids", it) }
     }
 
     /**
@@ -179,8 +181,8 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, MessagesDeleteChatPhotoResponse::class.java)
     }
     .apply {
-        addParam("chat_id", chatId)
-        groupId?.let { addParam("group_id", it) }
+        addParam("chat_id", chatId, min = 0, max = 100000000)
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -203,7 +205,7 @@ class MessagesService {
     .apply {
         userId?.let { addParam("user_id", it) }
         peerId?.let { addParam("peer_id", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -217,7 +219,7 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -237,6 +239,7 @@ class MessagesService {
      * @param keepSnippets - '1' - to keep attached snippets.
      * @param groupId - Group ID (for group messages with user access token)
      * @param dontParseLinks
+     * @param disableMentions
      * @param messageId
      * @param conversationMessageId
      * @param template
@@ -253,6 +256,7 @@ class MessagesService {
         keepSnippets: Boolean? = null,
         groupId: UserId? = null,
         dontParseLinks: Boolean? = null,
+        disableMentions: Boolean? = null,
         messageId: Int? = null,
         conversationMessageId: Int? = null,
         template: String? = null,
@@ -262,16 +266,17 @@ class MessagesService {
     }
     .apply {
         addParam("peer_id", peerId)
-        message?.let { addParam("message", it) }
+        message?.let { addParam("message", it, maxLength = 9000) }
         lat?.let { addParam("lat", it) }
         long?.let { addParam("long", it) }
         attachment?.let { addParam("attachment", it) }
         keepForwardMessages?.let { addParam("keep_forward_messages", it) }
         keepSnippets?.let { addParam("keep_snippets", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         dontParseLinks?.let { addParam("dont_parse_links", it) }
-        messageId?.let { addParam("message_id", it) }
-        conversationMessageId?.let { addParam("conversation_message_id", it) }
+        disableMentions?.let { addParam("disable_mentions", it) }
+        messageId?.let { addParam("message_id", it, min = 0) }
+        conversationMessageId?.let { addParam("conversation_message_id", it, min = 0) }
         template?.let { addParam("template", it) }
         keyboard?.let { addParam("keyboard", it) }
     }
@@ -288,7 +293,7 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("chat_id", chatId)
+        addParam("chat_id", chatId, min = 0, max = 100000000)
         title?.let { addParam("title", it) }
     }
 
@@ -318,7 +323,37 @@ class MessagesService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
+    }
+
+    /**
+     * Returns messages by their IDs within the conversation.
+     *
+     * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
+     * 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
+     * @param conversationMessageIds - Conversation message IDs.
+     * @param fields - Profile fields to return.
+     * @param groupId - Group ID (for group messages with group access token)
+     * @return [VKRequest] with [MessagesGetByConversationMessageIdExtendedResponse]
+     */
+    fun messagesGetByConversationMessageIdExtended(
+        peerId: Int,
+        conversationMessageIds: List<Int>,
+        fields: List<UsersFields>? = null,
+        groupId: UserId? = null
+    ): VKRequest<MessagesGetByConversationMessageIdExtendedResponse> =
+            NewApiRequest("messages.getByConversationMessageId") {
+        GsonHolder.gson.fromJson(it, MessagesGetByConversationMessageIdExtendedResponse::class.java)
+    }
+    .apply {
+        addParam("peer_id", peerId)
+        addParam("conversation_message_ids", conversationMessageIds)
+        addParam("extended", true)
+        val fieldsJsonConverted = fields?.map {
+            it.value
+        }
+        fieldsJsonConverted?.let { addParam("fields", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -342,12 +377,12 @@ class MessagesService {
     }
     .apply {
         addParam("message_ids", messageIds)
-        previewLength?.let { addParam("preview_length", it) }
+        previewLength?.let { addParam("preview_length", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -371,13 +406,13 @@ class MessagesService {
     }
     .apply {
         addParam("message_ids", messageIds)
-        previewLength?.let { addParam("preview_length", it) }
+        previewLength?.let { addParam("preview_length", it, min = 0) }
         addParam("extended", true)
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -394,7 +429,7 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, MessagesGetChatPreviewResponse::class.java)
     }
     .apply {
-        peerId?.let { addParam("peer_id", it) }
+        peerId?.let { addParam("peer_id", it, min = 0) }
         link?.let { addParam("link", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -408,15 +443,15 @@ class MessagesService {
      * @param peerId - Peer ID.
      * @param fields - Profile fields to return.
      * @param groupId - Group ID (for group messages with group access token)
-     * @return [VKRequest] with [MessagesGetConversationMembersResponse]
+     * @return [VKRequest] with [MessagesGetConversationMembers]
      */
     fun messagesGetConversationMembers(
         peerId: Int,
         fields: List<UsersFields>? = null,
         groupId: UserId? = null
-    ): VKRequest<MessagesGetConversationMembersResponse> =
+    ): VKRequest<MessagesGetConversationMembers> =
             NewApiRequest("messages.getConversationMembers") {
-        GsonHolder.gson.fromJson(it, MessagesGetConversationMembersResponse::class.java)
+        GsonHolder.gson.fromJson(it, MessagesGetConversationMembers::class.java)
     }
     .apply {
         addParam("peer_id", peerId)
@@ -424,7 +459,7 @@ class MessagesService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -451,15 +486,15 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, MessagesGetConversationsResponse::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         filter?.let { addParam("filter", it.value) }
-        startMessageId?.let { addParam("start_message_id", it) }
+        startMessageId?.let { addParam("start_message_id", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -484,7 +519,7 @@ class MessagesService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -494,14 +529,15 @@ class MessagesService {
      * '2000000000' + 'chat_id', e.g. '2000000001'. For community_ '- community ID', e.g. '-12345'. "
      * @param fields - Profile and communities fields to return.
      * @param groupId - Group ID (for group messages with group access token)
-     * @return [VKRequest] with [Any]
+     * @return [VKRequest] with [MessagesGetConversationByIdExtended]
      */
     fun messagesGetConversationsByIdExtended(
         peerIds: List<Int>,
         fields: List<BaseUserGroupFields>? = null,
         groupId: UserId? = null
-    ): VKRequest<Any> = NewApiRequest("messages.getConversationsById") {
-        GsonHolder.gson.fromJson(it, Any::class.java)
+    ): VKRequest<MessagesGetConversationByIdExtended> =
+            NewApiRequest("messages.getConversationsById") {
+        GsonHolder.gson.fromJson(it, MessagesGetConversationByIdExtended::class.java)
     }
     .apply {
         addParam("peer_ids", peerIds)
@@ -510,7 +546,7 @@ class MessagesService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -541,7 +577,7 @@ class MessagesService {
     }
     .apply {
         offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         userId?.let { addParam("user_id", it) }
         peerId?.let { addParam("peer_id", it) }
         startMessageId?.let { addParam("start_message_id", it) }
@@ -550,7 +586,7 @@ class MessagesService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -581,7 +617,7 @@ class MessagesService {
     }
     .apply {
         offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         userId?.let { addParam("user_id", it) }
         peerId?.let { addParam("peer_id", it) }
         startMessageId?.let { addParam("start_message_id", it) }
@@ -591,7 +627,7 @@ class MessagesService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -628,15 +664,15 @@ class MessagesService {
         addParam("peer_id", peerId)
         mediaType?.let { addParam("media_type", it.value) }
         startFrom?.let { addParam("start_from", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         photoSizes?.let { addParam("photo_sizes", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         preserveOrder?.let { addParam("preserve_order", it) }
-        maxForwardsLevel?.let { addParam("max_forwards_level", it) }
+        maxForwardsLevel?.let { addParam("max_forwards_level", it, min = 0, max = 45) }
     }
 
     /**
@@ -662,15 +698,15 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, MessagesGetImportantMessagesResponse::class.java)
     }
     .apply {
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
-        startMessageId?.let { addParam("start_message_id", it) }
-        previewLength?.let { addParam("preview_length", it) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
+        offset?.let { addParam("offset", it, min = 0) }
+        startMessageId?.let { addParam("start_message_id", it, min = 0) }
+        previewLength?.let { addParam("preview_length", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -696,16 +732,16 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, MessagesGetImportantMessagesExtendedResponse::class.java)
     }
     .apply {
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
-        startMessageId?.let { addParam("start_message_id", it) }
-        previewLength?.let { addParam("preview_length", it) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
+        offset?.let { addParam("offset", it, min = 0) }
+        startMessageId?.let { addParam("start_message_id", it, min = 0) }
+        previewLength?.let { addParam("preview_length", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
         addParam("extended", true)
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -729,9 +765,9 @@ class MessagesService {
     }
     .apply {
         addParam("intent", intent.value)
-        subscribeId?.let { addParam("subscribe_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        subscribeId?.let { addParam("subscribe_id", it, min = 0, max = 100) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         nameCase?.let { addParam("name_case", it) }
         fields?.let { addParam("fields", it) }
     }
@@ -750,9 +786,9 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, MessagesGetInviteLinkResponse::class.java)
     }
     .apply {
-        addParam("peer_id", peerId)
+        addParam("peer_id", peerId, min = 0)
         reset?.let { addParam("reset", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -810,20 +846,20 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, MessagesGetLongPollHistoryResponse::class.java)
     }
     .apply {
-        ts?.let { addParam("ts", it) }
-        pts?.let { addParam("pts", it) }
-        previewLength?.let { addParam("preview_length", it) }
+        ts?.let { addParam("ts", it, min = 0) }
+        pts?.let { addParam("pts", it, min = 0) }
+        previewLength?.let { addParam("preview_length", it, min = 0) }
         onlines?.let { addParam("onlines", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        eventsLimit?.let { addParam("events_limit", it) }
-        msgsLimit?.let { addParam("msgs_limit", it) }
-        maxMsgId?.let { addParam("max_msg_id", it) }
-        groupId?.let { addParam("group_id", it) }
-        lpVersion?.let { addParam("lp_version", it) }
-        lastN?.let { addParam("last_n", it) }
+        eventsLimit?.let { addParam("events_limit", it, min = 1000) }
+        msgsLimit?.let { addParam("msgs_limit", it, min = 200) }
+        maxMsgId?.let { addParam("max_msg_id", it, min = 0) }
+        groupId?.let { addParam("group_id", it, min = 0) }
+        lpVersion?.let { addParam("lp_version", it, min = 0) }
+        lastN?.let { addParam("last_n", it, min = 0, max = 2000) }
         credentials?.let { addParam("credentials", it) }
     }
 
@@ -845,8 +881,8 @@ class MessagesService {
     }
     .apply {
         needPts?.let { addParam("need_pts", it) }
-        groupId?.let { addParam("group_id", it) }
-        lpVersion?.let { addParam("lp_version", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
+        lpVersion?.let { addParam("lp_version", it, min = 0) }
     }
 
     /**
@@ -862,8 +898,8 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, MessagesIsMessagesFromGroupAllowedResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("user_id", userId)
+        addParam("group_id", groupId, min = 1)
+        addParam("user_id", userId, min = 1)
     }
 
     /**
@@ -896,7 +932,7 @@ class MessagesService {
     .apply {
         addParam("peer_id", peerId)
         answered?.let { addParam("answered", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -913,7 +949,7 @@ class MessagesService {
     }
     .apply {
         messageIds?.let { addParam("message_ids", it) }
-        important?.let { addParam("important", it) }
+        important?.let { addParam("important", it, min = 0) }
     }
 
     /**
@@ -934,7 +970,7 @@ class MessagesService {
     .apply {
         addParam("peer_id", peerId)
         important?.let { addParam("important", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -960,8 +996,8 @@ class MessagesService {
     .apply {
         messageIds?.let { addParam("message_ids", it) }
         peerId?.let { addParam("peer_id", it) }
-        startMessageId?.let { addParam("start_message_id", it) }
-        groupId?.let { addParam("group_id", it) }
+        startMessageId?.let { addParam("start_message_id", it, min = 0) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         markConversationAsRead?.let { addParam("mark_conversation_as_read", it) }
     }
 
@@ -983,8 +1019,8 @@ class MessagesService {
     }
     .apply {
         addParam("peer_id", peerId)
-        messageId?.let { addParam("message_id", it) }
-        conversationMessageId?.let { addParam("conversation_message_id", it) }
+        messageId?.let { addParam("message_id", it, min = 0) }
+        conversationMessageId?.let { addParam("conversation_message_id", it, min = 0) }
     }
 
     /**
@@ -998,13 +1034,13 @@ class MessagesService {
      */
     fun messagesRemoveChatUser(
         chatId: Int,
-        userId: Int? = null,
-        memberId: Int? = null
+        userId: UserId? = null,
+        memberId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("messages.removeChatUser") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("chat_id", chatId)
+        addParam("chat_id", chatId, min = 0, max = 100000000)
         userId?.let { addParam("user_id", it) }
         memberId?.let { addParam("member_id", it) }
     }
@@ -1021,8 +1057,8 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("message_id", messageId)
-        groupId?.let { addParam("group_id", it) }
+        addParam("message_id", messageId, min = 0)
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -1054,14 +1090,14 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, MessagesSearchResponse::class.java)
     }
     .apply {
-        q?.let { addParam("q", it) }
+        q?.let { addParam("q", it, maxLength = 9000) }
         peerId?.let { addParam("peer_id", it) }
-        date?.let { addParam("date", it) }
-        previewLength?.let { addParam("preview_length", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        date?.let { addParam("date", it, min = 0) }
+        previewLength?.let { addParam("preview_length", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         fields?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -1093,15 +1129,15 @@ class MessagesService {
         GsonHolder.gson.fromJson(it, MessagesSearchExtendedResponse::class.java)
     }
     .apply {
-        q?.let { addParam("q", it) }
+        q?.let { addParam("q", it, maxLength = 9000) }
         peerId?.let { addParam("peer_id", it) }
-        date?.let { addParam("date", it) }
-        previewLength?.let { addParam("preview_length", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        date?.let { addParam("date", it, min = 0) }
+        previewLength?.let { addParam("preview_length", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         addParam("extended", true)
         fields?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -1124,12 +1160,12 @@ class MessagesService {
     }
     .apply {
         q?.let { addParam("q", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 1, max = 255) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -1152,13 +1188,13 @@ class MessagesService {
     }
     .apply {
         q?.let { addParam("q", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 1, max = 255) }
         addParam("extended", true)
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -1197,13 +1233,13 @@ class MessagesService {
      * @return [VKRequest] with [Int]
      */
     fun messagesSend(
-        userId: Int? = null,
+        userId: UserId? = null,
         randomId: Int? = null,
         peerId: Int? = null,
         peerIds: List<Int>? = null,
         domain: String? = null,
         chatId: Int? = null,
-        userIds: List<Int>? = null,
+        userIds: List<UserId>? = null,
         message: String? = null,
         lat: Float? = null,
         long: Float? = null,
@@ -1230,25 +1266,25 @@ class MessagesService {
         peerId?.let { addParam("peer_id", it) }
         peerIds?.let { addParam("peer_ids", it) }
         domain?.let { addParam("domain", it) }
-        chatId?.let { addParam("chat_id", it) }
+        chatId?.let { addParam("chat_id", it, min = 0, max = 100000000) }
         userIds?.let { addParam("user_ids", it) }
-        message?.let { addParam("message", it) }
+        message?.let { addParam("message", it, maxLength = 9000) }
         lat?.let { addParam("lat", it) }
         long?.let { addParam("long", it) }
-        attachment?.let { addParam("attachment", it) }
+        attachment?.let { addParam("attachment", it, maxLength = 9000) }
         replyTo?.let { addParam("reply_to", it) }
         forwardMessages?.let { addParam("forward_messages", it) }
         forward?.let { addParam("forward", it) }
-        stickerId?.let { addParam("sticker_id", it) }
-        groupId?.let { addParam("group_id", it) }
+        stickerId?.let { addParam("sticker_id", it, min = 0) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         keyboard?.let { addParam("keyboard", it) }
         template?.let { addParam("template", it) }
-        payload?.let { addParam("payload", it) }
+        payload?.let { addParam("payload", it, maxLength = 1000) }
         contentSource?.let { addParam("content_source", it) }
         dontParseLinks?.let { addParam("dont_parse_links", it) }
         disableMentions?.let { addParam("disable_mentions", it) }
         intent?.let { addParam("intent", it.value) }
-        subscribeId?.let { addParam("subscribe_id", it) }
+        subscribeId?.let { addParam("subscribe_id", it, min = 0, max = 100) }
     }
 
     /**
@@ -1270,7 +1306,7 @@ class MessagesService {
         addParam("event_id", eventId)
         addParam("user_id", userId)
         addParam("peer_id", peerId)
-        eventData?.let { addParam("event_data", it) }
+        eventData?.let { addParam("event_data", it, maxLength = 1000) }
     }
 
     /**
@@ -1295,7 +1331,7 @@ class MessagesService {
         userId?.let { addParam("user_id", it) }
         type?.let { addParam("type", it.value) }
         peerId?.let { addParam("peer_id", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -1325,6 +1361,6 @@ class MessagesService {
     }
     .apply {
         addParam("peer_id", peerId)
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 }

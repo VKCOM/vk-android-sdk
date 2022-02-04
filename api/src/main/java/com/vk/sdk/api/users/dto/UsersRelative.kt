@@ -28,7 +28,7 @@
 package com.vk.sdk.api.users.dto
 
 import com.google.gson.annotations.SerializedName
-import kotlin.Int
+import com.vk.dto.common.id.UserId
 import kotlin.String
 
 /**
@@ -43,7 +43,7 @@ data class UsersRelative(
     @SerializedName("birth_date")
     val birthDate: String? = null,
     @SerializedName("id")
-    val id: Int? = null,
+    val id: UserId? = null,
     @SerializedName("name")
     val name: String? = null
 ) {

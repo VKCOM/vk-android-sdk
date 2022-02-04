@@ -36,6 +36,7 @@ import kotlin.collections.List
  * @param count - Viewers count
  * @param items
  * @param hiddenReason
+ * @param nextFrom
  */
 data class StoriesGetViewersExtendedV5115Response(
     @SerializedName("count")
@@ -43,5 +44,7 @@ data class StoriesGetViewersExtendedV5115Response(
     @SerializedName("items")
     val items: List<StoriesViewersItem>,
     @SerializedName("hidden_reason")
-    val hiddenReason: String? = null
+    val hiddenReason: String? = null,
+    @SerializedName("next_from")
+    val nextFrom: String? = null
 )

@@ -35,6 +35,9 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
+ * @param type
+ * @param id - Application ID
+ * @param title - Application title
  * @param authorUrl - Application author's URL
  * @param banner1120 - URL of the app banner with 1120 px in width
  * @param banner560 - URL of the app banner with 560 px in width
@@ -55,9 +58,6 @@ import kotlin.collections.List
  * @param publishedDate - Date when the application has been published in Unixtime
  * @param screenName - Screen name
  * @param section - Application section name
- * @param type
- * @param id - Application ID
- * @param title - Application title
  * @param authorOwnerId - Application author's ID
  * @param isInstalled - Is application installed
  * @param icon139 - URL of the app icon with 139 px in width
@@ -70,6 +70,12 @@ import kotlin.collections.List
  * @param openInExternalBrowser - Open in external browser
  */
 data class AppsApp(
+    @SerializedName("type")
+    val type: AppsAppType,
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("title")
+    val title: String,
     @SerializedName("author_url")
     val authorUrl: String? = null,
     @SerializedName("banner_1120")
@@ -110,12 +116,6 @@ data class AppsApp(
     val screenName: String? = null,
     @SerializedName("section")
     val section: String? = null,
-    @SerializedName("type")
-    val type: AppsAppType? = null,
-    @SerializedName("id")
-    val id: Int? = null,
-    @SerializedName("title")
-    val title: String? = null,
     @SerializedName("author_owner_id")
     val authorOwnerId: Int? = null,
     @SerializedName("is_installed")

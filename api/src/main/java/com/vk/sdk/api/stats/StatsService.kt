@@ -68,12 +68,12 @@ class StatsService {
         GsonHolder.gson.fromJson<List<StatsPeriod>>(it, typeToken)
     }
     .apply {
-        groupId?.let { addParam("group_id", it) }
-        appId?.let { addParam("app_id", it) }
-        timestampFrom?.let { addParam("timestamp_from", it) }
-        timestampTo?.let { addParam("timestamp_to", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
+        appId?.let { addParam("app_id", it, min = 0) }
+        timestampFrom?.let { addParam("timestamp_from", it, min = 0) }
+        timestampTo?.let { addParam("timestamp_to", it, min = 0) }
         interval?.let { addParam("interval", it.value) }
-        intervalsCount?.let { addParam("intervals_count", it) }
+        intervalsCount?.let { addParam("intervals_count", it, min = 0) }
         filters?.let { addParam("filters", it) }
         statsGroups?.let { addParam("stats_groups", it) }
     }

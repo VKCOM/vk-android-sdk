@@ -28,6 +28,8 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
+import kotlin.Boolean
 import kotlin.Int
 
 /**
@@ -35,6 +37,7 @@ import kotlin.Int
  * @param messageId - Message ID
  * @param fromId - Message author's ID
  * @param forwardLevel - Forward level (optional)
+ * @param wasListened
  */
 data class MessagesHistoryAttachment(
     @SerializedName("attachment")
@@ -42,7 +45,9 @@ data class MessagesHistoryAttachment(
     @SerializedName("message_id")
     val messageId: Int,
     @SerializedName("from_id")
-    val fromId: Int,
+    val fromId: UserId,
     @SerializedName("forward_level")
-    val forwardLevel: Int? = null
+    val forwardLevel: Int? = null,
+    @SerializedName("was_listened")
+    val wasListened: Boolean? = null
 )

@@ -28,6 +28,7 @@
 package com.vk.sdk.api.account.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.groups.dto.GroupsGroup
 import com.vk.sdk.api.users.dto.UsersUserFull
 import kotlin.Int
@@ -43,7 +44,7 @@ data class AccountGetBannedResponse(
     @SerializedName("count")
     val count: Int,
     @SerializedName("items")
-    val items: List<Int>,
+    val items: List<UserId>,
     @SerializedName("profiles")
     val profiles: List<UsersUserFull>? = null,
     @SerializedName("groups")

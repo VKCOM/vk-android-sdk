@@ -1,3 +1,30 @@
+/**
+ * Copyright (c) 2020 - present, LLC “V Kontakte”
+ *
+ * 1. Permission is hereby granted to any person obtaining a copy of this Software to
+ * use the Software without charge.
+ *
+ * 2. Restrictions
+ * You may not modify, merge, publish, distribute, sublicense, and/or sell copies,
+ * create derivative works based upon the Software or any part thereof.
+ *
+ * 3. Termination
+ * This License is effective until terminated. LLC “V Kontakte” may terminate this
+ * License at any time without any negative consequences to our rights.
+ * You may terminate this License at any time by deleting the Software and all copies
+ * thereof. Upon termination of this license for any reason, you shall continue to be
+ * bound by the provisions of Section 2 above.
+ * Termination will be without prejudice to any rights LLC “V Kontakte” may have as
+ * a result of this agreement.
+ *
+ * 4. Disclaimer of warranty and liability
+ * THE SOFTWARE IS MADE AVAILABLE ON THE “AS IS” BASIS. LLC “V KONTAKTE” DISCLAIMS
+ * ALL WARRANTIES THAT THE SOFTWARE MAY BE SUITABLE OR UNSUITABLE FOR ANY SPECIFIC
+ * PURPOSES OF USE. LLC “V KONTAKTE” CAN NOT GUARANTEE AND DOES NOT PROMISE ANY
+ * SPECIFIC RESULTS OF USE OF THE SOFTWARE.
+ * UNDER NO CIRCUMSTANCES LLC “V KONTAKTE” BEAR LIABILITY TO THE LICENSEE OR ANY
+ * THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
+*/
 /*******************************************************************************
  * The MIT License (MIT)
  *
@@ -28,12 +55,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import android.content.pm.PackageManager
-import com.vk.api.sdk.auth.VKAccessToken
-import com.vk.api.sdk.auth.VKAuthCallback
+import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import com.vk.api.sdk.auth.*
 import com.vk.api.sdk.auth.VKAuthManager
-import com.vk.api.sdk.auth.VKScope
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKApiExecutionException
 import com.vk.api.sdk.internal.ApiCommand
@@ -41,6 +69,7 @@ import com.vk.api.sdk.requests.VKBooleanRequest
 import com.vk.api.sdk.utils.VKUrlResolver
 import com.vk.api.sdk.utils.VKUtils
 import com.vk.api.sdk.utils.DefaultUserAgent
+import com.vk.dto.common.id.UserId
 import java.io.IOException
 
 /**
@@ -85,10 +114,19 @@ object VK {
      * @param activity current activity
      * @param scopes list of scopes required for app
      */
+    @Deprecated("Use login with usage of ActivityResultLauncher")
     @JvmStatic
     @JvmOverloads
     fun login(activity: Activity, scopes: Collection<VKScope> = emptySet()) {
         authManager.login(activity, scopes)
+    }
+
+    @JvmStatic
+    fun login(
+        activity: ComponentActivity,
+        callback: ActivityResultCallback<VKAuthenticationResult>
+    ): ActivityResultLauncher<Collection<VKScope>> {
+        return activity.registerForActivityResult(getVKAuthActivityResultContract(), callback)
     }
 
     /**
@@ -102,7 +140,7 @@ object VK {
      * If you pass {@code false} you will not able to use sdk execute methods!
      */
     @JvmStatic
-    fun setCredentials(context: Context, userId: Int, accessToken: String, secret: String?, saveAccessTokenToStorage: Boolean = true) {
+    fun setCredentials(context: Context, userId: UserId, accessToken: String, secret: String?, saveAccessTokenToStorage: Boolean = true) {
         if (saveAccessTokenToStorage) {
             VKAccessToken(userId, accessToken, secret).save(config.keyValueStorage)
         }
@@ -117,7 +155,7 @@ object VK {
      * @param secret secret for future requests
      */
     @JvmStatic
-    fun saveAccessToken(context: Context, userId: Int, accessToken: String, secret: String?) {
+    fun saveAccessToken(context: Context, userId: UserId, accessToken: String, secret: String?) {
         setCredentials(context, userId, accessToken, secret, true)
     }
 
@@ -140,7 +178,7 @@ object VK {
      * This method returns userId of currently logged in user or 0 if there is no logged in user
      */
     @JvmStatic
-    fun getUserId() = authManager.getCurrentToken()?.userId ?: 0
+    fun getUserId() = authManager.getCurrentToken()?.userId ?: UserId.DEFAULT
 
     /**
      * This method provide you an api version of current config
@@ -154,6 +192,7 @@ object VK {
      */
     @JvmStatic
     @JvmOverloads
+    @Deprecated("Use new api for getting a result from an activity instead")
     fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
@@ -265,6 +304,15 @@ object VK {
         }
     }
 
+    /**
+     * This method returns [androidx.activity.result.contract.ActivityResultContract] instance which
+     * can be used to launch VK authentication
+     */
+    @JvmStatic
+    fun getVKAuthActivityResultContract(): ActivityResultContract<Collection<VKScope>, VKAuthenticationResult> {
+        return VKAuthResultContract(authManager)
+    }
+
     internal fun getSDKUserAgent(): DefaultUserAgent {
         if (!::config.isInitialized) {
             throw RuntimeException("please call VK.initialize first!")
@@ -279,7 +327,7 @@ object VK {
         )
     }
 
-    private fun trackVisitor() {
+    internal fun trackVisitor() {
         execute(VKBooleanRequest("stats.trackVisitor"))
     }
 

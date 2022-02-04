@@ -29,7 +29,7 @@ package com.vk.sdk.api.video.dto
 
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.groups.dto.GroupsGroupFull
-import com.vk.sdk.api.users.dto.UsersUserMin
+import com.vk.sdk.api.users.dto.UsersUserFull
 import com.vk.sdk.api.wall.dto.WallWallComment
 import kotlin.Int
 import kotlin.collections.List
@@ -46,7 +46,7 @@ data class VideoGetCommentsExtendedResponse(
     @SerializedName("items")
     val items: List<WallWallComment>,
     @SerializedName("profiles")
-    val profiles: List<UsersUserMin>,
+    val profiles: List<UsersUserFull>,
     @SerializedName("groups")
     val groups: List<GroupsGroupFull>
 )

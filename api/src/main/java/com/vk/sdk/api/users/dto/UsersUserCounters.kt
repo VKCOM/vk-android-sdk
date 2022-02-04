@@ -32,6 +32,7 @@ import kotlin.Int
 
 /**
  * @param albums - Albums number
+ * @param badges - Badges number
  * @param audios - Audios number
  * @param followers - Followers number
  * @param friends - Friends number
@@ -58,6 +59,8 @@ import kotlin.Int
 data class UsersUserCounters(
     @SerializedName("albums")
     val albums: Int? = null,
+    @SerializedName("badges")
+    val badges: Int? = null,
     @SerializedName("audios")
     val audios: Int? = null,
     @SerializedName("followers")

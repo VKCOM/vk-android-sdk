@@ -32,18 +32,22 @@ import com.vk.sdk.api.base.dto.BaseLinkButton
 import com.vk.sdk.api.market.dto.MarketPrice
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 import kotlin.Boolean
+import kotlin.Float
+import kotlin.Int
 import kotlin.String
 
 /**
  * @param id - Item id
  * @param title - Item title
- * @param price - Aliexpress item price
  * @param isFavorite - Information whether the current item has been added to bookmarks
  * @param url - Base product url
  * @param detailsButton - Details action
+ * @param price - Aliexpress item price
  * @param discountText - Discount text
  * @param deliveryDateText - Delivery details text
  * @param label - Any text label for item
+ * @param rating - Item rating
+ * @param ordersCount - Item orders count
  * @param actionButton - Button action
  * @param photo
  */
@@ -52,20 +56,24 @@ data class AliexpressCarouselItem(
     val id: String,
     @SerializedName("title")
     val title: String,
-    @SerializedName("price")
-    val price: MarketPrice,
     @SerializedName("is_favorite")
     val isFavorite: Boolean,
     @SerializedName("url")
     val url: String,
     @SerializedName("details_button")
     val detailsButton: BaseLinkButton,
+    @SerializedName("price")
+    val price: MarketPrice? = null,
     @SerializedName("discount_text")
     val discountText: String? = null,
     @SerializedName("delivery_date_text")
     val deliveryDateText: String? = null,
     @SerializedName("label")
     val label: String? = null,
+    @SerializedName("rating")
+    val rating: Float? = null,
+    @SerializedName("orders_count")
+    val ordersCount: Int? = null,
     @SerializedName("action_button")
     val actionButton: BaseLinkButton? = null,
     @SerializedName("photo")

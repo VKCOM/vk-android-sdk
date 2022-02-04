@@ -37,18 +37,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     lintOptions {
         abortOnError true
         checkReleaseBuilds true
-    }
-
-    dexOptions {
-        preDexLibraries true
-        javaMaxHeapSize "5g"
     }
 }
 
@@ -56,6 +51,7 @@ dependencies {
     implementation sdkLibraries.kotlin
     implementation sdkLibrariesSupport.recyclerView
     implementation sdkLibrariesSupport.appCompat
+    implementation sdkLibrariesSupport.activity
     implementation (sdkLibraries.picasso) { transitive = false }
     implementation sdkLibraries.okHttp
 

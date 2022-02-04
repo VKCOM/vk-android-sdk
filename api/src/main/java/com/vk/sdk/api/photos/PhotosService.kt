@@ -33,7 +33,6 @@ import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseBoolInt
-import com.vk.sdk.api.base.dto.BaseImage
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.base.dto.BaseUploadServer
 import com.vk.sdk.api.photos.dto.PhotosGetAlbumsResponse
@@ -56,6 +55,7 @@ import com.vk.sdk.api.photos.dto.PhotosPhotoTag
 import com.vk.sdk.api.photos.dto.PhotosPhotoUpload
 import com.vk.sdk.api.photos.dto.PhotosReportCommentReason
 import com.vk.sdk.api.photos.dto.PhotosReportReason
+import com.vk.sdk.api.photos.dto.PhotosSaveOwnerCoverPhotoResponse
 import com.vk.sdk.api.photos.dto.PhotosSaveOwnerPhotoResponse
 import com.vk.sdk.api.photos.dto.PhotosSearchResponse
 import com.vk.sdk.api.users.dto.UsersFields
@@ -104,7 +104,7 @@ class PhotosService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("photo_id", photoId)
+        addParam("photo_id", photoId, min = 0)
         accessKey?.let { addParam("access_key", it) }
     }
 
@@ -132,7 +132,7 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, PhotosPhotoAlbumFull::class.java)
     }
     .apply {
-        addParam("title", title)
+        addParam("title", title, minLength = 2)
         groupId?.let { addParam("group_id", it) }
         description?.let { addParam("description", it) }
         privacyView?.let { addParam("privacy_view", it) }
@@ -179,7 +179,7 @@ class PhotosService {
         attachments?.let { addParam("attachments", it) }
         fromGroup?.let { addParam("from_group", it) }
         replyToComment?.let { addParam("reply_to_comment", it) }
-        stickerId?.let { addParam("sticker_id", it) }
+        stickerId?.let { addParam("sticker_id", it, min = 0) }
         accessKey?.let { addParam("access_key", it) }
         guid?.let { addParam("guid", it) }
     }
@@ -196,7 +196,7 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("photo_id", photoId)
+        addParam("photo_id", photoId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
     }
 
@@ -212,8 +212,8 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("album_id", albumId)
-        groupId?.let { addParam("group_id", it) }
+        addParam("album_id", albumId, min = 0)
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -259,7 +259,7 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("photo_id", photoId)
+        addParam("photo_id", photoId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         caption?.let { addParam("caption", it) }
         latitude?.let { addParam("latitude", it) }
@@ -295,7 +295,7 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("album_id", albumId)
+        addParam("album_id", albumId, min = 0)
         title?.let { addParam("title", it) }
         description?.let { addParam("description", it) }
         ownerId?.let { addParam("owner_id", it) }
@@ -373,8 +373,8 @@ class PhotosService {
         feedType?.let { addParam("feed_type", it) }
         feed?.let { addParam("feed", it) }
         photoSizes?.let { addParam("photo_sizes", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -418,8 +418,8 @@ class PhotosService {
         feedType?.let { addParam("feed_type", it) }
         feed?.let { addParam("feed", it) }
         photoSizes?.let { addParam("photo_sizes", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -448,8 +448,8 @@ class PhotosService {
     .apply {
         ownerId?.let { addParam("owner_id", it) }
         albumIds?.let { addParam("album_ids", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
         needSystem?.let { addParam("need_system", it) }
         needCovers?.let { addParam("need_covers", it) }
         photoSizes?.let { addParam("photo_sizes", it) }
@@ -500,8 +500,8 @@ class PhotosService {
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         photoSizes?.let { addParam("photo_sizes", it) }
         noServiceAlbums?.let { addParam("no_service_albums", it) }
         needHidden?.let { addParam("need_hidden", it) }
@@ -538,8 +538,8 @@ class PhotosService {
     .apply {
         ownerId?.let { addParam("owner_id", it) }
         addParam("extended", true)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         photoSizes?.let { addParam("photo_sizes", it) }
         noServiceAlbums?.let { addParam("no_service_albums", it) }
         needHidden?.let { addParam("need_hidden", it) }
@@ -569,10 +569,10 @@ class PhotosService {
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
-        albumId?.let { addParam("album_id", it) }
+        albumId?.let { addParam("album_id", it, min = 0) }
         needLikes?.let { addParam("need_likes", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
     }
 
     /**
@@ -634,10 +634,10 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
     }
     .apply {
-        addParam("chat_id", chatId)
-        cropX?.let { addParam("crop_x", it) }
-        cropY?.let { addParam("crop_y", it) }
-        cropWidth?.let { addParam("crop_width", it) }
+        addParam("chat_id", chatId, min = 0)
+        cropX?.let { addParam("crop_x", it, min = 0) }
+        cropY?.let { addParam("crop_y", it, min = 0) }
+        cropWidth?.let { addParam("crop_width", it, min = 200) }
     }
 
     /**
@@ -671,9 +671,9 @@ class PhotosService {
         addParam("photo_id", photoId)
         ownerId?.let { addParam("owner_id", it) }
         needLikes?.let { addParam("need_likes", it) }
-        startCommentId?.let { addParam("start_comment_id", it) }
+        startCommentId?.let { addParam("start_comment_id", it, min = 0) }
         offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         sort?.let { addParam("sort", it.value) }
         accessKey?.let { addParam("access_key", it) }
         val fieldsJsonConverted = fields?.map {
@@ -713,9 +713,9 @@ class PhotosService {
         addParam("photo_id", photoId)
         ownerId?.let { addParam("owner_id", it) }
         needLikes?.let { addParam("need_likes", it) }
-        startCommentId?.let { addParam("start_comment_id", it) }
+        startCommentId?.let { addParam("start_comment_id", it, min = 0) }
         offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         sort?.let { addParam("sort", it.value) }
         accessKey?.let { addParam("access_key", it) }
         addParam("extended", true)
@@ -736,7 +736,7 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -759,11 +759,11 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         mainPhoto?.let { addParam("main_photo", it) }
-        cropX?.let { addParam("crop_x", it) }
-        cropY?.let { addParam("crop_y", it) }
-        cropWidth?.let { addParam("crop_width", it) }
+        cropX?.let { addParam("crop_x", it, min = 0) }
+        cropY?.let { addParam("crop_y", it, min = 0) }
+        cropWidth?.let { addParam("crop_width", it, min = 400) }
     }
 
     /**
@@ -794,7 +794,7 @@ class PhotosService {
     }
     .apply {
         offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
     }
 
     /**
@@ -818,11 +818,11 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        cropX?.let { addParam("crop_x", it) }
-        cropY?.let { addParam("crop_y", it) }
-        cropX2?.let { addParam("crop_x2", it) }
-        cropY2?.let { addParam("crop_y2", it) }
+        addParam("group_id", groupId, min = 1)
+        cropX?.let { addParam("crop_x", it, min = 0) }
+        cropY?.let { addParam("crop_y", it, min = 0) }
+        cropX2?.let { addParam("crop_x2", it, min = 0) }
+        cropY2?.let { addParam("crop_y2", it, min = 0) }
     }
 
     /**
@@ -865,18 +865,18 @@ class PhotosService {
     /**
      * Returns the server address for photo upload.
      *
+     * @param albumId
      * @param groupId - ID of community that owns the album (if the photo will be uploaded to a
      * community album).
-     * @param albumId
      * @return [VKRequest] with [PhotosPhotoUpload]
      */
-    fun photosGetUploadServer(groupId: UserId? = null, albumId: Int? = null):
+    fun photosGetUploadServer(albumId: Int? = null, groupId: UserId? = null):
             VKRequest<PhotosPhotoUpload> = NewApiRequest("photos.getUploadServer") {
         GsonHolder.gson.fromJson(it, PhotosPhotoUpload::class.java)
     }
     .apply {
-        groupId?.let { addParam("group_id", it) }
         albumId?.let { addParam("album_id", it) }
+        groupId?.let { addParam("group_id", it) }
     }
 
     /**
@@ -898,9 +898,9 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, PhotosGetUserPhotosResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
         sort?.let { addParam("sort", it) }
     }
 
@@ -923,9 +923,9 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, PhotosGetUserPhotosExtendedResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
         addParam("extended", true)
         sort?.let { addParam("sort", it) }
     }
@@ -936,7 +936,7 @@ class PhotosService {
      * @param groupId - ID of community to whose wall the photo will be uploaded.
      * @return [VKRequest] with [PhotosPhotoUpload]
      */
-    fun photosGetWallUploadServer(groupId: Int? = null): VKRequest<PhotosPhotoUpload> =
+    fun photosGetWallUploadServer(groupId: UserId? = null): VKRequest<PhotosPhotoUpload> =
             NewApiRequest("photos.getWallUploadServer") {
         GsonHolder.gson.fromJson(it, PhotosPhotoUpload::class.java)
     }
@@ -1014,7 +1014,7 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
     .apply {
-        addParam("photo_id", photoId)
+        addParam("photo_id", photoId, min = 0)
         addParam("user_id", userId)
         ownerId?.let { addParam("owner_id", it) }
         x?.let { addParam("x", it) }
@@ -1110,7 +1110,7 @@ class PhotosService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("photo_id", photoId)
+        addParam("photo_id", photoId, min = 0)
         reason?.let { addParam("reason", it.value) }
     }
 
@@ -1132,7 +1132,7 @@ class PhotosService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("comment_id", commentId)
+        addParam("comment_id", commentId, min = 0)
         reason?.let { addParam("reason", it.value) }
     }
 
@@ -1148,7 +1148,7 @@ class PhotosService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("photo_id", photoId)
+        addParam("photo_id", photoId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
     }
 
@@ -1230,9 +1230,9 @@ class PhotosService {
         GsonHolder.gson.fromJson<List<PhotosPhoto>>(it, typeToken)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         addParam("photo", photo)
-        addParam("server", server)
+        addParam("server", server, min = 0)
         addParam("hash", hash)
     }
 
@@ -1267,7 +1267,7 @@ class PhotosService {
         addParam("photo", photo)
         addParam("server", server)
         addParam("hash", hash)
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         cropData?.let { addParam("crop_data", it) }
         cropHash?.let { addParam("crop_hash", it) }
     }
@@ -1303,12 +1303,12 @@ class PhotosService {
      * server].
      * @param photo - Parameter returned when photos are [vk.com/dev/upload_files|uploaded to
      * server].
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [PhotosSaveOwnerCoverPhotoResponse]
      */
-    fun photosSaveOwnerCoverPhoto(hash: String, photo: String): VKRequest<List<BaseImage>> =
+    fun photosSaveOwnerCoverPhoto(hash: String, photo: String):
+            VKRequest<PhotosSaveOwnerCoverPhotoResponse> =
             NewApiRequest("photos.saveOwnerCoverPhoto") {
-        val typeToken = object: TypeToken<List<BaseImage>>() {}.type
-        GsonHolder.gson.fromJson<List<BaseImage>>(it, typeToken)
+        GsonHolder.gson.fromJson(it, PhotosSaveOwnerCoverPhotoResponse::class.java)
     }
     .apply {
         addParam("hash", hash)
@@ -1366,8 +1366,8 @@ class PhotosService {
     }
     .apply {
         addParam("photo", photo)
-        userId?.let { addParam("user_id", it) }
-        groupId?.let { addParam("group_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         server?.let { addParam("server", it) }
         hash?.let { addParam("hash", it) }
         latitude?.let { addParam("latitude", it) }
@@ -1407,11 +1407,11 @@ class PhotosService {
         q?.let { addParam("q", it) }
         lat?.let { addParam("lat", it) }
         long?.let { addParam("long", it) }
-        startTime?.let { addParam("start_time", it) }
-        endTime?.let { addParam("end_time", it) }
-        sort?.let { addParam("sort", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
-        radius?.let { addParam("radius", it) }
+        startTime?.let { addParam("start_time", it, min = 0) }
+        endTime?.let { addParam("end_time", it, min = 0) }
+        sort?.let { addParam("sort", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
+        radius?.let { addParam("radius", it, min = 0) }
     }
 }

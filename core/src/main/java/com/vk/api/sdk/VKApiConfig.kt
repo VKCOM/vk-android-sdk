@@ -1,3 +1,30 @@
+/**
+ * Copyright (c) 2020 - present, LLC “V Kontakte”
+ *
+ * 1. Permission is hereby granted to any person obtaining a copy of this Software to
+ * use the Software without charge.
+ *
+ * 2. Restrictions
+ * You may not modify, merge, publish, distribute, sublicense, and/or sell copies,
+ * create derivative works based upon the Software or any part thereof.
+ *
+ * 3. Termination
+ * This License is effective until terminated. LLC “V Kontakte” may terminate this
+ * License at any time without any negative consequences to our rights.
+ * You may terminate this License at any time by deleting the Software and all copies
+ * thereof. Upon termination of this license for any reason, you shall continue to be
+ * bound by the provisions of Section 2 above.
+ * Termination will be without prejudice to any rights LLC “V Kontakte” may have as
+ * a result of this agreement.
+ *
+ * 4. Disclaimer of warranty and liability
+ * THE SOFTWARE IS MADE AVAILABLE ON THE “AS IS” BASIS. LLC “V KONTAKTE” DISCLAIMS
+ * ALL WARRANTIES THAT THE SOFTWARE MAY BE SUITABLE OR UNSUITABLE FOR ANY SPECIFIC
+ * PURPOSES OF USE. LLC “V KONTAKTE” CAN NOT GUARANTEE AND DOES NOT PROMISE ANY
+ * SPECIFIC RESULTS OF USE OF THE SOFTWARE.
+ * UNDER NO CIRCUMSTANCES LLC “V KONTAKTE” BEAR LIABILITY TO THE LICENSEE OR ANY
+ * THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
+*/
 /*******************************************************************************
  * The MIT License (MIT)
  *
@@ -25,6 +52,9 @@
 package com.vk.api.sdk
 
 import android.content.Context
+import com.vk.api.sdk.auth.VKAccessTokenProvider
+import com.vk.api.sdk.okhttp.DefaultLoggingPrefixer
+import com.vk.api.sdk.okhttp.LoggingPrefixer
 import com.vk.api.sdk.utils.ApiMethodPriorityBackoff
 import com.vk.api.sdk.utils.log.DefaultApiLogger
 import com.vk.api.sdk.utils.log.Logger
@@ -44,6 +74,7 @@ data class VKApiConfig(
     val version: String = DEFAULT_API_VERSION,
     val okHttpProvider: VKOkHttpProvider = VKOkHttpProvider.DefaultProvider(),
     val logger: Logger = DefaultApiLogger(lazy { Logger.LogLevel.NONE }, "VKSdkApi"),
+    val loggingPrefixer: LoggingPrefixer = DefaultLoggingPrefixer(),
     internal val accessToken: Lazy<String> = lazy { "" },
     internal val secret: Lazy<String?> = lazy { null },
     val clientSecret: String = "",
@@ -57,8 +88,8 @@ data class VKApiConfig(
     val rateLimitBackoffTimeoutMs: Long = TimeUnit.HOURS.toMillis(1),
     val apiMethodPriorityBackoff: ApiMethodPriorityBackoff = ApiMethodPriorityBackoff.DEFAULT,
     val externalDeviceId: Lazy<String?> = lazy { null },
-    val enableAnonymousToken: Boolean =  true,
-    val responseValidator: VKApiResponseValidator? = null
+    val anonymousTokenProvider: Lazy<VKAccessTokenProvider?> = lazy { null },
+    val responseValidator: Lazy<VKApiResponseValidator>? = null
 ) {
 
     val lang get() = langProvider()
@@ -137,8 +168,8 @@ data class VKApiConfig(
             config = config.copy(externalDeviceId = lazy { externalDeviceId })
         }
 
-        fun enableAnonymousToken(enable: Boolean) = apply {
-            config = config.copy(enableAnonymousToken = enable)
+        fun setAnonymousTokenProvider(provider: VKAccessTokenProvider?) = apply {
+            config = config.copy(anonymousTokenProvider = lazy { provider })
         }
 
         fun build(): VKApiConfig {

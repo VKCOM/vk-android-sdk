@@ -34,6 +34,8 @@ import kotlin.Int
 
 /**
  * @param canPost - Information whether current user can comment the post
+ * @param canOpen
+ * @param canClose
  * @param count - Comments number
  * @param groupsCanPost - Information whether groups can comment the post
  * @param donut
@@ -41,6 +43,10 @@ import kotlin.Int
 data class BaseCommentsInfo(
     @SerializedName("can_post")
     val canPost: BaseBoolInt? = null,
+    @SerializedName("can_open")
+    val canOpen: BaseBoolInt? = null,
+    @SerializedName("can_close")
+    val canClose: BaseBoolInt? = null,
     @SerializedName("count")
     val count: Int? = null,
     @SerializedName("groups_can_post")

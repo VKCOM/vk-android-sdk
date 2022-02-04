@@ -73,8 +73,8 @@ class StreamingService {
     .apply {
         type?.let { addParam("type", it.value) }
         interval?.let { addParam("interval", it.value) }
-        startTime?.let { addParam("start_time", it) }
-        endTime?.let { addParam("end_time", it) }
+        startTime?.let { addParam("start_time", it, min = 0) }
+        endTime?.let { addParam("end_time", it, min = 0) }
     }
 
     /**

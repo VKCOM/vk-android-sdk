@@ -28,16 +28,20 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.sdk.api.groups.dto.GroupsGroupFull
 import com.vk.sdk.api.users.dto.UsersUserFull
 import kotlin.collections.List
 
 /**
  * @param preview
  * @param profiles
+ * @param groups
  */
 data class MessagesGetChatPreviewResponse(
     @SerializedName("preview")
     val preview: MessagesChatPreview? = null,
     @SerializedName("profiles")
-    val profiles: List<UsersUserFull>? = null
+    val profiles: List<UsersUserFull>? = null,
+    @SerializedName("groups")
+    val groups: List<GroupsGroupFull>? = null
 )

@@ -44,7 +44,7 @@ data class NotificationsNotificationItem(
     @SerializedName("feedback")
     val feedback: NotificationsFeedback? = null,
     @SerializedName("parent")
-    val parent: NotificationsNotificationParent? = null,
+    val parent: NotificationsNotification? = null,
     @SerializedName("reply")
     val reply: NotificationsReply? = null,
     @SerializedName("type")

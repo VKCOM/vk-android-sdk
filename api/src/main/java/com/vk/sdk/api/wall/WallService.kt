@@ -87,7 +87,7 @@ class WallService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("post_id", postId)
+        addParam("post_id", postId, min = 0)
     }
 
     /**
@@ -110,7 +110,7 @@ class WallService {
     fun wallCreateComment(
         postId: Int,
         ownerId: UserId? = null,
-        fromGroup: Int? = null,
+        fromGroup: UserId? = null,
         message: String? = null,
         replyToComment: Int? = null,
         attachments: List<String>? = null,
@@ -120,13 +120,13 @@ class WallService {
         GsonHolder.gson.fromJson(it, WallCreateCommentResponse::class.java)
     }
     .apply {
-        addParam("post_id", postId)
+        addParam("post_id", postId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
-        fromGroup?.let { addParam("from_group", it) }
+        fromGroup?.let { addParam("from_group", it, min = 0) }
         message?.let { addParam("message", it) }
         replyToComment?.let { addParam("reply_to_comment", it) }
         attachments?.let { addParam("attachments", it) }
-        stickerId?.let { addParam("sticker_id", it) }
+        stickerId?.let { addParam("sticker_id", it, min = 0) }
         guid?.let { addParam("guid", it) }
     }
 
@@ -143,7 +143,7 @@ class WallService {
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
-        postId?.let { addParam("post_id", it) }
+        postId?.let { addParam("post_id", it, min = 0) }
     }
 
     /**
@@ -158,7 +158,7 @@ class WallService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("comment_id", commentId)
+        addParam("comment_id", commentId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
     }
 
@@ -216,21 +216,21 @@ class WallService {
         GsonHolder.gson.fromJson(it, WallEditResponse::class.java)
     }
     .apply {
-        addParam("post_id", postId)
+        addParam("post_id", postId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         friendsOnly?.let { addParam("friends_only", it) }
         message?.let { addParam("message", it) }
         attachments?.let { addParam("attachments", it) }
         services?.let { addParam("services", it) }
         signed?.let { addParam("signed", it) }
-        publishDate?.let { addParam("publish_date", it) }
+        publishDate?.let { addParam("publish_date", it, min = 0) }
         lat?.let { addParam("lat", it) }
         long?.let { addParam("long", it) }
-        placeId?.let { addParam("place_id", it) }
+        placeId?.let { addParam("place_id", it, min = 0) }
         markAsAds?.let { addParam("mark_as_ads", it) }
         closeComments?.let { addParam("close_comments", it) }
         donutPaidDuration?.let { addParam("donut_paid_duration", it) }
-        posterBkgId?.let { addParam("poster_bkg_id", it) }
+        posterBkgId?.let { addParam("poster_bkg_id", it, min = 0) }
         posterBkgOwnerId?.let { addParam("poster_bkg_owner_id", it) }
         posterBkgAccessHash?.let { addParam("poster_bkg_access_hash", it) }
         copyright?.let { addParam("copyright", it) }
@@ -279,14 +279,14 @@ class WallService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("post_id", postId)
+        addParam("post_id", postId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         message?.let { addParam("message", it) }
         attachments?.let { addParam("attachments", it) }
         signed?.let { addParam("signed", it) }
         lat?.let { addParam("lat", it) }
         long?.let { addParam("long", it) }
-        placeId?.let { addParam("place_id", it) }
+        placeId?.let { addParam("place_id", it, min = 0) }
         linkButton?.let { addParam("link_button", it) }
         linkTitle?.let { addParam("link_title", it) }
         linkImage?.let { addParam("link_image", it) }
@@ -315,7 +315,7 @@ class WallService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("comment_id", commentId)
+        addParam("comment_id", commentId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         message?.let { addParam("message", it) }
         attachments?.let { addParam("attachments", it) }
@@ -346,8 +346,8 @@ class WallService {
     .apply {
         ownerId?.let { addParam("owner_id", it) }
         domain?.let { addParam("domain", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
         filter?.let { addParam("filter", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -380,8 +380,8 @@ class WallService {
     .apply {
         ownerId?.let { addParam("owner_id", it) }
         domain?.let { addParam("domain", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
         filter?.let { addParam("filter", it) }
         addParam("extended", true)
         val fieldsJsonConverted = fields?.map {
@@ -460,7 +460,7 @@ class WallService {
         GsonHolder.gson.fromJson(it, WallGetCommentResponse::class.java)
     }
     .apply {
-        addParam("comment_id", commentId)
+        addParam("comment_id", commentId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -484,7 +484,7 @@ class WallService {
         GsonHolder.gson.fromJson(it, WallGetCommentExtendedResponse::class.java)
     }
     .apply {
-        addParam("comment_id", commentId)
+        addParam("comment_id", commentId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         addParam("extended", true)
         val fieldsJsonConverted = fields?.map {
@@ -528,19 +528,19 @@ class WallService {
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
-        postId?.let { addParam("post_id", it) }
+        postId?.let { addParam("post_id", it, min = 0) }
         needLikes?.let { addParam("need_likes", it) }
-        startCommentId?.let { addParam("start_comment_id", it) }
+        startCommentId?.let { addParam("start_comment_id", it, min = 0) }
         offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0) }
         sort?.let { addParam("sort", it.value) }
-        previewLength?.let { addParam("preview_length", it) }
+        previewLength?.let { addParam("preview_length", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        commentId?.let { addParam("comment_id", it) }
-        threadItemsCount?.let { addParam("thread_items_count", it) }
+        commentId?.let { addParam("comment_id", it, min = 0) }
+        threadItemsCount?.let { addParam("thread_items_count", it, min = 0, max = 10) }
     }
 
     /**
@@ -578,20 +578,20 @@ class WallService {
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
-        postId?.let { addParam("post_id", it) }
+        postId?.let { addParam("post_id", it, min = 0) }
         needLikes?.let { addParam("need_likes", it) }
-        startCommentId?.let { addParam("start_comment_id", it) }
+        startCommentId?.let { addParam("start_comment_id", it, min = 0) }
         offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0) }
         sort?.let { addParam("sort", it.value) }
-        previewLength?.let { addParam("preview_length", it) }
+        previewLength?.let { addParam("preview_length", it, min = 0) }
         addParam("extended", true)
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        commentId?.let { addParam("comment_id", it) }
-        threadItemsCount?.let { addParam("thread_items_count", it) }
+        commentId?.let { addParam("comment_id", it, min = 0) }
+        threadItemsCount?.let { addParam("thread_items_count", it, min = 0, max = 10) }
     }
 
     /**
@@ -614,9 +614,9 @@ class WallService {
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
-        postId?.let { addParam("post_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        postId?.let { addParam("post_id", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -630,7 +630,7 @@ class WallService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("post_id", postId)
+        addParam("post_id", postId, min = 0)
     }
 
     /**
@@ -646,7 +646,7 @@ class WallService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("post_id", postId)
+        addParam("post_id", postId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
     }
 
@@ -718,11 +718,11 @@ class WallService {
         attachments?.let { addParam("attachments", it) }
         services?.let { addParam("services", it) }
         signed?.let { addParam("signed", it) }
-        publishDate?.let { addParam("publish_date", it) }
+        publishDate?.let { addParam("publish_date", it, min = 0) }
         lat?.let { addParam("lat", it) }
         long?.let { addParam("long", it) }
-        placeId?.let { addParam("place_id", it) }
-        postId?.let { addParam("post_id", it) }
+        placeId?.let { addParam("place_id", it, min = 0) }
+        postId?.let { addParam("post_id", it, min = 0) }
         guid?.let { addParam("guid", it) }
         markAsAds?.let { addParam("mark_as_ads", it) }
         closeComments?.let { addParam("close_comments", it) }
@@ -781,7 +781,7 @@ class WallService {
         signed?.let { addParam("signed", it) }
         lat?.let { addParam("lat", it) }
         long?.let { addParam("long", it) }
-        placeId?.let { addParam("place_id", it) }
+        placeId?.let { addParam("place_id", it, min = 0) }
         guid?.let { addParam("guid", it) }
         linkButton?.let { addParam("link_button", it) }
         linkTitle?.let { addParam("link_title", it) }
@@ -807,7 +807,7 @@ class WallService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("comment_id", commentId)
+        addParam("comment_id", commentId, min = 0)
         reason?.let { addParam("reason", it.value) }
     }
 
@@ -829,7 +829,7 @@ class WallService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("post_id", postId)
+        addParam("post_id", postId, min = 0)
         reason?.let { addParam("reason", it.value) }
     }
 
@@ -855,7 +855,7 @@ class WallService {
     .apply {
         addParam("object", objectValue)
         message?.let { addParam("message", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         markAsAds?.let { addParam("mark_as_ads", it) }
         muteNotifications?.let { addParam("mute_notifications", it) }
     }
@@ -874,7 +874,7 @@ class WallService {
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
-        postId?.let { addParam("post_id", it) }
+        postId?.let { addParam("post_id", it, min = 0) }
     }
 
     /**
@@ -920,10 +920,10 @@ class WallService {
     .apply {
         ownerId?.let { addParam("owner_id", it) }
         domain?.let { addParam("domain", it) }
-        query?.let { addParam("query", it) }
+        query?.let { addParam("query", it, maxLength = 9000) }
         ownersOnly?.let { addParam("owners_only", it) }
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
+        offset?.let { addParam("offset", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -957,10 +957,10 @@ class WallService {
     .apply {
         ownerId?.let { addParam("owner_id", it) }
         domain?.let { addParam("domain", it) }
-        query?.let { addParam("query", it) }
+        query?.let { addParam("query", it, maxLength = 9000) }
         ownersOnly?.let { addParam("owners_only", it) }
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
+        offset?.let { addParam("offset", it, min = 0) }
         addParam("extended", true)
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -981,7 +981,7 @@ class WallService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("post_id", postId)
+        addParam("post_id", postId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
     }
 }

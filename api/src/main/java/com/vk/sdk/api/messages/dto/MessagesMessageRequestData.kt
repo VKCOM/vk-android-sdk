@@ -28,6 +28,7 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import kotlin.Int
 import kotlin.String
 
@@ -40,7 +41,7 @@ data class MessagesMessageRequestData(
     @SerializedName("status")
     val status: String? = null,
     @SerializedName("inviter_id")
-    val inviterId: Int? = null,
+    val inviterId: UserId? = null,
     @SerializedName("request_date")
     val requestDate: Int? = null
 )

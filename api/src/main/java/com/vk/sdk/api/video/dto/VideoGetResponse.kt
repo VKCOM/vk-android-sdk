@@ -29,7 +29,7 @@ package com.vk.sdk.api.video.dto
 
 import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.groups.dto.GroupsGroupFull
-import com.vk.sdk.api.users.dto.UsersUserMin
+import com.vk.sdk.api.users.dto.UsersUserFull
 import kotlin.Int
 import kotlin.collections.List
 
@@ -45,7 +45,7 @@ data class VideoGetResponse(
     @SerializedName("items")
     val items: List<VideoVideoFull>,
     @SerializedName("profiles")
-    val profiles: List<UsersUserMin>? = null,
+    val profiles: List<UsersUserFull>? = null,
     @SerializedName("groups")
     val groups: List<GroupsGroupFull>? = null
 )

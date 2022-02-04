@@ -84,8 +84,8 @@ class FaveService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
-        groupId?.let { addParam("group_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -136,7 +136,7 @@ class FaveService {
         GsonHolder.gson.fromJson(it, FaveTag::class.java)
     }
     .apply {
-        name?.let { addParam("name", it) }
+        name?.let { addParam("name", it, maxLength = 50) }
         position?.let { addParam("position", it.value) }
     }
 
@@ -170,7 +170,7 @@ class FaveService {
     }
     .apply {
         addParam("id", id)
-        addParam("name", name)
+        addParam("name", name, maxLength = 50)
     }
 
     /**
@@ -195,8 +195,8 @@ class FaveService {
     .apply {
         itemType?.let { addParam("item_type", it.value) }
         tagId?.let { addParam("tag_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 1, max = 100) }
         fields?.let { addParam("fields", it) }
         isFromSnackbar?.let { addParam("is_from_snackbar", it) }
     }
@@ -224,8 +224,8 @@ class FaveService {
         addParam("extended", true)
         itemType?.let { addParam("item_type", it.value) }
         tagId?.let { addParam("tag_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 1, max = 100) }
         fields?.let { addParam("fields", it) }
         isFromSnackbar?.let { addParam("is_from_snackbar", it) }
     }
@@ -248,8 +248,8 @@ class FaveService {
         GsonHolder.gson.fromJson(it, FaveGetPagesResponse::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0, max = 10000) }
+        count?.let { addParam("count", it, min = 1, max = 500) }
         type?.let { addParam("type", it.value) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -283,7 +283,7 @@ class FaveService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("article_id", articleId)
+        addParam("article_id", articleId, min = 0)
     }
 
     /**
@@ -396,8 +396,8 @@ class FaveService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
-        groupId?.let { addParam("group_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         tagIds?.let { addParam("tag_ids", it) }
     }
 
@@ -412,7 +412,7 @@ class FaveService {
      */
     fun faveSetTags(
         itemType: FaveSetTagsItemType? = null,
-        itemOwnerId: Int? = null,
+        itemOwnerId: UserId? = null,
         itemId: Int? = null,
         tagIds: List<Int>? = null,
         linkId: String? = null,
@@ -439,7 +439,7 @@ class FaveService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
-        groupId?.let { addParam("group_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 }

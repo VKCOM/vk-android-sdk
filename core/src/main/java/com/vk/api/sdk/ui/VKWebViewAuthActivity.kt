@@ -1,3 +1,30 @@
+/**
+ * Copyright (c) 2020 - present, LLC “V Kontakte”
+ *
+ * 1. Permission is hereby granted to any person obtaining a copy of this Software to
+ * use the Software without charge.
+ *
+ * 2. Restrictions
+ * You may not modify, merge, publish, distribute, sublicense, and/or sell copies,
+ * create derivative works based upon the Software or any part thereof.
+ *
+ * 3. Termination
+ * This License is effective until terminated. LLC “V Kontakte” may terminate this
+ * License at any time without any negative consequences to our rights.
+ * You may terminate this License at any time by deleting the Software and all copies
+ * thereof. Upon termination of this license for any reason, you shall continue to be
+ * bound by the provisions of Section 2 above.
+ * Termination will be without prejudice to any rights LLC “V Kontakte” may have as
+ * a result of this agreement.
+ *
+ * 4. Disclaimer of warranty and liability
+ * THE SOFTWARE IS MADE AVAILABLE ON THE “AS IS” BASIS. LLC “V KONTAKTE” DISCLAIMS
+ * ALL WARRANTIES THAT THE SOFTWARE MAY BE SUITABLE OR UNSUITABLE FOR ANY SPECIFIC
+ * PURPOSES OF USE. LLC “V KONTAKTE” CAN NOT GUARANTEE AND DOES NOT PROMISE ANY
+ * SPECIFIC RESULTS OF USE OF THE SOFTWARE.
+ * UNDER NO CIRCUMSTANCES LLC “V KONTAKTE” BEAR LIABILITY TO THE LICENSEE OR ANY
+ * THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
+*/
 /*******************************************************************************
  * The MIT License (MIT)
  *
@@ -32,6 +59,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
@@ -101,8 +129,10 @@ open class VKWebViewAuthActivity: Activity() {
 
     private fun loadUrl() {
         try {
-            val urlToLoad = if (needValidationResult()) intent.getStringExtra(VK_EXTRA_VALIDATION_URL)
-                    else {
+            val urlToLoad: String = if (needValidationResult()) {
+                intent.getStringExtra(VK_EXTRA_VALIDATION_URL)
+                    ?: throw IllegalStateException("There is no $VK_EXTRA_VALIDATION_URL key inside")
+            } else {
                 val uri = Uri.parse("https://oauth.vk.com/authorize").buildUpon()
                 val params = getUrlParams()
                 for ((key, value) in params) {
@@ -113,6 +143,7 @@ open class VKWebViewAuthActivity: Activity() {
 
             webView.loadUrl(urlToLoad)
         } catch (e: Exception) {
+            e.printStackTrace()
             setResult(RESULT_CANCELED)
             finish()
         }
@@ -158,7 +189,8 @@ open class VKWebViewAuthActivity: Activity() {
                 }
                 return false
             } else {
-                if (!url.startsWith(redirectUrl)) {
+                val safeRedirect = redirectUrl
+                if (safeRedirect != null && !url.startsWith(safeRedirect)) {
                     return false
                 }
                 val intent = Intent(VK_RESULT_INTENT_NAME)
@@ -189,18 +221,29 @@ open class VKWebViewAuthActivity: Activity() {
         }
 
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-        override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
+        override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError?) {
             super.onReceivedError(view, request, error)
-            val errorCode =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) error?.errorCode ?: ERROR_UNKNOWN
-                else ERROR_UNKNOWN
-            onError(errorCode)
+            val url = request.url.toString()
+            var errorDescription = "no_description"
+            var errorCode: Int = ERROR_UNKNOWN
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && error != null) {
+                errorDescription = error.description.toString()
+                errorCode = error.errorCode
+            }
+
+            Log.w(LOG_TAG, "$errorCode:$errorDescription:$url")
+            if (webView.url == url) {
+                onError(errorCode)
+            }
         }
 
         @Suppress("DEPRECATION")
         override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
             super.onReceivedError(view, errorCode, description, failingUrl)
-            onError(errorCode)
+            Log.w(LOG_TAG, "$errorCode:$description:$failingUrl")
+            if (webView.url == failingUrl) {
+                onError(errorCode)
+            }
         }
 
         private fun onError(errorCode: Int) {
@@ -234,14 +277,20 @@ open class VKWebViewAuthActivity: Activity() {
     companion object {
         const val VK_EXTRA_AUTH_PARAMS = "vk_auth_params"
         const val VK_RESULT_INTENT_NAME = "com.vk.auth-token"
+        private const val LOG_TAG = "VKWebViewAuthActivity"
 
         private const val VK_EXTRA_VALIDATION_URL = "vk_validation_url"
 
         var validationResult: VKApiValidationHandler.Credentials? = null
 
+        internal fun createAuthIntent(
+            ctx: Context,
+            params: VKAuthParams
+        ) = Intent(ctx, VKWebViewAuthActivity::class.java)
+            .putExtra(VK_EXTRA_AUTH_PARAMS, params.toBundle())
+
         fun startForAuth(activity: Activity, params: VKAuthParams, code: Int) {
-            val intent = Intent(activity, VKWebViewAuthActivity::class.java)
-                .putExtra(VK_EXTRA_AUTH_PARAMS, params.toBundle())
+            val intent = createAuthIntent(activity, params)
             activity.startActivityForResult(intent, code)
         }
 

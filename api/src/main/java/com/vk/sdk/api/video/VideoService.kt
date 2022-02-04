@@ -74,12 +74,12 @@ class VideoService {
     fun videoAdd(
         videoId: Int,
         ownerId: UserId,
-        targetId: Int? = null
+        targetId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.add") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         addParam("owner_id", ownerId)
         targetId?.let { addParam("target_id", it) }
     }
@@ -101,7 +101,7 @@ class VideoService {
         GsonHolder.gson.fromJson(it, VideoAddAlbumResponse::class.java)
     }
     .apply {
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         title?.let { addParam("title", it) }
         val privacyJsonConverted = privacy?.map {
             it.value
@@ -120,7 +120,7 @@ class VideoService {
     fun videoAddToAlbum(
         ownerId: UserId,
         videoId: Int,
-        targetId: Int? = null,
+        targetId: UserId? = null,
         albumId: Int? = null,
         albumIds: List<Int>? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.addToAlbum") {
@@ -128,7 +128,7 @@ class VideoService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         targetId?.let { addParam("target_id", it) }
         albumId?.let { addParam("album_id", it) }
         albumIds?.let { addParam("album_ids", it) }
@@ -163,13 +163,13 @@ class VideoService {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
     .apply {
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         message?.let { addParam("message", it) }
         attachments?.let { addParam("attachments", it) }
         fromGroup?.let { addParam("from_group", it) }
-        replyToComment?.let { addParam("reply_to_comment", it) }
-        stickerId?.let { addParam("sticker_id", it) }
+        replyToComment?.let { addParam("reply_to_comment", it, min = 0) }
+        stickerId?.let { addParam("sticker_id", it, min = 0) }
         guid?.let { addParam("guid", it) }
     }
 
@@ -184,12 +184,12 @@ class VideoService {
     fun videoDelete(
         videoId: Int,
         ownerId: UserId? = null,
-        targetId: Int? = null
+        targetId: UserId? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.delete") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         targetId?.let { addParam("target_id", it) }
     }
@@ -206,8 +206,8 @@ class VideoService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("album_id", albumId)
-        groupId?.let { addParam("group_id", it) }
+        addParam("album_id", albumId, min = 0)
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**
@@ -254,7 +254,7 @@ class VideoService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         name?.let { addParam("name", it) }
         desc?.let { addParam("desc", it) }
@@ -283,9 +283,9 @@ class VideoService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("album_id", albumId)
+        addParam("album_id", albumId, min = 0)
         addParam("title", title)
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         val privacyJsonConverted = privacy?.map {
             it.value
         }
@@ -346,8 +346,8 @@ class VideoService {
         ownerId?.let { addParam("owner_id", it) }
         videos?.let { addParam("videos", it) }
         albumId?.let { addParam("album_id", it) }
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
+        offset?.let { addParam("offset", it, min = 0) }
         fields?.let { addParam("fields", it) }
     }
 
@@ -387,8 +387,8 @@ class VideoService {
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         needSystem?.let { addParam("need_system", it) }
     }
 
@@ -411,8 +411,8 @@ class VideoService {
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         addParam("extended", true)
         needSystem?.let { addParam("need_system", it) }
     }
@@ -426,14 +426,14 @@ class VideoService {
     fun videoGetAlbumsByVideo(
         ownerId: UserId,
         videoId: Int,
-        targetId: Int? = null
+        targetId: UserId? = null
     ): VKRequest<List<Int>> = NewApiRequest("video.getAlbumsByVideo") {
         val typeToken = object: TypeToken<List<Int>>() {}.type
         GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         targetId?.let { addParam("target_id", it) }
     }
 
@@ -446,13 +446,13 @@ class VideoService {
     fun videoGetAlbumsByVideoExtended(
         ownerId: UserId,
         videoId: Int,
-        targetId: Int? = null
+        targetId: UserId? = null
     ): VKRequest<VideoGetAlbumsByVideoExtendedResponse> = NewApiRequest("video.getAlbumsByVideo") {
         GsonHolder.gson.fromJson(it, VideoGetAlbumsByVideoExtendedResponse::class.java)
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         targetId?.let { addParam("target_id", it) }
         addParam("extended", true)
     }
@@ -483,12 +483,12 @@ class VideoService {
         GsonHolder.gson.fromJson(it, VideoGetCommentsResponse::class.java)
     }
     .apply {
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         needLikes?.let { addParam("need_likes", it) }
-        startCommentId?.let { addParam("start_comment_id", it) }
+        startCommentId?.let { addParam("start_comment_id", it, min = 0) }
         offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         sort?.let { addParam("sort", it.value) }
         fields?.let { addParam("fields", it) }
     }
@@ -519,12 +519,12 @@ class VideoService {
         GsonHolder.gson.fromJson(it, VideoGetCommentsExtendedResponse::class.java)
     }
     .apply {
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         needLikes?.let { addParam("need_likes", it) }
-        startCommentId?.let { addParam("start_comment_id", it) }
+        startCommentId?.let { addParam("start_comment_id", it, min = 0) }
         offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         sort?.let { addParam("sort", it.value) }
         addParam("extended", true)
         fields?.let { addParam("fields", it) }
@@ -541,7 +541,7 @@ class VideoService {
     fun videoRemoveFromAlbum(
         ownerId: UserId,
         videoId: Int,
-        targetId: Int? = null,
+        targetId: UserId? = null,
         albumId: Int? = null,
         albumIds: List<Int>? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.removeFromAlbum") {
@@ -549,7 +549,7 @@ class VideoService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         targetId?.let { addParam("target_id", it) }
         albumId?.let { addParam("album_id", it) }
         albumIds?.let { addParam("album_ids", it) }
@@ -573,10 +573,10 @@ class VideoService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("album_id", albumId)
+        addParam("album_id", albumId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
-        before?.let { addParam("before", it) }
-        after?.let { addParam("after", it) }
+        before?.let { addParam("before", it, min = 0) }
+        after?.let { addParam("after", it, min = 0) }
     }
 
     /**
@@ -597,24 +597,24 @@ class VideoService {
     fun videoReorderVideos(
         ownerId: UserId,
         videoId: Int,
-        targetId: Int? = null,
+        targetId: UserId? = null,
         albumId: Int? = null,
-        beforeOwnerId: Int? = null,
+        beforeOwnerId: UserId? = null,
         beforeVideoId: Int? = null,
-        afterOwnerId: Int? = null,
+        afterOwnerId: UserId? = null,
         afterVideoId: Int? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("video.reorderVideos") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         targetId?.let { addParam("target_id", it) }
         albumId?.let { addParam("album_id", it) }
         beforeOwnerId?.let { addParam("before_owner_id", it) }
-        beforeVideoId?.let { addParam("before_video_id", it) }
+        beforeVideoId?.let { addParam("before_video_id", it, min = 0) }
         afterOwnerId?.let { addParam("after_owner_id", it) }
-        afterVideoId?.let { addParam("after_video_id", it) }
+        afterVideoId?.let { addParam("after_video_id", it, min = 0) }
     }
 
     /**
@@ -639,7 +639,7 @@ class VideoService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         reason?.let { addParam("reason", it.value) }
         comment?.let { addParam("comment", it) }
         searchQuery?.let { addParam("search_query", it) }
@@ -663,7 +663,7 @@ class VideoService {
     }
     .apply {
         addParam("owner_id", ownerId)
-        addParam("comment_id", commentId)
+        addParam("comment_id", commentId, min = 0)
         reason?.let { addParam("reason", it.value) }
     }
 
@@ -679,7 +679,7 @@ class VideoService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("video_id", videoId)
+        addParam("video_id", videoId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
     }
 
@@ -742,8 +742,8 @@ class VideoService {
         isPrivate?.let { addParam("is_private", it) }
         wallpost?.let { addParam("wallpost", it) }
         link?.let { addParam("link", it) }
-        groupId?.let { addParam("group_id", it) }
-        albumId?.let { addParam("album_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
+        albumId?.let { addParam("album_id", it, min = 0) }
         privacyView?.let { addParam("privacy_view", it) }
         privacyComment?.let { addParam("privacy_comment", it) }
         noComments?.let { addParam("no_comments", it) }
@@ -759,6 +759,7 @@ class VideoService {
      * @param hd - If not null, only searches for high-definition videos.
      * @param adult - '1' - to disable the Safe Search filter, '0' - to enable the Safe Search
      * filter
+     * @param live
      * @param filters - Filters to apply_ 'youtube' - return YouTube videos only, 'vimeo' - return
      * Vimeo videos only, 'short' - return short videos only, 'long' - return long videos only
      * @param searchOwn
@@ -769,10 +770,11 @@ class VideoService {
      * @return [VKRequest] with [VideoSearchResponse]
      */
     fun videoSearch(
-        q: String,
+        q: String? = null,
         sort: VideoSearchSort? = null,
         hd: Int? = null,
         adult: Boolean? = null,
+        live: Boolean? = null,
         filters: List<VideoSearchFilters>? = null,
         searchOwn: Boolean? = null,
         offset: Int? = null,
@@ -783,19 +785,20 @@ class VideoService {
         GsonHolder.gson.fromJson(it, VideoSearchResponse::class.java)
     }
     .apply {
-        addParam("q", q)
+        q?.let { addParam("q", it) }
         sort?.let { addParam("sort", it.value) }
         hd?.let { addParam("hd", it) }
         adult?.let { addParam("adult", it) }
+        live?.let { addParam("live", it) }
         val filtersJsonConverted = filters?.map {
             it.value
         }
         filtersJsonConverted?.let { addParam("filters", it) }
         searchOwn?.let { addParam("search_own", it) }
-        offset?.let { addParam("offset", it) }
-        longer?.let { addParam("longer", it) }
-        shorter?.let { addParam("shorter", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        longer?.let { addParam("longer", it, min = 0) }
+        shorter?.let { addParam("shorter", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
     }
 
     /**
@@ -806,6 +809,7 @@ class VideoService {
      * @param hd - If not null, only searches for high-definition videos.
      * @param adult - '1' - to disable the Safe Search filter, '0' - to enable the Safe Search
      * filter
+     * @param live
      * @param filters - Filters to apply_ 'youtube' - return YouTube videos only, 'vimeo' - return
      * Vimeo videos only, 'short' - return short videos only, 'long' - return long videos only
      * @param searchOwn
@@ -816,10 +820,11 @@ class VideoService {
      * @return [VKRequest] with [VideoSearchExtendedResponse]
      */
     fun videoSearchExtended(
-        q: String,
+        q: String? = null,
         sort: VideoSearchExtendedSort? = null,
         hd: Int? = null,
         adult: Boolean? = null,
+        live: Boolean? = null,
         filters: List<VideoSearchExtendedFilters>? = null,
         searchOwn: Boolean? = null,
         offset: Int? = null,
@@ -830,19 +835,20 @@ class VideoService {
         GsonHolder.gson.fromJson(it, VideoSearchExtendedResponse::class.java)
     }
     .apply {
-        addParam("q", q)
+        q?.let { addParam("q", it) }
         sort?.let { addParam("sort", it.value) }
         hd?.let { addParam("hd", it) }
         adult?.let { addParam("adult", it) }
+        live?.let { addParam("live", it) }
         val filtersJsonConverted = filters?.map {
             it.value
         }
         filtersJsonConverted?.let { addParam("filters", it) }
         searchOwn?.let { addParam("search_own", it) }
-        offset?.let { addParam("offset", it) }
-        longer?.let { addParam("longer", it) }
-        shorter?.let { addParam("shorter", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        longer?.let { addParam("longer", it, min = 0) }
+        shorter?.let { addParam("shorter", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         addParam("extended", true)
     }
 }

@@ -28,6 +28,7 @@
 package com.vk.sdk.api.polls.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import kotlin.Int
 import kotlin.collections.List
 
@@ -39,5 +40,5 @@ data class PollsVotersUsers(
     @SerializedName("count")
     val count: Int? = null,
     @SerializedName("items")
-    val items: List<Int>? = null
+    val items: List<UserId>? = null
 )

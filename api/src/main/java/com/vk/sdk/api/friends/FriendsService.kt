@@ -74,7 +74,7 @@ class FriendsService {
         GsonHolder.gson.fromJson(it, FriendsAddResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
         text?.let { addParam("text", it) }
         follow?.let { addParam("follow", it) }
     }
@@ -86,8 +86,8 @@ class FriendsService {
      * @param userIds - IDs of users to be added to the friend list.
      * @return [VKRequest] with [FriendsAddListResponse]
      */
-    fun friendsAddList(name: String, userIds: List<Int>? = null): VKRequest<FriendsAddListResponse>
-            = NewApiRequest("friends.addList") {
+    fun friendsAddList(name: String, userIds: List<UserId>? = null):
+            VKRequest<FriendsAddListResponse> = NewApiRequest("friends.addList") {
         GsonHolder.gson.fromJson(it, FriendsAddListResponse::class.java)
     }
     .apply {
@@ -104,7 +104,7 @@ class FriendsService {
      * field allows to check that data has not been modified by the client. By default_ '0'.
      * @return [VKRequest] with [Unit]
      */
-    fun friendsAreFriends(userIds: List<Int>, needSign: Boolean? = null):
+    fun friendsAreFriends(userIds: List<UserId>, needSign: Boolean? = null):
             VKRequest<List<FriendsFriendStatus>> = NewApiRequest("friends.areFriends") {
         val typeToken = object: TypeToken<List<FriendsFriendStatus>>() {}.type
         GsonHolder.gson.fromJson<List<FriendsFriendStatus>>(it, typeToken)
@@ -123,7 +123,7 @@ class FriendsService {
      * field allows to check that data has not been modified by the client. By default_ '0'.
      * @return [VKRequest] with [Unit]
      */
-    fun friendsAreFriendsExtended(userIds: List<Int>, needSign: Boolean? = null):
+    fun friendsAreFriendsExtended(userIds: List<UserId>, needSign: Boolean? = null):
             VKRequest<List<FriendsFriendExtendedStatus>> = NewApiRequest("friends.areFriends") {
         val typeToken = object: TypeToken<List<FriendsFriendExtendedStatus>>() {}.type
         GsonHolder.gson.fromJson<List<FriendsFriendExtendedStatus>>(it, typeToken)
@@ -146,7 +146,7 @@ class FriendsService {
         GsonHolder.gson.fromJson(it, FriendsDeleteResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
     }
 
     /**
@@ -170,7 +170,7 @@ class FriendsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("list_id", listId)
+        addParam("list_id", listId, min = 0, max = 24)
     }
 
     /**
@@ -185,7 +185,7 @@ class FriendsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("user_id", userId)
+        addParam("user_id", userId, min = 1)
         listIds?.let { addParam("list_ids", it) }
     }
 
@@ -204,14 +204,14 @@ class FriendsService {
     fun friendsEditList(
         listId: Int,
         name: String? = null,
-        userIds: List<Int>? = null,
-        addUserIds: List<Int>? = null,
-        deleteUserIds: List<Int>? = null
+        userIds: List<UserId>? = null,
+        addUserIds: List<UserId>? = null,
+        deleteUserIds: List<UserId>? = null
     ): VKRequest<BaseOkResponse> = NewApiRequest("friends.editList") {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("list_id", listId)
+        addParam("list_id", listId, min = 0)
         name?.let { addParam("name", it) }
         userIds?.let { addParam("user_ids", it) }
         addUserIds?.let { addParam("add_user_ids", it) }
@@ -255,15 +255,15 @@ class FriendsService {
     .apply {
         userId?.let { addParam("user_id", it) }
         order?.let { addParam("order", it.value) }
-        listId?.let { addParam("list_id", it) }
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        listId?.let { addParam("list_id", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
         nameCase?.let { addParam("name_case", it.value) }
-        ref?.let { addParam("ref", it) }
+        ref?.let { addParam("ref", it, maxLength = 255) }
     }
 
     /**
@@ -271,9 +271,9 @@ class FriendsService {
      *
      * @return [VKRequest] with [Unit]
      */
-    fun friendsGetAppUsers(): VKRequest<List<Int>> = NewApiRequest("friends.getAppUsers") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+    fun friendsGetAppUsers(): VKRequest<List<UserId>> = NewApiRequest("friends.getAppUsers") {
+        val typeToken = object: TypeToken<List<UserId>>() {}.type
+        GsonHolder.gson.fromJson<List<UserId>>(it, typeToken)
     }
 
     /**
@@ -312,7 +312,7 @@ class FriendsService {
         GsonHolder.gson.fromJson(it, FriendsGetListsResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
         returnSystem?.let { addParam("return_system", it) }
     }
 
@@ -331,23 +331,23 @@ class FriendsService {
      * @return [VKRequest] with [Unit]
      */
     fun friendsGetMutual(
-        sourceUid: Int? = null,
-        targetUid: Int? = null,
-        targetUids: List<Int>? = null,
+        sourceUid: UserId? = null,
+        targetUid: UserId? = null,
+        targetUids: List<UserId>? = null,
         order: String? = null,
         count: Int? = null,
         offset: Int? = null
-    ): VKRequest<List<Int>> = NewApiRequest("friends.getMutual") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+    ): VKRequest<List<UserId>> = NewApiRequest("friends.getMutual") {
+        val typeToken = object: TypeToken<List<UserId>>() {}.type
+        GsonHolder.gson.fromJson<List<UserId>>(it, typeToken)
     }
     .apply {
-        sourceUid?.let { addParam("source_uid", it) }
-        targetUid?.let { addParam("target_uid", it) }
+        sourceUid?.let { addParam("source_uid", it, min = 0) }
+        targetUid?.let { addParam("target_uid", it, min = 0) }
         targetUids?.let { addParam("target_uids", it) }
         order?.let { addParam("order", it) }
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
     }
 
     /**
@@ -369,17 +369,17 @@ class FriendsService {
         order: String? = null,
         count: Int? = null,
         offset: Int? = null
-    ): VKRequest<List<Int>> = NewApiRequest("friends.getOnline") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+    ): VKRequest<List<UserId>> = NewApiRequest("friends.getOnline") {
+        val typeToken = object: TypeToken<List<UserId>>() {}.type
+        GsonHolder.gson.fromJson<List<UserId>>(it, typeToken)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
-        listId?.let { addParam("list_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        listId?.let { addParam("list_id", it, min = 0) }
         onlineMobile?.let { addParam("online_mobile", it) }
         order?.let { addParam("order", it) }
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
     }
 
     /**
@@ -394,7 +394,7 @@ class FriendsService {
         GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
     }
     .apply {
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -426,14 +426,14 @@ class FriendsService {
         GsonHolder.gson.fromJson(it, FriendsGetRequestsResponse::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
         needMutual?.let { addParam("need_mutual", it) }
         out?.let { addParam("out", it) }
         sort?.let { addParam("sort", it.value) }
         needViewed?.let { addParam("need_viewed", it) }
         suggested?.let { addParam("suggested", it) }
-        ref?.let { addParam("ref", it) }
+        ref?.let { addParam("ref", it, maxLength = 255) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -472,8 +472,8 @@ class FriendsService {
             it.value
         }
         filterJsonConverted?.let { addParam("filter", it) }
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        count?.let { addParam("count", it, min = 0, max = 500) }
+        offset?.let { addParam("offset", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -497,7 +497,7 @@ class FriendsService {
      * @return [VKRequest] with [FriendsSearchResponse]
      */
     fun friendsSearch(
-        userId: UserId,
+        userId: UserId? = null,
         q: String? = null,
         fields: List<UsersFields>? = null,
         nameCase: FriendsSearchNameCase? = null,
@@ -507,14 +507,14 @@ class FriendsService {
         GsonHolder.gson.fromJson(it, FriendsSearchResponse::class.java)
     }
     .apply {
-        addParam("user_id", userId)
+        userId?.let { addParam("user_id", it, min = 1) }
         q?.let { addParam("q", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
         nameCase?.let { addParam("name_case", it.value) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 }

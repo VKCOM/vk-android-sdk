@@ -279,6 +279,9 @@ enum class GroupsFields(
     @SerializedName("microlanding")
     MICROLANDING("microlanding"),
 
+    @SerializedName("tariffs")
+    TARIFFS("tariffs"),
+
     @SerializedName("has_unseen_stories")
     HAS_UNSEEN_STORIES("has_unseen_stories"),
 
@@ -299,6 +302,9 @@ enum class GroupsFields(
 
     @SerializedName("classifieds_antibaraholka_design_version")
     CLASSIFIEDS_ANTIBARAHOLKA_DESIGN_VERSION("classifieds_antibaraholka_design_version"),
+
+    @SerializedName("is_youla_posting_to_wall_allowed")
+    IS_YOULA_POSTING_TO_WALL_ALLOWED("is_youla_posting_to_wall_allowed"),
 
     @SerializedName("worki_use_wallpost_redirect")
     WORKI_USE_WALLPOST_REDIRECT("worki_use_wallpost_redirect"),
@@ -325,5 +331,8 @@ enum class GroupsFields(
     WORKI_ACTION_MENU_ITEM("worki_action_menu_item"),
 
     @SerializedName("youla_posting_method")
-    YOULA_POSTING_METHOD("youla_posting_method");
+    YOULA_POSTING_METHOD("youla_posting_method"),
+
+    @SerializedName("members_count_text")
+    MEMBERS_COUNT_TEXT("members_count_text");
 }

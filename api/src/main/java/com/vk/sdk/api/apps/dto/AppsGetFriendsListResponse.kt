@@ -28,7 +28,7 @@
 package com.vk.sdk.api.apps.dto
 
 import com.google.gson.annotations.SerializedName
-import com.vk.sdk.api.users.dto.UsersUserFull
+import com.vk.dto.common.id.UserId
 import kotlin.Int
 import kotlin.collections.List
 
@@ -38,7 +38,7 @@ import kotlin.collections.List
  */
 data class AppsGetFriendsListResponse(
     @SerializedName("count")
-    val count: Int? = null,
+    val count: Int,
     @SerializedName("items")
-    val items: List<UsersUserFull>? = null
+    val items: List<UserId>? = null
 )

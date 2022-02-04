@@ -165,7 +165,7 @@ class PagesService {
     }
     .apply {
         addParam("text", text)
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
     }
 
     /**

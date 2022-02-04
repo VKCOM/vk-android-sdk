@@ -106,5 +106,35 @@ enum class NewsfeedNewsfeedItemType(
     CLIPS_CHALLENGES("clips_challenges"),
 
     @SerializedName("expert_card")
-    EXPERT_CARD("expert_card");
+    EXPERT_CARD("expert_card"),
+
+    @SerializedName("videos_for_you")
+    VIDEOS_FOR_YOU("videos_for_you"),
+
+    @SerializedName("liked_by_friends_groups")
+    LIKED_BY_FRIENDS_GROUPS("liked_by_friends_groups"),
+
+    @SerializedName("recommended_mini_app")
+    RECOMMENDED_MINI_APP("recommended_mini_app"),
+
+    @SerializedName("note")
+    NOTE("note"),
+
+    @SerializedName("audio_playlist")
+    AUDIO_PLAYLIST("audio_playlist"),
+
+    @SerializedName("clip")
+    CLIP("clip"),
+
+    @SerializedName("clips_block")
+    CLIPS_BLOCK("clips_block"),
+
+    @SerializedName("videos_for_you_block")
+    VIDEOS_FOR_YOU_BLOCK("videos_for_you_block"),
+
+    @SerializedName("mini_apps_carousel")
+    MINI_APPS_CAROUSEL("mini_apps_carousel"),
+
+    @SerializedName("video_postcard")
+    VIDEO_POSTCARD("video_postcard");
 }

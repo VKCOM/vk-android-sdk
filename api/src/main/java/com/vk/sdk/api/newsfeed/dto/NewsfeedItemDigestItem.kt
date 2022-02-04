@@ -37,7 +37,6 @@ import com.vk.sdk.api.wall.dto.WallPostSource
 import com.vk.sdk.api.wall.dto.WallPostType
 import com.vk.sdk.api.wall.dto.WallViews
 import com.vk.sdk.api.wall.dto.WallWallpostAttachment
-import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -57,7 +56,6 @@ import kotlin.collections.List
  * @param isFavorite - Information whether the post in favorites list
  * @param likes - Count of likes
  * @param ownerId - Wall owner's ID
- * @param poster
  * @param postId - If post type 'reply', contains original post ID
  * @param parentsStack - If post type 'reply', contains original parent IDs stack
  * @param postSource
@@ -81,7 +79,7 @@ data class NewsfeedItemDigestItem(
     @SerializedName("edited")
     val edited: Int? = null,
     @SerializedName("from_id")
-    val fromId: Int? = null,
+    val fromId: UserId? = null,
     @SerializedName("geo")
     val geo: WallGeo? = null,
     @SerializedName("id")
@@ -94,8 +92,6 @@ data class NewsfeedItemDigestItem(
     val likes: BaseLikesInfo? = null,
     @SerializedName("owner_id")
     val ownerId: UserId? = null,
-    @SerializedName("poster")
-    val poster: Any? = null,
     @SerializedName("post_id")
     val postId: Int? = null,
     @SerializedName("parents_stack")
@@ -107,7 +103,7 @@ data class NewsfeedItemDigestItem(
     @SerializedName("reposts")
     val reposts: BaseRepostsInfo? = null,
     @SerializedName("signer_id")
-    val signerId: Int? = null,
+    val signerId: UserId? = null,
     @SerializedName("text")
     val text: String? = null,
     @SerializedName("views")

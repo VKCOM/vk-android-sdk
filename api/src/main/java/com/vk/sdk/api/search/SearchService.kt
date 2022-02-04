@@ -59,9 +59,9 @@ class SearchService {
         GsonHolder.gson.fromJson(it, SearchGetHintsResponse::class.java)
     }
     .apply {
-        q?.let { addParam("q", it) }
-        offset?.let { addParam("offset", it) }
-        limit?.let { addParam("limit", it) }
+        q?.let { addParam("q", it, maxLength = 9000) }
+        offset?.let { addParam("offset", it, min = 0, max = 200) }
+        limit?.let { addParam("limit", it, min = 0, max = 200) }
         filters?.let { addParam("filters", it) }
         fields?.let { addParam("fields", it) }
         searchGlobal?.let { addParam("search_global", it) }

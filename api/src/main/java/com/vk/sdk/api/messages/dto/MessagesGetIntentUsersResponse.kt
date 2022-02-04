@@ -42,7 +42,7 @@ data class MessagesGetIntentUsersResponse(
     @SerializedName("count")
     val count: Int,
     @SerializedName("items")
-    val items: UserId,
+    val items: List<UserId>,
     @SerializedName("profiles")
     val profiles: List<UsersUserFull>? = null
 )

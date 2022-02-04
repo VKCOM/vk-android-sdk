@@ -65,11 +65,11 @@ data class GroupsGroup(
     @SerializedName("id")
     val id: UserId,
     @SerializedName("name")
-    val name: String,
+    val name: String? = null,
     @SerializedName("screen_name")
-    val screenName: String,
+    val screenName: String? = null,
     @SerializedName("is_closed")
-    val isClosed: GroupsGroupIsClosed,
+    val isClosed: GroupsGroupIsClosed? = null,
     @SerializedName("type")
     val type: GroupsGroupType? = null,
     @SerializedName("is_admin")

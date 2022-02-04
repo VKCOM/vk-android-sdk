@@ -34,7 +34,6 @@ import com.vk.sdk.api.NewApiRequest
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.base.dto.BaseUserGroupFields
 import com.vk.sdk.api.newsfeed.dto.NewsfeedCommentsFilters
-import com.vk.sdk.api.newsfeed.dto.NewsfeedFilters
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetBannedExtendedNameCase
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetBannedExtendedResponse
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetBannedNameCase
@@ -46,6 +45,7 @@ import com.vk.sdk.api.newsfeed.dto.NewsfeedGetMentionsResponse
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetRecommendedResponse
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetResponse
 import com.vk.sdk.api.newsfeed.dto.NewsfeedGetSuggestedSourcesResponse
+import com.vk.sdk.api.newsfeed.dto.NewsfeedNewsfeedItemType
 import com.vk.sdk.api.newsfeed.dto.NewsfeedSearchExtendedResponse
 import com.vk.sdk.api.newsfeed.dto.NewsfeedSearchResponse
 import com.vk.sdk.api.newsfeed.dto.NewsfeedUnsubscribeType
@@ -100,7 +100,7 @@ class NewsfeedService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("list_id", listId)
+        addParam("list_id", listId, min = 0)
     }
 
     /**
@@ -129,7 +129,7 @@ class NewsfeedService {
      * @return [VKRequest] with [NewsfeedGetResponse]
      */
     fun newsfeedGet(
-        filters: List<NewsfeedFilters>? = null,
+        filters: List<NewsfeedNewsfeedItemType>? = null,
         returnBanned: Boolean? = null,
         startTime: Int? = null,
         endTime: Int? = null,
@@ -148,12 +148,12 @@ class NewsfeedService {
         }
         filtersJsonConverted?.let { addParam("filters", it) }
         returnBanned?.let { addParam("return_banned", it) }
-        startTime?.let { addParam("start_time", it) }
-        endTime?.let { addParam("end_time", it) }
-        maxPhotos?.let { addParam("max_photos", it) }
+        startTime?.let { addParam("start_time", it, min = 0) }
+        endTime?.let { addParam("end_time", it, min = 0) }
+        maxPhotos?.let { addParam("max_photos", it, min = 0) }
         sourceIds?.let { addParam("source_ids", it) }
         startFrom?.let { addParam("start_from", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -239,15 +239,15 @@ class NewsfeedService {
         GsonHolder.gson.fromJson(it, NewsfeedGetCommentsResponse::class.java)
     }
     .apply {
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         val filtersJsonConverted = filters?.map {
             it.value
         }
         filtersJsonConverted?.let { addParam("filters", it) }
         reposts?.let { addParam("reposts", it) }
-        startTime?.let { addParam("start_time", it) }
-        endTime?.let { addParam("end_time", it) }
-        lastCommentsCount?.let { addParam("last_comments_count", it) }
+        startTime?.let { addParam("start_time", it, min = 0) }
+        endTime?.let { addParam("end_time", it, min = 0) }
+        lastCommentsCount?.let { addParam("last_comments_count", it, min = 0, max = 10) }
         startFrom?.let { addParam("start_from", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -307,10 +307,10 @@ class NewsfeedService {
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
-        startTime?.let { addParam("start_time", it) }
-        endTime?.let { addParam("end_time", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        startTime?.let { addParam("start_time", it, min = 0) }
+        endTime?.let { addParam("end_time", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 50) }
     }
 
     /**
@@ -338,11 +338,11 @@ class NewsfeedService {
         GsonHolder.gson.fromJson(it, NewsfeedGetRecommendedResponse::class.java)
     }
     .apply {
-        startTime?.let { addParam("start_time", it) }
-        endTime?.let { addParam("end_time", it) }
-        maxPhotos?.let { addParam("max_photos", it) }
+        startTime?.let { addParam("start_time", it, min = 0) }
+        endTime?.let { addParam("end_time", it, min = 0) }
+        maxPhotos?.let { addParam("max_photos", it, min = 0) }
         startFrom?.let { addParam("start_from", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -369,8 +369,8 @@ class NewsfeedService {
         GsonHolder.gson.fromJson(it, NewsfeedGetSuggestedSourcesResponse::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
         shuffle?.let { addParam("shuffle", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -398,7 +398,7 @@ class NewsfeedService {
     .apply {
         addParam("type", type)
         ownerId?.let { addParam("owner_id", it) }
-        itemId?.let { addParam("item_id", it) }
+        itemId?.let { addParam("item_id", it, min = 0) }
     }
 
     /**
@@ -414,14 +414,14 @@ class NewsfeedService {
     fun newsfeedSaveList(
         title: String,
         listId: Int? = null,
-        sourceIds: List<Int>? = null,
+        sourceIds: List<UserId>? = null,
         noReposts: Boolean? = null
     ): VKRequest<Int> = NewApiRequest("newsfeed.saveList") {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
     .apply {
         addParam("title", title)
-        listId?.let { addParam("list_id", it) }
+        listId?.let { addParam("list_id", it, min = 0) }
         sourceIds?.let { addParam("source_ids", it) }
         noReposts?.let { addParam("no_reposts", it) }
     }
@@ -457,11 +457,11 @@ class NewsfeedService {
     }
     .apply {
         q?.let { addParam("q", it) }
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         latitude?.let { addParam("latitude", it) }
         longitude?.let { addParam("longitude", it) }
-        startTime?.let { addParam("start_time", it) }
-        endTime?.let { addParam("end_time", it) }
+        startTime?.let { addParam("start_time", it, min = 0) }
+        endTime?.let { addParam("end_time", it, min = 0) }
         startFrom?.let { addParam("start_from", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -501,11 +501,11 @@ class NewsfeedService {
     .apply {
         q?.let { addParam("q", it) }
         addParam("extended", true)
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         latitude?.let { addParam("latitude", it) }
         longitude?.let { addParam("longitude", it) }
-        startTime?.let { addParam("start_time", it) }
-        endTime?.let { addParam("end_time", it) }
+        startTime?.let { addParam("start_time", it, min = 0) }
+        endTime?.let { addParam("end_time", it, min = 0) }
         startFrom?.let { addParam("start_from", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -535,7 +535,7 @@ class NewsfeedService {
     .apply {
         addParam("type", type)
         addParam("owner_id", ownerId)
-        addParam("item_id", itemId)
+        addParam("item_id", itemId, min = 0)
         trackCode?.let { addParam("track_code", it) }
     }
 
@@ -557,7 +557,7 @@ class NewsfeedService {
     }
     .apply {
         addParam("type", type.value)
-        addParam("item_id", itemId)
+        addParam("item_id", itemId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
     }
 }

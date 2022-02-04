@@ -28,6 +28,7 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import kotlin.Boolean
 import kotlin.Int
@@ -39,6 +40,7 @@ import kotlin.collections.List
  * @param id - Chat ID
  * @param type - Chat type
  * @param users
+ * @param membersCount - Count members in a chat
  * @param kicked - Shows that user has been kicked from the chat
  * @param left - Shows that user has been left the chat
  * @param photo100 - URL of the preview image with 100 px in width
@@ -47,16 +49,19 @@ import kotlin.collections.List
  * @param pushSettings
  * @param title - Chat title
  * @param isDefaultPhoto - If provided photo is default
+ * @param isGroupChannel - If chat is group channel
  */
 data class MessagesChat(
     @SerializedName("admin_id")
-    val adminId: Int,
+    val adminId: UserId,
     @SerializedName("id")
     val id: Int,
     @SerializedName("type")
     val type: String,
     @SerializedName("users")
-    val users: List<Int>,
+    val users: List<UserId>,
+    @SerializedName("members_count")
+    val membersCount: Int,
     @SerializedName("kicked")
     val kicked: BaseBoolInt? = null,
     @SerializedName("left")
@@ -72,5 +77,7 @@ data class MessagesChat(
     @SerializedName("title")
     val title: String? = null,
     @SerializedName("is_default_photo")
-    val isDefaultPhoto: Boolean? = null
+    val isDefaultPhoto: Boolean? = null,
+    @SerializedName("is_group_channel")
+    val isGroupChannel: Boolean? = null
 )

@@ -59,6 +59,7 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
+ * @param id - User ID
  * @param phone - User phone
  * @param firstNameNom - User's first name in nominative case
  * @param firstNameGen - User's first name in genitive case
@@ -198,12 +199,13 @@ import kotlin.collections.List
  * @param deactivated - Returns if a profile is deleted or blocked
  * @param firstName - User first name
  * @param hidden - Returns if a profile is hidden.
- * @param id - User ID
  * @param lastName - User last name
  * @param canAccessClosed
  * @param isClosed
  */
 data class FriendsUserXtrPhone(
+    @SerializedName("id")
+    val id: UserId,
     @SerializedName("phone")
     val phone: String? = null,
     @SerializedName("first_name_nom")
@@ -480,8 +482,6 @@ data class FriendsUserXtrPhone(
     val firstName: String? = null,
     @SerializedName("hidden")
     val hidden: Int? = null,
-    @SerializedName("id")
-    val id: UserId? = null,
     @SerializedName("last_name")
     val lastName: String? = null,
     @SerializedName("can_access_closed")

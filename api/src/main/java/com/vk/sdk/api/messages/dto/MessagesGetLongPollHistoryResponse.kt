@@ -28,7 +28,7 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
-import com.vk.sdk.api.groups.dto.GroupsGroup
+import com.vk.sdk.api.groups.dto.GroupsGroupFull
 import com.vk.sdk.api.users.dto.UsersUserFull
 import kotlin.Boolean
 import kotlin.Int
@@ -56,7 +56,7 @@ data class MessagesGetLongPollHistoryResponse(
     @SerializedName("profiles")
     val profiles: List<UsersUserFull>? = null,
     @SerializedName("groups")
-    val groups: List<GroupsGroup>? = null,
+    val groups: List<GroupsGroupFull>? = null,
     @SerializedName("chats")
     val chats: List<MessagesChat>? = null,
     @SerializedName("new_pts")

@@ -31,8 +31,10 @@ import com.google.gson.annotations.SerializedName
 import com.vk.sdk.api.audio.dto.AudioAudio
 import com.vk.sdk.api.base.dto.BaseLink
 import com.vk.sdk.api.docs.dto.DocsDoc
+import com.vk.sdk.api.market.dto.MarketMarketItem
 import com.vk.sdk.api.photos.dto.PhotosPhoto
 import com.vk.sdk.api.video.dto.VideoVideo
+import com.vk.sdk.api.wall.dto.WallWallpostFull
 
 /**
  * @param type
@@ -43,7 +45,6 @@ import com.vk.sdk.api.video.dto.VideoVideo
  * @param link
  * @param market
  * @param photo
- * @param share
  * @param video
  * @param wall
  */
@@ -61,13 +62,11 @@ data class MessagesHistoryMessageAttachment(
     @SerializedName("link")
     val link: BaseLink? = null,
     @SerializedName("market")
-    val market: BaseLink? = null,
+    val market: MarketMarketItem? = null,
     @SerializedName("photo")
     val photo: PhotosPhoto? = null,
-    @SerializedName("share")
-    val share: BaseLink? = null,
     @SerializedName("video")
     val video: VideoVideo? = null,
     @SerializedName("wall")
-    val wall: BaseLink? = null
+    val wall: WallWallpostFull? = null
 )

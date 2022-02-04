@@ -28,6 +28,7 @@
 package com.vk.sdk.api.wall.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.base.dto.BaseCommentsInfo
 import com.vk.sdk.api.base.dto.BaseLikesInfo
 import com.vk.sdk.api.base.dto.BaseRepostsInfo
@@ -61,13 +62,13 @@ data class WallWallpostToId(
     @SerializedName("comments")
     val comments: BaseCommentsInfo? = null,
     @SerializedName("copy_owner_id")
-    val copyOwnerId: Int? = null,
+    val copyOwnerId: UserId? = null,
     @SerializedName("copy_post_id")
     val copyPostId: Int? = null,
     @SerializedName("date")
     val date: Int? = null,
     @SerializedName("from_id")
-    val fromId: Int? = null,
+    val fromId: UserId? = null,
     @SerializedName("geo")
     val geo: WallGeo? = null,
     @SerializedName("id")
@@ -85,9 +86,9 @@ data class WallWallpostToId(
     @SerializedName("reposts")
     val reposts: BaseRepostsInfo? = null,
     @SerializedName("signer_id")
-    val signerId: Int? = null,
+    val signerId: UserId? = null,
     @SerializedName("text")
     val text: String? = null,
     @SerializedName("to_id")
-    val toId: Int? = null
+    val toId: UserId? = null
 )

@@ -28,7 +28,7 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
-import com.vk.sdk.api.groups.dto.GroupsGroup
+import com.vk.sdk.api.groups.dto.GroupsGroupFull
 import com.vk.sdk.api.users.dto.UsersUser
 import kotlin.collections.List
 
@@ -44,7 +44,7 @@ data class MessagesGetImportantMessagesResponse(
     @SerializedName("profiles")
     val profiles: List<UsersUser>? = null,
     @SerializedName("groups")
-    val groups: List<GroupsGroup>? = null,
+    val groups: List<GroupsGroupFull>? = null,
     @SerializedName("conversations")
     val conversations: List<MessagesConversation>? = null
 )

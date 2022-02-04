@@ -29,6 +29,7 @@ package com.vk.sdk.api.calls.dto
 
 import com.google.gson.annotations.SerializedName
 import kotlin.Int
+import kotlin.Long
 import kotlin.collections.List
 
 /**
@@ -37,7 +38,7 @@ import kotlin.collections.List
  */
 data class CallsParticipants(
     @SerializedName("list")
-    val list: List<Int>? = null,
+    val list: List<Long>? = null,
     @SerializedName("count")
     val count: Int? = null
 )

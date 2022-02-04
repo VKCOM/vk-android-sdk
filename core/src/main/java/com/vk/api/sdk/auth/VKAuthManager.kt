@@ -1,3 +1,30 @@
+/**
+ * Copyright (c) 2020 - present, LLC “V Kontakte”
+ *
+ * 1. Permission is hereby granted to any person obtaining a copy of this Software to
+ * use the Software without charge.
+ *
+ * 2. Restrictions
+ * You may not modify, merge, publish, distribute, sublicense, and/or sell copies,
+ * create derivative works based upon the Software or any part thereof.
+ *
+ * 3. Termination
+ * This License is effective until terminated. LLC “V Kontakte” may terminate this
+ * License at any time without any negative consequences to our rights.
+ * You may terminate this License at any time by deleting the Software and all copies
+ * thereof. Upon termination of this license for any reason, you shall continue to be
+ * bound by the provisions of Section 2 above.
+ * Termination will be without prejudice to any rights LLC “V Kontakte” may have as
+ * a result of this agreement.
+ *
+ * 4. Disclaimer of warranty and liability
+ * THE SOFTWARE IS MADE AVAILABLE ON THE “AS IS” BASIS. LLC “V KONTAKTE” DISCLAIMS
+ * ALL WARRANTIES THAT THE SOFTWARE MAY BE SUITABLE OR UNSUITABLE FOR ANY SPECIFIC
+ * PURPOSES OF USE. LLC “V KONTAKTE” CAN NOT GUARANTEE AND DOES NOT PROMISE ANY
+ * SPECIFIC RESULTS OF USE OF THE SOFTWARE.
+ * UNDER NO CIRCUMSTANCES LLC “V KONTAKTE” BEAR LIABILITY TO THE LICENSEE OR ANY
+ * THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
+*/
 /*******************************************************************************
  * The MIT License (MIT)
  *
@@ -50,15 +77,17 @@ internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
     }
 
     private fun startAuthActivity(activity: Activity, params: VKAuthParams) {
-        val intent = Intent(VK_APP_AUTH_ACTION, null).apply {
-            setPackage(VK_APP_PACKAGE_ID)
-            putExtras(params.toExtraBundle())
-        }
+        val intent = createVKClientAuthIntent(params)
         activity.startActivityForResult(intent, VK_APP_AUTH_CODE)
     }
 
     private fun startInternalAuthActivity(activity: Activity, params: VKAuthParams) {
         VKWebViewAuthActivity.startForAuth(activity, params, VK_APP_AUTH_CODE)
+    }
+
+    fun createVKClientAuthIntent(params: VKAuthParams) = Intent(VK_APP_AUTH_ACTION, null).apply {
+        setPackage(VK_APP_PACKAGE_ID)
+        putExtras(params.toExtraBundle())
     }
 
     fun onActivityResult(
@@ -78,26 +107,26 @@ internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
             return true
         }
 
-        val result = processResult(data)
-        if (resultCode != Activity.RESULT_OK || result == null || result.isError) {
-            val webViewError = data.extras?.getInt(VKApiCodes.EXTRA_VW_LOGIN_ERROR) ?: 0
-            val authError = data.extras?.getString(VKApiCodes.EXTRA_AUTH_ERROR)
-
-            val loginError = VKAuthException(webViewError, authError)
+        val result: VKAuthenticationResult = processResult(data)
+        if (resultCode != Activity.RESULT_OK || result is VKAuthenticationResult.Failed) {
+            val loginError = (result as? VKAuthenticationResult.Failed)?.exception
+                ?: obtainExceptionFromIntent(data)
             callback.onLoginFailed(loginError)
             if (showErrorToast && !loginError.isCanceled) {
                 context.showToast(R.string.vk_message_login_error)
             }
         } else {
-            result.accessToken!!.save(keyValueStorage)
-            VK.apiManager.setCredentials(result.accessToken.accessToken, result.accessToken.secret)
-            callback.onLogin(result.accessToken)
+            (result as? VKAuthenticationResult.Success)?.let {
+                storeLoginResult(it)
+                callback.onLogin(it.token)
+            }
         }
 
         return true
     }
 
-    private fun processResult(result: Intent): VKAuthResult? {
+    fun processResult(result: Intent?): VKAuthenticationResult {
+        result ?: return VKAuthenticationResult.Failed(VKAuthException(authError = "No result from caller provided"))
         val tokenParams: MutableMap<String, String>?
         when {
             result.hasExtra(VK_EXTRA_TOKEN_DATA) -> {
@@ -112,17 +141,23 @@ internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
                     tokenParams[key] = result.extras!!.get(key).toString()
                 }
             }
-            else -> return null
+            else -> tokenParams = null
         }
-
         return if (tokenParams != null && tokenParams[VK_AUTH_ERROR] == null) {
             try {
-                VKAuthResult(VKAccessToken(tokenParams))
+                VKAuthenticationResult.Success(VKAccessToken(tokenParams))
             } catch (e: Exception) {
                 Log.e(VKAuthManager::class.java.simpleName, "Failed to get VK token", e)
-                null
+                VKAuthenticationResult.Failed(VKAuthException(authError = "Auth failed due to exception: ${e.message}"))
             }
-        } else null
+        } else {
+            VKAuthenticationResult.Failed(obtainExceptionFromIntent(result))
+        }
+    }
+
+    fun storeLoginResult(result: VKAuthenticationResult.Success) {
+        result.token.save(keyValueStorage)
+        VK.apiManager.setCredentials(result.token.accessToken, result.token.secret)
     }
 
     private fun prepareScopes(scopes: Collection<VKScope>): Collection<VKScope> {
@@ -145,9 +180,15 @@ internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
         VKAccessToken.remove(keyValueStorage)
     }
 
+    private fun obtainExceptionFromIntent(intent: Intent): VKAuthException {
+        val webViewError = intent.extras?.getInt(VKApiCodes.EXTRA_VW_LOGIN_ERROR) ?: 0
+        val authError = intent.extras?.getString(VKApiCodes.EXTRA_AUTH_ERROR)
+        return VKAuthException(webViewError, authError)
+    }
+
     companion object {
         const val VK_APP_PACKAGE_ID = "com.vkontakte.android"
-        private const val VK_APP_AUTH_ACTION = "com.vkontakte.android.action.SDK_AUTH"
+        const val VK_APP_AUTH_ACTION = "com.vkontakte.android.action.SDK_AUTH"
         const val VK_EXTRA_TOKEN_DATA = "extra-token-data"
         const val VK_AUTH_ERROR = "error"
 

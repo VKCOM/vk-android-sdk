@@ -41,18 +41,19 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
+ * @param albumId - Album ID
+ * @param date - Date when uploaded
+ * @param id - Photo ID
+ * @param ownerId - Photo owner's ID
+ * @param hasTags - Whether photo has attached tag links
  * @param likes
  * @param comments
  * @param canRepost - Information whether current user can repost the photo
  * @param accessKey - Access key for the photo
- * @param albumId - Album ID
- * @param date - Date when uploaded
  * @param height - Original photo height
- * @param id - Photo ID
  * @param images
  * @param lat - Latitude
  * @param long - Longitude
- * @param ownerId - Photo owner's ID
  * @param photo256 - URL of image with 2560 px width
  * @param canComment - Information whether current user can comment the photo
  * @param place
@@ -61,9 +62,18 @@ import kotlin.collections.List
  * @param text - Photo caption
  * @param userId - ID of the user who have uploaded the photo
  * @param width - Original photo width
- * @param hasTags - Whether photo has attached tag links
  */
 data class NewsfeedNewsfeedPhoto(
+    @SerializedName("album_id")
+    val albumId: Int,
+    @SerializedName("date")
+    val date: Int,
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("owner_id")
+    val ownerId: UserId,
+    @SerializedName("has_tags")
+    val hasTags: Boolean,
     @SerializedName("likes")
     val likes: BaseLikes? = null,
     @SerializedName("comments")
@@ -72,22 +82,14 @@ data class NewsfeedNewsfeedPhoto(
     val canRepost: BaseBoolInt? = null,
     @SerializedName("access_key")
     val accessKey: String? = null,
-    @SerializedName("album_id")
-    val albumId: Int? = null,
-    @SerializedName("date")
-    val date: Int? = null,
     @SerializedName("height")
     val height: Int? = null,
-    @SerializedName("id")
-    val id: Int? = null,
     @SerializedName("images")
     val images: List<PhotosImage>? = null,
     @SerializedName("lat")
     val lat: Float? = null,
     @SerializedName("long")
     val long: Float? = null,
-    @SerializedName("owner_id")
-    val ownerId: UserId? = null,
     @SerializedName("photo_256")
     val photo256: String? = null,
     @SerializedName("can_comment")
@@ -103,7 +105,5 @@ data class NewsfeedNewsfeedPhoto(
     @SerializedName("user_id")
     val userId: UserId? = null,
     @SerializedName("width")
-    val width: Int? = null,
-    @SerializedName("has_tags")
-    val hasTags: Boolean? = null
+    val width: Int? = null
 )

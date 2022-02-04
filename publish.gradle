@@ -33,7 +33,7 @@ static def getRepoPassword() {
     return System.getenv('NEXUS_PASSWORD')
 }
 
-def getArtifactId() {
+def getDefinedArtifactId() {
     def envArtifactId = System.getenv('POM_ARTIFACT_ID')
     return envArtifactId != null ? envArtifactId : sdkPublish.POM_ARTIFACT_ID
 }
@@ -46,81 +46,84 @@ def getArtifactDescription() {
 if (System.getenv('SDK_UPDATE') == "1") {
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'maven-publish'
-    apply plugin: 'maven'
     apply plugin: 'signing'
 
     println("Uploadings SDK...")
 
     def sonatypeRepositoryUrl = getRepoUrl()
+    afterEvaluate {
 
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                beforeDeployment { deployment -> signing.signPom(deployment) }
+        task sourceJar(type: Jar) {
+            from android.sourceSets.main.java.srcDirs
+            archiveClassifier.set('sources')
+        }
 
-                pom.artifactId = getArtifactId()
+        task javadoc(type: Javadoc) {
+            excludes = ['**/**']
+            source = android.sourceSets.main.java.srcDirs
+            classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+            classpath += configurations.javadocDeps
+        }
 
-                repository(url: sonatypeRepositoryUrl) {
-                    authentication(userName: getRepoUsername(), password: getRepoPassword())
-                }
+        task javadocJar(type: Jar, dependsOn: javadoc) {
+            from javadoc.destinationDir
+            archiveClassifier.set('javadoc')
+        }
 
-                pom.project {
-                    packaging 'aar'
-                    name sdkPublish.POM_NAME
-                    description getArtifactDescription()
-                    url sdkPublish.POM_URL
+        publishing {
+            publications {
+                release(MavenPublication) {
 
-                    scm {
-                        url sdkPublish.POM_SCM_URL
-                        connection sdkPublish.POM_SCM_CONNECTION
-                        developerConnection sdkPublish.POM_SCM_DEV_CONNECTION
-                    }
+                    from components.release
+                    artifactId = getDefinedArtifactId()
 
-                    licenses {
-                        license {
-                            name "MIT"
-                            url sdkPublish.POM_LICENCE_URL
-                            distribution 'repo'
+                    artifact javadocJar
+                    artifact sourceJar
+
+                    pom {
+                        packaging = 'aar'
+                        name = sdkPublish.POM_NAME
+                        description = getArtifactDescription()
+                        url = sdkPublish.POM_URL
+
+                        scm {
+                            url = sdkPublish.POM_SCM_URL
+                            connection = sdkPublish.POM_SCM_CONNECTION
+                            developerConnection = sdkPublish.POM_SCM_DEV_CONNECTION
                         }
-                    }
 
-                    developers {
-                        developer {
-                            id "vk"
-                            name "vk.com"
+                        licenses {
+                            license {
+                                name = "MIT"
+                                url = sdkPublish.POM_LICENCE_URL
+                                distribution = 'repo'
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id = "vk"
+                                name = "vk.com"
+                            }
                         }
                     }
                 }
             }
+            repositories {
+                maven {
+                    url sonatypeRepositoryUrl
+                    credentials {
+                        username getRepoUsername()
+                        password getRepoPassword()
+                    }
+                }
+            }
         }
-    }
 
-    task sourcesJar(type: Jar) {
-        from android.sourceSets.main.java.srcDirs
-        classifier = 'sources'
-    }
-
-    task javadoc(type: Javadoc) {
-        excludes = ['**/**']
-        source = android.sourceSets.main.java.srcDirs
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-        classpath += configurations.javadocDeps
-    }
-
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
-
-    signing {
-        println("Signing SDK...")
-        required { gradle.taskGraph.hasTask("uploadArchives") }
-        sign configurations.archives
-    }
-
-    artifacts {
-        archives javadocJar
-        archives sourcesJar
+        signing {
+            println("Signing SDK...")
+            sign publishing.publications.release
+        }
     }
 }
 

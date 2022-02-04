@@ -37,7 +37,7 @@ import kotlin.collections.List
  */
 data class DatabaseGetRegionsResponse(
     @SerializedName("count")
-    val count: Int? = null,
+    val count: Int,
     @SerializedName("items")
-    val items: List<DatabaseRegion>? = null
+    val items: List<DatabaseRegion>
 )

@@ -44,7 +44,7 @@ import com.vk.sdk.api.users.dto.UsersSearchResponse
 import com.vk.sdk.api.users.dto.UsersSearchSex
 import com.vk.sdk.api.users.dto.UsersSearchSort
 import com.vk.sdk.api.users.dto.UsersSearchStatus
-import com.vk.sdk.api.users.dto.UsersUserXtrCounters
+import com.vk.sdk.api.users.dto.UsersUserFull
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -66,12 +66,12 @@ class UsersService {
      * @return [VKRequest] with [Unit]
      */
     fun usersGet(
-        userIds: List<String>? = null,
+        userIds: List<UserId>? = null,
         fields: List<UsersFields>? = null,
         nameCase: UsersGetNameCase? = null
-    ): VKRequest<List<UsersUserXtrCounters>> = NewApiRequest("users.get") {
-        val typeToken = object: TypeToken<List<UsersUserXtrCounters>>() {}.type
-        GsonHolder.gson.fromJson<List<UsersUserXtrCounters>>(it, typeToken)
+    ): VKRequest<List<UsersUserFull>> = NewApiRequest("users.get") {
+        val typeToken = object: TypeToken<List<UsersUserFull>>() {}.type
+        GsonHolder.gson.fromJson<List<UsersUserFull>>(it, typeToken)
     }
     .apply {
         userIds?.let { addParam("user_ids", it) }
@@ -107,9 +107,9 @@ class UsersService {
         GsonHolder.gson.fromJson(it, UsersGetFollowersFieldsResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -135,9 +135,9 @@ class UsersService {
         GsonHolder.gson.fromJson(it, UsersGetSubscriptionsResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -162,10 +162,10 @@ class UsersService {
         GsonHolder.gson.fromJson(it, UsersGetSubscriptionsExtendedResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
         addParam("extended", true)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -189,7 +189,7 @@ class UsersService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("user_id", userId)
+        addParam("user_id", userId, min = 1)
         addParam("type", type.value)
         comment?.let { addParam("comment", it) }
     }
@@ -273,38 +273,38 @@ class UsersService {
     .apply {
         q?.let { addParam("q", it) }
         sort?.let { addParam("sort", it.value) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        city?.let { addParam("city", it) }
-        country?.let { addParam("country", it) }
+        city?.let { addParam("city", it, min = 0) }
+        country?.let { addParam("country", it, min = 0) }
         hometown?.let { addParam("hometown", it) }
-        universityCountry?.let { addParam("university_country", it) }
-        university?.let { addParam("university", it) }
-        universityYear?.let { addParam("university_year", it) }
-        universityFaculty?.let { addParam("university_faculty", it) }
-        universityChair?.let { addParam("university_chair", it) }
+        universityCountry?.let { addParam("university_country", it, min = 0) }
+        university?.let { addParam("university", it, min = 0) }
+        universityYear?.let { addParam("university_year", it, min = 0) }
+        universityFaculty?.let { addParam("university_faculty", it, min = 0) }
+        universityChair?.let { addParam("university_chair", it, min = 0) }
         sex?.let { addParam("sex", it.value) }
         status?.let { addParam("status", it.value) }
-        ageFrom?.let { addParam("age_from", it) }
-        ageTo?.let { addParam("age_to", it) }
-        birthDay?.let { addParam("birth_day", it) }
-        birthMonth?.let { addParam("birth_month", it) }
-        birthYear?.let { addParam("birth_year", it) }
+        ageFrom?.let { addParam("age_from", it, min = 0) }
+        ageTo?.let { addParam("age_to", it, min = 0) }
+        birthDay?.let { addParam("birth_day", it, min = 0) }
+        birthMonth?.let { addParam("birth_month", it, min = 0) }
+        birthYear?.let { addParam("birth_year", it, min = 1900, max = 2100) }
         online?.let { addParam("online", it) }
         hasPhoto?.let { addParam("has_photo", it) }
-        schoolCountry?.let { addParam("school_country", it) }
-        schoolCity?.let { addParam("school_city", it) }
-        schoolClass?.let { addParam("school_class", it) }
-        school?.let { addParam("school", it) }
-        schoolYear?.let { addParam("school_year", it) }
+        schoolCountry?.let { addParam("school_country", it, min = 0) }
+        schoolCity?.let { addParam("school_city", it, min = 0) }
+        schoolClass?.let { addParam("school_class", it, min = 0) }
+        school?.let { addParam("school", it, min = 0) }
+        schoolYear?.let { addParam("school_year", it, min = 0) }
         religion?.let { addParam("religion", it) }
         company?.let { addParam("company", it) }
         position?.let { addParam("position", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         fromList?.let { addParam("from_list", it) }
     }
 }

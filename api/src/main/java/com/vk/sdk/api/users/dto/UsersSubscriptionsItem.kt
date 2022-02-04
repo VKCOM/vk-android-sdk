@@ -66,6 +66,7 @@ import kotlin.collections.List
 
 sealed class UsersSubscriptionsItem {
     /**
+     * @param id - User ID
      * @param type
      * @param sex - User sex
      * @param screenName - Domain name of the user's page
@@ -82,12 +83,13 @@ sealed class UsersSubscriptionsItem {
      * @param deactivated - Returns if a profile is deleted or blocked
      * @param firstName - User first name
      * @param hidden - Returns if a profile is hidden.
-     * @param id - User ID
      * @param lastName - User last name
      * @param canAccessClosed
      * @param isClosed
      */
     data class UsersUserXtrType(
+        @SerializedName("id")
+        val id: UserId,
         @SerializedName("type")
         val type: UsersUserType? = null,
         @SerializedName("sex")
@@ -120,8 +122,6 @@ sealed class UsersSubscriptionsItem {
         val firstName: String? = null,
         @SerializedName("hidden")
         val hidden: Int? = null,
-        @SerializedName("id")
-        val id: UserId? = null,
         @SerializedName("last_name")
         val lastName: String? = null,
         @SerializedName("can_access_closed")
@@ -131,6 +131,7 @@ sealed class UsersSubscriptionsItem {
     ) : UsersSubscriptionsItem()
 
     /**
+     * @param id - Community ID
      * @param market
      * @param memberStatus - Current user's member status
      * @param isAdult - Information whether community is adult
@@ -144,6 +145,7 @@ sealed class UsersSubscriptionsItem {
      * @param description - Community description
      * @param wikiPage - Community's main wiki page title
      * @param membersCount - Community members number
+     * @param membersCountText - Info about number of users in group
      * @param requestsCount - The number of incoming requests to the community
      * @param videoLiveLevel - Community level live streams achievements
      * @param videoLiveCount - Number of community's live streams
@@ -191,7 +193,6 @@ sealed class UsersSubscriptionsItem {
      * @param liveCovers - Live covers state
      * @param storiesArchiveCount
      * @param hasUnseenStories
-     * @param id - Community ID
      * @param name - Community name
      * @param screenName - Domain of the community page
      * @param isClosed
@@ -218,6 +219,8 @@ sealed class UsersSubscriptionsItem {
      * @param videoLive
      */
     data class GroupsGroupFull(
+        @SerializedName("id")
+        val id: UserId,
         @SerializedName("market")
         val market: GroupsMarketInfo? = null,
         @SerializedName("member_status")
@@ -242,6 +245,8 @@ sealed class UsersSubscriptionsItem {
         val wikiPage: String? = null,
         @SerializedName("members_count")
         val membersCount: Int? = null,
+        @SerializedName("members_count_text")
+        val membersCountText: String? = null,
         @SerializedName("requests_count")
         val requestsCount: Int? = null,
         @SerializedName("video_live_level")
@@ -330,8 +335,6 @@ sealed class UsersSubscriptionsItem {
         val storiesArchiveCount: Int? = null,
         @SerializedName("has_unseen_stories")
         val hasUnseenStories: Boolean? = null,
-        @SerializedName("id")
-        val id: UserId? = null,
         @SerializedName("name")
         val name: String? = null,
         @SerializedName("screen_name")

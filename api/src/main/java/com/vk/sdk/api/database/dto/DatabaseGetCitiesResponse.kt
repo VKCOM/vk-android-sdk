@@ -37,7 +37,7 @@ import kotlin.collections.List
  */
 data class DatabaseGetCitiesResponse(
     @SerializedName("count")
-    val count: Int? = null,
+    val count: Int,
     @SerializedName("items")
-    val items: List<DatabaseCity>? = null
+    val items: List<DatabaseCity>
 )

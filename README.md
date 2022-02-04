@@ -68,8 +68,8 @@ The available library modules are listed below.
 For example, your `app/build.gradle` script will contains such dependencies:
 ```
 dependencies {
-    implementation 'com.vk:android-sdk-core:3.x.x
-    implementation 'com.vk:android-sdk-api:3.x.x // generated models and api methods
+    implementation 'com.vk:android-sdk-core:3.x.x'
+    implementation 'com.vk:android-sdk-api:3.x.x' // generated models and api methods
 }
 ```
 
@@ -93,28 +93,24 @@ SDK Initialization
 
 User Authorization
 ----------
-Use VK.login method:
+Create authorization launcher:
 
 ```kotlin
-VK.login(activity, arrayListOf(VKScope.WALL, VKScope.PHOTOS))
-```
-Override onActivityResult:
-
-```kotlin
- override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val callback = object: VKAuthCallback {
-            override fun onLogin(token: VKAccessToken) {
-                // User passed authorization
-            }
-
-            override fun onLoginFailed(errorCode: Int) {
-                // User didn't pass authorization
-            }
+val authLauncher = VK.login(activity) { result : VKAuthenticationResult ->
+    when (result) {
+        is VKAuthenticationResult.Success -> {
+            // User passed authorization
         }
-        if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
-            super.onActivityResult(requestCode, resultCode, data)
+        is VKAuthenticationResult.Failed -> {
+            // User didn't pass authorization
         }
     }
+}
+```
+In appropriate place call a created launcher:
+
+```kotlin
+authLauncher.launch(arrayListOf(VKScope.WALL, VKScope.PHOTOS))
 ```
 
 Handling token authorization

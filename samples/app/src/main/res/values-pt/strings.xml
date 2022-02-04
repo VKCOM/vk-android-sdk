@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Войти</string>
+    <string name="logout">Выйти</string>
+    <string name="share_to_wall">Отправить на стену</string>
+    <string name="message_hint">Ваше сообщение</string>
+    <string name="wall_ok">Запись опубликована</string>
+    <string name="message_connection_error">Erro ao conectar</string>
+    <string name="message_unknown_error">Erro desconhecido. Tente novamente mais tarde</string>
+</resources>

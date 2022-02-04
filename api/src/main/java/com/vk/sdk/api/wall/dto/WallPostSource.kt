@@ -28,6 +28,7 @@
 package com.vk.sdk.api.wall.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.sdk.api.base.dto.BaseLink
 import kotlin.String
 
 /**
@@ -35,6 +36,7 @@ import kotlin.String
  * @param platform - Platform name
  * @param type
  * @param url - URL to an external site used to publish the post
+ * @param link
  */
 data class WallPostSource(
     @SerializedName("data")
@@ -44,5 +46,7 @@ data class WallPostSource(
     @SerializedName("type")
     val type: WallPostSourceType? = null,
     @SerializedName("url")
-    val url: String? = null
+    val url: String? = null,
+    @SerializedName("link")
+    val link: BaseLink? = null
 )

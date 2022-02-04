@@ -28,9 +28,9 @@
 package com.vk.sdk.api.messages.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseGeo
-import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -70,7 +70,7 @@ data class MessagesMessage(
     @SerializedName("date")
     val date: Int,
     @SerializedName("from_id")
-    val fromId: Int,
+    val fromId: UserId,
     @SerializedName("id")
     val id: Int,
     @SerializedName("out")
@@ -80,9 +80,9 @@ data class MessagesMessage(
     @SerializedName("text")
     val text: String,
     @SerializedName("action")
-    val action: Any? = null,
+    val action: MessagesMessageAction? = null,
     @SerializedName("admin_author_id")
-    val adminAuthorId: Int? = null,
+    val adminAuthorId: UserId? = null,
     @SerializedName("attachments")
     val attachments: List<MessagesMessageAttachment>? = null,
     @SerializedName("conversation_message_id")
@@ -90,7 +90,7 @@ data class MessagesMessage(
     @SerializedName("deleted")
     val deleted: BaseBoolInt? = null,
     @SerializedName("fwd_messages")
-    val fwdMessages: Any? = null,
+    val fwdMessages: List<MessagesForeignMessage>? = null,
     @SerializedName("geo")
     val geo: BaseGeo? = null,
     @SerializedName("important")

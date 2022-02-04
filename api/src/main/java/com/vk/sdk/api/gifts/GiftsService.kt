@@ -51,8 +51,8 @@ class GiftsService {
         GsonHolder.gson.fromJson(it, GiftsGetResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
-        count?.let { addParam("count", it) }
-        offset?.let { addParam("offset", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
     }
 }

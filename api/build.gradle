@@ -7,15 +7,15 @@ version = sdkVersions.name
 group = 'com.vk'
 sdkPublish.POM_ARTIFACT_ID = sdkPublish.POM_API_ARTIFACT_ID
 sdkPublish.POM_NAME = sdkPublish.POM_API_NAME
-sdkPublish.POM_DESCRIPTION = sdkPublish.POM_API_DESCRIPTION
+sdkPublish.POM_ARTIFACT_DESCRIPTION = sdkPublish.POM_API_DESCRIPTION
 
 android {
     compileSdkVersion "$sdkVersions.compileSdk".toInteger()
     buildToolsVersion "$sdkVersions.buildTools"
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     defaultConfig {
@@ -33,11 +33,18 @@ android {
         exclude("autoTest/**")
         exclude("META-INF/spring.*")
         exclude("META-INF/notice.txt")
+        exclude("META-INF/resources/**")
         exclude("mockito-extensions/org.mockito.plugins.MockMaker")
     }
 
+    buildTypes {
+        release {
+            consumerProguardFile("${projectDir}/consumer-proguard-rules.pro")
+        }
+    }
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
 

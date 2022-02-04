@@ -56,9 +56,9 @@ class StorageService {
         GsonHolder.gson.fromJson<List<StorageValue>>(it, typeToken)
     }
     .apply {
-        key?.let { addParam("key", it) }
+        key?.let { addParam("key", it, maxLength = 100) }
         keys?.let { addParam("keys", it) }
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
     }
 
     /**
@@ -79,9 +79,9 @@ class StorageService {
         GsonHolder.gson.fromJson<List<String>>(it, typeToken)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -100,8 +100,8 @@ class StorageService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("key", key)
+        addParam("key", key, maxLength = 100)
         value?.let { addParam("value", it) }
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
     }
 }

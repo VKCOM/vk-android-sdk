@@ -32,6 +32,7 @@ import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.base.dto.BaseBoolInt
 import kotlin.Int
 import kotlin.String
+import kotlin.collections.List
 
 /**
  * @param comments - Comments number
@@ -44,6 +45,8 @@ import kotlin.String
  * @param canComment - Information whether current user can comment the note
  * @param text - Note text
  * @param textWiki - Note text in wiki format
+ * @param privacyView
+ * @param privacyComment
  */
 data class NotesNote(
     @SerializedName("comments")
@@ -65,5 +68,9 @@ data class NotesNote(
     @SerializedName("text")
     val text: String? = null,
     @SerializedName("text_wiki")
-    val textWiki: String? = null
+    val textWiki: String? = null,
+    @SerializedName("privacy_view")
+    val privacyView: List<String>? = null,
+    @SerializedName("privacy_comment")
+    val privacyComment: List<String>? = null
 )

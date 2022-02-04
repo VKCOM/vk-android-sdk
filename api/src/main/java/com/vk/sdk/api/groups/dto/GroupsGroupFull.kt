@@ -41,6 +41,7 @@ import kotlin.String
 import kotlin.collections.List
 
 /**
+ * @param id - Community ID
  * @param market
  * @param memberStatus - Current user's member status
  * @param isAdult - Information whether community is adult
@@ -53,6 +54,7 @@ import kotlin.collections.List
  * @param description - Community description
  * @param wikiPage - Community's main wiki page title
  * @param membersCount - Community members number
+ * @param membersCountText - Info about number of users in group
  * @param requestsCount - The number of incoming requests to the community
  * @param videoLiveLevel - Community level live streams achievements
  * @param videoLiveCount - Number of community's live streams
@@ -99,7 +101,6 @@ import kotlin.collections.List
  * @param liveCovers - Live covers state
  * @param storiesArchiveCount
  * @param hasUnseenStories
- * @param id - Community ID
  * @param name - Community name
  * @param screenName - Domain of the community page
  * @param isClosed
@@ -126,6 +127,8 @@ import kotlin.collections.List
  * @param videoLive
  */
 data class GroupsGroupFull(
+    @SerializedName("id")
+    val id: UserId,
     @SerializedName("market")
     val market: GroupsMarketInfo? = null,
     @SerializedName("member_status")
@@ -150,6 +153,8 @@ data class GroupsGroupFull(
     val wikiPage: String? = null,
     @SerializedName("members_count")
     val membersCount: Int? = null,
+    @SerializedName("members_count_text")
+    val membersCountText: String? = null,
     @SerializedName("requests_count")
     val requestsCount: Int? = null,
     @SerializedName("video_live_level")
@@ -238,8 +243,6 @@ data class GroupsGroupFull(
     val storiesArchiveCount: Int? = null,
     @SerializedName("has_unseen_stories")
     val hasUnseenStories: Boolean? = null,
-    @SerializedName("id")
-    val id: UserId? = null,
     @SerializedName("name")
     val name: String? = null,
     @SerializedName("screen_name")

@@ -67,7 +67,7 @@ class LikesService {
     }
     .apply {
         addParam("type", type)
-        addParam("item_id", itemId)
+        addParam("item_id", itemId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         accessKey?.let { addParam("access_key", it) }
     }
@@ -94,7 +94,7 @@ class LikesService {
     }
     .apply {
         addParam("type", type)
-        addParam("item_id", itemId)
+        addParam("item_id", itemId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         accessKey?.let { addParam("access_key", it) }
     }
@@ -146,8 +146,8 @@ class LikesService {
         pageUrl?.let { addParam("page_url", it) }
         filter?.let { addParam("filter", it.value) }
         friendsOnly?.let { addParam("friends_only", it.value) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
         skipOwn?.let { addParam("skip_own", it) }
     }
 
@@ -199,8 +199,8 @@ class LikesService {
         filter?.let { addParam("filter", it.value) }
         friendsOnly?.let { addParam("friends_only", it.value) }
         addParam("extended", true)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
         skipOwn?.let { addParam("skip_own", it) }
     }
 
@@ -226,8 +226,8 @@ class LikesService {
     }
     .apply {
         addParam("type", type)
-        addParam("item_id", itemId)
-        userId?.let { addParam("user_id", it) }
+        addParam("item_id", itemId, min = 0)
+        userId?.let { addParam("user_id", it, min = 0) }
         ownerId?.let { addParam("owner_id", it) }
     }
 }

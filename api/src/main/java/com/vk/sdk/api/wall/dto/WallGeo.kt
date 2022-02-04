@@ -46,5 +46,15 @@ data class WallGeo(
     @SerializedName("showmap")
     val showmap: Int? = null,
     @SerializedName("type")
-    val type: String? = null
-)
+    val type: WallGeo.Type? = null
+) {
+    enum class Type(
+        val value: String
+    ) {
+        @SerializedName("place")
+        PLACE("place"),
+
+        @SerializedName("point")
+        POINT("point");
+    }
+}

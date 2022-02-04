@@ -57,6 +57,7 @@ import kotlin.collections.List
  * @param chatSettings
  * @param spamExpiration
  * @param isNew
+ * @param isArchived
  */
 data class MessagesConversation(
     @SerializedName("peer")
@@ -104,7 +105,9 @@ data class MessagesConversation(
     @SerializedName("spam_expiration")
     val spamExpiration: Int? = null,
     @SerializedName("is_new")
-    val isNew: Boolean? = null
+    val isNew: Boolean? = null,
+    @SerializedName("is_archived")
+    val isArchived: Boolean? = null
 ) {
     enum class SpecialServiceType(
         val value: String

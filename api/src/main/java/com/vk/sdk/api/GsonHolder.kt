@@ -29,9 +29,18 @@ package com.vk.sdk.api
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.vk.dto.common.id.UserId
+import com.vk.dto.common.id.UserId.GsonSerializer
 import com.vk.sdk.api.newsfeed.dto.NewsfeedNewsfeedItem
 import com.vk.sdk.api.users.dto.UsersSubscriptionsItem
+import java.lang.reflect.Type
+import kotlin.Boolean
 
 object GsonHolder {
     val gson: Gson by lazy {
@@ -39,8 +48,33 @@ object GsonHolder {
         .registerTypeAdapter(UsersSubscriptionsItem::class.java,
                 UsersSubscriptionsItem.Deserializer())
         .registerTypeAdapter(NewsfeedNewsfeedItem::class.java, NewsfeedNewsfeedItem.Deserializer())
-        .registerTypeAdapter(UserId::class.java, UserId.GsonSerializer())
-        .create()
+        .registerTypeAdapter(UserId::class.java, UserId.GsonSerializer(false))
+        .registerTypeAdapter(Boolean::class.javaObjectType,
+                BooleanGsonSerializer()).registerTypeAdapter(Boolean::class.javaPrimitiveType,
+                BooleanGsonSerializer()).create()
     }
 
+
+    class BooleanGsonSerializer : JsonDeserializer<Boolean?>, JsonSerializer<Boolean?> {
+        override fun serialize(
+            src: Boolean?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement {
+            val asInt = if (src == true) 1 else 0
+            return JsonPrimitive(asInt)
+        }
+
+        override fun deserialize(
+            json: JsonElement?,
+            typeOfT: Type?,
+            context: JsonDeserializationContext?
+        ): Boolean? {
+            if (json !is JsonPrimitive) {
+                return null
+            }
+            val asStr = json.asString
+            return asStr == "1" || asStr == "true"
+        }
+    }
 }

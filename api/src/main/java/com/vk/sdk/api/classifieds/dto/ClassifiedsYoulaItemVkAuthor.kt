@@ -28,6 +28,7 @@
 package com.vk.sdk.api.classifieds.dto
 
 import com.google.gson.annotations.SerializedName
+import com.vk.dto.common.id.UserId
 import kotlin.Int
 import kotlin.String
 
@@ -35,15 +36,21 @@ import kotlin.String
  * @param id - ID
  * @param name - Name
  * @param profileLink - Link to profile
+ * @param sellerProfileUrl - Link to seller profile in MiniApp
  * @param photoUrl - Photo
+ * @param activeItemsCount - Count of user active items
  */
 data class ClassifiedsYoulaItemVkAuthor(
     @SerializedName("id")
-    val id: Int,
+    val id: UserId,
     @SerializedName("name")
     val name: String,
     @SerializedName("profile_link")
     val profileLink: String,
+    @SerializedName("seller_profile_url")
+    val sellerProfileUrl: String? = null,
     @SerializedName("photo_url")
-    val photoUrl: String? = null
+    val photoUrl: String? = null,
+    @SerializedName("active_items_count")
+    val activeItemsCount: Int? = null
 )

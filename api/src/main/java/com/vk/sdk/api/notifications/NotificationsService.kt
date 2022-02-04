@@ -67,7 +67,7 @@ class NotificationsService {
         GsonHolder.gson.fromJson(it, NotificationsGetResponse::class.java)
     }
     .apply {
-        count?.let { addParam("count", it) }
+        count?.let { addParam("count", it, min = 1, max = 100) }
         startFrom?.let { addParam("start_from", it) }
         val filtersJsonConverted = filters?.map {
             it.value
@@ -114,9 +114,9 @@ class NotificationsService {
     }
     .apply {
         addParam("user_ids", userIds)
-        addParam("message", message)
-        fragment?.let { addParam("fragment", it) }
-        groupId?.let { addParam("group_id", it) }
+        addParam("message", message, maxLength = 254)
+        fragment?.let { addParam("fragment", it, maxLength = 2047) }
+        groupId?.let { addParam("group_id", it, min = 0) }
         randomId?.let { addParam("random_id", it) }
         sendingMode?.let { addParam("sending_mode", it.value) }
     }

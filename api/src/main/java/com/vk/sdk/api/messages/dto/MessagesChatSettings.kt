@@ -60,7 +60,7 @@ data class MessagesChatSettings(
     @SerializedName("state")
     val state: MessagesChatSettingsState,
     @SerializedName("active_ids")
-    val activeIds: List<Int>,
+    val activeIds: List<UserId>,
     @SerializedName("acl")
     val acl: MessagesChatSettingsAcl,
     @SerializedName("members_count")
@@ -72,7 +72,7 @@ data class MessagesChatSettings(
     @SerializedName("photo")
     val photo: MessagesChatSettingsPhoto? = null,
     @SerializedName("admin_ids")
-    val adminIds: List<Int>? = null,
+    val adminIds: List<UserId>? = null,
     @SerializedName("is_group_channel")
     val isGroupChannel: Boolean? = null,
     @SerializedName("permissions")

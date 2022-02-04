@@ -120,15 +120,15 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsAddress::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("title", title)
-        addParam("address", address)
-        addParam("country_id", countryId)
-        addParam("city_id", cityId)
-        addParam("latitude", latitude)
-        addParam("longitude", longitude)
-        additionalAddress?.let { addParam("additional_address", it) }
-        metroId?.let { addParam("metro_id", it) }
+        addParam("group_id", groupId, min = 1)
+        addParam("title", title, maxLength = 255)
+        addParam("address", address, maxLength = 255)
+        addParam("country_id", countryId, min = 1)
+        addParam("city_id", cityId, min = 1)
+        addParam("latitude", latitude, min = -90.0, max = 90.0)
+        addParam("longitude", longitude, min = -180.0, max = 180.0)
+        additionalAddress?.let { addParam("additional_address", it, maxLength = 400) }
+        metroId?.let { addParam("metro_id", it, min = 0) }
         phone?.let { addParam("phone", it) }
         workInfoStatus?.let { addParam("work_info_status", it.value) }
         timetable?.let { addParam("timetable", it) }
@@ -151,10 +151,10 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsAddCallbackServerResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         addParam("url", url)
-        addParam("title", title)
-        secretKey?.let { addParam("secret_key", it) }
+        addParam("title", title, maxLength = 14)
+        secretKey?.let { addParam("secret_key", it, maxLength = 50) }
     }
 
     /**
@@ -173,7 +173,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsLinksItem::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         addParam("link", link)
         text?.let { addParam("text", it) }
     }
@@ -190,8 +190,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("user_id", userId)
+        addParam("group_id", groupId, min = 1)
+        addParam("user_id", userId, min = 1)
     }
 
     /**
@@ -214,10 +214,10 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         ownerId?.let { addParam("owner_id", it) }
-        endDate?.let { addParam("end_date", it) }
-        reason?.let { addParam("reason", it) }
+        endDate?.let { addParam("end_date", it, min = 0) }
+        reason?.let { addParam("reason", it, min = 0) }
         comment?.let { addParam("comment", it) }
         commentVisible?.let { addParam("comment_visible", it) }
     }
@@ -250,8 +250,8 @@ class GroupsService {
         addParam("title", title)
         description?.let { addParam("description", it) }
         type?.let { addParam("type", it.value) }
-        publicCategory?.let { addParam("public_category", it) }
-        publicSubcategory?.let { addParam("public_subcategory", it) }
+        publicCategory?.let { addParam("public_category", it, min = 0) }
+        publicSubcategory?.let { addParam("public_subcategory", it, min = 0) }
         subtype?.let { addParam("subtype", it.value) }
     }
 
@@ -265,8 +265,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("address_id", addressId)
+        addParam("group_id", groupId, min = 1)
+        addParam("address_id", addressId, min = 0)
     }
 
     /**
@@ -279,8 +279,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("server_id", serverId)
+        addParam("group_id", groupId, min = 1)
+        addParam("server_id", serverId, min = 0)
     }
 
     /**
@@ -295,8 +295,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("link_id", linkId)
+        addParam("group_id", groupId, min = 1)
+        addParam("link_id", linkId, min = 0)
     }
 
     /**
@@ -308,7 +308,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -441,33 +441,33 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         title?.let { addParam("title", it) }
         description?.let { addParam("description", it) }
         screenName?.let { addParam("screen_name", it) }
-        access?.let { addParam("access", it) }
+        access?.let { addParam("access", it, min = 0) }
         website?.let { addParam("website", it) }
         subject?.let { addParam("subject", it) }
         email?.let { addParam("email", it) }
         phone?.let { addParam("phone", it) }
         rss?.let { addParam("rss", it) }
-        eventStartDate?.let { addParam("event_start_date", it) }
-        eventFinishDate?.let { addParam("event_finish_date", it) }
-        eventGroupId?.let { addParam("event_group_id", it) }
-        publicCategory?.let { addParam("public_category", it) }
-        publicSubcategory?.let { addParam("public_subcategory", it) }
+        eventStartDate?.let { addParam("event_start_date", it, min = 0) }
+        eventFinishDate?.let { addParam("event_finish_date", it, min = 0) }
+        eventGroupId?.let { addParam("event_group_id", it, min = 0) }
+        publicCategory?.let { addParam("public_category", it, min = 0) }
+        publicSubcategory?.let { addParam("public_subcategory", it, min = 0) }
         publicDate?.let { addParam("public_date", it) }
-        wall?.let { addParam("wall", it) }
-        topics?.let { addParam("topics", it) }
-        photos?.let { addParam("photos", it) }
-        video?.let { addParam("video", it) }
-        audio?.let { addParam("audio", it) }
+        wall?.let { addParam("wall", it, min = 0) }
+        topics?.let { addParam("topics", it, min = 0) }
+        photos?.let { addParam("photos", it, min = 0) }
+        video?.let { addParam("video", it, min = 0) }
+        audio?.let { addParam("audio", it, min = 0) }
         links?.let { addParam("links", it) }
         events?.let { addParam("events", it) }
         places?.let { addParam("places", it) }
         contacts?.let { addParam("contacts", it) }
-        docs?.let { addParam("docs", it) }
-        wiki?.let { addParam("wiki", it) }
+        docs?.let { addParam("docs", it, min = 0) }
+        wiki?.let { addParam("wiki", it, min = 0) }
         messages?.let { addParam("messages", it) }
         articles?.let { addParam("articles", it) }
         addresses?.let { addParam("addresses", it) }
@@ -476,16 +476,16 @@ class GroupsService {
         marketComments?.let { addParam("market_comments", it) }
         marketCountry?.let { addParam("market_country", it) }
         marketCity?.let { addParam("market_city", it) }
-        marketCurrency?.let { addParam("market_currency", it) }
-        marketContact?.let { addParam("market_contact", it) }
-        marketWiki?.let { addParam("market_wiki", it) }
+        marketCurrency?.let { addParam("market_currency", it, min = 0) }
+        marketContact?.let { addParam("market_contact", it, min = 0) }
+        marketWiki?.let { addParam("market_wiki", it, min = 0) }
         obsceneFilter?.let { addParam("obscene_filter", it) }
         obsceneStopwords?.let { addParam("obscene_stopwords", it) }
         obsceneWords?.let { addParam("obscene_words", it) }
-        mainSection?.let { addParam("main_section", it) }
-        secondarySection?.let { addParam("secondary_section", it) }
-        country?.let { addParam("country", it) }
-        city?.let { addParam("city", it) }
+        mainSection?.let { addParam("main_section", it, min = 0) }
+        secondarySection?.let { addParam("secondary_section", it, min = 0) }
+        country?.let { addParam("country", it, min = 0) }
+        city?.let { addParam("city", it, min = 0) }
     }
 
     /**
@@ -524,16 +524,16 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsAddress::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("address_id", addressId)
-        title?.let { addParam("title", it) }
-        address?.let { addParam("address", it) }
-        additionalAddress?.let { addParam("additional_address", it) }
-        countryId?.let { addParam("country_id", it) }
-        cityId?.let { addParam("city_id", it) }
-        metroId?.let { addParam("metro_id", it) }
-        latitude?.let { addParam("latitude", it) }
-        longitude?.let { addParam("longitude", it) }
+        addParam("group_id", groupId, min = 1)
+        addParam("address_id", addressId, min = 0)
+        title?.let { addParam("title", it, maxLength = 255) }
+        address?.let { addParam("address", it, maxLength = 255) }
+        additionalAddress?.let { addParam("additional_address", it, maxLength = 400) }
+        countryId?.let { addParam("country_id", it, min = 0) }
+        cityId?.let { addParam("city_id", it, min = 0) }
+        metroId?.let { addParam("metro_id", it, min = 0) }
+        latitude?.let { addParam("latitude", it, min = -90.0, max = 90.0) }
+        longitude?.let { addParam("longitude", it, min = -180.0, max = 180.0) }
         phone?.let { addParam("phone", it) }
         workInfoStatus?.let { addParam("work_info_status", it.value) }
         timetable?.let { addParam("timetable", it) }
@@ -558,11 +558,11 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("server_id", serverId)
+        addParam("group_id", groupId, min = 1)
+        addParam("server_id", serverId, min = 0)
         addParam("url", url)
-        addParam("title", title)
-        secretKey?.let { addParam("secret_key", it) }
+        addParam("title", title, maxLength = 14)
+        secretKey?.let { addParam("secret_key", it, maxLength = 50) }
     }
 
     /**
@@ -581,8 +581,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("link_id", linkId)
+        addParam("group_id", groupId, min = 1)
+        addParam("link_id", linkId, min = 0)
         text?.let { addParam("text", it) }
     }
 
@@ -611,8 +611,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("user_id", userId)
+        addParam("group_id", groupId, min = 1)
+        addParam("user_id", userId, min = 1)
         role?.let { addParam("role", it) }
         isContact?.let { addParam("is_contact", it) }
         contactPosition?.let { addParam("contact_position", it) }
@@ -629,7 +629,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -656,7 +656,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 1) }
         val filterJsonConverted = filter?.map {
             it.value
         }
@@ -665,8 +665,8 @@ class GroupsService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -693,7 +693,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetObjectExtendedResponse::class.java)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 1) }
         addParam("extended", true)
         val filterJsonConverted = filter?.map {
             it.value
@@ -703,8 +703,8 @@ class GroupsService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -731,12 +731,12 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetAddressesResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         addressIds?.let { addParam("address_ids", it) }
-        latitude?.let { addParam("latitude", it) }
-        longitude?.let { addParam("longitude", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        latitude?.let { addParam("latitude", it, min = -90.0, max = 90.0) }
+        longitude?.let { addParam("longitude", it, min = -180.0, max = 180.0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -763,9 +763,9 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetBannedResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        addParam("group_id", groupId, min = 1)
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -782,8 +782,8 @@ class GroupsService {
      * @return [VKRequest] with [Unit]
      */
     fun groupsGetById(
-        groupIds: List<String>? = null,
-        groupId: String? = null,
+        groupIds: List<UserId>? = null,
+        groupId: UserId? = null,
         fields: List<GroupsFields>? = null
     ): VKRequest<List<GroupsGroupFull>> = NewApiRequest("groups.getById") {
         val typeToken = object: TypeToken<List<GroupsGroupFull>>() {}.type
@@ -810,7 +810,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetCallbackConfirmationCodeResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -824,7 +824,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetCallbackServersResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         serverIds?.let { addParam("server_ids", it) }
     }
 
@@ -840,8 +840,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsCallbackSettings::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        serverId?.let { addParam("server_id", it) }
+        addParam("group_id", groupId, min = 1)
+        serverId?.let { addParam("server_id", it, min = 0) }
     }
 
     /**
@@ -858,8 +858,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetCatalogResponse::class.java)
     }
     .apply {
-        categoryId?.let { addParam("category_id", it) }
-        subcategoryId?.let { addParam("subcategory_id", it) }
+        categoryId?.let { addParam("category_id", it, min = 0) }
+        subcategoryId?.let { addParam("subcategory_id", it, min = 0, max = 99) }
     }
 
     /**
@@ -918,9 +918,9 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetInvitedUsersResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        addParam("group_id", groupId, min = 1)
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -940,8 +940,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetInvitesResponse::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
     }
 
     /**
@@ -956,15 +956,15 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetInvitesExtendedResponse::class.java)
     }
     .apply {
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
         addParam("extended", true)
     }
 
     /**
      * Returns the data needed to query a Long Poll server for events
      *
-     * @param groupId - Community ID
+     * @param groupId - Community ID.
      * @return [VKRequest] with [GroupsLongPollServer]
      */
     fun groupsGetLongPollServer(groupId: UserId): VKRequest<GroupsLongPollServer> =
@@ -972,7 +972,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsLongPollServer::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -986,7 +986,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsLongPollSettings::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -1020,8 +1020,8 @@ class GroupsService {
     .apply {
         groupId?.let { addParam("group_id", it) }
         sort?.let { addParam("sort", it.value) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -1037,7 +1037,7 @@ class GroupsService {
             NewApiRequest("groups.getOnlineStatus") {
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -1058,9 +1058,9 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetRequestsFieldsResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        addParam("group_id", groupId, min = 1)
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 200) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -1078,7 +1078,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, GroupsGetSettingsResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -1093,7 +1093,7 @@ class GroupsService {
         GsonHolder.gson.fromJson<List<GroupsGroupTag>>(it, typeToken)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -1116,8 +1116,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("user_id", userId)
+        addParam("group_id", groupId, min = 1)
+        addParam("user_id", userId, min = 1)
     }
 
     /**
@@ -1131,13 +1131,13 @@ class GroupsService {
     fun groupsIsMember(
         groupId: String,
         userId: UserId? = null,
-        userIds: List<Int>? = null
+        userIds: List<UserId>? = null
     ): VKRequest<BaseBoolInt> = NewApiRequest("groups.isMember") {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
         addParam("group_id", groupId)
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
         userIds?.let { addParam("user_ids", it) }
     }
 
@@ -1155,7 +1155,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 1) }
         notSure?.let { addParam("not_sure", it) }
     }
 
@@ -1169,7 +1169,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -1184,8 +1184,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("user_id", userId)
+        addParam("group_id", groupId, min = 1)
+        addParam("user_id", userId, min = 1)
     }
 
     /**
@@ -1204,9 +1204,9 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("link_id", linkId)
-        after?.let { addParam("after", it) }
+        addParam("group_id", groupId, min = 1)
+        addParam("link_id", linkId, min = 0)
+        after?.let { addParam("after", it, min = 0) }
     }
 
     /**
@@ -1243,13 +1243,13 @@ class GroupsService {
     .apply {
         addParam("q", q)
         type?.let { addParam("type", it.value) }
-        countryId?.let { addParam("country_id", it) }
-        cityId?.let { addParam("city_id", it) }
+        countryId?.let { addParam("country_id", it, min = 0) }
+        cityId?.let { addParam("city_id", it, min = 0) }
         future?.let { addParam("future", it) }
         market?.let { addParam("market", it) }
         sort?.let { addParam("sort", it.value) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 1000) }
     }
 
     /**
@@ -1378,8 +1378,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        serverId?.let { addParam("server_id", it) }
+        addParam("group_id", groupId, min = 1)
+        serverId?.let { addParam("server_id", it, min = 0) }
         apiVersion?.let { addParam("api_version", it) }
         messageNew?.let { addParam("message_new", it) }
         messageReply?.let { addParam("message_reply", it) }
@@ -1555,7 +1555,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         enabled?.let { addParam("enabled", it) }
         apiVersion?.let { addParam("api_version", it) }
         messageNew?.let { addParam("message_new", it) }
@@ -1627,7 +1627,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         messages?.let { addParam("messages", it) }
         botsCapabilities?.let { addParam("bots_capabilities", it) }
         botsStartButton?.let { addParam("bots_start_button", it) }
@@ -1650,9 +1650,9 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("user_id", userId)
-        note?.let { addParam("note", it) }
+        addParam("group_id", groupId, min = 1)
+        addParam("user_id", userId, min = 1)
+        note?.let { addParam("note", it, maxLength = 96) }
     }
 
     /**
@@ -1671,8 +1671,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("tag_name", tagName)
+        addParam("group_id", groupId, min = 1)
+        addParam("tag_name", tagName, maxLength = 20)
         tagColor?.let { addParam("tag_color", it.value) }
     }
 
@@ -1694,9 +1694,9 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("tag_id", tagId)
-        addParam("user_id", userId)
+        addParam("group_id", groupId, min = 1)
+        addParam("tag_id", tagId, min = 0)
+        addParam("user_id", userId, min = 1, max = 2000000000)
         addParam("act", act.value)
     }
 
@@ -1712,8 +1712,8 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("tag_id", tagId)
+        addParam("group_id", groupId, min = 1)
+        addParam("tag_id", tagId, min = 0)
     }
 
     /**
@@ -1732,9 +1732,9 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
-        addParam("tag_id", tagId)
-        addParam("tag_name", tagName)
+        addParam("group_id", groupId, min = 1)
+        addParam("tag_id", tagId, min = 0)
+        addParam("tag_name", tagName, maxLength = 20)
     }
 
     /**
@@ -1751,7 +1751,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         addParam("state", state.value)
         ref?.let { addParam("ref", it) }
     }
@@ -1766,7 +1766,7 @@ class GroupsService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         ownerId?.let { addParam("owner_id", it) }
     }
 }

@@ -1,3 +1,30 @@
+/**
+ * Copyright (c) 2020 - present, LLC “V Kontakte”
+ *
+ * 1. Permission is hereby granted to any person obtaining a copy of this Software to
+ * use the Software without charge.
+ *
+ * 2. Restrictions
+ * You may not modify, merge, publish, distribute, sublicense, and/or sell copies,
+ * create derivative works based upon the Software or any part thereof.
+ *
+ * 3. Termination
+ * This License is effective until terminated. LLC “V Kontakte” may terminate this
+ * License at any time without any negative consequences to our rights.
+ * You may terminate this License at any time by deleting the Software and all copies
+ * thereof. Upon termination of this license for any reason, you shall continue to be
+ * bound by the provisions of Section 2 above.
+ * Termination will be without prejudice to any rights LLC “V Kontakte” may have as
+ * a result of this agreement.
+ *
+ * 4. Disclaimer of warranty and liability
+ * THE SOFTWARE IS MADE AVAILABLE ON THE “AS IS” BASIS. LLC “V KONTAKTE” DISCLAIMS
+ * ALL WARRANTIES THAT THE SOFTWARE MAY BE SUITABLE OR UNSUITABLE FOR ANY SPECIFIC
+ * PURPOSES OF USE. LLC “V KONTAKTE” CAN NOT GUARANTEE AND DOES NOT PROMISE ANY
+ * SPECIFIC RESULTS OF USE OF THE SOFTWARE.
+ * UNDER NO CIRCUMSTANCES LLC “V KONTAKTE” BEAR LIABILITY TO THE LICENSEE OR ANY
+ * THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
+*/
 package com.vk.dto.common.id
 
 import android.os.Parcel
@@ -8,6 +35,10 @@ import kotlin.math.absoluteValue
 
 /**
  * wrapper class to support Long user id
+ *
+ * !!!IMPORTANT!!!
+ * if you are gonna to change this class, please, don't forget to republish SDK
+ * !!!IMPORTANT!!!
  */
 data class UserId(val value: Long): Parcelable {
 
@@ -67,6 +98,7 @@ data class UserId(val value: Long): Parcelable {
     }
 
     companion object {
+
         @JvmField
         val DEFAULT = UserId(0)
 
@@ -80,13 +112,31 @@ data class UserId(val value: Long): Parcelable {
             replaceWith = ReplaceWith("UserId()", "com.vk.dto.common.id.UserId")
         )
         @JvmStatic
-        fun fromLegacyValue(value: Int) = UserId(value.toLong())
+        fun fromLegacyValue(value: Int): UserId {
+            legacyObserver.invoke()
+            return UserId(value.toLong())
+        }
 
         @Deprecated(message = "don't use it in new code",
             replaceWith = ReplaceWith("UserId()", "com.vk.dto.common.id.UserId")
         )
         @JvmStatic
-        fun fromLegacyValues(value: Collection<Int>) = value.toList().map { fromLegacyValue(it) }
+        fun fromLegacyValues(value: Collection<Int>): List<UserId> {
+            legacyObserver.invoke()
+            return value.map { fromLegacyValue(it) }
+        }
+
+        @Synchronized
+        @Deprecated("Only for debug usage")
+        fun setLegacyGlobalObserver(observer: () -> Unit) {
+            legacyObserver = observer
+        }
+
+        @Synchronized
+        @Deprecated("Only for debug usage")
+        fun removeLegacyGlobalObserver() {
+            legacyObserver = {}
+        }
     }
 }
 
@@ -102,19 +152,32 @@ fun UserId.isGroupId() = value < 0
 
 fun UserId.isUserId() = value > 0
 
-@Deprecated(message = "don't use it in new code",
-    replaceWith = ReplaceWith("UserId()", "com.vk.dto.common.id.UserId")
-)
-fun UserId.legacyValue(): Int = value.toInt()
-
-@Deprecated(message = "don't use it in new code",
-    replaceWith = ReplaceWith("UserId()", "com.vk.dto.common.id.UserId")
-)
-fun List<UserId>.mapLegacyValues(): List<Int> = this.map { it.legacyValue() }
-
 fun Long.toUserId(): UserId = UserId(this)
+
+@Volatile
+@Deprecated("Only for debug usage")
+private var legacyObserver: () -> Unit = {}
+
+@Deprecated(message = "don't use it in new code",
+    replaceWith = ReplaceWith("UserId()", "com.vk.dto.common.id.UserId")
+)
+fun UserId.legacyValue(): Int {
+    legacyObserver.invoke()
+    return value.toInt()
+}
+
+@Deprecated(message = "don't use it in new code",
+    replaceWith = ReplaceWith("UserId()", "com.vk.dto.common.id.UserId")
+)
+fun List<UserId>.mapLegacyValues(): List<Int> {
+    legacyObserver.invoke()
+    return map { it.legacyValue() }
+}
 
 @Deprecated(message = "don't use it in new code",
     replaceWith = ReplaceWith("toUserId()", "com.vk.dto.common.id")
 )
-fun Int.toLegacyUserId(): UserId = UserId(this.toLong())
+fun Int.toLegacyUserId(): UserId {
+    legacyObserver.invoke()
+    return UserId(toLong())
+}

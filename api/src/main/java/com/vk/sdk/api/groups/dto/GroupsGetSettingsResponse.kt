@@ -37,7 +37,9 @@ import kotlin.collections.List
  * @param audio - Audio settings
  * @param articles - Articles settings
  * @param cityId - City id of group
+ * @param cityName - City name of group
  * @param countryId - Country id of group
+ * @param countryName - Country name of group
  * @param description - Community description
  * @param docs - Docs settings
  * @param obsceneFilter - Information whether the obscene filter is enabled
@@ -83,8 +85,12 @@ data class GroupsGetSettingsResponse(
     val articles: Int,
     @SerializedName("city_id")
     val cityId: Int,
+    @SerializedName("city_name")
+    val cityName: String,
     @SerializedName("country_id")
     val countryId: Int,
+    @SerializedName("country_name")
+    val countryName: String,
     @SerializedName("description")
     val description: String,
     @SerializedName("docs")

@@ -37,6 +37,10 @@ import kotlin.String
  * @param ownerId - Graffiti owner's ID
  * @param photo200 - URL of the preview image with 200 px in width
  * @param photo586 - URL of the preview image with 586 px in width
+ * @param height - Graffiti height
+ * @param url - Graffiti URL
+ * @param width - Graffiti width
+ * @param accessKey - Access key for graffiti
  */
 data class WallGraffiti(
     @SerializedName("id")
@@ -46,5 +50,13 @@ data class WallGraffiti(
     @SerializedName("photo_200")
     val photo200: String? = null,
     @SerializedName("photo_586")
-    val photo586: String? = null
+    val photo586: String? = null,
+    @SerializedName("height")
+    val height: Int? = null,
+    @SerializedName("url")
+    val url: String? = null,
+    @SerializedName("width")
+    val width: Int? = null,
+    @SerializedName("access_key")
+    val accessKey: String? = null
 )

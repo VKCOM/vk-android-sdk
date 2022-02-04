@@ -36,7 +36,7 @@ import kotlin.String
  */
 data class MessagesKeyboardButton(
     @SerializedName("action")
-    val action: MessagesKeyboardButtonAction,
+    val action: MessagesKeyboardButtonPropertyAction,
     @SerializedName("color")
     val color: MessagesKeyboardButton.Color? = null
 ) {

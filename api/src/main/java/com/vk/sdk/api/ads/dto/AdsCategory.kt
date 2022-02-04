@@ -28,7 +28,6 @@
 package com.vk.sdk.api.ads.dto
 
 import com.google.gson.annotations.SerializedName
-import com.vk.sdk.api.base.dto.BaseObjectWithName
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
@@ -44,5 +43,5 @@ data class AdsCategory(
     @SerializedName("name")
     val name: String,
     @SerializedName("subcategories")
-    val subcategories: List<BaseObjectWithName>? = null
+    val subcategories: List<AdsCategory>? = null
 )

@@ -32,6 +32,7 @@ import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
+import com.vk.sdk.api.base.dto.BaseBoolInt
 import com.vk.sdk.api.base.dto.BaseOkResponse
 import com.vk.sdk.api.secure.dto.SecureGiveEventStickerItem
 import com.vk.sdk.api.secure.dto.SecureLevel
@@ -62,9 +63,9 @@ class SecureService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("user_id", userId)
-        addParam("activity_id", activityId)
-        value?.let { addParam("value", it) }
+        addParam("user_id", userId, min = 1)
+        addParam("activity_id", activityId, min = 0)
+        value?.let { addParam("value", it, min = 0) }
     }
 
     /**
@@ -115,10 +116,10 @@ class SecureService {
         GsonHolder.gson.fromJson<List<SecureSmsNotification>>(it, typeToken)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
-        dateFrom?.let { addParam("date_from", it) }
-        dateTo?.let { addParam("date_to", it) }
-        limit?.let { addParam("limit", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        dateFrom?.let { addParam("date_from", it, min = 0) }
+        dateTo?.let { addParam("date_to", it, min = 0) }
+        limit?.let { addParam("limit", it, min = 0, max = 1000) }
     }
 
     /**
@@ -134,8 +135,8 @@ class SecureService {
      */
     fun secureGetTransactionsHistory(
         type: Int? = null,
-        uidFrom: Int? = null,
-        uidTo: Int? = null,
+        uidFrom: UserId? = null,
+        uidTo: UserId? = null,
         dateFrom: Int? = null,
         dateTo: Int? = null,
         limit: Int? = null
@@ -145,11 +146,11 @@ class SecureService {
     }
     .apply {
         type?.let { addParam("type", it) }
-        uidFrom?.let { addParam("uid_from", it) }
-        uidTo?.let { addParam("uid_to", it) }
-        dateFrom?.let { addParam("date_from", it) }
-        dateTo?.let { addParam("date_to", it) }
-        limit?.let { addParam("limit", it) }
+        uidFrom?.let { addParam("uid_from", it, min = 1) }
+        uidTo?.let { addParam("uid_to", it, min = 1) }
+        dateFrom?.let { addParam("date_from", it, min = 0) }
+        dateTo?.let { addParam("date_to", it, min = 0) }
+        limit?.let { addParam("limit", it, min = 0, max = 1000) }
     }
 
     /**
@@ -158,7 +159,7 @@ class SecureService {
      * @param userIds
      * @return [VKRequest] with [Unit]
      */
-    fun secureGetUserLevel(userIds: List<Int>): VKRequest<List<SecureLevel>> =
+    fun secureGetUserLevel(userIds: List<UserId>): VKRequest<List<SecureLevel>> =
             NewApiRequest("secure.getUserLevel") {
         val typeToken = object: TypeToken<List<SecureLevel>>() {}.type
         GsonHolder.gson.fromJson<List<SecureLevel>>(it, typeToken)
@@ -174,14 +175,14 @@ class SecureService {
      * @param achievementId
      * @return [VKRequest] with [Unit]
      */
-    fun secureGiveEventSticker(userIds: List<Int>, achievementId: Int):
+    fun secureGiveEventSticker(userIds: List<UserId>, achievementId: Int):
             VKRequest<List<SecureGiveEventStickerItem>> = NewApiRequest("secure.giveEventSticker") {
         val typeToken = object: TypeToken<List<SecureGiveEventStickerItem>>() {}.type
         GsonHolder.gson.fromJson<List<SecureGiveEventStickerItem>>(it, typeToken)
     }
     .apply {
         addParam("user_ids", userIds)
-        addParam("achievement_id", achievementId)
+        addParam("achievement_id", achievementId, min = 0)
     }
 
     /**
@@ -195,16 +196,16 @@ class SecureService {
      */
     fun secureSendNotification(
         message: String,
-        userIds: List<Int>? = null,
+        userIds: List<UserId>? = null,
         userId: UserId? = null
-    ): VKRequest<List<Int>> = NewApiRequest("secure.sendNotification") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+    ): VKRequest<List<UserId>> = NewApiRequest("secure.sendNotification") {
+        val typeToken = object: TypeToken<List<UserId>>() {}.type
+        GsonHolder.gson.fromJson<List<UserId>>(it, typeToken)
     }
     .apply {
         addParam("message", message)
         userIds?.let { addParam("user_ids", it) }
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
     }
 
     /**
@@ -221,7 +222,7 @@ class SecureService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("user_id", userId)
+        addParam("user_id", userId, min = 1)
         addParam("message", message)
     }
 
@@ -232,19 +233,19 @@ class SecureService {
      * @param userId
      * @param counter - counter value.
      * @param increment
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseBoolInt]
      */
     fun secureSetCounter(
         counters: List<String>? = null,
         userId: UserId? = null,
         counter: Int? = null,
         increment: Boolean? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("secure.setCounter") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseBoolInt> = NewApiRequest("secure.setCounter") {
+        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
     }
     .apply {
         counters?.let { addParam("counters", it) }
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
         counter?.let { addParam("counter", it) }
         increment?.let { addParam("increment", it) }
     }

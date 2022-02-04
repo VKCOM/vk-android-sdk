@@ -34,5 +34,8 @@ enum class UsersUserType(
     val value: String
 ) {
     @SerializedName("profile")
-    PROFILE("profile");
+    PROFILE("profile"),
+
+    @SerializedName("email")
+    EMAIL("email");
 }

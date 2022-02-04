@@ -36,29 +36,29 @@ import kotlin.collections.List
 
 /**
  * @param count - Total number of videos in album
- * @param image - Album cover image in different sizes
- * @param imageBlur - Need blur album thumb or not
- * @param isSystem - Information whether album is system
  * @param updatedTime - Date when the album has been updated last time in Unixtime
  * @param id - Album ID
  * @param ownerId - Album owner's ID
  * @param title - Album title
+ * @param image - Album cover image in different sizes
+ * @param imageBlur - Need blur album thumb or not
+ * @param isSystem - Information whether album is system
  */
 data class VideoVideoAlbumFull(
     @SerializedName("count")
-    val count: Int? = null,
+    val count: Int,
+    @SerializedName("updated_time")
+    val updatedTime: Int,
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("owner_id")
+    val ownerId: UserId,
+    @SerializedName("title")
+    val title: String,
     @SerializedName("image")
     val image: List<VideoVideoImage>? = null,
     @SerializedName("image_blur")
     val imageBlur: BasePropertyExists? = null,
     @SerializedName("is_system")
-    val isSystem: BasePropertyExists? = null,
-    @SerializedName("updated_time")
-    val updatedTime: Int? = null,
-    @SerializedName("id")
-    val id: Int? = null,
-    @SerializedName("owner_id")
-    val ownerId: UserId? = null,
-    @SerializedName("title")
-    val title: String? = null
+    val isSystem: BasePropertyExists? = null
 )

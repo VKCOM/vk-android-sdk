@@ -41,7 +41,7 @@ import kotlin.collections.List
  */
 data class BaseError(
     @SerializedName("error_code")
-    val errorCode: Int? = null,
+    val errorCode: Int,
     @SerializedName("error_subcode")
     val errorSubcode: Int? = null,
     @SerializedName("error_msg")

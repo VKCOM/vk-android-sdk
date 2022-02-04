@@ -88,10 +88,10 @@ class NotesService {
         GsonHolder.gson.fromJson(it, Int::class.java)
     }
     .apply {
-        addParam("note_id", noteId)
+        addParam("note_id", noteId, min = 0)
         addParam("message", message)
-        ownerId?.let { addParam("owner_id", it) }
-        replyTo?.let { addParam("reply_to", it) }
+        ownerId?.let { addParam("owner_id", it, min = 0) }
+        replyTo?.let { addParam("reply_to", it, min = 0) }
         guid?.let { addParam("guid", it) }
     }
 
@@ -105,7 +105,7 @@ class NotesService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("note_id", noteId)
+        addParam("note_id", noteId, min = 0)
     }
 
     /**
@@ -120,8 +120,8 @@ class NotesService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("comment_id", commentId)
-        ownerId?.let { addParam("owner_id", it) }
+        addParam("comment_id", commentId, min = 0)
+        ownerId?.let { addParam("owner_id", it, min = 0) }
     }
 
     /**
@@ -144,7 +144,7 @@ class NotesService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("note_id", noteId)
+        addParam("note_id", noteId, min = 0)
         addParam("title", title)
         addParam("text", text)
         privacyView?.let { addParam("privacy_view", it) }
@@ -167,9 +167,9 @@ class NotesService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("comment_id", commentId)
-        addParam("message", message)
-        ownerId?.let { addParam("owner_id", it) }
+        addParam("comment_id", commentId, min = 0)
+        addParam("message", message, minLength = 2)
+        ownerId?.let { addParam("owner_id", it, min = 0) }
     }
 
     /**
@@ -193,9 +193,9 @@ class NotesService {
     }
     .apply {
         noteIds?.let { addParam("note_ids", it) }
-        userId?.let { addParam("user_id", it) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        userId?.let { addParam("user_id", it, min = 0) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
         sort?.let { addParam("sort", it.value) }
     }
 
@@ -215,8 +215,8 @@ class NotesService {
         GsonHolder.gson.fromJson(it, NotesNote::class.java)
     }
     .apply {
-        addParam("note_id", noteId)
-        ownerId?.let { addParam("owner_id", it) }
+        addParam("note_id", noteId, min = 0)
+        ownerId?.let { addParam("owner_id", it, min = 0) }
         needWiki?.let { addParam("need_wiki", it) }
     }
 
@@ -240,11 +240,11 @@ class NotesService {
         GsonHolder.gson.fromJson(it, NotesGetCommentsResponse::class.java)
     }
     .apply {
-        addParam("note_id", noteId)
-        ownerId?.let { addParam("owner_id", it) }
+        addParam("note_id", noteId, min = 0)
+        ownerId?.let { addParam("owner_id", it, min = 0) }
         sort?.let { addParam("sort", it.value) }
-        offset?.let { addParam("offset", it) }
-        count?.let { addParam("count", it) }
+        offset?.let { addParam("offset", it, min = 0) }
+        count?.let { addParam("count", it, min = 0, max = 100) }
     }
 
     /**
@@ -259,7 +259,7 @@ class NotesService {
         GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
     }
     .apply {
-        addParam("comment_id", commentId)
-        ownerId?.let { addParam("owner_id", it) }
+        addParam("comment_id", commentId, min = 0)
+        ownerId?.let { addParam("owner_id", it, min = 0) }
     }
 }

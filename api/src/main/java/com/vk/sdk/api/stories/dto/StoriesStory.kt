@@ -48,7 +48,6 @@ import kotlin.String
  * @param canHide - Information whether current user can hide the story (0 - no, 1 - yes).
  * @param date - Date when story has been added in Unixtime.
  * @param expiresAt - Story expiration time. Unixtime.
- * @param deleted - Information whether the story is deleted (0 - no, 1 - yes).
  * @param isDeleted - Information whether the story is deleted (false - no, true - yes).
  * @param isExpired - Information whether the story is expired (false - no, true - yes).
  * @param link
@@ -95,8 +94,6 @@ data class StoriesStory(
     val date: Int? = null,
     @SerializedName("expires_at")
     val expiresAt: Int? = null,
-    @SerializedName("deleted")
-    val deleted: BaseBoolInt? = null,
     @SerializedName("is_deleted")
     val isDeleted: Boolean? = null,
     @SerializedName("is_expired")

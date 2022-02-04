@@ -27,12 +27,17 @@
 // *********************************************************************
 package com.vk.sdk.api.leadForms
 
+import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
+import com.vk.sdk.api.leadForms.dto.LeadFormsCreateResponse
+import com.vk.sdk.api.leadForms.dto.LeadFormsDeleteResponse
+import com.vk.sdk.api.leadForms.dto.LeadFormsForm
+import com.vk.sdk.api.leadForms.dto.LeadFormsGetLeadsResponse
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
-import kotlin.Unit
 import kotlin.collections.List
 
 class LeadFormsService {
@@ -51,7 +56,7 @@ class LeadFormsService {
      * @param pixelCode
      * @param notifyAdmins
      * @param notifyEmails
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [LeadFormsCreateResponse]
      */
     fun leadFormsCreate(
         groupId: Int,
@@ -68,18 +73,19 @@ class LeadFormsService {
         pixelCode: String? = null,
         notifyAdmins: List<Int>? = null,
         notifyEmails: List<String>? = null
-    ): VKRequest<Unit> = NewApiRequest("leadForms.create") {
+    ): VKRequest<LeadFormsCreateResponse> = NewApiRequest("leadForms.create") {
+        GsonHolder.gson.fromJson(it, LeadFormsCreateResponse::class.java)
     }
     .apply {
         addParam("group_id", groupId)
-        addParam("name", name)
-        addParam("title", title)
-        addParam("description", description)
+        addParam("name", name, maxLength = 100)
+        addParam("title", title, maxLength = 60)
+        addParam("description", description, maxLength = 600)
         addParam("questions", questions)
-        addParam("policy_link_url", policyLinkUrl)
+        addParam("policy_link_url", policyLinkUrl, maxLength = 200)
         photo?.let { addParam("photo", it) }
-        confirmation?.let { addParam("confirmation", it) }
-        siteLinkUrl?.let { addParam("site_link_url", it) }
+        confirmation?.let { addParam("confirmation", it, maxLength = 300) }
+        siteLinkUrl?.let { addParam("site_link_url", it, maxLength = 200) }
         active?.let { addParam("active", it) }
         oncePerUser?.let { addParam("once_per_user", it) }
         pixelCode?.let { addParam("pixel_code", it) }
@@ -90,10 +96,11 @@ class LeadFormsService {
     /**
      * @param groupId
      * @param formId
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [LeadFormsDeleteResponse]
      */
-    fun leadFormsDelete(groupId: Int, formId: Int): VKRequest<Unit> =
+    fun leadFormsDelete(groupId: Int, formId: Int): VKRequest<LeadFormsDeleteResponse> =
             NewApiRequest("leadForms.delete") {
+        GsonHolder.gson.fromJson(it, LeadFormsDeleteResponse::class.java)
     }
     .apply {
         addParam("group_id", groupId)
@@ -103,9 +110,11 @@ class LeadFormsService {
     /**
      * @param groupId
      * @param formId
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [LeadFormsForm]
      */
-    fun leadFormsGet(groupId: Int, formId: Int): VKRequest<Unit> = NewApiRequest("leadForms.get") {
+    fun leadFormsGet(groupId: Int, formId: Int): VKRequest<LeadFormsForm> =
+            NewApiRequest("leadForms.get") {
+        GsonHolder.gson.fromJson(it, LeadFormsForm::class.java)
     }
     .apply {
         addParam("group_id", groupId)
@@ -117,33 +126,38 @@ class LeadFormsService {
      * @param formId
      * @param limit
      * @param nextPageToken
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [LeadFormsGetLeadsResponse]
      */
     fun leadFormsGetLeads(
         groupId: Int,
         formId: Int,
         limit: Int? = null,
         nextPageToken: String? = null
-    ): VKRequest<Unit> = NewApiRequest("leadForms.getLeads") {
+    ): VKRequest<LeadFormsGetLeadsResponse> = NewApiRequest("leadForms.getLeads") {
+        GsonHolder.gson.fromJson(it, LeadFormsGetLeadsResponse::class.java)
     }
     .apply {
         addParam("group_id", groupId)
         addParam("form_id", formId)
-        limit?.let { addParam("limit", it) }
+        limit?.let { addParam("limit", it, min = 1, max = 1000) }
         nextPageToken?.let { addParam("next_page_token", it) }
     }
 
     /**
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [String]
      */
-    fun leadFormsGetUploadURL(): VKRequest<Unit> = NewApiRequest("leadForms.getUploadURL") {
+    fun leadFormsGetUploadURL(): VKRequest<String> = NewApiRequest("leadForms.getUploadURL") {
+        GsonHolder.gson.fromJson(it, String::class.java)
     }
 
     /**
      * @param groupId
      * @return [VKRequest] with [Unit]
      */
-    fun leadFormsList(groupId: Int): VKRequest<Unit> = NewApiRequest("leadForms.list") {
+    fun leadFormsList(groupId: Int): VKRequest<List<LeadFormsForm>> =
+            NewApiRequest("leadForms.list") {
+        val typeToken = object: TypeToken<List<LeadFormsForm>>() {}.type
+        GsonHolder.gson.fromJson<List<LeadFormsForm>>(it, typeToken)
     }
     .apply {
         addParam("group_id", groupId)
@@ -165,7 +179,7 @@ class LeadFormsService {
      * @param pixelCode
      * @param notifyAdmins
      * @param notifyEmails
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [LeadFormsCreateResponse]
      */
     fun leadFormsUpdate(
         groupId: Int,
@@ -183,19 +197,20 @@ class LeadFormsService {
         pixelCode: String? = null,
         notifyAdmins: List<Int>? = null,
         notifyEmails: List<String>? = null
-    ): VKRequest<Unit> = NewApiRequest("leadForms.update") {
+    ): VKRequest<LeadFormsCreateResponse> = NewApiRequest("leadForms.update") {
+        GsonHolder.gson.fromJson(it, LeadFormsCreateResponse::class.java)
     }
     .apply {
         addParam("group_id", groupId)
         addParam("form_id", formId)
-        addParam("name", name)
-        addParam("title", title)
-        addParam("description", description)
+        addParam("name", name, maxLength = 100)
+        addParam("title", title, maxLength = 60)
+        addParam("description", description, maxLength = 600)
         addParam("questions", questions)
-        addParam("policy_link_url", policyLinkUrl)
+        addParam("policy_link_url", policyLinkUrl, maxLength = 200)
         photo?.let { addParam("photo", it) }
-        confirmation?.let { addParam("confirmation", it) }
-        siteLinkUrl?.let { addParam("site_link_url", it) }
+        confirmation?.let { addParam("confirmation", it, maxLength = 300) }
+        siteLinkUrl?.let { addParam("site_link_url", it, maxLength = 200) }
         active?.let { addParam("active", it) }
         oncePerUser?.let { addParam("once_per_user", it) }
         pixelCode?.let { addParam("pixel_code", it) }
