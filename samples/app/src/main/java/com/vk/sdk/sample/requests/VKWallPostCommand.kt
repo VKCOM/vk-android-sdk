@@ -25,8 +25,8 @@
 package com.vk.sdk.sample.requests
 
 import android.net.Uri
+import com.vk.api.sdk.VKApiJSONResponseParser
 import com.vk.api.sdk.VKApiManager
-import com.vk.api.sdk.VKApiResponseParser
 import com.vk.api.sdk.VKHttpPostCall
 import com.vk.api.sdk.VKMethodCall
 import com.vk.api.sdk.exceptions.VKApiIllegalResponseException
@@ -101,20 +101,20 @@ class VKWallPostCommand(private val message: String? = null,
         const val RETRY_COUNT = 3
     }
 
-    private class ResponseApiParser : VKApiResponseParser<Int> {
-        override fun parse(response: String): Int {
+    private class ResponseApiParser : VKApiJSONResponseParser<Int> {
+        override fun parse(responseJson: JSONObject): Int {
             try {
-                return JSONObject(response).getJSONObject("response").getInt("post_id")
+                return responseJson.getJSONObject("response").getInt("post_id")
             } catch (ex: JSONException) {
                 throw VKApiIllegalResponseException(ex)
             }
         }
     }
 
-    private class ServerUploadInfoParser : VKApiResponseParser<VKServerUploadInfo> {
-        override fun parse(response: String): VKServerUploadInfo{
+    private class ServerUploadInfoParser : VKApiJSONResponseParser<VKServerUploadInfo> {
+        override fun parse(responseJson: JSONObject): VKServerUploadInfo{
             try {
-                val joResponse = JSONObject(response).getJSONObject("response")
+                val joResponse = responseJson.getJSONObject("response")
                 return VKServerUploadInfo(
                         uploadUrl = joResponse.getString("upload_url"),
                         albumId = joResponse.getInt("album_id"),
@@ -125,10 +125,10 @@ class VKWallPostCommand(private val message: String? = null,
         }
     }
 
-    private class FileUploadInfoParser: VKApiResponseParser<VKFileUploadInfo> {
-        override fun parse(response: String): VKFileUploadInfo{
+    private class FileUploadInfoParser: VKApiJSONResponseParser<VKFileUploadInfo> {
+        override fun parse(responseJson: JSONObject): VKFileUploadInfo{
             try {
-                val joResponse = JSONObject(response)
+                val joResponse = responseJson
                 return VKFileUploadInfo(
                         server = joResponse.getString("server"),
                         photo = joResponse.getString("photo"),
@@ -140,10 +140,10 @@ class VKWallPostCommand(private val message: String? = null,
         }
     }
 
-    private class SaveInfoParser: VKApiResponseParser<VKSaveInfo> {
-        override fun parse(response: String): VKSaveInfo {
+    private class SaveInfoParser: VKApiJSONResponseParser<VKSaveInfo> {
+        override fun parse(responseJson: JSONObject): VKSaveInfo {
             try {
-                val joResponse = JSONObject(response).getJSONArray("response").getJSONObject(0)
+                val joResponse = responseJson.getJSONArray("response").getJSONObject(0)
                 return VKSaveInfo(
                         id = joResponse.getInt("id"),
                         albumId = joResponse.getInt("album_id"),

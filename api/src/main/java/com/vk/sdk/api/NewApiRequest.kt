@@ -37,14 +37,15 @@ import kotlin.Int
 import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
+import org.json.JSONObject
 
 internal class NewApiRequest<T> internal constructor(
     methodName: String,
     parser: ApiResponseParser<T>
 ) : VKRequest<T>(methodName, requestApiVersion = "5.131"), ApiResponseParser<T> by parser {
-    override fun parse(response: String): T {
-        val responseJson = JsonParser.parseString(response).asJsonObject.get("response")
-        return parseResponse(responseJson)
+    override fun parse(responseJson: JSONObject): T {
+        val response = JsonParser.parseString(responseJson.toString()).asJsonObject.get("response")
+        return parseResponse(response)
     }
 
     fun addParam(

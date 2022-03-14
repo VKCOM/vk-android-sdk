@@ -24,8 +24,8 @@
 
 package com.vk.sdk.sample.requests
 
+import com.vk.api.sdk.VKApiJSONResponseParser
 import com.vk.api.sdk.VKApiManager
-import com.vk.api.sdk.VKApiResponseParser
 import com.vk.api.sdk.VKMethodCall
 import com.vk.api.sdk.exceptions.VKApiIllegalResponseException
 import com.vk.api.sdk.internal.ApiCommand
@@ -64,10 +64,10 @@ class VKUsersCommand(private val uids: IntArray = intArrayOf()): ApiCommand<List
         const val CHUNK_LIMIT = 900
     }
 
-    private class ResponseApiParser : VKApiResponseParser<List<VKUser>> {
-        override fun parse(response: String): List<VKUser> {
+    private class ResponseApiParser : VKApiJSONResponseParser<List<VKUser>> {
+        override fun parse(responseJson: JSONObject): List<VKUser> {
             try {
-                val ja = JSONObject(response).getJSONArray("response")
+                val ja = responseJson.getJSONArray("response")
                 val r = ArrayList<VKUser>(ja.length())
                 for (i in 0 until ja.length()) {
                     val user = VKUser.parse(ja.getJSONObject(i))

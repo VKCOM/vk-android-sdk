@@ -26,8 +26,8 @@
   ~ UNDER NO CIRCUMSTANCES LLC “V KONTAKTE” BEAR LIABILITY TO THE LICENSEE OR ANY
   ~ THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
 -->
-<resources>
-    <string name="vk_retry">Retry</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="vk_retry" tools:ignore="UnusedResources">Retry</string>
     <string name="vk_captcha_hint">Please enter the code from the picture</string>
     <string name="vk_confirm">Please confirm</string>
     <string name="vk_message_login_error">Login error occurred</string>

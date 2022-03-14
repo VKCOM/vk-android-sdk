@@ -1,30 +1,3 @@
-/**
- * Copyright (c) 2020 - present, LLC “V Kontakte”
- *
- * 1. Permission is hereby granted to any person obtaining a copy of this Software to
- * use the Software without charge.
- *
- * 2. Restrictions
- * You may not modify, merge, publish, distribute, sublicense, and/or sell copies,
- * create derivative works based upon the Software or any part thereof.
- *
- * 3. Termination
- * This License is effective until terminated. LLC “V Kontakte” may terminate this
- * License at any time without any negative consequences to our rights.
- * You may terminate this License at any time by deleting the Software and all copies
- * thereof. Upon termination of this license for any reason, you shall continue to be
- * bound by the provisions of Section 2 above.
- * Termination will be without prejudice to any rights LLC “V Kontakte” may have as
- * a result of this agreement.
- *
- * 4. Disclaimer of warranty and liability
- * THE SOFTWARE IS MADE AVAILABLE ON THE “AS IS” BASIS. LLC “V KONTAKTE” DISCLAIMS
- * ALL WARRANTIES THAT THE SOFTWARE MAY BE SUITABLE OR UNSUITABLE FOR ANY SPECIFIC
- * PURPOSES OF USE. LLC “V KONTAKTE” CAN NOT GUARANTEE AND DOES NOT PROMISE ANY
- * SPECIFIC RESULTS OF USE OF THE SOFTWARE.
- * UNDER NO CIRCUMSTANCES LLC “V KONTAKTE” BEAR LIABILITY TO THE LICENSEE OR ANY
- * THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
-*/
 /*******************************************************************************
  * The MIT License (MIT)
  *
@@ -52,8 +25,10 @@ package com.vk.api.sdk.okhttp
 
 import android.net.Uri
 import android.os.Looper
+import com.vk.api.sdk.VKApiConfig
 import com.vk.api.sdk.VKApiCredentials
 import com.vk.api.sdk.VKApiProgressListener
+import com.vk.api.sdk.VKHost
 import com.vk.api.sdk.VKOkHttpProvider
 import com.vk.api.sdk.exceptions.*
 import com.vk.api.sdk.internal.HttpMultipartEntry
@@ -63,7 +38,9 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import java.io.IOException
+import java.io.InputStream
 import java.net.HttpURLConnection.HTTP_ENTITY_TOO_LARGE
 import java.net.URLEncoder
 
@@ -106,7 +83,7 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
     }
 
     @Throws(InterruptedException::class, IOException::class, VKApiException::class)
-    open fun execute(call: OkHttpMethodCall): MethodResponse {
+    open fun execute(call: OkHttpMethodCall): ExecutorResponse {
 
         val actualAccessToken = getActualAccessToken(call)
 
@@ -135,11 +112,11 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         val request = requestBuilder.build()
         val executorAccessToken = accessToken
         val okHttpResponse = executeRequest(request)
-        return MethodResponse(readResponse(okHttpResponse), okHttpResponse.headers, executorAccessToken)
+        return ExecutorResponse(readResponse(okHttpResponse), okHttpResponse.headers, executorAccessToken)
     }
 
     @Throws(InterruptedException::class, IOException::class, VKApiException::class)
-    fun execute(call: OkHttpPostCall, progressListener: VKApiProgressListener?): String? {
+    fun execute(call: OkHttpPostCall, progressListener: VKApiProgressListener?): ExecutorResponse {
         val body = if (call.isMultipart) {
             MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -159,8 +136,8 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         val requestBody = ProgressRequestBody(body, progressListener)
 
         val request = makePostCallRequestBuilder(call, requestBody).build()
-
-        return readResponse(executeRequest(request))
+        val response = executeRequest(request)
+        return ExecutorResponse(readResponse(response), response.headers)
     }
 
     protected open fun makePostCallRequestBuilder(call: OkHttpPostCall, requestBody: RequestBody): Request.Builder {
@@ -173,7 +150,7 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
     @Throws(VKApiException::class)
     protected fun validateQueryString(call: OkHttpMethodCall, paramsString: String): String {
         if (call.method.startsWith("execute.")) {
-            val uri = Uri.parse("https://vk.com/?$paramsString")
+            val uri = Uri.parse("https://${VKHost.host}/?$paramsString")
             if (uri.getQueryParameters("method").contains("execute")
                     && !uri.getQueryParameters("code").isNullOrEmpty()) {
                 throw VKApiExecutionException(
@@ -192,16 +169,21 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         return okHttpProvider.getClient().newCall(request).execute()
     }
 
-    fun readResponse(response: Response): String? {
+    fun readResponse(response: Response): JSONObject? {
         if (response.code == HTTP_ENTITY_TOO_LARGE) {
             throw VKLargeEntityException(response.message)
         }
-
-        val body = response.body?.use { it.string() }
         if (response.code in 500..599) {
-            throw VKInternalServerErrorException(response.code, body ?: "null")
+            throw VKInternalServerErrorException(response.code, response.body?.use { it.string() } ?: "null")
         }
-        return body
+
+        return response.body?.byteStream()?.let { inputStream ->
+            config.responseBodyJsonConverter.convertResponse(
+                inputStream,
+                response.headers["content-type"],
+                path = response.request.url.encodedPath
+            )
+        }
     }
 
     protected open fun getActualAccessToken(call: OkHttpMethodCall): String? = accessToken
@@ -232,10 +214,11 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         return this
     }
 
-    private fun resolveEndpoint(host: String) = if (customEndpoint.isNotEmpty()) {
-        customEndpoint
-    } else {
-        defaultApiEndpoint(host)
+    private fun resolveEndpoint(host: String): String {
+        if (customEndpoint.isEmpty() || customEndpoint == VKApiConfig.DEFAULT_API_ENDPOINT) {
+            return defaultApiEndpoint(host)
+        }
+        return customEndpoint
     }
 
     private fun updateClient(provider: VKOkHttpProvider) {
@@ -261,10 +244,11 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         return URLEncoder.encode(fileName.replace("\"", "\\\""), UTF_8)
     }
 
-    data class MethodResponse(
-            val response: String?,
-            val headers: Headers,
-            val executorRequestAccessToken: String?)
+    data class ExecutorResponse(
+        val responseBodyJson: JSONObject?,
+        val headers: Headers,
+        val executorRequestAccessToken: String? = null
+    )
 
     companion object {
         const val MIME_APPLICATION: String = "application/x-www-form-urlencoded; charset=utf-8"

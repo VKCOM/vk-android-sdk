@@ -1,30 +1,3 @@
-/**
- * Copyright (c) 2020 - present, LLC “V Kontakte”
- *
- * 1. Permission is hereby granted to any person obtaining a copy of this Software to
- * use the Software without charge.
- *
- * 2. Restrictions
- * You may not modify, merge, publish, distribute, sublicense, and/or sell copies,
- * create derivative works based upon the Software or any part thereof.
- *
- * 3. Termination
- * This License is effective until terminated. LLC “V Kontakte” may terminate this
- * License at any time without any negative consequences to our rights.
- * You may terminate this License at any time by deleting the Software and all copies
- * thereof. Upon termination of this license for any reason, you shall continue to be
- * bound by the provisions of Section 2 above.
- * Termination will be without prejudice to any rights LLC “V Kontakte” may have as
- * a result of this agreement.
- *
- * 4. Disclaimer of warranty and liability
- * THE SOFTWARE IS MADE AVAILABLE ON THE “AS IS” BASIS. LLC “V KONTAKTE” DISCLAIMS
- * ALL WARRANTIES THAT THE SOFTWARE MAY BE SUITABLE OR UNSUITABLE FOR ANY SPECIFIC
- * PURPOSES OF USE. LLC “V KONTAKTE” CAN NOT GUARANTEE AND DOES NOT PROMISE ANY
- * SPECIFIC RESULTS OF USE OF THE SOFTWARE.
- * UNDER NO CIRCUMSTANCES LLC “V KONTAKTE” BEAR LIABILITY TO THE LICENSEE OR ANY
- * THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
-*/
 /*******************************************************************************
  * The MIT License (MIT)
  *
@@ -62,11 +35,11 @@ import org.json.JSONObject
 
 object VKErrorUtils {
 
-    fun hasSimpleError(response: String) = JsonUtils.containsElement(response, VKApiCodes.PARAM_ERROR)
+    fun hasSimpleError(response: JSONObject) = response.has(VKApiCodes.PARAM_ERROR)
 
-    fun hasExecuteError(response: String, ignoreErrors: IntArray?)
+    fun hasExecuteError(response: JSONObject, ignoreErrors: IntArray?)
         = when {
-            !JsonUtils.containsElement(response, "execute_errors") -> false
+            !response.has("execute_errors") -> false
             ignoreErrors == null -> true
             else -> {
                 val errors = executeErrorsSet(response)
@@ -75,10 +48,9 @@ object VKErrorUtils {
             }
         }
 
-    private fun executeErrorsSet(jsonString: String): MutableSet<Int> {
+    private fun executeErrorsSet(json: JSONObject): MutableSet<Int> {
         val set = HashSet<Int>()
-        val jo = JSONObject(jsonString)
-        val jaErrors = jo.getJSONArray(VKApiCodes.PARAM_EXECUTE_ERRORS)
+        val jaErrors = json.getJSONArray(VKApiCodes.PARAM_EXECUTE_ERRORS)
         for (i in 0 until jaErrors.length()) {
             set.add(jaErrors.getJSONObject(i).getInt(VKApiCodes.PARAM_ERROR_CODE))
         }
@@ -137,8 +109,8 @@ object VKErrorUtils {
         }
     }
 
-    fun parseExecuteError(response: String, method: String, ignoredErrors: IntArray?) =
-            parseExecuteError(JSONObject(response).getJSONArray(VKApiCodes.PARAM_EXECUTE_ERRORS), method, ignoredErrors)
+    fun parseExecuteError(response: JSONObject, method: String, ignoredErrors: IntArray?) =
+            parseExecuteError(response.getJSONArray(VKApiCodes.PARAM_EXECUTE_ERRORS), method, ignoredErrors)
 
     private fun parseExecuteError(errorsJson: JSONArray, method: String, ignoredErrors: IntArray?): VKApiException {
         try {

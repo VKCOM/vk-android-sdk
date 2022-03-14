@@ -1,30 +1,3 @@
-/**
- * Copyright (c) 2020 - present, LLC “V Kontakte”
- *
- * 1. Permission is hereby granted to any person obtaining a copy of this Software to
- * use the Software without charge.
- *
- * 2. Restrictions
- * You may not modify, merge, publish, distribute, sublicense, and/or sell copies,
- * create derivative works based upon the Software or any part thereof.
- *
- * 3. Termination
- * This License is effective until terminated. LLC “V Kontakte” may terminate this
- * License at any time without any negative consequences to our rights.
- * You may terminate this License at any time by deleting the Software and all copies
- * thereof. Upon termination of this license for any reason, you shall continue to be
- * bound by the provisions of Section 2 above.
- * Termination will be without prejudice to any rights LLC “V Kontakte” may have as
- * a result of this agreement.
- *
- * 4. Disclaimer of warranty and liability
- * THE SOFTWARE IS MADE AVAILABLE ON THE “AS IS” BASIS. LLC “V KONTAKTE” DISCLAIMS
- * ALL WARRANTIES THAT THE SOFTWARE MAY BE SUITABLE OR UNSUITABLE FOR ANY SPECIFIC
- * PURPOSES OF USE. LLC “V KONTAKTE” CAN NOT GUARANTEE AND DOES NOT PROMISE ANY
- * SPECIFIC RESULTS OF USE OF THE SOFTWARE.
- * UNDER NO CIRCUMSTANCES LLC “V KONTAKTE” BEAR LIABILITY TO THE LICENSEE OR ANY
- * THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
-*/
 /*******************************************************************************
  * The MIT License (MIT)
  *
@@ -55,6 +28,9 @@ import android.content.Context
 import com.vk.api.sdk.auth.VKAccessTokenProvider
 import com.vk.api.sdk.okhttp.DefaultLoggingPrefixer
 import com.vk.api.sdk.okhttp.LoggingPrefixer
+import com.vk.api.sdk.response.DefaultJsonResponseConverter
+import com.vk.api.sdk.response.JsonResponseTypeConverter
+import com.vk.api.sdk.response.ResponseBodyJsonConverter
 import com.vk.api.sdk.utils.ApiMethodPriorityBackoff
 import com.vk.api.sdk.utils.log.DefaultApiLogger
 import com.vk.api.sdk.utils.log.Logger
@@ -81,16 +57,26 @@ data class VKApiConfig(
     val logFilterCredentials: Boolean = true,
     val debugCycleCalls: Lazy<Boolean> = lazy { false },
     val callsPerSecondLimit: Int = 3,
-    val httpApiHostProvider: () -> String = { DEFAULT_API_DOMAIN },
+    val apiHostProvider: () -> String = { DEFAULT_API_DOMAIN },
     val langProvider: () -> String = { DEFAULT_LANGUAGE },
     val keyValueStorage: VKKeyValueStorage = VKPreferencesKeyValueStorage(context),
-    val customApiEndpoint: Lazy<String> = lazy { DEFAULT_API_ENDPOINT },
+    val customApiEndpoint: () -> String = { DEFAULT_API_ENDPOINT },
     val rateLimitBackoffTimeoutMs: Long = TimeUnit.HOURS.toMillis(1),
     val apiMethodPriorityBackoff: ApiMethodPriorityBackoff = ApiMethodPriorityBackoff.DEFAULT,
     val externalDeviceId: Lazy<String?> = lazy { null },
     val anonymousTokenProvider: Lazy<VKAccessTokenProvider?> = lazy { null },
-    val responseValidator: Lazy<VKApiResponseValidator>? = null
+    val responseValidator: Lazy<VKApiResponseValidator>? = null,
+    val customJsonResponseTypeConverters: List<JsonResponseTypeConverter> = listOf()
 ) {
+
+    val responseBodyJsonConverter: ResponseBodyJsonConverter by lazy {
+        ResponseBodyJsonConverter(
+            listOf(
+                *customJsonResponseTypeConverters.toTypedArray(),
+                DefaultJsonResponseConverter(),
+            )
+        )
+    }
 
     val lang get() = langProvider()
 
@@ -99,6 +85,8 @@ data class VKApiConfig(
     fun buildUpon() = Builder(this)
 
     class Builder internal constructor(private var config: VKApiConfig) {
+
+        private val customJsonResponseTypeConverters = mutableListOf<JsonResponseTypeConverter>()
 
         fun setLogger(logger: Logger) = apply {
             config = config.copy(logger = logger)
@@ -121,7 +109,7 @@ data class VKApiConfig(
         }
 
         fun setCustomApiEndpoint(endpoint: String) = apply {
-            config = config.copy(customApiEndpoint = lazy { endpoint })
+            config = config.copy(customApiEndpoint = { endpoint })
         }
 
         fun setCustomValueStorage(storage: VKKeyValueStorage) = apply {
@@ -132,8 +120,8 @@ data class VKApiConfig(
             config = config.copy(langProvider = langProvider)
         }
 
-        fun setHttpApiHostProvider(hostProvider: () -> String) = apply {
-            config = config.copy(httpApiHostProvider = hostProvider)
+        fun setApiHostProvider(apiHostProvider: () -> String) = apply {
+            config = config.copy(apiHostProvider = apiHostProvider)
         }
 
         fun setAccessToken(accessToken: String) = apply {
@@ -172,18 +160,30 @@ data class VKApiConfig(
             config = config.copy(anonymousTokenProvider = lazy { provider })
         }
 
+        fun addCustomJsonResponseTypeConverter(converter: JsonResponseTypeConverter) = apply {
+            customJsonResponseTypeConverters += converter
+        }
+
+        fun removeCustomJsonResponseTypeConverter(converter: JsonResponseTypeConverter) = apply {
+            customJsonResponseTypeConverters -= converter
+        }
+
         fun build(): VKApiConfig {
-            return config
+            return config.copy(customJsonResponseTypeConverters = customJsonResponseTypeConverters)
         }
     }
 
     companion object {
-        const val DEFAULT_DOMAIN = "vk.com"
         const val DEFAULT_LANGUAGE = "en"
         const val DEFAULT_API_VERSION = "5.131"
-        const val DEFAULT_API_DOMAIN = "api.vk.com"
-        const val DEFAULT_OAUTH_DOMAIN = "oauth.vk.com"
-        const val DEFAULT_STATIC_DOMAIN = "static.vk.com"
-        const val DEFAULT_API_ENDPOINT = "https://$DEFAULT_API_DOMAIN/method"
+
+        val DEFAULT_API_DOMAIN: String
+            get() = "api.${VKHost.host}"
+        val DEFAULT_OAUTH_DOMAIN: String
+            get() = "oauth.${VKHost.host}"
+        val DEFAULT_STATIC_DOMAIN: String
+            get() = "static.${VKHost.host}"
+        val DEFAULT_API_ENDPOINT: String
+            get() = "https://${VKHost.host}/method"
     }
 }
