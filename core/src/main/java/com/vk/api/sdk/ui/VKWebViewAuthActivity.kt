@@ -163,7 +163,7 @@ open class VKWebViewAuthActivity: Activity() {
                 return false
             } else {
                 val safeRedirect = redirectUrl
-                if (safeRedirect != null && !url.startsWith(safeRedirect)) {
+                if (safeRedirect != null && url.startsWith(safeRedirect)) {
                     return false
                 }
                 val intent = Intent(VK_RESULT_INTENT_NAME)
