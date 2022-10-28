@@ -1,5 +1,5 @@
 package com.vk.api.sdk.utils
 
-interface UserAgentProvider {
+fun interface UserAgentProvider {
     fun getUserAgent(): String
 }

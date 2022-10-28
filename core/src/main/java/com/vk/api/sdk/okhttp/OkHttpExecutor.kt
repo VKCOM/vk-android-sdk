@@ -40,7 +40,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
-import java.io.InputStream
 import java.net.HttpURLConnection.HTTP_ENTITY_TOO_LARGE
 import java.net.URLEncoder
 
@@ -58,20 +57,30 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         get() = config.hostProvider()
 
     @Volatile
-    private var credentialsProvider = VKApiCredentials.lazyFrom(config.accessToken, config.secret)
+    private var credentialsProvider = VKApiCredentials.lazyFrom(config.accessToken, config.secret, config.expiresInSec, config.createdMs)
 
+    private val reducedExpiresInSec: Int
+        get() = (expiresInSec * config.expiresInReduceRatio).toInt() // -x%
     val accessToken: String
         get() = credentialsProvider.value.accessToken
     val secret: String?
         get() = credentialsProvider.value.secret
+    val expiresInSec: Int
+        get() = credentialsProvider.value.expiresInSec
+    val createdMs: Long
+        get() = credentialsProvider.value.createdMs
+    val isLoggedIn: Boolean
+        get() = accessToken.isNotBlank()
+    val tokenContainsAndValid: Boolean
+        get() = accessToken.isNotBlank() && (expiresInSec <= 0 || createdMs + reducedExpiresInSec * 1000 > System.currentTimeMillis())
 
     private val customEndpoint = config.customEndpoint
 
     @Volatile var ignoredAccessToken: String? = null
         private set
 
-    fun setCredentials(accessToken: String, secret: String?) {
-        this.credentialsProvider =  VKApiCredentials.lazyFrom(accessToken, secret)
+    fun setCredentials(accessToken: String, secret: String?, expiresInSec: Int, createdMs: Long) {
+        this.credentialsProvider = VKApiCredentials.lazyFrom(accessToken, secret, expiresInSec, createdMs)
     }
 
     internal fun setCredentials(credentialsProvider: Lazy<VKApiCredentials>) {
@@ -234,8 +243,8 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
 
     protected open fun createLoggingInterceptor(
         filterCredentials: Boolean,
-        logger: Logger, loggingPrefixer:
-        LoggingPrefixer
+        logger: Logger,
+        loggingPrefixer: LoggingPrefixer
     ): LoggingInterceptor {
         return LoggingInterceptor(filterCredentials, logger, loggingPrefixer)
     }

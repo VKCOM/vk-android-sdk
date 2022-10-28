@@ -23,11 +23,14 @@
  ******************************************************************************/
 package com.vk.api.sdk.okhttp
 
+import com.vk.api.sdk.VKApiConfig
 import com.vk.api.sdk.VKMethodCall
 
 open class OkHttpMethodCall {
     open class Builder {
         var requestUrl: String? = null
+            private set
+        var endpointPath: VKApiConfig.EndpointPathName = VKApiConfig.EndpointPathName.METHOD
             private set
         var method: String = ""
             private set
@@ -45,6 +48,7 @@ open class OkHttpMethodCall {
             private set
 
         open fun url(url: String?) = apply { this.requestUrl = url }
+        open fun setEndpointPath(urlMethodName: VKApiConfig.EndpointPathName) = apply { this.endpointPath = urlMethodName }
         open fun method(method: String) = apply { this.method = method }
         open fun version(version: String) = apply { this.version = version }
 
@@ -66,12 +70,14 @@ open class OkHttpMethodCall {
             allowNoAuth(call.allowNoAuth)
             retryCount(call.retryCount)
             url(call.requestUrl)
+            setEndpointPath(call.endpointPath)
         }
 
         open fun build() = OkHttpMethodCall(this)
     }
 
     val requestUrl: String?
+    val setEndpointPath: VKApiConfig.EndpointPathName
     val method: String
     val version: String
     val args: Map<String,String>
@@ -84,6 +90,7 @@ open class OkHttpMethodCall {
         if (b.method.isBlank()) throw IllegalArgumentException("method is null or empty")
         if (b.version.isBlank()) throw IllegalArgumentException("version is null or empty")
         this.requestUrl = b.requestUrl
+        this.setEndpointPath = b.endpointPath
         this.method = b.method
         this.version = b.version
         this.args = b.args

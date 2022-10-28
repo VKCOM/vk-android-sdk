@@ -31,7 +31,7 @@ import kotlin.concurrent.withLock
  * This object lock network thread
  * for waiting user validation response
  */
-internal object VKValidationLocker {
+object VKValidationLocker {
     private val locker = ReentrantLock()
     private val lockCondition: Condition = locker.newCondition()
 

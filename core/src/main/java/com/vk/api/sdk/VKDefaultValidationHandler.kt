@@ -25,7 +25,6 @@
 package com.vk.api.sdk
 
 import android.content.Context
-import com.vk.api.sdk.ui.VKCaptchaActivity
 import com.vk.api.sdk.ui.VKConfirmationActivity
 import com.vk.api.sdk.ui.VKWebViewAuthActivity
 import com.vk.api.sdk.utils.VKValidationLocker
@@ -34,19 +33,21 @@ import com.vk.api.sdk.utils.VKValidationLocker
  * Default implementation for VKApiValidationHandler
  * It uses internal sdk activities
  */
-open class VKDefaultValidationHandler(val context: Context): VKApiValidationHandler {
+open class VKDefaultValidationHandler(
+    val context: Context
+): VKApiValidationHandler {
 
-    override fun handleCaptcha(img: String, cb: VKApiValidationHandler.Callback<String>) {
-        VKCaptchaActivity.start(context, img)
+    private val captchaHandler = VKCaptchaHandlerDefaultImp()
 
+    override fun handleCaptcha(captcha: VKApiValidationHandler.Captcha, cb: VKApiValidationHandler.Callback<String>) {
+        captchaHandler.showCaptcha(context, captcha)
         VKValidationLocker.await()
-
         checkCaptchaActivity(cb)
     }
 
     private fun checkCaptchaActivity(cb: VKApiValidationHandler.Callback<String>) {
-        if (VKCaptchaActivity.lastKey != null) {
-            cb.submit(VKCaptchaActivity.lastKey!!)
+        if (captchaHandler.getLastKey() != null) {
+            cb.submit(captchaHandler.getLastKey()!!)
         } else {
             cb.cancel()
         }

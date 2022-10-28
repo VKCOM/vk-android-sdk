@@ -23,24 +23,24 @@ SOFTWARE.
 */
 
 ext.sdkVersions = [
-        code                            : '30',
-        name                            : '3.5.0',
+        code                            : '33',
+        name                            : '4.0.0',
 
         minSdk                          : 21,
         targetSdk                       : 30,
         compileSdk                      : '31',
-        buildTools                      : '30.0.3',
+        buildTools                      : '31.0.0',
 
-        kotlin                          : '1.5.31',
+        kotlin                          : '1.7.10',
         androidXAppCompat               : '1.3.1',
         androidXActivity                : '1.4.0',
         androidXRV                      : '1.2.1',
         androidXCollection              : '1.1.0',
-        okHttp                          : '4.9.1',
+        okHttp                          : '4.9.3',
 
         picasso                         : '2.71828',
 
-        androidGradlePlugin             : '7.0.1',
+        androidGradlePlugin             : '7.3.1',
 
         gson                            : '2.8.8',
 
@@ -94,5 +94,9 @@ ext.sdkPublish = [
         POM_ID_NAME                     : 'VK User Id library',
         POM_ID_ARTIFACT_ID              : 'android-sdk-id',
         POM_ID_DESCRIPTION              : 'VK Android User Id library',
+
+        POM_HOST_NAME                   : 'VK Host Resolution library',
+        POM_HOST_ARTIFACT_ID            : 'android-sdk-host',
+        POM_HOST_DESCRIPTION            : 'VK Android Host Resolution library',
 ]
 

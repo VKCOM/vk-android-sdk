@@ -34,6 +34,7 @@ import com.vk.api.sdk.response.ResponseBodyJsonConverter
 import com.vk.api.sdk.utils.ApiMethodPriorityBackoff
 import com.vk.api.sdk.utils.log.DefaultApiLogger
 import com.vk.api.sdk.utils.log.Logger
+import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
 /**
@@ -53,6 +54,8 @@ data class VKApiConfig(
     val loggingPrefixer: LoggingPrefixer = DefaultLoggingPrefixer(),
     internal val accessToken: Lazy<String> = lazy { "" },
     internal val secret: Lazy<String?> = lazy { null },
+    internal val expiresInSec: Lazy<Int> = lazy { 0 },
+    internal val createdMs: Lazy<Long> = lazy { 0 },
     val clientSecret: String = "",
     val logFilterCredentials: Boolean = true,
     val debugCycleCalls: Lazy<Boolean> = lazy { false },
@@ -61,12 +64,14 @@ data class VKApiConfig(
     val langProvider: () -> String = { DEFAULT_LANGUAGE },
     val keyValueStorage: VKKeyValueStorage = VKPreferencesKeyValueStorage(context),
     val customApiEndpoint: () -> String = { DEFAULT_API_ENDPOINT },
-    val rateLimitBackoffTimeoutMs: Long = TimeUnit.HOURS.toMillis(1),
+    val maxRateLimitBackoffTimeoutMs: Long = TimeUnit.HOURS.toMillis(1),
+    val minRateLimitBackoffTimeoutMs: Long = maxRateLimitBackoffTimeoutMs,
     val apiMethodPriorityBackoff: ApiMethodPriorityBackoff = ApiMethodPriorityBackoff.DEFAULT,
     val externalDeviceId: Lazy<String?> = lazy { null },
     val anonymousTokenProvider: Lazy<VKAccessTokenProvider?> = lazy { null },
-    val responseValidator: Lazy<VKApiResponseValidator>? = null,
-    val customJsonResponseTypeConverters: List<JsonResponseTypeConverter> = listOf()
+    val customJsonResponseTypeConverters: List<JsonResponseTypeConverter> = listOf(),
+    val accessTokenRefresher: Lazy<AccessTokenRefresher?> = lazy { null },
+    val expiresInReduceRatioJson: () -> JSONObject? = { null }
 ) {
 
     val responseBodyJsonConverter: ResponseBodyJsonConverter by lazy {
@@ -87,6 +92,7 @@ data class VKApiConfig(
     class Builder internal constructor(private var config: VKApiConfig) {
 
         private val customJsonResponseTypeConverters = mutableListOf<JsonResponseTypeConverter>()
+            .apply { addAll(config.customJsonResponseTypeConverters) }
 
         fun setLogger(logger: Logger) = apply {
             config = config.copy(logger = logger)
@@ -128,6 +134,14 @@ data class VKApiConfig(
             config = config.copy(accessToken = lazy { accessToken })
         }
 
+        fun setexpiresInSec(expiresInSec: Int) = apply {
+            config = config.copy(expiresInSec = lazy { expiresInSec })
+        }
+
+        fun setCreated(createdMs: Long) = apply {
+            config = config.copy(createdMs = lazy { createdMs })
+        }
+
         fun setClientSecret(clientSecret: String) = apply {
             config = config.copy(clientSecret = clientSecret)
         }
@@ -148,8 +162,12 @@ data class VKApiConfig(
             config = config.copy(debugCycleCalls = lazy { debugCycleCalls })
         }
 
-        fun setRateLimitBackoff(rateLimitBackoffTimeoutMs: Long) = apply {
-            config = config.copy(rateLimitBackoffTimeoutMs = rateLimitBackoffTimeoutMs)
+        fun setMinRateLimitBackoff(minRateLimitBackoffTimeoutMs: Long) = apply {
+            config = config.copy(minRateLimitBackoffTimeoutMs = minRateLimitBackoffTimeoutMs)
+        }
+
+        fun setMaxRateLimitBackoff(maxRateLimitBackoffTimeoutMs: Long) = apply {
+            config = config.copy(maxRateLimitBackoffTimeoutMs = maxRateLimitBackoffTimeoutMs)
         }
 
         fun setExternalDeviceID(externalDeviceId: String?) = apply {
@@ -160,6 +178,10 @@ data class VKApiConfig(
             config = config.copy(anonymousTokenProvider = lazy { provider })
         }
 
+        fun setLoggingPrefixer(loggingPrefixer: LoggingPrefixer) = apply {
+            config = config.copy(loggingPrefixer = loggingPrefixer)
+        }
+
         fun addCustomJsonResponseTypeConverter(converter: JsonResponseTypeConverter) = apply {
             customJsonResponseTypeConverters += converter
         }
@@ -168,15 +190,26 @@ data class VKApiConfig(
             customJsonResponseTypeConverters -= converter
         }
 
+        fun setAccessTokenRefresher(refresher: AccessTokenRefresher) = apply {
+            config = config.copy(accessTokenRefresher = lazy { refresher })
+        }
+
         fun build(): VKApiConfig {
             return config.copy(customJsonResponseTypeConverters = customJsonResponseTypeConverters)
         }
+    }
+
+    enum class EndpointPathName(val pathName: String) {
+        METHOD("/method"),
+        EMPTY("")
     }
 
     companion object {
         const val DEFAULT_LANGUAGE = "en"
         const val DEFAULT_API_VERSION = "5.131"
 
+        val DEFAULT_DOMAIN: String
+            get() = "vk.com"
         val DEFAULT_API_DOMAIN: String
             get() = "api.${VKHost.host}"
         val DEFAULT_OAUTH_DOMAIN: String
@@ -184,6 +217,6 @@ data class VKApiConfig(
         val DEFAULT_STATIC_DOMAIN: String
             get() = "static.${VKHost.host}"
         val DEFAULT_API_ENDPOINT: String
-            get() = "https://${VKHost.host}/method"
+            get() = "https://${DEFAULT_API_DOMAIN}/method"
     }
 }

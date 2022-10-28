@@ -59,8 +59,8 @@ class VKCaptchaActivity: Activity() {
 
         val layout = LinearLayout(this)
         val padding = VKUtils.dp(12)
-        val imageWidth = (130f * Math.max(1f, VKUtils.density())).toInt()
-        val imageHeight = (50f * Math.max(1f, VKUtils.density())).toInt()
+        val imageWidth = (getWidth() * Math.max(1f, VKUtils.density())).toInt()
+        val imageHeight = (getHeight() * Math.max(1f, VKUtils.density())).toInt()
         layout.setPadding(padding, padding, padding, padding)
         layout.orientation = LinearLayout.VERTICAL
         layout.gravity = Gravity.CENTER_HORIZONTAL
@@ -145,6 +145,15 @@ class VKCaptchaActivity: Activity() {
         finish()
     }
 
+    private fun getHeight(): Float = getValidSizeFromIntent(KEY_HEIGHT, CAPTCHA_DEFAULT_HEIGHT)
+
+    private fun getWidth(): Float = getValidSizeFromIntent(KEY_WIDTH, CAPTCHA_DEFAULT_WIDTH)
+
+    private fun getValidSizeFromIntent(key: String, defaultValue: Float) : Float {
+        val size = intent.getIntExtra(key, -1)
+        return if (size <= 0) defaultValue else size.toFloat()
+    }
+
     override fun onDestroy() {
         VKValidationLocker.signal()
         super.onDestroy()
@@ -153,13 +162,20 @@ class VKCaptchaActivity: Activity() {
     companion object {
         var lastKey: String? = null
 
-        private const val KEY_URL = "key_url"
+        const val CAPTCHA_DEFAULT_HEIGHT = 50f
+        const val CAPTCHA_DEFAULT_WIDTH = 130f
 
-        fun start(context: Context, img: String) {
+        private const val KEY_URL = "key_url"
+        private const val KEY_HEIGHT = "key_height"
+        private const val KEY_WIDTH = "key_width"
+
+        fun start(context: Context, img: String, height: Int? = null, width: Int? = null) {
             VKScheduler.runOnMainThread(Runnable {
                 val intent = Intent(context, VKCaptchaActivity::class.java)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     .putExtra(KEY_URL, img)
+                    .putExtra(KEY_HEIGHT, height)
+                    .putExtra(KEY_WIDTH, width)
                 context.startActivity(intent)
             })
         }

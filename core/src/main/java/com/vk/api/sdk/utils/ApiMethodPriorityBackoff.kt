@@ -26,6 +26,17 @@ interface ApiMethodPriorityBackoff {
     fun processMethod(clientId: Int, methodName: String)
 
     /**
+     * Callback to be called after request finished its execution
+     * @param methodName api method name
+     */
+    fun onMethodCompleted(methodName: String)
+
+    /**
+     * Callback to be called after app start is completed
+     */
+    fun onStartUpCompleted()
+
+    /**
      * clears priority methods and notifies all waiting clients
      */
     fun clear()
@@ -40,6 +51,14 @@ interface ApiMethodPriorityBackoff {
             override fun shouldWait(methodName: String): Boolean = false
 
             override fun processMethod(clientId: Int, methodName: String) {
+                //do nothing
+            }
+
+            override fun onMethodCompleted(methodName: String) {
+                //do nothing
+            }
+
+            override fun onStartUpCompleted() {
                 //do nothing
             }
 

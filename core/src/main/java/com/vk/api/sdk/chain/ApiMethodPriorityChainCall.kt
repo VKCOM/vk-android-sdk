@@ -36,6 +36,13 @@ class ApiMethodPriorityChainCall<T>(
             }
             priorityBackoff.processMethod(chainId, method)
         }
-        return chain.call(args)
+        try {
+            val result = chain.call(args)
+            priorityBackoff.onMethodCompleted(method)
+            return result
+        } catch (e: Exception) {
+            priorityBackoff.onMethodCompleted(method)
+            throw e
+        }
     }
 }

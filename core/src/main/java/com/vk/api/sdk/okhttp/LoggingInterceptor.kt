@@ -23,6 +23,7 @@
  ******************************************************************************/
 package com.vk.api.sdk.okhttp
 
+import com.vk.api.sdk.utils.SecureInfoStripper
 import com.vk.api.sdk.utils.log.Logger
 import com.vk.api.sdk.utils.log.Logger.LogLevel
 import com.vk.api.sdk.utils.threadLocal
@@ -31,7 +32,7 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 
-class LoggingInterceptor(
+open class LoggingInterceptor(
     private val filterCredentials: Boolean,
     private val keysToFilter: Collection<String>,
     private val logger: Logger,
@@ -40,7 +41,7 @@ class LoggingInterceptor(
     // For backward compatibility
     constructor(filterCredentials: Boolean, logger: Logger) : this(
         filterCredentials,
-        listOf("access_token", "key", "client_secret"),
+        listOf("access_token", "key", "client_secret", "webview_access_token", "webview_refresh_token"),
         logger,
         DefaultLoggingPrefixer()
     )
@@ -54,48 +55,19 @@ class LoggingInterceptor(
 
     constructor(filterCredentials: Boolean, logger: Logger, loggingPrefixer: LoggingPrefixer) : this(
         filterCredentials,
-        listOf("access_token", "key", "client_secret"),
+        listOf("access_token", "key", "client_secret", "webview_access_token", "webview_refresh_token"),
         logger,
         loggingPrefixer
     )
 
-    // (key1|key2|...)=[a-z0-9]+
-    private val sensitiveKeysRequestRegex: Regex by lazy {
-        val pattern = StringBuilder().apply {
-            append("(")
-            append(keysToFilter.joinToString("|"))
-            append(")=[a-z0-9]+")
-        }.toString()
-
-        Regex(pattern, RegexOption.IGNORE_CASE)
-    }
-    private val sensitiveKeyRequestTransformer: (MatchResult) -> CharSequence by lazy {
-        { match: MatchResult ->
-            "${match.groupValues[1]}=<HIDE>"
-        }
+    private val secureInfoStripper: SecureInfoStripper by lazy {
+        SecureInfoStripper.generateBaseStripper(keysToFilter)
     }
 
-    // "(key1|key2|...)":[a-z0-9]+
-    private val sensitiveKeysResponseRegex: Regex by lazy {
-        val pattern = StringBuilder().apply {
-            append("\"(")
-            append(keysToFilter.joinToString("|"))
-            append(")\":\"[a-z0-9]+\"")
-        }.toString()
-
-        Regex(pattern, RegexOption.IGNORE_CASE)
-    }
-    private val sensitiveKeysResponseTransformer: (MatchResult) -> CharSequence by lazy {
-        { match: MatchResult ->
-            "\"${match.groupValues[1]}\":<HIDE>"
-        }
-    }
-
-    // {"key":[a-z0-9]+,"value":...} key extractor from message hidden by regex above
+    // {"key":[a-z0-9._-]+,"value":...} key extractor from message hidden by regex above
     private val kvKeysExtractorPattern: Regex by lazy {
-        Regex("\\{\"key\":\"([a-z0-9]+)\",\"value\":\"[^\"]*\"", RegexOption.IGNORE_CASE)
+        Regex("\\{\"key\":\"(${SecureInfoStripper.SENSITIVE_VALUE_PATTERN})\",\"value\":\"[^\"]*\"", RegexOption.IGNORE_CASE)
     }
-
     // {"key":<HIDE>,"value":[a-z0-9]+} restores hidden key name
     private val kvKeysRestorePattern: Regex by lazy {
         Regex("(\\{\"key\":)<HIDE>(,\"value\":\"[^\"]*\")", RegexOption.IGNORE_CASE)
@@ -103,22 +75,6 @@ class LoggingInterceptor(
     private val restoreKVKeysTransformer: (MatchResult, String) -> CharSequence by lazy {
         { match: MatchResult, key: String ->
             "${match.groupValues[1]}\"$key\"${match.groupValues[2]}"
-        }
-    }
-
-    // {"key":(key1|key2|...),"value":"[a-z0-9]+"}
-    private val sensitiveKeyValuesResponseRegex: Regex by lazy {
-        val pattern = StringBuilder().apply {
-            append("\\{\"key\":\"(")
-            append(keysToFilter.joinToString("|"))
-            append(")\",\"value\":\"[a-z0-9]+\"")
-        }.toString()
-
-        Regex(pattern, RegexOption.IGNORE_CASE)
-    }
-    private val sensitiveKeyValuesResponseTransformer: (MatchResult) -> CharSequence by lazy {
-        { match: MatchResult ->
-            "\"${match.groupValues[1]}:<HIDE>\"}"
         }
     }
 
@@ -149,8 +105,11 @@ class LoggingInterceptor(
             else -> levelsMap[logLevel.level]
         }!!
         prefix.set(loggingPrefixer.getPrefix())
-        return delegate.intercept(chain)
+        return proceedLoggingChain(chain, delegate)
     }
+
+    protected open fun proceedLoggingChain(chain: Interceptor.Chain, logInterceptor: Interceptor): Response =
+        logInterceptor.intercept(chain)
 
     // extracting keys, which will be hidden by sensitiveKeysResponseRegex ({"key":"keyname","value":...})
     // applying sensitiveKeysRequestRegex + sensitiveKeysResponseRegex
@@ -160,16 +119,14 @@ class LoggingInterceptor(
         val hiddenKVKeys = kvKeysExtractorPattern.findAll(msg)
             .map { it.groupValues[1].lowercase() }
             .iterator()
-        return msg
-            .replace(sensitiveKeysRequestRegex, sensitiveKeyRequestTransformer)
-            .replace(sensitiveKeysResponseRegex, sensitiveKeysResponseTransformer)
+
+        return secureInfoStripper.strip(msg)
             .replace(kvKeysRestorePattern) { matchResult: MatchResult ->
                 restoreKVKeysTransformer(matchResult, hiddenKVKeys.next())
             }
-            .replace(sensitiveKeyValuesResponseRegex, sensitiveKeyValuesResponseTransformer)
     }
 
-    companion object {
+    private companion object {
         private val levelsMap = mapOf(
                 LogLevel.NONE.level to Level.NONE,
                 LogLevel.ERROR.level to Level.NONE,

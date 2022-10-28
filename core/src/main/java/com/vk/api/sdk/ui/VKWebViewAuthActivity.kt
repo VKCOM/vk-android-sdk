@@ -30,14 +30,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.net.http.SslError
+import android.net.http.SslError.*
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import com.vk.api.sdk.R
@@ -49,6 +48,7 @@ import com.vk.api.sdk.exceptions.VKApiCodes
 import com.vk.api.sdk.extensions.toActivitySafe
 import com.vk.api.sdk.utils.VKUtils
 import com.vk.api.sdk.utils.VKValidationLocker
+import javax.net.ssl.TrustManagerFactory
 
 /**
  * Activity for showing authorization or validation WebView
@@ -219,6 +219,16 @@ open class VKWebViewAuthActivity: Activity() {
             }
         }
 
+        override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+            super.onReceivedSslError(view, handler, error)
+            val url = error?.url.orEmpty()
+            val errorCode = ERROR_FAILED_SSL_HANDSHAKE
+            Log.w(LOG_TAG, "$errorCode:ssl_exception:$url")
+            if (webView.url == url) {
+                onError(errorCode)
+            }
+        }
+
         private fun onError(errorCode: Int) {
             hasError = true
 
@@ -240,7 +250,8 @@ open class VKWebViewAuthActivity: Activity() {
             val token = uri.getQueryParameter("access_token")
             val secret = uri.getQueryParameter("secret")
             val userId = uri.getQueryParameter("user_id")?.toInt()
-            VKApiValidationHandler.Credentials(secret, token, userId)
+            val expiresInSec = uri.getQueryParameter("expires_in")?.toIntOrNull() ?: 0
+            VKApiValidationHandler.Credentials(secret, token, userId, expiresInSec, System.currentTimeMillis())
         } else {
             VKApiValidationHandler.Credentials.EMPTY
         }

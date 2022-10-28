@@ -33,22 +33,26 @@ import java.util.concurrent.atomic.AtomicReference
  */
 interface VKApiValidationHandler {
     /**
-     * This method will called, when user should enter captcha text
+     * This method will be called, when user should enter captcha text
      */
-    fun handleCaptcha(img: String, cb: Callback<String>)
+    fun handleCaptcha(captcha: Captcha, cb: Callback<String>)
     /**
-     * This method will called, when auth validation required
+     * This method will be called, when auth validation required
      */
     fun handleValidation(validationUrl: String, cb: Callback<Credentials>)
     /**
-     * This method will called, when confirmation from user required
+     * This method will be called, when confirmation from user required
      */
     fun handleConfirm(confirmationText: String, cb: Callback<Boolean>)
     /**
-     * This method will called, when no other method can handle exception
+     * This method will be called, when no other method can handle exception
      */
     @Throws(VKApiExecutionException::class)
     fun tryToHandleException(ex: VKApiExecutionException, apiManager: VKApiManager): Unit = throw ex
+    /**
+     * This method will be called, when user solved captcha
+     */
+    fun handleCaptchaSolved() = Unit
 
     open class Callback<T>(val lock: ValidationLock) {
         @Volatile var value: T? = null
@@ -60,11 +64,11 @@ interface VKApiValidationHandler {
         }
     }
 
-    class Credentials(val secret: String?, val token: String?, val uid: Int?) {
+    class Credentials(val secret: String?, val token: String?, val uid: Int?, val expiresInSec: Int, val createdMs: Long) {
         val isValid = !token.isNullOrBlank()
 
         companion object {
-            val EMPTY = Credentials("", "", null)
+            val EMPTY = Credentials("", "", null, 0, 0)
         }
     }
 
@@ -83,4 +87,10 @@ interface VKApiValidationHandler {
             latchRef.getAndSet(null)?.countDown() ?: throw NullPointerException("Latch is null!")
         }
     }
+
+    data class Captcha(
+        val img: String,
+        val height: Int?,
+        val width: Int?
+    )
 }

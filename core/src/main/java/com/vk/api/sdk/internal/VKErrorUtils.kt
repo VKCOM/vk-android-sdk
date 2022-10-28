@@ -69,6 +69,8 @@ object VKErrorUtils {
                     val extra = Bundle()
                     extra.putString(VKApiCodes.EXTRA_CAPTCHA_SID, errorJson.getString(VKApiCodes.EXTRA_CAPTCHA_SID))
                     extra.putString(VKApiCodes.EXTRA_CAPTCHA_IMG, errorJson.getString(VKApiCodes.EXTRA_CAPTCHA_IMG))
+                    extra.putInt(VKApiCodes.EXTRA_CAPTCHA_IMG_HEIGHT, errorJson.optInt(VKApiCodes.EXTRA_CAPTCHA_IMG_HEIGHT))
+                    extra.putInt(VKApiCodes.EXTRA_CAPTCHA_IMG_WIDTH, errorJson.optInt(VKApiCodes.EXTRA_CAPTCHA_IMG_WIDTH))
                     extra
                 }
                 VKApiCodes.CODE_USER_VALIDATION_REQUIRED -> {
@@ -130,7 +132,8 @@ object VKErrorUtils {
                     VKApiCodes.CODE_TOO_MANY_SIMILAR_REQUESTS,
                     VKApiCodes.CODE_INVALID_SIGNATURE,
                     VKApiCodes.CODE_TOKEN_CONFIRMATION_REQUIRED,
-                    VKApiCodes.CODE_AUTHORIZATION_FAILED -> {
+                    VKApiCodes.CODE_AUTHORIZATION_FAILED,
+                    VKApiCodes.CODE_ERROR_USER_DEACTIVATED -> {
                         return parsedError
                     }
                     else -> {

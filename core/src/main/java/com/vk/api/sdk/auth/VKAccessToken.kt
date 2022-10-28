@@ -31,34 +31,43 @@ import com.vk.dto.common.id.toUserId
 import java.util.*
 
 class VKAccessToken(params: Map<String, String?>) {
-    internal constructor(userId: UserId, accessToken: String, secret: String?) : this(
-            mapOf(USER_ID to userId.toString(),
-                  ACCESS_TOKEN to accessToken,
-                  SECRET to secret,
-                  HTTPS_REQUIRED to "1"
-            )
+    constructor(
+        userId: UserId,
+        accessToken: String,
+        secret: String?,
+        expiresInSec: Int,
+        createdMs: Long
+    ) : this(
+        mapOf(
+            USER_ID to userId.toString(),
+            ACCESS_TOKEN to accessToken,
+            SECRET to secret,
+            EXPIRES_IN to expiresInSec.toString(),
+            CREATED to createdMs.toString(),
+            HTTPS_REQUIRED to "1"
+        )
     )
 
     val userId: UserId
     val accessToken: String
     val secret: String?
-    val created: Long
+    val createdMs: Long
     val email: String?
     val phone: String?
     val phoneAccessKey: String?
+    val expiresInSec: Int
     private val httpsRequired: Boolean
-    private val expirationDate: Long
 
     val isValid: Boolean
-        get() = expirationDate <= 0 || created + expirationDate * 1000 > System.currentTimeMillis()
+        get() = expiresInSec <= 0 || createdMs + expiresInSec * 1000 > System.currentTimeMillis()
 
     init {
         this.userId = params[USER_ID]?.toLong()?.toUserId()!!
         this.accessToken = params[ACCESS_TOKEN]!!
         this.secret = params[SECRET]
         this.httpsRequired = "1" == params[HTTPS_REQUIRED]
-        this.created = if (params.containsKey(CREATED)) params[CREATED]!!.toLong() else System.currentTimeMillis()
-        this.expirationDate = if (params.containsKey(EXPIRES_IN)) params[EXPIRES_IN]!!.toLong() else -1
+        this.createdMs = if (params.containsKey(CREATED)) params[CREATED]!!.toLong() else System.currentTimeMillis()
+        this.expiresInSec = if (params.containsKey(EXPIRES_IN)) params[EXPIRES_IN]!!.toInt() else -1
         this.email = if (params.containsKey(EMAIL)) params[EMAIL] else null
         this.phone = if (params.containsKey(PHONE)) params[PHONE] else null
         this.phoneAccessKey = if (params.containsKey(PHONE_ACCESS_KEY)) params[PHONE_ACCESS_KEY] else null
@@ -85,8 +94,8 @@ class VKAccessToken(params: Map<String, String?>) {
         result[ACCESS_TOKEN] = accessToken
         result[SECRET] = secret
         result[HTTPS_REQUIRED] = if (httpsRequired) "1" else "0"
-        result[CREATED] = created.toString()
-        result[EXPIRES_IN] = expirationDate.toString()
+        result[CREATED] = createdMs.toString()
+        result[EXPIRES_IN] = expiresInSec.toString()
         result[USER_ID] = userId.toString()
         result[EMAIL] = email
         result[PHONE] = phone

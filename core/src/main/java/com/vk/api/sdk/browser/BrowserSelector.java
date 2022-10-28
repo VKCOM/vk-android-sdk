@@ -61,9 +61,9 @@ public final class BrowserSelector {
      * for installed web browsers on the system.
      */
     @VisibleForTesting
-    static final Intent BROWSER_INTENT = new Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse("http://www.example.com"));
+    static final Intent BROWSER_INTENT = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.example.com"))
+        .addCategory(Intent.CATEGORY_BROWSABLE)
+;
 
     /**
      * Retrieves the full list of browsers installed on the device. Two entries will exist

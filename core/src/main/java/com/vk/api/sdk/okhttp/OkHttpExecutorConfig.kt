@@ -42,6 +42,10 @@ class OkHttpExecutorConfig(private val apiConfig: VKApiConfig) {
         get() = apiConfig.accessToken.value
     val secret: String?
         get() = apiConfig.secret.value
+    val expiresInSec: Int
+        get() = apiConfig.expiresInSec.value
+    val createdMs: Long
+        get() = apiConfig.createdMs.value
     val okHttpProvider: VKOkHttpProvider
         get() = apiConfig.okHttpProvider
     val logFilterCredentials: Boolean
@@ -54,6 +58,12 @@ class OkHttpExecutorConfig(private val apiConfig: VKApiConfig) {
         get() = apiConfig.customApiEndpoint()
     val responseBodyJsonConverter: ResponseBodyJsonConverter
         get() = apiConfig.responseBodyJsonConverter
+    val expiresInReduceRatio: Double
+        get() = apiConfig.expiresInReduceRatioJson.invoke()
+            ?.optDouble(EXPIRES_IN_REDUCE_RATIO, 0.95)
+            ?.coerceAtMost(1.0)
+            ?.coerceAtLeast(0.2)
+            ?: 0.95
 
     init {
         Validation.assertContextValid(context)
@@ -66,4 +76,7 @@ class OkHttpExecutorConfig(private val apiConfig: VKApiConfig) {
             "secret='$secret', " +
             "logFilterCredentials=$logFilterCredentials)"
 
+    private companion object {
+        private const val EXPIRES_IN_REDUCE_RATIO = "reduce_ratio"
+    }
 }

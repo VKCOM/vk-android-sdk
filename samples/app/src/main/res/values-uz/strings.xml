@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="login">Войти</string>
-    <string name="logout">Выйти</string>
-    <string name="share_to_wall">Отправить на стену</string>
-    <string name="message_hint">Ваше сообщение</string>
-    <string name="wall_ok">Запись опубликована</string>
+    <string name="login">Kirish</string>
+    <string name="logout">Chiqish</string>
+    <string name="share_to_wall">Devorga jo‘natish</string>
+    <string name="message_hint">Xabaringiz</string>
+    <string name="wall_ok">Qayd chop etildi</string>
     <string name="message_connection_error">Bog\‘lanish xatosi</string>
     <string name="message_unknown_error">Noma\'lum xato, kechroq qayta urunib ko\‘ring</string>
 </resources>

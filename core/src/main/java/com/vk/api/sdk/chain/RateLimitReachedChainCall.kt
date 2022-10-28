@@ -1,12 +1,10 @@
 package com.vk.api.sdk.chain
 
-import android.content.Context
-import android.os.SystemClock
 import com.vk.api.sdk.VKApiManager
 import com.vk.api.sdk.exceptions.RateLimitReachedException
 import com.vk.api.sdk.exceptions.VKApiCodes
 import com.vk.api.sdk.exceptions.VKApiExecutionException
-import com.vk.api.sdk.utils.RateLimitTokenBackoff
+import com.vk.api.sdk.utils.TokenExponentialBackoff
 
 /**
  * chain call which handles [VKApiCodes.CODE_RATE_LIMIT_REACHED] error code
@@ -23,7 +21,7 @@ import com.vk.api.sdk.utils.RateLimitTokenBackoff
 class RateLimitReachedChainCall<T>(
     manager: VKApiManager,
     private val method: String,
-    private val backoff: RateLimitTokenBackoff,
+    private val backoff: TokenExponentialBackoff,
     private val chainCall: ChainCall<T>
 ): ChainCall<T>(manager) {
 
@@ -32,9 +30,10 @@ class RateLimitReachedChainCall<T>(
             throw RateLimitReachedException(method, DETAIL_MESSAGE)
         }
 
-        backoff.reset(method)
         try {
-            return chainCall.call(args)
+            return chainCall.call(args).also {
+                backoff.reset(method)
+            }
         } catch (ex: VKApiExecutionException) {
             if (ex.isRateLimitReachedError) {
                 backoff.backoff(method)

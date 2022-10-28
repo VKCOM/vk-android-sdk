@@ -101,6 +101,7 @@ object VKApiCodes {
     const val CODE_CHAT_INVITE_MAKE_LINK_DENIED = 919
     const val CODE_MSG_DELETE_FOR_ALL_FAILED = 924
     const val CODE_CHAT_NOT_ADMIN = 925
+    const val CODE_CHAT_DOES_NOT_EXIST = 927
     const val CODE_CHAT_MR_ALREADY_SEND = 939
     const val CODE_ADD_CHAT_MEMBER_ACCESS_TO_GROUP_DENIED = 947
     const val CODE_CALL_HAS_BEEN_FINISHED = 951
@@ -109,6 +110,7 @@ object VKApiCodes {
     const val CODE_TOO_MANY_CONTACTS_TO_SYNC = 937
 
     const val CODE_INVALID_NAME = 953
+    const val CODE_INVALID_JOIN_LINK = 954
     const val CODE_INVALID_AUDIO_TRANSCRIPTION = 959
 
     const val CODE_CALL_REQUIRES_AUTH = 960
@@ -116,8 +118,19 @@ object VKApiCodes {
     const val CODE_CHAT_ALREADY_IN_ARCHIVE = 964
     const val CODE_CHAT_NOT_IN_ARCHIVE = 965
 
+    const val CODE_TRANSLATE_UNSUPPORTED_LANGUAGE = 968
+    const val CODE_TRANSLATE_INVALID_MESSAGE = 971
+    const val CODE_TRANSLATE_CANT_TRANSLATE = 972
+    const val CODE_TRANSLATE_INVALID_LANGUAGES = 973
+
+    const val CODE_FOLDER_NOT_FOUND = 974
+    const val CODE_FOLDERS_LIMIT_REACHED = 975
+    const val CODE_FOLDER_CONVERSATIONS_LIMIT_REACHED = 976
+    const val CODE_OUTDATED_ROOM_LINK = 977
+
     const val CODE_PHONE_PARAM_PHONE = 1000
     const val CODE_PHONE_ALREADY_USED = 1004
+    const val CODE_ALREADY_IN_CALL = 1008
     const val CODE_PHONE_AUTH_DELAY = 1112
     const val CODE_INVALID_SID = 1113
     const val CODE_SIGN_UP_CODE_INCORRECT = 1110
@@ -125,6 +138,7 @@ object VKApiCodes {
     const val CODE_ANONYM_TOKEN_EXPIRED = 1114
     const val CODE_SUPER_APP_TOKEN_INVALID = 1115
     const val CODE_ANONYM_TOKEN_INVALID = 1116
+    const val CODE_ACCESS_TOKEN_EXPIRED = 1117
     const val CODE_STICKERS_DISABLED = 1191
 
     const val CODE_ERROR_APPS_MENU_TOO_MANY_APPS = 1259
@@ -148,6 +162,7 @@ object VKApiCodes {
     const val CODE_COMMUNITY_NOT_FOUND = 4519
     const val CODE_INVALID_PHOTO_ID = 4520
     const val CODE_PHOTO_ACCESS_ERROR = 4525
+    const val CODE_ERROR_USER_IS_LOCKED = 4526
     const val CODE_PRODUCT_DUPLICATE_ERROR = 4527
 
     const val CODE_ERROR_UPLOAD_PHOTO_DECODE_FAILED = 4600
@@ -156,10 +171,19 @@ object VKApiCodes {
 
     const val CODE_ERROR_UNAVAILABLE_REGISTRATION = 5400
     const val CODE_ERROR_CANNOT_TRANSFER_MONEY_YOURSELF = 5800
+    const val CODE_ERROR_TOO_MANY_PROFILE_BUTTONS = 1262
+
+    const val CODE_CHANNEL_IN_ARCHIVE = 3
+    const val CODE_CHANNEL_NOT_IN_ARCHIVE = 3
+
+    const val CODE_CHANNEL_INVITE_LINK_INVALID = 7401
+    const val CODE_CHANNEL_USER_ALREADY_JOINED = 7402
 
     const val EXTRA_CAPTCHA_SID = "captcha_sid"
     const val EXTRA_CAPTCHA_KEY = "captcha_key"
     const val EXTRA_CAPTCHA_IMG = "captcha_img"
+    const val EXTRA_CAPTCHA_IMG_HEIGHT = "captcha_height"
+    const val EXTRA_CAPTCHA_IMG_WIDTH = "captcha_width"
     const val EXTRA_CONFIRM = "confirm"
     const val EXTRA_VALIDATION_URL = "validation_url"
     const val EXTRA_USER_BAN_INFO = "user_ban_info"

@@ -24,13 +24,15 @@
 
 package com.vk.api.sdk
 
+import com.vk.api.sdk.auth.VKAuthAnonymousTokenBarrier
 import com.vk.api.sdk.chain.*
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.internal.ApiCommand
 import com.vk.api.sdk.okhttp.OkHttpExecutor
 import com.vk.api.sdk.okhttp.OkHttpExecutorConfig
 import com.vk.api.sdk.okhttp.OkHttpMethodCall
-import com.vk.api.sdk.utils.RateLimitTokenBackoff
+import com.vk.api.sdk.utils.TokenExponentialBackoff
+import com.vk.api.sdk.tokenrefresh.AccessTokenRefreshActionInternal
 import com.vk.api.sdk.utils.tmr.TooManyRequestBackoffGlobal
 import java.io.IOException
 
@@ -39,12 +41,15 @@ import java.io.IOException
  */
 @Suppress("UseExpressionBody")
 open class VKApiManager(val config: VKApiConfig) {
-    private val rateLimitBackoff by lazy {
-        RateLimitTokenBackoff(
-            store = RateLimitTokenBackoff.TokenPrefStore(config.context),
-            minBackoffTime = config.rateLimitBackoffTimeoutMs
+    private val tokenBackoff by lazy {
+        TokenExponentialBackoff(
+            store = TokenExponentialBackoff.TokenPrefStore(config.context),
+            minBackoffTime = config.minRateLimitBackoffTimeoutMs,
+            maxBackoffTime = config.maxRateLimitBackoffTimeoutMs,
         )
     }
+
+    val anonymousTokenGetterBarrier = VKAuthAnonymousTokenBarrier()
 
     val validationLock = VKApiValidationHandler.ValidationLock()
 
@@ -55,13 +60,17 @@ open class VKApiManager(val config: VKApiConfig) {
     @Volatile
     var illegalCredentialsListener: VKApiIllegalCredentialsListener? = null
 
+    val accessTokenRefreshActionInternal: AccessTokenRefreshActionInternal by lazy { AccessTokenRefreshActionInternal(this) }
+
+    var credentialsChangeListener: ApiCredentialsChangeListener? = null
+
     /**
      * Override credentials
      * @param accessToken
      * @param secret
      */
-    fun setCredentials(accessToken: String, secret: String?) {
-        executor.setCredentials(accessToken, secret)
+    fun setCredentials(accessToken: String, secret: String?, expiresInSec: Int, createdMs: Long) {
+        executor.setCredentials(accessToken, secret, expiresInSec, createdMs)
     }
 
     /**
@@ -109,9 +118,10 @@ open class VKApiManager(val config: VKApiConfig) {
         cc = ApiMethodPriorityChainCall(this, cc, call, config.apiMethodPriorityBackoff)
         cc = InvalidCredentialsObserverChainCall(this, cc, 1)
         cc = createTooManyRequestRetryChainCall(call, cc)
-        cc = RateLimitReachedChainCall(this, call.method, rateLimitBackoff, cc)
+        cc = RateLimitReachedChainCall(this, call.method, tokenBackoff, cc)
+        cc = InternalErrorChainCall(this, call.method, tokenBackoff, cc)
         if (call.retryCount > 0) {
-            cc = InternalErrorRetryChainCall(this, call.retryCount, cc)
+            cc = ErrorRetryChainCall(this, call.retryCount, cc)
         }
         return cc
     }
@@ -127,7 +137,7 @@ open class VKApiManager(val config: VKApiConfig) {
     protected open fun <T> wrapCall(call: VKHttpPostCall, chainCall: ChainCall<T>): ChainCall<T> {
         var cc: ChainCall<T> = createValidationHandlerChainCall(call.retryCount, chainCall)
         if (call.retryCount > 0) {
-            cc = InternalErrorRetryChainCall(this, call.retryCount, cc)
+            cc = ErrorRetryChainCall(this, call.retryCount, cc)
         }
         return cc
     }

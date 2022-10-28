@@ -139,8 +139,8 @@ API Requests
 Run request with VK.execute and auto generated methods(android-sdk-api dependency is required):
 
 ```kotlin
-VK.execute(FriendsService().friendsGet(fields = fields), object: VKApiCallback<FriendsGetFieldsResponse> {
-            override fun success(result: FriendsGetFieldsResponse) {
+VK.execute(FriendsService().friendsGet(fields = fields), object: VKApiCallback<FriendsGetFieldsResponseDto> {
+            override fun success(result: FriendsGetFieldsResponseDto) {
                 // you stuff is here
             }
             override fun fail(error: Exception) {
@@ -201,10 +201,10 @@ class VKUsersCommand(private val uids: IntArray = intArrayOf()): ApiCommand<List
         const val CHUNK_LIMIT = 900
     }
 
-    private class ResponseApiParser : VKApiResponseParser<List<VKUser>> {
-        override fun parse(response: String): List<VKUser> {
+    private class ResponseApiParser : VKApiJSONResponseParser<List<VKUser>> {
+        override fun parse(responseJson: JSONObject): List<VKUser> {
             try {
-                val ja = JSONObject(response).getJSONArray("response")
+                val ja = responseJson.getJSONArray("response")
                 val r = ArrayList<VKUser>(ja.length())
                 for (i in 0 until ja.length()) {
                     val user = VKUser.parse(ja.getJSONObject(i))

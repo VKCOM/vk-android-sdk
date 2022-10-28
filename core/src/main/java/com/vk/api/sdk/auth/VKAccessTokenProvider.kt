@@ -5,4 +5,5 @@ interface VKAccessTokenProvider {
     fun setToken(token: String)
     fun clear()
     fun isUsed(): Boolean
+    fun signTokenAndSet() = Unit
 }

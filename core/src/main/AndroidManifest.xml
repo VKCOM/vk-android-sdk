@@ -23,6 +23,7 @@
 # ****************************************************************************** -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.vk.api.sdk">
 
     <queries>
@@ -54,8 +55,8 @@
             android:name="com.vk.api.sdk.internal.VKInitProvider"
             android:exported="false"
             android:enabled="@bool/com_vk_sdk_init_provider_enabled"/>
-        <meta-data android:name="VKSdkVersion" android:value="${VKSdkVersion}"/>
-        <meta-data android:name="VKSdkVersionCode" android:value="${VKSdkVersionCode}"/>
+        <meta-data android:name="VKSdkVersion" android:value="${VKSdkVersion}" tools:node="replace"/>
+        <meta-data android:name="VKSdkVersionCode" android:value="${VKSdkVersionCode}" tools:node="replace"/>
     </application>
 
 </manifest>

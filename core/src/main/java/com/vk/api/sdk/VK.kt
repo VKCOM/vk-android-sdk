@@ -25,23 +25,20 @@
 package com.vk.api.sdk
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import com.vk.api.sdk.auth.*
-import com.vk.api.sdk.auth.VKAuthManager
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKApiExecutionException
 import com.vk.api.sdk.internal.ApiCommand
 import com.vk.api.sdk.requests.VKBooleanRequest
+import com.vk.api.sdk.utils.DefaultUserAgent
 import com.vk.api.sdk.utils.VKUrlResolver
 import com.vk.api.sdk.utils.VKUtils
-import com.vk.api.sdk.utils.DefaultUserAgent
 import com.vk.dto.common.id.UserId
 import java.io.IOException
 
@@ -76,24 +73,17 @@ object VK {
     fun setConfig(config: VKApiConfig) {
         this.config = config
         apiManager = VKApiManager(config)
-        authManager = VKAuthManager(config.keyValueStorage)
 
         apiManager.setCredentials(VKApiCredentials.lazyFrom { authManager.getCurrentToken() })
     }
 
     /**
-     * This method starts authorization process. If VK app is available in the system, it will be opened
+     * This method register callback for authorization process.
+     * If VK app is available in the system, it will be opened
      * Otherwise, WebView with vk.com will be used
      * @param activity current activity
-     * @param scopes list of scopes required for app
+     * @param callback callback with authentication result
      */
-    @Deprecated("Use login with usage of ActivityResultLauncher")
-    @JvmStatic
-    @JvmOverloads
-    fun login(activity: Activity, scopes: Collection<VKScope> = emptySet()) {
-        authManager.login(activity, scopes)
-    }
-
     @JvmStatic
     fun login(
         activity: ComponentActivity,
@@ -113,11 +103,11 @@ object VK {
      * If you pass {@code false} you will not able to use sdk execute methods!
      */
     @JvmStatic
-    fun setCredentials(context: Context, userId: UserId, accessToken: String, secret: String?, saveAccessTokenToStorage: Boolean = true) {
+    fun setCredentials(userId: UserId, accessToken: String, secret: String?, expiresInSec: Int, createdMs: Long, saveAccessTokenToStorage: Boolean = true) {
         if (saveAccessTokenToStorage) {
-            VKAccessToken(userId, accessToken, secret).save(config.keyValueStorage)
+            VKAccessToken(userId, accessToken, secret, expiresInSec, createdMs).save(config.keyValueStorage)
         }
-        apiManager.setCredentials(accessToken, secret)
+        apiManager.setCredentials(accessToken, secret, expiresInSec, createdMs)
     }
 
     /**
@@ -128,8 +118,8 @@ object VK {
      * @param secret secret for future requests
      */
     @JvmStatic
-    fun saveAccessToken(context: Context, userId: UserId, accessToken: String, secret: String?) {
-        setCredentials(context, userId, accessToken, secret, true)
+    fun saveAccessToken(userId: UserId, accessToken: String, secret: String?, expiresInSec: Int, createdMs: Long) {
+        setCredentials(userId, accessToken, secret, expiresInSec, createdMs, true)
     }
 
     /**
@@ -158,28 +148,6 @@ object VK {
      */
     @JvmStatic
     fun getApiVersion() = config.version
-
-
-    /**
-     * Use this method to handle authorization result from your activity
-     */
-    @JvmStatic
-    @JvmOverloads
-    @Deprecated("Use new api for getting a result from an activity instead")
-    fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?,
-        callback: VKAuthCallback,
-        showErrorToast: Boolean = true
-    ): Boolean {
-        val result = authManager.onActivityResult(config.context, requestCode, resultCode, data, callback, showErrorToast)
-        if (result && isLoggedIn()) {
-            trackVisitor()
-        }
-        return result
-    }
-
 
     /**
      * Add your custom token expiration handler

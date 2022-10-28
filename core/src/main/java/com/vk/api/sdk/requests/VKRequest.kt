@@ -24,7 +24,6 @@
 
 package com.vk.api.sdk.requests
 
-import android.util.Log
 import com.vk.api.sdk.VKApiConfig
 import com.vk.api.sdk.VKApiJSONResponseParser
 import com.vk.api.sdk.VKApiManager
@@ -50,6 +49,9 @@ open class VKRequest<T>(var method: String, val requestApiVersion: String? = nul
 
     @Volatile
     protected var isAnonymous: Boolean = false
+        private set
+
+    @Volatile var endpointPath: VKApiConfig.EndpointPathName = VKApiConfig.EndpointPathName.METHOD
         private set
 
     val params = LinkedHashMap<String, String>()
@@ -88,6 +90,7 @@ open class VKRequest<T>(var method: String, val requestApiVersion: String? = nul
         val callBuilder = createBaseCallBuilder(config)
                 .args(params)
                 .method(method)
+                .setEndpointPath(endpointPath)
                 .version(version)
                 .setAnonymous(isAnonymous)
                 .allowNoAuth(allowNoAuth)
@@ -100,6 +103,13 @@ open class VKRequest<T>(var method: String, val requestApiVersion: String? = nul
     open fun allowNoAuth() = apply { allowNoAuth = true }
 
     open fun setAnonymous(allow: Boolean) = apply { isAnonymous = allow }
+
+    /**
+     * Include or exclude word method in request
+     * As example with include https://api.vk.com/method/get_count
+     * Or with exclude https://api.vk.com/get_count
+     */
+    open fun setEndpointPath(endpointPath: VKApiConfig.EndpointPathName) = apply { this.endpointPath = endpointPath }
 
     protected open fun createBaseCallBuilder(config: VKApiConfig): VKMethodCall.Builder {
         return VKMethodCall.Builder()

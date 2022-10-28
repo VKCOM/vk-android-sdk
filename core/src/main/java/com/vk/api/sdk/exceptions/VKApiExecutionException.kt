@@ -54,6 +54,9 @@ open class VKApiExecutionException
     val isCompositeError: Boolean
         get() = code == VKApiCodes.CODE_COMPOSITE_EXECUTE_ERROR
 
+    val isChatDoesNotExistError: Boolean
+        get() = code == VKApiCodes.CODE_CHAT_DOES_NOT_EXIST
+
     val isAccessError: Boolean
         get() {
             return when (code) {
@@ -118,11 +121,20 @@ open class VKApiExecutionException
     val isRateLimitReachedError: Boolean
         get() = code == VKApiCodes.CODE_RATE_LIMIT_REACHED
 
+    val isAccessTokenExpired: Boolean
+        get() = code == VKApiCodes.CODE_ACCESS_TOKEN_EXPIRED
+
     val captchaSid: String
         get() = extra?.getString(VKApiCodes.EXTRA_CAPTCHA_SID, "") ?: ""
 
     val captchaImg: String
         get() = extra?.getString(VKApiCodes.EXTRA_CAPTCHA_IMG, "") ?: ""
+
+    val captchaHeight: Int
+        get() = extra?.getInt(VKApiCodes.EXTRA_CAPTCHA_IMG_HEIGHT, -1) ?: -1
+
+    val captchaWidth: Int
+        get() = extra?.getInt(VKApiCodes.EXTRA_CAPTCHA_IMG_WIDTH, -1) ?: -1
 
     val validationUrl: String
         get() = extra?.getString(VKApiCodes.EXTRA_VALIDATION_URL, "") ?: ""

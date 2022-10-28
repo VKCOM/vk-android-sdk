@@ -34,29 +34,9 @@ import com.vk.api.sdk.VKKeyValueStorage
 import com.vk.api.sdk.exceptions.VKApiCodes
 import com.vk.api.sdk.exceptions.VKAuthException
 import com.vk.api.sdk.extensions.showToast
-import com.vk.api.sdk.ui.VKWebViewAuthActivity
 import com.vk.api.sdk.utils.VKUtils
-import java.util.*
 
 internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
-    fun login(activity: Activity, scopes: Collection<VKScope>) {
-        val params = VKAuthParams(VK.getAppId(activity), scope = prepareScopes(scopes))
-        if (VKUtils.isIntentAvailable(activity, VK_APP_AUTH_ACTION, null, VK_APP_PACKAGE_ID)) {
-            startAuthActivity(activity, params)
-        } else {
-            // start dialog with webview
-            startInternalAuthActivity(activity, params)
-        }
-    }
-
-    private fun startAuthActivity(activity: Activity, params: VKAuthParams) {
-        val intent = createVKClientAuthIntent(params)
-        activity.startActivityForResult(intent, VK_APP_AUTH_CODE)
-    }
-
-    private fun startInternalAuthActivity(activity: Activity, params: VKAuthParams) {
-        VKWebViewAuthActivity.startForAuth(activity, params, VK_APP_AUTH_CODE)
-    }
 
     fun createVKClientAuthIntent(params: VKAuthParams) = Intent(VK_APP_AUTH_ACTION, null).apply {
         setPackage(VK_APP_PACKAGE_ID)
@@ -130,14 +110,7 @@ internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
 
     fun storeLoginResult(result: VKAuthenticationResult.Success) {
         result.token.save(keyValueStorage)
-        VK.apiManager.setCredentials(result.token.accessToken, result.token.secret)
-    }
-
-    private fun prepareScopes(scopes: Collection<VKScope>): Collection<VKScope> {
-        if (!scopes.contains(VKScope.OFFLINE)) {
-            return scopes + VKScope.OFFLINE
-        }
-        return scopes
+        VK.apiManager.setCredentials(result.token.accessToken, result.token.secret, result.token.expiresInSec, result.token.createdMs)
     }
 
     fun isLoggedIn(): Boolean {

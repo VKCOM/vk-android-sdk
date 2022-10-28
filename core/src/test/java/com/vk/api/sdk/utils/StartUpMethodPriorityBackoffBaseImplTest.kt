@@ -32,6 +32,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 class StartUpMethodPriorityBackoffBaseImplTest {
 
@@ -74,6 +75,68 @@ class StartUpMethodPriorityBackoffBaseImplTest {
 
         Assert.assertFalse(backOff.shouldWait(nonPriorityMethod))
 
+        Assert.assertFalse(backOff.isActive())
+    }
+
+    @Test
+    fun `wait for priority methods`() {
+        val priorityMethod = "priority.method"
+        val nonPriorityMethod = "non_priority.method"
+        backOff = createBackOff(startUpPriorityMethods = listOf(priorityMethod), shouldWaitForStartUpPriorityRequestsCompletion = true)
+
+        Assert.assertTrue(backOff.isActive())
+        Assert.assertTrue(backOff.shouldWait(nonPriorityMethod))
+
+        val id = backOff.newId()
+        val nonPriorityFuture = executor.submit {
+            backOff.processMethod(id, nonPriorityMethod)
+        }
+
+        Assert.assertFalse(backOff.shouldWait(priorityMethod))
+
+        Assert.assertThrows(TimeoutException::class.java) {
+            nonPriorityFuture.get(StartUpMethodPriorityBackoffBaseImpl.METHOD_WAIT_TIMEOUT * 2, TimeUnit.MILLISECONDS)
+        }
+
+        Assert.assertTrue(backOff.shouldWait(nonPriorityMethod))
+        Assert.assertTrue(backOff.isActive())
+
+        backOff.onMethodCompleted(priorityMethod)
+
+        Assert.assertFalse(backOff.shouldWait(nonPriorityMethod))
+        Assert.assertFalse(backOff.isActive())
+    }
+
+    @Test
+    fun `heavy methods`() {
+        val priorityMethod = "priority.method"
+        val heavyMethod = "heavy.method"
+        backOff = createBackOff(startUpPriorityMethods = listOf(priorityMethod), startUpHeavyMethods = listOf(heavyMethod), shouldRestrictHeavyRequestsOnStartUp = true)
+
+        Assert.assertTrue(backOff.isActive())
+        Assert.assertTrue(backOff.shouldWait(heavyMethod))
+
+        val id = backOff.newId()
+        val heavyFuture = executor.submit {
+            backOff.processMethod(id, heavyMethod)
+        }
+
+        Assert.assertFalse(backOff.shouldWait(priorityMethod))
+
+        Assert.assertThrows(TimeoutException::class.java) {
+            heavyFuture.get(StartUpMethodPriorityBackoffBaseImpl.METHOD_WAIT_TIMEOUT * 2, TimeUnit.MILLISECONDS)
+        }
+
+        Assert.assertTrue(backOff.shouldWait(heavyMethod))
+
+        backOff.onMethodCompleted(priorityMethod)
+
+        Assert.assertTrue(backOff.isActive())
+        Assert.assertTrue(backOff.shouldWait(heavyMethod))
+
+        backOff.onStartUpCompleted()
+
+        Assert.assertFalse(backOff.shouldWait(heavyMethod))
         Assert.assertFalse(backOff.isActive())
     }
 
@@ -126,11 +189,17 @@ class StartUpMethodPriorityBackoffBaseImplTest {
 
     private fun createBackOff(
         startUpPriorityMethods: Collection<String> = listOf(),
-        exceptionMethods: Collection<String> = listOf()
+        exceptionMethods: Collection<String> = listOf(),
+        startUpHeavyMethods: Collection<String> = listOf(),
+        shouldRestrictHeavyRequestsOnStartUp: Boolean = false,
+        shouldWaitForStartUpPriorityRequestsCompletion: Boolean = false
     ) =
         StartUpMethodPriorityBackoffBaseImpl(
             startUpPriorityMethods = startUpPriorityMethods,
             exceptionMethods = exceptionMethods,
+            startUpHeavyMethods = startUpHeavyMethods,
+            shouldRestrictHeavyRequestsOnStartUp = shouldRestrictHeavyRequestsOnStartUp,
+            shouldWaitForStartUpPriorityRequestsCompletion = shouldWaitForStartUpPriorityRequestsCompletion,
             logger = object : Logger  {
 
                 override val logLevel = lazy {

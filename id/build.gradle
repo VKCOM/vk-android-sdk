@@ -30,6 +30,22 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply from: "../dependencies.gradle"
 
+def isEnabled = ""
+try {
+    isEnabled = providers.environmentVariable("SDK_UPDATE")
+            .forUseAtConfigurationTime()
+            .get()
+} catch(Exception e) {}
+
+if (isEnabled != "1") {
+    Project superApp = rootProject.findProject(":sdk:sak")
+    if (superApp == null) {
+        throw new IllegalStateException("Couldn't find :sdk:sak project.")
+    }
+
+    apply plugin: 'com.vk.gradle.sak.publish.core'
+}
+
 version = sdkVersions.name
 group = 'com.vk'
 sdkPublish.POM_ARTIFACT_ID = sdkPublish.POM_ID_ARTIFACT_ID

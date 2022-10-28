@@ -31,6 +31,8 @@ open class VKMethodCall {
     open class Builder {
         var requestUrl: String? = null
             private set
+        var endpointPath: VKApiConfig.EndpointPathName = VKApiConfig.EndpointPathName.METHOD
+            private set
         var method: String = ""
             private set
         var version: String = ""
@@ -51,6 +53,7 @@ open class VKMethodCall {
             private set
 
         open fun url(url: String?) = apply { this.requestUrl = url }
+        open fun setEndpointPath(endpointPath: VKApiConfig.EndpointPathName) = apply { this.endpointPath = endpointPath }
         /**
          * Api method name
          * You can find all methods here: https://vk.com/dev/methods
@@ -72,6 +75,7 @@ open class VKMethodCall {
     }
 
     val requestUrl: String?
+    val endpointPath: VKApiConfig.EndpointPathName
     val method: String
     val version: String
     val args: Map<String,String>
@@ -86,6 +90,7 @@ open class VKMethodCall {
         if (b.method.isBlank()) throw IllegalArgumentException("method is null or empty")
         if (b.version.isBlank()) throw IllegalArgumentException("version is null or empty")
         this.requestUrl = b.requestUrl
+        this.endpointPath = b.endpointPath
         this.method = b.method
         this.version = b.version
         this.args = b.args

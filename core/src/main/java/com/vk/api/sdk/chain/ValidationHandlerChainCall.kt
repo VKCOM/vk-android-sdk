@@ -41,7 +41,9 @@ class ValidationHandlerChainCall<T>(
         for (i in 0..retryLimit) {
             try {
                 validationLock.await()
-                return chain.call(args)
+                val response = chain.call(args)
+                handleCaptchaSolved(args)
+                return response
             } catch (ex: VKApiExecutionException) {
                 handleException(ex, args)
             }
@@ -51,6 +53,7 @@ class ValidationHandlerChainCall<T>(
 
     @Throws(Exception::class)
     private fun handleException(ex: VKApiExecutionException, args: ChainArgs) {
+        handleCaptchaSolved(args, ex)
         when {
             ex.isCaptchaError -> handleCaptcha(ex, args)
             ex.isValidationRequired -> handleValidation(ex)
@@ -80,23 +83,24 @@ class ValidationHandlerChainCall<T>(
             credentials == VKApiValidationHandler.Credentials.EMPTY -> {
                 //no need to update credentials use current
             }
-            credentials?.isValid == true -> manager.setCredentials(credentials.token!!, credentials.secret)
+            credentials?.isValid == true -> manager.setCredentials(credentials.token!!, credentials.secret, credentials.expiresInSec, credentials.createdMs)
             else -> throw ex
         }
     }
 
     private fun handleCaptcha(ex: VKApiExecutionException, args: ChainArgs) {
-        val captcha = awaitValidation(ex.captchaImg, manager.validationHandler, VKApiValidationHandler::handleCaptcha)
-        when (captcha) {
+        val captcha = VKApiValidationHandler.Captcha(ex.captchaImg, ex.captchaHeight, ex.captchaWidth)
+        val captchaResult = awaitValidation(captcha, manager.validationHandler, VKApiValidationHandler::handleCaptcha)
+        when (captchaResult) {
             null -> throw ex
             else -> {
                 args.captchaSid = ex.captchaSid
-                args.captchaKey = captcha
+                args.captchaKey = captchaResult
             }
         }
     }
 
-    protected fun <T, H> awaitValidation(extra: String, handler: H?, handlerMethod: H.(String, VKApiValidationHandler.Callback<T>) -> Unit): T? {
+    protected fun <T, H, E> awaitValidation(extra: E, handler: H?, handlerMethod: H.(E, VKApiValidationHandler.Callback<T>) -> Unit): T? {
         if (handler == null || !validationLock.acquire()) {
             return null
         }
@@ -105,5 +109,11 @@ class ValidationHandlerChainCall<T>(
         handler.handlerMethod(extra, callback)
         validationLock.await()
         return callback.value
+    }
+
+    private fun handleCaptchaSolved(args: ChainArgs, ex: VKApiExecutionException? = null) {
+        if (args.hasCaptcha() && (ex == null || !ex.isCaptchaError)) {
+            manager.validationHandler?.handleCaptchaSolved()
+        }
     }
 }

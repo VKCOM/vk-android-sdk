@@ -26,6 +26,7 @@ package com.vk.api.sdk.chain
 
 import com.vk.api.sdk.VKApiJSONResponseParser
 import com.vk.api.sdk.VKApiManager
+import com.vk.api.sdk.auth.VKAccessTokenProvider
 import com.vk.api.sdk.exceptions.VKApiCodes
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.okhttp.OkHttpExecutor
@@ -43,8 +44,6 @@ open class MethodChainCall<T>(
         var defaultDeviceId: String,
         val defaultLang: String,
         val parser: VKApiJSONResponseParser<T>?) : ChainCall<T>(manager) {
-
-    private val responseValidator = manager.config.responseValidator
 
     @Throws(Exception::class)
     override fun call(args: ChainArgs): T? {
@@ -90,15 +89,11 @@ open class MethodChainCall<T>(
             else -> null
         }.let { executeEx ->
             when (executeEx) {
-                null -> {
-                    try {
-                        responseValidator?.value?.validateResponse(methodName, extended, jsonBody.toString(), methodResponse.headers)
-                    } catch (ignore: Throwable) {}
-
-                    parser?.parse(jsonBody)
-                }
+                null -> parser?.parse(jsonBody)
                 else -> throw executeEx
             }
         }
     }
+
+    open fun trackClientIdClientSecretMethods(provider: VKAccessTokenProvider?, methodBuilder: OkHttpMethodCall.Builder) = Unit
 }
