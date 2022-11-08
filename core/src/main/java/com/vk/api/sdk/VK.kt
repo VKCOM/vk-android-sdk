@@ -73,6 +73,7 @@ object VK {
     fun setConfig(config: VKApiConfig) {
         this.config = config
         apiManager = VKApiManager(config)
+        authManager = VKAuthManager(config.keyValueStorage)
 
         apiManager.setCredentials(VKApiCredentials.lazyFrom { authManager.getCurrentToken() })
     }
@@ -277,12 +278,7 @@ object VK {
             return cachedResourceAppId
         }
 
-        val resId = context.resources.getIdentifier(SDK_APP_ID, "integer", context.packageName)
-        val appId = try {
-            context.resources.getInteger(resId)
-        } catch (e: Exception) {
-            0
-        }
+        val appId = context.resources.getInteger(R.integer.com_vk_sdk_AppId)
         if (appId == 0) {
             throw RuntimeException("<integer name=\"$SDK_APP_ID\">your_app_id</integer> is not found in your resources.xml")
         }

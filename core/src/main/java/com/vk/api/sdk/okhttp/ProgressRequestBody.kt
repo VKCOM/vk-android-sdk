@@ -24,18 +24,27 @@
 package com.vk.api.sdk.okhttp
 
 import com.vk.api.sdk.VKApiProgressListener
-
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.internal.http2.StreamResetException
+import okio.*
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-import okhttp3.MediaType
-import okhttp3.RequestBody
-import okio.*
-
-class ProgressRequestBody(private val requestBody: RequestBody,
-                          private val progressListener: VKApiProgressListener?) : RequestBody() {
+class ProgressRequestBody(
+    private val requestBody: RequestBody,
+    private val progressListener: VKApiProgressListener?
+) : RequestBody() {
 
     private var lastNotifyTime: Long = 0
+    private val hasDuplexBody by lazy {
+        if (requestBody is MultipartBody) {
+            requestBody.parts.any { it.body.isDuplex() }
+        } else {
+            requestBody.isDuplex()
+        }
+    }
 
     override fun contentType(): MediaType? {
         return requestBody.contentType()
@@ -46,12 +55,28 @@ class ProgressRequestBody(private val requestBody: RequestBody,
         return requestBody.contentLength()
     }
 
+    /**
+     * Если мы отправляем body в режиму дуплекса, то можем поймать асинхронно флаг RST_STREAM,
+     * по которому обязаны завершить отправку данных в этом стриме. При этом, перед этим флагом
+     * сервер нам может отправить хедеры со статус кодом. И вот если мы выбросим [StreamResetException],
+     * то посчитаем просто I/O ошибкой и попробуем повторить, даже не вычитав хедеры со статус кодом.
+     * Если же мы пропустим эту ошибку здесь, она всё-равно всплывёт выше, при попытке вычитать body,
+     * без проверки на успешность запроса, но при этом у нас уже будут вычитаны хедеры и мы сможем различить:
+     * это I/O ошибка или нас вполне резонно отпнул сервер, например, с 413 ошибкой.
+     */
     @Throws(IOException::class)
     override fun writeTo(sink: BufferedSink) {
         val bufferedSink = CountingSink(sink).buffer()
-        requestBody.writeTo(bufferedSink)
-        bufferedSink.flush()
+        try {
+            requestBody.writeTo(bufferedSink)
+            bufferedSink.flush()
+            bufferedSink.close()
+        } catch (e: StreamResetException) {
+            if (!isDuplex()) throw e
+        }
     }
+
+    override fun isDuplex(): Boolean = hasDuplexBody
 
     private inner class CountingSink(delegate: Sink) : ForwardingSink(delegate) {
 

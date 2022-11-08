@@ -27,23 +27,22 @@ import android.content.Context
 import android.content.res.AssetFileDescriptor
 import android.net.Uri
 import android.provider.MediaStore
-
 import com.vk.api.sdk.exceptions.VKLocalIOException
-
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.net.URLConnection
-
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.internal.http2.StreamResetException
 import okio.BufferedSink
+import okio.source
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.net.URLConnection
+import kotlin.concurrent.thread
 
 internal class FileFullRequestBody(
-        private val context: Context,
-        private val uri: Uri
+    private val context: Context,
+    private val uri: Uri
 ) : RequestBody() {
 
     private val scheme: String
@@ -100,42 +99,28 @@ internal class FileFullRequestBody(
 
     @Throws(IOException::class)
     override fun writeTo(sink: BufferedSink) {
-        var fileDescriptor: AssetFileDescriptor? = null
-        val os = sink.outputStream()
-        try {
-            val inputStream: FileInputStream // auto-closable
-            try {
-                fileDescriptor = context.contentResolver.openAssetFileDescriptor(uri, "r")
-                if (fileDescriptor == null) {
-                    throw FileNotFoundException("Cannot open uri: $uri")
-                }
-                inputStream = fileDescriptor.createInputStream()
-            } catch (ex: IOException) {
-                throw VKLocalIOException(ex)
-            }
-
-            val buffer = ByteArray(CHUNK)
-            var readCount: Int
-            while (inputStream.available() > 0) {
+        context.contentResolver.openAssetFileDescriptor(uri, "r")?.use { fileDescriptor ->
+            val source = wrapIoException { fileDescriptor.createInputStream().source() }
+            var totalBytesRead = 0L
+            while (true) {
+                val readCount: Long = wrapIoException { source.read(sink.buffer, CHUNK.toLong()) }
+                if (readCount == -1L) break
+                totalBytesRead += readCount
                 try {
-                    readCount = inputStream.read(buffer)
-                } catch (ex: IOException) {
-                    throw VKLocalIOException(ex)
-                }
-
-                if (readCount == -1) {
+                    sink.emitCompleteSegments()
+                } catch (t: StreamResetException) {
                     break
                 }
-                os.write(buffer, 0, readCount)
-                os.flush()
             }
-        } finally {
-            try {
-                fileDescriptor?.close()
-            } catch (ignored: Exception) {
-                // Ignore
-            }
-        }
+        } ?: throw FileNotFoundException("Cannot open uri: $uri")
+    }
+
+    override fun isDuplex(): Boolean = true
+
+    private inline fun <T> wrapIoException(block: () -> T) = try {
+        block()
+    } catch (e: IOException) {
+        throw if (e !is VKLocalIOException) VKLocalIOException(e) else e
     }
 
     companion object {

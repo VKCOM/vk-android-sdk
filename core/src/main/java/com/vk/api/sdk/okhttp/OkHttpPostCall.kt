@@ -50,8 +50,8 @@ open class OkHttpPostCall {
     val timeoutMs: Long
 
     protected constructor(b: Builder) {
-        if (b.url.isBlank()) throw IllegalArgumentException("Illegal url value: ${b.url}")
-        if (b.timeoutMs < 0) throw IllegalArgumentException("Illegal timeout value: ${b.timeoutMs}")
+        require(b.url.isNotBlank()) { "Illegal url value: url is blank." }
+        require(b.timeoutMs >= 0) { "Illegal timeout value: ${b.timeoutMs}. It must be >= 0." }
         if (!b.isMultipart && b.parts.any { it.value !is HttpMultipartEntry.Text }) {
             throw IllegalStateException("Non multipart calls should consist of text arguments only")
         }
