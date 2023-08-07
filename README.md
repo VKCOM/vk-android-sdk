@@ -68,8 +68,8 @@ The available library modules are listed below.
 For example, your `app/build.gradle` script will contains such dependencies:
 ```
 dependencies {
-    implementation 'com.vk:android-sdk-core:3.x.x'
-    implementation 'com.vk:android-sdk-api:3.x.x' // generated models and api methods
+    implementation 'com.vk:android-sdk-core:4.x.x'
+    implementation 'com.vk:android-sdk-api:4.x.x' // generated models and api methods
 }
 ```
 
