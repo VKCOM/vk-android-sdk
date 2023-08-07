@@ -27,6 +27,8 @@
 */
 package com.vk.api.sdk.auth
 
+import org.json.JSONObject
+
 enum class AccountProfileType(val code: Int) {
     NORMAL(0),
     PROMO(1),
@@ -34,9 +36,17 @@ enum class AccountProfileType(val code: Int) {
 
     fun isEdu() = this == EDU
 
+    fun toJsonObject(): JSONObject {
+        return JSONObject().put("code", code)
+    }
+
     companion object {
         fun findByCode(code: Int?): AccountProfileType? {
             return values().firstOrNull { it.code == code }
+        }
+
+        fun from(json: JSONObject?): AccountProfileType? {
+            return findByCode(json?.optInt("code"))
         }
     }
 }

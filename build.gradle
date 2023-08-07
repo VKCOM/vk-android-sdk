@@ -21,12 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-
 apply from: 'dependencies.gradle'
+
+def mavenLocalPath = "$projectDir/../../../maven-local"
 
 subprojects { Project subproject ->
     buildscript {
         repositories {
+            maven {
+                url uri(file(mavenLocalPath))
+            }
             maven {
                 url "https://plugins.gradle.org/m2/"
             }
@@ -34,10 +38,11 @@ subprojects { Project subproject ->
             mavenCentral()
         }
 
+        def buildVersion = libs.versions.buildScripts.get()
         dependencies {
             classpath sdkGradlePlugins.android
             classpath sdkGradlePlugins.kotlinGradle
-            classpath sdkGradlePlugins.bintryRelease
+            classpath "com.vk.gradle.publish:com.vk.gradle.publish.gradle.plugin:$buildVersion"
         }
     }
 

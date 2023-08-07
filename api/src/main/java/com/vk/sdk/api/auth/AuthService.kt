@@ -30,7 +30,10 @@ package com.vk.sdk.api.auth
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.auth.dto.AuthRestoreResponse
+import com.vk.sdk.api.auth.dto.AuthRestoreResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.String
 
 class AuthService {
@@ -40,11 +43,11 @@ class AuthService {
      *
      * @param phone - User phone number.
      * @param lastName - User last name.
-     * @return [VKRequest] with [AuthRestoreResponse]
+     * @return [VKRequest] with [AuthRestoreResponseDto]
      */
-    fun authRestore(phone: String, lastName: String): VKRequest<AuthRestoreResponse> =
+    fun authRestore(phone: String, lastName: String): VKRequest<AuthRestoreResponseDto> =
             NewApiRequest("auth.restore") {
-        GsonHolder.gson.fromJson(it, AuthRestoreResponse::class.java)
+        GsonHolder.gson.parse<AuthRestoreResponseDto>(it)
     }
     .apply {
         addParam("phone", phone)

@@ -31,19 +31,23 @@ import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.board.dto.BoardGetCommentsExtendedResponse
-import com.vk.sdk.api.board.dto.BoardGetCommentsExtendedSort
-import com.vk.sdk.api.board.dto.BoardGetCommentsResponse
-import com.vk.sdk.api.board.dto.BoardGetCommentsSort
-import com.vk.sdk.api.board.dto.BoardGetTopicsExtendedOrder
-import com.vk.sdk.api.board.dto.BoardGetTopicsExtendedPreview
-import com.vk.sdk.api.board.dto.BoardGetTopicsExtendedResponse
-import com.vk.sdk.api.board.dto.BoardGetTopicsOrder
-import com.vk.sdk.api.board.dto.BoardGetTopicsPreview
-import com.vk.sdk.api.board.dto.BoardGetTopicsResponse
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.board.dto.BoardGetCommentsExtendedResponseDto
+import com.vk.sdk.api.board.dto.BoardGetCommentsExtendedSortDto
+import com.vk.sdk.api.board.dto.BoardGetCommentsResponseDto
+import com.vk.sdk.api.board.dto.BoardGetCommentsSortDto
+import com.vk.sdk.api.board.dto.BoardGetTopicsExtendedOrderDto
+import com.vk.sdk.api.board.dto.BoardGetTopicsExtendedPreviewDto
+import com.vk.sdk.api.board.dto.BoardGetTopicsExtendedResponseDto
+import com.vk.sdk.api.board.dto.BoardGetTopicsOrderDto
+import com.vk.sdk.api.board.dto.BoardGetTopicsPreviewDto
+import com.vk.sdk.api.board.dto.BoardGetTopicsResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -70,7 +74,7 @@ class BoardService {
         fromGroup: Boolean? = null,
         attachments: List<String>? = null
     ): VKRequest<Int> = NewApiRequest("board.addTopic") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parse<Int>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -85,14 +89,14 @@ class BoardService {
      *
      * @param groupId - ID of the community that owns the discussion board.
      * @param topicId - Topic ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun boardCloseTopic(groupId: Int, topicId: Int): VKRequest<BaseOkResponse> =
+    fun boardCloseTopic(groupId: UserId, topicId: Int): VKRequest<BaseOkResponseDto> =
             NewApiRequest("board.closeTopic") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
-        addParam("group_id", groupId, min = 0)
+        addParam("group_id", groupId, min = 1)
         addParam("topic_id", topicId, min = 0)
     }
 
@@ -121,7 +125,7 @@ class BoardService {
         stickerId: Int? = null,
         guid: String? = null
     ): VKRequest<Int> = NewApiRequest("board.createComment") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parse<Int>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -139,14 +143,14 @@ class BoardService {
      * @param groupId - ID of the community that owns the discussion board.
      * @param topicId - Topic ID.
      * @param commentId - Comment ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun boardDeleteComment(
         groupId: UserId,
         topicId: Int,
         commentId: Int
-    ): VKRequest<BaseOkResponse> = NewApiRequest("board.deleteComment") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("board.deleteComment") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -159,11 +163,11 @@ class BoardService {
      *
      * @param groupId - ID of the community that owns the discussion board.
      * @param topicId - Topic ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun boardDeleteTopic(groupId: UserId, topicId: Int): VKRequest<BaseOkResponse> =
+    fun boardDeleteTopic(groupId: UserId, topicId: Int): VKRequest<BaseOkResponseDto> =
             NewApiRequest("board.deleteTopic") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -182,7 +186,7 @@ class BoardService {
      * of media object_ 'photo' - photo, 'video' - video, 'audio' - audio, 'doc' - document,
      * '<owner_id>' - ID of the media owner. '<media_id>' - Media ID. Example_
      * "photo100172_166443618,photo66748_265827614"
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun boardEditComment(
         groupId: UserId,
@@ -190,8 +194,8 @@ class BoardService {
         commentId: Int,
         message: String? = null,
         attachments: List<String>? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("board.editComment") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("board.editComment") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -207,14 +211,14 @@ class BoardService {
      * @param groupId - ID of the community that owns the discussion board.
      * @param topicId - Topic ID.
      * @param title - New title of the topic.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun boardEditTopic(
         groupId: UserId,
         topicId: Int,
         title: String
-    ): VKRequest<BaseOkResponse> = NewApiRequest("board.editTopic") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("board.editTopic") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -227,14 +231,14 @@ class BoardService {
      *
      * @param groupId - ID of the community that owns the discussion board.
      * @param topicId - Topic ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun boardFixTopic(groupId: Int, topicId: Int): VKRequest<BaseOkResponse> =
+    fun boardFixTopic(groupId: UserId, topicId: Int): VKRequest<BaseOkResponseDto> =
             NewApiRequest("board.fixTopic") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
-        addParam("group_id", groupId, min = 0)
+        addParam("group_id", groupId, min = 1)
         addParam("topic_id", topicId, min = 0)
     }
 
@@ -248,9 +252,11 @@ class BoardService {
      * @param startCommentId
      * @param offset - Offset needed to return a specific subset of comments.
      * @param count - Number of comments to return.
+     * @param extended - '1' - to return information about users who posted comments, '0' - to
+     * return no additional fields (default)
      * @param sort - Sort order_ 'asc' - by creation date in chronological order, 'desc' - by
      * creation date in reverse chronological order,
-     * @return [VKRequest] with [BoardGetCommentsResponse]
+     * @return [VKRequest] with [BoardGetCommentsResponseDto]
      */
     fun boardGetComments(
         groupId: UserId,
@@ -259,9 +265,10 @@ class BoardService {
         startCommentId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: BoardGetCommentsSort? = null
-    ): VKRequest<BoardGetCommentsResponse> = NewApiRequest("board.getComments") {
-        GsonHolder.gson.fromJson(it, BoardGetCommentsResponse::class.java)
+        extended: Boolean? = null,
+        sort: BoardGetCommentsSortDto? = null
+    ): VKRequest<BoardGetCommentsResponseDto> = NewApiRequest("board.getComments") {
+        GsonHolder.gson.parse<BoardGetCommentsResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -270,6 +277,7 @@ class BoardService {
         startCommentId?.let { addParam("start_comment_id", it, min = 0) }
         offset?.let { addParam("offset", it) }
         count?.let { addParam("count", it, min = 0, max = 100) }
+        extended?.let { addParam("extended", it) }
         sort?.let { addParam("sort", it.value) }
     }
 
@@ -285,7 +293,7 @@ class BoardService {
      * @param count - Number of comments to return.
      * @param sort - Sort order_ 'asc' - by creation date in chronological order, 'desc' - by
      * creation date in reverse chronological order,
-     * @return [VKRequest] with [BoardGetCommentsExtendedResponse]
+     * @return [VKRequest] with [BoardGetCommentsExtendedResponseDto]
      */
     fun boardGetCommentsExtended(
         groupId: UserId,
@@ -294,9 +302,9 @@ class BoardService {
         startCommentId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: BoardGetCommentsExtendedSort? = null
-    ): VKRequest<BoardGetCommentsExtendedResponse> = NewApiRequest("board.getComments") {
-        GsonHolder.gson.fromJson(it, BoardGetCommentsExtendedResponse::class.java)
+        sort: BoardGetCommentsExtendedSortDto? = null
+    ): VKRequest<BoardGetCommentsExtendedResponseDto> = NewApiRequest("board.getComments") {
+        GsonHolder.gson.parse<BoardGetCommentsExtendedResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -322,22 +330,25 @@ class BoardService {
      * regardless of the sorting.
      * @param offset - Offset needed to return a specific subset of topics.
      * @param count - Number of topics to return.
+     * @param extended - '1' - to return information about users who created topics or who posted
+     * there last, '0' - to return no additional fields (default)
      * @param preview - '1' - to return the first comment in each topic,, '2' - to return the last
      * comment in each topic,, '0' - to return no comments. By default_ '0'.
      * @param previewLength - Number of characters after which to truncate the previewed comment. To
      * preview the full comment, specify '0'.
-     * @return [VKRequest] with [BoardGetTopicsResponse]
+     * @return [VKRequest] with [BoardGetTopicsResponseDto]
      */
     fun boardGetTopics(
         groupId: UserId,
         topicIds: List<Int>? = null,
-        order: BoardGetTopicsOrder? = null,
+        order: BoardGetTopicsOrderDto? = null,
         offset: Int? = null,
         count: Int? = null,
-        preview: BoardGetTopicsPreview? = null,
+        extended: Boolean? = null,
+        preview: BoardGetTopicsPreviewDto? = null,
         previewLength: Int? = null
-    ): VKRequest<BoardGetTopicsResponse> = NewApiRequest("board.getTopics") {
-        GsonHolder.gson.fromJson(it, BoardGetTopicsResponse::class.java)
+    ): VKRequest<BoardGetTopicsResponseDto> = NewApiRequest("board.getTopics") {
+        GsonHolder.gson.parse<BoardGetTopicsResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -345,6 +356,7 @@ class BoardService {
         order?.let { addParam("order", it.value) }
         offset?.let { addParam("offset", it, min = 0) }
         count?.let { addParam("count", it, min = 0, max = 100) }
+        extended?.let { addParam("extended", it) }
         preview?.let { addParam("preview", it.value) }
         previewLength?.let { addParam("preview_length", it, min = 0) }
     }
@@ -366,18 +378,18 @@ class BoardService {
      * comment in each topic,, '0' - to return no comments. By default_ '0'.
      * @param previewLength - Number of characters after which to truncate the previewed comment. To
      * preview the full comment, specify '0'.
-     * @return [VKRequest] with [BoardGetTopicsExtendedResponse]
+     * @return [VKRequest] with [BoardGetTopicsExtendedResponseDto]
      */
     fun boardGetTopicsExtended(
         groupId: UserId,
         topicIds: List<Int>? = null,
-        order: BoardGetTopicsExtendedOrder? = null,
+        order: BoardGetTopicsExtendedOrderDto? = null,
         offset: Int? = null,
         count: Int? = null,
-        preview: BoardGetTopicsExtendedPreview? = null,
+        preview: BoardGetTopicsExtendedPreviewDto? = null,
         previewLength: Int? = null
-    ): VKRequest<BoardGetTopicsExtendedResponse> = NewApiRequest("board.getTopics") {
-        GsonHolder.gson.fromJson(it, BoardGetTopicsExtendedResponse::class.java)
+    ): VKRequest<BoardGetTopicsExtendedResponseDto> = NewApiRequest("board.getTopics") {
+        GsonHolder.gson.parse<BoardGetTopicsExtendedResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -395,14 +407,14 @@ class BoardService {
      *
      * @param groupId - ID of the community that owns the discussion board.
      * @param topicId - Topic ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun boardOpenTopic(groupId: Int, topicId: Int): VKRequest<BaseOkResponse> =
+    fun boardOpenTopic(groupId: UserId, topicId: Int): VKRequest<BaseOkResponseDto> =
             NewApiRequest("board.openTopic") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
-        addParam("group_id", groupId, min = 0)
+        addParam("group_id", groupId, min = 1)
         addParam("topic_id", topicId, min = 0)
     }
 
@@ -412,14 +424,14 @@ class BoardService {
      * @param groupId - ID of the community that owns the discussion board.
      * @param topicId - Topic ID.
      * @param commentId - Comment ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun boardRestoreComment(
         groupId: UserId,
         topicId: Int,
         commentId: Int
-    ): VKRequest<BaseOkResponse> = NewApiRequest("board.restoreComment") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("board.restoreComment") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -432,14 +444,134 @@ class BoardService {
      *
      * @param groupId - ID of the community that owns the discussion board.
      * @param topicId - Topic ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun boardUnfixTopic(groupId: Int, topicId: Int): VKRequest<BaseOkResponse> =
+    fun boardUnfixTopic(groupId: UserId, topicId: Int): VKRequest<BaseOkResponseDto> =
             NewApiRequest("board.unfixTopic") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
-        addParam("group_id", groupId, min = 0)
+        addParam("group_id", groupId, min = 1)
         addParam("topic_id", topicId, min = 0)
+    }
+
+    object BoardAddTopicRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object BoardCloseTopicRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 0
+    }
+
+    object BoardCreateCommentRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 0
+
+        const val STICKER_ID_MIN: Long = 0
+    }
+
+    object BoardDeleteCommentRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 1
+
+        const val COMMENT_ID_MIN: Long = 1
+    }
+
+    object BoardDeleteTopicRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 0
+    }
+
+    object BoardEditCommentRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 0
+
+        const val COMMENT_ID_MIN: Long = 0
+    }
+
+    object BoardEditTopicRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 0
+    }
+
+    object BoardFixTopicRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 0
+    }
+
+    object BoardGetCommentsRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 0
+
+        const val START_COMMENT_ID_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
+    }
+
+    object BoardGetCommentsExtendedRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 0
+
+        const val START_COMMENT_ID_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
+    }
+
+    object BoardGetTopicsRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
+
+        const val PREVIEW_LENGTH_MIN: Long = 0
+    }
+
+    object BoardGetTopicsExtendedRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
+
+        const val PREVIEW_LENGTH_MIN: Long = 0
+    }
+
+    object BoardOpenTopicRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 0
+    }
+
+    object BoardRestoreCommentRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 0
+
+        const val COMMENT_ID_MIN: Long = 0
+    }
+
+    object BoardUnfixTopicRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TOPIC_ID_MIN: Long = 0
     }
 }

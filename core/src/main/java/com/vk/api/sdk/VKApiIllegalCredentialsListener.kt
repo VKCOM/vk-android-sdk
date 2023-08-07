@@ -24,12 +24,13 @@
 
 package com.vk.api.sdk
 
+import com.vk.dto.common.id.UserId
 import org.json.JSONObject
 
 /**
  * Callback for handling auth errors
  */
 interface VKApiIllegalCredentialsListener {
-    fun onInvalidCredentials(methodName: String?, userBanInfo: JSONObject?)
-    fun onUserDeactivated(methodName: String?) = onInvalidCredentials(methodName, null)
+    fun onInvalidCredentials(methodName: String?, userBanInfo: JSONObject?, userId: UserId, cause: Throwable? = null)
+    fun onUserDeactivated(methodName: String?, userId: UserId) = onInvalidCredentials(methodName, null, userId)
 }

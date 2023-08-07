@@ -41,7 +41,16 @@ open class LoggingInterceptor(
     // For backward compatibility
     constructor(filterCredentials: Boolean, logger: Logger) : this(
         filterCredentials,
-        listOf("access_token", "key", "client_secret", "webview_access_token", "webview_refresh_token"),
+        listOf(
+            "access_token",
+            "key",
+            "client_secret",
+            "webview_access_token",
+            "webview_refresh_token",
+            "exchange_token",
+            "exchange_tokens",
+            "common_token"
+        ),
         logger,
         DefaultLoggingPrefixer()
     )
@@ -55,7 +64,16 @@ open class LoggingInterceptor(
 
     constructor(filterCredentials: Boolean, logger: Logger, loggingPrefixer: LoggingPrefixer) : this(
         filterCredentials,
-        listOf("access_token", "key", "client_secret", "webview_access_token", "webview_refresh_token"),
+        listOf(
+            "access_token",
+            "key",
+            "client_secret",
+            "webview_access_token",
+            "webview_refresh_token",
+            "exchange_token",
+            "exchange_tokens",
+            "common_token"
+        ),
         logger,
         loggingPrefixer
     )

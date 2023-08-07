@@ -27,16 +27,20 @@
 // *********************************************************************
 package com.vk.sdk.api.stats
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.stats.dto.StatsGetInterval
-import com.vk.sdk.api.stats.dto.StatsPeriod
-import com.vk.sdk.api.stats.dto.StatsWallpostStat
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.stats.dto.StatsGetIntervalDto
+import com.vk.sdk.api.stats.dto.StatsPeriodDto
+import com.vk.sdk.api.stats.dto.StatsWallpostStatDto
+import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -52,6 +56,7 @@ class StatsService {
      * @param intervalsCount
      * @param filters
      * @param statsGroups
+     * @param extended
      * @return [VKRequest] with [Unit]
      */
     fun statsGet(
@@ -59,13 +64,13 @@ class StatsService {
         appId: Int? = null,
         timestampFrom: Int? = null,
         timestampTo: Int? = null,
-        interval: StatsGetInterval? = null,
+        interval: StatsGetIntervalDto? = null,
         intervalsCount: Int? = null,
         filters: List<String>? = null,
-        statsGroups: List<String>? = null
-    ): VKRequest<List<StatsPeriod>> = NewApiRequest("stats.get") {
-        val typeToken = object: TypeToken<List<StatsPeriod>>() {}.type
-        GsonHolder.gson.fromJson<List<StatsPeriod>>(it, typeToken)
+        statsGroups: List<String>? = null,
+        extended: Boolean? = null
+    ): VKRequest<List<StatsPeriodDto>> = NewApiRequest("stats.get") {
+        GsonHolder.gson.parseList<StatsPeriodDto>(it)
     }
     .apply {
         groupId?.let { addParam("group_id", it, min = 0) }
@@ -76,6 +81,7 @@ class StatsService {
         intervalsCount?.let { addParam("intervals_count", it, min = 0) }
         filters?.let { addParam("filters", it) }
         statsGroups?.let { addParam("stats_groups", it) }
+        extended?.let { addParam("extended", it) }
     }
 
     /**
@@ -85,10 +91,9 @@ class StatsService {
      * @param postIds - wall posts id
      * @return [VKRequest] with [Unit]
      */
-    fun statsGetPostReach(ownerId: String, postIds: List<Int>): VKRequest<List<StatsWallpostStat>> =
-            NewApiRequest("stats.getPostReach") {
-        val typeToken = object: TypeToken<List<StatsWallpostStat>>() {}.type
-        GsonHolder.gson.fromJson<List<StatsWallpostStat>>(it, typeToken)
+    fun statsGetPostReach(ownerId: Long, postIds: List<Long>): VKRequest<List<StatsWallpostStatDto>>
+            = NewApiRequest("stats.getPostReach") {
+        GsonHolder.gson.parseList<StatsWallpostStatDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -96,14 +101,21 @@ class StatsService {
     }
 
     /**
-     * @param id
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun statsTrackVisitor(id: String): VKRequest<BaseOkResponse> =
-            NewApiRequest("stats.trackVisitor") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    fun statsTrackVisitor(): VKRequest<BaseOkResponseDto> = NewApiRequest("stats.trackVisitor") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
-    .apply {
-        addParam("id", id)
+
+    object StatsGetRestrictions {
+        const val GROUP_ID_MIN: Long = 0
+
+        const val APP_ID_MIN: Long = 0
+
+        const val TIMESTAMP_FROM_MIN: Long = 0
+
+        const val TIMESTAMP_TO_MIN: Long = 0
+
+        const val INTERVALS_COUNT_MIN: Long = 0
     }
 }

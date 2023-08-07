@@ -27,19 +27,22 @@
 // *********************************************************************
 package com.vk.sdk.api.orders
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseBoolInt
-import com.vk.sdk.api.orders.dto.OrdersAmount
-import com.vk.sdk.api.orders.dto.OrdersChangeStateAction
-import com.vk.sdk.api.orders.dto.OrdersGetUserSubscriptionsResponse
-import com.vk.sdk.api.orders.dto.OrdersOrder
-import com.vk.sdk.api.orders.dto.OrdersSubscription
+import com.vk.sdk.api.base.dto.BaseBoolIntDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.orders.dto.OrdersAmountDto
+import com.vk.sdk.api.orders.dto.OrdersChangeStateActionDto
+import com.vk.sdk.api.orders.dto.OrdersGetUserSubscriptionsResponseDto
+import com.vk.sdk.api.orders.dto.OrdersOrderDto
+import com.vk.sdk.api.orders.dto.OrdersSubscriptionDto
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -48,14 +51,14 @@ class OrdersService {
      * @param userId
      * @param subscriptionId
      * @param pendingCancel
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
     fun ordersCancelSubscription(
         userId: UserId,
         subscriptionId: Int,
         pendingCancel: Boolean? = null
-    ): VKRequest<BaseBoolInt> = NewApiRequest("orders.cancelSubscription") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+    ): VKRequest<BaseBoolIntDto> = NewApiRequest("orders.cancelSubscription") {
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("user_id", userId, min = 1)
@@ -78,11 +81,11 @@ class OrdersService {
      */
     fun ordersChangeState(
         orderId: Int,
-        action: OrdersChangeStateAction,
+        action: OrdersChangeStateActionDto,
         appOrderId: Int? = null,
         testMode: Boolean? = null
     ): VKRequest<String> = NewApiRequest("orders.changeState") {
-        GsonHolder.gson.fromJson(it, String::class.java)
+        GsonHolder.gson.parse<String>(it)
     }
     .apply {
         addParam("order_id", orderId, min = 0)
@@ -104,9 +107,8 @@ class OrdersService {
         offset: Int? = null,
         count: Int? = null,
         testMode: Boolean? = null
-    ): VKRequest<List<OrdersOrder>> = NewApiRequest("orders.get") {
-        val typeToken = object: TypeToken<List<OrdersOrder>>() {}.type
-        GsonHolder.gson.fromJson<List<OrdersOrder>>(it, typeToken)
+    ): VKRequest<List<OrdersOrderDto>> = NewApiRequest("orders.get") {
+        GsonHolder.gson.parseList<OrdersOrderDto>(it)
     }
     .apply {
         offset?.let { addParam("offset", it, min = 0) }
@@ -119,10 +121,9 @@ class OrdersService {
      * @param votes
      * @return [VKRequest] with [Unit]
      */
-    fun ordersGetAmount(userId: UserId, votes: List<String>): VKRequest<List<OrdersAmount>> =
+    fun ordersGetAmount(userId: UserId, votes: List<String>): VKRequest<List<OrdersAmountDto>> =
             NewApiRequest("orders.getAmount") {
-        val typeToken = object: TypeToken<List<OrdersAmount>>() {}.type
-        GsonHolder.gson.fromJson<List<OrdersAmount>>(it, typeToken)
+        GsonHolder.gson.parseList<OrdersAmountDto>(it)
     }
     .apply {
         addParam("user_id", userId, min = 1)
@@ -142,9 +143,8 @@ class OrdersService {
         orderId: Int? = null,
         orderIds: List<Int>? = null,
         testMode: Boolean? = null
-    ): VKRequest<List<OrdersOrder>> = NewApiRequest("orders.getById") {
-        val typeToken = object: TypeToken<List<OrdersOrder>>() {}.type
-        GsonHolder.gson.fromJson<List<OrdersOrder>>(it, typeToken)
+    ): VKRequest<List<OrdersOrderDto>> = NewApiRequest("orders.getById") {
+        GsonHolder.gson.parseList<OrdersOrderDto>(it)
     }
     .apply {
         orderId?.let { addParam("order_id", it, min = 0) }
@@ -155,11 +155,11 @@ class OrdersService {
     /**
      * @param userId
      * @param subscriptionId
-     * @return [VKRequest] with [OrdersSubscription]
+     * @return [VKRequest] with [OrdersSubscriptionDto]
      */
     fun ordersGetUserSubscriptionById(userId: UserId, subscriptionId: Int):
-            VKRequest<OrdersSubscription> = NewApiRequest("orders.getUserSubscriptionById") {
-        GsonHolder.gson.fromJson(it, OrdersSubscription::class.java)
+            VKRequest<OrdersSubscriptionDto> = NewApiRequest("orders.getUserSubscriptionById") {
+        GsonHolder.gson.parse<OrdersSubscriptionDto>(it)
     }
     .apply {
         addParam("user_id", userId, min = 1)
@@ -168,11 +168,11 @@ class OrdersService {
 
     /**
      * @param userId
-     * @return [VKRequest] with [OrdersGetUserSubscriptionsResponse]
+     * @return [VKRequest] with [OrdersGetUserSubscriptionsResponseDto]
      */
-    fun ordersGetUserSubscriptions(userId: UserId): VKRequest<OrdersGetUserSubscriptionsResponse> =
-            NewApiRequest("orders.getUserSubscriptions") {
-        GsonHolder.gson.fromJson(it, OrdersGetUserSubscriptionsResponse::class.java)
+    fun ordersGetUserSubscriptions(userId: UserId): VKRequest<OrdersGetUserSubscriptionsResponseDto>
+            = NewApiRequest("orders.getUserSubscriptions") {
+        GsonHolder.gson.parse<OrdersGetUserSubscriptionsResponseDto>(it)
     }
     .apply {
         addParam("user_id", userId, min = 1)
@@ -182,18 +182,64 @@ class OrdersService {
      * @param userId
      * @param subscriptionId
      * @param price
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
     fun ordersUpdateSubscription(
         userId: UserId,
         subscriptionId: Int,
         price: Int
-    ): VKRequest<BaseBoolInt> = NewApiRequest("orders.updateSubscription") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+    ): VKRequest<BaseBoolIntDto> = NewApiRequest("orders.updateSubscription") {
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("user_id", userId, min = 1)
         addParam("subscription_id", subscriptionId, min = 0)
         addParam("price", price, min = 0)
+    }
+
+    object OrdersCancelSubscriptionRestrictions {
+        const val USER_ID_MIN: Long = 1
+
+        const val SUBSCRIPTION_ID_MIN: Long = 0
+    }
+
+    object OrdersChangeStateRestrictions {
+        const val ORDER_ID_MIN: Long = 0
+
+        const val APP_ORDER_ID_MIN: Long = 0
+    }
+
+    object OrdersGetRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
+    }
+
+    object OrdersGetAmountRestrictions {
+        const val USER_ID_MIN: Long = 1
+    }
+
+    object OrdersGetByIdRestrictions {
+        const val ORDER_ID_MIN: Long = 0
+    }
+
+    object OrdersGetUserSubscriptionByIdRestrictions {
+        const val USER_ID_MIN: Long = 1
+
+        const val SUBSCRIPTION_ID_MIN: Long = 0
+    }
+
+    object OrdersGetUserSubscriptionsRestrictions {
+        const val USER_ID_MIN: Long = 1
+    }
+
+    object OrdersUpdateSubscriptionRestrictions {
+        const val USER_ID_MIN: Long = 1
+
+        const val SUBSCRIPTION_ID_MIN: Long = 0
+
+        const val PRICE_MIN: Long = 0
     }
 }

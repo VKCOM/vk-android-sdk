@@ -31,19 +31,27 @@ import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.downloadedGames.dto.DownloadedGamesPaidStatusResponse
+import com.vk.sdk.api.downloadedGames.dto.DownloadedGamesPaidStatusResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import kotlin.Long
 
 class DownloadedGamesService {
     /**
      * @param userId
-     * @return [VKRequest] with [DownloadedGamesPaidStatusResponse]
+     * @return [VKRequest] with [DownloadedGamesPaidStatusResponseDto]
      */
     fun downloadedGamesGetPaidStatus(userId: UserId? = null):
-            VKRequest<DownloadedGamesPaidStatusResponse> =
+            VKRequest<DownloadedGamesPaidStatusResponseDto> =
             NewApiRequest("downloadedGames.getPaidStatus") {
-        GsonHolder.gson.fromJson(it, DownloadedGamesPaidStatusResponse::class.java)
+        GsonHolder.gson.parse<DownloadedGamesPaidStatusResponseDto>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it, min = 0) }
+    }
+
+    object DownloadedGamesGetPaidStatusRestrictions {
+        const val USER_ID_MIN: Long = 0
     }
 }

@@ -27,14 +27,17 @@
 // *********************************************************************
 package com.vk.sdk.api.storage
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.storage.dto.StorageValue
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.storage.dto.StorageValueDto
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -51,9 +54,8 @@ class StorageService {
         key: String? = null,
         keys: List<String>? = null,
         userId: UserId? = null
-    ): VKRequest<List<StorageValue>> = NewApiRequest("storage.get") {
-        val typeToken = object: TypeToken<List<StorageValue>>() {}.type
-        GsonHolder.gson.fromJson<List<StorageValue>>(it, typeToken)
+    ): VKRequest<List<StorageValueDto>> = NewApiRequest("storage.get") {
+        GsonHolder.gson.parseList<StorageValueDto>(it)
     }
     .apply {
         key?.let { addParam("key", it, maxLength = 100) }
@@ -75,8 +77,7 @@ class StorageService {
         offset: Int? = null,
         count: Int? = null
     ): VKRequest<List<String>> = NewApiRequest("storage.getKeys") {
-        val typeToken = object: TypeToken<List<String>>() {}.type
-        GsonHolder.gson.fromJson<List<String>>(it, typeToken)
+        GsonHolder.gson.parseList<String>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it, min = 0) }
@@ -90,18 +91,40 @@ class StorageService {
      * @param key
      * @param value
      * @param userId
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun storageSet(
         key: String,
         value: String? = null,
         userId: UserId? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("storage.set") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("storage.set") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("key", key, maxLength = 100)
         value?.let { addParam("value", it) }
         userId?.let { addParam("user_id", it, min = 0) }
+    }
+
+    object StorageGetRestrictions {
+        const val KEY_MAX_LENGTH: Int = 100
+
+        const val USER_ID_MIN: Long = 0
+    }
+
+    object StorageGetKeysRestrictions {
+        const val USER_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
+    }
+
+    object StorageSetRestrictions {
+        const val KEY_MAX_LENGTH: Int = 100
+
+        const val USER_ID_MIN: Long = 0
     }
 }

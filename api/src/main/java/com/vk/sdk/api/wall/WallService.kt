@@ -27,50 +27,53 @@
 // *********************************************************************
 package com.vk.sdk.api.wall
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseBoolInt
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.base.dto.BaseUserGroupFields
-import com.vk.sdk.api.wall.dto.WallCreateCommentResponse
-import com.vk.sdk.api.wall.dto.WallEditResponse
-import com.vk.sdk.api.wall.dto.WallEditTopicId
-import com.vk.sdk.api.wall.dto.WallGetByIdExtendedResponse
-import com.vk.sdk.api.wall.dto.WallGetCommentExtendedResponse
-import com.vk.sdk.api.wall.dto.WallGetCommentResponse
-import com.vk.sdk.api.wall.dto.WallGetCommentsExtendedResponse
-import com.vk.sdk.api.wall.dto.WallGetCommentsExtendedSort
-import com.vk.sdk.api.wall.dto.WallGetCommentsResponse
-import com.vk.sdk.api.wall.dto.WallGetCommentsSort
-import com.vk.sdk.api.wall.dto.WallGetExtendedResponse
-import com.vk.sdk.api.wall.dto.WallGetRepostsResponse
-import com.vk.sdk.api.wall.dto.WallGetResponse
-import com.vk.sdk.api.wall.dto.WallPostAdsStealthResponse
-import com.vk.sdk.api.wall.dto.WallPostResponse
-import com.vk.sdk.api.wall.dto.WallPostTopicId
-import com.vk.sdk.api.wall.dto.WallReportCommentReason
-import com.vk.sdk.api.wall.dto.WallReportPostReason
-import com.vk.sdk.api.wall.dto.WallRepostResponse
-import com.vk.sdk.api.wall.dto.WallSearchExtendedResponse
-import com.vk.sdk.api.wall.dto.WallSearchResponse
-import com.vk.sdk.api.wall.dto.WallWallpostFull
+import com.vk.sdk.api.base.dto.BaseBoolIntDto
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.base.dto.BaseUserGroupFieldsDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.wall.dto.WallCreateCommentResponseDto
+import com.vk.sdk.api.wall.dto.WallEditResponseDto
+import com.vk.sdk.api.wall.dto.WallEditTopicIdDto
+import com.vk.sdk.api.wall.dto.WallGetByIdExtendedResponseDto
+import com.vk.sdk.api.wall.dto.WallGetCommentExtendedResponseDto
+import com.vk.sdk.api.wall.dto.WallGetCommentResponseDto
+import com.vk.sdk.api.wall.dto.WallGetCommentsExtendedResponseDto
+import com.vk.sdk.api.wall.dto.WallGetCommentsExtendedSortDto
+import com.vk.sdk.api.wall.dto.WallGetCommentsResponseDto
+import com.vk.sdk.api.wall.dto.WallGetCommentsSortDto
+import com.vk.sdk.api.wall.dto.WallGetExtendedResponseDto
+import com.vk.sdk.api.wall.dto.WallGetRepostsResponseDto
+import com.vk.sdk.api.wall.dto.WallGetResponseDto
+import com.vk.sdk.api.wall.dto.WallPostAdsStealthResponseDto
+import com.vk.sdk.api.wall.dto.WallPostResponseDto
+import com.vk.sdk.api.wall.dto.WallPostTopicIdDto
+import com.vk.sdk.api.wall.dto.WallReportCommentReasonDto
+import com.vk.sdk.api.wall.dto.WallReportPostReasonDto
+import com.vk.sdk.api.wall.dto.WallRepostResponseDto
+import com.vk.sdk.api.wall.dto.WallSearchExtendedResponseDto
+import com.vk.sdk.api.wall.dto.WallSearchResponseDto
+import com.vk.sdk.api.wall.dto.WallWallItemDto
 import kotlin.Boolean
 import kotlin.Float
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
 class WallService {
     /**
      * @param link
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
-    fun wallCheckCopyrightLink(link: String): VKRequest<BaseBoolInt> =
+    fun wallCheckCopyrightLink(link: String): VKRequest<BaseBoolIntDto> =
             NewApiRequest("wall.checkCopyrightLink") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("link", link)
@@ -79,11 +82,11 @@ class WallService {
     /**
      * @param ownerId
      * @param postId
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
-    fun wallCloseComments(ownerId: UserId, postId: Int): VKRequest<BaseBoolInt> =
+    fun wallCloseComments(ownerId: UserId, postId: Int): VKRequest<BaseBoolIntDto> =
             NewApiRequest("wall.closeComments") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -105,7 +108,7 @@ class WallService {
      * "photo100172_166443618,photo66748_265827614"
      * @param stickerId - Sticker ID.
      * @param guid - Unique identifier to avoid repeated comments.
-     * @return [VKRequest] with [WallCreateCommentResponse]
+     * @return [VKRequest] with [WallCreateCommentResponseDto]
      */
     fun wallCreateComment(
         postId: Int,
@@ -116,8 +119,8 @@ class WallService {
         attachments: List<String>? = null,
         stickerId: Int? = null,
         guid: String? = null
-    ): VKRequest<WallCreateCommentResponse> = NewApiRequest("wall.createComment") {
-        GsonHolder.gson.fromJson(it, WallCreateCommentResponse::class.java)
+    ): VKRequest<WallCreateCommentResponseDto> = NewApiRequest("wall.createComment") {
+        GsonHolder.gson.parse<WallCreateCommentResponseDto>(it)
     }
     .apply {
         addParam("post_id", postId, min = 0)
@@ -135,11 +138,11 @@ class WallService {
      *
      * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
      * @param postId - ID of the post to be deleted.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun wallDelete(ownerId: UserId? = null, postId: Int? = null): VKRequest<BaseOkResponse> =
+    fun wallDelete(ownerId: UserId? = null, postId: Int? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("wall.delete") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -151,11 +154,11 @@ class WallService {
      *
      * @param commentId - Comment ID.
      * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun wallDeleteComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
+    fun wallDeleteComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("wall.deleteComment") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("comment_id", commentId, min = 0)
@@ -176,6 +179,7 @@ class WallService {
      * "photo100172_166443618,photo66748_265827614", May contain a link to an external page to include
      * in the post. Example_ "photo66748_265827614,http_//habrahabr.ru", "NOTE_ If more than one link
      * is being attached, an error is thrown."
+     * @param primaryAttachments
      * @param services
      * @param signed
      * @param publishDate
@@ -190,7 +194,7 @@ class WallService {
      * @param posterBkgAccessHash
      * @param copyright
      * @param topicId - Topic ID. Allowed values can be obtained from newsfeed.getPostTopics method
-     * @return [VKRequest] with [WallEditResponse]
+     * @return [VKRequest] with [WallEditResponseDto]
      */
     fun wallEdit(
         postId: Int,
@@ -198,6 +202,7 @@ class WallService {
         friendsOnly: Boolean? = null,
         message: String? = null,
         attachments: List<String>? = null,
+        primaryAttachments: List<String>? = null,
         services: String? = null,
         signed: Boolean? = null,
         publishDate: Int? = null,
@@ -208,12 +213,12 @@ class WallService {
         closeComments: Boolean? = null,
         donutPaidDuration: Int? = null,
         posterBkgId: Int? = null,
-        posterBkgOwnerId: Int? = null,
+        posterBkgOwnerId: UserId? = null,
         posterBkgAccessHash: String? = null,
         copyright: String? = null,
-        topicId: WallEditTopicId? = null
-    ): VKRequest<WallEditResponse> = NewApiRequest("wall.edit") {
-        GsonHolder.gson.fromJson(it, WallEditResponse::class.java)
+        topicId: WallEditTopicIdDto? = null
+    ): VKRequest<WallEditResponseDto> = NewApiRequest("wall.edit") {
+        GsonHolder.gson.parse<WallEditResponseDto>(it)
     }
     .apply {
         addParam("post_id", postId, min = 0)
@@ -221,6 +226,7 @@ class WallService {
         friendsOnly?.let { addParam("friends_only", it) }
         message?.let { addParam("message", it) }
         attachments?.let { addParam("attachments", it) }
+        primaryAttachments?.let { addParam("primary_attachments", it) }
         services?.let { addParam("services", it) }
         signed?.let { addParam("signed", it) }
         publishDate?.let { addParam("publish_date", it, min = 0) }
@@ -260,7 +266,7 @@ class WallService {
      * @param linkTitle - Link title
      * @param linkImage - Link image url
      * @param linkVideo - Link video ID in format "<owner_id>_<media_id>"
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun wallEditAdsStealth(
         postId: Int,
@@ -275,8 +281,8 @@ class WallService {
         linkTitle: String? = null,
         linkImage: String? = null,
         linkVideo: String? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("wall.editAdsStealth") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("wall.editAdsStealth") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("post_id", postId, min = 0)
@@ -304,15 +310,15 @@ class WallService {
      * 'video' - video, 'audio' - audio, 'doc' - document, '<owner_id>' - ID of the media attachment
      * owner. '<media_id>' - Media attachment ID. For example_
      * "photo100172_166443618,photo66748_265827614"
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun wallEditComment(
         commentId: Int,
         ownerId: UserId? = null,
         message: String? = null,
         attachments: List<String>? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("wall.editComment") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("wall.editComment") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("comment_id", commentId, min = 0)
@@ -330,8 +336,10 @@ class WallService {
      * @param offset - Offset needed to return a specific subset of posts.
      * @param count - Number of posts to return (maximum 100).
      * @param filter
+     * @param extended - '1' - to return 'wall', 'profiles', and 'groups' fields, '0' - to return no
+     * additional fields (default)
      * @param fields
-     * @return [VKRequest] with [WallGetResponse]
+     * @return [VKRequest] with [WallGetResponseDto]
      */
     fun wallGet(
         ownerId: UserId? = null,
@@ -339,9 +347,10 @@ class WallService {
         offset: Int? = null,
         count: Int? = null,
         filter: String? = null,
-        fields: List<BaseUserGroupFields>? = null
-    ): VKRequest<WallGetResponse> = NewApiRequest("wall.get") {
-        GsonHolder.gson.fromJson(it, WallGetResponse::class.java)
+        extended: Boolean? = null,
+        fields: List<BaseUserGroupFieldsDto>? = null
+    ): VKRequest<WallGetResponseDto> = NewApiRequest("wall.get") {
+        GsonHolder.gson.parse<WallGetResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -349,6 +358,7 @@ class WallService {
         offset?.let { addParam("offset", it, min = 0) }
         count?.let { addParam("count", it, min = 0) }
         filter?.let { addParam("filter", it) }
+        extended?.let { addParam("extended", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -365,7 +375,7 @@ class WallService {
      * @param count - Number of posts to return (maximum 100).
      * @param filter
      * @param fields
-     * @return [VKRequest] with [WallGetExtendedResponse]
+     * @return [VKRequest] with [WallGetExtendedResponseDto]
      */
     fun wallGetExtended(
         ownerId: UserId? = null,
@@ -373,9 +383,9 @@ class WallService {
         offset: Int? = null,
         count: Int? = null,
         filter: String? = null,
-        fields: List<BaseUserGroupFields>? = null
-    ): VKRequest<WallGetExtendedResponse> = NewApiRequest("wall.get") {
-        GsonHolder.gson.fromJson(it, WallGetExtendedResponse::class.java)
+        fields: List<BaseUserGroupFieldsDto>? = null
+    ): VKRequest<WallGetExtendedResponseDto> = NewApiRequest("wall.get") {
+        GsonHolder.gson.parse<WallGetExtendedResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -395,6 +405,8 @@ class WallService {
      *
      * @param posts - User or community IDs and post IDs, separated by underscores. Use a negative
      * value to designate a community ID. Example_ "93388_21539,93388_20904,2943_4276,-1_1"
+     * @param extended - '1' - to return user and community objects needed to display posts, '0' -
+     * no additional fields are returned (default)
      * @param copyHistoryDepth - Sets the number of parent elements to include in the array
      * 'copy_history' that is returned if the post is a repost from another wall.
      * @param fields
@@ -402,14 +414,15 @@ class WallService {
      */
     fun wallGetById(
         posts: List<String>,
+        extended: Boolean? = null,
         copyHistoryDepth: Int? = null,
-        fields: List<BaseUserGroupFields>? = null
-    ): VKRequest<List<WallWallpostFull>> = NewApiRequest("wall.getById") {
-        val typeToken = object: TypeToken<List<WallWallpostFull>>() {}.type
-        GsonHolder.gson.fromJson<List<WallWallpostFull>>(it, typeToken)
+        fields: List<BaseUserGroupFieldsDto>? = null
+    ): VKRequest<List<WallWallItemDto>> = NewApiRequest("wall.getById") {
+        GsonHolder.gson.parseList<WallWallItemDto>(it)
     }
     .apply {
         addParam("posts", posts)
+        extended?.let { addParam("extended", it) }
         copyHistoryDepth?.let { addParam("copy_history_depth", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
@@ -425,14 +438,14 @@ class WallService {
      * @param copyHistoryDepth - Sets the number of parent elements to include in the array
      * 'copy_history' that is returned if the post is a repost from another wall.
      * @param fields
-     * @return [VKRequest] with [WallGetByIdExtendedResponse]
+     * @return [VKRequest] with [WallGetByIdExtendedResponseDto]
      */
     fun wallGetByIdExtended(
         posts: List<String>,
         copyHistoryDepth: Int? = null,
-        fields: List<BaseUserGroupFields>? = null
-    ): VKRequest<WallGetByIdExtendedResponse> = NewApiRequest("wall.getById") {
-        GsonHolder.gson.fromJson(it, WallGetByIdExtendedResponse::class.java)
+        fields: List<BaseUserGroupFieldsDto>? = null
+    ): VKRequest<WallGetByIdExtendedResponseDto> = NewApiRequest("wall.getById") {
+        GsonHolder.gson.parse<WallGetByIdExtendedResponseDto>(it)
     }
     .apply {
         addParam("posts", posts)
@@ -449,19 +462,22 @@ class WallService {
      *
      * @param commentId - Comment ID.
      * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
+     * @param extended
      * @param fields
-     * @return [VKRequest] with [WallGetCommentResponse]
+     * @return [VKRequest] with [WallGetCommentResponseDto]
      */
     fun wallGetComment(
         commentId: Int,
         ownerId: UserId? = null,
-        fields: List<BaseUserGroupFields>? = null
-    ): VKRequest<WallGetCommentResponse> = NewApiRequest("wall.getComment") {
-        GsonHolder.gson.fromJson(it, WallGetCommentResponse::class.java)
+        extended: Boolean? = null,
+        fields: List<BaseUserGroupFieldsDto>? = null
+    ): VKRequest<WallGetCommentResponseDto> = NewApiRequest("wall.getComment") {
+        GsonHolder.gson.parse<WallGetCommentResponseDto>(it)
     }
     .apply {
         addParam("comment_id", commentId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
+        extended?.let { addParam("extended", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -474,14 +490,14 @@ class WallService {
      * @param commentId - Comment ID.
      * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
      * @param fields
-     * @return [VKRequest] with [WallGetCommentExtendedResponse]
+     * @return [VKRequest] with [WallGetCommentExtendedResponseDto]
      */
     fun wallGetCommentExtended(
         commentId: Int,
         ownerId: UserId? = null,
-        fields: List<BaseUserGroupFields>? = null
-    ): VKRequest<WallGetCommentExtendedResponse> = NewApiRequest("wall.getComment") {
-        GsonHolder.gson.fromJson(it, WallGetCommentExtendedResponse::class.java)
+        fields: List<BaseUserGroupFieldsDto>? = null
+    ): VKRequest<WallGetCommentExtendedResponseDto> = NewApiRequest("wall.getComment") {
+        GsonHolder.gson.parse<WallGetCommentExtendedResponseDto>(it)
     }
     .apply {
         addParam("comment_id", commentId, min = 0)
@@ -506,10 +522,11 @@ class WallService {
      * @param sort - Sort order_ 'asc' - chronological, 'desc' - reverse chronological
      * @param previewLength - Number of characters at which to truncate comments when previewed. By
      * default, '90'. Specify '0' if you do not want to truncate comments.
+     * @param extended
      * @param fields
      * @param commentId - Comment ID.
      * @param threadItemsCount - Count items in threads.
-     * @return [VKRequest] with [WallGetCommentsResponse]
+     * @return [VKRequest] with [WallGetCommentsResponseDto]
      */
     fun wallGetComments(
         ownerId: UserId? = null,
@@ -518,13 +535,14 @@ class WallService {
         startCommentId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: WallGetCommentsSort? = null,
+        sort: WallGetCommentsSortDto? = null,
         previewLength: Int? = null,
-        fields: List<BaseUserGroupFields>? = null,
+        extended: Boolean? = null,
+        fields: List<BaseUserGroupFieldsDto>? = null,
         commentId: Int? = null,
         threadItemsCount: Int? = null
-    ): VKRequest<WallGetCommentsResponse> = NewApiRequest("wall.getComments") {
-        GsonHolder.gson.fromJson(it, WallGetCommentsResponse::class.java)
+    ): VKRequest<WallGetCommentsResponseDto> = NewApiRequest("wall.getComments") {
+        GsonHolder.gson.parse<WallGetCommentsResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -535,6 +553,7 @@ class WallService {
         count?.let { addParam("count", it, min = 0) }
         sort?.let { addParam("sort", it.value) }
         previewLength?.let { addParam("preview_length", it, min = 0) }
+        extended?.let { addParam("extended", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -559,7 +578,7 @@ class WallService {
      * @param fields
      * @param commentId - Comment ID.
      * @param threadItemsCount - Count items in threads.
-     * @return [VKRequest] with [WallGetCommentsExtendedResponse]
+     * @return [VKRequest] with [WallGetCommentsExtendedResponseDto]
      */
     fun wallGetCommentsExtended(
         ownerId: UserId? = null,
@@ -568,13 +587,13 @@ class WallService {
         startCommentId: Int? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: WallGetCommentsExtendedSort? = null,
+        sort: WallGetCommentsExtendedSortDto? = null,
         previewLength: Int? = null,
-        fields: List<BaseUserGroupFields>? = null,
+        fields: List<BaseUserGroupFieldsDto>? = null,
         commentId: Int? = null,
         threadItemsCount: Int? = null
-    ): VKRequest<WallGetCommentsExtendedResponse> = NewApiRequest("wall.getComments") {
-        GsonHolder.gson.fromJson(it, WallGetCommentsExtendedResponse::class.java)
+    ): VKRequest<WallGetCommentsExtendedResponseDto> = NewApiRequest("wall.getComments") {
+        GsonHolder.gson.parse<WallGetCommentsExtendedResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -602,15 +621,15 @@ class WallService {
      * @param postId - Post ID.
      * @param offset - Offset needed to return a specific subset of reposts.
      * @param count - Number of reposts to return.
-     * @return [VKRequest] with [WallGetRepostsResponse]
+     * @return [VKRequest] with [WallGetRepostsResponseDto]
      */
     fun wallGetReposts(
         ownerId: UserId? = null,
         postId: Int? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<WallGetRepostsResponse> = NewApiRequest("wall.getReposts") {
-        GsonHolder.gson.fromJson(it, WallGetRepostsResponse::class.java)
+    ): VKRequest<WallGetRepostsResponseDto> = NewApiRequest("wall.getReposts") {
+        GsonHolder.gson.parse<WallGetRepostsResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -622,11 +641,11 @@ class WallService {
     /**
      * @param ownerId
      * @param postId
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
-    fun wallOpenComments(ownerId: UserId, postId: Int): VKRequest<BaseBoolInt> =
+    fun wallOpenComments(ownerId: UserId, postId: Int): VKRequest<BaseBoolIntDto> =
             NewApiRequest("wall.openComments") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -639,11 +658,11 @@ class WallService {
      * @param postId - Post ID.
      * @param ownerId - ID of the user or community that owns the wall. By default, current user ID.
      * Use a negative value to designate a community ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun wallPin(postId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
+    fun wallPin(postId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("wall.pin") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("post_id", postId, min = 0)
@@ -668,6 +687,7 @@ class WallService {
      * "photo100172_166443618,photo66748_265827614", May contain a link to an external page to include
      * in the post. Example_ "photo66748_265827614,http_//habrahabr.ru", "NOTE_ If more than one link
      * is being attached, an error will be thrown."
+     * @param primaryAttachments
      * @param services - List of services or websites the update will be exported to, if the user
      * has so requested. Sample values_ 'twitter', 'facebook'.
      * @param signed - Only for posts in communities with 'from_group' set to '1'_ '1' - post will
@@ -685,7 +705,7 @@ class WallService {
      * @param muteNotifications
      * @param copyright
      * @param topicId - Topic ID. Allowed values can be obtained from newsfeed.getPostTopics method
-     * @return [VKRequest] with [WallPostResponse]
+     * @return [VKRequest] with [WallPostResponseDto]
      */
     fun wallPost(
         ownerId: UserId? = null,
@@ -693,6 +713,7 @@ class WallService {
         fromGroup: Boolean? = null,
         message: String? = null,
         attachments: List<String>? = null,
+        primaryAttachments: List<String>? = null,
         services: String? = null,
         signed: Boolean? = null,
         publishDate: Int? = null,
@@ -706,9 +727,9 @@ class WallService {
         donutPaidDuration: Int? = null,
         muteNotifications: Boolean? = null,
         copyright: String? = null,
-        topicId: WallPostTopicId? = null
-    ): VKRequest<WallPostResponse> = NewApiRequest("wall.post") {
-        GsonHolder.gson.fromJson(it, WallPostResponse::class.java)
+        topicId: WallPostTopicIdDto? = null
+    ): VKRequest<WallPostResponseDto> = NewApiRequest("wall.post") {
+        GsonHolder.gson.parse<WallPostResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -716,6 +737,7 @@ class WallService {
         fromGroup?.let { addParam("from_group", it) }
         message?.let { addParam("message", it) }
         attachments?.let { addParam("attachments", it) }
+        primaryAttachments?.let { addParam("primary_attachments", it) }
         services?.let { addParam("services", it) }
         signed?.let { addParam("signed", it) }
         publishDate?.let { addParam("publish_date", it, min = 0) }
@@ -756,7 +778,7 @@ class WallService {
      * @param linkTitle - Link title
      * @param linkImage - Link image url
      * @param linkVideo - Link video ID in format "<owner_id>_<media_id>"
-     * @return [VKRequest] with [WallPostAdsStealthResponse]
+     * @return [VKRequest] with [WallPostAdsStealthResponseDto]
      */
     fun wallPostAdsStealth(
         ownerId: UserId,
@@ -771,8 +793,8 @@ class WallService {
         linkTitle: String? = null,
         linkImage: String? = null,
         linkVideo: String? = null
-    ): VKRequest<WallPostAdsStealthResponse> = NewApiRequest("wall.postAdsStealth") {
-        GsonHolder.gson.fromJson(it, WallPostAdsStealthResponse::class.java)
+    ): VKRequest<WallPostAdsStealthResponseDto> = NewApiRequest("wall.postAdsStealth") {
+        GsonHolder.gson.parse<WallPostAdsStealthResponseDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -796,14 +818,14 @@ class WallService {
      * @param commentId - Comment ID.
      * @param reason - Reason for the complaint_ '0' - spam, '1' - child pornography, '2' -
      * extremism, '3' - violence, '4' - drug propaganda, '5' - adult material, '6' - insult, abuse
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun wallReportComment(
         ownerId: UserId,
         commentId: Int,
-        reason: WallReportCommentReason? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("wall.reportComment") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        reason: WallReportCommentReasonDto? = null
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("wall.reportComment") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -818,14 +840,14 @@ class WallService {
      * @param postId - Post ID.
      * @param reason - Reason for the complaint_ '0' - spam, '1' - child pornography, '2' -
      * extremism, '3' - violence, '4' - drug propaganda, '5' - adult material, '6' - insult, abuse
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun wallReportPost(
         ownerId: UserId,
         postId: Int,
-        reason: WallReportPostReason? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("wall.reportPost") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        reason: WallReportPostReasonDto? = null
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("wall.reportPost") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -841,7 +863,7 @@ class WallService {
      * @param groupId - Target community ID when reposting to a community.
      * @param markAsAds
      * @param muteNotifications
-     * @return [VKRequest] with [WallRepostResponse]
+     * @return [VKRequest] with [WallRepostResponseDto]
      */
     fun wallRepost(
         objectValue: String,
@@ -849,8 +871,8 @@ class WallService {
         groupId: UserId? = null,
         markAsAds: Boolean? = null,
         muteNotifications: Boolean? = null
-    ): VKRequest<WallRepostResponse> = NewApiRequest("wall.repost") {
-        GsonHolder.gson.fromJson(it, WallRepostResponse::class.java)
+    ): VKRequest<WallRepostResponseDto> = NewApiRequest("wall.repost") {
+        GsonHolder.gson.parse<WallRepostResponseDto>(it)
     }
     .apply {
         addParam("object", objectValue)
@@ -866,11 +888,11 @@ class WallService {
      * @param ownerId - User ID or community ID from whose wall the post was deleted. Use a negative
      * value to designate a community ID.
      * @param postId - ID of the post to be restored.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun wallRestore(ownerId: UserId? = null, postId: Int? = null): VKRequest<BaseOkResponse> =
+    fun wallRestore(ownerId: UserId? = null, postId: Int? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("wall.restore") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -882,11 +904,11 @@ class WallService {
      *
      * @param commentId - Comment ID.
      * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun wallRestoreComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
+    fun wallRestoreComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("wall.restoreComment") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("comment_id", commentId)
@@ -903,8 +925,9 @@ class WallService {
      * @param ownersOnly - '1' - returns only page owner's posts.
      * @param count - count of posts to return.
      * @param offset - Offset needed to return a specific subset of posts.
+     * @param extended - show extended post info.
      * @param fields
-     * @return [VKRequest] with [WallSearchResponse]
+     * @return [VKRequest] with [WallSearchResponseDto]
      */
     fun wallSearch(
         ownerId: UserId? = null,
@@ -913,9 +936,10 @@ class WallService {
         ownersOnly: Boolean? = null,
         count: Int? = null,
         offset: Int? = null,
-        fields: List<BaseUserGroupFields>? = null
-    ): VKRequest<WallSearchResponse> = NewApiRequest("wall.search") {
-        GsonHolder.gson.fromJson(it, WallSearchResponse::class.java)
+        extended: Boolean? = null,
+        fields: List<BaseUserGroupFieldsDto>? = null
+    ): VKRequest<WallSearchResponseDto> = NewApiRequest("wall.search") {
+        GsonHolder.gson.parse<WallSearchResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -924,6 +948,7 @@ class WallService {
         ownersOnly?.let { addParam("owners_only", it) }
         count?.let { addParam("count", it, min = 0, max = 100) }
         offset?.let { addParam("offset", it, min = 0) }
+        extended?.let { addParam("extended", it) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -941,7 +966,7 @@ class WallService {
      * @param count - count of posts to return.
      * @param offset - Offset needed to return a specific subset of posts.
      * @param fields
-     * @return [VKRequest] with [WallSearchExtendedResponse]
+     * @return [VKRequest] with [WallSearchExtendedResponseDto]
      */
     fun wallSearchExtended(
         ownerId: UserId? = null,
@@ -950,9 +975,9 @@ class WallService {
         ownersOnly: Boolean? = null,
         count: Int? = null,
         offset: Int? = null,
-        fields: List<BaseUserGroupFields>? = null
-    ): VKRequest<WallSearchExtendedResponse> = NewApiRequest("wall.search") {
-        GsonHolder.gson.fromJson(it, WallSearchExtendedResponse::class.java)
+        fields: List<BaseUserGroupFieldsDto>? = null
+    ): VKRequest<WallSearchExtendedResponseDto> = NewApiRequest("wall.search") {
+        GsonHolder.gson.parse<WallSearchExtendedResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -974,14 +999,184 @@ class WallService {
      * @param postId - Post ID.
      * @param ownerId - ID of the user or community that owns the wall. By default, current user ID.
      * Use a negative value to designate a community ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun wallUnpin(postId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
+    fun wallUnpin(postId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("wall.unpin") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("post_id", postId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
+    }
+
+    object WallCloseCommentsRestrictions {
+        const val POST_ID_MIN: Long = 0
+    }
+
+    object WallCreateCommentRestrictions {
+        const val POST_ID_MIN: Long = 0
+
+        const val FROM_GROUP_MIN: Long = 0
+
+        const val STICKER_ID_MIN: Long = 0
+    }
+
+    object WallDeleteRestrictions {
+        const val POST_ID_MIN: Long = 0
+    }
+
+    object WallDeleteCommentRestrictions {
+        const val COMMENT_ID_MIN: Long = 0
+    }
+
+    object WallEditRestrictions {
+        const val POST_ID_MIN: Long = 0
+
+        const val PUBLISH_DATE_MIN: Long = 0
+
+        const val PLACE_ID_MIN: Long = 0
+
+        const val POSTER_BKG_ID_MIN: Long = 0
+
+        const val TOPIC_ID_MIN: Long = 0
+    }
+
+    object WallEditAdsStealthRestrictions {
+        const val POST_ID_MIN: Long = 0
+
+        const val PLACE_ID_MIN: Long = 0
+    }
+
+    object WallEditCommentRestrictions {
+        const val COMMENT_ID_MIN: Long = 0
+    }
+
+    object WallGetRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+    }
+
+    object WallGetExtendedRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+    }
+
+    object WallGetCommentRestrictions {
+        const val COMMENT_ID_MIN: Long = 0
+    }
+
+    object WallGetCommentExtendedRestrictions {
+        const val COMMENT_ID_MIN: Long = 0
+    }
+
+    object WallGetCommentsRestrictions {
+        const val POST_ID_MIN: Long = 0
+
+        const val START_COMMENT_ID_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val PREVIEW_LENGTH_MIN: Long = 0
+
+        const val COMMENT_ID_MIN: Long = 0
+
+        const val THREAD_ITEMS_COUNT_MIN: Long = 0
+
+        const val THREAD_ITEMS_COUNT_MAX: Long = 10
+    }
+
+    object WallGetCommentsExtendedRestrictions {
+        const val POST_ID_MIN: Long = 0
+
+        const val START_COMMENT_ID_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val PREVIEW_LENGTH_MIN: Long = 0
+
+        const val COMMENT_ID_MIN: Long = 0
+
+        const val THREAD_ITEMS_COUNT_MIN: Long = 0
+
+        const val THREAD_ITEMS_COUNT_MAX: Long = 10
+    }
+
+    object WallGetRepostsRestrictions {
+        const val POST_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
+    }
+
+    object WallOpenCommentsRestrictions {
+        const val POST_ID_MIN: Long = 0
+    }
+
+    object WallPinRestrictions {
+        const val POST_ID_MIN: Long = 0
+    }
+
+    object WallPostRestrictions {
+        const val PUBLISH_DATE_MIN: Long = 0
+
+        const val PLACE_ID_MIN: Long = 0
+
+        const val POST_ID_MIN: Long = 0
+
+        const val TOPIC_ID_MIN: Long = 0
+    }
+
+    object WallPostAdsStealthRestrictions {
+        const val PLACE_ID_MIN: Long = 0
+    }
+
+    object WallReportCommentRestrictions {
+        const val COMMENT_ID_MIN: Long = 0
+
+        const val REASON_MIN: Long = 0
+    }
+
+    object WallReportPostRestrictions {
+        const val POST_ID_MIN: Long = 0
+
+        const val REASON_MIN: Long = 0
+    }
+
+    object WallRepostRestrictions {
+        const val GROUP_ID_MIN: Long = 0
+    }
+
+    object WallRestoreRestrictions {
+        const val POST_ID_MIN: Long = 0
+    }
+
+    object WallSearchRestrictions {
+        const val QUERY_MAX_LENGTH: Int = 9000
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
+
+        const val OFFSET_MIN: Long = 0
+    }
+
+    object WallSearchExtendedRestrictions {
+        const val QUERY_MAX_LENGTH: Int = 9000
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
+
+        const val OFFSET_MIN: Long = 0
+    }
+
+    object WallUnpinRestrictions {
+        const val POST_ID_MIN: Long = 0
     }
 }

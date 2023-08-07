@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="vk_retry" tools:ignore="UnusedResources">Probar de nuevo</string>
+    <string name="vk_captcha_hint">Introduce el código de la imagen</string>
+    <string name="vk_confirm">Confirmación</string>
+    <string name="vk_message_login_error">Error al iniciar sesión</string>
+</resources>

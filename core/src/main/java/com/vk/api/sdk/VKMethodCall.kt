@@ -51,6 +51,12 @@ open class VKMethodCall {
             private set
         var isAnonymous: Boolean = false
             private set
+        var isMultipleTokens: Boolean = false
+            private set
+        var forceRemoveAuth: Boolean = false
+            private set
+        var forceAnonymous: Boolean = false
+            private set
 
         open fun url(url: String?) = apply { this.requestUrl = url }
         open fun setEndpointPath(endpointPath: VKApiConfig.EndpointPathName) = apply { this.endpointPath = endpointPath }
@@ -70,6 +76,9 @@ open class VKMethodCall {
         open fun ignoreExecuteErrors(ignoredErrors: IntArray?) = apply { this.ignoreExecuteErrors = ignoredErrors }
         open fun allowNoAuth(allowNoAuth: Boolean) = apply { this.allowNoAuth = allowNoAuth }
         open fun setAnonymous(allow: Boolean) = apply { this.isAnonymous = allow }
+        open fun setIsMultipleTokens(isMultipleTokens: Boolean) = apply { this.isMultipleTokens = isMultipleTokens }
+        open fun forceRemoveAuth(remove: Boolean) = apply { this.forceRemoveAuth = remove }
+        open fun forceAnonymous(force: Boolean) = apply { this.forceAnonymous = force }
 
         open fun build() = VKMethodCall(this)
     }
@@ -85,6 +94,9 @@ open class VKMethodCall {
     val allowNoAuth: Boolean
     val isAnonymous: Boolean
     val ignoreExecuteErrors: IntArray?
+    val isMultipleTokens: Boolean
+    val forceRemoveAuth: Boolean
+    val forceAnonymous: Boolean
 
     protected constructor(b: Builder) {
         if (b.method.isBlank()) throw IllegalArgumentException("method is null or empty")
@@ -100,6 +112,9 @@ open class VKMethodCall {
         this.ignoreExecuteErrors = b.ignoreExecuteErrors
         this.allowNoAuth = b.allowNoAuth
         this.isAnonymous = b.isAnonymous
+        this.isMultipleTokens = b.isMultipleTokens
+        this.forceRemoveAuth = b.forceRemoveAuth
+        this.forceAnonymous = b.forceAnonymous
     }
 
     override fun equals(other: Any?): Boolean {

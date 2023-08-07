@@ -30,6 +30,7 @@ import android.content.Intent
 import android.util.Log
 import com.vk.api.sdk.R
 import com.vk.api.sdk.VK
+import com.vk.api.sdk.VKApiCredentials
 import com.vk.api.sdk.VKKeyValueStorage
 import com.vk.api.sdk.exceptions.VKApiCodes
 import com.vk.api.sdk.exceptions.VKAuthException
@@ -110,7 +111,17 @@ internal class VKAuthManager(private val keyValueStorage: VKKeyValueStorage) {
 
     fun storeLoginResult(result: VKAuthenticationResult.Success) {
         result.token.save(keyValueStorage)
-        VK.apiManager.setCredentials(result.token.accessToken, result.token.secret, result.token.expiresInSec, result.token.createdMs)
+        VK.apiManager.setCredentials(
+            listOf(
+                VKApiCredentials(
+                    result.token.accessToken,
+                    result.token.secret,
+                    result.token.expiresInSec,
+                    result.token.createdMs,
+                    result.token.userId
+                )
+            )
+        )
     }
 
     fun isLoggedIn(): Boolean {

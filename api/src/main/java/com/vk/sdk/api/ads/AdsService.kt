@@ -27,52 +27,64 @@
 // *********************************************************************
 package com.vk.sdk.api.ads
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.ads.dto.AdsAccount
-import com.vk.sdk.api.ads.dto.AdsAd
-import com.vk.sdk.api.ads.dto.AdsAdLayout
-import com.vk.sdk.api.ads.dto.AdsCampaign
-import com.vk.sdk.api.ads.dto.AdsCheckLinkLinkType
-import com.vk.sdk.api.ads.dto.AdsClient
-import com.vk.sdk.api.ads.dto.AdsCreateAdStatus
-import com.vk.sdk.api.ads.dto.AdsCreateCampaignStatus
-import com.vk.sdk.api.ads.dto.AdsCreateTargetGroupResponse
-import com.vk.sdk.api.ads.dto.AdsDemoStats
-import com.vk.sdk.api.ads.dto.AdsFloodStats
-import com.vk.sdk.api.ads.dto.AdsGetCampaignsFields
-import com.vk.sdk.api.ads.dto.AdsGetCategoriesResponse
-import com.vk.sdk.api.ads.dto.AdsGetDemographicsIdsType
-import com.vk.sdk.api.ads.dto.AdsGetDemographicsPeriod
-import com.vk.sdk.api.ads.dto.AdsGetLookalikeRequestsResponse
-import com.vk.sdk.api.ads.dto.AdsGetMusiciansResponse
-import com.vk.sdk.api.ads.dto.AdsGetPostsReachIdsType
-import com.vk.sdk.api.ads.dto.AdsGetStatisticsIdsType
-import com.vk.sdk.api.ads.dto.AdsGetStatisticsPeriod
-import com.vk.sdk.api.ads.dto.AdsGetStatisticsStatsFields
-import com.vk.sdk.api.ads.dto.AdsGetSuggestionsLang
-import com.vk.sdk.api.ads.dto.AdsGetSuggestionsSection
-import com.vk.sdk.api.ads.dto.AdsGetTargetingStatsAdFormat
-import com.vk.sdk.api.ads.dto.AdsGetUploadURLAdFormat
-import com.vk.sdk.api.ads.dto.AdsLinkStatus
-import com.vk.sdk.api.ads.dto.AdsPromotedPostReach
-import com.vk.sdk.api.ads.dto.AdsRejectReason
-import com.vk.sdk.api.ads.dto.AdsStats
-import com.vk.sdk.api.ads.dto.AdsTargSettings
-import com.vk.sdk.api.ads.dto.AdsTargStats
-import com.vk.sdk.api.ads.dto.AdsTargSuggestions
-import com.vk.sdk.api.ads.dto.AdsTargetGroup
-import com.vk.sdk.api.ads.dto.AdsUpdateOfficeUsersResult
-import com.vk.sdk.api.ads.dto.AdsUserSpecification
-import com.vk.sdk.api.ads.dto.AdsUserSpecificationCutted
-import com.vk.sdk.api.ads.dto.AdsUsers
-import com.vk.sdk.api.base.dto.BaseOkResponse
+import com.vk.sdk.api.ads.dto.AdsAccountDto
+import com.vk.sdk.api.ads.dto.AdsAdDto
+import com.vk.sdk.api.ads.dto.AdsAdLayoutDto
+import com.vk.sdk.api.ads.dto.AdsCampaignDto
+import com.vk.sdk.api.ads.dto.AdsCheckLinkLinkTypeDto
+import com.vk.sdk.api.ads.dto.AdsClientDto
+import com.vk.sdk.api.ads.dto.AdsCreateAdStatusDto
+import com.vk.sdk.api.ads.dto.AdsCreateCampaignStatusDto
+import com.vk.sdk.api.ads.dto.AdsCreateClientsStatusDto
+import com.vk.sdk.api.ads.dto.AdsCreateLookalikeRequestResponseDto
+import com.vk.sdk.api.ads.dto.AdsCreateTargetGroupResponseDto
+import com.vk.sdk.api.ads.dto.AdsCreateTargetPixelResponseDto
+import com.vk.sdk.api.ads.dto.AdsDemoStatsDto
+import com.vk.sdk.api.ads.dto.AdsFloodStatsDto
+import com.vk.sdk.api.ads.dto.AdsGetCampaignsFieldsDto
+import com.vk.sdk.api.ads.dto.AdsGetCategoriesResponseDto
+import com.vk.sdk.api.ads.dto.AdsGetDemographicsIdsTypeDto
+import com.vk.sdk.api.ads.dto.AdsGetDemographicsPeriodDto
+import com.vk.sdk.api.ads.dto.AdsGetLookalikeRequestsResponseDto
+import com.vk.sdk.api.ads.dto.AdsGetMusiciansResponseDto
+import com.vk.sdk.api.ads.dto.AdsGetPostsReachIdsTypeDto
+import com.vk.sdk.api.ads.dto.AdsGetStatisticsIdsTypeDto
+import com.vk.sdk.api.ads.dto.AdsGetStatisticsPeriodDto
+import com.vk.sdk.api.ads.dto.AdsGetStatisticsStatsFieldsDto
+import com.vk.sdk.api.ads.dto.AdsGetSuggestionsSectionDto
+import com.vk.sdk.api.ads.dto.AdsGetTargetingStatsAdFormatDto
+import com.vk.sdk.api.ads.dto.AdsGetUploadURLAdFormatDto
+import com.vk.sdk.api.ads.dto.AdsLinkStatusDto
+import com.vk.sdk.api.ads.dto.AdsPromotedPostReachDto
+import com.vk.sdk.api.ads.dto.AdsRejectReasonDto
+import com.vk.sdk.api.ads.dto.AdsRemoveTargetContactsResponseDto
+import com.vk.sdk.api.ads.dto.AdsSaveLookalikeRequestResultResponseDto
+import com.vk.sdk.api.ads.dto.AdsShareTargetGroupResponseDto
+import com.vk.sdk.api.ads.dto.AdsStatsDto
+import com.vk.sdk.api.ads.dto.AdsTargSettingsDto
+import com.vk.sdk.api.ads.dto.AdsTargStatsDto
+import com.vk.sdk.api.ads.dto.AdsTargSuggestionsDto
+import com.vk.sdk.api.ads.dto.AdsTargetGroupDto
+import com.vk.sdk.api.ads.dto.AdsTargetPixelInfoDto
+import com.vk.sdk.api.ads.dto.AdsUpdateAdsStatusDto
+import com.vk.sdk.api.ads.dto.AdsUpdateClientsStatusDto
+import com.vk.sdk.api.ads.dto.AdsUpdateOfficeUsersResultDto
+import com.vk.sdk.api.ads.dto.AdsUserSpecificationCuttedDto
+import com.vk.sdk.api.ads.dto.AdsUserSpecificationDto
+import com.vk.sdk.api.ads.dto.AdsUsersDto
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
-import kotlin.Unit
 import kotlin.collections.List
 
 class AdsService {
@@ -82,11 +94,11 @@ class AdsService {
      * @param accountId - Advertising account ID.
      * @param data - Serialized JSON array of objects that describe added managers. Description of
      * 'user_specification' objects see below.
-     * @return [VKRequest] with [Boolean]
+     * @return [VKRequest] with [Unit]
      */
-    fun adsAddOfficeUsers(accountId: Int, data: List<AdsUserSpecificationCutted>):
-            VKRequest<Boolean> = NewApiRequest("ads.addOfficeUsers") {
-        GsonHolder.gson.fromJson(it, Boolean::class.java)
+    fun adsAddOfficeUsers(accountId: Int, data: List<AdsUserSpecificationCuttedDto>):
+            VKRequest<List<Boolean>> = NewApiRequest("ads.addOfficeUsers") {
+        GsonHolder.gson.parseList<Boolean>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -101,15 +113,15 @@ class AdsService {
      * *'application' - VK application,, *'video' - video,, *'site' - external site.
      * @param linkUrl - Object URL.
      * @param campaignId - Campaign ID
-     * @return [VKRequest] with [AdsLinkStatus]
+     * @return [VKRequest] with [AdsLinkStatusDto]
      */
     fun adsCheckLink(
         accountId: Int,
-        linkType: AdsCheckLinkLinkType,
+        linkType: AdsCheckLinkLinkTypeDto,
         linkUrl: String,
         campaignId: Int? = null
-    ): VKRequest<AdsLinkStatus> = NewApiRequest("ads.checkLink") {
-        GsonHolder.gson.fromJson(it, AdsLinkStatus::class.java)
+    ): VKRequest<AdsLinkStatusDto> = NewApiRequest("ads.checkLink") {
+        GsonHolder.gson.parse<AdsLinkStatusDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -126,10 +138,9 @@ class AdsService {
      * 'ad_specification' objects see below.
      * @return [VKRequest] with [Unit]
      */
-    fun adsCreateAds(accountId: Int, data: String): VKRequest<List<AdsCreateAdStatus>> =
+    fun adsCreateAds(accountId: Int, data: String): VKRequest<List<AdsCreateAdStatusDto>> =
             NewApiRequest("ads.createAds") {
-        val typeToken = object: TypeToken<List<AdsCreateAdStatus>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsCreateAdStatus>>(it, typeToken)
+        GsonHolder.gson.parseList<AdsCreateAdStatusDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -144,10 +155,9 @@ class AdsService {
      * of 'campaign_specification' objects see below.
      * @return [VKRequest] with [Unit]
      */
-    fun adsCreateCampaigns(accountId: Int, data: String): VKRequest<List<AdsCreateCampaignStatus>> =
-            NewApiRequest("ads.createCampaigns") {
-        val typeToken = object: TypeToken<List<AdsCreateCampaignStatus>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsCreateCampaignStatus>>(it, typeToken)
+    fun adsCreateCampaigns(accountId: Int, data: String):
+            VKRequest<List<AdsCreateCampaignStatusDto>> = NewApiRequest("ads.createCampaigns") {
+        GsonHolder.gson.parseList<AdsCreateCampaignStatusDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -162,10 +172,9 @@ class AdsService {
      * of 'client_specification' objects see below.
      * @return [VKRequest] with [Unit]
      */
-    fun adsCreateClients(accountId: Int, data: String): VKRequest<List<Int>> =
+    fun adsCreateClients(accountId: Int, data: String): VKRequest<List<AdsCreateClientsStatusDto>> =
             NewApiRequest("ads.createClients") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+        GsonHolder.gson.parseList<AdsCreateClientsStatusDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -177,14 +186,16 @@ class AdsService {
      * @param sourceType
      * @param clientId
      * @param retargetingGroupId
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [AdsCreateLookalikeRequestResponseDto]
      */
     fun adsCreateLookalikeRequest(
         accountId: Int,
         sourceType: String,
         clientId: Int? = null,
-        retargetingGroupId: String? = null
-    ): VKRequest<Unit> = NewApiRequest("ads.createLookalikeRequest") {
+        retargetingGroupId: Int? = null
+    ): VKRequest<AdsCreateLookalikeRequestResponseDto> =
+            NewApiRequest("ads.createLookalikeRequest") {
+        GsonHolder.gson.parse<AdsCreateLookalikeRequestResponseDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -205,7 +216,7 @@ class AdsService {
      * account where the group will be created.
      * @param targetPixelId
      * @param targetPixelRules
-     * @return [VKRequest] with [AdsCreateTargetGroupResponse]
+     * @return [VKRequest] with [AdsCreateTargetGroupResponseDto]
      */
     fun adsCreateTargetGroup(
         accountId: Int,
@@ -214,8 +225,8 @@ class AdsService {
         clientId: Int? = null,
         targetPixelId: Int? = null,
         targetPixelRules: String? = null
-    ): VKRequest<AdsCreateTargetGroupResponse> = NewApiRequest("ads.createTargetGroup") {
-        GsonHolder.gson.fromJson(it, AdsCreateTargetGroupResponse::class.java)
+    ): VKRequest<AdsCreateTargetGroupResponseDto> = NewApiRequest("ads.createTargetGroup") {
+        GsonHolder.gson.parse<AdsCreateTargetGroupResponseDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -232,7 +243,7 @@ class AdsService {
      * @param categoryId
      * @param clientId
      * @param domain
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [AdsCreateTargetPixelResponseDto]
      */
     fun adsCreateTargetPixel(
         accountId: Int,
@@ -240,7 +251,8 @@ class AdsService {
         categoryId: Int,
         clientId: Int? = null,
         domain: String? = null
-    ): VKRequest<Unit> = NewApiRequest("ads.createTargetPixel") {
+    ): VKRequest<AdsCreateTargetPixelResponseDto> = NewApiRequest("ads.createTargetPixel") {
+        GsonHolder.gson.parse<AdsCreateTargetPixelResponseDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -259,8 +271,7 @@ class AdsService {
      */
     fun adsDeleteAds(accountId: Int, ids: String): VKRequest<List<Int>> =
             NewApiRequest("ads.deleteAds") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+        GsonHolder.gson.parseList<Int>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -276,8 +287,7 @@ class AdsService {
      */
     fun adsDeleteCampaigns(accountId: Int, ids: String): VKRequest<List<Int>> =
             NewApiRequest("ads.deleteCampaigns") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+        GsonHolder.gson.parseList<Int>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -293,8 +303,7 @@ class AdsService {
      */
     fun adsDeleteClients(accountId: Int, ids: String): VKRequest<List<Int>> =
             NewApiRequest("ads.deleteClients") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+        GsonHolder.gson.parseList<Int>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -308,14 +317,14 @@ class AdsService {
      * @param targetGroupId - Group ID.
      * @param clientId - 'Only for advertising agencies.' , ID of the client with the advertising
      * account where the group will be created.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun adsDeleteTargetGroup(
         accountId: Int,
         targetGroupId: Int,
         clientId: Int? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("ads.deleteTargetGroup") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("ads.deleteTargetGroup") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -327,13 +336,14 @@ class AdsService {
      * @param accountId
      * @param targetPixelId
      * @param clientId
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [Any]
      */
     fun adsDeleteTargetPixel(
         accountId: Int,
         targetPixelId: Int,
         clientId: Int? = null
-    ): VKRequest<Unit> = NewApiRequest("ads.deleteTargetPixel") {
+    ): VKRequest<Any> = NewApiRequest("ads.deleteTargetPixel") {
+        GsonHolder.gson.parse<Any>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -346,9 +356,8 @@ class AdsService {
      *
      * @return [VKRequest] with [Unit]
      */
-    fun adsGetAccounts(): VKRequest<List<AdsAccount>> = NewApiRequest("ads.getAccounts") {
-        val typeToken = object: TypeToken<List<AdsAccount>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsAccount>>(it, typeToken)
+    fun adsGetAccounts(): VKRequest<List<AdsAccountDto>> = NewApiRequest("ads.getAccounts") {
+        GsonHolder.gson.parseList<AdsAccountDto>(it)
     }
 
     /**
@@ -379,9 +388,8 @@ class AdsService {
         onlyDeleted: Boolean? = null,
         limit: Int? = null,
         offset: Int? = null
-    ): VKRequest<List<AdsAd>> = NewApiRequest("ads.getAds") {
-        val typeToken = object: TypeToken<List<AdsAd>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsAd>>(it, typeToken)
+    ): VKRequest<List<AdsAdDto>> = NewApiRequest("ads.getAds") {
+        GsonHolder.gson.parseList<AdsAdDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -421,9 +429,8 @@ class AdsService {
         adIds: String? = null,
         limit: Int? = null,
         offset: Int? = null
-    ): VKRequest<List<AdsAdLayout>> = NewApiRequest("ads.getAdsLayout") {
-        val typeToken = object: TypeToken<List<AdsAdLayout>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsAdLayout>>(it, typeToken)
+    ): VKRequest<List<AdsAdLayoutDto>> = NewApiRequest("ads.getAdsLayout") {
+        GsonHolder.gson.parseList<AdsAdLayoutDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -460,9 +467,8 @@ class AdsService {
         includeDeleted: Boolean? = null,
         limit: Int? = null,
         offset: Int? = null
-    ): VKRequest<List<AdsTargSettings>> = NewApiRequest("ads.getAdsTargeting") {
-        val typeToken = object: TypeToken<List<AdsTargSettings>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsTargSettings>>(it, typeToken)
+    ): VKRequest<List<AdsTargSettingsDto>> = NewApiRequest("ads.getAdsTargeting") {
+        GsonHolder.gson.parseList<AdsTargSettingsDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -478,10 +484,10 @@ class AdsService {
      * Returns current budget of the advertising account.
      *
      * @param accountId - Advertising account ID.
-     * @return [VKRequest] with [Int]
+     * @return [VKRequest] with [String]
      */
-    fun adsGetBudget(accountId: Int): VKRequest<Int> = NewApiRequest("ads.getBudget") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+    fun adsGetBudget(accountId: Int): VKRequest<String> = NewApiRequest("ads.getBudget") {
+        GsonHolder.gson.parse<String>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -506,10 +512,9 @@ class AdsService {
         clientId: Int? = null,
         includeDeleted: Boolean? = null,
         campaignIds: String? = null,
-        fields: List<AdsGetCampaignsFields>? = null
-    ): VKRequest<List<AdsCampaign>> = NewApiRequest("ads.getCampaigns") {
-        val typeToken = object: TypeToken<List<AdsCampaign>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsCampaign>>(it, typeToken)
+        fields: List<AdsGetCampaignsFieldsDto>? = null
+    ): VKRequest<List<AdsCampaignDto>> = NewApiRequest("ads.getCampaigns") {
+        GsonHolder.gson.parseList<AdsCampaignDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -527,11 +532,11 @@ class AdsService {
      *
      * @param lang - Language. The full list of supported languages is
      * [vk.com/dev/api_requests|here].
-     * @return [VKRequest] with [AdsGetCategoriesResponse]
+     * @return [VKRequest] with [AdsGetCategoriesResponseDto]
      */
-    fun adsGetCategories(lang: String? = null): VKRequest<AdsGetCategoriesResponse> =
+    fun adsGetCategories(lang: String? = null): VKRequest<AdsGetCategoriesResponseDto> =
             NewApiRequest("ads.getCategories") {
-        GsonHolder.gson.fromJson(it, AdsGetCategoriesResponse::class.java)
+        GsonHolder.gson.parse<AdsGetCategoriesResponseDto>(it)
     }
     .apply {
         lang?.let { addParam("lang", it) }
@@ -543,10 +548,9 @@ class AdsService {
      * @param accountId - Advertising account ID.
      * @return [VKRequest] with [Unit]
      */
-    fun adsGetClients(accountId: Int): VKRequest<List<AdsClient>> =
+    fun adsGetClients(accountId: Int): VKRequest<List<AdsClientDto>> =
             NewApiRequest("ads.getClients") {
-        val typeToken = object: TypeToken<List<AdsClient>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsClient>>(it, typeToken)
+        GsonHolder.gson.parseList<AdsClientDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -574,14 +578,13 @@ class AdsService {
      */
     fun adsGetDemographics(
         accountId: Int,
-        idsType: AdsGetDemographicsIdsType,
+        idsType: AdsGetDemographicsIdsTypeDto,
         ids: String,
-        period: AdsGetDemographicsPeriod,
+        period: AdsGetDemographicsPeriodDto,
         dateFrom: String,
         dateTo: String
-    ): VKRequest<List<AdsDemoStats>> = NewApiRequest("ads.getDemographics") {
-        val typeToken = object: TypeToken<List<AdsDemoStats>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsDemoStats>>(it, typeToken)
+    ): VKRequest<List<AdsDemoStatsDto>> = NewApiRequest("ads.getDemographics") {
+        GsonHolder.gson.parseList<AdsDemoStatsDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -593,15 +596,15 @@ class AdsService {
     }
 
     /**
-     * Returns information about current state of a counter � number of remaining runs of methods
+     * Returns information about current state of a counter - number of remaining runs of methods
      * and time to the next counter nulling in seconds.
      *
      * @param accountId - Advertising account ID.
-     * @return [VKRequest] with [AdsFloodStats]
+     * @return [VKRequest] with [AdsFloodStatsDto]
      */
-    fun adsGetFloodStats(accountId: Int): VKRequest<AdsFloodStats> =
+    fun adsGetFloodStats(accountId: Int): VKRequest<AdsFloodStatsDto> =
             NewApiRequest("ads.getFloodStats") {
-        GsonHolder.gson.fromJson(it, AdsFloodStats::class.java)
+        GsonHolder.gson.parse<AdsFloodStatsDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -614,7 +617,7 @@ class AdsService {
      * @param offset
      * @param limit
      * @param sortBy
-     * @return [VKRequest] with [AdsGetLookalikeRequestsResponse]
+     * @return [VKRequest] with [AdsGetLookalikeRequestsResponseDto]
      */
     fun adsGetLookalikeRequests(
         accountId: Int,
@@ -623,8 +626,8 @@ class AdsService {
         offset: Int? = null,
         limit: Int? = null,
         sortBy: String? = null
-    ): VKRequest<AdsGetLookalikeRequestsResponse> = NewApiRequest("ads.getLookalikeRequests") {
-        GsonHolder.gson.fromJson(it, AdsGetLookalikeRequestsResponse::class.java)
+    ): VKRequest<AdsGetLookalikeRequestsResponseDto> = NewApiRequest("ads.getLookalikeRequests") {
+        GsonHolder.gson.parse<AdsGetLookalikeRequestsResponseDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -637,11 +640,11 @@ class AdsService {
 
     /**
      * @param artistName
-     * @return [VKRequest] with [AdsGetMusiciansResponse]
+     * @return [VKRequest] with [AdsGetMusiciansResponseDto]
      */
-    fun adsGetMusicians(artistName: String): VKRequest<AdsGetMusiciansResponse> =
+    fun adsGetMusicians(artistName: String): VKRequest<AdsGetMusiciansResponseDto> =
             NewApiRequest("ads.getMusicians") {
-        GsonHolder.gson.fromJson(it, AdsGetMusiciansResponse::class.java)
+        GsonHolder.gson.parse<AdsGetMusiciansResponseDto>(it)
     }
     .apply {
         addParam("artist_name", artistName, minLength = 3)
@@ -649,14 +652,14 @@ class AdsService {
 
     /**
      * @param ids
-     * @return [VKRequest] with [AdsGetMusiciansResponse]
+     * @return [VKRequest] with [AdsGetMusiciansResponseDto]
      */
-    fun adsGetMusiciansByIds(ids: List<Int>): VKRequest<AdsGetMusiciansResponse> =
+    fun adsGetMusiciansByIds(ids: List<UserId>): VKRequest<AdsGetMusiciansResponseDto> =
             NewApiRequest("ads.getMusiciansByIds") {
-        GsonHolder.gson.fromJson(it, AdsGetMusiciansResponse::class.java)
+        GsonHolder.gson.parse<AdsGetMusiciansResponseDto>(it)
     }
     .apply {
-        addParam("ids", ids)
+        addParam("ids", ids, min = 1)
     }
 
     /**
@@ -665,10 +668,9 @@ class AdsService {
      * @param accountId - Advertising account ID.
      * @return [VKRequest] with [Unit]
      */
-    fun adsGetOfficeUsers(accountId: Int): VKRequest<List<AdsUsers>> =
+    fun adsGetOfficeUsers(accountId: Int): VKRequest<List<AdsUsersDto>> =
             NewApiRequest("ads.getOfficeUsers") {
-        val typeToken = object: TypeToken<List<AdsUsers>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsUsers>>(it, typeToken)
+        GsonHolder.gson.parseList<AdsUsersDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -686,11 +688,10 @@ class AdsService {
      */
     fun adsGetPostsReach(
         accountId: Int,
-        idsType: AdsGetPostsReachIdsType,
+        idsType: AdsGetPostsReachIdsTypeDto,
         ids: String
-    ): VKRequest<List<AdsPromotedPostReach>> = NewApiRequest("ads.getPostsReach") {
-        val typeToken = object: TypeToken<List<AdsPromotedPostReach>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsPromotedPostReach>>(it, typeToken)
+    ): VKRequest<List<AdsPromotedPostReachDto>> = NewApiRequest("ads.getPostsReach") {
+        GsonHolder.gson.parseList<AdsPromotedPostReachDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -703,11 +704,11 @@ class AdsService {
      *
      * @param accountId - Advertising account ID.
      * @param adId - Ad ID.
-     * @return [VKRequest] with [AdsRejectReason]
+     * @return [VKRequest] with [AdsRejectReasonDto]
      */
-    fun adsGetRejectionReason(accountId: Int, adId: Int): VKRequest<AdsRejectReason> =
+    fun adsGetRejectionReason(accountId: Int, adId: Int): VKRequest<AdsRejectReasonDto> =
             NewApiRequest("ads.getRejectionReason") {
-        GsonHolder.gson.fromJson(it, AdsRejectReason::class.java)
+        GsonHolder.gson.parse<AdsRejectReasonDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -738,15 +739,14 @@ class AdsService {
      */
     fun adsGetStatistics(
         accountId: Int,
-        idsType: AdsGetStatisticsIdsType,
+        idsType: AdsGetStatisticsIdsTypeDto,
         ids: String,
-        period: AdsGetStatisticsPeriod,
+        period: AdsGetStatisticsPeriodDto,
         dateFrom: String,
         dateTo: String,
-        statsFields: List<AdsGetStatisticsStatsFields>? = null
-    ): VKRequest<List<AdsStats>> = NewApiRequest("ads.getStatistics") {
-        val typeToken = object: TypeToken<List<AdsStats>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsStats>>(it, typeToken)
+        statsFields: List<AdsGetStatisticsStatsFieldsDto>? = null
+    ): VKRequest<List<AdsStatsDto>> = NewApiRequest("ads.getStatistics") {
+        GsonHolder.gson.parseList<AdsStatsDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -785,15 +785,14 @@ class AdsService {
      * @return [VKRequest] with [Unit]
      */
     fun adsGetSuggestions(
-        section: AdsGetSuggestionsSection,
+        section: AdsGetSuggestionsSectionDto,
         ids: String? = null,
         q: String? = null,
         country: Int? = null,
         cities: String? = null,
-        lang: AdsGetSuggestionsLang? = null
-    ): VKRequest<List<AdsTargSuggestions>> = NewApiRequest("ads.getSuggestions") {
-        val typeToken = object: TypeToken<List<AdsTargSuggestions>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsTargSuggestions>>(it, typeToken)
+        lang: String? = null
+    ): VKRequest<List<AdsTargSuggestionsDto>> = NewApiRequest("ads.getSuggestions") {
+        GsonHolder.gson.parseList<AdsTargSuggestionsDto>(it)
     }
     .apply {
         addParam("section", section.value)
@@ -801,7 +800,7 @@ class AdsService {
         q?.let { addParam("q", it) }
         country?.let { addParam("country", it) }
         cities?.let { addParam("cities", it) }
-        lang?.let { addParam("lang", it.value) }
+        lang?.let { addParam("lang", it) }
     }
 
     /**
@@ -810,16 +809,20 @@ class AdsService {
      * @param accountId - Advertising account ID.
      * @param clientId - 'Only for advertising agencies.', ID of the client with the advertising
      * account where the group will be created.
+     * @param extended - '1' - to return pixel code.
      * @return [VKRequest] with [Unit]
      */
-    fun adsGetTargetGroups(accountId: Int, clientId: Int? = null): VKRequest<List<AdsTargetGroup>> =
-            NewApiRequest("ads.getTargetGroups") {
-        val typeToken = object: TypeToken<List<AdsTargetGroup>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsTargetGroup>>(it, typeToken)
+    fun adsGetTargetGroups(
+        accountId: Int,
+        clientId: Int? = null,
+        extended: Boolean? = null
+    ): VKRequest<List<AdsTargetGroupDto>> = NewApiRequest("ads.getTargetGroups") {
+        GsonHolder.gson.parseList<AdsTargetGroupDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
         clientId?.let { addParam("client_id", it) }
+        extended?.let { addParam("extended", it) }
     }
 
     /**
@@ -827,8 +830,9 @@ class AdsService {
      * @param clientId
      * @return [VKRequest] with [Unit]
      */
-    fun adsGetTargetPixels(accountId: Int, clientId: Int? = null): VKRequest<Unit> =
-            NewApiRequest("ads.getTargetPixels") {
+    fun adsGetTargetPixels(accountId: Int, clientId: Int? = null):
+            VKRequest<List<AdsTargetPixelInfoDto>> = NewApiRequest("ads.getTargetPixels") {
+        GsonHolder.gson.parseList<AdsTargetPixelInfoDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -858,7 +862,7 @@ class AdsService {
      * of audience.
      * @param impressionsLimitPeriod - Impressions limit period in seconds, must be a multiple of
      * 86400(day)
-     * @return [VKRequest] with [AdsTargStats]
+     * @return [VKRequest] with [AdsTargStatsDto]
      */
     fun adsGetTargetingStats(
         accountId: Int,
@@ -866,7 +870,7 @@ class AdsService {
         clientId: Int? = null,
         criteria: String? = null,
         adId: Int? = null,
-        adFormat: AdsGetTargetingStatsAdFormat? = null,
+        adFormat: AdsGetTargetingStatsAdFormatDto? = null,
         adPlatform: String? = null,
         adPlatformNoWall: String? = null,
         adPlatformNoAdNetwork: String? = null,
@@ -874,8 +878,8 @@ class AdsService {
         linkDomain: String? = null,
         needPrecise: Boolean? = null,
         impressionsLimitPeriod: Int? = null
-    ): VKRequest<AdsTargStats> = NewApiRequest("ads.getTargetingStats") {
-        GsonHolder.gson.fromJson(it, AdsTargStats::class.java)
+    ): VKRequest<AdsTargStatsDto> = NewApiRequest("ads.getTargetingStats") {
+        GsonHolder.gson.parse<AdsTargStatsDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -901,9 +905,9 @@ class AdsService {
      * @param icon
      * @return [VKRequest] with [String]
      */
-    fun adsGetUploadURL(adFormat: AdsGetUploadURLAdFormat, icon: Int? = null): VKRequest<String> =
-            NewApiRequest("ads.getUploadURL") {
-        GsonHolder.gson.fromJson(it, String::class.java)
+    fun adsGetUploadURL(adFormat: AdsGetUploadURLAdFormatDto, icon: Int? = null): VKRequest<String>
+            = NewApiRequest("ads.getUploadURL") {
+        GsonHolder.gson.parse<String>(it)
     }
     .apply {
         addParam("ad_format", adFormat.value)
@@ -916,7 +920,7 @@ class AdsService {
      * @return [VKRequest] with [String]
      */
     fun adsGetVideoUploadURL(): VKRequest<String> = NewApiRequest("ads.getVideoUploadURL") {
-        GsonHolder.gson.fromJson(it, String::class.java)
+        GsonHolder.gson.parse<String>(it)
     }
 
     /**
@@ -936,7 +940,7 @@ class AdsService {
         contacts: String,
         clientId: Int? = null
     ): VKRequest<Int> = NewApiRequest("ads.importTargetContacts") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parse<Int>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -950,11 +954,11 @@ class AdsService {
      *
      * @param accountId - Advertising account ID.
      * @param ids - Serialized JSON array with IDs of deleted managers.
-     * @return [VKRequest] with [Boolean]
+     * @return [VKRequest] with [Unit]
      */
-    fun adsRemoveOfficeUsers(accountId: Int, ids: String): VKRequest<Boolean> =
+    fun adsRemoveOfficeUsers(accountId: Int, ids: String): VKRequest<List<Boolean>> =
             NewApiRequest("ads.removeOfficeUsers") {
-        GsonHolder.gson.fromJson(it, Boolean::class.java)
+        GsonHolder.gson.parseList<Boolean>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -966,14 +970,15 @@ class AdsService {
      * @param targetGroupId
      * @param contacts
      * @param clientId
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [AdsRemoveTargetContactsResponseDto]
      */
     fun adsRemoveTargetContacts(
         accountId: Int,
         targetGroupId: Int,
         contacts: String,
         clientId: Int? = null
-    ): VKRequest<Unit> = NewApiRequest("ads.removeTargetContacts") {
+    ): VKRequest<AdsRemoveTargetContactsResponseDto> = NewApiRequest("ads.removeTargetContacts") {
+        GsonHolder.gson.parse<AdsRemoveTargetContactsResponseDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -987,14 +992,16 @@ class AdsService {
      * @param requestId
      * @param level
      * @param clientId
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [AdsSaveLookalikeRequestResultResponseDto]
      */
     fun adsSaveLookalikeRequestResult(
         accountId: Int,
         requestId: Int,
         level: Int,
         clientId: Int? = null
-    ): VKRequest<Unit> = NewApiRequest("ads.saveLookalikeRequestResult") {
+    ): VKRequest<AdsSaveLookalikeRequestResultResponseDto> =
+            NewApiRequest("ads.saveLookalikeRequestResult") {
+        GsonHolder.gson.parse<AdsSaveLookalikeRequestResultResponseDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -1008,14 +1015,15 @@ class AdsService {
      * @param targetGroupId
      * @param clientId
      * @param shareWithClientId
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [AdsShareTargetGroupResponseDto]
      */
     fun adsShareTargetGroup(
         accountId: Int,
         targetGroupId: Int,
         clientId: Int? = null,
         shareWithClientId: Int? = null
-    ): VKRequest<Unit> = NewApiRequest("ads.shareTargetGroup") {
+    ): VKRequest<AdsShareTargetGroupResponseDto> = NewApiRequest("ads.shareTargetGroup") {
+        GsonHolder.gson.parse<AdsShareTargetGroupResponseDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -1032,10 +1040,9 @@ class AdsService {
      * 'ad_edit_specification' objects see below.
      * @return [VKRequest] with [Unit]
      */
-    fun adsUpdateAds(accountId: Int, data: String): VKRequest<List<Int>> =
+    fun adsUpdateAds(accountId: Int, data: String): VKRequest<List<AdsUpdateAdsStatusDto>> =
             NewApiRequest("ads.updateAds") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+        GsonHolder.gson.parseList<AdsUpdateAdsStatusDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -1048,11 +1055,11 @@ class AdsService {
      * @param accountId - Advertising account ID.
      * @param data - Serialized JSON array of objects that describe changes in campaigns.
      * Description of 'campaign_mod' objects see below.
-     * @return [VKRequest] with [Int]
+     * @return [VKRequest] with [Unit]
      */
-    fun adsUpdateCampaigns(accountId: Int, data: String): VKRequest<Int> =
-            NewApiRequest("ads.updateCampaigns") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+    fun adsUpdateCampaigns(accountId: Int, data: String):
+            VKRequest<List<AdsCreateCampaignStatusDto>> = NewApiRequest("ads.updateCampaigns") {
+        GsonHolder.gson.parseList<AdsCreateCampaignStatusDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -1065,11 +1072,11 @@ class AdsService {
      * @param accountId - Advertising account ID.
      * @param data - Serialized JSON array of objects that describe changes in clients. Description
      * of 'client_mod' objects see below.
-     * @return [VKRequest] with [Int]
+     * @return [VKRequest] with [Unit]
      */
-    fun adsUpdateClients(accountId: Int, data: String): VKRequest<Int> =
+    fun adsUpdateClients(accountId: Int, data: String): VKRequest<List<AdsUpdateClientsStatusDto>> =
             NewApiRequest("ads.updateClients") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parseList<AdsUpdateClientsStatusDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -1084,10 +1091,10 @@ class AdsService {
      * 'user_specification' objects see below.
      * @return [VKRequest] with [Unit]
      */
-    fun adsUpdateOfficeUsers(accountId: Int, data: List<AdsUserSpecification>):
-            VKRequest<List<AdsUpdateOfficeUsersResult>> = NewApiRequest("ads.updateOfficeUsers") {
-        val typeToken = object: TypeToken<List<AdsUpdateOfficeUsersResult>>() {}.type
-        GsonHolder.gson.fromJson<List<AdsUpdateOfficeUsersResult>>(it, typeToken)
+    fun adsUpdateOfficeUsers(accountId: Int, data: List<AdsUserSpecificationDto>):
+            VKRequest<List<AdsUpdateOfficeUsersResultDto>> =
+            NewApiRequest("ads.updateOfficeUsers") {
+        GsonHolder.gson.parseList<AdsUpdateOfficeUsersResultDto>(it)
     }
     .apply {
         addParam("account_id", accountId, min = 0)
@@ -1108,7 +1115,7 @@ class AdsService {
      * @param domain - Domain of the site where user accounting code will be placed.
      * @param targetPixelId
      * @param targetPixelRules
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun adsUpdateTargetGroup(
         accountId: Int,
@@ -1119,8 +1126,8 @@ class AdsService {
         domain: String? = null,
         targetPixelId: Int? = null,
         targetPixelRules: String? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("ads.updateTargetGroup") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("ads.updateTargetGroup") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -1140,7 +1147,7 @@ class AdsService {
      * @param categoryId
      * @param clientId
      * @param domain
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [Any]
      */
     fun adsUpdateTargetPixel(
         accountId: Int,
@@ -1149,7 +1156,8 @@ class AdsService {
         categoryId: Int,
         clientId: Int? = null,
         domain: String? = null
-    ): VKRequest<Unit> = NewApiRequest("ads.updateTargetPixel") {
+    ): VKRequest<Any> = NewApiRequest("ads.updateTargetPixel") {
+        GsonHolder.gson.parse<Any>(it)
     }
     .apply {
         addParam("account_id", accountId)
@@ -1158,5 +1166,37 @@ class AdsService {
         addParam("category_id", categoryId)
         clientId?.let { addParam("client_id", it) }
         domain?.let { addParam("domain", it) }
+    }
+
+    object AdsCreateTargetGroupRestrictions {
+        const val LIFETIME_MIN: Long = 1
+
+        const val LIFETIME_MAX: Long = 720
+    }
+
+    object AdsGetLookalikeRequestsRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val LIMIT_MIN: Long = 0
+
+        const val LIMIT_MAX: Long = 200
+    }
+
+    object AdsGetMusiciansRestrictions {
+        const val ARTIST_NAME_MIN_LENGTH: Int = 3
+    }
+
+    object AdsGetMusiciansByIdsRestrictions {
+        const val IDS_MIN: Long = 1
+    }
+
+    object AdsUpdateOfficeUsersRestrictions {
+        const val ACCOUNT_ID_MIN: Long = 0
+    }
+
+    object AdsUpdateTargetGroupRestrictions {
+        const val LIFETIME_MIN: Long = 1
+
+        const val LIFETIME_MAX: Long = 720
     }
 }

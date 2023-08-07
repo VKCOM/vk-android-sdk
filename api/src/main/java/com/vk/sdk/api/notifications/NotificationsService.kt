@@ -27,17 +27,20 @@
 // *********************************************************************
 package com.vk.sdk.api.notifications
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseBoolInt
-import com.vk.sdk.api.notifications.dto.NotificationsGetFilters
-import com.vk.sdk.api.notifications.dto.NotificationsGetResponse
-import com.vk.sdk.api.notifications.dto.NotificationsSendMessageItem
-import com.vk.sdk.api.notifications.dto.NotificationsSendMessageSendingMode
+import com.vk.sdk.api.base.dto.BaseBoolIntDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.notifications.dto.NotificationsGetFiltersDto
+import com.vk.sdk.api.notifications.dto.NotificationsGetResponseDto
+import com.vk.sdk.api.notifications.dto.NotificationsSendMessageItemDto
+import com.vk.sdk.api.notifications.dto.NotificationsSendMessageSendingModeDto
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -55,16 +58,16 @@ class NotificationsService {
      * 24 hours ago.
      * @param endTime - Latest timestamp (in Unix time) of a notification to return. By default, the
      * current time.
-     * @return [VKRequest] with [NotificationsGetResponse]
+     * @return [VKRequest] with [NotificationsGetResponseDto]
      */
     fun notificationsGet(
         count: Int? = null,
         startFrom: String? = null,
-        filters: List<NotificationsGetFilters>? = null,
+        filters: List<NotificationsGetFiltersDto>? = null,
         startTime: Int? = null,
         endTime: Int? = null
-    ): VKRequest<NotificationsGetResponse> = NewApiRequest("notifications.get") {
-        GsonHolder.gson.fromJson(it, NotificationsGetResponse::class.java)
+    ): VKRequest<NotificationsGetResponseDto> = NewApiRequest("notifications.get") {
+        GsonHolder.gson.parse<NotificationsGetResponseDto>(it)
     }
     .apply {
         count?.let { addParam("count", it, min = 1, max = 100) }
@@ -81,11 +84,11 @@ class NotificationsService {
      * Resets the counter of new notifications about other users' feedback to the current user's
      * wall posts.
      *
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
-    fun notificationsMarkAsViewed(): VKRequest<BaseBoolInt> =
+    fun notificationsMarkAsViewed(): VKRequest<BaseBoolIntDto> =
             NewApiRequest("notifications.markAsViewed") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
 
     /**
@@ -102,22 +105,38 @@ class NotificationsService {
      * @return [VKRequest] with [Unit]
      */
     fun notificationsSendMessage(
-        userIds: List<Int>,
+        userIds: List<UserId>,
         message: String,
         fragment: String? = null,
         groupId: UserId? = null,
         randomId: Int? = null,
-        sendingMode: NotificationsSendMessageSendingMode? = null
-    ): VKRequest<List<NotificationsSendMessageItem>> = NewApiRequest("notifications.sendMessage") {
-        val typeToken = object: TypeToken<List<NotificationsSendMessageItem>>() {}.type
-        GsonHolder.gson.fromJson<List<NotificationsSendMessageItem>>(it, typeToken)
+        sendingMode: NotificationsSendMessageSendingModeDto? = null
+    ): VKRequest<List<NotificationsSendMessageItemDto>> =
+            NewApiRequest("notifications.sendMessage") {
+        GsonHolder.gson.parseList<NotificationsSendMessageItemDto>(it)
     }
     .apply {
-        addParam("user_ids", userIds)
+        addParam("user_ids", userIds, min = 0)
         addParam("message", message, maxLength = 254)
         fragment?.let { addParam("fragment", it, maxLength = 2047) }
         groupId?.let { addParam("group_id", it, min = 0) }
         randomId?.let { addParam("random_id", it) }
         sendingMode?.let { addParam("sending_mode", it.value) }
+    }
+
+    object NotificationsGetRestrictions {
+        const val COUNT_MIN: Long = 1
+
+        const val COUNT_MAX: Long = 100
+    }
+
+    object NotificationsSendMessageRestrictions {
+        const val USER_IDS_MIN: Long = 0
+
+        const val MESSAGE_MAX_LENGTH: Int = 254
+
+        const val FRAGMENT_MAX_LENGTH: Int = 2047
+
+        const val GROUP_ID_MIN: Long = 0
     }
 }

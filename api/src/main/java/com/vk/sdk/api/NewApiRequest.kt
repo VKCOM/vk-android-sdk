@@ -28,6 +28,7 @@
 package com.vk.sdk.api
 
 import com.google.gson.JsonParser
+import com.google.gson.internal.bind.JsonTreeReader
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import java.lang.IllegalArgumentException
@@ -43,10 +44,8 @@ internal class NewApiRequest<T> internal constructor(
     methodName: String,
     parser: ApiResponseParser<T>
 ) : VKRequest<T>(methodName, requestApiVersion = "5.131"), ApiResponseParser<T> by parser {
-    override fun parse(responseJson: JSONObject): T {
-        val response = JsonParser.parseString(responseJson.toString()).asJsonObject.get("response")
-        return parseResponse(response)
-    }
+    override fun parse(responseJson: JSONObject): T =
+            parseResponse(JsonTreeReader(JsonParser.parseString(responseJson.toString())))
 
     fun addParam(
         name: String,
@@ -89,7 +88,7 @@ internal class NewApiRequest<T> internal constructor(
     fun addParam(
         name: String,
         value: Float,
-        min: Double = Double.MIN_VALUE,
+        min: Double = -Double.MAX_VALUE,
         max: Double = Double.MAX_VALUE
     ) {
         if (value !in min..max) {

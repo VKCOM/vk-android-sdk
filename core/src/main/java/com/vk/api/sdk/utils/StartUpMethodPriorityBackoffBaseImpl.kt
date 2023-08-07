@@ -1,7 +1,7 @@
 package com.vk.api.sdk.utils
 
 import com.vk.api.sdk.utils.log.Logger
-import java.util.concurrent.CopyOnWriteArrayList
+import java.util.concurrent.CopyOnWriteArraySet
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.Condition
@@ -17,7 +17,7 @@ import kotlin.concurrent.withLock
  *
  * thr default wait timeout for the method is 500ms
  *
- * @param startUpPriorityMethods - list of priority methods all other methods execution will be blocked
+ * @param startUpPriorityMethodsProvider - list of priority methods all other methods execution will be blocked
  * until startUpMethodsQueue will become empty or clear method will be called
  * @param exceptionMethods - method names which will be skipped for the checking
  * @param startUpHeavyMethods method names which will wait for startup process to complete
@@ -27,12 +27,12 @@ import kotlin.concurrent.withLock
  * @param logger - [Logger] instance
  */
 class StartUpMethodPriorityBackoffBaseImpl(
-    startUpPriorityMethods: Collection<String>,
+    private val startUpPriorityMethodsProvider: () -> Collection<String>,
     private val exceptionMethods: Collection<String>,
     private val startUpHeavyMethods: Collection<String>,
     private val shouldRestrictHeavyRequestsOnStartUp: Boolean,
     private val shouldWaitForStartUpPriorityRequestsCompletion: Boolean,
-    private val logger: Logger
+    private val logger: Logger,
 ) : ApiMethodPriorityBackoff {
 
     private val locks: MutableMap<Int, Condition> = mutableMapOf()
@@ -40,15 +40,16 @@ class StartUpMethodPriorityBackoffBaseImpl(
     private val notifiedLocksIds = mutableSetOf<Int>()
     private val operationsLock = ReentrantLock()
     private val methodNames: MutableMap<Int, String> = mutableMapOf()
-    // startup is considered to be complete once message queue was emptied OR clear() was called
-    @Volatile private var startupCompleted = false
 
-    private val startUpPriorityMethodsQueue = CopyOnWriteArrayList<String>().apply {
-        addAll(startUpPriorityMethods)
+    @Volatile
+    private var wasCleared = false
+
+    private val startUpPriorityMethodsQueue by lazy {
+        CopyOnWriteArraySet(startUpPriorityMethodsProvider())
     }
 
-    override fun isActive(): Boolean = startUpPriorityMethodsQueue.isNotEmpty() ||
-            (!startupCompleted && shouldRestrictHeavyRequestsOnStartUp)
+    override fun isActive(): Boolean = startUpPriorityMethodsQueue.isNotEmpty()
+        || (!wasCleared && shouldRestrictHeavyRequestsOnStartUp)
 
     override fun newId(): Int {
         val newId = idGenerator.incrementAndGet()
@@ -65,15 +66,13 @@ class StartUpMethodPriorityBackoffBaseImpl(
                 return false
             }
 
-            if (!startupCompleted && shouldRestrictHeavyRequestsOnStartUp && startUpHeavyMethods.contains(methodName)) {
+            if (!wasCleared && shouldRestrictHeavyRequestsOnStartUp && startUpHeavyMethods.contains(methodName)) {
                 return true
             }
 
             val shouldWait = startUpPriorityMethodsQueue.isNotEmpty() && !startUpPriorityMethodsQueue.contains(methodName)
-            if (!shouldWait) {
-                if (!shouldWaitForStartUpPriorityRequestsCompletion) {
-                    notifyAwaiters(methodName)
-                }
+            if (!shouldWait && !shouldWaitForStartUpPriorityRequestsCompletion) {
+                notifyAwaiters(methodName)
             }
             return shouldWait
         }
@@ -84,9 +83,11 @@ class StartUpMethodPriorityBackoffBaseImpl(
             val condition = locks[clientId] ?: return
             methodNames[clientId] = methodName
             if (shouldWait(methodName)) {
-                logger.debug("method $methodName will wait, " +
+                logger.debug(
+                    "method $methodName will wait, " +
                         "queue.size = ${startUpPriorityMethodsQueue.size}, " +
-                        "startupCompleted = $startupCompleted")
+                        "wasCleared = $wasCleared"
+                )
 
                 if (shouldRestrictHeavyRequestsOnStartUp && startUpHeavyMethods.contains(methodName)) {
                     logger.debug("method $methodName will wait for start up completion")
@@ -106,19 +107,6 @@ class StartUpMethodPriorityBackoffBaseImpl(
         }
     }
 
-    override fun onStartUpCompleted() {
-        operationsLock.withLock {
-            if (startupCompleted) {
-                return
-            }
-
-            logger.debug("startup completed")
-            startupCompleted = true
-            startUpPriorityMethodsQueue.clear()
-            notifyLocks(lightOnly = false)
-        }
-    }
-
     override fun onMethodCompleted(methodName: String) {
         operationsLock.withLock {
             notifyAwaiters(methodName)
@@ -127,14 +115,19 @@ class StartUpMethodPriorityBackoffBaseImpl(
 
     override fun clear() {
         operationsLock.withLock {
-            logger.debug("clear was called")
+            if (wasCleared) {
+                return
+            }
 
-            onStartUpCompleted()
+            logger.debug("clear started")
+            wasCleared = true
+            startUpPriorityMethodsQueue.clear()
+            notifyLocks(lightOnly = false)
         }
     }
 
     private fun notifyLocks(lightOnly: Boolean) {
-        logger.debug("notifying ${ if (lightOnly) "light only" else "all" } locks")
+        logger.debug("notifying ${if (lightOnly) "light only" else "all"} locks")
 
         for (lockId in locks.keys) {
             if (notifiedLocksIds.contains(lockId)) {
@@ -164,7 +157,7 @@ class StartUpMethodPriorityBackoffBaseImpl(
     }
 
     private fun Logger.debug(msg: String) {
-        logger.log(Logger.LogLevel.DEBUG, "StartUpMethodPriorityBackoffBaseImpl: $msg")
+        log(Logger.LogLevel.DEBUG, "StartUpMethodPriorityBackoffBaseImpl: $msg")
     }
 
     internal companion object {

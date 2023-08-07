@@ -27,16 +27,20 @@
 // *********************************************************************
 package com.vk.sdk.api.leadForms
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.leadForms.dto.LeadFormsCreateResponse
-import com.vk.sdk.api.leadForms.dto.LeadFormsDeleteResponse
-import com.vk.sdk.api.leadForms.dto.LeadFormsForm
-import com.vk.sdk.api.leadForms.dto.LeadFormsGetLeadsResponse
+import com.vk.sdk.api.leadForms.dto.LeadFormsCreateResponseDto
+import com.vk.sdk.api.leadForms.dto.LeadFormsDeleteResponseDto
+import com.vk.sdk.api.leadForms.dto.LeadFormsFormDto
+import com.vk.sdk.api.leadForms.dto.LeadFormsGetLeadsResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -56,10 +60,10 @@ class LeadFormsService {
      * @param pixelCode
      * @param notifyAdmins
      * @param notifyEmails
-     * @return [VKRequest] with [LeadFormsCreateResponse]
+     * @return [VKRequest] with [LeadFormsCreateResponseDto]
      */
     fun leadFormsCreate(
-        groupId: Int,
+        groupId: UserId,
         name: String,
         title: String,
         description: String,
@@ -73,11 +77,11 @@ class LeadFormsService {
         pixelCode: String? = null,
         notifyAdmins: List<Int>? = null,
         notifyEmails: List<String>? = null
-    ): VKRequest<LeadFormsCreateResponse> = NewApiRequest("leadForms.create") {
-        GsonHolder.gson.fromJson(it, LeadFormsCreateResponse::class.java)
+    ): VKRequest<LeadFormsCreateResponseDto> = NewApiRequest("leadForms.create") {
+        GsonHolder.gson.parse<LeadFormsCreateResponseDto>(it)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         addParam("name", name, maxLength = 100)
         addParam("title", title, maxLength = 60)
         addParam("description", description, maxLength = 600)
@@ -96,28 +100,28 @@ class LeadFormsService {
     /**
      * @param groupId
      * @param formId
-     * @return [VKRequest] with [LeadFormsDeleteResponse]
+     * @return [VKRequest] with [LeadFormsDeleteResponseDto]
      */
-    fun leadFormsDelete(groupId: Int, formId: Int): VKRequest<LeadFormsDeleteResponse> =
+    fun leadFormsDelete(groupId: UserId, formId: Int): VKRequest<LeadFormsDeleteResponseDto> =
             NewApiRequest("leadForms.delete") {
-        GsonHolder.gson.fromJson(it, LeadFormsDeleteResponse::class.java)
+        GsonHolder.gson.parse<LeadFormsDeleteResponseDto>(it)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         addParam("form_id", formId)
     }
 
     /**
      * @param groupId
      * @param formId
-     * @return [VKRequest] with [LeadFormsForm]
+     * @return [VKRequest] with [LeadFormsFormDto]
      */
-    fun leadFormsGet(groupId: Int, formId: Int): VKRequest<LeadFormsForm> =
+    fun leadFormsGet(groupId: UserId, formId: Int): VKRequest<LeadFormsFormDto> =
             NewApiRequest("leadForms.get") {
-        GsonHolder.gson.fromJson(it, LeadFormsForm::class.java)
+        GsonHolder.gson.parse<LeadFormsFormDto>(it)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         addParam("form_id", formId)
     }
 
@@ -126,18 +130,18 @@ class LeadFormsService {
      * @param formId
      * @param limit
      * @param nextPageToken
-     * @return [VKRequest] with [LeadFormsGetLeadsResponse]
+     * @return [VKRequest] with [LeadFormsGetLeadsResponseDto]
      */
     fun leadFormsGetLeads(
-        groupId: Int,
+        groupId: UserId,
         formId: Int,
         limit: Int? = null,
         nextPageToken: String? = null
-    ): VKRequest<LeadFormsGetLeadsResponse> = NewApiRequest("leadForms.getLeads") {
-        GsonHolder.gson.fromJson(it, LeadFormsGetLeadsResponse::class.java)
+    ): VKRequest<LeadFormsGetLeadsResponseDto> = NewApiRequest("leadForms.getLeads") {
+        GsonHolder.gson.parse<LeadFormsGetLeadsResponseDto>(it)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         addParam("form_id", formId)
         limit?.let { addParam("limit", it, min = 1, max = 1000) }
         nextPageToken?.let { addParam("next_page_token", it) }
@@ -147,20 +151,19 @@ class LeadFormsService {
      * @return [VKRequest] with [String]
      */
     fun leadFormsGetUploadURL(): VKRequest<String> = NewApiRequest("leadForms.getUploadURL") {
-        GsonHolder.gson.fromJson(it, String::class.java)
+        GsonHolder.gson.parse<String>(it)
     }
 
     /**
      * @param groupId
      * @return [VKRequest] with [Unit]
      */
-    fun leadFormsList(groupId: Int): VKRequest<List<LeadFormsForm>> =
+    fun leadFormsList(groupId: UserId): VKRequest<List<LeadFormsFormDto>> =
             NewApiRequest("leadForms.list") {
-        val typeToken = object: TypeToken<List<LeadFormsForm>>() {}.type
-        GsonHolder.gson.fromJson<List<LeadFormsForm>>(it, typeToken)
+        GsonHolder.gson.parseList<LeadFormsFormDto>(it)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
     }
 
     /**
@@ -179,10 +182,10 @@ class LeadFormsService {
      * @param pixelCode
      * @param notifyAdmins
      * @param notifyEmails
-     * @return [VKRequest] with [LeadFormsCreateResponse]
+     * @return [VKRequest] with [LeadFormsCreateResponseDto]
      */
     fun leadFormsUpdate(
-        groupId: Int,
+        groupId: UserId,
         formId: Int,
         name: String,
         title: String,
@@ -197,11 +200,11 @@ class LeadFormsService {
         pixelCode: String? = null,
         notifyAdmins: List<Int>? = null,
         notifyEmails: List<String>? = null
-    ): VKRequest<LeadFormsCreateResponse> = NewApiRequest("leadForms.update") {
-        GsonHolder.gson.fromJson(it, LeadFormsCreateResponse::class.java)
+    ): VKRequest<LeadFormsCreateResponseDto> = NewApiRequest("leadForms.update") {
+        GsonHolder.gson.parse<LeadFormsCreateResponseDto>(it)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         addParam("form_id", formId)
         addParam("name", name, maxLength = 100)
         addParam("title", title, maxLength = 60)
@@ -216,5 +219,57 @@ class LeadFormsService {
         pixelCode?.let { addParam("pixel_code", it) }
         notifyAdmins?.let { addParam("notify_admins", it) }
         notifyEmails?.let { addParam("notify_emails", it) }
+    }
+
+    object LeadFormsCreateRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val NAME_MAX_LENGTH: Int = 100
+
+        const val TITLE_MAX_LENGTH: Int = 60
+
+        const val DESCRIPTION_MAX_LENGTH: Int = 600
+
+        const val POLICY_LINK_URL_MAX_LENGTH: Int = 200
+
+        const val CONFIRMATION_MAX_LENGTH: Int = 300
+
+        const val SITE_LINK_URL_MAX_LENGTH: Int = 200
+    }
+
+    object LeadFormsDeleteRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object LeadFormsGetRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object LeadFormsGetLeadsRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val LIMIT_MIN: Long = 1
+
+        const val LIMIT_MAX: Long = 1000
+    }
+
+    object LeadFormsListRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object LeadFormsUpdateRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val NAME_MAX_LENGTH: Int = 100
+
+        const val TITLE_MAX_LENGTH: Int = 60
+
+        const val DESCRIPTION_MAX_LENGTH: Int = 600
+
+        const val POLICY_LINK_URL_MAX_LENGTH: Int = 200
+
+        const val CONFIRMATION_MAX_LENGTH: Int = 300
+
+        const val SITE_LINK_URL_MAX_LENGTH: Int = 200
     }
 }

@@ -28,6 +28,7 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.vk.gradle.publish'
 apply from: "../dependencies.gradle"
 
 def isEnabled = ""
@@ -35,7 +36,7 @@ try {
     isEnabled = providers.environmentVariable("SDK_UPDATE")
             .forUseAtConfigurationTime()
             .get()
-} catch(Exception e) {}
+} catch(Exception ignored) {}
 
 if (isEnabled != "1") {
     Project superApp = rootProject.findProject(":sdk:sak")
@@ -97,4 +98,4 @@ dependencies {
     testImplementation testLibraries.junit
 }
 
-apply from: "../publish.gradle"
+apply from: "../signing.gradle"

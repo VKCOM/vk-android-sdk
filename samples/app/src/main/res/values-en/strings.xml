@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Sign in</string>
+    <string name="logout">Sign out</string>
+    <string name="share_to_wall">Share on wall</string>
+    <string name="message_hint">Your message</string>
+    <string name="wall_ok">Posted</string>
+    <string name="message_connection_error">Connection error</string>
+    <string name="message_unknown_error">Unknown error. Try again later.</string>
+</resources>

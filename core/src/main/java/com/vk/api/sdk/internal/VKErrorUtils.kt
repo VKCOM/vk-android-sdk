@@ -66,12 +66,7 @@ object VKErrorUtils {
         try {
             val bundle = when (errorJson.optInt(VKApiCodes.PARAM_ERROR_CODE)) {
                 VKApiCodes.CODE_CAPTCHA_REQUIRED -> {
-                    val extra = Bundle()
-                    extra.putString(VKApiCodes.EXTRA_CAPTCHA_SID, errorJson.getString(VKApiCodes.EXTRA_CAPTCHA_SID))
-                    extra.putString(VKApiCodes.EXTRA_CAPTCHA_IMG, errorJson.getString(VKApiCodes.EXTRA_CAPTCHA_IMG))
-                    extra.putInt(VKApiCodes.EXTRA_CAPTCHA_IMG_HEIGHT, errorJson.optInt(VKApiCodes.EXTRA_CAPTCHA_IMG_HEIGHT))
-                    extra.putInt(VKApiCodes.EXTRA_CAPTCHA_IMG_WIDTH, errorJson.optInt(VKApiCodes.EXTRA_CAPTCHA_IMG_WIDTH))
-                    extra
+                    Bundle().putCaptchaData(errorJson)
                 }
                 VKApiCodes.CODE_USER_VALIDATION_REQUIRED -> {
                     val extra = Bundle()
@@ -92,9 +87,9 @@ object VKErrorUtils {
                     } else null
                 }
                 VKApiCodes.CODE_ERROR_NEED_TOKEN_EXTENSION -> {
-                        val extra = Bundle()
-                        extra.putString(VKApiCodes.EXTRA_EXTENSION_HASH, errorJson.optString(VKApiCodes.EXTRA_EXTENSION_HASH, null))
-                        extra
+                    val extra = Bundle()
+                    extra.putString(VKApiCodes.EXTRA_EXTENSION_HASH, errorJson.optString(VKApiCodes.EXTRA_EXTENSION_HASH, null))
+                    extra
                 }
                 else -> null
             }
@@ -153,5 +148,23 @@ object VKErrorUtils {
         } catch (e: JSONException) {
             return VKApiIllegalResponseException(e)
         }
+    }
+
+    private fun Bundle.putCaptchaData(errorJson: JSONObject): Bundle {
+        putString(VKApiCodes.EXTRA_CAPTCHA_SID, errorJson.getString(VKApiCodes.EXTRA_CAPTCHA_SID))
+        putString(VKApiCodes.EXTRA_CAPTCHA_IMG, errorJson.getString(VKApiCodes.EXTRA_CAPTCHA_IMG))
+        putInt(VKApiCodes.EXTRA_CAPTCHA_IMG_HEIGHT, errorJson.optInt(VKApiCodes.EXTRA_CAPTCHA_IMG_HEIGHT))
+        putInt(VKApiCodes.EXTRA_CAPTCHA_IMG_WIDTH, errorJson.optInt(VKApiCodes.EXTRA_CAPTCHA_IMG_WIDTH))
+        putDouble(VKApiCodes.EXTRA_CAPTCHA_RATIO, errorJson.optDouble(VKApiCodes.EXTRA_CAPTCHA_RATIO))
+        VKApiCodes.EXTRA_CAPTCHA_ATTEMPT.let { key ->
+            if (errorJson.has(key)) putInt(key, errorJson.optInt(key, -1))
+        }
+        VKApiCodes.EXTRA_CAPTCHA_TIMESTAMP.let { key ->
+            if (errorJson.has(key)) putDouble(key, errorJson.optDouble(key, -1.0))
+        }
+        VKApiCodes.EXTRA_CAPTCHA_IS_REFRESH_ENABLED.let {key ->
+            if (errorJson.has(key)) putBoolean(key, errorJson.optBoolean(VKApiCodes.EXTRA_CAPTCHA_IS_REFRESH_ENABLED, false))
+        }
+        return this
     }
 }

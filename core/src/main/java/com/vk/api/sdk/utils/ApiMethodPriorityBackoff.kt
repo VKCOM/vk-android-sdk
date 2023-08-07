@@ -32,11 +32,6 @@ interface ApiMethodPriorityBackoff {
     fun onMethodCompleted(methodName: String)
 
     /**
-     * Callback to be called after app start is completed
-     */
-    fun onStartUpCompleted()
-
-    /**
      * clears priority methods and notifies all waiting clients
      */
     fun clear()
@@ -55,10 +50,6 @@ interface ApiMethodPriorityBackoff {
             }
 
             override fun onMethodCompleted(methodName: String) {
-                //do nothing
-            }
-
-            override fun onStartUpCompleted() {
                 //do nothing
             }
 

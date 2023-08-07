@@ -27,62 +27,62 @@
 // *********************************************************************
 package com.vk.sdk.api.groups
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.addresses.dto.AddressesFields
-import com.vk.sdk.api.base.dto.BaseBoolInt
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.base.dto.BaseUserGroupFields
-import com.vk.sdk.api.groups.dto.GroupsAddAddressWorkInfoStatus
-import com.vk.sdk.api.groups.dto.GroupsAddCallbackServerResponse
-import com.vk.sdk.api.groups.dto.GroupsAddress
-import com.vk.sdk.api.groups.dto.GroupsCallbackSettings
-import com.vk.sdk.api.groups.dto.GroupsCreateSubtype
-import com.vk.sdk.api.groups.dto.GroupsCreateType
-import com.vk.sdk.api.groups.dto.GroupsEditAddressWorkInfoStatus
-import com.vk.sdk.api.groups.dto.GroupsEditAgeLimits
-import com.vk.sdk.api.groups.dto.GroupsFields
-import com.vk.sdk.api.groups.dto.GroupsFilter
-import com.vk.sdk.api.groups.dto.GroupsGetAddressesResponse
-import com.vk.sdk.api.groups.dto.GroupsGetBannedResponse
-import com.vk.sdk.api.groups.dto.GroupsGetCallbackConfirmationCodeResponse
-import com.vk.sdk.api.groups.dto.GroupsGetCallbackServersResponse
-import com.vk.sdk.api.groups.dto.GroupsGetCatalogInfoExtendedResponse
-import com.vk.sdk.api.groups.dto.GroupsGetCatalogInfoResponse
-import com.vk.sdk.api.groups.dto.GroupsGetCatalogResponse
-import com.vk.sdk.api.groups.dto.GroupsGetInvitedUsersNameCase
-import com.vk.sdk.api.groups.dto.GroupsGetInvitedUsersResponse
-import com.vk.sdk.api.groups.dto.GroupsGetInvitesExtendedResponse
-import com.vk.sdk.api.groups.dto.GroupsGetInvitesResponse
-import com.vk.sdk.api.groups.dto.GroupsGetMembersFieldsResponse
-import com.vk.sdk.api.groups.dto.GroupsGetMembersFilter
-import com.vk.sdk.api.groups.dto.GroupsGetMembersSort
-import com.vk.sdk.api.groups.dto.GroupsGetObjectExtendedResponse
-import com.vk.sdk.api.groups.dto.GroupsGetRequestsFieldsResponse
-import com.vk.sdk.api.groups.dto.GroupsGetResponse
-import com.vk.sdk.api.groups.dto.GroupsGetSettingsResponse
-import com.vk.sdk.api.groups.dto.GroupsGetTokenPermissionsResponse
-import com.vk.sdk.api.groups.dto.GroupsGroup
-import com.vk.sdk.api.groups.dto.GroupsGroupFull
-import com.vk.sdk.api.groups.dto.GroupsGroupTag
-import com.vk.sdk.api.groups.dto.GroupsLinksItem
-import com.vk.sdk.api.groups.dto.GroupsLongPollServer
-import com.vk.sdk.api.groups.dto.GroupsLongPollSettings
-import com.vk.sdk.api.groups.dto.GroupsSearchResponse
-import com.vk.sdk.api.groups.dto.GroupsSearchSort
-import com.vk.sdk.api.groups.dto.GroupsSearchType
-import com.vk.sdk.api.groups.dto.GroupsTagAddTagColor
-import com.vk.sdk.api.groups.dto.GroupsTagBindAct
-import com.vk.sdk.api.groups.dto.GroupsToggleMarketState
-import com.vk.sdk.api.users.dto.UsersFields
+import com.vk.sdk.api.address.dto.AddressFieldsDto
+import com.vk.sdk.api.base.dto.BaseBoolIntDto
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.base.dto.BaseUserGroupFieldsDto
+import com.vk.sdk.api.groups.dto.GroupsAddAddressWorkInfoStatusDto
+import com.vk.sdk.api.groups.dto.GroupsAddCallbackServerResponseDto
+import com.vk.sdk.api.groups.dto.GroupsAddressDto
+import com.vk.sdk.api.groups.dto.GroupsCallbackSettingsDto
+import com.vk.sdk.api.groups.dto.GroupsCreateSubtypeDto
+import com.vk.sdk.api.groups.dto.GroupsCreateTypeDto
+import com.vk.sdk.api.groups.dto.GroupsEditAddressWorkInfoStatusDto
+import com.vk.sdk.api.groups.dto.GroupsEditAgeLimitsDto
+import com.vk.sdk.api.groups.dto.GroupsFieldsDto
+import com.vk.sdk.api.groups.dto.GroupsFilterDto
+import com.vk.sdk.api.groups.dto.GroupsGetAddressesResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetBannedResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetCallbackConfirmationCodeResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetCallbackServersResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetCatalogInfoExtendedResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetCatalogInfoResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetInvitedUsersResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetInvitesExtendedResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetInvitesResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetMembersFieldsResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetMembersFilterDto
+import com.vk.sdk.api.groups.dto.GroupsGetMembersSortDto
+import com.vk.sdk.api.groups.dto.GroupsGetObjectExtendedResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetOnlineStatusResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetRequestsFieldsResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetSettingsResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetTokenPermissionsResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGroupFullDto
+import com.vk.sdk.api.groups.dto.GroupsGroupTagDto
+import com.vk.sdk.api.groups.dto.GroupsLinksItemDto
+import com.vk.sdk.api.groups.dto.GroupsLongPollServerDto
+import com.vk.sdk.api.groups.dto.GroupsLongPollSettingsDto
+import com.vk.sdk.api.groups.dto.GroupsSearchResponseDto
+import com.vk.sdk.api.groups.dto.GroupsSearchSortDto
+import com.vk.sdk.api.groups.dto.GroupsSearchTypeDto
+import com.vk.sdk.api.groups.dto.GroupsTagAddTagColorDto
+import com.vk.sdk.api.groups.dto.GroupsTagBindActDto
+import com.vk.sdk.api.groups.dto.GroupsToggleMarketStateDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.users.dto.UsersFieldsDto
 import kotlin.Boolean
 import kotlin.Float
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
-import kotlin.Unit
 import kotlin.collections.List
 
 class GroupsService {
@@ -90,7 +90,6 @@ class GroupsService {
      * @param groupId
      * @param title
      * @param address
-     * @param countryId
      * @param cityId
      * @param latitude
      * @param longitude
@@ -100,30 +99,28 @@ class GroupsService {
      * @param workInfoStatus
      * @param timetable
      * @param isMainAddress
-     * @return [VKRequest] with [GroupsAddress]
+     * @return [VKRequest] with [GroupsAddressDto]
      */
     fun groupsAddAddress(
         groupId: UserId,
         title: String,
         address: String,
-        countryId: Int,
         cityId: Int,
         latitude: Float,
         longitude: Float,
         additionalAddress: String? = null,
         metroId: Int? = null,
         phone: String? = null,
-        workInfoStatus: GroupsAddAddressWorkInfoStatus? = null,
+        workInfoStatus: GroupsAddAddressWorkInfoStatusDto? = null,
         timetable: String? = null,
         isMainAddress: Boolean? = null
-    ): VKRequest<GroupsAddress> = NewApiRequest("groups.addAddress") {
-        GsonHolder.gson.fromJson(it, GroupsAddress::class.java)
+    ): VKRequest<GroupsAddressDto> = NewApiRequest("groups.addAddress") {
+        GsonHolder.gson.parse<GroupsAddressDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
         addParam("title", title, maxLength = 255)
         addParam("address", address, maxLength = 255)
-        addParam("country_id", countryId, min = 1)
         addParam("city_id", cityId, min = 1)
         addParam("latitude", latitude, min = -90.0, max = 90.0)
         addParam("longitude", longitude, min = -180.0, max = 180.0)
@@ -140,15 +137,15 @@ class GroupsService {
      * @param url
      * @param title
      * @param secretKey
-     * @return [VKRequest] with [GroupsAddCallbackServerResponse]
+     * @return [VKRequest] with [GroupsAddCallbackServerResponseDto]
      */
     fun groupsAddCallbackServer(
         groupId: UserId,
         url: String,
         title: String,
         secretKey: String? = null
-    ): VKRequest<GroupsAddCallbackServerResponse> = NewApiRequest("groups.addCallbackServer") {
-        GsonHolder.gson.fromJson(it, GroupsAddCallbackServerResponse::class.java)
+    ): VKRequest<GroupsAddCallbackServerResponseDto> = NewApiRequest("groups.addCallbackServer") {
+        GsonHolder.gson.parse<GroupsAddCallbackServerResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -163,14 +160,14 @@ class GroupsService {
      * @param groupId - Community ID.
      * @param link - Link URL.
      * @param text - Description text for the link.
-     * @return [VKRequest] with [GroupsLinksItem]
+     * @return [VKRequest] with [GroupsLinksItemDto]
      */
     fun groupsAddLink(
         groupId: UserId,
         link: String,
         text: String? = null
-    ): VKRequest<GroupsLinksItem> = NewApiRequest("groups.addLink") {
-        GsonHolder.gson.fromJson(it, GroupsLinksItem::class.java)
+    ): VKRequest<GroupsLinksItemDto> = NewApiRequest("groups.addLink") {
+        GsonHolder.gson.parse<GroupsLinksItemDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -183,11 +180,11 @@ class GroupsService {
      *
      * @param groupId - Community ID.
      * @param userId - User ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun groupsApproveRequest(groupId: UserId, userId: UserId): VKRequest<BaseOkResponse> =
+    fun groupsApproveRequest(groupId: UserId, userId: UserId): VKRequest<BaseOkResponseDto> =
             NewApiRequest("groups.approveRequest") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -201,7 +198,7 @@ class GroupsService {
      * @param reason
      * @param comment
      * @param commentVisible
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun groupsBan(
         groupId: UserId,
@@ -210,8 +207,8 @@ class GroupsService {
         reason: Int? = null,
         comment: String? = null,
         commentVisible: Boolean? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("groups.ban") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.ban") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -234,17 +231,17 @@ class GroupsService {
      * @param subtype - Public page subtype. Possible values_ *'1' - place or small business,,
      * *'2' - company, organization or website,, *'3' - famous person or group of people,, *'4' -
      * product or work of art.
-     * @return [VKRequest] with [GroupsGroup]
+     * @return [VKRequest] with [GroupsGroupFullDto]
      */
     fun groupsCreate(
         title: String,
         description: String? = null,
-        type: GroupsCreateType? = null,
+        type: GroupsCreateTypeDto? = null,
         publicCategory: Int? = null,
         publicSubcategory: Int? = null,
-        subtype: GroupsCreateSubtype? = null
-    ): VKRequest<GroupsGroup> = NewApiRequest("groups.create") {
-        GsonHolder.gson.fromJson(it, GroupsGroup::class.java)
+        subtype: GroupsCreateSubtypeDto? = null
+    ): VKRequest<GroupsGroupFullDto> = NewApiRequest("groups.create") {
+        GsonHolder.gson.parse<GroupsGroupFullDto>(it)
     }
     .apply {
         addParam("title", title)
@@ -258,11 +255,11 @@ class GroupsService {
     /**
      * @param groupId
      * @param addressId
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun groupsDeleteAddress(groupId: UserId, addressId: Int): VKRequest<BaseOkResponse> =
+    fun groupsDeleteAddress(groupId: UserId, addressId: Int): VKRequest<BaseOkResponseDto> =
             NewApiRequest("groups.deleteAddress") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -272,11 +269,11 @@ class GroupsService {
     /**
      * @param groupId
      * @param serverId
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun groupsDeleteCallbackServer(groupId: UserId, serverId: Int): VKRequest<BaseOkResponse> =
+    fun groupsDeleteCallbackServer(groupId: UserId, serverId: Int): VKRequest<BaseOkResponseDto> =
             NewApiRequest("groups.deleteCallbackServer") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -288,11 +285,11 @@ class GroupsService {
      *
      * @param groupId - Community ID.
      * @param linkId - Link ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun groupsDeleteLink(groupId: UserId, linkId: Int): VKRequest<BaseOkResponse> =
+    fun groupsDeleteLink(groupId: UserId, linkId: Int): VKRequest<BaseOkResponseDto> =
             NewApiRequest("groups.deleteLink") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -301,11 +298,11 @@ class GroupsService {
 
     /**
      * @param groupId
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun groupsDisableOnline(groupId: UserId): VKRequest<BaseOkResponse> =
+    fun groupsDisableOnline(groupId: UserId): VKRequest<BaseOkResponseDto> =
             NewApiRequest("groups.disableOnline") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -389,7 +386,7 @@ class GroupsService {
      * @param secondarySection
      * @param country - Country of the community.
      * @param city - City of the community.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun groupsEdit(
         groupId: UserId,
@@ -398,7 +395,7 @@ class GroupsService {
         screenName: String? = null,
         access: Int? = null,
         website: String? = null,
-        subject: String? = null,
+        subject: Int? = null,
         email: String? = null,
         phone: String? = null,
         rss: String? = null,
@@ -422,7 +419,7 @@ class GroupsService {
         messages: Boolean? = null,
         articles: Boolean? = null,
         addresses: Boolean? = null,
-        ageLimits: GroupsEditAgeLimits? = null,
+        ageLimits: GroupsEditAgeLimitsDto? = null,
         market: Boolean? = null,
         marketComments: Boolean? = null,
         marketCountry: List<Int>? = null,
@@ -437,8 +434,8 @@ class GroupsService {
         secondarySection: Int? = null,
         country: Int? = null,
         city: Int? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("groups.edit") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.edit") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -494,7 +491,6 @@ class GroupsService {
      * @param title
      * @param address
      * @param additionalAddress
-     * @param countryId
      * @param cityId
      * @param metroId
      * @param latitude
@@ -503,7 +499,7 @@ class GroupsService {
      * @param workInfoStatus
      * @param timetable
      * @param isMainAddress
-     * @return [VKRequest] with [GroupsAddress]
+     * @return [VKRequest] with [GroupsAddressDto]
      */
     fun groupsEditAddress(
         groupId: UserId,
@@ -511,17 +507,16 @@ class GroupsService {
         title: String? = null,
         address: String? = null,
         additionalAddress: String? = null,
-        countryId: Int? = null,
         cityId: Int? = null,
         metroId: Int? = null,
         latitude: Float? = null,
         longitude: Float? = null,
         phone: String? = null,
-        workInfoStatus: GroupsEditAddressWorkInfoStatus? = null,
+        workInfoStatus: GroupsEditAddressWorkInfoStatusDto? = null,
         timetable: String? = null,
         isMainAddress: Boolean? = null
-    ): VKRequest<GroupsAddress> = NewApiRequest("groups.editAddress") {
-        GsonHolder.gson.fromJson(it, GroupsAddress::class.java)
+    ): VKRequest<GroupsAddressDto> = NewApiRequest("groups.editAddress") {
+        GsonHolder.gson.parse<GroupsAddressDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -529,7 +524,6 @@ class GroupsService {
         title?.let { addParam("title", it, maxLength = 255) }
         address?.let { addParam("address", it, maxLength = 255) }
         additionalAddress?.let { addParam("additional_address", it, maxLength = 400) }
-        countryId?.let { addParam("country_id", it, min = 0) }
         cityId?.let { addParam("city_id", it, min = 0) }
         metroId?.let { addParam("metro_id", it, min = 0) }
         latitude?.let { addParam("latitude", it, min = -90.0, max = 90.0) }
@@ -546,7 +540,7 @@ class GroupsService {
      * @param url
      * @param title
      * @param secretKey
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun groupsEditCallbackServer(
         groupId: UserId,
@@ -554,8 +548,8 @@ class GroupsService {
         url: String,
         title: String,
         secretKey: String? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("groups.editCallbackServer") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.editCallbackServer") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -571,14 +565,14 @@ class GroupsService {
      * @param groupId - Community ID.
      * @param linkId - Link ID.
      * @param text - New description text for the link.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun groupsEditLink(
         groupId: UserId,
         linkId: Int,
         text: String? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("groups.editLink") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.editLink") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -593,27 +587,30 @@ class GroupsService {
      * @param userId - User ID.
      * @param role - Manager role. Possible values_ *'moderator',, *'editor',, *'administrator',,
      * *'advertiser'.
+     * @param isCallOperator - '1' - allow the manager to accept community calls.
      * @param isContact - '1' - to show the manager in Contacts block of the community.
      * @param contactPosition - Position to show in Contacts block.
      * @param contactPhone - Contact phone.
      * @param contactEmail - Contact e-mail.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun groupsEditManager(
         groupId: UserId,
         userId: UserId,
         role: String? = null,
+        isCallOperator: Boolean? = null,
         isContact: Boolean? = null,
         contactPosition: String? = null,
         contactPhone: String? = null,
         contactEmail: String? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("groups.editManager") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.editManager") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
         addParam("user_id", userId, min = 1)
         role?.let { addParam("role", it) }
+        isCallOperator?.let { addParam("is_call_operator", it) }
         isContact?.let { addParam("is_contact", it) }
         contactPosition?.let { addParam("contact_position", it) }
         contactPhone?.let { addParam("contact_phone", it) }
@@ -622,11 +619,11 @@ class GroupsService {
 
     /**
      * @param groupId
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun groupsEnableOnline(groupId: UserId): VKRequest<BaseOkResponse> =
+    fun groupsEnableOnline(groupId: UserId): VKRequest<BaseOkResponseDto> =
             NewApiRequest("groups.enableOnline") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -636,6 +633,8 @@ class GroupsService {
      * Returns a list of the communities to which a user belongs.
      *
      * @param userId - User ID.
+     * @param extended - '1' - to return complete information about a user's communities, '0' - to
+     * return a list of community IDs without any additional fields (default),
      * @param filter - Types of communities to return_ 'admin' - to return communities administered
      * by the user , 'editor' - to return communities where the user is an administrator or editor,
      * 'moder' - to return communities where the user is an administrator, editor, or moderator,
@@ -644,19 +643,21 @@ class GroupsService {
      * @param fields - Profile fields to return.
      * @param offset - Offset needed to return a specific subset of communities.
      * @param count - Number of communities to return.
-     * @return [VKRequest] with [GroupsGetResponse]
+     * @return [VKRequest] with [GroupsGetResponseDto]
      */
     fun groupsGet(
         userId: UserId? = null,
-        filter: List<GroupsFilter>? = null,
-        fields: List<GroupsFields>? = null,
+        extended: Boolean? = null,
+        filter: List<GroupsFilterDto>? = null,
+        fields: List<GroupsFieldsDto>? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<GroupsGetResponse> = NewApiRequest("groups.get") {
-        GsonHolder.gson.fromJson(it, GroupsGetResponse::class.java)
+    ): VKRequest<GroupsGetResponseDto> = NewApiRequest("groups.get") {
+        GsonHolder.gson.parse<GroupsGetResponseDto>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it, min = 1) }
+        extended?.let { addParam("extended", it) }
         val filterJsonConverted = filter?.map {
             it.value
         }
@@ -681,16 +682,16 @@ class GroupsService {
      * @param fields - Profile fields to return.
      * @param offset - Offset needed to return a specific subset of communities.
      * @param count - Number of communities to return.
-     * @return [VKRequest] with [GroupsGetObjectExtendedResponse]
+     * @return [VKRequest] with [GroupsGetObjectExtendedResponseDto]
      */
     fun groupsGetExtended(
         userId: UserId? = null,
-        filter: List<GroupsFilter>? = null,
-        fields: List<GroupsFields>? = null,
+        filter: List<GroupsFilterDto>? = null,
+        fields: List<GroupsFieldsDto>? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<GroupsGetObjectExtendedResponse> = NewApiRequest("groups.get") {
-        GsonHolder.gson.fromJson(it, GroupsGetObjectExtendedResponse::class.java)
+    ): VKRequest<GroupsGetObjectExtendedResponseDto> = NewApiRequest("groups.get") {
+        GsonHolder.gson.parse<GroupsGetObjectExtendedResponseDto>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it, min = 1) }
@@ -717,7 +718,7 @@ class GroupsService {
      * @param offset - Offset needed to return a specific subset of community addresses.
      * @param count - Number of community addresses to return.
      * @param fields - Address fields
-     * @return [VKRequest] with [GroupsGetAddressesResponse]
+     * @return [VKRequest] with [GroupsGetAddressesResponseDto]
      */
     fun groupsGetAddresses(
         groupId: UserId,
@@ -726,9 +727,9 @@ class GroupsService {
         longitude: Float? = null,
         offset: Int? = null,
         count: Int? = null,
-        fields: List<AddressesFields>? = null
-    ): VKRequest<GroupsGetAddressesResponse> = NewApiRequest("groups.getAddresses") {
-        GsonHolder.gson.fromJson(it, GroupsGetAddressesResponse::class.java)
+        fields: List<AddressFieldsDto>? = null
+    ): VKRequest<GroupsGetAddressesResponseDto> = NewApiRequest("groups.getAddresses") {
+        GsonHolder.gson.parse<GroupsGetAddressesResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -751,16 +752,16 @@ class GroupsService {
      * @param count - Number of users to return.
      * @param fields
      * @param ownerId
-     * @return [VKRequest] with [GroupsGetBannedResponse]
+     * @return [VKRequest] with [GroupsGetBannedResponseDto]
      */
     fun groupsGetBanned(
         groupId: UserId,
         offset: Int? = null,
         count: Int? = null,
-        fields: List<BaseUserGroupFields>? = null,
+        fields: List<BaseUserGroupFieldsDto>? = null,
         ownerId: UserId? = null
-    ): VKRequest<GroupsGetBannedResponse> = NewApiRequest("groups.getBanned") {
-        GsonHolder.gson.fromJson(it, GroupsGetBannedResponse::class.java)
+    ): VKRequest<GroupsGetBannedResponseDto> = NewApiRequest("groups.getBanned") {
+        GsonHolder.gson.parse<GroupsGetBannedResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -784,14 +785,13 @@ class GroupsService {
     fun groupsGetById(
         groupIds: List<UserId>? = null,
         groupId: UserId? = null,
-        fields: List<GroupsFields>? = null
-    ): VKRequest<List<GroupsGroupFull>> = NewApiRequest("groups.getById") {
-        val typeToken = object: TypeToken<List<GroupsGroupFull>>() {}.type
-        GsonHolder.gson.fromJson<List<GroupsGroupFull>>(it, typeToken)
+        fields: List<GroupsFieldsDto>? = null
+    ): VKRequest<List<GroupsGroupFullDto>> = NewApiRequest("groups.getById") {
+        GsonHolder.gson.parseList<GroupsGroupFullDto>(it)
     }
     .apply {
-        groupIds?.let { addParam("group_ids", it) }
-        groupId?.let { addParam("group_id", it) }
+        groupIds?.let { addParam("group_ids", it, min = 1) }
+        groupId?.let { addParam("group_id", it, min = 1) }
         val fieldsJsonConverted = fields?.map {
             it.value
         }
@@ -802,12 +802,12 @@ class GroupsService {
      * Returns Callback API confirmation code for the community.
      *
      * @param groupId - Community ID.
-     * @return [VKRequest] with [GroupsGetCallbackConfirmationCodeResponse]
+     * @return [VKRequest] with [GroupsGetCallbackConfirmationCodeResponseDto]
      */
     fun groupsGetCallbackConfirmationCode(groupId: UserId):
-            VKRequest<GroupsGetCallbackConfirmationCodeResponse> =
+            VKRequest<GroupsGetCallbackConfirmationCodeResponseDto> =
             NewApiRequest("groups.getCallbackConfirmationCode") {
-        GsonHolder.gson.fromJson(it, GroupsGetCallbackConfirmationCodeResponse::class.java)
+        GsonHolder.gson.parse<GroupsGetCallbackConfirmationCodeResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -816,12 +816,12 @@ class GroupsService {
     /**
      * @param groupId
      * @param serverIds
-     * @return [VKRequest] with [GroupsGetCallbackServersResponse]
+     * @return [VKRequest] with [GroupsGetCallbackServersResponseDto]
      */
     fun groupsGetCallbackServers(groupId: UserId, serverIds: List<Int>? = null):
-            VKRequest<GroupsGetCallbackServersResponse> =
+            VKRequest<GroupsGetCallbackServersResponseDto> =
             NewApiRequest("groups.getCallbackServers") {
-        GsonHolder.gson.fromJson(it, GroupsGetCallbackServersResponse::class.java)
+        GsonHolder.gson.parse<GroupsGetCallbackServersResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -833,11 +833,11 @@ class GroupsService {
      *
      * @param groupId - Community ID.
      * @param serverId - Server ID.
-     * @return [VKRequest] with [GroupsCallbackSettings]
+     * @return [VKRequest] with [GroupsCallbackSettingsDto]
      */
     fun groupsGetCallbackSettings(groupId: UserId, serverId: Int? = null):
-            VKRequest<GroupsCallbackSettings> = NewApiRequest("groups.getCallbackSettings") {
-        GsonHolder.gson.fromJson(it, GroupsCallbackSettings::class.java)
+            VKRequest<GroupsCallbackSettingsDto> = NewApiRequest("groups.getCallbackSettings") {
+        GsonHolder.gson.parse<GroupsCallbackSettingsDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -845,34 +845,19 @@ class GroupsService {
     }
 
     /**
-     * Returns communities list for a catalog category.
-     *
-     * @param categoryId - Category id received from
-     * [vk.com/dev/groups.getCatalogInfo|groups.getCatalogInfo].
-     * @param subcategoryId - Subcategory id received from
-     * [vk.com/dev/groups.getCatalogInfo|groups.getCatalogInfo].
-     * @return [VKRequest] with [GroupsGetCatalogResponse]
-     */
-    fun groupsGetCatalog(categoryId: Int? = null, subcategoryId: Int? = null):
-            VKRequest<GroupsGetCatalogResponse> = NewApiRequest("groups.getCatalog") {
-        GsonHolder.gson.fromJson(it, GroupsGetCatalogResponse::class.java)
-    }
-    .apply {
-        categoryId?.let { addParam("category_id", it, min = 0) }
-        subcategoryId?.let { addParam("subcategory_id", it, min = 0, max = 99) }
-    }
-
-    /**
      * Returns categories list for communities catalog
      *
+     * @param extended - 1 - to return communities count and three communities for preview. By
+     * default_ 0.
      * @param subcategories - 1 - to return subcategories info. By default_ 0.
-     * @return [VKRequest] with [GroupsGetCatalogInfoResponse]
+     * @return [VKRequest] with [GroupsGetCatalogInfoResponseDto]
      */
-    fun groupsGetCatalogInfo(subcategories: Boolean? = null):
-            VKRequest<GroupsGetCatalogInfoResponse> = NewApiRequest("groups.getCatalogInfo") {
-        GsonHolder.gson.fromJson(it, GroupsGetCatalogInfoResponse::class.java)
+    fun groupsGetCatalogInfo(extended: Boolean? = null, subcategories: Boolean? = null):
+            VKRequest<GroupsGetCatalogInfoResponseDto> = NewApiRequest("groups.getCatalogInfo") {
+        GsonHolder.gson.parse<GroupsGetCatalogInfoResponseDto>(it)
     }
     .apply {
+        extended?.let { addParam("extended", it) }
         subcategories?.let { addParam("subcategories", it) }
     }
 
@@ -880,12 +865,12 @@ class GroupsService {
      * Returns categories list for communities catalog
      *
      * @param subcategories - 1 - to return subcategories info. By default_ 0.
-     * @return [VKRequest] with [GroupsGetCatalogInfoExtendedResponse]
+     * @return [VKRequest] with [GroupsGetCatalogInfoExtendedResponseDto]
      */
     fun groupsGetCatalogInfoExtended(subcategories: Boolean? = null):
-            VKRequest<GroupsGetCatalogInfoExtendedResponse> =
+            VKRequest<GroupsGetCatalogInfoExtendedResponseDto> =
             NewApiRequest("groups.getCatalogInfo") {
-        GsonHolder.gson.fromJson(it, GroupsGetCatalogInfoExtendedResponse::class.java)
+        GsonHolder.gson.parse<GroupsGetCatalogInfoExtendedResponseDto>(it)
     }
     .apply {
         addParam("extended", true)
@@ -906,16 +891,16 @@ class GroupsService {
      * @param nameCase - Case for declension of user name and surname. Possible values_ *'nom' -
      * nominative (default),, *'gen' - genitive,, *'dat' - dative,, *'acc' - accusative, , *'ins' -
      * instrumental,, *'abl' - prepositional.
-     * @return [VKRequest] with [GroupsGetInvitedUsersResponse]
+     * @return [VKRequest] with [GroupsGetInvitedUsersResponseDto]
      */
     fun groupsGetInvitedUsers(
         groupId: UserId,
         offset: Int? = null,
         count: Int? = null,
-        fields: List<UsersFields>? = null,
-        nameCase: GroupsGetInvitedUsersNameCase? = null
-    ): VKRequest<GroupsGetInvitedUsersResponse> = NewApiRequest("groups.getInvitedUsers") {
-        GsonHolder.gson.fromJson(it, GroupsGetInvitedUsersResponse::class.java)
+        fields: List<UsersFieldsDto>? = null,
+        nameCase: String? = null
+    ): VKRequest<GroupsGetInvitedUsersResponseDto> = NewApiRequest("groups.getInvitedUsers") {
+        GsonHolder.gson.parse<GroupsGetInvitedUsersResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -925,7 +910,7 @@ class GroupsService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        nameCase?.let { addParam("name_case", it.value) }
+        nameCase?.let { addParam("name_case", it) }
     }
 
     /**
@@ -933,15 +918,21 @@ class GroupsService {
      *
      * @param offset - Offset needed to return a specific subset of invitations.
      * @param count - Number of invitations to return.
-     * @return [VKRequest] with [GroupsGetInvitesResponse]
+     * @param extended - '1' - to return additional [vk.com/dev/fields_groups|fields] for
+     * communities..
+     * @return [VKRequest] with [GroupsGetInvitesResponseDto]
      */
-    fun groupsGetInvites(offset: Int? = null, count: Int? = null):
-            VKRequest<GroupsGetInvitesResponse> = NewApiRequest("groups.getInvites") {
-        GsonHolder.gson.fromJson(it, GroupsGetInvitesResponse::class.java)
+    fun groupsGetInvites(
+        offset: Int? = null,
+        count: Int? = null,
+        extended: Boolean? = null
+    ): VKRequest<GroupsGetInvitesResponseDto> = NewApiRequest("groups.getInvites") {
+        GsonHolder.gson.parse<GroupsGetInvitesResponseDto>(it)
     }
     .apply {
         offset?.let { addParam("offset", it, min = 0) }
         count?.let { addParam("count", it, min = 0) }
+        extended?.let { addParam("extended", it) }
     }
 
     /**
@@ -949,11 +940,11 @@ class GroupsService {
      *
      * @param offset - Offset needed to return a specific subset of invitations.
      * @param count - Number of invitations to return.
-     * @return [VKRequest] with [GroupsGetInvitesExtendedResponse]
+     * @return [VKRequest] with [GroupsGetInvitesExtendedResponseDto]
      */
     fun groupsGetInvitesExtended(offset: Int? = null, count: Int? = null):
-            VKRequest<GroupsGetInvitesExtendedResponse> = NewApiRequest("groups.getInvites") {
-        GsonHolder.gson.fromJson(it, GroupsGetInvitesExtendedResponse::class.java)
+            VKRequest<GroupsGetInvitesExtendedResponseDto> = NewApiRequest("groups.getInvites") {
+        GsonHolder.gson.parse<GroupsGetInvitesExtendedResponseDto>(it)
     }
     .apply {
         offset?.let { addParam("offset", it, min = 0) }
@@ -965,11 +956,11 @@ class GroupsService {
      * Returns the data needed to query a Long Poll server for events
      *
      * @param groupId - Community ID.
-     * @return [VKRequest] with [GroupsLongPollServer]
+     * @return [VKRequest] with [GroupsLongPollServerDto]
      */
-    fun groupsGetLongPollServer(groupId: UserId): VKRequest<GroupsLongPollServer> =
+    fun groupsGetLongPollServer(groupId: UserId): VKRequest<GroupsLongPollServerDto> =
             NewApiRequest("groups.getLongPollServer") {
-        GsonHolder.gson.fromJson(it, GroupsLongPollServer::class.java)
+        GsonHolder.gson.parse<GroupsLongPollServerDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -979,11 +970,11 @@ class GroupsService {
      * Returns Long Poll notification settings
      *
      * @param groupId - Community ID.
-     * @return [VKRequest] with [GroupsLongPollSettings]
+     * @return [VKRequest] with [GroupsLongPollSettingsDto]
      */
-    fun groupsGetLongPollSettings(groupId: UserId): VKRequest<GroupsLongPollSettings> =
+    fun groupsGetLongPollSettings(groupId: UserId): VKRequest<GroupsLongPollSettingsDto> =
             NewApiRequest("groups.getLongPollSettings") {
-        GsonHolder.gson.fromJson(it, GroupsLongPollSettings::class.java)
+        GsonHolder.gson.parse<GroupsLongPollSettingsDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1005,20 +996,20 @@ class GroupsService {
      * can_write_private_message, status, last_seen, common_count, relation, relatives, counters'.
      * @param filter - *'friends' - only friends in this community will be returned,, *'unsure' -
      * only those who pressed 'I may attend' will be returned (if it's an event).
-     * @return [VKRequest] with [GroupsGetMembersFieldsResponse]
+     * @return [VKRequest] with [GroupsGetMembersFieldsResponseDto]
      */
     fun groupsGetMembers(
-        groupId: String? = null,
-        sort: GroupsGetMembersSort? = null,
+        groupId: UserId? = null,
+        sort: GroupsGetMembersSortDto? = null,
         offset: Int? = null,
         count: Int? = null,
-        fields: List<UsersFields>? = null,
-        filter: GroupsGetMembersFilter? = null
-    ): VKRequest<GroupsGetMembersFieldsResponse> = NewApiRequest("groups.getMembers") {
-        GsonHolder.gson.fromJson(it, GroupsGetMembersFieldsResponse::class.java)
+        fields: List<UsersFieldsDto>? = null,
+        filter: GroupsGetMembersFilterDto? = null
+    ): VKRequest<GroupsGetMembersFieldsResponseDto> = NewApiRequest("groups.getMembers") {
+        GsonHolder.gson.parse<GroupsGetMembersFieldsResponseDto>(it)
     }
     .apply {
-        groupId?.let { addParam("group_id", it) }
+        groupId?.let { addParam("group_id", it, min = 1) }
         sort?.let { addParam("sort", it.value) }
         offset?.let { addParam("offset", it, min = 0) }
         count?.let { addParam("count", it, min = 0) }
@@ -1031,10 +1022,11 @@ class GroupsService {
 
     /**
      * @param groupId
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [GroupsGetOnlineStatusResponseDto]
      */
-    fun groupsGetOnlineStatus(groupId: UserId): VKRequest<Unit> =
+    fun groupsGetOnlineStatus(groupId: UserId): VKRequest<GroupsGetOnlineStatusResponseDto> =
             NewApiRequest("groups.getOnlineStatus") {
+        GsonHolder.gson.parse<GroupsGetOnlineStatusResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1047,15 +1039,15 @@ class GroupsService {
      * @param offset - Offset needed to return a specific subset of results.
      * @param count - Number of results to return.
      * @param fields - Profile fields to return.
-     * @return [VKRequest] with [GroupsGetRequestsFieldsResponse]
+     * @return [VKRequest] with [GroupsGetRequestsFieldsResponseDto]
      */
     fun groupsGetRequests(
         groupId: UserId,
         offset: Int? = null,
         count: Int? = null,
-        fields: List<UsersFields>? = null
-    ): VKRequest<GroupsGetRequestsFieldsResponse> = NewApiRequest("groups.getRequests") {
-        GsonHolder.gson.fromJson(it, GroupsGetRequestsFieldsResponse::class.java)
+        fields: List<UsersFieldsDto>? = null
+    ): VKRequest<GroupsGetRequestsFieldsResponseDto> = NewApiRequest("groups.getRequests") {
+        GsonHolder.gson.parse<GroupsGetRequestsFieldsResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1071,11 +1063,11 @@ class GroupsService {
      * Returns community settings.
      *
      * @param groupId - Community ID.
-     * @return [VKRequest] with [GroupsGetSettingsResponse]
+     * @return [VKRequest] with [GroupsGetSettingsResponseDto]
      */
-    fun groupsGetSettings(groupId: UserId): VKRequest<GroupsGetSettingsResponse> =
+    fun groupsGetSettings(groupId: UserId): VKRequest<GroupsGetSettingsResponseDto> =
             NewApiRequest("groups.getSettings") {
-        GsonHolder.gson.fromJson(it, GroupsGetSettingsResponse::class.java)
+        GsonHolder.gson.parse<GroupsGetSettingsResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1087,21 +1079,20 @@ class GroupsService {
      * @param groupId
      * @return [VKRequest] with [Unit]
      */
-    fun groupsGetTagList(groupId: UserId): VKRequest<List<GroupsGroupTag>> =
+    fun groupsGetTagList(groupId: UserId): VKRequest<List<GroupsGroupTagDto>> =
             NewApiRequest("groups.getTagList") {
-        val typeToken = object: TypeToken<List<GroupsGroupTag>>() {}.type
-        GsonHolder.gson.fromJson<List<GroupsGroupTag>>(it, typeToken)
+        GsonHolder.gson.parseList<GroupsGroupTagDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
     }
 
     /**
-     * @return [VKRequest] with [GroupsGetTokenPermissionsResponse]
+     * @return [VKRequest] with [GroupsGetTokenPermissionsResponseDto]
      */
-    fun groupsGetTokenPermissions(): VKRequest<GroupsGetTokenPermissionsResponse> =
+    fun groupsGetTokenPermissions(): VKRequest<GroupsGetTokenPermissionsResponseDto> =
             NewApiRequest("groups.getTokenPermissions") {
-        GsonHolder.gson.fromJson(it, GroupsGetTokenPermissionsResponse::class.java)
+        GsonHolder.gson.parse<GroupsGetTokenPermissionsResponseDto>(it)
     }
 
     /**
@@ -1109,15 +1100,20 @@ class GroupsService {
      *
      * @param groupId - Community ID.
      * @param userId - User ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @param userIdsList - User IDs.
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun groupsInvite(groupId: UserId, userId: UserId): VKRequest<BaseOkResponse> =
-            NewApiRequest("groups.invite") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    fun groupsInvite(
+        groupId: UserId,
+        userId: UserId? = null,
+        userIdsList: List<UserId>? = null
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.invite") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
-        addParam("user_id", userId, min = 1)
+        userId?.let { addParam("user_id", it, min = 1) }
+        userIdsList?.let { addParam("user_ids_list", it, min = 1) }
     }
 
     /**
@@ -1126,19 +1122,23 @@ class GroupsService {
      * @param groupId - ID or screen name of the community.
      * @param userId - User ID.
      * @param userIds - User IDs.
-     * @return [VKRequest] with [BaseBoolInt]
+     * @param extended - '1' - to return an extended response with additional fields. By default_
+     * '0'.
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
     fun groupsIsMember(
-        groupId: String,
+        groupId: UserId,
         userId: UserId? = null,
-        userIds: List<UserId>? = null
-    ): VKRequest<BaseBoolInt> = NewApiRequest("groups.isMember") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+        userIds: List<UserId>? = null,
+        extended: Boolean? = null
+    ): VKRequest<BaseBoolIntDto> = NewApiRequest("groups.isMember") {
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
-        addParam("group_id", groupId)
+        addParam("group_id", groupId, min = 1)
         userId?.let { addParam("user_id", it, min = 0) }
-        userIds?.let { addParam("user_ids", it) }
+        userIds?.let { addParam("user_ids", it, min = 1) }
+        extended?.let { addParam("extended", it) }
     }
 
     /**
@@ -1148,11 +1148,11 @@ class GroupsService {
      * @param groupId - ID or screen name of the community.
      * @param notSure - Optional parameter which is taken into account when 'gid' belongs to the
      * event_ '1' - Perhaps I will attend, '0' - I will be there for sure (default), ,
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun groupsJoin(groupId: UserId? = null, notSure: String? = null): VKRequest<BaseOkResponse> =
+    fun groupsJoin(groupId: UserId? = null, notSure: String? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("groups.join") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         groupId?.let { addParam("group_id", it, min = 1) }
@@ -1163,10 +1163,10 @@ class GroupsService {
      * With this method you can leave a group, public page, or event.
      *
      * @param groupId - ID or screen name of the community.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun groupsLeave(groupId: UserId): VKRequest<BaseOkResponse> = NewApiRequest("groups.leave") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    fun groupsLeave(groupId: UserId): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.leave") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1177,11 +1177,11 @@ class GroupsService {
      *
      * @param groupId - Community ID.
      * @param userId - User ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun groupsRemoveUser(groupId: UserId, userId: UserId): VKRequest<BaseOkResponse> =
+    fun groupsRemoveUser(groupId: UserId, userId: UserId): VKRequest<BaseOkResponseDto> =
             NewApiRequest("groups.removeUser") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1194,14 +1194,14 @@ class GroupsService {
      * @param groupId - Community ID.
      * @param linkId - Link ID.
      * @param after - ID of the link after which to place the link with 'link_id'.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun groupsReorderLink(
         groupId: UserId,
         linkId: Int,
         after: Int? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("groups.reorderLink") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.reorderLink") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1225,20 +1225,20 @@ class GroupsService {
      * @param offset - Offset needed to return a specific subset of results.
      * @param count - Number of communities to return. "Note that you can not receive more than
      * first thousand of results, regardless of 'count' and 'offset' values."
-     * @return [VKRequest] with [GroupsSearchResponse]
+     * @return [VKRequest] with [GroupsSearchResponseDto]
      */
     fun groupsSearch(
         q: String,
-        type: GroupsSearchType? = null,
+        type: GroupsSearchTypeDto? = null,
         countryId: Int? = null,
         cityId: Int? = null,
         future: Boolean? = null,
         market: Boolean? = null,
-        sort: GroupsSearchSort? = null,
+        sort: GroupsSearchSortDto? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<GroupsSearchResponse> = NewApiRequest("groups.search") {
-        GsonHolder.gson.fromJson(it, GroupsSearchResponse::class.java)
+    ): VKRequest<GroupsSearchResponseDto> = NewApiRequest("groups.search") {
+        GsonHolder.gson.parse<GroupsSearchResponseDto>(it)
     }
     .apply {
         addParam("q", q)
@@ -1265,6 +1265,7 @@ class GroupsService {
      * @param messageEdit
      * @param messageDeny - Denied messages notifications ('0' - disabled, '1' - enabled).
      * @param messageTypingState
+     * @param messageRead - Messages read notifications ('0' - disabled, '1' - enabled).
      * @param photoNew - New photos notifications ('0' - disabled, '1' - enabled).
      * @param audioNew - New audios notifications ('0' - disabled, '1' - enabled).
      * @param videoNew - New videos notifications ('0' - disabled, '1' - enabled).
@@ -1309,6 +1310,7 @@ class GroupsService {
      * @param likeAdd
      * @param likeRemove
      * @param messageEvent
+     * @param messageReactionEvent
      * @param donutSubscriptionCreate
      * @param donutSubscriptionProlonged
      * @param donutSubscriptionCancelled
@@ -1316,7 +1318,7 @@ class GroupsService {
      * @param donutSubscriptionExpired
      * @param donutMoneyWithdraw
      * @param donutMoneyWithdrawError
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun groupsSetCallbackSettings(
         groupId: UserId,
@@ -1328,6 +1330,7 @@ class GroupsService {
         messageEdit: Boolean? = null,
         messageDeny: Boolean? = null,
         messageTypingState: Boolean? = null,
+        messageRead: Boolean? = null,
         photoNew: Boolean? = null,
         audioNew: Boolean? = null,
         videoNew: Boolean? = null,
@@ -1367,6 +1370,7 @@ class GroupsService {
         likeAdd: Boolean? = null,
         likeRemove: Boolean? = null,
         messageEvent: Boolean? = null,
+        messageReactionEvent: Boolean? = null,
         donutSubscriptionCreate: Boolean? = null,
         donutSubscriptionProlonged: Boolean? = null,
         donutSubscriptionCancelled: Boolean? = null,
@@ -1374,8 +1378,8 @@ class GroupsService {
         donutSubscriptionExpired: Boolean? = null,
         donutMoneyWithdraw: Boolean? = null,
         donutMoneyWithdrawError: Boolean? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("groups.setCallbackSettings") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.setCallbackSettings") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1387,6 +1391,7 @@ class GroupsService {
         messageEdit?.let { addParam("message_edit", it) }
         messageDeny?.let { addParam("message_deny", it) }
         messageTypingState?.let { addParam("message_typing_state", it) }
+        messageRead?.let { addParam("message_read", it) }
         photoNew?.let { addParam("photo_new", it) }
         audioNew?.let { addParam("audio_new", it) }
         videoNew?.let { addParam("video_new", it) }
@@ -1426,6 +1431,7 @@ class GroupsService {
         likeAdd?.let { addParam("like_add", it) }
         likeRemove?.let { addParam("like_remove", it) }
         messageEvent?.let { addParam("message_event", it) }
+        messageReactionEvent?.let { addParam("message_reaction_event", it) }
         donutSubscriptionCreate?.let { addParam("donut_subscription_create", it) }
         donutSubscriptionProlonged?.let { addParam("donut_subscription_prolonged", it) }
         donutSubscriptionCancelled?.let { addParam("donut_subscription_cancelled", it) }
@@ -1448,6 +1454,7 @@ class GroupsService {
      * @param messageDeny - Denied messages notifications ('0' - disabled, '1' - enabled).
      * @param messageEdit - A message has been edited ('0' - disabled, '1' - enabled).
      * @param messageTypingState
+     * @param messageRead - Messages read notifications ('0' - disabled, '1' - enabled).
      * @param photoNew - New photos notifications ('0' - disabled, '1' - enabled).
      * @param audioNew - New audios notifications ('0' - disabled, '1' - enabled).
      * @param videoNew - New videos notifications ('0' - disabled, '1' - enabled).
@@ -1489,6 +1496,7 @@ class GroupsService {
      * @param likeAdd
      * @param likeRemove
      * @param messageEvent
+     * @param messageReactionEvent
      * @param donutSubscriptionCreate
      * @param donutSubscriptionProlonged
      * @param donutSubscriptionCancelled
@@ -1496,7 +1504,7 @@ class GroupsService {
      * @param donutSubscriptionExpired
      * @param donutMoneyWithdraw
      * @param donutMoneyWithdrawError
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun groupsSetLongPollSettings(
         groupId: UserId,
@@ -1508,6 +1516,7 @@ class GroupsService {
         messageDeny: Boolean? = null,
         messageEdit: Boolean? = null,
         messageTypingState: Boolean? = null,
+        messageRead: Boolean? = null,
         photoNew: Boolean? = null,
         audioNew: Boolean? = null,
         videoNew: Boolean? = null,
@@ -1544,6 +1553,7 @@ class GroupsService {
         likeAdd: Boolean? = null,
         likeRemove: Boolean? = null,
         messageEvent: Boolean? = null,
+        messageReactionEvent: Boolean? = null,
         donutSubscriptionCreate: Boolean? = null,
         donutSubscriptionProlonged: Boolean? = null,
         donutSubscriptionCancelled: Boolean? = null,
@@ -1551,8 +1561,8 @@ class GroupsService {
         donutSubscriptionExpired: Boolean? = null,
         donutMoneyWithdraw: Boolean? = null,
         donutMoneyWithdrawError: Boolean? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("groups.setLongPollSettings") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.setLongPollSettings") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1564,6 +1574,7 @@ class GroupsService {
         messageDeny?.let { addParam("message_deny", it) }
         messageEdit?.let { addParam("message_edit", it) }
         messageTypingState?.let { addParam("message_typing_state", it) }
+        messageRead?.let { addParam("message_read", it) }
         photoNew?.let { addParam("photo_new", it) }
         audioNew?.let { addParam("audio_new", it) }
         videoNew?.let { addParam("video_new", it) }
@@ -1600,6 +1611,7 @@ class GroupsService {
         likeAdd?.let { addParam("like_add", it) }
         likeRemove?.let { addParam("like_remove", it) }
         messageEvent?.let { addParam("message_event", it) }
+        messageReactionEvent?.let { addParam("message_reaction_event", it) }
         donutSubscriptionCreate?.let { addParam("donut_subscription_create", it) }
         donutSubscriptionProlonged?.let { addParam("donut_subscription_prolonged", it) }
         donutSubscriptionCancelled?.let { addParam("donut_subscription_cancelled", it) }
@@ -1612,10 +1624,12 @@ class GroupsService {
     /**
      * @param groupId
      * @param messages
-     * @param botsCapabilities
-     * @param botsStartButton
-     * @param botsAddToChat
-     * @return [VKRequest] with [BaseOkResponse]
+     * @param botsCapabilities - By enabling bot abilities, you can send users messages with a
+     * customized keyboard attached as well as use other promotional abilities
+     * @param botsStartButton - If this setting is enabled, users will see a Start button when they
+     * start a chat with your community for the first time
+     * @param botsAddToChat - If this setting is enabled then users can add your community to a chat
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun groupsSetSettings(
         groupId: UserId,
@@ -1623,8 +1637,8 @@ class GroupsService {
         botsCapabilities: Boolean? = null,
         botsStartButton: Boolean? = null,
         botsAddToChat: Boolean? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("groups.setSettings") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.setSettings") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1640,14 +1654,14 @@ class GroupsService {
      * @param groupId
      * @param userId
      * @param note - Note body
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
     fun groupsSetUserNote(
         groupId: UserId,
         userId: UserId,
         note: String? = null
-    ): VKRequest<BaseBoolInt> = NewApiRequest("groups.setUserNote") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+    ): VKRequest<BaseBoolIntDto> = NewApiRequest("groups.setUserNote") {
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1661,14 +1675,14 @@ class GroupsService {
      * @param groupId
      * @param tagName
      * @param tagColor
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
     fun groupsTagAdd(
         groupId: UserId,
         tagName: String,
-        tagColor: GroupsTagAddTagColor? = null
-    ): VKRequest<BaseBoolInt> = NewApiRequest("groups.tagAdd") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+        tagColor: GroupsTagAddTagColorDto? = null
+    ): VKRequest<BaseBoolIntDto> = NewApiRequest("groups.tagAdd") {
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1683,15 +1697,15 @@ class GroupsService {
      * @param tagId
      * @param userId
      * @param act - Describe the action
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
     fun groupsTagBind(
         groupId: UserId,
         tagId: Int,
         userId: UserId,
-        act: GroupsTagBindAct
-    ): VKRequest<BaseBoolInt> = NewApiRequest("groups.tagBind") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+        act: GroupsTagBindActDto
+    ): VKRequest<BaseBoolIntDto> = NewApiRequest("groups.tagBind") {
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1705,11 +1719,11 @@ class GroupsService {
      *
      * @param groupId
      * @param tagId
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
-    fun groupsTagDelete(groupId: UserId, tagId: Int): VKRequest<BaseBoolInt> =
+    fun groupsTagDelete(groupId: UserId, tagId: Int): VKRequest<BaseBoolIntDto> =
             NewApiRequest("groups.tagDelete") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1722,14 +1736,14 @@ class GroupsService {
      * @param groupId
      * @param tagId
      * @param tagName
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
     fun groupsTagUpdate(
         groupId: UserId,
         tagId: Int,
         tagName: String
-    ): VKRequest<BaseBoolInt> = NewApiRequest("groups.tagUpdate") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+    ): VKRequest<BaseBoolIntDto> = NewApiRequest("groups.tagUpdate") {
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1741,14 +1755,14 @@ class GroupsService {
      * @param groupId
      * @param state
      * @param ref
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun groupsToggleMarket(
         groupId: UserId,
-        state: GroupsToggleMarketState,
+        state: GroupsToggleMarketStateDto,
         ref: String? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("groups.toggleMarket") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("groups.toggleMarket") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
@@ -1759,14 +1773,422 @@ class GroupsService {
     /**
      * @param groupId
      * @param ownerId
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun groupsUnban(groupId: UserId, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
+    fun groupsUnban(groupId: UserId, ownerId: UserId? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("groups.unban") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("group_id", groupId, min = 1)
         ownerId?.let { addParam("owner_id", it) }
+    }
+
+    object GroupsAddAddressRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TITLE_MAX_LENGTH: Int = 255
+
+        const val ADDRESS_MAX_LENGTH: Int = 255
+
+        const val CITY_ID_MIN: Long = 1
+
+        const val LATITUDE_MIN: Float = -90.0f
+
+        const val LATITUDE_MAX: Float = 90.0f
+
+        const val LONGITUDE_MIN: Float = -180.0f
+
+        const val LONGITUDE_MAX: Float = 180.0f
+
+        const val ADDITIONAL_ADDRESS_MAX_LENGTH: Int = 400
+
+        const val METRO_ID_MIN: Long = 0
+    }
+
+    object GroupsAddCallbackServerRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TITLE_MAX_LENGTH: Int = 14
+
+        const val SECRET_KEY_MAX_LENGTH: Int = 50
+    }
+
+    object GroupsAddLinkRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsApproveRequestRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val USER_ID_MIN: Long = 1
+    }
+
+    object GroupsBanRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val END_DATE_MIN: Long = 0
+
+        const val REASON_MIN: Long = 0
+    }
+
+    object GroupsCreateRestrictions {
+        const val PUBLIC_CATEGORY_MIN: Long = 0
+
+        const val PUBLIC_SUBCATEGORY_MIN: Long = 0
+
+        const val SUBTYPE_MIN: Long = 0
+    }
+
+    object GroupsDeleteAddressRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val ADDRESS_ID_MIN: Long = 0
+    }
+
+    object GroupsDeleteCallbackServerRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val SERVER_ID_MIN: Long = 0
+    }
+
+    object GroupsDeleteLinkRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val LINK_ID_MIN: Long = 0
+    }
+
+    object GroupsDisableOnlineRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsEditRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val ACCESS_MIN: Long = 0
+
+        const val EVENT_START_DATE_MIN: Long = 0
+
+        const val EVENT_FINISH_DATE_MIN: Long = 0
+
+        const val EVENT_GROUP_ID_MIN: Long = 0
+
+        const val PUBLIC_CATEGORY_MIN: Long = 0
+
+        const val PUBLIC_SUBCATEGORY_MIN: Long = 0
+
+        const val WALL_MIN: Long = 0
+
+        const val TOPICS_MIN: Long = 0
+
+        const val PHOTOS_MIN: Long = 0
+
+        const val VIDEO_MIN: Long = 0
+
+        const val AUDIO_MIN: Long = 0
+
+        const val DOCS_MIN: Long = 0
+
+        const val WIKI_MIN: Long = 0
+
+        const val AGE_LIMITS_MIN: Long = 0
+
+        const val MARKET_CURRENCY_MIN: Long = 0
+
+        const val MARKET_CONTACT_MIN: Long = 0
+
+        const val MARKET_WIKI_MIN: Long = 0
+
+        const val MAIN_SECTION_MIN: Long = 0
+
+        const val SECONDARY_SECTION_MIN: Long = 0
+
+        const val COUNTRY_MIN: Long = 0
+
+        const val CITY_MIN: Long = 0
+    }
+
+    object GroupsEditAddressRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val ADDRESS_ID_MIN: Long = 0
+
+        const val TITLE_MAX_LENGTH: Int = 255
+
+        const val ADDRESS_MAX_LENGTH: Int = 255
+
+        const val ADDITIONAL_ADDRESS_MAX_LENGTH: Int = 400
+
+        const val CITY_ID_MIN: Long = 0
+
+        const val METRO_ID_MIN: Long = 0
+
+        const val LATITUDE_MIN: Float = -90.0f
+
+        const val LATITUDE_MAX: Float = 90.0f
+
+        const val LONGITUDE_MIN: Float = -180.0f
+
+        const val LONGITUDE_MAX: Float = 180.0f
+    }
+
+    object GroupsEditCallbackServerRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val SERVER_ID_MIN: Long = 0
+
+        const val TITLE_MAX_LENGTH: Int = 14
+
+        const val SECRET_KEY_MAX_LENGTH: Int = 50
+    }
+
+    object GroupsEditLinkRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val LINK_ID_MIN: Long = 0
+    }
+
+    object GroupsEditManagerRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val USER_ID_MIN: Long = 1
+    }
+
+    object GroupsEnableOnlineRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsGetRestrictions {
+        const val USER_ID_MIN: Long = 1
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
+    }
+
+    object GroupsGetExtendedRestrictions {
+        const val USER_ID_MIN: Long = 1
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
+    }
+
+    object GroupsGetAddressesRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val LATITUDE_MIN: Float = -90.0f
+
+        const val LATITUDE_MAX: Float = 90.0f
+
+        const val LONGITUDE_MIN: Float = -180.0f
+
+        const val LONGITUDE_MAX: Float = 180.0f
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+    }
+
+    object GroupsGetBannedRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 200
+    }
+
+    object GroupsGetByIdRestrictions {
+        const val GROUP_IDS_MIN: Int = 1
+
+        const val GROUP_ID_MIN: Int = 1
+    }
+
+    object GroupsGetCallbackConfirmationCodeRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsGetCallbackServersRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsGetCallbackSettingsRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val SERVER_ID_MIN: Long = 0
+    }
+
+    object GroupsGetInvitedUsersRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+    }
+
+    object GroupsGetInvitesRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+    }
+
+    object GroupsGetInvitesExtendedRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+    }
+
+    object GroupsGetLongPollServerRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsGetLongPollSettingsRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsGetMembersRestrictions {
+        const val GROUP_ID_MIN: Int = 1
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+    }
+
+    object GroupsGetOnlineStatusRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsGetRequestsRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 200
+    }
+
+    object GroupsGetSettingsRestrictions {
+        const val GROUP_ID_MIN: Int = 1
+    }
+
+    object GroupsGetTagListRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsInviteRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val USER_ID_MIN: Long = 1
+
+        const val USER_IDS_LIST_MIN: Long = 1
+    }
+
+    object GroupsIsMemberRestrictions {
+        const val GROUP_ID_MIN: Int = 1
+
+        const val USER_ID_MIN: Long = 0
+
+        const val USER_IDS_MIN: Long = 1
+    }
+
+    object GroupsJoinRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsLeaveRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsRemoveUserRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val USER_ID_MIN: Long = 1
+    }
+
+    object GroupsReorderLinkRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val LINK_ID_MIN: Long = 0
+
+        const val AFTER_MIN: Long = 0
+    }
+
+    object GroupsSearchRestrictions {
+        const val COUNTRY_ID_MIN: Long = 0
+
+        const val CITY_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
+    }
+
+    object GroupsSetCallbackSettingsRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val SERVER_ID_MIN: Long = 0
+    }
+
+    object GroupsSetLongPollSettingsRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsSetSettingsRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsSetUserNoteRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val USER_ID_MIN: Long = 1
+
+        const val NOTE_MAX_LENGTH: Int = 96
+    }
+
+    object GroupsTagAddRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TAG_NAME_MAX_LENGTH: Int = 20
+    }
+
+    object GroupsTagBindRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TAG_ID_MIN: Long = 0
+
+        const val USER_ID_MIN: Long = 1
+
+        const val USER_ID_MAX: Long = 2000000000
+    }
+
+    object GroupsTagDeleteRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TAG_ID_MIN: Long = 0
+    }
+
+    object GroupsTagUpdateRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+
+        const val TAG_ID_MIN: Long = 0
+
+        const val TAG_NAME_MAX_LENGTH: Int = 20
+    }
+
+    object GroupsToggleMarketRestrictions {
+        const val GROUP_ID_MIN: Long = 1
+    }
+
+    object GroupsUnbanRestrictions {
+        const val GROUP_ID_MIN: Long = 1
     }
 }

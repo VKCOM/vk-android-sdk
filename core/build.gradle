@@ -21,8 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.vk.gradle.config'
+apply plugin: 'com.vk.gradle.publish'
 apply from: "../dependencies.gradle"
 
 def isEnabled = ""
@@ -30,14 +33,13 @@ try {
     isEnabled = providers.environmentVariable("SDK_UPDATE")
             .forUseAtConfigurationTime()
             .get()
-} catch(Exception e) {}
+} catch(Exception ignored) {}
 
 if (isEnabled != "1") {
     Project superApp = rootProject.findProject(":sdk:sak")
     if (superApp == null) {
         throw new IllegalStateException("Couldn't find :sdk:sak project.")
     }
-
     apply plugin: 'com.vk.gradle.sak.publish.core'
 }
 
@@ -94,8 +96,8 @@ dependencies {
         api project(":host")
     } else {
         implementation sdkLibraries.vkUid
-        implementation project(':api:sdk:host')
+        implementation project(":sdk:public:sdk:host")
     }
 }
 
-apply from: "../publish.gradle"
+apply from: "../signing.gradle"

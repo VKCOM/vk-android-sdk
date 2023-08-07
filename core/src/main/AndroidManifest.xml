@@ -45,7 +45,7 @@
 
     <application>
         <activity android:name=".ui.VKWebViewAuthActivity"
-            android:theme="@style/VK.Transparent" />
+            android:theme="@style/WebViewAuthActivityTheme" />
         <activity android:name=".ui.VKCaptchaActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".ui.VKConfirmationActivity"

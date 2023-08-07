@@ -38,19 +38,25 @@ import com.vk.api.sdk.utils.toSimpleError
 import java.util.*
 
 open class MethodChainCall<T>(
-        manager: VKApiManager,
-        val okHttpExecutor: OkHttpExecutor,
-        val callBuilder: OkHttpMethodCall.Builder,
-        var defaultDeviceId: String,
-        val defaultLang: String,
-        val parser: VKApiJSONResponseParser<T>?) : ChainCall<T>(manager) {
+    manager: VKApiManager,
+    val okHttpExecutor: OkHttpExecutor,
+    val callBuilder: OkHttpMethodCall.Builder,
+    var defaultDeviceId: String,
+    val defaultLang: String,
+    val parser: VKApiJSONResponseParser<T>?) : ChainCall<T>(manager) {
 
     @Throws(Exception::class)
     override fun call(args: ChainArgs): T? {
         if (args.hasCaptcha()) {
             callBuilder
-                    .args(VKApiCodes.EXTRA_CAPTCHA_SID, args.captchaSid)
-                    .args(VKApiCodes.EXTRA_CAPTCHA_KEY, args.captchaKey)
+                .args(VKApiCodes.EXTRA_CAPTCHA_SID, args.captchaSid)
+                .args(VKApiCodes.EXTRA_CAPTCHA_KEY, args.captchaKey)
+            args.captchaAttempt?.let {
+                callBuilder.args(VKApiCodes.EXTRA_CAPTCHA_ATTEMPT, it.toString())
+            }
+            args.captchaTimestamp?.let {
+                callBuilder.args(VKApiCodes.EXTRA_CAPTCHA_TIMESTAMP, it.toString())
+            }
         }
 
         if (args.userConfirmed) {
@@ -73,16 +79,16 @@ open class MethodChainCall<T>(
     }
 
     open fun runRequest(mc: OkHttpMethodCall): T? {
-        return parseResult(okHttpExecutor.execute(mc), mc.method, mc.isExtended(), null)
+        return parseResult(okHttpExecutor.execute(mc), mc.method, null)
     }
 
     fun parseResult(
         methodResponse: OkHttpExecutor.ExecutorResponse,
         methodName: String,
-        extended: Boolean,
         ignoredExecuteErrors: IntArray?
     ): T? {
-        val jsonBody = methodResponse.responseBodyJson ?: throw VKApiException("Response returned null instead of valid string response")
+        val jsonBody = methodResponse.responseBodyJson
+            ?: throw VKApiException("Response returned null instead of valid string response")
         return when {
             jsonBody.hasSimpleError() -> jsonBody.toSimpleError(methodName, methodResponse.executorRequestAccessToken)
             jsonBody.hasExecuteError(ignoredExecuteErrors) -> jsonBody.toExecuteError(methodName, ignoredExecuteErrors)

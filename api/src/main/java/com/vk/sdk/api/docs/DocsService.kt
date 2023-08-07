@@ -27,22 +27,25 @@
 // *********************************************************************
 package com.vk.sdk.api.docs
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.base.dto.BaseUploadServer
-import com.vk.sdk.api.docs.dto.DocsDoc
-import com.vk.sdk.api.docs.dto.DocsGetMessagesUploadServerType
-import com.vk.sdk.api.docs.dto.DocsGetResponse
-import com.vk.sdk.api.docs.dto.DocsGetType
-import com.vk.sdk.api.docs.dto.DocsGetTypesResponse
-import com.vk.sdk.api.docs.dto.DocsSaveResponse
-import com.vk.sdk.api.docs.dto.DocsSearchResponse
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.base.dto.BaseUploadServerDto
+import com.vk.sdk.api.docs.dto.DocsDocDto
+import com.vk.sdk.api.docs.dto.DocsGetMessagesUploadServerTypeDto
+import com.vk.sdk.api.docs.dto.DocsGetResponseDto
+import com.vk.sdk.api.docs.dto.DocsGetTypeDto
+import com.vk.sdk.api.docs.dto.DocsGetTypesResponseDto
+import com.vk.sdk.api.docs.dto.DocsSaveResponseDto
+import com.vk.sdk.api.docs.dto.DocsSearchResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -62,7 +65,7 @@ class DocsService {
         docId: Int,
         accessKey: String? = null
     ): VKRequest<Int> = NewApiRequest("docs.add") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parse<Int>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -76,11 +79,11 @@ class DocsService {
      * @param ownerId - ID of the user or community that owns the document. Use a negative value to
      * designate a community ID.
      * @param docId - Document ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun docsDelete(ownerId: UserId, docId: Int): VKRequest<BaseOkResponse> =
+    fun docsDelete(ownerId: UserId, docId: Int): VKRequest<BaseOkResponseDto> =
             NewApiRequest("docs.delete") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -90,24 +93,24 @@ class DocsService {
     /**
      * Edits a document.
      *
-     * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
      * @param docId - Document ID.
      * @param title - Document title.
+     * @param ownerId - User ID or community ID. Use a negative value to designate a community ID.
      * @param tags - Document tags.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun docsEdit(
-        ownerId: UserId,
         docId: Int,
         title: String,
+        ownerId: UserId? = null,
         tags: List<String>? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("docs.edit") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("docs.edit") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
-        addParam("owner_id", ownerId)
         addParam("doc_id", docId, min = 0)
         addParam("title", title, maxLength = 128)
+        ownerId?.let { addParam("owner_id", it) }
         tags?.let { addParam("tags", it) }
     }
 
@@ -120,16 +123,16 @@ class DocsService {
      * @param ownerId - ID of the user or community that owns the documents. Use a negative value to
      * designate a community ID.
      * @param returnTags
-     * @return [VKRequest] with [DocsGetResponse]
+     * @return [VKRequest] with [DocsGetResponseDto]
      */
     fun docsGet(
         count: Int? = null,
         offset: Int? = null,
-        type: DocsGetType? = null,
+        type: DocsGetTypeDto? = null,
         ownerId: UserId? = null,
         returnTags: Boolean? = null
-    ): VKRequest<DocsGetResponse> = NewApiRequest("docs.get") {
-        GsonHolder.gson.fromJson(it, DocsGetResponse::class.java)
+    ): VKRequest<DocsGetResponseDto> = NewApiRequest("docs.get") {
+        GsonHolder.gson.parse<DocsGetResponseDto>(it)
     }
     .apply {
         count?.let { addParam("count", it, min = 0) }
@@ -146,10 +149,9 @@ class DocsService {
      * @param returnTags
      * @return [VKRequest] with [Unit]
      */
-    fun docsGetById(docs: List<String>, returnTags: Boolean? = null): VKRequest<List<DocsDoc>> =
+    fun docsGetById(docs: List<String>, returnTags: Boolean? = null): VKRequest<List<DocsDocDto>> =
             NewApiRequest("docs.getById") {
-        val typeToken = object: TypeToken<List<DocsDoc>>() {}.type
-        GsonHolder.gson.fromJson<List<DocsDoc>>(it, typeToken)
+        GsonHolder.gson.parseList<DocsDocDto>(it)
     }
     .apply {
         addParam("docs", docs)
@@ -162,11 +164,11 @@ class DocsService {
      * @param type - Document type.
      * @param peerId - Destination ID. "For user_ 'User ID', e.g. '12345'. For chat_ '2000000000' +
      * 'Chat ID', e.g. '2000000001'. For community_ '- Community ID', e.g. '-12345'. "
-     * @return [VKRequest] with [BaseUploadServer]
+     * @return [VKRequest] with [BaseUploadServerDto]
      */
-    fun docsGetMessagesUploadServer(type: DocsGetMessagesUploadServerType? = null, peerId: Int? =
-            null): VKRequest<BaseUploadServer> = NewApiRequest("docs.getMessagesUploadServer") {
-        GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
+    fun docsGetMessagesUploadServer(type: DocsGetMessagesUploadServerTypeDto? = null, peerId: Int? =
+            null): VKRequest<BaseUploadServerDto> = NewApiRequest("docs.getMessagesUploadServer") {
+        GsonHolder.gson.parse<BaseUploadServerDto>(it)
     }
     .apply {
         type?.let { addParam("type", it.value) }
@@ -178,25 +180,25 @@ class DocsService {
      *
      * @param ownerId - ID of the user or community that owns the documents. Use a negative value to
      * designate a community ID.
-     * @return [VKRequest] with [DocsGetTypesResponse]
+     * @return [VKRequest] with [DocsGetTypesResponseDto]
      */
-    fun docsGetTypes(ownerId: UserId): VKRequest<DocsGetTypesResponse> =
+    fun docsGetTypes(ownerId: UserId? = null): VKRequest<DocsGetTypesResponseDto> =
             NewApiRequest("docs.getTypes") {
-        GsonHolder.gson.fromJson(it, DocsGetTypesResponse::class.java)
+        GsonHolder.gson.parse<DocsGetTypesResponseDto>(it)
     }
     .apply {
-        addParam("owner_id", ownerId)
+        ownerId?.let { addParam("owner_id", it) }
     }
 
     /**
      * Returns the server address for document upload.
      *
      * @param groupId - Community ID (if the document will be uploaded to the community).
-     * @return [VKRequest] with [BaseUploadServer]
+     * @return [VKRequest] with [BaseUploadServerDto]
      */
-    fun docsGetUploadServer(groupId: UserId? = null): VKRequest<BaseUploadServer> =
+    fun docsGetUploadServer(groupId: UserId? = null): VKRequest<BaseUploadServerDto> =
             NewApiRequest("docs.getUploadServer") {
-        GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
+        GsonHolder.gson.parse<BaseUploadServerDto>(it)
     }
     .apply {
         groupId?.let { addParam("group_id", it, min = 0) }
@@ -206,11 +208,11 @@ class DocsService {
      * Returns the server address for document upload onto a user's or community's wall.
      *
      * @param groupId - Community ID (if the document will be uploaded to the community).
-     * @return [VKRequest] with [BaseUploadServer]
+     * @return [VKRequest] with [BaseUploadServerDto]
      */
-    fun docsGetWallUploadServer(groupId: UserId? = null): VKRequest<BaseUploadServer> =
+    fun docsGetWallUploadServer(groupId: UserId? = null): VKRequest<BaseUploadServerDto> =
             NewApiRequest("docs.getWallUploadServer") {
-        GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
+        GsonHolder.gson.parse<BaseUploadServerDto>(it)
     }
     .apply {
         groupId?.let { addParam("group_id", it, min = 0) }
@@ -224,15 +226,15 @@ class DocsService {
      * @param title - Document title.
      * @param tags - Document tags.
      * @param returnTags
-     * @return [VKRequest] with [DocsSaveResponse]
+     * @return [VKRequest] with [DocsSaveResponseDto]
      */
     fun docsSave(
         file: String,
         title: String? = null,
         tags: String? = null,
         returnTags: Boolean? = null
-    ): VKRequest<DocsSaveResponse> = NewApiRequest("docs.save") {
-        GsonHolder.gson.fromJson(it, DocsSaveResponse::class.java)
+    ): VKRequest<DocsSaveResponseDto> = NewApiRequest("docs.save") {
+        GsonHolder.gson.parse<DocsSaveResponseDto>(it)
     }
     .apply {
         addParam("file", file)
@@ -249,22 +251,60 @@ class DocsService {
      * @param count - Number of results to return.
      * @param offset - Offset needed to return a specific subset of results.
      * @param returnTags
-     * @return [VKRequest] with [DocsSearchResponse]
+     * @return [VKRequest] with [DocsSearchResponseDto]
      */
     fun docsSearch(
-        q: String,
+        q: String? = null,
         searchOwn: Boolean? = null,
         count: Int? = null,
         offset: Int? = null,
         returnTags: Boolean? = null
-    ): VKRequest<DocsSearchResponse> = NewApiRequest("docs.search") {
-        GsonHolder.gson.fromJson(it, DocsSearchResponse::class.java)
+    ): VKRequest<DocsSearchResponseDto> = NewApiRequest("docs.search") {
+        GsonHolder.gson.parse<DocsSearchResponseDto>(it)
     }
     .apply {
-        addParam("q", q, maxLength = 512)
+        q?.let { addParam("q", it, maxLength = 512) }
         searchOwn?.let { addParam("search_own", it) }
         count?.let { addParam("count", it, min = 0) }
         offset?.let { addParam("offset", it, min = 0) }
         returnTags?.let { addParam("return_tags", it) }
+    }
+
+    object DocsAddRestrictions {
+        const val DOC_ID_MIN: Long = 0
+    }
+
+    object DocsDeleteRestrictions {
+        const val DOC_ID_MIN: Long = 0
+    }
+
+    object DocsEditRestrictions {
+        const val DOC_ID_MIN: Long = 0
+
+        const val TITLE_MAX_LENGTH: Int = 128
+    }
+
+    object DocsGetRestrictions {
+        const val COUNT_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val TYPE_MIN: Long = 0
+    }
+
+    object DocsGetUploadServerRestrictions {
+        const val GROUP_ID_MIN: Long = 0
+    }
+
+    object DocsGetWallUploadServerRestrictions {
+        const val GROUP_ID_MIN: Long = 0
+    }
+
+    object DocsSearchRestrictions {
+        const val Q_MAX_LENGTH: Int = 512
+
+        const val COUNT_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
     }
 }

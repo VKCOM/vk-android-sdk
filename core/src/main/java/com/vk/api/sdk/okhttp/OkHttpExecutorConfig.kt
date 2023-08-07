@@ -25,12 +25,14 @@ package com.vk.api.sdk.okhttp
 
 import android.content.Context
 import com.vk.api.sdk.VKApiConfig
+import com.vk.api.sdk.VKApiCredentials
 import com.vk.api.sdk.VKOkHttpProvider
 import com.vk.api.sdk.internal.Validation
 import com.vk.api.sdk.response.ResponseBodyJsonConverter
+import com.vk.api.sdk.utils.activeAccessToken
+import com.vk.api.sdk.utils.activeSecret
 import com.vk.api.sdk.utils.log.Logger
 
-@Suppress("ConvertSecondaryConstructorToPrimary")
 class OkHttpExecutorConfig(private val apiConfig: VKApiConfig) {
     val context: Context
         get() = apiConfig.context
@@ -38,14 +40,8 @@ class OkHttpExecutorConfig(private val apiConfig: VKApiConfig) {
         get() = apiConfig.appId
     val hostProvider: () -> String
         get() = apiConfig.apiHostProvider
-    val accessToken: String
-        get() = apiConfig.accessToken.value
-    val secret: String?
-        get() = apiConfig.secret.value
-    val expiresInSec: Int
-        get() = apiConfig.expiresInSec.value
-    val createdMs: Long
-        get() = apiConfig.createdMs.value
+    val credentials: Lazy<List<VKApiCredentials>>
+        get() = apiConfig.credentials
     val okHttpProvider: VKOkHttpProvider
         get() = apiConfig.okHttpProvider
     val logFilterCredentials: Boolean
@@ -65,15 +61,17 @@ class OkHttpExecutorConfig(private val apiConfig: VKApiConfig) {
             ?.coerceAtLeast(0.2)
             ?: 0.95
 
+    val xScreenProvider: (() -> String)?
+        get() = apiConfig.xScreenProvider
+
     init {
         Validation.assertContextValid(context)
-        Validation.assertAccessTokenValid(accessToken)
     }
 
     override fun toString() = "OkHttpExecutorConfig(" +
             "host='${hostProvider()}', " +
-            "accessToken='$accessToken', " +
-            "secret='$secret', " +
+            "accessToken='${credentials.value.activeAccessToken()}', " +
+            "secret='${credentials.value.activeSecret()}', " +
             "logFilterCredentials=$logFilterCredentials)"
 
     private companion object {

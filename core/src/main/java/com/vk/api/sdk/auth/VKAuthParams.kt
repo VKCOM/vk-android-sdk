@@ -25,6 +25,7 @@
 package com.vk.api.sdk.auth
 
 import android.os.Bundle
+import com.vk.api.sdk.VKApiConfig
 import java.util.HashSet
 
 class VKAuthParams @JvmOverloads constructor(val appId: Int, val redirectUrl: String = DEFAULT_REDIRECT_URL, scope: Collection<VKScope> = emptySet()) {
@@ -66,7 +67,7 @@ class VKAuthParams @JvmOverloads constructor(val appId: Int, val redirectUrl: St
         private const val VK_EXTRA_SCOPE = "scope"
         private const val VK_EXTRA_REDIRECT_URL = "redirect_url"
 
-        const val DEFAULT_REDIRECT_URL = "https://oauth.vk.com/blank.html"
+        val DEFAULT_REDIRECT_URL = "https://${VKApiConfig.DEFAULT_OAUTH_WEB_DOMAIN}/blank.html"
 
         fun fromBundle(bundle: Bundle?): VKAuthParams? {
             if (bundle == null) {

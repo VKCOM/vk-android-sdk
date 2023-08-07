@@ -24,11 +24,12 @@
 
 package com.vk.api.sdk.chain
 
-import com.vk.api.sdk.VKApiValidationHandler
+import com.vk.api.sdk.VKApiCredentials
 import com.vk.api.sdk.VKApiManager
+import com.vk.api.sdk.VKApiValidationHandler
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKApiExecutionException
-import java.util.concurrent.CountDownLatch
+import com.vk.dto.common.id.UserId
 
 class ValidationHandlerChainCall<T>(
     manager: VKApiManager,
@@ -83,19 +84,21 @@ class ValidationHandlerChainCall<T>(
             credentials == VKApiValidationHandler.Credentials.EMPTY -> {
                 //no need to update credentials use current
             }
-            credentials?.isValid == true -> manager.setCredentials(credentials.token!!, credentials.secret, credentials.expiresInSec, credentials.createdMs)
+            credentials?.isValid == true -> manager.setCredentials(listOf(VKApiCredentials(credentials.token!!, credentials.secret, credentials.expiresInSec, credentials.createdMs, credentials.uid ?: UserId.DEFAULT)))
             else -> throw ex
         }
     }
 
     private fun handleCaptcha(ex: VKApiExecutionException, args: ChainArgs) {
-        val captcha = VKApiValidationHandler.Captcha(ex.captchaImg, ex.captchaHeight, ex.captchaWidth)
+        val captcha = VKApiValidationHandler.Captcha(ex.captchaImg, ex.captchaHeight, ex.captchaWidth, ex.captchaRatio, ex.captchaIsRefreshEnabled)
         val captchaResult = awaitValidation(captcha, manager.validationHandler, VKApiValidationHandler::handleCaptcha)
         when (captchaResult) {
             null -> throw ex
-            else -> {
-                args.captchaSid = ex.captchaSid
-                args.captchaKey = captchaResult
+            else -> args.apply {
+                captchaSid = ex.captchaSid
+                captchaAttempt = ex.captchaAttempt
+                captchaTimestamp = ex.captchaTimestamp
+                captchaKey = captchaResult
             }
         }
     }

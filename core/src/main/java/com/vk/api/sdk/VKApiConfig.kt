@@ -34,6 +34,7 @@ import com.vk.api.sdk.response.ResponseBodyJsonConverter
 import com.vk.api.sdk.utils.ApiMethodPriorityBackoff
 import com.vk.api.sdk.utils.log.DefaultApiLogger
 import com.vk.api.sdk.utils.log.Logger
+import com.vk.dto.common.id.UserId
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
@@ -47,15 +48,13 @@ data class VKApiConfig(
     val appId: Int = 0,
     val validationHandler: VKApiValidationHandler? = null,
     val apiCallListener: VKApiCallListener? = null,
+    val sectionAvailabilityListener: SectionAvailabilityListener? = null,
     val deviceId: Lazy<String> = lazy { "" },
     val version: String = DEFAULT_API_VERSION,
     val okHttpProvider: VKOkHttpProvider = VKOkHttpProvider.DefaultProvider(),
     val logger: Logger = DefaultApiLogger(lazy { Logger.LogLevel.NONE }, "VKSdkApi"),
     val loggingPrefixer: LoggingPrefixer = DefaultLoggingPrefixer(),
-    internal val accessToken: Lazy<String> = lazy { "" },
-    internal val secret: Lazy<String?> = lazy { null },
-    internal val expiresInSec: Lazy<Int> = lazy { 0 },
-    internal val createdMs: Lazy<Long> = lazy { 0 },
+    internal val credentials: Lazy<List<VKApiCredentials>> = lazy { listOf(VKApiCredentials("", null, 0, 0, UserId.DEFAULT)) },
     val clientSecret: String = "",
     val logFilterCredentials: Boolean = true,
     val debugCycleCalls: Lazy<Boolean> = lazy { false },
@@ -71,7 +70,9 @@ data class VKApiConfig(
     val anonymousTokenProvider: Lazy<VKAccessTokenProvider?> = lazy { null },
     val customJsonResponseTypeConverters: List<JsonResponseTypeConverter> = listOf(),
     val accessTokenRefresher: Lazy<AccessTokenRefresher?> = lazy { null },
-    val expiresInReduceRatioJson: () -> JSONObject? = { null }
+    val expiresInReduceRatioJson: () -> JSONObject? = { null },
+    val clientIdClientSecretMethodsTracker: (String, JSONObject) -> Unit = { _, _ -> },
+    val xScreenProvider: (() -> String)? = null,
 ) {
 
     val responseBodyJsonConverter: ResponseBodyJsonConverter by lazy {
@@ -130,16 +131,8 @@ data class VKApiConfig(
             config = config.copy(apiHostProvider = apiHostProvider)
         }
 
-        fun setAccessToken(accessToken: String) = apply {
-            config = config.copy(accessToken = lazy { accessToken })
-        }
-
-        fun setexpiresInSec(expiresInSec: Int) = apply {
-            config = config.copy(expiresInSec = lazy { expiresInSec })
-        }
-
-        fun setCreated(createdMs: Long) = apply {
-            config = config.copy(createdMs = lazy { createdMs })
+        fun setCredentials(credentials: List<VKApiCredentials>) = apply {
+            config = config.copy(credentials = lazy { credentials })
         }
 
         fun setClientSecret(clientSecret: String) = apply {
@@ -213,6 +206,8 @@ data class VKApiConfig(
         val DEFAULT_API_DOMAIN: String
             get() = "api.${VKHost.host}"
         val DEFAULT_OAUTH_DOMAIN: String
+            get() = "$DEFAULT_API_DOMAIN/oauth"
+        val DEFAULT_OAUTH_WEB_DOMAIN: String
             get() = "oauth.${VKHost.host}"
         val DEFAULT_STATIC_DOMAIN: String
             get() = "static.${VKHost.host}"

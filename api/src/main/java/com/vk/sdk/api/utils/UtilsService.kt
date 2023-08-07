@@ -30,19 +30,23 @@ package com.vk.sdk.api.utils
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.utils.dto.UtilsDomainResolved
-import com.vk.sdk.api.utils.dto.UtilsGetLastShortenedLinksResponse
-import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsExtendedInterval
-import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsExtendedSource
-import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsInterval
-import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsSource
-import com.vk.sdk.api.utils.dto.UtilsLinkChecked
-import com.vk.sdk.api.utils.dto.UtilsLinkStats
-import com.vk.sdk.api.utils.dto.UtilsLinkStatsExtended
-import com.vk.sdk.api.utils.dto.UtilsShortLink
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.utils.dto.UtilsDomainResolvedDto
+import com.vk.sdk.api.utils.dto.UtilsGetLastShortenedLinksResponseDto
+import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsExtendedIntervalDto
+import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsExtendedSourceDto
+import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsIntervalDto
+import com.vk.sdk.api.utils.dto.UtilsGetLinkStatsSourceDto
+import com.vk.sdk.api.utils.dto.UtilsLinkCheckedDto
+import com.vk.sdk.api.utils.dto.UtilsLinkStatsDto
+import com.vk.sdk.api.utils.dto.UtilsLinkStatsExtendedDto
+import com.vk.sdk.api.utils.dto.UtilsShortLinkDto
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 
 class UtilsService {
@@ -50,11 +54,11 @@ class UtilsService {
      * Checks whether a link is blocked in VK.
      *
      * @param url - Link to check (e.g., 'http_//google.com').
-     * @return [VKRequest] with [UtilsLinkChecked]
+     * @return [VKRequest] with [UtilsLinkCheckedDto]
      */
-    fun utilsCheckLink(url: String): VKRequest<UtilsLinkChecked> =
+    fun utilsCheckLink(url: String): VKRequest<UtilsLinkCheckedDto> =
             NewApiRequest("utils.checkLink") {
-        GsonHolder.gson.fromJson(it, UtilsLinkChecked::class.java)
+        GsonHolder.gson.parse<UtilsLinkCheckedDto>(it)
     }
     .apply {
         addParam("url", url)
@@ -64,11 +68,11 @@ class UtilsService {
      * Deletes shortened link from user's list.
      *
      * @param key - Link key (characters after vk.cc/).
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun utilsDeleteFromLastShortened(key: String): VKRequest<BaseOkResponse> =
+    fun utilsDeleteFromLastShortened(key: String): VKRequest<BaseOkResponseDto> =
             NewApiRequest("utils.deleteFromLastShortened") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("key", key)
@@ -79,12 +83,12 @@ class UtilsService {
      *
      * @param count - Number of links to return.
      * @param offset - Offset needed to return a specific subset of links.
-     * @return [VKRequest] with [UtilsGetLastShortenedLinksResponse]
+     * @return [VKRequest] with [UtilsGetLastShortenedLinksResponseDto]
      */
     fun utilsGetLastShortenedLinks(count: Int? = null, offset: Int? = null):
-            VKRequest<UtilsGetLastShortenedLinksResponse> =
+            VKRequest<UtilsGetLastShortenedLinksResponseDto> =
             NewApiRequest("utils.getLastShortenedLinks") {
-        GsonHolder.gson.fromJson(it, UtilsGetLastShortenedLinksResponse::class.java)
+        GsonHolder.gson.parse<UtilsGetLastShortenedLinksResponseDto>(it)
     }
     .apply {
         count?.let { addParam("count", it, min = 0) }
@@ -99,16 +103,19 @@ class UtilsService {
      * @param accessKey - Access key for private link stats.
      * @param interval - Interval.
      * @param intervalsCount - Number of intervals to return.
-     * @return [VKRequest] with [UtilsLinkStats]
+     * @param extended - 1 - to return extended stats data (sex, age, geo). 0 - to return views
+     * number only.
+     * @return [VKRequest] with [UtilsLinkStatsDto]
      */
     fun utilsGetLinkStats(
         key: String,
-        source: UtilsGetLinkStatsSource? = null,
+        source: UtilsGetLinkStatsSourceDto? = null,
         accessKey: String? = null,
-        interval: UtilsGetLinkStatsInterval? = null,
-        intervalsCount: Int? = null
-    ): VKRequest<UtilsLinkStats> = NewApiRequest("utils.getLinkStats") {
-        GsonHolder.gson.fromJson(it, UtilsLinkStats::class.java)
+        interval: UtilsGetLinkStatsIntervalDto? = null,
+        intervalsCount: Int? = null,
+        extended: Boolean? = null
+    ): VKRequest<UtilsLinkStatsDto> = NewApiRequest("utils.getLinkStats") {
+        GsonHolder.gson.parse<UtilsLinkStatsDto>(it)
     }
     .apply {
         addParam("key", key)
@@ -116,6 +123,7 @@ class UtilsService {
         accessKey?.let { addParam("access_key", it) }
         interval?.let { addParam("interval", it.value) }
         intervalsCount?.let { addParam("intervals_count", it, min = 0, max = 100) }
+        extended?.let { addParam("extended", it) }
     }
 
     /**
@@ -126,16 +134,16 @@ class UtilsService {
      * @param accessKey - Access key for private link stats.
      * @param interval - Interval.
      * @param intervalsCount - Number of intervals to return.
-     * @return [VKRequest] with [UtilsLinkStatsExtended]
+     * @return [VKRequest] with [UtilsLinkStatsExtendedDto]
      */
     fun utilsGetLinkStatsExtended(
         key: String,
-        source: UtilsGetLinkStatsExtendedSource? = null,
+        source: UtilsGetLinkStatsExtendedSourceDto? = null,
         accessKey: String? = null,
-        interval: UtilsGetLinkStatsExtendedInterval? = null,
+        interval: UtilsGetLinkStatsExtendedIntervalDto? = null,
         intervalsCount: Int? = null
-    ): VKRequest<UtilsLinkStatsExtended> = NewApiRequest("utils.getLinkStats") {
-        GsonHolder.gson.fromJson(it, UtilsLinkStatsExtended::class.java)
+    ): VKRequest<UtilsLinkStatsExtendedDto> = NewApiRequest("utils.getLinkStats") {
+        GsonHolder.gson.parse<UtilsLinkStatsExtendedDto>(it)
     }
     .apply {
         addParam("key", key)
@@ -152,7 +160,7 @@ class UtilsService {
      * @return [VKRequest] with [Int]
      */
     fun utilsGetServerTime(): VKRequest<Int> = NewApiRequest("utils.getServerTime") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parse<Int>(it)
     }
 
     /**
@@ -160,11 +168,11 @@ class UtilsService {
      *
      * @param url - URL to be shortened.
      * @param private - 1 - private stats, 0 - public stats.
-     * @return [VKRequest] with [UtilsShortLink]
+     * @return [VKRequest] with [UtilsShortLinkDto]
      */
-    fun utilsGetShortLink(url: String, private: Boolean? = null): VKRequest<UtilsShortLink> =
+    fun utilsGetShortLink(url: String, private: Boolean? = null): VKRequest<UtilsShortLinkDto> =
             NewApiRequest("utils.getShortLink") {
-        GsonHolder.gson.fromJson(it, UtilsShortLink::class.java)
+        GsonHolder.gson.parse<UtilsShortLinkDto>(it)
     }
     .apply {
         addParam("url", url)
@@ -176,13 +184,31 @@ class UtilsService {
      *
      * @param screenName - Screen name of the user, community (e.g., 'apiclub,' 'andrew', or
      * 'rules_of_war'), or application.
-     * @return [VKRequest] with [UtilsDomainResolved]
+     * @return [VKRequest] with [UtilsDomainResolvedDto]
      */
-    fun utilsResolveScreenName(screenName: String): VKRequest<UtilsDomainResolved> =
+    fun utilsResolveScreenName(screenName: String): VKRequest<UtilsDomainResolvedDto> =
             NewApiRequest("utils.resolveScreenName") {
-        GsonHolder.gson.fromJson(it, UtilsDomainResolved::class.java)
+        GsonHolder.gson.parse<UtilsDomainResolvedDto>(it)
     }
     .apply {
         addParam("screen_name", screenName)
+    }
+
+    object UtilsGetLastShortenedLinksRestrictions {
+        const val COUNT_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+    }
+
+    object UtilsGetLinkStatsRestrictions {
+        const val INTERVALS_COUNT_MIN: Long = 0
+
+        const val INTERVALS_COUNT_MAX: Long = 100
+    }
+
+    object UtilsGetLinkStatsExtendedRestrictions {
+        const val INTERVALS_COUNT_MIN: Long = 0
+
+        const val INTERVALS_COUNT_MAX: Long = 100
     }
 }

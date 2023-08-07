@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="vk_retry" tools:ignore="UnusedResources">Повторити</string>
+    <string name="vk_captcha_hint">Введіть код з малюнка</string>
+    <string name="vk_confirm">Підтвердження</string>
+    <string name="vk_message_login_error">Сталася помилка авторизації</string>
+</resources>

@@ -27,19 +27,22 @@
 // *********************************************************************
 package com.vk.sdk.api.pages
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.pages.dto.PagesSaveAccessEdit
-import com.vk.sdk.api.pages.dto.PagesSaveAccessView
-import com.vk.sdk.api.pages.dto.PagesWikipage
-import com.vk.sdk.api.pages.dto.PagesWikipageFull
-import com.vk.sdk.api.pages.dto.PagesWikipageHistory
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.pages.dto.PagesSaveAccessEditDto
+import com.vk.sdk.api.pages.dto.PagesSaveAccessViewDto
+import com.vk.sdk.api.pages.dto.PagesWikipageDto
+import com.vk.sdk.api.pages.dto.PagesWikipageFullDto
+import com.vk.sdk.api.pages.dto.PagesWikipageHistoryDto
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -48,11 +51,11 @@ class PagesService {
      * Allows to clear the cache of particular 'external' pages which may be attached to VK posts.
      *
      * @param url - Address of the page where you need to refesh the cached version
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun pagesClearCache(url: String): VKRequest<BaseOkResponse> =
+    fun pagesClearCache(url: String): VKRequest<BaseOkResponseDto> =
             NewApiRequest("pages.clearCache") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("url", url)
@@ -68,7 +71,7 @@ class PagesService {
      * @param title - Wiki page title.
      * @param needSource
      * @param needHtml - '1' - to return the page as HTML,
-     * @return [VKRequest] with [PagesWikipageFull]
+     * @return [VKRequest] with [PagesWikipageFullDto]
      */
     fun pagesGet(
         ownerId: UserId? = null,
@@ -78,8 +81,8 @@ class PagesService {
         title: String? = null,
         needSource: Boolean? = null,
         needHtml: Boolean? = null
-    ): VKRequest<PagesWikipageFull> = NewApiRequest("pages.get") {
-        GsonHolder.gson.fromJson(it, PagesWikipageFull::class.java)
+    ): VKRequest<PagesWikipageFullDto> = NewApiRequest("pages.get") {
+        GsonHolder.gson.parse<PagesWikipageFullDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -103,9 +106,8 @@ class PagesService {
         pageId: Int,
         groupId: UserId? = null,
         userId: UserId? = null
-    ): VKRequest<List<PagesWikipageHistory>> = NewApiRequest("pages.getHistory") {
-        val typeToken = object: TypeToken<List<PagesWikipageHistory>>() {}.type
-        GsonHolder.gson.fromJson<List<PagesWikipageHistory>>(it, typeToken)
+    ): VKRequest<List<PagesWikipageHistoryDto>> = NewApiRequest("pages.getHistory") {
+        GsonHolder.gson.parseList<PagesWikipageHistoryDto>(it)
     }
     .apply {
         addParam("page_id", pageId)
@@ -119,10 +121,9 @@ class PagesService {
      * @param groupId - ID of the community that owns the wiki page.
      * @return [VKRequest] with [Unit]
      */
-    fun pagesGetTitles(groupId: UserId? = null): VKRequest<List<PagesWikipage>> =
+    fun pagesGetTitles(groupId: UserId? = null): VKRequest<List<PagesWikipageDto>> =
             NewApiRequest("pages.getTitles") {
-        val typeToken = object: TypeToken<List<PagesWikipage>>() {}.type
-        GsonHolder.gson.fromJson<List<PagesWikipage>>(it, typeToken)
+        GsonHolder.gson.parseList<PagesWikipageDto>(it)
     }
     .apply {
         groupId?.let { addParam("group_id", it) }
@@ -135,15 +136,15 @@ class PagesService {
      * @param groupId - ID of the community that owns the wiki page.
      * @param userId
      * @param needHtml - '1' - to return the page as HTML
-     * @return [VKRequest] with [PagesWikipageFull]
+     * @return [VKRequest] with [PagesWikipageFullDto]
      */
     fun pagesGetVersion(
         versionId: Int,
         groupId: UserId? = null,
         userId: UserId? = null,
         needHtml: Boolean? = null
-    ): VKRequest<PagesWikipageFull> = NewApiRequest("pages.getVersion") {
-        GsonHolder.gson.fromJson(it, PagesWikipageFull::class.java)
+    ): VKRequest<PagesWikipageFullDto> = NewApiRequest("pages.getVersion") {
+        GsonHolder.gson.parse<PagesWikipageFullDto>(it)
     }
     .apply {
         addParam("version_id", versionId)
@@ -161,7 +162,7 @@ class PagesService {
      */
     fun pagesParseWiki(text: String, groupId: UserId? = null): VKRequest<String> =
             NewApiRequest("pages.parseWiki") {
-        GsonHolder.gson.fromJson(it, String::class.java)
+        GsonHolder.gson.parse<String>(it)
     }
     .apply {
         addParam("text", text)
@@ -185,7 +186,7 @@ class PagesService {
         userId: UserId? = null,
         title: String? = null
     ): VKRequest<Int> = NewApiRequest("pages.save") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parse<Int>(it)
     }
     .apply {
         text?.let { addParam("text", it) }
@@ -211,10 +212,10 @@ class PagesService {
         pageId: Int,
         groupId: UserId? = null,
         userId: UserId? = null,
-        view: PagesSaveAccessView? = null,
-        edit: PagesSaveAccessEdit? = null
+        view: PagesSaveAccessViewDto? = null,
+        edit: PagesSaveAccessEditDto? = null
     ): VKRequest<Int> = NewApiRequest("pages.saveAccess") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parse<Int>(it)
     }
     .apply {
         addParam("page_id", pageId)
@@ -222,5 +223,9 @@ class PagesService {
         userId?.let { addParam("user_id", it) }
         view?.let { addParam("view", it.value) }
         edit?.let { addParam("edit", it.value) }
+    }
+
+    object PagesParseWikiRestrictions {
+        const val GROUP_ID_MIN: Long = 0
     }
 }

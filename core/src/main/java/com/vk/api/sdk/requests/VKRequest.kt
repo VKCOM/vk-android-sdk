@@ -54,6 +54,18 @@ open class VKRequest<T>(var method: String, val requestApiVersion: String? = nul
     @Volatile var endpointPath: VKApiConfig.EndpointPathName = VKApiConfig.EndpointPathName.METHOD
         private set
 
+    @Volatile
+    var isMultipleTokens: Boolean = false
+        private set
+
+    @Volatile
+    var forceRemoveAuth: Boolean = false
+        private set
+
+    @Volatile
+    var forceAnonymous: Boolean = false
+        private set
+
     val params = LinkedHashMap<String, String>()
 
     // Params
@@ -94,6 +106,9 @@ open class VKRequest<T>(var method: String, val requestApiVersion: String? = nul
                 .version(version)
                 .setAnonymous(isAnonymous)
                 .allowNoAuth(allowNoAuth)
+                .setIsMultipleTokens(isMultipleTokens)
+                .forceRemoveAuth(forceRemoveAuth)
+                .forceAnonymous(forceAnonymous)
         return manager.execute(callBuilder.build(), this)
     }
 
@@ -103,6 +118,12 @@ open class VKRequest<T>(var method: String, val requestApiVersion: String? = nul
     open fun allowNoAuth() = apply { allowNoAuth = true }
 
     open fun setAnonymous(allow: Boolean) = apply { isAnonymous = allow }
+
+    open fun setIsMultipleTokens(isMultipleTokens: Boolean) = apply { this.isMultipleTokens = isMultipleTokens }
+
+    open fun forceRemoveAuth(remove: Boolean) = apply { this.forceRemoveAuth = remove }
+
+    open fun forceAnonymous(force: Boolean) = apply { this.forceAnonymous = force }
 
     /**
      * Include or exclude word method in request

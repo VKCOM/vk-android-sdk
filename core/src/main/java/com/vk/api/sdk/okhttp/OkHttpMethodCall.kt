@@ -36,7 +36,9 @@ open class OkHttpMethodCall {
             private set
         var version: String = ""
             private set
-        var args: MutableMap<String,String> = HashMap()
+        var args: MutableMap<String,String> = mutableMapOf()
+            private set
+        var headers: MutableMap<String,String> = mutableMapOf()
             private set
         var tag: RequestTag? = null
             private set
@@ -45,6 +47,12 @@ open class OkHttpMethodCall {
         var allowNoAuth: Boolean = false
             private set
         var retryCount = VKMethodCall.DEFAULT_RETRY_COUNT
+            private set
+        var isMultipleTokens: Boolean = false
+            private set
+        var forceRemoveAuth: Boolean = false
+            private set
+        var forceAnonymous: Boolean = false
             private set
 
         open fun url(url: String?) = apply { this.requestUrl = url }
@@ -62,6 +70,11 @@ open class OkHttpMethodCall {
         fun allowNoAuth(allow: Boolean) = apply { this.allowNoAuth = allow }
 
         fun retryCount(count: Int) = apply { this.retryCount = count }
+        fun headers(key: String, value: String) = apply { this.headers.put(key,value) }
+
+        fun isMultipleTokens(isMultipleTokens: Boolean) = apply { this.isMultipleTokens = isMultipleTokens }
+        fun forceRemoveAuth(remove: Boolean) = apply { this.forceRemoveAuth = remove }
+        fun forceAnonymous(force: Boolean) = apply { this.forceAnonymous = force }
 
         open fun from(call: VKMethodCall) = apply {
             method(call.method)
@@ -71,6 +84,9 @@ open class OkHttpMethodCall {
             retryCount(call.retryCount)
             url(call.requestUrl)
             setEndpointPath(call.endpointPath)
+            isMultipleTokens(call.isMultipleTokens)
+            forceRemoveAuth(call.forceRemoveAuth)
+            forceAnonymous(call.forceAnonymous)
         }
 
         open fun build() = OkHttpMethodCall(this)
@@ -81,10 +97,14 @@ open class OkHttpMethodCall {
     val method: String
     val version: String
     val args: Map<String,String>
+    val headers: Map<String,String>
     val tag: RequestTag?
     val customTag: Any?
     val allowNoAuth: Boolean
     val retryCount: Int
+    val isMultipleTokens: Boolean
+    val forceRemoveAuth: Boolean
+    val forceAnonymous: Boolean
 
     protected constructor(b: Builder) {
         if (b.method.isBlank()) throw IllegalArgumentException("method is null or empty")
@@ -94,10 +114,14 @@ open class OkHttpMethodCall {
         this.method = b.method
         this.version = b.version
         this.args = b.args
+        this.headers = b.headers
         this.tag = b.tag
         this.customTag = b.customTag
         this.allowNoAuth= b.allowNoAuth
         this.retryCount = b.retryCount
+        this.isMultipleTokens = b.isMultipleTokens
+        this.forceRemoveAuth = b.forceRemoveAuth
+        this.forceAnonymous = b.forceAnonymous
     }
 
     fun isExtended() = args["extended"] == "true" || args["extended"] == "1"

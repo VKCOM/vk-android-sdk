@@ -27,16 +27,20 @@
 // *********************************************************************
 package com.vk.sdk.api.prettyCards
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.prettyCards.dto.PrettyCardsCreateResponse
-import com.vk.sdk.api.prettyCards.dto.PrettyCardsDeleteResponse
-import com.vk.sdk.api.prettyCards.dto.PrettyCardsEditResponse
-import com.vk.sdk.api.prettyCards.dto.PrettyCardsGetResponse
-import com.vk.sdk.api.prettyCards.dto.PrettyCardsPrettyCardOrError
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.prettyCards.dto.PrettyCardsCreateResponseDto
+import com.vk.sdk.api.prettyCards.dto.PrettyCardsDeleteResponseDto
+import com.vk.sdk.api.prettyCards.dto.PrettyCardsEditResponseDto
+import com.vk.sdk.api.prettyCards.dto.PrettyCardsGetResponseDto
+import com.vk.sdk.api.prettyCards.dto.PrettyCardsPrettyCardOrErrorDto
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -49,18 +53,18 @@ class PrettyCardsService {
      * @param price
      * @param priceOld
      * @param button
-     * @return [VKRequest] with [PrettyCardsCreateResponse]
+     * @return [VKRequest] with [PrettyCardsCreateResponseDto]
      */
     fun prettyCardsCreate(
-        ownerId: Int,
+        ownerId: UserId,
         photo: String,
         title: String,
         link: String,
         price: String? = null,
         priceOld: String? = null,
         button: String? = null
-    ): VKRequest<PrettyCardsCreateResponse> = NewApiRequest("prettyCards.create") {
-        GsonHolder.gson.fromJson(it, PrettyCardsCreateResponse::class.java)
+    ): VKRequest<PrettyCardsCreateResponseDto> = NewApiRequest("prettyCards.create") {
+        GsonHolder.gson.parse<PrettyCardsCreateResponseDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -75,11 +79,11 @@ class PrettyCardsService {
     /**
      * @param ownerId
      * @param cardId
-     * @return [VKRequest] with [PrettyCardsDeleteResponse]
+     * @return [VKRequest] with [PrettyCardsDeleteResponseDto]
      */
-    fun prettyCardsDelete(ownerId: Int, cardId: Int): VKRequest<PrettyCardsDeleteResponse> =
+    fun prettyCardsDelete(ownerId: UserId, cardId: Int): VKRequest<PrettyCardsDeleteResponseDto> =
             NewApiRequest("prettyCards.delete") {
-        GsonHolder.gson.fromJson(it, PrettyCardsDeleteResponse::class.java)
+        GsonHolder.gson.parse<PrettyCardsDeleteResponseDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -95,10 +99,10 @@ class PrettyCardsService {
      * @param price
      * @param priceOld
      * @param button
-     * @return [VKRequest] with [PrettyCardsEditResponse]
+     * @return [VKRequest] with [PrettyCardsEditResponseDto]
      */
     fun prettyCardsEdit(
-        ownerId: Int,
+        ownerId: UserId,
         cardId: Int,
         photo: String? = null,
         title: String? = null,
@@ -106,8 +110,8 @@ class PrettyCardsService {
         price: String? = null,
         priceOld: String? = null,
         button: String? = null
-    ): VKRequest<PrettyCardsEditResponse> = NewApiRequest("prettyCards.edit") {
-        GsonHolder.gson.fromJson(it, PrettyCardsEditResponse::class.java)
+    ): VKRequest<PrettyCardsEditResponseDto> = NewApiRequest("prettyCards.edit") {
+        GsonHolder.gson.parse<PrettyCardsEditResponseDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -124,14 +128,14 @@ class PrettyCardsService {
      * @param ownerId
      * @param offset
      * @param count
-     * @return [VKRequest] with [PrettyCardsGetResponse]
+     * @return [VKRequest] with [PrettyCardsGetResponseDto]
      */
     fun prettyCardsGet(
-        ownerId: Int,
+        ownerId: UserId,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<PrettyCardsGetResponse> = NewApiRequest("prettyCards.get") {
-        GsonHolder.gson.fromJson(it, PrettyCardsGetResponse::class.java)
+    ): VKRequest<PrettyCardsGetResponseDto> = NewApiRequest("prettyCards.get") {
+        GsonHolder.gson.parse<PrettyCardsGetResponseDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -144,10 +148,10 @@ class PrettyCardsService {
      * @param cardIds
      * @return [VKRequest] with [Unit]
      */
-    fun prettyCardsGetById(ownerId: Int, cardIds: List<Int>):
-            VKRequest<List<PrettyCardsPrettyCardOrError>> = NewApiRequest("prettyCards.getById") {
-        val typeToken = object: TypeToken<List<PrettyCardsPrettyCardOrError>>() {}.type
-        GsonHolder.gson.fromJson<List<PrettyCardsPrettyCardOrError>>(it, typeToken)
+    fun prettyCardsGetById(ownerId: UserId, cardIds: List<Int>):
+            VKRequest<List<PrettyCardsPrettyCardOrErrorDto>> =
+            NewApiRequest("prettyCards.getById") {
+        GsonHolder.gson.parseList<PrettyCardsPrettyCardOrErrorDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -158,6 +162,34 @@ class PrettyCardsService {
      * @return [VKRequest] with [String]
      */
     fun prettyCardsGetUploadURL(): VKRequest<String> = NewApiRequest("prettyCards.getUploadURL") {
-        GsonHolder.gson.fromJson(it, String::class.java)
+        GsonHolder.gson.parse<String>(it)
+    }
+
+    object PrettyCardsCreateRestrictions {
+        const val LINK_MAX_LENGTH: Int = 2000
+
+        const val PRICE_MAX_LENGTH: Int = 20
+
+        const val PRICE_OLD_MAX_LENGTH: Int = 20
+
+        const val BUTTON_MAX_LENGTH: Int = 255
+    }
+
+    object PrettyCardsEditRestrictions {
+        const val LINK_MAX_LENGTH: Int = 2000
+
+        const val PRICE_MAX_LENGTH: Int = 20
+
+        const val PRICE_OLD_MAX_LENGTH: Int = 20
+
+        const val BUTTON_MAX_LENGTH: Int = 255
+    }
+
+    object PrettyCardsGetRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
     }
 }

@@ -27,10 +27,13 @@
   ~ THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
 -->
 <resources>
-    <style name="VK.Transparent" parent="android:Theme">
+    <style name="SdkActivityTheme" parent="android:Theme">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="WebViewAuthActivityTheme" parent="SdkActivityTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 </resources>

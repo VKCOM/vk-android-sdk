@@ -134,7 +134,7 @@ class StartUpMethodPriorityBackoffBaseImplTest {
         Assert.assertTrue(backOff.isActive())
         Assert.assertTrue(backOff.shouldWait(heavyMethod))
 
-        backOff.onStartUpCompleted()
+        backOff.clear()
 
         Assert.assertFalse(backOff.shouldWait(heavyMethod))
         Assert.assertFalse(backOff.isActive())
@@ -195,7 +195,7 @@ class StartUpMethodPriorityBackoffBaseImplTest {
         shouldWaitForStartUpPriorityRequestsCompletion: Boolean = false
     ) =
         StartUpMethodPriorityBackoffBaseImpl(
-            startUpPriorityMethods = startUpPriorityMethods,
+            startUpPriorityMethodsProvider = { startUpPriorityMethods },
             exceptionMethods = exceptionMethods,
             startUpHeavyMethods = startUpHeavyMethods,
             shouldRestrictHeavyRequestsOnStartUp = shouldRestrictHeavyRequestsOnStartUp,

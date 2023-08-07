@@ -31,34 +31,38 @@ import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.account.dto.AccountAccountCounters
-import com.vk.sdk.api.account.dto.AccountChangePasswordResponse
-import com.vk.sdk.api.account.dto.AccountGetActiveOffersResponse
-import com.vk.sdk.api.account.dto.AccountGetBannedResponse
-import com.vk.sdk.api.account.dto.AccountGetCountersFilter
-import com.vk.sdk.api.account.dto.AccountGetInfoFields
-import com.vk.sdk.api.account.dto.AccountInfo
-import com.vk.sdk.api.account.dto.AccountPushSettings
-import com.vk.sdk.api.account.dto.AccountSaveProfileInfoBdateVisibility
-import com.vk.sdk.api.account.dto.AccountSaveProfileInfoRelation
-import com.vk.sdk.api.account.dto.AccountSaveProfileInfoResponse
-import com.vk.sdk.api.account.dto.AccountSaveProfileInfoSex
-import com.vk.sdk.api.account.dto.AccountSetInfoName
-import com.vk.sdk.api.account.dto.AccountUserSettings
-import com.vk.sdk.api.base.dto.BaseOkResponse
+import com.vk.sdk.api.account.dto.AccountAccountCountersDto
+import com.vk.sdk.api.account.dto.AccountChangePasswordResponseDto
+import com.vk.sdk.api.account.dto.AccountCountersFilterDto
+import com.vk.sdk.api.account.dto.AccountGetActiveOffersResponseDto
+import com.vk.sdk.api.account.dto.AccountGetBannedResponseDto
+import com.vk.sdk.api.account.dto.AccountGetInfoFieldsDto
+import com.vk.sdk.api.account.dto.AccountInfoDto
+import com.vk.sdk.api.account.dto.AccountPushSettingsDto
+import com.vk.sdk.api.account.dto.AccountSaveProfileInfoBdateVisibilityDto
+import com.vk.sdk.api.account.dto.AccountSaveProfileInfoRelationDto
+import com.vk.sdk.api.account.dto.AccountSaveProfileInfoResponseDto
+import com.vk.sdk.api.account.dto.AccountSaveProfileInfoSexDto
+import com.vk.sdk.api.account.dto.AccountSetInfoNameDto
+import com.vk.sdk.api.account.dto.AccountUserSettingsDto
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
 class AccountService {
     /**
      * @param ownerId
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun accountBan(ownerId: UserId? = null): VKRequest<BaseOkResponse> =
+    fun accountBan(ownerId: UserId? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("account.ban") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -74,15 +78,15 @@ class AccountService {
      * @param changePasswordHash - Hash received after a successful OAuth authorization with a code
      * got by SMS. (If the password is changed right after the access was restored)
      * @param oldPassword - Current user password.
-     * @return [VKRequest] with [AccountChangePasswordResponse]
+     * @return [VKRequest] with [AccountChangePasswordResponseDto]
      */
     fun accountChangePassword(
         newPassword: String,
         restoreSid: String? = null,
         changePasswordHash: String? = null,
         oldPassword: String? = null
-    ): VKRequest<AccountChangePasswordResponse> = NewApiRequest("account.changePassword") {
-        GsonHolder.gson.fromJson(it, AccountChangePasswordResponse::class.java)
+    ): VKRequest<AccountChangePasswordResponseDto> = NewApiRequest("account.changePassword") {
+        GsonHolder.gson.parse<AccountChangePasswordResponseDto>(it)
     }
     .apply {
         addParam("new_password", newPassword, minLength = 6)
@@ -97,11 +101,12 @@ class AccountService {
      *
      * @param offset
      * @param count - Number of results to return.
-     * @return [VKRequest] with [AccountGetActiveOffersResponse]
+     * @return [VKRequest] with [AccountGetActiveOffersResponseDto]
      */
     fun accountGetActiveOffers(offset: Int? = null, count: Int? = null):
-            VKRequest<AccountGetActiveOffersResponse> = NewApiRequest("account.getActiveOffers") {
-        GsonHolder.gson.fromJson(it, AccountGetActiveOffersResponse::class.java)
+            VKRequest<AccountGetActiveOffersResponseDto> =
+            NewApiRequest("account.getActiveOffers") {
+        GsonHolder.gson.parse<AccountGetActiveOffersResponseDto>(it)
     }
     .apply {
         offset?.let { addParam("offset", it, min = 0) }
@@ -114,12 +119,12 @@ class AccountService {
      * @param userId - User ID whose settings information shall be got. By default_ current user.
      * @return [VKRequest] with [Int]
      */
-    fun accountGetAppPermissions(userId: UserId): VKRequest<Int> =
+    fun accountGetAppPermissions(userId: UserId? = null): VKRequest<Int> =
             NewApiRequest("account.getAppPermissions") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parse<Int>(it)
     }
     .apply {
-        addParam("user_id", userId, min = 1)
+        userId?.let { addParam("user_id", it, min = 1) }
     }
 
     /**
@@ -127,11 +132,11 @@ class AccountService {
      *
      * @param offset - Offset needed to return a specific subset of results.
      * @param count - Number of results to return.
-     * @return [VKRequest] with [AccountGetBannedResponse]
+     * @return [VKRequest] with [AccountGetBannedResponseDto]
      */
     fun accountGetBanned(offset: Int? = null, count: Int? = null):
-            VKRequest<AccountGetBannedResponse> = NewApiRequest("account.getBanned") {
-        GsonHolder.gson.fromJson(it, AccountGetBannedResponse::class.java)
+            VKRequest<AccountGetBannedResponseDto> = NewApiRequest("account.getBanned") {
+        GsonHolder.gson.parse<AccountGetBannedResponseDto>(it)
     }
     .apply {
         offset?.let { addParam("offset", it, min = 0) }
@@ -142,19 +147,17 @@ class AccountService {
      * Returns non-null values of user counters.
      *
      * @param filter - Counters to be returned.
-     * @param userId - User ID
-     * @return [VKRequest] with [AccountAccountCounters]
+     * @return [VKRequest] with [AccountAccountCountersDto]
      */
-    fun accountGetCounters(filter: List<AccountGetCountersFilter>? = null, userId: UserId? = null):
-            VKRequest<AccountAccountCounters> = NewApiRequest("account.getCounters") {
-        GsonHolder.gson.fromJson(it, AccountAccountCounters::class.java)
+    fun accountGetCounters(filter: List<AccountCountersFilterDto>? = null):
+            VKRequest<AccountAccountCountersDto> = NewApiRequest("account.getCounters") {
+        GsonHolder.gson.parse<AccountAccountCountersDto>(it)
     }
     .apply {
         val filterJsonConverted = filter?.map {
             it.value
         }
         filterJsonConverted?.let { addParam("filter", it) }
-        userId?.let { addParam("user_id", it, min = 0) }
     }
 
     /**
@@ -164,11 +167,11 @@ class AccountService {
      * *'https_required' - is "HTTPS only" option enabled,, *'own_posts_default' - is "Show my posts
      * only" option is enabled,, *'no_wall_replies' - are wall replies disabled or not,, *'intro' - is
      * intro passed by user or not,, *'lang' - user language. By default_ all.
-     * @return [VKRequest] with [AccountInfo]
+     * @return [VKRequest] with [AccountInfoDto]
      */
-    fun accountGetInfo(fields: List<AccountGetInfoFields>? = null): VKRequest<AccountInfo> =
+    fun accountGetInfo(fields: List<AccountGetInfoFieldsDto>? = null): VKRequest<AccountInfoDto> =
             NewApiRequest("account.getInfo") {
-        GsonHolder.gson.fromJson(it, AccountInfo::class.java)
+        GsonHolder.gson.parse<AccountInfoDto>(it)
     }
     .apply {
         val fieldsJsonConverted = fields?.map {
@@ -180,22 +183,22 @@ class AccountService {
     /**
      * Returns the current account info.
      *
-     * @return [VKRequest] with [AccountUserSettings]
+     * @return [VKRequest] with [AccountUserSettingsDto]
      */
-    fun accountGetProfileInfo(): VKRequest<AccountUserSettings> =
+    fun accountGetProfileInfo(): VKRequest<AccountUserSettingsDto> =
             NewApiRequest("account.getProfileInfo") {
-        GsonHolder.gson.fromJson(it, AccountUserSettings::class.java)
+        GsonHolder.gson.parse<AccountUserSettingsDto>(it)
     }
 
     /**
      * Gets settings of push notifications.
      *
      * @param deviceId - Unique device ID.
-     * @return [VKRequest] with [AccountPushSettings]
+     * @return [VKRequest] with [AccountPushSettingsDto]
      */
-    fun accountGetPushSettings(deviceId: String? = null): VKRequest<AccountPushSettings> =
+    fun accountGetPushSettings(deviceId: String? = null): VKRequest<AccountPushSettingsDto> =
             NewApiRequest("account.getPushSettings") {
-        GsonHolder.gson.fromJson(it, AccountPushSettings::class.java)
+        GsonHolder.gson.parse<AccountPushSettingsDto>(it)
     }
     .apply {
         deviceId?.let { addParam("device_id", it) }
@@ -212,7 +215,7 @@ class AccountService {
      * @param systemVersion - String version of device operating system.
      * @param settings - Push settings in a [vk.com/dev/push_settings|special format].
      * @param sandbox
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun accountRegisterDevice(
         token: String,
@@ -222,8 +225,8 @@ class AccountService {
         systemVersion: String? = null,
         settings: String? = null,
         sandbox: Boolean? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("account.registerDevice") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("account.registerDevice") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("token", token)
@@ -256,7 +259,7 @@ class AccountService {
      * @param countryId - User country.
      * @param cityId - User city.
      * @param status - Status text.
-     * @return [VKRequest] with [AccountSaveProfileInfoResponse]
+     * @return [VKRequest] with [AccountSaveProfileInfoResponseDto]
      */
     fun accountSaveProfileInfo(
         firstName: String? = null,
@@ -264,17 +267,17 @@ class AccountService {
         maidenName: String? = null,
         screenName: String? = null,
         cancelRequestId: Int? = null,
-        sex: AccountSaveProfileInfoSex? = null,
-        relation: AccountSaveProfileInfoRelation? = null,
+        sex: AccountSaveProfileInfoSexDto? = null,
+        relation: AccountSaveProfileInfoRelationDto? = null,
         relationPartnerId: UserId? = null,
         bdate: String? = null,
-        bdateVisibility: AccountSaveProfileInfoBdateVisibility? = null,
+        bdateVisibility: AccountSaveProfileInfoBdateVisibilityDto? = null,
         homeTown: String? = null,
         countryId: Int? = null,
         cityId: Int? = null,
         status: String? = null
-    ): VKRequest<AccountSaveProfileInfoResponse> = NewApiRequest("account.saveProfileInfo") {
-        GsonHolder.gson.fromJson(it, AccountSaveProfileInfoResponse::class.java)
+    ): VKRequest<AccountSaveProfileInfoResponseDto> = NewApiRequest("account.saveProfileInfo") {
+        GsonHolder.gson.parse<AccountSaveProfileInfoResponseDto>(it)
     }
     .apply {
         firstName?.let { addParam("first_name", it) }
@@ -298,11 +301,11 @@ class AccountService {
      *
      * @param name - Setting name.
      * @param value - Setting value.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun accountSetInfo(name: AccountSetInfoName? = null, value: String? = null):
-            VKRequest<BaseOkResponse> = NewApiRequest("account.setInfo") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    fun accountSetInfo(name: AccountSetInfoNameDto? = null, value: String? = null):
+            VKRequest<BaseOkResponseDto> = NewApiRequest("account.setInfo") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         name?.let { addParam("name", it.value) }
@@ -312,21 +315,21 @@ class AccountService {
     /**
      * Marks a current user as offline.
      *
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun accountSetOffline(): VKRequest<BaseOkResponse> = NewApiRequest("account.setOffline") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    fun accountSetOffline(): VKRequest<BaseOkResponseDto> = NewApiRequest("account.setOffline") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
 
     /**
      * Marks the current user as online for 15 minutes.
      *
      * @param voip - '1' if videocalls are available for current device.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun accountSetOnline(voip: Boolean? = null): VKRequest<BaseOkResponse> =
+    fun accountSetOnline(voip: Boolean? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("account.setOnline") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         voip?.let { addParam("voip", it) }
@@ -339,15 +342,15 @@ class AccountService {
      * @param settings - Push settings in a [vk.com/dev/push_settings|special format].
      * @param key - Notification key.
      * @param value - New value for the key in a [vk.com/dev/push_settings|special format].
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun accountSetPushSettings(
         deviceId: String,
         settings: String? = null,
         key: String? = null,
         value: List<String>? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("account.setPushSettings") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("account.setPushSettings") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("device_id", deviceId)
@@ -366,15 +369,15 @@ class AccountService {
      * 'Chat ID', e.g. '2000000001'. For community_ '- Community ID', e.g. '-12345'. "
      * @param sound - '1' - to enable sound in this dialog, '0' - to disable sound. Only if
      * 'peer_id' contains user or community ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun accountSetSilenceMode(
         deviceId: String? = null,
         time: Int? = null,
-        peerId: Int? = null,
+        peerId: UserId? = null,
         sound: Int? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("account.setSilenceMode") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("account.setSilenceMode") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         deviceId?.let { addParam("device_id", it) }
@@ -385,11 +388,11 @@ class AccountService {
 
     /**
      * @param ownerId
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun accountUnban(ownerId: UserId? = null): VKRequest<BaseOkResponse> =
+    fun accountUnban(ownerId: UserId? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("account.unban") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -400,14 +403,54 @@ class AccountService {
      *
      * @param deviceId - Unique device ID.
      * @param sandbox
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun accountUnregisterDevice(deviceId: String? = null, sandbox: Boolean? = null):
-            VKRequest<BaseOkResponse> = NewApiRequest("account.unregisterDevice") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+            VKRequest<BaseOkResponseDto> = NewApiRequest("account.unregisterDevice") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         deviceId?.let { addParam("device_id", it) }
         sandbox?.let { addParam("sandbox", it) }
+    }
+
+    object AccountChangePasswordRestrictions {
+        const val NEW_PASSWORD_MIN_LENGTH: Int = 6
+    }
+
+    object AccountGetActiveOffersRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
+    }
+
+    object AccountGetAppPermissionsRestrictions {
+        const val USER_ID_MIN: Long = 1
+    }
+
+    object AccountGetBannedRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 200
+    }
+
+    object AccountSaveProfileInfoRestrictions {
+        const val CANCEL_REQUEST_ID_MIN: Long = 0
+
+        const val SEX_MIN: Long = 0
+
+        const val RELATION_MIN: Long = 0
+
+        const val RELATION_PARTNER_ID_MIN: Long = 0
+
+        const val BDATE_VISIBILITY_MIN: Long = 0
+
+        const val COUNTRY_ID_MIN: Long = 0
+
+        const val CITY_ID_MIN: Long = 0
     }
 }

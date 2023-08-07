@@ -1,5 +1,7 @@
 package com.vk.api.sdk
 
+import com.vk.api.sdk.auth.VKAccessToken
+
 interface ApiCredentialsChangeListener {
-    fun onCredentialsChanged(accessToken: String, secret: String?, expiresInSec: Int, createdMs: Long)
+    fun onCredentialsChanged(credentials: List<VKAccessToken>)
 }

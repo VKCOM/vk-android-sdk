@@ -31,14 +31,18 @@ import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.notes.dto.NotesGetCommentsResponse
-import com.vk.sdk.api.notes.dto.NotesGetCommentsSort
-import com.vk.sdk.api.notes.dto.NotesGetResponse
-import com.vk.sdk.api.notes.dto.NotesGetSort
-import com.vk.sdk.api.notes.dto.NotesNote
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.notes.dto.NotesGetCommentsResponseDto
+import com.vk.sdk.api.notes.dto.NotesGetCommentsSortDto
+import com.vk.sdk.api.notes.dto.NotesGetResponseDto
+import com.vk.sdk.api.notes.dto.NotesGetSortDto
+import com.vk.sdk.api.notes.dto.NotesNoteDto
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -58,7 +62,7 @@ class NotesService {
         privacyView: List<String>? = null,
         privacyComment: List<String>? = null
     ): VKRequest<Int> = NewApiRequest("notes.add") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parse<Int>(it)
     }
     .apply {
         addParam("title", title)
@@ -85,7 +89,7 @@ class NotesService {
         replyTo: Int? = null,
         guid: String? = null
     ): VKRequest<Int> = NewApiRequest("notes.createComment") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parse<Int>(it)
     }
     .apply {
         addParam("note_id", noteId, min = 0)
@@ -99,10 +103,10 @@ class NotesService {
      * Deletes a note of the current user.
      *
      * @param noteId - Note ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun notesDelete(noteId: Int): VKRequest<BaseOkResponse> = NewApiRequest("notes.delete") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    fun notesDelete(noteId: Int): VKRequest<BaseOkResponseDto> = NewApiRequest("notes.delete") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("note_id", noteId, min = 0)
@@ -113,11 +117,11 @@ class NotesService {
      *
      * @param commentId - Comment ID.
      * @param ownerId - Note owner ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun notesDeleteComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
+    fun notesDeleteComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("notes.deleteComment") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("comment_id", commentId, min = 0)
@@ -132,7 +136,7 @@ class NotesService {
      * @param text - Note text.
      * @param privacyView
      * @param privacyComment
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun notesEdit(
         noteId: Int,
@@ -140,8 +144,8 @@ class NotesService {
         text: String,
         privacyView: List<String>? = null,
         privacyComment: List<String>? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("notes.edit") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("notes.edit") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("note_id", noteId, min = 0)
@@ -157,14 +161,14 @@ class NotesService {
      * @param commentId - Comment ID.
      * @param message - New comment text.
      * @param ownerId - Note owner ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun notesEditComment(
         commentId: Int,
         message: String,
         ownerId: UserId? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("notes.editComment") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("notes.editComment") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("comment_id", commentId, min = 0)
@@ -180,16 +184,16 @@ class NotesService {
      * @param offset
      * @param count - Number of notes to return.
      * @param sort
-     * @return [VKRequest] with [NotesGetResponse]
+     * @return [VKRequest] with [NotesGetResponseDto]
      */
     fun notesGet(
         noteIds: List<Int>? = null,
         userId: UserId? = null,
         offset: Int? = null,
         count: Int? = null,
-        sort: NotesGetSort? = null
-    ): VKRequest<NotesGetResponse> = NewApiRequest("notes.get") {
-        GsonHolder.gson.fromJson(it, NotesGetResponse::class.java)
+        sort: NotesGetSortDto? = null
+    ): VKRequest<NotesGetResponseDto> = NewApiRequest("notes.get") {
+        GsonHolder.gson.parse<NotesGetResponseDto>(it)
     }
     .apply {
         noteIds?.let { addParam("note_ids", it) }
@@ -205,14 +209,14 @@ class NotesService {
      * @param noteId - Note ID.
      * @param ownerId - Note owner ID.
      * @param needWiki
-     * @return [VKRequest] with [NotesNote]
+     * @return [VKRequest] with [NotesNoteDto]
      */
     fun notesGetById(
         noteId: Int,
         ownerId: UserId? = null,
         needWiki: Boolean? = null
-    ): VKRequest<NotesNote> = NewApiRequest("notes.getById") {
-        GsonHolder.gson.fromJson(it, NotesNote::class.java)
+    ): VKRequest<NotesNoteDto> = NewApiRequest("notes.getById") {
+        GsonHolder.gson.parse<NotesNoteDto>(it)
     }
     .apply {
         addParam("note_id", noteId, min = 0)
@@ -228,16 +232,16 @@ class NotesService {
      * @param sort
      * @param offset
      * @param count - Number of comments to return.
-     * @return [VKRequest] with [NotesGetCommentsResponse]
+     * @return [VKRequest] with [NotesGetCommentsResponseDto]
      */
     fun notesGetComments(
         noteId: Int,
         ownerId: UserId? = null,
-        sort: NotesGetCommentsSort? = null,
+        sort: NotesGetCommentsSortDto? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<NotesGetCommentsResponse> = NewApiRequest("notes.getComments") {
-        GsonHolder.gson.fromJson(it, NotesGetCommentsResponse::class.java)
+    ): VKRequest<NotesGetCommentsResponseDto> = NewApiRequest("notes.getComments") {
+        GsonHolder.gson.parse<NotesGetCommentsResponseDto>(it)
     }
     .apply {
         addParam("note_id", noteId, min = 0)
@@ -252,14 +256,82 @@ class NotesService {
      *
      * @param commentId - Comment ID.
      * @param ownerId - Note owner ID.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun notesRestoreComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponse> =
+    fun notesRestoreComment(commentId: Int, ownerId: UserId? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("notes.restoreComment") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("comment_id", commentId, min = 0)
         ownerId?.let { addParam("owner_id", it, min = 0) }
+    }
+
+    object NotesCreateCommentRestrictions {
+        const val NOTE_ID_MIN: Long = 0
+
+        const val OWNER_ID_MIN: Long = 0
+
+        const val REPLY_TO_MIN: Long = 0
+    }
+
+    object NotesDeleteRestrictions {
+        const val NOTE_ID_MIN: Long = 0
+    }
+
+    object NotesDeleteCommentRestrictions {
+        const val COMMENT_ID_MIN: Long = 0
+
+        const val OWNER_ID_MIN: Long = 0
+    }
+
+    object NotesEditRestrictions {
+        const val NOTE_ID_MIN: Long = 0
+    }
+
+    object NotesEditCommentRestrictions {
+        const val COMMENT_ID_MIN: Long = 0
+
+        const val MESSAGE_MIN_LENGTH: Int = 2
+
+        const val OWNER_ID_MIN: Long = 0
+    }
+
+    object NotesGetRestrictions {
+        const val USER_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
+
+        const val SORT_MIN: Long = 0
+    }
+
+    object NotesGetByIdRestrictions {
+        const val NOTE_ID_MIN: Long = 0
+
+        const val OWNER_ID_MIN: Long = 0
+    }
+
+    object NotesGetCommentsRestrictions {
+        const val NOTE_ID_MIN: Long = 0
+
+        const val OWNER_ID_MIN: Long = 0
+
+        const val SORT_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
+    }
+
+    object NotesRestoreCommentRestrictions {
+        const val COMMENT_ID_MIN: Long = 0
+
+        const val OWNER_ID_MIN: Long = 0
     }
 }

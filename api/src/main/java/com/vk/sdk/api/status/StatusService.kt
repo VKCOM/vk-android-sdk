@@ -31,8 +31,12 @@ import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.status.dto.StatusStatus
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.status.dto.StatusStatusDto
+import kotlin.Long
 import kotlin.String
 
 class StatusService {
@@ -41,11 +45,11 @@ class StatusService {
      *
      * @param userId - User ID or community ID. Use a negative value to designate a community ID.
      * @param groupId
-     * @return [VKRequest] with [StatusStatus]
+     * @return [VKRequest] with [StatusStatusDto]
      */
-    fun statusGet(userId: UserId? = null, groupId: UserId? = null): VKRequest<StatusStatus> =
+    fun statusGet(userId: UserId? = null, groupId: UserId? = null): VKRequest<StatusStatusDto> =
             NewApiRequest("status.get") {
-        GsonHolder.gson.fromJson(it, StatusStatus::class.java)
+        GsonHolder.gson.parse<StatusStatusDto>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it) }
@@ -58,14 +62,22 @@ class StatusService {
      * @param text - Text of the new status.
      * @param groupId - Identifier of a community to set a status in. If left blank the status is
      * set to current user.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun statusSet(text: String? = null, groupId: UserId? = null): VKRequest<BaseOkResponse> =
+    fun statusSet(text: String? = null, groupId: UserId? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("status.set") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         text?.let { addParam("text", it) }
         groupId?.let { addParam("group_id", it, min = 0) }
+    }
+
+    object StatusGetRestrictions {
+        const val GROUP_ID_MIN: Long = 0
+    }
+
+    object StatusSetRestrictions {
+        const val GROUP_ID_MIN: Long = 0
     }
 }

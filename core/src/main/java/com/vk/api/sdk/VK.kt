@@ -31,7 +31,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
-import com.vk.api.sdk.auth.*
+import com.vk.api.sdk.auth.VKAccessToken
+import com.vk.api.sdk.auth.VKAuthManager
+import com.vk.api.sdk.auth.VKAuthResultContract
+import com.vk.api.sdk.auth.VKAuthenticationResult
+import com.vk.api.sdk.auth.VKScope
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.exceptions.VKApiExecutionException
 import com.vk.api.sdk.internal.ApiCommand
@@ -75,7 +79,11 @@ object VK {
         apiManager = VKApiManager(config)
         authManager = VKAuthManager(config.keyValueStorage)
 
-        apiManager.setCredentials(VKApiCredentials.lazyFrom { authManager.getCurrentToken() })
+        val lazyCredentials = lazy {
+            val token = authManager.getCurrentToken() ?: return@lazy listOf(VKApiCredentials("", null, 0, 0, UserId.DEFAULT))
+            listOf(VKApiCredentials(token.accessToken, token.secret, token.expiresInSec, token.createdMs, token.userId))
+        }
+        apiManager.setCredentials(lazyCredentials)
     }
 
     /**
@@ -108,7 +116,16 @@ object VK {
         if (saveAccessTokenToStorage) {
             VKAccessToken(userId, accessToken, secret, expiresInSec, createdMs).save(config.keyValueStorage)
         }
-        apiManager.setCredentials(accessToken, secret, expiresInSec, createdMs)
+        apiManager.setCredentials(listOf(VKApiCredentials(accessToken, secret, expiresInSec, createdMs, userId)))
+    }
+
+    fun setCredentials(credentials: List<Pair<UserId, VKApiCredentials>>) {
+        val firstPair = credentials.firstOrNull() ?: return
+        val firstCreds = firstPair.second
+        VKAccessToken(firstPair.first, firstCreds.accessToken, firstCreds.secret, firstCreds.expiresInSec, firstCreds.createdMs).save(config.keyValueStorage)
+
+        val allCreds = credentials.map { it.second }
+        apiManager.setCredentials(allCreds)
     }
 
     /**

@@ -31,12 +31,16 @@ import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseBoolInt
-import com.vk.sdk.api.base.dto.BaseUserGroupFields
-import com.vk.sdk.api.donut.dto.DonutDonatorSubscriptionInfo
-import com.vk.sdk.api.donut.dto.DonutGetSubscriptionsResponse
-import com.vk.sdk.api.groups.dto.GroupsGetMembersFieldsResponse
+import com.vk.sdk.api.base.dto.BaseBoolIntDto
+import com.vk.sdk.api.base.dto.BaseUserGroupFieldsDto
+import com.vk.sdk.api.donut.dto.DonutDonatorSubscriptionInfoDto
+import com.vk.sdk.api.donut.dto.DonutGetSubscriptionsResponseDto
+import com.vk.sdk.api.groups.dto.GroupsGetMembersFieldsResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -46,15 +50,15 @@ class DonutService {
      * @param offset
      * @param count
      * @param fields
-     * @return [VKRequest] with [GroupsGetMembersFieldsResponse]
+     * @return [VKRequest] with [GroupsGetMembersFieldsResponseDto]
      */
     fun donutGetFriends(
         ownerId: UserId,
         offset: Int? = null,
         count: Int? = null,
         fields: List<String>? = null
-    ): VKRequest<GroupsGetMembersFieldsResponse> = NewApiRequest("donut.getFriends") {
-        GsonHolder.gson.fromJson(it, GroupsGetMembersFieldsResponse::class.java)
+    ): VKRequest<GroupsGetMembersFieldsResponseDto> = NewApiRequest("donut.getFriends") {
+        GsonHolder.gson.parse<GroupsGetMembersFieldsResponseDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -65,11 +69,11 @@ class DonutService {
 
     /**
      * @param ownerId
-     * @return [VKRequest] with [DonutDonatorSubscriptionInfo]
+     * @return [VKRequest] with [DonutDonatorSubscriptionInfoDto]
      */
-    fun donutGetSubscription(ownerId: UserId): VKRequest<DonutDonatorSubscriptionInfo> =
+    fun donutGetSubscription(ownerId: UserId): VKRequest<DonutDonatorSubscriptionInfoDto> =
             NewApiRequest("donut.getSubscription") {
-        GsonHolder.gson.fromJson(it, DonutDonatorSubscriptionInfo::class.java)
+        GsonHolder.gson.parse<DonutDonatorSubscriptionInfoDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
@@ -81,14 +85,14 @@ class DonutService {
      * @param fields
      * @param offset
      * @param count
-     * @return [VKRequest] with [DonutGetSubscriptionsResponse]
+     * @return [VKRequest] with [DonutGetSubscriptionsResponseDto]
      */
     fun donutGetSubscriptions(
-        fields: List<BaseUserGroupFields>? = null,
+        fields: List<BaseUserGroupFieldsDto>? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<DonutGetSubscriptionsResponse> = NewApiRequest("donut.getSubscriptions") {
-        GsonHolder.gson.fromJson(it, DonutGetSubscriptionsResponse::class.java)
+    ): VKRequest<DonutGetSubscriptionsResponseDto> = NewApiRequest("donut.getSubscriptions") {
+        GsonHolder.gson.parse<DonutGetSubscriptionsResponseDto>(it)
     }
     .apply {
         val fieldsJsonConverted = fields?.map {
@@ -101,12 +105,28 @@ class DonutService {
 
     /**
      * @param ownerId
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
-    fun donutIsDon(ownerId: UserId): VKRequest<BaseBoolInt> = NewApiRequest("donut.isDon") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+    fun donutIsDon(ownerId: UserId): VKRequest<BaseBoolIntDto> = NewApiRequest("donut.isDon") {
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("owner_id", ownerId)
+    }
+
+    object DonutGetFriendsRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
+    }
+
+    object DonutGetSubscriptionsRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 100
     }
 }

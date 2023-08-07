@@ -60,16 +60,16 @@ dependencies {
         isEnabled = providers.environmentVariable("SDK_UPDATE")
                 .forUseAtConfigurationTime()
                 .get()
-    } catch(Exception e) {}
+    } catch(Exception ignored) {}
 
     if (isEnabled == "1") {
         implementation project(':core')
         implementation project(':api')
         implementation project(':id')
     } else {
-        implementation project(':api:sdk:core')
-        implementation project(':api:sdk:api')
-        implementation project(':api:sdk:id')
-        implementation project(':api:sdk:host')
+        implementation project(":sdk:public:sdk:core")
+        implementation project(":sdk:public:sdk:api")
+        implementation project(":sdk:public:sdk:id")
+        implementation project(":sdk:public:sdk:host")
     }
 }

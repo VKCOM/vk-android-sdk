@@ -31,8 +31,12 @@ import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.gifts.dto.GiftsGetResponse
+import com.vk.sdk.api.gifts.dto.GiftsGetResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.Int
+import kotlin.Long
 
 class GiftsService {
     /**
@@ -41,18 +45,26 @@ class GiftsService {
      * @param userId - User ID.
      * @param count - Number of gifts to return.
      * @param offset - Offset needed to return a specific subset of results.
-     * @return [VKRequest] with [GiftsGetResponse]
+     * @return [VKRequest] with [GiftsGetResponseDto]
      */
     fun giftsGet(
         userId: UserId? = null,
         count: Int? = null,
         offset: Int? = null
-    ): VKRequest<GiftsGetResponse> = NewApiRequest("gifts.get") {
-        GsonHolder.gson.fromJson(it, GiftsGetResponse::class.java)
+    ): VKRequest<GiftsGetResponseDto> = NewApiRequest("gifts.get") {
+        GsonHolder.gson.parse<GiftsGetResponseDto>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it, min = 0) }
         count?.let { addParam("count", it, min = 0) }
         offset?.let { addParam("offset", it, min = 0) }
+    }
+
+    object GiftsGetRestrictions {
+        const val USER_ID_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
     }
 }

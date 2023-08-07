@@ -98,7 +98,6 @@ data class UserId(val value: Long): Parcelable {
     }
 
     companion object {
-
         @JvmField
         val DEFAULT = UserId(0)
 
@@ -106,36 +105,6 @@ data class UserId(val value: Long): Parcelable {
         val CREATOR = object : Parcelable.Creator<UserId> {
             override fun createFromParcel(source: Parcel): UserId = UserId(source)
             override fun newArray(size: Int): Array<UserId?> = arrayOfNulls(size)
-        }
-
-        @Deprecated(message = "don't use it in new code",
-            replaceWith = ReplaceWith("UserId()", "com.vk.dto.common.id.UserId")
-        )
-        @JvmStatic
-        fun fromLegacyValue(value: Int): UserId {
-            legacyObserver.invoke()
-            return UserId(value.toLong())
-        }
-
-        @Deprecated(message = "don't use it in new code",
-            replaceWith = ReplaceWith("UserId()", "com.vk.dto.common.id.UserId")
-        )
-        @JvmStatic
-        fun fromLegacyValues(value: Collection<Int>): List<UserId> {
-            legacyObserver.invoke()
-            return value.map { fromLegacyValue(it) }
-        }
-
-        @Synchronized
-        @Deprecated("Only for debug usage")
-        fun setLegacyGlobalObserver(observer: () -> Unit) {
-            legacyObserver = observer
-        }
-
-        @Synchronized
-        @Deprecated("Only for debug usage")
-        fun removeLegacyGlobalObserver() {
-            legacyObserver = {}
         }
     }
 }
@@ -164,20 +133,4 @@ private var legacyObserver: () -> Unit = {}
 fun UserId.legacyValue(): Int {
     legacyObserver.invoke()
     return value.toInt()
-}
-
-@Deprecated(message = "don't use it in new code",
-    replaceWith = ReplaceWith("UserId()", "com.vk.dto.common.id.UserId")
-)
-fun List<UserId>.mapLegacyValues(): List<Int> {
-    legacyObserver.invoke()
-    return map { it.legacyValue() }
-}
-
-@Deprecated(message = "don't use it in new code",
-    replaceWith = ReplaceWith("toUserId()", "com.vk.dto.common.id")
-)
-fun Int.toLegacyUserId(): UserId {
-    legacyObserver.invoke()
-    return UserId(toLong())
 }

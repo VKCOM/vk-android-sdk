@@ -27,8 +27,8 @@
 // *********************************************************************
 package com.vk.sdk.api
 
-import com.google.gson.JsonElement
+import com.google.gson.stream.JsonReader
 
 internal fun interface ApiResponseParser<T> {
-    fun parseResponse(json: JsonElement): T
+    fun parseResponse(jsonReader: JsonReader): T
 }

@@ -31,12 +31,15 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.net.http.SslError
-import android.net.http.SslError.*
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.webkit.*
+import android.webkit.SslErrorHandler
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import com.vk.api.sdk.R
@@ -48,7 +51,7 @@ import com.vk.api.sdk.exceptions.VKApiCodes
 import com.vk.api.sdk.extensions.toActivitySafe
 import com.vk.api.sdk.utils.VKUtils
 import com.vk.api.sdk.utils.VKValidationLocker
-import javax.net.ssl.TrustManagerFactory
+import com.vk.dto.common.id.UserId
 
 /**
  * Activity for showing authorization or validation WebView
@@ -106,7 +109,7 @@ open class VKWebViewAuthActivity: Activity() {
                 intent.getStringExtra(VK_EXTRA_VALIDATION_URL)
                     ?: throw IllegalStateException("There is no $VK_EXTRA_VALIDATION_URL key inside")
             } else {
-                val uri = Uri.parse("https://oauth.vk.com/authorize").buildUpon()
+                val uri = Uri.parse("https://api.vk.com/oauth/authorize").buildUpon()
                 val params = getUrlParams()
                 for ((key, value) in params) {
                     uri.appendQueryParameter(key, value)
@@ -249,7 +252,7 @@ open class VKWebViewAuthActivity: Activity() {
         validationResult = if (uri.getQueryParameter("access_token") != null) {
             val token = uri.getQueryParameter("access_token")
             val secret = uri.getQueryParameter("secret")
-            val userId = uri.getQueryParameter("user_id")?.toInt()
+            val userId = uri.getQueryParameter("user_id")?.toLong()?.let(::UserId)
             val expiresInSec = uri.getQueryParameter("expires_in")?.toIntOrNull() ?: 0
             VKApiValidationHandler.Credentials(secret, token, userId, expiresInSec, System.currentTimeMillis())
         } else {

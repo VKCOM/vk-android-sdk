@@ -30,9 +30,13 @@ package com.vk.sdk.api.search
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.search.dto.SearchGetHintsResponse
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.search.dto.SearchGetHintsResponseDto
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -46,7 +50,7 @@ class SearchService {
      * @param filters
      * @param fields
      * @param searchGlobal
-     * @return [VKRequest] with [SearchGetHintsResponse]
+     * @return [VKRequest] with [SearchGetHintsResponseDto]
      */
     fun searchGetHints(
         q: String? = null,
@@ -55,8 +59,8 @@ class SearchService {
         filters: List<String>? = null,
         fields: List<String>? = null,
         searchGlobal: Boolean? = null
-    ): VKRequest<SearchGetHintsResponse> = NewApiRequest("search.getHints") {
-        GsonHolder.gson.fromJson(it, SearchGetHintsResponse::class.java)
+    ): VKRequest<SearchGetHintsResponseDto> = NewApiRequest("search.getHints") {
+        GsonHolder.gson.parse<SearchGetHintsResponseDto>(it)
     }
     .apply {
         q?.let { addParam("q", it, maxLength = 9000) }
@@ -65,5 +69,17 @@ class SearchService {
         filters?.let { addParam("filters", it) }
         fields?.let { addParam("fields", it) }
         searchGlobal?.let { addParam("search_global", it) }
+    }
+
+    object SearchGetHintsRestrictions {
+        const val Q_MAX_LENGTH: Int = 9000
+
+        const val OFFSET_MIN: Long = 0
+
+        const val OFFSET_MAX: Long = 200
+
+        const val LIMIT_MIN: Long = 0
+
+        const val LIMIT_MAX: Long = 200
     }
 }

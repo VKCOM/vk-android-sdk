@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="vk_retry" tools:ignore="UnusedResources">Паўтарыць</string>
+    <string name="vk_captcha_hint">Увядзіце код з карцінкі</string>
+    <string name="vk_confirm">Пацвярджэнне</string>
+    <string name="vk_message_login_error">Адбылася памылка аўтарызацыі</string>
+</resources>

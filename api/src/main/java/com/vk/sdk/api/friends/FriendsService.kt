@@ -27,32 +27,32 @@
 // *********************************************************************
 package com.vk.sdk.api.friends
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.friends.dto.FriendsAddListResponse
-import com.vk.sdk.api.friends.dto.FriendsAddResponse
-import com.vk.sdk.api.friends.dto.FriendsDeleteResponse
-import com.vk.sdk.api.friends.dto.FriendsFriendExtendedStatus
-import com.vk.sdk.api.friends.dto.FriendsFriendStatus
-import com.vk.sdk.api.friends.dto.FriendsGetFieldsResponse
-import com.vk.sdk.api.friends.dto.FriendsGetListsResponse
-import com.vk.sdk.api.friends.dto.FriendsGetNameCase
-import com.vk.sdk.api.friends.dto.FriendsGetOrder
-import com.vk.sdk.api.friends.dto.FriendsGetRequestsResponse
-import com.vk.sdk.api.friends.dto.FriendsGetRequestsSort
-import com.vk.sdk.api.friends.dto.FriendsGetSuggestionsFilter
-import com.vk.sdk.api.friends.dto.FriendsGetSuggestionsNameCase
-import com.vk.sdk.api.friends.dto.FriendsGetSuggestionsResponse
-import com.vk.sdk.api.friends.dto.FriendsSearchNameCase
-import com.vk.sdk.api.friends.dto.FriendsSearchResponse
-import com.vk.sdk.api.friends.dto.FriendsUserXtrPhone
-import com.vk.sdk.api.users.dto.UsersFields
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.friends.dto.FriendsAddListResponseDto
+import com.vk.sdk.api.friends.dto.FriendsAddResponseDto
+import com.vk.sdk.api.friends.dto.FriendsDeleteResponseDto
+import com.vk.sdk.api.friends.dto.FriendsFriendExtendedStatusDto
+import com.vk.sdk.api.friends.dto.FriendsFriendStatusDto
+import com.vk.sdk.api.friends.dto.FriendsGetFieldsResponseDto
+import com.vk.sdk.api.friends.dto.FriendsGetListsResponseDto
+import com.vk.sdk.api.friends.dto.FriendsGetOrderDto
+import com.vk.sdk.api.friends.dto.FriendsGetRequestsResponseDto
+import com.vk.sdk.api.friends.dto.FriendsGetRequestsSortDto
+import com.vk.sdk.api.friends.dto.FriendsGetSuggestionsFilterDto
+import com.vk.sdk.api.friends.dto.FriendsGetSuggestionsResponseDto
+import com.vk.sdk.api.friends.dto.FriendsSearchResponseDto
+import com.vk.sdk.api.friends.dto.FriendsUserXtrPhoneDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.users.dto.UsersFieldsDto
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -64,14 +64,14 @@ class FriendsService {
      * request will be sent.
      * @param text - Text of the message (up to 500 characters) for the friend request, if any.
      * @param follow - '1' to pass an incoming request to followers list.
-     * @return [VKRequest] with [FriendsAddResponse]
+     * @return [VKRequest] with [FriendsAddResponseDto]
      */
     fun friendsAdd(
         userId: UserId? = null,
         text: String? = null,
         follow: Boolean? = null
-    ): VKRequest<FriendsAddResponse> = NewApiRequest("friends.add") {
-        GsonHolder.gson.fromJson(it, FriendsAddResponse::class.java)
+    ): VKRequest<FriendsAddResponseDto> = NewApiRequest("friends.add") {
+        GsonHolder.gson.parse<FriendsAddResponseDto>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it, min = 0) }
@@ -84,15 +84,15 @@ class FriendsService {
      *
      * @param name - Name of the friend list.
      * @param userIds - IDs of users to be added to the friend list.
-     * @return [VKRequest] with [FriendsAddListResponse]
+     * @return [VKRequest] with [FriendsAddListResponseDto]
      */
     fun friendsAddList(name: String, userIds: List<UserId>? = null):
-            VKRequest<FriendsAddListResponse> = NewApiRequest("friends.addList") {
-        GsonHolder.gson.fromJson(it, FriendsAddListResponse::class.java)
+            VKRequest<FriendsAddListResponseDto> = NewApiRequest("friends.addList") {
+        GsonHolder.gson.parse<FriendsAddListResponseDto>(it)
     }
     .apply {
         addParam("name", name)
-        userIds?.let { addParam("user_ids", it) }
+        userIds?.let { addParam("user_ids", it, min = 0) }
     }
 
     /**
@@ -102,16 +102,20 @@ class FriendsService {
      * @param needSign - '1' - to return 'sign' field. 'sign' is
      * md5("{id}_{user_id}_{friends_status}_{application_secret}"), where id is current user ID. This
      * field allows to check that data has not been modified by the client. By default_ '0'.
+     * @param extended - Return friend request read_state field
      * @return [VKRequest] with [Unit]
      */
-    fun friendsAreFriends(userIds: List<UserId>, needSign: Boolean? = null):
-            VKRequest<List<FriendsFriendStatus>> = NewApiRequest("friends.areFriends") {
-        val typeToken = object: TypeToken<List<FriendsFriendStatus>>() {}.type
-        GsonHolder.gson.fromJson<List<FriendsFriendStatus>>(it, typeToken)
+    fun friendsAreFriends(
+        userIds: List<UserId>,
+        needSign: Boolean? = null,
+        extended: Boolean? = null
+    ): VKRequest<List<FriendsFriendStatusDto>> = NewApiRequest("friends.areFriends") {
+        GsonHolder.gson.parseList<FriendsFriendStatusDto>(it)
     }
     .apply {
         addParam("user_ids", userIds)
         needSign?.let { addParam("need_sign", it) }
+        extended?.let { addParam("extended", it) }
     }
 
     /**
@@ -124,9 +128,8 @@ class FriendsService {
      * @return [VKRequest] with [Unit]
      */
     fun friendsAreFriendsExtended(userIds: List<UserId>, needSign: Boolean? = null):
-            VKRequest<List<FriendsFriendExtendedStatus>> = NewApiRequest("friends.areFriends") {
-        val typeToken = object: TypeToken<List<FriendsFriendExtendedStatus>>() {}.type
-        GsonHolder.gson.fromJson<List<FriendsFriendExtendedStatus>>(it, typeToken)
+            VKRequest<List<FriendsFriendExtendedStatusDto>> = NewApiRequest("friends.areFriends") {
+        GsonHolder.gson.parseList<FriendsFriendExtendedStatusDto>(it)
     }
     .apply {
         addParam("user_ids", userIds)
@@ -139,11 +142,11 @@ class FriendsService {
      *
      * @param userId - ID of the user whose friend request is to be declined or who is to be deleted
      * from the current user's friend list.
-     * @return [VKRequest] with [FriendsDeleteResponse]
+     * @return [VKRequest] with [FriendsDeleteResponseDto]
      */
-    fun friendsDelete(userId: UserId? = null): VKRequest<FriendsDeleteResponse> =
+    fun friendsDelete(userId: UserId? = null): VKRequest<FriendsDeleteResponseDto> =
             NewApiRequest("friends.delete") {
-        GsonHolder.gson.fromJson(it, FriendsDeleteResponse::class.java)
+        GsonHolder.gson.parse<FriendsDeleteResponseDto>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it, min = 0) }
@@ -152,22 +155,22 @@ class FriendsService {
     /**
      * Marks all incoming friend requests as viewed.
      *
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun friendsDeleteAllRequests(): VKRequest<BaseOkResponse> =
+    fun friendsDeleteAllRequests(): VKRequest<BaseOkResponseDto> =
             NewApiRequest("friends.deleteAllRequests") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
 
     /**
      * Deletes a friend list of the current user.
      *
      * @param listId - ID of the friend list to delete.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun friendsDeleteList(listId: Int): VKRequest<BaseOkResponse> =
+    fun friendsDeleteList(listId: Int): VKRequest<BaseOkResponseDto> =
             NewApiRequest("friends.deleteList") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("list_id", listId, min = 0, max = 24)
@@ -178,11 +181,11 @@ class FriendsService {
      *
      * @param userId - ID of the user whose friend list is to be edited.
      * @param listIds - IDs of the friend lists to which to add the user.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun friendsEdit(userId: UserId, listIds: List<Int>? = null): VKRequest<BaseOkResponse> =
+    fun friendsEdit(userId: UserId, listIds: List<Int>? = null): VKRequest<BaseOkResponseDto> =
             NewApiRequest("friends.edit") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("user_id", userId, min = 1)
@@ -199,7 +202,7 @@ class FriendsService {
      * friend list.
      * @param deleteUserIds - (Applies if 'user_ids' parameter is not set.), User IDs to delete from
      * the friend list.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun friendsEditList(
         listId: Int,
@@ -207,15 +210,15 @@ class FriendsService {
         userIds: List<UserId>? = null,
         addUserIds: List<UserId>? = null,
         deleteUserIds: List<UserId>? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("friends.editList") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("friends.editList") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("list_id", listId, min = 0)
         name?.let { addParam("name", it) }
-        userIds?.let { addParam("user_ids", it) }
-        addUserIds?.let { addParam("add_user_ids", it) }
-        deleteUserIds?.let { addParam("delete_user_ids", it) }
+        userIds?.let { addParam("user_ids", it, min = 0) }
+        addUserIds?.let { addParam("add_user_ids", it, min = 0) }
+        deleteUserIds?.let { addParam("delete_user_ids", it, min = 0) }
     }
 
     /**
@@ -234,26 +237,22 @@ class FriendsService {
      * @param fields - Profile fields to return. Sample values_ 'uid', 'first_name', 'last_name',
      * 'nickname', 'sex', 'bdate' (birthdate), 'city', 'country', 'timezone', 'photo', 'photo_medium',
      * 'photo_big', 'domain', 'has_mobile', 'rate', 'contacts', 'education'.
-     * @param nameCase - Case for declension of user name and surname_ , 'nom' - nominative
-     * (default) , 'gen' - genitive , 'dat' - dative , 'acc' - accusative , 'ins' - instrumental ,
-     * 'abl' - prepositional
      * @param ref
-     * @return [VKRequest] with [FriendsGetFieldsResponse]
+     * @return [VKRequest] with [FriendsGetFieldsResponseDto]
      */
     fun friendsGet(
         userId: UserId? = null,
-        order: FriendsGetOrder? = null,
+        order: FriendsGetOrderDto? = null,
         listId: Int? = null,
         count: Int? = null,
         offset: Int? = null,
-        fields: List<UsersFields>? = null,
-        nameCase: FriendsGetNameCase? = null,
+        fields: List<UsersFieldsDto>? = null,
         ref: String? = null
-    ): VKRequest<FriendsGetFieldsResponse> = NewApiRequest("friends.get") {
-        GsonHolder.gson.fromJson(it, FriendsGetFieldsResponse::class.java)
+    ): VKRequest<FriendsGetFieldsResponseDto> = NewApiRequest("friends.get") {
+        GsonHolder.gson.parse<FriendsGetFieldsResponseDto>(it)
     }
     .apply {
-        userId?.let { addParam("user_id", it) }
+        userId?.let { addParam("user_id", it, min = 1) }
         order?.let { addParam("order", it.value) }
         listId?.let { addParam("list_id", it, min = 0) }
         count?.let { addParam("count", it, min = 0) }
@@ -262,7 +261,6 @@ class FriendsService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        nameCase?.let { addParam("name_case", it.value) }
         ref?.let { addParam("ref", it, maxLength = 255) }
     }
 
@@ -272,8 +270,7 @@ class FriendsService {
      * @return [VKRequest] with [Unit]
      */
     fun friendsGetAppUsers(): VKRequest<List<UserId>> = NewApiRequest("friends.getAppUsers") {
-        val typeToken = object: TypeToken<List<UserId>>() {}.type
-        GsonHolder.gson.fromJson<List<UserId>>(it, typeToken)
+        GsonHolder.gson.parseList<UserId>(it)
     }
 
     /**
@@ -287,10 +284,9 @@ class FriendsService {
      * 'has_mobile', 'rate', 'contacts', 'education', 'online, counters'.
      * @return [VKRequest] with [Unit]
      */
-    fun friendsGetByPhones(phones: List<String>? = null, fields: List<UsersFields>? = null):
-            VKRequest<List<FriendsUserXtrPhone>> = NewApiRequest("friends.getByPhones") {
-        val typeToken = object: TypeToken<List<FriendsUserXtrPhone>>() {}.type
-        GsonHolder.gson.fromJson<List<FriendsUserXtrPhone>>(it, typeToken)
+    fun friendsGetByPhones(phones: List<String>? = null, fields: List<UsersFieldsDto>? = null):
+            VKRequest<List<FriendsUserXtrPhoneDto>> = NewApiRequest("friends.getByPhones") {
+        GsonHolder.gson.parseList<FriendsUserXtrPhoneDto>(it)
     }
     .apply {
         phones?.let { addParam("phones", it) }
@@ -305,11 +301,11 @@ class FriendsService {
      *
      * @param userId - User ID.
      * @param returnSystem - '1' - to return system friend lists. By default_ '0'.
-     * @return [VKRequest] with [FriendsGetListsResponse]
+     * @return [VKRequest] with [FriendsGetListsResponseDto]
      */
     fun friendsGetLists(userId: UserId? = null, returnSystem: Boolean? = null):
-            VKRequest<FriendsGetListsResponse> = NewApiRequest("friends.getLists") {
-        GsonHolder.gson.fromJson(it, FriendsGetListsResponse::class.java)
+            VKRequest<FriendsGetListsResponseDto> = NewApiRequest("friends.getLists") {
+        GsonHolder.gson.parse<FriendsGetListsResponseDto>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it, min = 0) }
@@ -338,13 +334,12 @@ class FriendsService {
         count: Int? = null,
         offset: Int? = null
     ): VKRequest<List<UserId>> = NewApiRequest("friends.getMutual") {
-        val typeToken = object: TypeToken<List<UserId>>() {}.type
-        GsonHolder.gson.fromJson<List<UserId>>(it, typeToken)
+        GsonHolder.gson.parseList<UserId>(it)
     }
     .apply {
-        sourceUid?.let { addParam("source_uid", it, min = 0) }
-        targetUid?.let { addParam("target_uid", it, min = 0) }
-        targetUids?.let { addParam("target_uids", it) }
+        sourceUid?.let { addParam("source_uid", it, min = 1) }
+        targetUid?.let { addParam("target_uid", it, min = 1) }
+        targetUids?.let { addParam("target_uids", it, min = 0) }
         order?.let { addParam("order", it) }
         count?.let { addParam("count", it, min = 0) }
         offset?.let { addParam("offset", it, min = 0) }
@@ -370,8 +365,7 @@ class FriendsService {
         count: Int? = null,
         offset: Int? = null
     ): VKRequest<List<UserId>> = NewApiRequest("friends.getOnline") {
-        val typeToken = object: TypeToken<List<UserId>>() {}.type
-        GsonHolder.gson.fromJson<List<UserId>>(it, typeToken)
+        GsonHolder.gson.parseList<UserId>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it, min = 0) }
@@ -388,10 +382,9 @@ class FriendsService {
      * @param count - Number of recently added friends to return.
      * @return [VKRequest] with [Unit]
      */
-    fun friendsGetRecent(count: Int? = null): VKRequest<List<Int>> =
+    fun friendsGetRecent(count: Int? = null): VKRequest<List<UserId>> =
             NewApiRequest("friends.getRecent") {
-        val typeToken = object: TypeToken<List<Int>>() {}.type
-        GsonHolder.gson.fromJson<List<Int>>(it, typeToken)
+        GsonHolder.gson.parseList<UserId>(it)
     }
     .apply {
         count?.let { addParam("count", it, min = 0, max = 1000) }
@@ -402,6 +395,8 @@ class FriendsService {
      *
      * @param offset - Offset needed to return a specific subset of friend requests.
      * @param count - Number of friend requests to return (default 100, maximum 1000).
+     * @param extended - '1' - to return response messages from users who have sent a friend request
+     * or, if 'suggested' is set to '1', to return a list of suggested friends
      * @param needMutual - '1' - to return a list of mutual friends (up to 20), if any
      * @param out - '1' - to return outgoing requests, '0' - to return incoming requests (default)
      * @param sort - Sort order_ '1' - by number of mutual friends, '0' - by date
@@ -410,24 +405,26 @@ class FriendsService {
      * requests (default)
      * @param ref
      * @param fields
-     * @return [VKRequest] with [FriendsGetRequestsResponse]
+     * @return [VKRequest] with [FriendsGetRequestsResponseDto]
      */
     fun friendsGetRequests(
         offset: Int? = null,
         count: Int? = null,
+        extended: Boolean? = null,
         needMutual: Boolean? = null,
         out: Boolean? = null,
-        sort: FriendsGetRequestsSort? = null,
+        sort: FriendsGetRequestsSortDto? = null,
         needViewed: Boolean? = null,
         suggested: Boolean? = null,
         ref: String? = null,
-        fields: List<UsersFields>? = null
-    ): VKRequest<FriendsGetRequestsResponse> = NewApiRequest("friends.getRequests") {
-        GsonHolder.gson.fromJson(it, FriendsGetRequestsResponse::class.java)
+        fields: List<UsersFieldsDto>? = null
+    ): VKRequest<FriendsGetRequestsResponseDto> = NewApiRequest("friends.getRequests") {
+        GsonHolder.gson.parse<FriendsGetRequestsResponseDto>(it)
     }
     .apply {
         offset?.let { addParam("offset", it, min = 0) }
         count?.let { addParam("count", it, min = 0, max = 1000) }
+        extended?.let { addParam("extended", it) }
         needMutual?.let { addParam("need_mutual", it) }
         out?.let { addParam("out", it) }
         sort?.let { addParam("sort", it.value) }
@@ -456,16 +453,16 @@ class FriendsService {
      * @param nameCase - Case for declension of user name and surname_ , 'nom' - nominative
      * (default) , 'gen' - genitive , 'dat' - dative , 'acc' - accusative , 'ins' - instrumental ,
      * 'abl' - prepositional
-     * @return [VKRequest] with [FriendsGetSuggestionsResponse]
+     * @return [VKRequest] with [FriendsGetSuggestionsResponseDto]
      */
     fun friendsGetSuggestions(
-        filter: List<FriendsGetSuggestionsFilter>? = null,
+        filter: List<FriendsGetSuggestionsFilterDto>? = null,
         count: Int? = null,
         offset: Int? = null,
-        fields: List<UsersFields>? = null,
-        nameCase: FriendsGetSuggestionsNameCase? = null
-    ): VKRequest<FriendsGetSuggestionsResponse> = NewApiRequest("friends.getSuggestions") {
-        GsonHolder.gson.fromJson(it, FriendsGetSuggestionsResponse::class.java)
+        fields: List<UsersFieldsDto>? = null,
+        nameCase: String? = null
+    ): VKRequest<FriendsGetSuggestionsResponseDto> = NewApiRequest("friends.getSuggestions") {
+        GsonHolder.gson.parse<FriendsGetSuggestionsResponseDto>(it)
     }
     .apply {
         val filterJsonConverted = filter?.map {
@@ -478,7 +475,7 @@ class FriendsService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        nameCase?.let { addParam("name_case", it.value) }
+        nameCase?.let { addParam("name_case", it) }
     }
 
     /**
@@ -494,17 +491,17 @@ class FriendsService {
      * prepositional
      * @param offset - Offset needed to return a specific subset of friends.
      * @param count - Number of friends to return.
-     * @return [VKRequest] with [FriendsSearchResponse]
+     * @return [VKRequest] with [FriendsSearchResponseDto]
      */
     fun friendsSearch(
         userId: UserId? = null,
         q: String? = null,
-        fields: List<UsersFields>? = null,
-        nameCase: FriendsSearchNameCase? = null,
+        fields: List<UsersFieldsDto>? = null,
+        nameCase: String? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<FriendsSearchResponse> = NewApiRequest("friends.search") {
-        GsonHolder.gson.fromJson(it, FriendsSearchResponse::class.java)
+    ): VKRequest<FriendsSearchResponseDto> = NewApiRequest("friends.search") {
+        GsonHolder.gson.parse<FriendsSearchResponseDto>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it, min = 1) }
@@ -513,8 +510,112 @@ class FriendsService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        nameCase?.let { addParam("name_case", it.value) }
+        nameCase?.let { addParam("name_case", it) }
         offset?.let { addParam("offset", it, min = 0) }
         count?.let { addParam("count", it, min = 0, max = 1000) }
+    }
+
+    object FriendsAddRestrictions {
+        const val USER_ID_MIN: Long = 0
+    }
+
+    object FriendsAddListRestrictions {
+        const val USER_IDS_MIN: Long = 0
+    }
+
+    object FriendsDeleteRestrictions {
+        const val USER_ID_MIN: Long = 0
+    }
+
+    object FriendsDeleteListRestrictions {
+        const val LIST_ID_MIN: Long = 0
+
+        const val LIST_ID_MAX: Long = 24
+    }
+
+    object FriendsEditRestrictions {
+        const val USER_ID_MIN: Long = 1
+    }
+
+    object FriendsEditListRestrictions {
+        const val LIST_ID_MIN: Long = 0
+
+        const val USER_IDS_MIN: Long = 0
+
+        const val ADD_USER_IDS_MIN: Long = 0
+
+        const val DELETE_USER_IDS_MIN: Long = 0
+    }
+
+    object FriendsGetRestrictions {
+        const val USER_ID_MIN: Long = 1
+
+        const val LIST_ID_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val REF_MAX_LENGTH: Int = 255
+    }
+
+    object FriendsGetListsRestrictions {
+        const val USER_ID_MIN: Long = 0
+    }
+
+    object FriendsGetMutualRestrictions {
+        const val SOURCE_UID_MIN: Long = 1
+
+        const val TARGET_UID_MIN: Long = 1
+
+        const val TARGET_UIDS_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+    }
+
+    object FriendsGetOnlineRestrictions {
+        const val USER_ID_MIN: Long = 0
+
+        const val LIST_ID_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+    }
+
+    object FriendsGetRecentRestrictions {
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
+    }
+
+    object FriendsGetRequestsRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
+
+        const val REF_MAX_LENGTH: Int = 255
+    }
+
+    object FriendsGetSuggestionsRestrictions {
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 500
+
+        const val OFFSET_MIN: Long = 0
+    }
+
+    object FriendsSearchRestrictions {
+        const val USER_ID_MIN: Long = 1
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
     }
 }

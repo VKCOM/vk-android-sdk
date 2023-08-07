@@ -43,6 +43,7 @@ open class VKApiExecutionException
         val errorMsg: String? = null,
         val requestParams: Map<String, String>? = null,
         val subcode: Int = -1,
+        val viewType: ApiErrorViewType? = null
 ) : VKApiException(detailMessage) {
 
     val isAnonymTokenInvalid: Boolean
@@ -54,8 +55,17 @@ open class VKApiExecutionException
     val isCompositeError: Boolean
         get() = code == VKApiCodes.CODE_COMPOSITE_EXECUTE_ERROR
 
+    val isMultiRequestError: Boolean
+        get() = code == VKApiCodes.CODE_COMPOSITE_MULTI_REQUEST_ERROR
+
+    val isChatAccessDenied: Boolean
+        get() = code == VKApiCodes.CODE_CHAT_ACCESS_DENIED
+
     val isChatDoesNotExistError: Boolean
         get() = code == VKApiCodes.CODE_CHAT_DOES_NOT_EXIST
+
+    val isNotImplementedError: Boolean
+        get() = code == VKApiCodes.CODE_NOT_IMPLEMENTED
 
     val isAccessError: Boolean
         get() {
@@ -121,6 +131,9 @@ open class VKApiExecutionException
     val isRateLimitReachedError: Boolean
         get() = code == VKApiCodes.CODE_RATE_LIMIT_REACHED
 
+    val isSectionTemporaryUnavailableError: Boolean
+        get() = code == VKApiCodes.CODE_SECTION_TEMPORARY_UNAVAILABLE
+
     val isAccessTokenExpired: Boolean
         get() = code == VKApiCodes.CODE_ACCESS_TOKEN_EXPIRED
 
@@ -135,6 +148,24 @@ open class VKApiExecutionException
 
     val captchaWidth: Int
         get() = extra?.getInt(VKApiCodes.EXTRA_CAPTCHA_IMG_WIDTH, -1) ?: -1
+
+    val captchaRatio: Double
+        get() = extra?.getDouble(VKApiCodes.EXTRA_CAPTCHA_RATIO, -1.0) ?: -1.0
+
+    val captchaAttempt: Int?
+        get() = VKApiCodes.EXTRA_CAPTCHA_ATTEMPT.let { key ->
+            if (extra?.containsKey(key) == true) extra.getInt(key, -1) else null
+        }
+
+    val captchaTimestamp: Double?
+        get() = VKApiCodes.EXTRA_CAPTCHA_TIMESTAMP.let { key ->
+            if (extra?.containsKey(key) == true) extra.getDouble(key, -1.0) else null
+        }
+
+    val captchaIsRefreshEnabled: Boolean
+        get() = VKApiCodes.EXTRA_CAPTCHA_IS_REFRESH_ENABLED.let {key ->
+            if (extra?.containsKey(key) == true) extra.getBoolean(VKApiCodes.EXTRA_CAPTCHA_IS_REFRESH_ENABLED, false) else false
+        }
 
     val validationUrl: String
         get() = extra?.getString(VKApiCodes.EXTRA_VALIDATION_URL, "") ?: ""
@@ -193,6 +224,7 @@ open class VKApiExecutionException
 
     companion object {
         internal const val serialVersionUID = 7524047853274172872L
+        private const val ERROR_VIEW_TYPE_KEY = "view"
 
         @JvmOverloads
         fun parse(json: JSONObject, methodName: String? = null, extra: Bundle? = null): VKApiExecutionException {
@@ -211,14 +243,31 @@ open class VKApiExecutionException
                         val param = requestParams.getJSONObject(it)
                         param.getString("key") to param.getString("value")
                     }
-            return if (json.has("error_text")) {
-                VKApiExecutionException(code, method, true, json.optString("error_text")
-                        ?: "", extra, errorMsg = errorMsg, requestParams = paramsMap, subcode = subcode)
+
+            val viewType = ApiErrorViewType.fromString(json.optString(ERROR_VIEW_TYPE_KEY) ?: "")
+
+            val detailMessage = if (json.has("error_text")) {
+                json.optString("error_text") ?: ""
+            } else if (json.has("error_description")) {
+                json.optString("error_description") ?: ""
             } else {
-                val errorMsg = json.optString("error_msg") ?: json.toString()
-                VKApiExecutionException(code, method, false, "$errorMsg | by [$method]", extra, errorMsg = errorMsg, requestParams = paramsMap, subcode = subcode)
+                val message = json.optString("error_msg") ?: json.toString()
+                "$message ($code:$subcode) | by [$method]"
             }
+
+            val hasLocalizedMessage = json.has("error_text")
+
+            return VKApiExecutionException(
+                code = code,
+                apiMethod = method,
+                hasLocalizedMessage = hasLocalizedMessage,
+                detailMessage = detailMessage,
+                extra = extra,
+                errorMsg = errorMsg,
+                requestParams = paramsMap,
+                subcode = subcode,
+                viewType = viewType
+            )
         }
     }
-
 }

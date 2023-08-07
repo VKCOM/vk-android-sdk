@@ -30,8 +30,12 @@ package com.vk.sdk.api.podcasts
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.podcasts.dto.PodcastsSearchPodcastResponse
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.podcasts.dto.PodcastsSearchPodcastResponseDto
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 
 class PodcastsService {
@@ -39,18 +43,26 @@ class PodcastsService {
      * @param searchString
      * @param offset
      * @param count
-     * @return [VKRequest] with [PodcastsSearchPodcastResponse]
+     * @return [VKRequest] with [PodcastsSearchPodcastResponseDto]
      */
     fun podcastsSearchPodcast(
         searchString: String,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<PodcastsSearchPodcastResponse> = NewApiRequest("podcasts.searchPodcast") {
-        GsonHolder.gson.fromJson(it, PodcastsSearchPodcastResponse::class.java)
+    ): VKRequest<PodcastsSearchPodcastResponseDto> = NewApiRequest("podcasts.searchPodcast") {
+        GsonHolder.gson.parse<PodcastsSearchPodcastResponseDto>(it)
     }
     .apply {
         addParam("search_string", searchString)
         offset?.let { addParam("offset", it, min = 0) }
         count?.let { addParam("count", it, min = 1, max = 1000) }
+    }
+
+    object PodcastsSearchPodcastRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 1
+
+        const val COUNT_MAX: Long = 1000
     }
 }

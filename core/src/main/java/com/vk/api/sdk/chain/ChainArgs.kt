@@ -27,7 +27,10 @@ package com.vk.api.sdk.chain
 class ChainArgs {
     var captchaSid = ""
     var captchaKey = ""
+    var captchaAttempt: Int? = null
+    var captchaTimestamp: Double? = null
     var userConfirmed = false
+    var retryCount: Int = 0
 
     fun hasCaptcha() = captchaSid.isNotEmpty() && captchaKey.isNotEmpty()
 }

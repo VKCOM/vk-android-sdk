@@ -30,10 +30,14 @@ package com.vk.sdk.api.widgets
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.users.dto.UsersFields
-import com.vk.sdk.api.widgets.dto.WidgetsGetCommentsResponse
-import com.vk.sdk.api.widgets.dto.WidgetsGetPagesResponse
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.users.dto.UsersFieldsDto
+import com.vk.sdk.api.widgets.dto.WidgetsGetCommentsResponseDto
+import com.vk.sdk.api.widgets.dto.WidgetsGetPagesResponseDto
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -48,18 +52,18 @@ class WidgetsService {
      * @param fields
      * @param offset
      * @param count
-     * @return [VKRequest] with [WidgetsGetCommentsResponse]
+     * @return [VKRequest] with [WidgetsGetCommentsResponseDto]
      */
     fun widgetsGetComments(
         widgetApiId: Int? = null,
         url: String? = null,
         pageId: String? = null,
         order: String? = null,
-        fields: List<UsersFields>? = null,
+        fields: List<UsersFieldsDto>? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<WidgetsGetCommentsResponse> = NewApiRequest("widgets.getComments") {
-        GsonHolder.gson.fromJson(it, WidgetsGetCommentsResponse::class.java)
+    ): VKRequest<WidgetsGetCommentsResponseDto> = NewApiRequest("widgets.getComments") {
+        GsonHolder.gson.parse<WidgetsGetCommentsResponseDto>(it)
     }
     .apply {
         widgetApiId?.let { addParam("widget_api_id", it) }
@@ -83,7 +87,7 @@ class WidgetsService {
      * @param period
      * @param offset
      * @param count
-     * @return [VKRequest] with [WidgetsGetPagesResponse]
+     * @return [VKRequest] with [WidgetsGetPagesResponseDto]
      */
     fun widgetsGetPages(
         widgetApiId: Int? = null,
@@ -91,8 +95,8 @@ class WidgetsService {
         period: String? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<WidgetsGetPagesResponse> = NewApiRequest("widgets.getPages") {
-        GsonHolder.gson.fromJson(it, WidgetsGetPagesResponse::class.java)
+    ): VKRequest<WidgetsGetPagesResponseDto> = NewApiRequest("widgets.getPages") {
+        GsonHolder.gson.parse<WidgetsGetPagesResponseDto>(it)
     }
     .apply {
         widgetApiId?.let { addParam("widget_api_id", it) }
@@ -100,5 +104,21 @@ class WidgetsService {
         period?.let { addParam("period", it) }
         offset?.let { addParam("offset", it, min = 0) }
         count?.let { addParam("count", it, min = 10, max = 200) }
+    }
+
+    object WidgetsGetCommentsRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 10
+
+        const val COUNT_MAX: Long = 200
+    }
+
+    object WidgetsGetPagesRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 10
+
+        const val COUNT_MAX: Long = 200
     }
 }

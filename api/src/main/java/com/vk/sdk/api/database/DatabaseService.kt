@@ -27,23 +27,26 @@
 // *********************************************************************
 package com.vk.sdk.api.database
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseCountry
-import com.vk.sdk.api.database.dto.DatabaseCityById
-import com.vk.sdk.api.database.dto.DatabaseGetChairsResponse
-import com.vk.sdk.api.database.dto.DatabaseGetCitiesResponse
-import com.vk.sdk.api.database.dto.DatabaseGetCountriesResponse
-import com.vk.sdk.api.database.dto.DatabaseGetFacultiesResponse
-import com.vk.sdk.api.database.dto.DatabaseGetMetroStationsResponse
-import com.vk.sdk.api.database.dto.DatabaseGetRegionsResponse
-import com.vk.sdk.api.database.dto.DatabaseGetSchoolsResponse
-import com.vk.sdk.api.database.dto.DatabaseGetUniversitiesResponse
-import com.vk.sdk.api.database.dto.DatabaseStation
+import com.vk.sdk.api.base.dto.BaseCountryDto
+import com.vk.sdk.api.database.dto.DatabaseCityByIdDto
+import com.vk.sdk.api.database.dto.DatabaseGetChairsResponseDto
+import com.vk.sdk.api.database.dto.DatabaseGetCitiesResponseDto
+import com.vk.sdk.api.database.dto.DatabaseGetCountriesResponseDto
+import com.vk.sdk.api.database.dto.DatabaseGetFacultiesResponseDto
+import com.vk.sdk.api.database.dto.DatabaseGetMetroStationsResponseDto
+import com.vk.sdk.api.database.dto.DatabaseGetRegionsResponseDto
+import com.vk.sdk.api.database.dto.DatabaseGetSchoolsResponseDto
+import com.vk.sdk.api.database.dto.DatabaseGetUniversitiesResponseDto
+import com.vk.sdk.api.database.dto.DatabaseStationDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -54,14 +57,14 @@ class DatabaseService {
      * @param facultyId - id of the faculty to get chairs from
      * @param offset - offset required to get a certain subset of chairs
      * @param count - amount of chairs to get
-     * @return [VKRequest] with [DatabaseGetChairsResponse]
+     * @return [VKRequest] with [DatabaseGetChairsResponseDto]
      */
     fun databaseGetChairs(
         facultyId: Int,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<DatabaseGetChairsResponse> = NewApiRequest("database.getChairs") {
-        GsonHolder.gson.fromJson(it, DatabaseGetChairsResponse::class.java)
+    ): VKRequest<DatabaseGetChairsResponseDto> = NewApiRequest("database.getChairs") {
+        GsonHolder.gson.parse<DatabaseGetChairsResponseDto>(it)
     }
     .apply {
         addParam("faculty_id", facultyId, min = 0)
@@ -79,20 +82,20 @@ class DatabaseService {
      * the country (default),
      * @param offset - Offset needed to return a specific subset of cities.
      * @param count - Number of cities to return.
-     * @return [VKRequest] with [DatabaseGetCitiesResponse]
+     * @return [VKRequest] with [DatabaseGetCitiesResponseDto]
      */
     fun databaseGetCities(
-        countryId: Int,
+        countryId: Int? = null,
         regionId: Int? = null,
         q: String? = null,
         needAll: Boolean? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<DatabaseGetCitiesResponse> = NewApiRequest("database.getCities") {
-        GsonHolder.gson.fromJson(it, DatabaseGetCitiesResponse::class.java)
+    ): VKRequest<DatabaseGetCitiesResponseDto> = NewApiRequest("database.getCities") {
+        GsonHolder.gson.parse<DatabaseGetCitiesResponseDto>(it)
     }
     .apply {
-        addParam("country_id", countryId, min = 0)
+        countryId?.let { addParam("country_id", it, min = 0) }
         regionId?.let { addParam("region_id", it, min = 0) }
         q?.let { addParam("q", it) }
         needAll?.let { addParam("need_all", it) }
@@ -106,10 +109,9 @@ class DatabaseService {
      * @param cityIds - City IDs.
      * @return [VKRequest] with [Unit]
      */
-    fun databaseGetCitiesById(cityIds: List<Int>? = null): VKRequest<List<DatabaseCityById>> =
+    fun databaseGetCitiesById(cityIds: List<Int>? = null): VKRequest<List<DatabaseCityByIdDto>> =
             NewApiRequest("database.getCitiesById") {
-        val typeToken = object: TypeToken<List<DatabaseCityById>>() {}.type
-        GsonHolder.gson.fromJson<List<DatabaseCityById>>(it, typeToken)
+        GsonHolder.gson.parseList<DatabaseCityByIdDto>(it)
     }
     .apply {
         cityIds?.let { addParam("city_ids", it) }
@@ -123,15 +125,15 @@ class DatabaseService {
      * @param code - Country codes in [vk.com/dev/country_codes|ISO 3166-1 alpha-2] standard.
      * @param offset - Offset needed to return a specific subset of countries.
      * @param count - Number of countries to return.
-     * @return [VKRequest] with [DatabaseGetCountriesResponse]
+     * @return [VKRequest] with [DatabaseGetCountriesResponseDto]
      */
     fun databaseGetCountries(
         needAll: Boolean? = null,
         code: String? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<DatabaseGetCountriesResponse> = NewApiRequest("database.getCountries") {
-        GsonHolder.gson.fromJson(it, DatabaseGetCountriesResponse::class.java)
+    ): VKRequest<DatabaseGetCountriesResponseDto> = NewApiRequest("database.getCountries") {
+        GsonHolder.gson.parse<DatabaseGetCountriesResponseDto>(it)
     }
     .apply {
         needAll?.let { addParam("need_all", it) }
@@ -146,10 +148,9 @@ class DatabaseService {
      * @param countryIds - Country IDs.
      * @return [VKRequest] with [Unit]
      */
-    fun databaseGetCountriesById(countryIds: List<Int>? = null): VKRequest<List<BaseCountry>> =
+    fun databaseGetCountriesById(countryIds: List<Int>? = null): VKRequest<List<BaseCountryDto>> =
             NewApiRequest("database.getCountriesById") {
-        val typeToken = object: TypeToken<List<BaseCountry>>() {}.type
-        GsonHolder.gson.fromJson<List<BaseCountry>>(it, typeToken)
+        GsonHolder.gson.parseList<BaseCountryDto>(it)
     }
     .apply {
         countryIds?.let { addParam("country_ids", it) }
@@ -161,14 +162,14 @@ class DatabaseService {
      * @param universityId - University ID.
      * @param offset - Offset needed to return a specific subset of faculties.
      * @param count - Number of faculties to return.
-     * @return [VKRequest] with [DatabaseGetFacultiesResponse]
+     * @return [VKRequest] with [DatabaseGetFacultiesResponseDto]
      */
     fun databaseGetFaculties(
         universityId: Int,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<DatabaseGetFacultiesResponse> = NewApiRequest("database.getFaculties") {
-        GsonHolder.gson.fromJson(it, DatabaseGetFacultiesResponse::class.java)
+    ): VKRequest<DatabaseGetFacultiesResponseDto> = NewApiRequest("database.getFaculties") {
+        GsonHolder.gson.parse<DatabaseGetFacultiesResponseDto>(it)
     }
     .apply {
         addParam("university_id", universityId, min = 0)
@@ -182,19 +183,22 @@ class DatabaseService {
      * @param cityId
      * @param offset
      * @param count
-     * @return [VKRequest] with [DatabaseGetMetroStationsResponse]
+     * @param extended
+     * @return [VKRequest] with [DatabaseGetMetroStationsResponseDto]
      */
     fun databaseGetMetroStations(
         cityId: Int,
         offset: Int? = null,
-        count: Int? = null
-    ): VKRequest<DatabaseGetMetroStationsResponse> = NewApiRequest("database.getMetroStations") {
-        GsonHolder.gson.fromJson(it, DatabaseGetMetroStationsResponse::class.java)
+        count: Int? = null,
+        extended: Boolean? = null
+    ): VKRequest<DatabaseGetMetroStationsResponseDto> = NewApiRequest("database.getMetroStations") {
+        GsonHolder.gson.parse<DatabaseGetMetroStationsResponseDto>(it)
     }
     .apply {
         addParam("city_id", cityId, min = 0)
         offset?.let { addParam("offset", it, min = 0) }
         count?.let { addParam("count", it, min = 0, max = 500) }
+        extended?.let { addParam("extended", it) }
     }
 
     /**
@@ -204,9 +208,8 @@ class DatabaseService {
      * @return [VKRequest] with [Unit]
      */
     fun databaseGetMetroStationsById(stationIds: List<Int>? = null):
-            VKRequest<List<DatabaseStation>> = NewApiRequest("database.getMetroStationsById") {
-        val typeToken = object: TypeToken<List<DatabaseStation>>() {}.type
-        GsonHolder.gson.fromJson<List<DatabaseStation>>(it, typeToken)
+            VKRequest<List<DatabaseStationDto>> = NewApiRequest("database.getMetroStationsById") {
+        GsonHolder.gson.parseList<DatabaseStationDto>(it)
     }
     .apply {
         stationIds?.let { addParam("station_ids", it) }
@@ -220,15 +223,15 @@ class DatabaseService {
      * @param q - Search query.
      * @param offset - Offset needed to return specific subset of regions.
      * @param count - Number of regions to return.
-     * @return [VKRequest] with [DatabaseGetRegionsResponse]
+     * @return [VKRequest] with [DatabaseGetRegionsResponseDto]
      */
     fun databaseGetRegions(
         countryId: Int,
         q: String? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<DatabaseGetRegionsResponse> = NewApiRequest("database.getRegions") {
-        GsonHolder.gson.fromJson(it, DatabaseGetRegionsResponse::class.java)
+    ): VKRequest<DatabaseGetRegionsResponseDto> = NewApiRequest("database.getRegions") {
+        GsonHolder.gson.parse<DatabaseGetRegionsResponseDto>(it)
     }
     .apply {
         addParam("country_id", countryId, min = 0)
@@ -245,8 +248,7 @@ class DatabaseService {
      */
     fun databaseGetSchoolClasses(countryId: Int? = null): VKRequest<List<List<String>>> =
             NewApiRequest("database.getSchoolClasses") {
-        val typeToken = object: TypeToken<List<List<String>>>() {}.type
-        GsonHolder.gson.fromJson<List<List<String>>>(it, typeToken)
+        GsonHolder.gson.parseList<List<String>>(it)
     }
     .apply {
         countryId?.let { addParam("country_id", it, min = 0) }
@@ -259,15 +261,15 @@ class DatabaseService {
      * @param q - Search query.
      * @param offset - Offset needed to return a specific subset of schools.
      * @param count - Number of schools to return.
-     * @return [VKRequest] with [DatabaseGetSchoolsResponse]
+     * @return [VKRequest] with [DatabaseGetSchoolsResponseDto]
      */
     fun databaseGetSchools(
         cityId: Int,
         q: String? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<DatabaseGetSchoolsResponse> = NewApiRequest("database.getSchools") {
-        GsonHolder.gson.fromJson(it, DatabaseGetSchoolsResponse::class.java)
+    ): VKRequest<DatabaseGetSchoolsResponseDto> = NewApiRequest("database.getSchools") {
+        GsonHolder.gson.parse<DatabaseGetSchoolsResponseDto>(it)
     }
     .apply {
         addParam("city_id", cityId, min = 0)
@@ -284,7 +286,7 @@ class DatabaseService {
      * @param cityId - City ID.
      * @param offset - Offset needed to return a specific subset of universities.
      * @param count - Number of universities to return.
-     * @return [VKRequest] with [DatabaseGetUniversitiesResponse]
+     * @return [VKRequest] with [DatabaseGetUniversitiesResponseDto]
      */
     fun databaseGetUniversities(
         q: String? = null,
@@ -292,8 +294,8 @@ class DatabaseService {
         cityId: Int? = null,
         offset: Int? = null,
         count: Int? = null
-    ): VKRequest<DatabaseGetUniversitiesResponse> = NewApiRequest("database.getUniversities") {
-        GsonHolder.gson.fromJson(it, DatabaseGetUniversitiesResponse::class.java)
+    ): VKRequest<DatabaseGetUniversitiesResponseDto> = NewApiRequest("database.getUniversities") {
+        GsonHolder.gson.parse<DatabaseGetUniversitiesResponseDto>(it)
     }
     .apply {
         q?.let { addParam("q", it) }
@@ -301,5 +303,91 @@ class DatabaseService {
         cityId?.let { addParam("city_id", it, min = 0) }
         offset?.let { addParam("offset", it, min = 0) }
         count?.let { addParam("count", it, min = 0, max = 10000) }
+    }
+
+    object DatabaseGetChairsRestrictions {
+        const val FACULTY_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 10000
+    }
+
+    object DatabaseGetCitiesRestrictions {
+        const val COUNTRY_ID_MIN: Long = 0
+
+        const val REGION_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
+    }
+
+    object DatabaseGetCountriesRestrictions {
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
+    }
+
+    object DatabaseGetFacultiesRestrictions {
+        const val UNIVERSITY_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 10000
+    }
+
+    object DatabaseGetMetroStationsRestrictions {
+        const val CITY_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 500
+    }
+
+    object DatabaseGetRegionsRestrictions {
+        const val COUNTRY_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 1000
+    }
+
+    object DatabaseGetSchoolClassesRestrictions {
+        const val COUNTRY_ID_MIN: Long = 0
+    }
+
+    object DatabaseGetSchoolsRestrictions {
+        const val CITY_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 10000
+    }
+
+    object DatabaseGetUniversitiesRestrictions {
+        const val COUNTRY_ID_MIN: Long = 0
+
+        const val CITY_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
+
+        const val COUNT_MAX: Long = 10000
     }
 }

@@ -30,30 +30,38 @@ package com.vk.sdk.api.streaming
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.streaming.dto.StreamingGetServerUrlResponse
-import com.vk.sdk.api.streaming.dto.StreamingGetStatsInterval
-import com.vk.sdk.api.streaming.dto.StreamingGetStatsType
-import com.vk.sdk.api.streaming.dto.StreamingSetSettingsMonthlyTier
-import kotlin.Int
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.streaming.dto.StreamingGetServerUrlResponseDto
+import com.vk.sdk.api.streaming.dto.StreamingGetSettingsResponseDto
+import com.vk.sdk.api.streaming.dto.StreamingGetStatsIntervalDto
+import com.vk.sdk.api.streaming.dto.StreamingGetStatsTypeDto
+import com.vk.sdk.api.streaming.dto.StreamingGetStemResponseDto
+import com.vk.sdk.api.streaming.dto.StreamingSetSettingsMonthlyTierDto
+import com.vk.sdk.api.streaming.dto.StreamingStatsDto
+import kotlin.Long
 import kotlin.String
-import kotlin.Unit
+import kotlin.collections.List
 
 class StreamingService {
     /**
      * Allows to receive data for the connection to Streaming API.
      *
-     * @return [VKRequest] with [StreamingGetServerUrlResponse]
+     * @return [VKRequest] with [StreamingGetServerUrlResponseDto]
      */
-    fun streamingGetServerUrl(): VKRequest<StreamingGetServerUrlResponse> =
+    fun streamingGetServerUrl(): VKRequest<StreamingGetServerUrlResponseDto> =
             NewApiRequest("streaming.getServerUrl") {
-        GsonHolder.gson.fromJson(it, StreamingGetServerUrlResponse::class.java)
+        GsonHolder.gson.parse<StreamingGetServerUrlResponseDto>(it)
     }
 
     /**
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [StreamingGetSettingsResponseDto]
      */
-    fun streamingGetSettings(): VKRequest<Unit> = NewApiRequest("streaming.getSettings") {
+    fun streamingGetSettings(): VKRequest<StreamingGetSettingsResponseDto> =
+            NewApiRequest("streaming.getSettings") {
+        GsonHolder.gson.parse<StreamingGetSettingsResponseDto>(it)
     }
 
     /**
@@ -64,11 +72,12 @@ class StreamingService {
      * @return [VKRequest] with [Unit]
      */
     fun streamingGetStats(
-        type: StreamingGetStatsType? = null,
-        interval: StreamingGetStatsInterval? = null,
-        startTime: Int? = null,
-        endTime: Int? = null
-    ): VKRequest<Unit> = NewApiRequest("streaming.getStats") {
+        type: StreamingGetStatsTypeDto? = null,
+        interval: StreamingGetStatsIntervalDto? = null,
+        startTime: Long? = null,
+        endTime: Long? = null
+    ): VKRequest<List<StreamingStatsDto>> = NewApiRequest("streaming.getStats") {
+        GsonHolder.gson.parseList<StreamingStatsDto>(it)
     }
     .apply {
         type?.let { addParam("type", it.value) }
@@ -79,9 +88,11 @@ class StreamingService {
 
     /**
      * @param word
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [StreamingGetStemResponseDto]
      */
-    fun streamingGetStem(word: String): VKRequest<Unit> = NewApiRequest("streaming.getStem") {
+    fun streamingGetStem(word: String): VKRequest<StreamingGetStemResponseDto> =
+            NewApiRequest("streaming.getStem") {
+        GsonHolder.gson.parse<StreamingGetStemResponseDto>(it)
     }
     .apply {
         addParam("word", word)
@@ -89,13 +100,19 @@ class StreamingService {
 
     /**
      * @param monthlyTier
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun streamingSetSettings(monthlyTier: StreamingSetSettingsMonthlyTier? = null):
-            VKRequest<BaseOkResponse> = NewApiRequest("streaming.setSettings") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    fun streamingSetSettings(monthlyTier: StreamingSetSettingsMonthlyTierDto? = null):
+            VKRequest<BaseOkResponseDto> = NewApiRequest("streaming.setSettings") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         monthlyTier?.let { addParam("monthly_tier", it.value) }
+    }
+
+    object StreamingGetStatsRestrictions {
+        const val START_TIME_MIN: Long = 0
+
+        const val END_TIME_MIN: Long = 0
     }
 }

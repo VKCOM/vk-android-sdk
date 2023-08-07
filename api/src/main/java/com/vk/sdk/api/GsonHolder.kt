@@ -37,17 +37,29 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.vk.dto.common.id.UserId
 import com.vk.dto.common.id.UserId.GsonSerializer
-import com.vk.sdk.api.newsfeed.dto.NewsfeedNewsfeedItem
-import com.vk.sdk.api.users.dto.UsersSubscriptionsItem
+import com.vk.sdk.api.friends.dto.FriendsRecDescriptionGenericDto
+import com.vk.sdk.api.newsfeed.dto.NewsfeedCommentsItemDto
+import com.vk.sdk.api.newsfeed.dto.NewsfeedMediaDiscoverActionDto
+import com.vk.sdk.api.newsfeed.dto.NewsfeedNewsfeedItemDto
+import com.vk.sdk.api.users.dto.UsersSubscriptionsItemDto
+import com.vk.sdk.api.wall.dto.WallWallItemDto
 import java.lang.reflect.Type
 import kotlin.Boolean
 
 object GsonHolder {
     val gson: Gson by lazy {
         GsonBuilder()
-        .registerTypeAdapter(UsersSubscriptionsItem::class.java,
-                UsersSubscriptionsItem.Deserializer())
-        .registerTypeAdapter(NewsfeedNewsfeedItem::class.java, NewsfeedNewsfeedItem.Deserializer())
+        .registerTypeAdapter(WallWallItemDto::class.java, WallWallItemDto.Deserializer())
+        .registerTypeAdapter(UsersSubscriptionsItemDto::class.java,
+                UsersSubscriptionsItemDto.Deserializer())
+        .registerTypeAdapter(NewsfeedNewsfeedItemDto::class.java,
+                NewsfeedNewsfeedItemDto.Deserializer())
+        .registerTypeAdapter(FriendsRecDescriptionGenericDto::class.java,
+                FriendsRecDescriptionGenericDto.Deserializer())
+        .registerTypeAdapter(NewsfeedMediaDiscoverActionDto::class.java,
+                NewsfeedMediaDiscoverActionDto.Deserializer())
+        .registerTypeAdapter(NewsfeedCommentsItemDto::class.java,
+                NewsfeedCommentsItemDto.Deserializer())
         .registerTypeAdapter(UserId::class.java, UserId.GsonSerializer(false))
         .registerTypeAdapter(Boolean::class.javaObjectType,
                 BooleanGsonSerializer()).registerTypeAdapter(Boolean::class.javaPrimitiveType,

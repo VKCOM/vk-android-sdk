@@ -38,4 +38,4 @@ internal fun JSONObject.toExecuteError(method: String, ignoredErrors: IntArray?)
 
 operator fun <E> androidx.collection.LongSparseArray<E>.set(key: Long, value: E) = put(key, value)
 
-fun Uri.isOAuthBlank() = VKApiConfig.DEFAULT_OAUTH_DOMAIN == host && "/blank.html" == path
+fun Uri.isOAuthBlank() = VKApiConfig.DEFAULT_OAUTH_WEB_DOMAIN == host && "/blank.html" == path

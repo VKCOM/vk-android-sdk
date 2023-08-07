@@ -27,6 +27,10 @@ package com.vk.api.sdk.chain
 import com.vk.api.sdk.VKApiManager
 import com.vk.api.sdk.exceptions.VKApiCodes
 import com.vk.api.sdk.exceptions.VKApiExecutionException
+import com.vk.api.sdk.utils.activeAccessToken
+import com.vk.api.sdk.utils.activeUserId
+import com.vk.dto.common.id.UserId
+import com.vk.dto.common.id.isReal
 
 class InvalidCredentialsObserverChainCall<T>(
         manager: VKApiManager,
@@ -43,7 +47,7 @@ class InvalidCredentialsObserverChainCall<T>(
             if (ex.isInvalidCredentialsError) {
                 if (checkAuthCount > 0 && iteration < checkAuthCount) {
                     val failedAccessToken = ex.accessToken
-                    val executorAccessToken = manager.executor.accessToken
+                    val executorAccessToken = manager.executor.credentials.value.activeAccessToken()
                     val ignoredAccessToken = manager.executor.ignoredAccessToken
 
                     val isDifferentAccessToken = failedAccessToken != executorAccessToken
@@ -57,13 +61,29 @@ class InvalidCredentialsObserverChainCall<T>(
                     }
                 }
 
-                if (ex.code == VKApiCodes.CODE_ERROR_USER_DEACTIVATED) {
-                    manager.illegalCredentialsListener?.onUserDeactivated(ex.apiMethod)
-                } else {
-                    manager.illegalCredentialsListener?.onInvalidCredentials(ex.apiMethod, ex.userBanInfo)
+                //ответы с пятой ошибкой долетают после того, как уже разлогинили юзера с невалидным AT
+                //и из-за этого происходил логаут следующего авторизованного юзера с валидным AT
+                //если токена от невалидного юзера уже нет в api manager'e, значит мы уже разлогинили этого пользователя и не надо снова дергать логаут
+                getRealUserIdFromExeceptionOrThrow(ex)
+                synchronized(InvalidCredentialsObserverChainCall::class.java) {
+                    val userId = getRealUserIdFromExeceptionOrThrow(ex)
+                    if (ex.code == VKApiCodes.CODE_ERROR_USER_DEACTIVATED) {
+                        manager.illegalCredentialsListener?.onUserDeactivated(ex.apiMethod, userId)
+                    } else {
+                        manager.illegalCredentialsListener?.onInvalidCredentials(ex.apiMethod, ex.userBanInfo, userId)
+                    }
                 }
             }
             throw ex
         }
+    }
+
+    @Throws(VKApiExecutionException::class)
+    private fun getRealUserIdFromExeceptionOrThrow(ex: VKApiExecutionException): UserId {
+        val userId = manager.executor.credentials.value.find { it.accessToken == ex.accessToken }?.userId
+        if (userId == null || userId.isReal().not()) {
+            throw ex
+        }
+        return userId
     }
 }

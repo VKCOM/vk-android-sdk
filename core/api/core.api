@@ -1,0 +1,1809 @@
+public abstract interface class com/vk/api/sdk/AccessTokenRefresher {
+	public abstract fun refresh ()Lcom/vk/api/sdk/AccessTokenRefresher$RefreshResult;
+}
+
+public final class com/vk/api/sdk/AccessTokenRefresher$RefreshResult {
+	public fun <init> (Ljava/util/List;Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;Ljava/util/List;)Lcom/vk/api/sdk/AccessTokenRefresher$RefreshResult;
+	public static synthetic fun copy$default (Lcom/vk/api/sdk/AccessTokenRefresher$RefreshResult;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lcom/vk/api/sdk/AccessTokenRefresher$RefreshResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getErrorRefresh ()Ljava/util/List;
+	public final fun getSuccessRefresh ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/vk/api/sdk/ApiCredentialsChangeListener {
+	public abstract fun onCredentialsChanged (Ljava/util/List;)V
+}
+
+public final class com/vk/api/sdk/BuildConfig {
+	public static final field BUILD_TYPE Ljava/lang/String;
+	public static final field DEBUG Z
+	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
+	public fun <init> ()V
+}
+
+public final class com/vk/api/sdk/VK {
+	public static final field INSTANCE Lcom/vk/api/sdk/VK;
+	public static final fun addTokenExpiredHandler (Lcom/vk/api/sdk/VKTokenExpiredHandler;)V
+	public static final fun clearAccessToken (Landroid/content/Context;)V
+	public static final fun execute (Lcom/vk/api/sdk/internal/ApiCommand;Lcom/vk/api/sdk/VKApiCallback;)V
+	public static synthetic fun execute$default (Lcom/vk/api/sdk/internal/ApiCommand;Lcom/vk/api/sdk/VKApiCallback;ILjava/lang/Object;)V
+	public static final fun executeSync (Lcom/vk/api/sdk/internal/ApiCommand;)Ljava/lang/Object;
+	public static final fun getApiVersion ()Ljava/lang/String;
+	public static final fun getAppId (Landroid/content/Context;)I
+	public final fun getUrlResolver ()Lcom/vk/api/sdk/utils/VKUrlResolver;
+	public static final fun getUserId ()Lcom/vk/dto/common/id/UserId;
+	public static final fun getVKAuthActivityResultContract ()Landroidx/activity/result/contract/ActivityResultContract;
+	public static final fun initialize (Landroid/content/Context;)V
+	public static final fun isLoggedIn ()Z
+	public static final fun login (Landroidx/activity/ComponentActivity;Landroidx/activity/result/ActivityResultCallback;)Landroidx/activity/result/ActivityResultLauncher;
+	public static final fun logout ()V
+	public static final fun removeTokenExpiredHandler (Lcom/vk/api/sdk/VKTokenExpiredHandler;)V
+	public static final fun saveAccessToken (Lcom/vk/dto/common/id/UserId;Ljava/lang/String;Ljava/lang/String;IJ)V
+	public static final fun setConfig (Lcom/vk/api/sdk/VKApiConfig;)V
+	public static final fun setCredentials (Lcom/vk/dto/common/id/UserId;Ljava/lang/String;Ljava/lang/String;IJZ)V
+	public final fun setCredentials (Ljava/util/List;)V
+	public static synthetic fun setCredentials$default (Lcom/vk/dto/common/id/UserId;Ljava/lang/String;Ljava/lang/String;IJZILjava/lang/Object;)V
+}
+
+public abstract interface class com/vk/api/sdk/VKApiCallListener {
+	public abstract fun onApiCallFailed (JLjava/lang/Exception;)V
+	public abstract fun onApiCallStart (JLjava/lang/String;)V
+	public abstract fun onApiCallSuccess (J)V
+}
+
+public abstract interface class com/vk/api/sdk/VKApiCallback {
+	public abstract fun fail (Ljava/lang/Exception;)V
+	public abstract fun success (Ljava/lang/Object;)V
+}
+
+public final class com/vk/api/sdk/VKApiConfig {
+	public static final field Companion Lcom/vk/api/sdk/VKApiConfig$Companion;
+	public static final field DEFAULT_API_VERSION Ljava/lang/String;
+	public static final field DEFAULT_LANGUAGE Ljava/lang/String;
+	public fun <init> (Landroid/content/Context;ILcom/vk/api/sdk/VKApiValidationHandler;Lcom/vk/api/sdk/VKApiCallListener;Lkotlin/Lazy;Ljava/lang/String;Lcom/vk/api/sdk/VKOkHttpProvider;Lcom/vk/api/sdk/utils/log/Logger;Lcom/vk/api/sdk/okhttp/LoggingPrefixer;Lkotlin/Lazy;Ljava/lang/String;ZLkotlin/Lazy;ILkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lcom/vk/api/sdk/VKKeyValueStorage;Lkotlin/jvm/functions/Function0;JJLcom/vk/api/sdk/utils/ApiMethodPriorityBackoff;Lkotlin/Lazy;Lkotlin/Lazy;Ljava/util/List;Lkotlin/Lazy;Lkotlin/jvm/functions/Function0;)V
+	public synthetic fun <init> (Landroid/content/Context;ILcom/vk/api/sdk/VKApiValidationHandler;Lcom/vk/api/sdk/VKApiCallListener;Lkotlin/Lazy;Ljava/lang/String;Lcom/vk/api/sdk/VKOkHttpProvider;Lcom/vk/api/sdk/utils/log/Logger;Lcom/vk/api/sdk/okhttp/LoggingPrefixer;Lkotlin/Lazy;Ljava/lang/String;ZLkotlin/Lazy;ILkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lcom/vk/api/sdk/VKKeyValueStorage;Lkotlin/jvm/functions/Function0;JJLcom/vk/api/sdk/utils/ApiMethodPriorityBackoff;Lkotlin/Lazy;Lkotlin/Lazy;Ljava/util/List;Lkotlin/Lazy;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun buildUpon ()Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun builder (Landroid/content/Context;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun component1 ()Landroid/content/Context;
+	public final fun component11 ()Ljava/lang/String;
+	public final fun component12 ()Z
+	public final fun component13 ()Lkotlin/Lazy;
+	public final fun component14 ()I
+	public final fun component15 ()Lkotlin/jvm/functions/Function0;
+	public final fun component16 ()Lkotlin/jvm/functions/Function0;
+	public final fun component17 ()Lcom/vk/api/sdk/VKKeyValueStorage;
+	public final fun component18 ()Lkotlin/jvm/functions/Function0;
+	public final fun component19 ()J
+	public final fun component2 ()I
+	public final fun component20 ()J
+	public final fun component21 ()Lcom/vk/api/sdk/utils/ApiMethodPriorityBackoff;
+	public final fun component22 ()Lkotlin/Lazy;
+	public final fun component23 ()Lkotlin/Lazy;
+	public final fun component24 ()Ljava/util/List;
+	public final fun component25 ()Lkotlin/Lazy;
+	public final fun component26 ()Lkotlin/jvm/functions/Function0;
+	public final fun component3 ()Lcom/vk/api/sdk/VKApiValidationHandler;
+	public final fun component4 ()Lcom/vk/api/sdk/VKApiCallListener;
+	public final fun component5 ()Lkotlin/Lazy;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Lcom/vk/api/sdk/VKOkHttpProvider;
+	public final fun component8 ()Lcom/vk/api/sdk/utils/log/Logger;
+	public final fun component9 ()Lcom/vk/api/sdk/okhttp/LoggingPrefixer;
+	public final fun copy (Landroid/content/Context;ILcom/vk/api/sdk/VKApiValidationHandler;Lcom/vk/api/sdk/VKApiCallListener;Lkotlin/Lazy;Ljava/lang/String;Lcom/vk/api/sdk/VKOkHttpProvider;Lcom/vk/api/sdk/utils/log/Logger;Lcom/vk/api/sdk/okhttp/LoggingPrefixer;Lkotlin/Lazy;Ljava/lang/String;ZLkotlin/Lazy;ILkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lcom/vk/api/sdk/VKKeyValueStorage;Lkotlin/jvm/functions/Function0;JJLcom/vk/api/sdk/utils/ApiMethodPriorityBackoff;Lkotlin/Lazy;Lkotlin/Lazy;Ljava/util/List;Lkotlin/Lazy;Lkotlin/jvm/functions/Function0;)Lcom/vk/api/sdk/VKApiConfig;
+	public static synthetic fun copy$default (Lcom/vk/api/sdk/VKApiConfig;Landroid/content/Context;ILcom/vk/api/sdk/VKApiValidationHandler;Lcom/vk/api/sdk/VKApiCallListener;Lkotlin/Lazy;Ljava/lang/String;Lcom/vk/api/sdk/VKOkHttpProvider;Lcom/vk/api/sdk/utils/log/Logger;Lcom/vk/api/sdk/okhttp/LoggingPrefixer;Lkotlin/Lazy;Ljava/lang/String;ZLkotlin/Lazy;ILkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lcom/vk/api/sdk/VKKeyValueStorage;Lkotlin/jvm/functions/Function0;JJLcom/vk/api/sdk/utils/ApiMethodPriorityBackoff;Lkotlin/Lazy;Lkotlin/Lazy;Ljava/util/List;Lkotlin/Lazy;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lcom/vk/api/sdk/VKApiConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAccessTokenRefresher ()Lkotlin/Lazy;
+	public final fun getAnonymousTokenProvider ()Lkotlin/Lazy;
+	public final fun getApiCallListener ()Lcom/vk/api/sdk/VKApiCallListener;
+	public final fun getApiHostProvider ()Lkotlin/jvm/functions/Function0;
+	public final fun getApiMethodPriorityBackoff ()Lcom/vk/api/sdk/utils/ApiMethodPriorityBackoff;
+	public final fun getAppId ()I
+	public final fun getCallsPerSecondLimit ()I
+	public final fun getClientSecret ()Ljava/lang/String;
+	public final fun getContext ()Landroid/content/Context;
+	public final fun getCustomApiEndpoint ()Lkotlin/jvm/functions/Function0;
+	public final fun getCustomJsonResponseTypeConverters ()Ljava/util/List;
+	public final fun getDebugCycleCalls ()Lkotlin/Lazy;
+	public final fun getDeviceId ()Lkotlin/Lazy;
+	public final fun getExpiresInReduceRatioJson ()Lkotlin/jvm/functions/Function0;
+	public final fun getExternalDeviceId ()Lkotlin/Lazy;
+	public final fun getKeyValueStorage ()Lcom/vk/api/sdk/VKKeyValueStorage;
+	public final fun getLang ()Ljava/lang/String;
+	public final fun getLangProvider ()Lkotlin/jvm/functions/Function0;
+	public final fun getLogFilterCredentials ()Z
+	public final fun getLogger ()Lcom/vk/api/sdk/utils/log/Logger;
+	public final fun getLoggingPrefixer ()Lcom/vk/api/sdk/okhttp/LoggingPrefixer;
+	public final fun getMaxRateLimitBackoffTimeoutMs ()J
+	public final fun getMinRateLimitBackoffTimeoutMs ()J
+	public final fun getOkHttpProvider ()Lcom/vk/api/sdk/VKOkHttpProvider;
+	public final fun getResponseBodyJsonConverter ()Lcom/vk/api/sdk/response/ResponseBodyJsonConverter;
+	public final fun getValidationHandler ()Lcom/vk/api/sdk/VKApiValidationHandler;
+	public final fun getVersion ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/VKApiConfig$Builder {
+	public final fun addCustomJsonResponseTypeConverter (Lcom/vk/api/sdk/response/JsonResponseTypeConverter;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun build ()Lcom/vk/api/sdk/VKApiConfig;
+	public final fun removeCustomJsonResponseTypeConverter (Lcom/vk/api/sdk/response/JsonResponseTypeConverter;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setAccessTokenRefresher (Lcom/vk/api/sdk/AccessTokenRefresher;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setAnonymousTokenProvider (Lcom/vk/api/sdk/auth/VKAccessTokenProvider;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setApiHostProvider (Lkotlin/jvm/functions/Function0;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setApiVersion (Ljava/lang/String;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setAppId (I)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setCallsPerSecondLimit (I)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setClientSecret (Ljava/lang/String;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setCredentials (Ljava/util/List;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setCustomApiEndpoint (Ljava/lang/String;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setCustomValueStorage (Lcom/vk/api/sdk/VKKeyValueStorage;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setDebugCycleCalls (Z)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setDeviceID (Ljava/lang/String;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setExternalDeviceID (Ljava/lang/String;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setLangProvider (Lkotlin/jvm/functions/Function0;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setLogFilterCredentials (Z)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setLogger (Lcom/vk/api/sdk/utils/log/Logger;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setLoggingPrefixer (Lcom/vk/api/sdk/okhttp/LoggingPrefixer;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setMaxRateLimitBackoff (J)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setMinRateLimitBackoff (J)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setOkHttpProvider (Lcom/vk/api/sdk/VKOkHttpProvider;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+	public final fun setValidationHandler (Lcom/vk/api/sdk/VKApiValidationHandler;)Lcom/vk/api/sdk/VKApiConfig$Builder;
+}
+
+public final class com/vk/api/sdk/VKApiConfig$Companion {
+	public final fun getDEFAULT_API_DOMAIN ()Ljava/lang/String;
+	public final fun getDEFAULT_API_ENDPOINT ()Ljava/lang/String;
+	public final fun getDEFAULT_DOMAIN ()Ljava/lang/String;
+	public final fun getDEFAULT_OAUTH_DOMAIN ()Ljava/lang/String;
+	public final fun getDEFAULT_OAUTH_WEB_DOMAIN ()Ljava/lang/String;
+	public final fun getDEFAULT_STATIC_DOMAIN ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/VKApiConfig$EndpointPathName : java/lang/Enum {
+	public static final field EMPTY Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;
+	public static final field METHOD Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;
+	public final fun getPathName ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;
+	public static fun values ()[Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;
+}
+
+public final class com/vk/api/sdk/VKApiCredentials {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;IJLcom/vk/dto/common/id/UserId;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()I
+	public final fun component4 ()J
+	public final fun component5 ()Lcom/vk/dto/common/id/UserId;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;IJLcom/vk/dto/common/id/UserId;)Lcom/vk/api/sdk/VKApiCredentials;
+	public static synthetic fun copy$default (Lcom/vk/api/sdk/VKApiCredentials;Ljava/lang/String;Ljava/lang/String;IJLcom/vk/dto/common/id/UserId;ILjava/lang/Object;)Lcom/vk/api/sdk/VKApiCredentials;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAccessToken ()Ljava/lang/String;
+	public final fun getCreatedMs ()J
+	public final fun getExpiresInSec ()I
+	public final fun getSecret ()Ljava/lang/String;
+	public final fun getUserId ()Lcom/vk/dto/common/id/UserId;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/vk/api/sdk/VKApiIllegalCredentialsListener {
+	public abstract fun onInvalidCredentials (Ljava/lang/String;Lorg/json/JSONObject;Lcom/vk/dto/common/id/UserId;)V
+	public abstract fun onUserDeactivated (Ljava/lang/String;Lcom/vk/dto/common/id/UserId;)V
+}
+
+public final class com/vk/api/sdk/VKApiIllegalCredentialsListener$DefaultImpls {
+	public static fun onUserDeactivated (Lcom/vk/api/sdk/VKApiIllegalCredentialsListener;Ljava/lang/String;Lcom/vk/dto/common/id/UserId;)V
+}
+
+public abstract interface class com/vk/api/sdk/VKApiJSONResponseParser {
+	public abstract fun parse (Lorg/json/JSONObject;)Ljava/lang/Object;
+}
+
+public class com/vk/api/sdk/VKApiManager {
+	public fun <init> (Lcom/vk/api/sdk/VKApiConfig;)V
+	protected fun createMethodChainCall (Lcom/vk/api/sdk/VKMethodCall;Lcom/vk/api/sdk/VKApiJSONResponseParser;)Lcom/vk/api/sdk/chain/ChainCall;
+	public static synthetic fun createMethodChainCall$default (Lcom/vk/api/sdk/VKApiManager;Lcom/vk/api/sdk/VKMethodCall;Lcom/vk/api/sdk/VKApiJSONResponseParser;ILjava/lang/Object;)Lcom/vk/api/sdk/chain/ChainCall;
+	protected fun createPostMethodChainCall (Lcom/vk/api/sdk/VKHttpPostCall;Lcom/vk/api/sdk/VKApiProgressListener;Lcom/vk/api/sdk/VKApiJSONResponseParser;)Lcom/vk/api/sdk/chain/HttpPostChainCall;
+	protected fun createTooManyRequestRetryChainCall (Lcom/vk/api/sdk/VKMethodCall;Lcom/vk/api/sdk/chain/ChainCall;)Lcom/vk/api/sdk/chain/TooManyRequestRetryChainCall;
+	protected fun createValidationHandlerChainCall (ILcom/vk/api/sdk/chain/ChainCall;)Lcom/vk/api/sdk/chain/ValidationHandlerChainCall;
+	public final fun execute (Lcom/vk/api/sdk/VKHttpPostCall;)Ljava/lang/Object;
+	public final fun execute (Lcom/vk/api/sdk/VKHttpPostCall;Lcom/vk/api/sdk/VKApiProgressListener;)Ljava/lang/Object;
+	public final fun execute (Lcom/vk/api/sdk/VKHttpPostCall;Lcom/vk/api/sdk/VKApiProgressListener;Lcom/vk/api/sdk/VKApiJSONResponseParser;)Ljava/lang/Object;
+	public final fun execute (Lcom/vk/api/sdk/VKMethodCall;)V
+	public final fun execute (Lcom/vk/api/sdk/VKMethodCall;Lcom/vk/api/sdk/VKApiJSONResponseParser;)Ljava/lang/Object;
+	public fun execute (Lcom/vk/api/sdk/internal/ApiCommand;)Ljava/lang/Object;
+	public static synthetic fun execute$default (Lcom/vk/api/sdk/VKApiManager;Lcom/vk/api/sdk/VKHttpPostCall;Lcom/vk/api/sdk/VKApiProgressListener;Lcom/vk/api/sdk/VKApiJSONResponseParser;ILjava/lang/Object;)Ljava/lang/Object;
+	public static synthetic fun execute$default (Lcom/vk/api/sdk/VKApiManager;Lcom/vk/api/sdk/VKMethodCall;Lcom/vk/api/sdk/VKApiJSONResponseParser;ILjava/lang/Object;)Ljava/lang/Object;
+	public fun executeWithExceptionAdjust (Lcom/vk/api/sdk/chain/ChainCall;)Ljava/lang/Object;
+	public final fun getAccessTokenRefreshActionInternal ()Lcom/vk/api/sdk/tokenrefresh/AccessTokenRefreshActionInternal;
+	public final fun getAnonymousTokenGetterBarrier ()Lcom/vk/api/sdk/auth/VKAuthAnonymousTokenBarrier;
+	public final fun getConfig ()Lcom/vk/api/sdk/VKApiConfig;
+	public final fun getCredentialsChangeListener ()Lcom/vk/api/sdk/ApiCredentialsChangeListener;
+	public fun getExecutor ()Lcom/vk/api/sdk/okhttp/OkHttpExecutor;
+	public final fun getIllegalCredentialsListener ()Lcom/vk/api/sdk/VKApiIllegalCredentialsListener;
+	public final fun getValidationLock ()Lcom/vk/api/sdk/VKApiValidationHandler$ValidationLock;
+	public final fun ignoreAccessToken (Ljava/lang/String;)V
+	public final fun setCredentials (Ljava/util/List;)V
+	public final fun setCredentials (Lkotlin/Lazy;)V
+	public final fun setCredentialsChangeListener (Lcom/vk/api/sdk/ApiCredentialsChangeListener;)V
+	public final fun setIllegalCredentialsListener (Lcom/vk/api/sdk/VKApiIllegalCredentialsListener;)V
+	protected fun wrapCall (Lcom/vk/api/sdk/VKHttpPostCall;Lcom/vk/api/sdk/chain/ChainCall;)Lcom/vk/api/sdk/chain/ChainCall;
+	protected fun wrapCall (Lcom/vk/api/sdk/VKMethodCall;Lcom/vk/api/sdk/chain/ChainCall;)Lcom/vk/api/sdk/chain/ChainCall;
+}
+
+public abstract interface class com/vk/api/sdk/VKApiProgressListener {
+	public static final field Companion Lcom/vk/api/sdk/VKApiProgressListener$Companion;
+	public abstract fun onProgress (II)V
+}
+
+public final class com/vk/api/sdk/VKApiProgressListener$Companion {
+	public final fun getEMPTY ()Lcom/vk/api/sdk/VKApiProgressListener;
+}
+
+public abstract interface class com/vk/api/sdk/VKApiValidationHandler {
+	public abstract fun handleCaptcha (Lcom/vk/api/sdk/VKApiValidationHandler$Captcha;Lcom/vk/api/sdk/VKApiValidationHandler$Callback;)V
+	public abstract fun handleCaptchaSolved ()V
+	public abstract fun handleConfirm (Ljava/lang/String;Lcom/vk/api/sdk/VKApiValidationHandler$Callback;)V
+	public abstract fun handleValidation (Ljava/lang/String;Lcom/vk/api/sdk/VKApiValidationHandler$Callback;)V
+	public abstract fun tryToHandleException (Lcom/vk/api/sdk/exceptions/VKApiExecutionException;Lcom/vk/api/sdk/VKApiManager;)V
+}
+
+public class com/vk/api/sdk/VKApiValidationHandler$Callback {
+	public fun <init> (Lcom/vk/api/sdk/VKApiValidationHandler$ValidationLock;)V
+	public fun cancel ()V
+	public final fun getLock ()Lcom/vk/api/sdk/VKApiValidationHandler$ValidationLock;
+	public final fun getValue ()Ljava/lang/Object;
+	public final fun setValue (Ljava/lang/Object;)V
+	public fun submit (Ljava/lang/Object;)V
+}
+
+public final class com/vk/api/sdk/VKApiValidationHandler$Captcha {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/Integer;
+	public final fun component3 ()Ljava/lang/Integer;
+	public final fun copy (Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;)Lcom/vk/api/sdk/VKApiValidationHandler$Captcha;
+	public static synthetic fun copy$default (Lcom/vk/api/sdk/VKApiValidationHandler$Captcha;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/vk/api/sdk/VKApiValidationHandler$Captcha;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHeight ()Ljava/lang/Integer;
+	public final fun getImg ()Ljava/lang/String;
+	public final fun getWidth ()Ljava/lang/Integer;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/VKApiValidationHandler$Credentials {
+	public static final field Companion Lcom/vk/api/sdk/VKApiValidationHandler$Credentials$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;IJ)V
+	public final fun getCreatedMs ()J
+	public final fun getExpiresInSec ()I
+	public final fun getSecret ()Ljava/lang/String;
+	public final fun getToken ()Ljava/lang/String;
+	public final fun getUid ()Ljava/lang/Integer;
+	public final fun isValid ()Z
+}
+
+public final class com/vk/api/sdk/VKApiValidationHandler$Credentials$Companion {
+	public final fun getEMPTY ()Lcom/vk/api/sdk/VKApiValidationHandler$Credentials;
+}
+
+public final class com/vk/api/sdk/VKApiValidationHandler$DefaultImpls {
+	public static fun handleCaptchaSolved (Lcom/vk/api/sdk/VKApiValidationHandler;)V
+	public static fun tryToHandleException (Lcom/vk/api/sdk/VKApiValidationHandler;Lcom/vk/api/sdk/exceptions/VKApiExecutionException;Lcom/vk/api/sdk/VKApiManager;)V
+}
+
+public final class com/vk/api/sdk/VKApiValidationHandler$ValidationLock {
+	public fun <init> ()V
+	public final fun acquire ()Z
+	public final fun await ()V
+	public final fun release ()V
+}
+
+public final class com/vk/api/sdk/VKCachedKeyValueStorage : com/vk/api/sdk/VKKeyValueStorage {
+	public static final field Companion Lcom/vk/api/sdk/VKCachedKeyValueStorage$Companion;
+	public fun <init> (Lcom/vk/api/sdk/VKKeyValueStorage;)V
+	public fun get (Ljava/lang/String;)Ljava/lang/String;
+	public fun put (Ljava/lang/String;Ljava/lang/String;)V
+	public fun putOrRemove (Ljava/lang/String;Ljava/lang/String;)V
+	public fun remove (Ljava/lang/String;)V
+}
+
+public final class com/vk/api/sdk/VKCachedKeyValueStorage$Companion {
+}
+
+public abstract interface class com/vk/api/sdk/VKCaptchaHandler {
+	public abstract fun getLastKey ()Ljava/lang/String;
+	public abstract fun showCaptcha (Landroid/content/Context;Lcom/vk/api/sdk/VKApiValidationHandler$Captcha;)V
+}
+
+public final class com/vk/api/sdk/VKCaptchaHandlerDefaultImp : com/vk/api/sdk/VKCaptchaHandler {
+	public fun <init> ()V
+	public fun getLastKey ()Ljava/lang/String;
+	public fun showCaptcha (Landroid/content/Context;Lcom/vk/api/sdk/VKApiValidationHandler$Captcha;)V
+}
+
+public class com/vk/api/sdk/VKDefaultValidationHandler : com/vk/api/sdk/VKApiValidationHandler {
+	public fun <init> (Landroid/content/Context;)V
+	public final fun getContext ()Landroid/content/Context;
+	public fun handleCaptcha (Lcom/vk/api/sdk/VKApiValidationHandler$Captcha;Lcom/vk/api/sdk/VKApiValidationHandler$Callback;)V
+	public fun handleCaptchaSolved ()V
+	public fun handleConfirm (Ljava/lang/String;Lcom/vk/api/sdk/VKApiValidationHandler$Callback;)V
+	public fun handleValidation (Ljava/lang/String;Lcom/vk/api/sdk/VKApiValidationHandler$Callback;)V
+	public fun tryToHandleException (Lcom/vk/api/sdk/exceptions/VKApiExecutionException;Lcom/vk/api/sdk/VKApiManager;)V
+}
+
+public class com/vk/api/sdk/VKHttpPostCall {
+	protected fun <init> (Lcom/vk/api/sdk/VKHttpPostCall$Builder;)V
+	public final fun getParts ()Ljava/util/Map;
+	public final fun getRetryCount ()I
+	public final fun getTimeoutMs ()J
+	public final fun getUrl ()Ljava/lang/String;
+	public final fun isAwaitNetwork ()Z
+	public final fun isMultipart ()Z
+}
+
+public class com/vk/api/sdk/VKHttpPostCall$Builder {
+	public fun <init> ()V
+	public fun args (Ljava/lang/String;Landroid/net/Uri;)Lcom/vk/api/sdk/VKHttpPostCall$Builder;
+	public fun args (Ljava/lang/String;Landroid/net/Uri;Ljava/lang/String;)Lcom/vk/api/sdk/VKHttpPostCall$Builder;
+	public fun args (Ljava/lang/String;Ljava/lang/String;)Lcom/vk/api/sdk/VKHttpPostCall$Builder;
+	public fun awaitNetwork (Z)Lcom/vk/api/sdk/VKHttpPostCall$Builder;
+	public fun build ()Lcom/vk/api/sdk/VKHttpPostCall;
+	public final fun getParts ()Ljava/util/Map;
+	public final fun getRetryCount ()I
+	public final fun getTimeoutMs ()J
+	public final fun getUrl ()Ljava/lang/String;
+	public final fun isAwaitNetwork ()Z
+	public final fun isMultipart ()Z
+	public fun multipart (Z)Lcom/vk/api/sdk/VKHttpPostCall$Builder;
+	public fun parts (Ljava/util/Map;)Lcom/vk/api/sdk/VKHttpPostCall$Builder;
+	public fun retryCount (I)Lcom/vk/api/sdk/VKHttpPostCall$Builder;
+	public fun timeout (J)Lcom/vk/api/sdk/VKHttpPostCall$Builder;
+	public fun url (Ljava/lang/String;)Lcom/vk/api/sdk/VKHttpPostCall$Builder;
+}
+
+public abstract interface class com/vk/api/sdk/VKKeyValueStorage {
+	public abstract fun get (Ljava/lang/String;)Ljava/lang/String;
+	public abstract fun put (Ljava/lang/String;Ljava/lang/String;)V
+	public abstract fun putOrRemove (Ljava/lang/String;Ljava/lang/String;)V
+	public abstract fun remove (Ljava/lang/String;)V
+}
+
+public final class com/vk/api/sdk/VKKeyValueStorage$DefaultImpls {
+	public static fun putOrRemove (Lcom/vk/api/sdk/VKKeyValueStorage;Ljava/lang/String;Ljava/lang/String;)V
+}
+
+public final class com/vk/api/sdk/VKKeyValueStorageKt {
+	public static final fun cached (Lcom/vk/api/sdk/VKKeyValueStorage;)Lcom/vk/api/sdk/VKKeyValueStorage;
+}
+
+public class com/vk/api/sdk/VKMethodCall {
+	public static final field Companion Lcom/vk/api/sdk/VKMethodCall$Companion;
+	public static final field DEFAULT_RETRY_COUNT I
+	protected fun <init> (Lcom/vk/api/sdk/VKMethodCall$Builder;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAllowNoAuth ()Z
+	public final fun getArgs ()Ljava/util/Map;
+	public final fun getEndpointPath ()Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;
+	public final fun getForceAnonymous ()Z
+	public final fun getForceRemoveAuth ()Z
+	public final fun getIgnoreExecuteErrors ()[I
+	public final fun getMethod ()Ljava/lang/String;
+	public final fun getRequestUrl ()Ljava/lang/String;
+	public final fun getRetryCount ()I
+	public final fun getSkipValidation ()Z
+	public final fun getVersion ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun isAnonymous ()Z
+	public final fun isAwaitNetwork ()Z
+	public final fun isMultipleTokens ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/vk/api/sdk/VKMethodCall$Builder {
+	public fun <init> ()V
+	public fun allowNoAuth (Z)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun args (Ljava/lang/String;Ljava/lang/Object;)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun args (Ljava/lang/String;Ljava/lang/String;)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun args (Ljava/lang/String;Z)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun args (Ljava/util/Map;)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun awaitNetwork (Z)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun build ()Lcom/vk/api/sdk/VKMethodCall;
+	public fun forceAnonymous (Z)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun forceRemoveAuth (Z)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public final fun getAllowNoAuth ()Z
+	public final fun getArgs ()Ljava/util/Map;
+	public final fun getEndpointPath ()Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;
+	public final fun getForceAnonymous ()Z
+	public final fun getForceRemoveAuth ()Z
+	public final fun getIgnoreExecuteErrors ()[I
+	public final fun getMethod ()Ljava/lang/String;
+	public final fun getRequestUrl ()Ljava/lang/String;
+	public final fun getRetryCount ()I
+	public final fun getSkipValidation ()Z
+	public final fun getVersion ()Ljava/lang/String;
+	public fun ignoreExecuteErrors ([I)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public final fun isAnonymous ()Z
+	public final fun isAwaitNetwork ()Z
+	public final fun isMultipleTokens ()Z
+	public fun method (Ljava/lang/String;)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun retryCount (I)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun setAnonymous (Z)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun setEndpointPath (Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun setIsMultipleTokens (Z)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun skipValidation (Z)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun url (Ljava/lang/String;)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun version (Ljava/lang/String;)Lcom/vk/api/sdk/VKMethodCall$Builder;
+}
+
+public final class com/vk/api/sdk/VKMethodCall$Companion {
+}
+
+public abstract class com/vk/api/sdk/VKOkHttpProvider {
+	public fun <init> ()V
+	public abstract fun getClient ()Lokhttp3/OkHttpClient;
+	public abstract fun updateClient (Lcom/vk/api/sdk/VKOkHttpProvider$BuilderUpdateFunction;)V
+}
+
+public abstract interface class com/vk/api/sdk/VKOkHttpProvider$BuilderUpdateFunction {
+	public abstract fun update (Lokhttp3/OkHttpClient$Builder;)Lokhttp3/OkHttpClient$Builder;
+}
+
+public final class com/vk/api/sdk/VKOkHttpProvider$DefaultProvider : com/vk/api/sdk/VKOkHttpProvider {
+	public fun <init> ()V
+	public fun getClient ()Lokhttp3/OkHttpClient;
+	public fun updateClient (Lcom/vk/api/sdk/VKOkHttpProvider$BuilderUpdateFunction;)V
+}
+
+public final class com/vk/api/sdk/VKPreferencesKeyValueStorage : com/vk/api/sdk/VKKeyValueStorage {
+	public static final field Companion Lcom/vk/api/sdk/VKPreferencesKeyValueStorage$Companion;
+	public fun <init> (Landroid/content/Context;Ljava/lang/String;)V
+	public synthetic fun <init> (Landroid/content/Context;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun get (Ljava/lang/String;)Ljava/lang/String;
+	public fun put (Ljava/lang/String;Ljava/lang/String;)V
+	public fun putOrRemove (Ljava/lang/String;Ljava/lang/String;)V
+	public fun remove (Ljava/lang/String;)V
+}
+
+public final class com/vk/api/sdk/VKPreferencesKeyValueStorage$Companion {
+}
+
+public abstract interface class com/vk/api/sdk/VKTokenExpiredHandler {
+	public abstract fun onTokenExpired ()V
+}
+
+public abstract class com/vk/api/sdk/VkResult {
+}
+
+public final class com/vk/api/sdk/VkResult$Failure : com/vk/api/sdk/VkResult {
+	public fun <init> (Lcom/vk/api/sdk/exceptions/VKApiExecutionException;)V
+	public final fun getException ()Lcom/vk/api/sdk/exceptions/VKApiExecutionException;
+}
+
+public final class com/vk/api/sdk/VkResult$Success : com/vk/api/sdk/VkResult {
+	public fun <init> (Ljava/lang/Object;)V
+	public final fun getData ()Ljava/lang/Object;
+}
+
+public final class com/vk/api/sdk/auth/AccountProfileType : java/lang/Enum {
+	public static final field Companion Lcom/vk/api/sdk/auth/AccountProfileType$Companion;
+	public static final field EDU Lcom/vk/api/sdk/auth/AccountProfileType;
+	public static final field NORMAL Lcom/vk/api/sdk/auth/AccountProfileType;
+	public static final field PROMO Lcom/vk/api/sdk/auth/AccountProfileType;
+	public final fun getCode ()I
+	public final fun isEdu ()Z
+	public static fun valueOf (Ljava/lang/String;)Lcom/vk/api/sdk/auth/AccountProfileType;
+	public static fun values ()[Lcom/vk/api/sdk/auth/AccountProfileType;
+}
+
+public final class com/vk/api/sdk/auth/AccountProfileType$Companion {
+	public final fun findByCode (Ljava/lang/Integer;)Lcom/vk/api/sdk/auth/AccountProfileType;
+}
+
+public final class com/vk/api/sdk/auth/VKAccessToken {
+	public static final field Companion Lcom/vk/api/sdk/auth/VKAccessToken$Companion;
+	public fun <init> (Lcom/vk/dto/common/id/UserId;Ljava/lang/String;Ljava/lang/String;IJ)V
+	public fun <init> (Ljava/util/Map;)V
+	public final fun getAccessToken ()Ljava/lang/String;
+	public final fun getCreatedMs ()J
+	public final fun getEmail ()Ljava/lang/String;
+	public final fun getExpiresInSec ()I
+	public final fun getPhone ()Ljava/lang/String;
+	public final fun getPhoneAccessKey ()Ljava/lang/String;
+	public final fun getSecret ()Ljava/lang/String;
+	public final fun getUserId ()Lcom/vk/dto/common/id/UserId;
+	public final fun isValid ()Z
+	public final fun save (Landroid/os/Bundle;)V
+	public final fun save (Lcom/vk/api/sdk/VKKeyValueStorage;)V
+}
+
+public final class com/vk/api/sdk/auth/VKAccessToken$Companion {
+	public final fun getKEYS ()Ljava/util/List;
+	public final fun remove (Lcom/vk/api/sdk/VKKeyValueStorage;)V
+	public final fun restore (Landroid/os/Bundle;)Lcom/vk/api/sdk/auth/VKAccessToken;
+	public final fun restore (Lcom/vk/api/sdk/VKKeyValueStorage;)Lcom/vk/api/sdk/auth/VKAccessToken;
+}
+
+public abstract interface class com/vk/api/sdk/auth/VKAccessTokenProvider {
+	public abstract fun clear ()V
+	public abstract fun getToken ()Ljava/lang/String;
+	public abstract fun isUsed ()Z
+	public abstract fun setToken (Ljava/lang/String;)V
+	public abstract fun signTokenAndSet ()V
+}
+
+public final class com/vk/api/sdk/auth/VKAccessTokenProvider$DefaultImpls {
+	public static fun signTokenAndSet (Lcom/vk/api/sdk/auth/VKAccessTokenProvider;)V
+}
+
+public final class com/vk/api/sdk/auth/VKAuthAnonymousTokenBarrier {
+	public fun <init> ()V
+	public final fun tryLockOrAwait (Lkotlin/jvm/functions/Function0;)V
+}
+
+public abstract interface class com/vk/api/sdk/auth/VKAuthCallback {
+	public abstract fun onLogin (Lcom/vk/api/sdk/auth/VKAccessToken;)V
+	public abstract fun onLoginFailed (Lcom/vk/api/sdk/exceptions/VKAuthException;)V
+}
+
+public final class com/vk/api/sdk/auth/VKAuthParams {
+	public static final field Companion Lcom/vk/api/sdk/auth/VKAuthParams$Companion;
+	public fun <init> (I)V
+	public fun <init> (ILjava/lang/String;)V
+	public fun <init> (ILjava/lang/String;Ljava/util/Collection;)V
+	public synthetic fun <init> (ILjava/lang/String;Ljava/util/Collection;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getAppId ()I
+	public final fun getRedirectUrl ()Ljava/lang/String;
+	public final fun getScopeString ()Ljava/lang/String;
+	public final fun toBundle ()Landroid/os/Bundle;
+	public final fun toExtraBundle ()Landroid/os/Bundle;
+}
+
+public final class com/vk/api/sdk/auth/VKAuthParams$Companion {
+	public final fun fromBundle (Landroid/os/Bundle;)Lcom/vk/api/sdk/auth/VKAuthParams;
+	public final fun getDEFAULT_REDIRECT_URL ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/auth/VKAuthResult {
+	public fun <init> (Lcom/vk/api/sdk/auth/VKAccessToken;)V
+	public fun <init> (Lcom/vk/api/sdk/auth/VKAccessToken;I)V
+	public synthetic fun <init> (Lcom/vk/api/sdk/auth/VKAccessToken;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getAccessToken ()Lcom/vk/api/sdk/auth/VKAccessToken;
+	public final fun getErrorCode ()I
+	public final fun isError ()Z
+	public final fun isSuccess ()Z
+}
+
+public abstract class com/vk/api/sdk/auth/VKAuthenticationResult {
+}
+
+public final class com/vk/api/sdk/auth/VKAuthenticationResult$Failed : com/vk/api/sdk/auth/VKAuthenticationResult {
+	public fun <init> (Lcom/vk/api/sdk/exceptions/VKAuthException;)V
+	public final fun getException ()Lcom/vk/api/sdk/exceptions/VKAuthException;
+}
+
+public final class com/vk/api/sdk/auth/VKAuthenticationResult$Success : com/vk/api/sdk/auth/VKAuthenticationResult {
+	public fun <init> (Lcom/vk/api/sdk/auth/VKAccessToken;)V
+	public final fun getToken ()Lcom/vk/api/sdk/auth/VKAccessToken;
+}
+
+public final class com/vk/api/sdk/auth/VKScope : java/lang/Enum {
+	public static final field ADS Lcom/vk/api/sdk/auth/VKScope;
+	public static final field AUDIO Lcom/vk/api/sdk/auth/VKScope;
+	public static final field DOCS Lcom/vk/api/sdk/auth/VKScope;
+	public static final field EMAIL Lcom/vk/api/sdk/auth/VKScope;
+	public static final field FRIENDS Lcom/vk/api/sdk/auth/VKScope;
+	public static final field GROUPS Lcom/vk/api/sdk/auth/VKScope;
+	public static final field MARKET Lcom/vk/api/sdk/auth/VKScope;
+	public static final field MESSAGES Lcom/vk/api/sdk/auth/VKScope;
+	public static final field NOTES Lcom/vk/api/sdk/auth/VKScope;
+	public static final field NOTIFICATIONS Lcom/vk/api/sdk/auth/VKScope;
+	public static final field NOTIFY Lcom/vk/api/sdk/auth/VKScope;
+	public static final field OFFLINE Lcom/vk/api/sdk/auth/VKScope;
+	public static final field PAGES Lcom/vk/api/sdk/auth/VKScope;
+	public static final field PHONE Lcom/vk/api/sdk/auth/VKScope;
+	public static final field PHOTOS Lcom/vk/api/sdk/auth/VKScope;
+	public static final field STATS Lcom/vk/api/sdk/auth/VKScope;
+	public static final field STATUS Lcom/vk/api/sdk/auth/VKScope;
+	public static final field STORIES Lcom/vk/api/sdk/auth/VKScope;
+	public static final field VIDEO Lcom/vk/api/sdk/auth/VKScope;
+	public static final field WALL Lcom/vk/api/sdk/auth/VKScope;
+	public static fun valueOf (Ljava/lang/String;)Lcom/vk/api/sdk/auth/VKScope;
+	public static fun values ()[Lcom/vk/api/sdk/auth/VKScope;
+}
+
+public class com/vk/api/sdk/browser/BrowserDescriptor {
+	public final field packageName Ljava/lang/String;
+	public final field signatureHashes Ljava/util/Set;
+	public final field useCustomTab Ljava/lang/Boolean;
+	public final field version Ljava/lang/String;
+	public fun <init> (Landroid/content/pm/PackageInfo;Z)V
+	public fun <init> (Ljava/lang/String;Ljava/util/Set;Ljava/lang/String;Z)V
+	public fun changeUseCustomTab (Z)Lcom/vk/api/sdk/browser/BrowserDescriptor;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun generateSignatureHash (Landroid/content/pm/Signature;)Ljava/lang/String;
+	public static fun generateSignatureHashes ([Landroid/content/pm/Signature;)Ljava/util/Set;
+	public fun hashCode ()I
+}
+
+public abstract interface class com/vk/api/sdk/browser/BrowserMatcher {
+	public abstract fun matches (Lcom/vk/api/sdk/browser/BrowserDescriptor;)Z
+}
+
+public final class com/vk/api/sdk/browser/BrowserSelector {
+	public fun <init> ()V
+	public static fun getAllBrowsers (Landroid/content/Context;)Ljava/util/List;
+	public static fun select (Landroid/content/Context;Lcom/vk/api/sdk/browser/BrowserMatcher;)Lcom/vk/api/sdk/browser/BrowserDescriptor;
+}
+
+public final class com/vk/api/sdk/browser/BrowserUtils {
+	public static final field INSTANCE Lcom/vk/api/sdk/browser/BrowserUtils;
+	public final fun getBrowserPackageByFamilyName (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/browser/Browsers {
+}
+
+public final class com/vk/api/sdk/browser/Browsers$Chrome {
+	public static final field MINIMUM_VERSION_FOR_CUSTOM_TAB Lcom/vk/api/sdk/browser/DelimitedVersion;
+	public static final field PACKAGE_NAME Ljava/lang/String;
+	public static final field SIGNATURE Ljava/lang/String;
+	public static final field SIGNATURE_SET Ljava/util/Set;
+	public static fun customTab (Ljava/lang/String;)Lcom/vk/api/sdk/browser/BrowserDescriptor;
+	public static fun standaloneBrowser (Ljava/lang/String;)Lcom/vk/api/sdk/browser/BrowserDescriptor;
+}
+
+public final class com/vk/api/sdk/browser/Browsers$Firefox {
+	public static final field MINIMUM_VERSION_FOR_CUSTOM_TAB Lcom/vk/api/sdk/browser/DelimitedVersion;
+	public static final field PACKAGE_NAME Ljava/lang/String;
+	public static final field SIGNATURE_HASH Ljava/lang/String;
+	public static final field SIGNATURE_SET Ljava/util/Set;
+	public static fun customTab (Ljava/lang/String;)Lcom/vk/api/sdk/browser/BrowserDescriptor;
+	public static fun standaloneBrowser (Ljava/lang/String;)Lcom/vk/api/sdk/browser/BrowserDescriptor;
+}
+
+public final class com/vk/api/sdk/browser/Browsers$SBrowser {
+	public static final field MINIMUM_VERSION_FOR_CUSTOM_TAB Lcom/vk/api/sdk/browser/DelimitedVersion;
+	public static final field PACKAGE_NAME Ljava/lang/String;
+	public static final field SIGNATURE_HASH Ljava/lang/String;
+	public static final field SIGNATURE_SET Ljava/util/Set;
+	public static fun customTab (Ljava/lang/String;)Lcom/vk/api/sdk/browser/BrowserDescriptor;
+	public static fun standaloneBrowser (Ljava/lang/String;)Lcom/vk/api/sdk/browser/BrowserDescriptor;
+}
+
+public class com/vk/api/sdk/browser/DelimitedVersion : java/lang/Comparable {
+	public fun <init> ([J)V
+	public fun compareTo (Lcom/vk/api/sdk/browser/DelimitedVersion;)I
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public static fun parse (Ljava/lang/String;)Lcom/vk/api/sdk/browser/DelimitedVersion;
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/vk/api/sdk/browser/VersionRange {
+	public static final field ANY_VERSION Lcom/vk/api/sdk/browser/VersionRange;
+	public fun <init> (Lcom/vk/api/sdk/browser/DelimitedVersion;Lcom/vk/api/sdk/browser/DelimitedVersion;)V
+	public static fun atLeast (Lcom/vk/api/sdk/browser/DelimitedVersion;)Lcom/vk/api/sdk/browser/VersionRange;
+	public static fun atLeast (Ljava/lang/String;)Lcom/vk/api/sdk/browser/VersionRange;
+	public static fun atMost (Lcom/vk/api/sdk/browser/DelimitedVersion;)Lcom/vk/api/sdk/browser/VersionRange;
+	public static fun atMost (Ljava/lang/String;)Lcom/vk/api/sdk/browser/VersionRange;
+	public static fun between (Ljava/lang/String;Ljava/lang/String;)Lcom/vk/api/sdk/browser/VersionRange;
+	public fun matches (Lcom/vk/api/sdk/browser/DelimitedVersion;)Z
+	public fun matches (Ljava/lang/String;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/vk/api/sdk/browser/VersionedBrowserMatcher : com/vk/api/sdk/browser/BrowserMatcher {
+	public static final field ANY_BROWSER Lcom/vk/api/sdk/browser/BrowserMatcher;
+	public static final field CHROME_BROWSER Lcom/vk/api/sdk/browser/VersionedBrowserMatcher;
+	public static final field CHROME_CUSTOM_TAB Lcom/vk/api/sdk/browser/VersionedBrowserMatcher;
+	public static final field FIREFOX_BROWSER Lcom/vk/api/sdk/browser/VersionedBrowserMatcher;
+	public static final field FIREFOX_CUSTOM_TAB Lcom/vk/api/sdk/browser/VersionedBrowserMatcher;
+	public static final field SAMSUNG_BROWSER Lcom/vk/api/sdk/browser/VersionedBrowserMatcher;
+	public static final field SAMSUNG_CUSTOM_TAB Lcom/vk/api/sdk/browser/VersionedBrowserMatcher;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;ZLcom/vk/api/sdk/browser/VersionRange;)V
+	public fun <init> (Ljava/lang/String;Ljava/util/Set;ZLcom/vk/api/sdk/browser/VersionRange;)V
+	public fun matches (Lcom/vk/api/sdk/browser/BrowserDescriptor;)Z
+}
+
+public class com/vk/api/sdk/browser/WhiteListedBrowserHelper {
+	public fun <init> ()V
+	public static fun selectBestBrowser (Landroid/content/Context;)Lcom/vk/api/sdk/browser/BrowserDescriptor;
+}
+
+public final class com/vk/api/sdk/chain/ApiMethodPriorityChainCall : com/vk/api/sdk/chain/ChainCall {
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;Lcom/vk/api/sdk/chain/ChainCall;Lcom/vk/api/sdk/VKMethodCall;Lcom/vk/api/sdk/utils/ApiMethodPriorityBackoff;)V
+	public fun call (Lcom/vk/api/sdk/chain/ChainArgs;)Ljava/lang/Object;
+}
+
+public final class com/vk/api/sdk/chain/ChainArgs {
+	public fun <init> ()V
+	public final fun getCaptchaKey ()Ljava/lang/String;
+	public final fun getCaptchaSid ()Ljava/lang/String;
+	public final fun getUserConfirmed ()Z
+	public final fun hasCaptcha ()Z
+	public final fun setCaptchaKey (Ljava/lang/String;)V
+	public final fun setCaptchaSid (Ljava/lang/String;)V
+	public final fun setUserConfirmed (Z)V
+}
+
+public abstract class com/vk/api/sdk/chain/ChainCall {
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;)V
+	public abstract fun call (Lcom/vk/api/sdk/chain/ChainArgs;)Ljava/lang/Object;
+	public final fun getManager ()Lcom/vk/api/sdk/VKApiManager;
+	protected final fun logDebug (Ljava/lang/String;Ljava/lang/Throwable;)V
+	protected final fun logWarning (Ljava/lang/String;Ljava/lang/Throwable;)V
+}
+
+public final class com/vk/api/sdk/chain/ErrorRetryChainCall : com/vk/api/sdk/chain/RetryChainCall {
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;ILcom/vk/api/sdk/chain/ChainCall;)V
+	public fun call (Lcom/vk/api/sdk/chain/ChainArgs;)Ljava/lang/Object;
+	public final fun getChain ()Lcom/vk/api/sdk/chain/ChainCall;
+}
+
+public class com/vk/api/sdk/chain/HttpPostChainCall : com/vk/api/sdk/chain/ChainCall {
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;Lcom/vk/api/sdk/okhttp/OkHttpExecutor;Lcom/vk/api/sdk/VKHttpPostCall;Lcom/vk/api/sdk/VKApiProgressListener;Lcom/vk/api/sdk/VKApiJSONResponseParser;)V
+	public fun call (Lcom/vk/api/sdk/chain/ChainArgs;)Ljava/lang/Object;
+	public final fun getCall ()Lcom/vk/api/sdk/VKHttpPostCall;
+	public final fun getOkHttpExecutor ()Lcom/vk/api/sdk/okhttp/OkHttpExecutor;
+	public final fun getParser ()Lcom/vk/api/sdk/VKApiJSONResponseParser;
+	public final fun getProgressListener ()Lcom/vk/api/sdk/VKApiProgressListener;
+	protected final fun handleResponse (Lcom/vk/api/sdk/okhttp/OkHttpExecutor$ExecutorResponse;)Ljava/lang/Object;
+}
+
+public final class com/vk/api/sdk/chain/InternalErrorChainCall : com/vk/api/sdk/chain/ChainCall {
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;Ljava/lang/String;Lcom/vk/api/sdk/utils/TokenExponentialBackoff;Lcom/vk/api/sdk/chain/ChainCall;)V
+	public fun call (Lcom/vk/api/sdk/chain/ChainArgs;)Ljava/lang/Object;
+}
+
+public final class com/vk/api/sdk/chain/InvalidCredentialsObserverChainCall : com/vk/api/sdk/chain/ChainCall {
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;Lcom/vk/api/sdk/chain/ChainCall;I)V
+	public synthetic fun <init> (Lcom/vk/api/sdk/VKApiManager;Lcom/vk/api/sdk/chain/ChainCall;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun call (Lcom/vk/api/sdk/chain/ChainArgs;)Ljava/lang/Object;
+}
+
+public class com/vk/api/sdk/chain/MethodChainCall : com/vk/api/sdk/chain/ChainCall {
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;Lcom/vk/api/sdk/okhttp/OkHttpExecutor;Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;Ljava/lang/String;Ljava/lang/String;Lcom/vk/api/sdk/VKApiJSONResponseParser;)V
+	public fun call (Lcom/vk/api/sdk/chain/ChainArgs;)Ljava/lang/Object;
+	public final fun getCallBuilder ()Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public final fun getDefaultDeviceId ()Ljava/lang/String;
+	public final fun getDefaultLang ()Ljava/lang/String;
+	public final fun getOkHttpExecutor ()Lcom/vk/api/sdk/okhttp/OkHttpExecutor;
+	public final fun getParser ()Lcom/vk/api/sdk/VKApiJSONResponseParser;
+	public final fun parseResult (Lcom/vk/api/sdk/okhttp/OkHttpExecutor$ExecutorResponse;Ljava/lang/String;[I)Ljava/lang/Object;
+	public fun runRequest (Lcom/vk/api/sdk/okhttp/OkHttpMethodCall;)Ljava/lang/Object;
+	public final fun setDefaultDeviceId (Ljava/lang/String;)V
+	public fun trackClientIdClientSecretMethods (Lcom/vk/api/sdk/auth/VKAccessTokenProvider;Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;)V
+}
+
+public final class com/vk/api/sdk/chain/RateLimitReachedChainCall : com/vk/api/sdk/chain/ChainCall {
+	public static final field Companion Lcom/vk/api/sdk/chain/RateLimitReachedChainCall$Companion;
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;Ljava/lang/String;Lcom/vk/api/sdk/utils/TokenExponentialBackoff;Lcom/vk/api/sdk/chain/ChainCall;)V
+	public fun call (Lcom/vk/api/sdk/chain/ChainArgs;)Ljava/lang/Object;
+}
+
+public final class com/vk/api/sdk/chain/RateLimitReachedChainCall$Companion {
+}
+
+public abstract class com/vk/api/sdk/chain/RetryChainCall : com/vk/api/sdk/chain/ChainCall {
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;I)V
+	public final fun getRetryLimit ()I
+}
+
+public final class com/vk/api/sdk/chain/TooManyRequestRetryChainCall : com/vk/api/sdk/chain/RetryChainCall {
+	public static final field Companion Lcom/vk/api/sdk/chain/TooManyRequestRetryChainCall$Companion;
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;ILcom/vk/api/sdk/utils/tmr/TooManyRequestLimitBackoff;Lcom/vk/api/sdk/chain/ChainCall;)V
+	public fun call (Lcom/vk/api/sdk/chain/ChainArgs;)Ljava/lang/Object;
+	public final fun getBackoff ()Lcom/vk/api/sdk/utils/tmr/TooManyRequestLimitBackoff;
+	public final fun getChain ()Lcom/vk/api/sdk/chain/ChainCall;
+}
+
+public final class com/vk/api/sdk/chain/TooManyRequestRetryChainCall$Companion {
+}
+
+public final class com/vk/api/sdk/chain/ValidationHandlerChainCall : com/vk/api/sdk/chain/RetryChainCall {
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;ILcom/vk/api/sdk/chain/ChainCall;Lcom/vk/api/sdk/VKApiValidationHandler$ValidationLock;)V
+	public fun call (Lcom/vk/api/sdk/chain/ChainArgs;)Ljava/lang/Object;
+	public final fun getChain ()Lcom/vk/api/sdk/chain/ChainCall;
+}
+
+public final class com/vk/api/sdk/exceptions/ApiErrorViewType : java/lang/Enum {
+	public static final field ALERT Lcom/vk/api/sdk/exceptions/ApiErrorViewType;
+	public static final field CUSTOM Lcom/vk/api/sdk/exceptions/ApiErrorViewType;
+	public static final field Companion Lcom/vk/api/sdk/exceptions/ApiErrorViewType$Companion;
+	public static final field FULLSCREEN Lcom/vk/api/sdk/exceptions/ApiErrorViewType;
+	public static final field INPUT Lcom/vk/api/sdk/exceptions/ApiErrorViewType;
+	public static final field SKIP Lcom/vk/api/sdk/exceptions/ApiErrorViewType;
+	public static fun valueOf (Ljava/lang/String;)Lcom/vk/api/sdk/exceptions/ApiErrorViewType;
+	public static fun values ()[Lcom/vk/api/sdk/exceptions/ApiErrorViewType;
+}
+
+public final class com/vk/api/sdk/exceptions/ApiErrorViewType$Companion {
+	public final fun fromString (Ljava/lang/String;)Lcom/vk/api/sdk/exceptions/ApiErrorViewType;
+}
+
+public final class com/vk/api/sdk/exceptions/IgnoredAccessTokenException : com/vk/api/sdk/exceptions/VKApiExecutionException {
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public final class com/vk/api/sdk/exceptions/InternalServerErrorOccurredException : com/vk/api/sdk/exceptions/VKApiException {
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public final class com/vk/api/sdk/exceptions/RateLimitReachedException : com/vk/api/sdk/exceptions/VKApiExecutionException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+}
+
+public final class com/vk/api/sdk/exceptions/UnableToRefreshAccessTokenException : java/lang/RuntimeException {
+	public fun <init> (ZLcom/vk/dto/common/id/UserId;Ljava/lang/String;)V
+	public fun <init> (ZLcom/vk/dto/common/id/UserId;Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (ZLcom/vk/dto/common/id/UserId;Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getUserId ()Lcom/vk/dto/common/id/UserId;
+	public final fun isCritical ()Z
+}
+
+public final class com/vk/api/sdk/exceptions/VKApiCodes {
+	public static final field CODE_ACCESS_DENIED I
+	public static final field CODE_ACCESS_DENIED_TO_ALBUM I
+	public static final field CODE_ACCESS_DENIED_TO_AUDIO I
+	public static final field CODE_ACCESS_DENIED_TO_GROUP I
+	public static final field CODE_ACCESS_POLLS_WITHOUT_VOTE I
+	public static final field CODE_ACCESS_TOKEN_EXPIRED I
+	public static final field CODE_ACCOUNT_INVALID_SCREEN_NAME I
+	public static final field CODE_ADD_CHAT_MEMBER_ACCESS_TO_GROUP_DENIED I
+	public static final field CODE_ADVERTISE_CABINET_ERROR I
+	public static final field CODE_ADVERTISE_CABINET_NO_PERMISSIONS_FOR_OPERATION I
+	public static final field CODE_ALREADY_IN_CALL I
+	public static final field CODE_ANONYM_TOKEN_EXPIRED I
+	public static final field CODE_ANONYM_TOKEN_INVALID I
+	public static final field CODE_APP_DISABLED I
+	public static final field CODE_APP_MUST_BE_TURNED_OFF_WHILE_TESTING I
+	public static final field CODE_AUTHORIZATION_FAILED I
+	public static final field CODE_CALL_HAS_BEEN_FINISHED I
+	public static final field CODE_CALL_INVALID_SECRET I
+	public static final field CODE_CALL_LINK_OUTDATED I
+	public static final field CODE_CALL_REQUIRES_AUTH I
+	public static final field CODE_CAPTCHA_REQUIRED I
+	public static final field CODE_CHANNEL_INVITE_LINK_INVALID I
+	public static final field CODE_CHANNEL_IN_ARCHIVE I
+	public static final field CODE_CHANNEL_NOT_IN_ARCHIVE I
+	public static final field CODE_CHANNEL_USER_ALREADY_JOINED I
+	public static final field CODE_CHAT_ACCESS_DENIED I
+	public static final field CODE_CHAT_ALREADY_IN_ARCHIVE I
+	public static final field CODE_CHAT_DOES_NOT_EXIST I
+	public static final field CODE_CHAT_INVITE_MAKE_LINK_DENIED I
+	public static final field CODE_CHAT_MR_ALREADY_SEND I
+	public static final field CODE_CHAT_NOT_ADMIN I
+	public static final field CODE_CHAT_NOT_IN_ARCHIVE I
+	public static final field CODE_CLEAR_CACHE_REQUESTED I
+	public static final field CODE_CLEAR_CACHE_REQUESTED2 I
+	public static final field CODE_CLIENT_UPDATE_NEEDED I
+	public static final field CODE_CLIENT_VERSION_DEPRECATED I
+	public static final field CODE_COMMUNITY_NOT_FOUND I
+	public static final field CODE_COMPOSITE_EXECUTE_ERROR I
+	public static final field CODE_COMPOSITE_MULTI_REQUEST_ERROR I
+	public static final field CODE_CONTENT_BLOCKED I
+	public static final field CODE_ERROR_ALREADY_HAS_EXTERNAL_BINDING I
+	public static final field CODE_ERROR_APPS_MENU_TOO_MANY_APPS I
+	public static final field CODE_ERROR_CANNOT_TRANSFER_MONEY_YOURSELF I
+	public static final field CODE_ERROR_LIMITS I
+	public static final field CODE_ERROR_MARKET_COMMENTS_CLOSED I
+	public static final field CODE_ERROR_MARKET_ITEM_NOT_FOUND I
+	public static final field CODE_ERROR_NEED_TOKEN_EXTENSION I
+	public static final field CODE_ERROR_OAUTH_ENTITY_IS_ALREADY_LINKED I
+	public static final field CODE_ERROR_TOO_MANY_PROFILE_BUTTONS I
+	public static final field CODE_ERROR_UNAVAILABLE_REGISTRATION I
+	public static final field CODE_ERROR_UPLOAD_PHOTO_DECODE_FAILED I
+	public static final field CODE_ERROR_UPLOAD_PHOTO_PREPROCESS_FAILED I
+	public static final field CODE_ERROR_UPLOAD_PHOTO_WRONG_IMAGE_SIZE I
+	public static final field CODE_ERROR_USER_DEACTIVATED I
+	public static final field CODE_ERROR_USER_IS_DELETED I
+	public static final field CODE_ERROR_USER_IS_LOCKED I
+	public static final field CODE_ERROR_USER_IS_NOT_LINKED I
+	public static final field CODE_ERROR_USER_IS_UNTRUSTED I
+	public static final field CODE_ERROR_VIDEO_COMMENTS_CLOSED I
+	public static final field CODE_ERROR_WALL_ACCESS_REPLIES I
+	public static final field CODE_FOLDERS_LIMIT_REACHED I
+	public static final field CODE_FOLDER_CONVERSATIONS_LIMIT_REACHED I
+	public static final field CODE_FOLDER_NOT_FOUND I
+	public static final field CODE_HTTPS_REQUIRED I
+	public static final field CODE_IGNORED_ACCESS_TOKEN I
+	public static final field CODE_INTERNAL_EXECUTE_ERROR I
+	public static final field CODE_INTERNAL_SERVER_ERROR I
+	public static final field CODE_INVALID_APP_IDENTIFIER I
+	public static final field CODE_INVALID_AUDIO_TRANSCRIPTION I
+	public static final field CODE_INVALID_JOIN_LINK I
+	public static final field CODE_INVALID_NAME I
+	public static final field CODE_INVALID_PHOTO_FORMAT I
+	public static final field CODE_INVALID_PHOTO_ID I
+	public static final field CODE_INVALID_PHOTO_UPLOAD I
+	public static final field CODE_INVALID_REQUEST I
+	public static final field CODE_INVALID_SID I
+	public static final field CODE_INVALID_SIGNATURE I
+	public static final field CODE_INVALID_TIMESTAMP I
+	public static final field CODE_INVALID_USER_IDENTIFIER I
+	public static final field CODE_INVITE_LINK_AVAILABLE_FOR_CLOSED_GROUPS I
+	public static final field CODE_INVITE_LINK_EXPIRED I
+	public static final field CODE_IO_ERROR I
+	public static final field CODE_MALFORMED_RESPONSE I
+	public static final field CODE_METHOD_NOT_SUPPORTED I
+	public static final field CODE_MSG_DELETE_FOR_ALL_FAILED I
+	public static final field CODE_MSG_SEND_FAIL_TO_RESEND_FWDS I
+	public static final field CODE_MSG_SEND_MSG_TOO_LONG I
+	public static final field CODE_MSG_SEND_NO_ACCESS_TO_CHAT I
+	public static final field CODE_MSG_SEND_RECIPIENT_BLACKLISTED I
+	public static final field CODE_MSG_SEND_RECIPIENT_FORBID_GROUPS_MSGS I
+	public static final field CODE_MSG_SEND_TO_MANY_FWDS I
+	public static final field CODE_MSG_SEND_VIOLATION_OF_PRIVACY_SETTINGS I
+	public static final field CODE_NOT_FOUND I
+	public static final field CODE_NO_PERMISSIONS I
+	public static final field CODE_OPERATION_AVAILABLE_ONLY_FOR_STANDALONE_AND_OPEN_API_APPS I
+	public static final field CODE_OPERATION_DENIED_FOR_NON_STANDALONE_APP I
+	public static final field CODE_OPERATION_NOT_PERMITTED I
+	public static final field CODE_OUTDATED_ROOM_LINK I
+	public static final field CODE_PHONE_ALREADY_USED I
+	public static final field CODE_PHONE_AUTH_DELAY I
+	public static final field CODE_PHONE_PARAM_PHONE I
+	public static final field CODE_PHOTO_ACCESS_ERROR I
+	public static final field CODE_PHOTO_ALBUM_LIMIT_EXCEED I
+	public static final field CODE_PRIVATE_PROFILE I
+	public static final field CODE_PRODUCT_DUPLICATE_ERROR I
+	public static final field CODE_RATE_LIMIT_REACHED I
+	public static final field CODE_REQUIRED_ARG_NOT_FOUND I
+	public static final field CODE_SIGN_UP_CODE_INCORRECT I
+	public static final field CODE_SIGN_UP_PASSWORD_UNALLOWABLE I
+	public static final field CODE_STICKERS_DISABLED I
+	public static final field CODE_SUPER_APP_TOKEN_INVALID I
+	public static final field CODE_TEXT_LIVE_EMPTY_MESSAGE I
+	public static final field CODE_TEXT_LIVE_FINISHED I
+	public static final field CODE_TEXT_LIVE_LARGE_MESSAGE I
+	public static final field CODE_TEXT_LIVE_MORE_ONE_ATTACH I
+	public static final field CODE_TEXT_LIVE_SERVER_ERROR I
+	public static final field CODE_TEXT_LIVE_UNAVAILABLE I
+	public static final field CODE_TEXT_LIVE_WRONG_AUTHOR I
+	public static final field CODE_TOKEN_CONFIRMATION_REQUIRED I
+	public static final field CODE_TOO_MANY_CHAT_USERS I
+	public static final field CODE_TOO_MANY_CONTACTS_TO_SYNC I
+	public static final field CODE_TOO_MANY_REQUESTS_PER_SECOND I
+	public static final field CODE_TOO_MANY_SIMILAR_REQUESTS I
+	public static final field CODE_TRANSLATE_CANT_TRANSLATE I
+	public static final field CODE_TRANSLATE_INVALID_LANGUAGES I
+	public static final field CODE_TRANSLATE_INVALID_MESSAGE I
+	public static final field CODE_TRANSLATE_UNSUPPORTED_LANGUAGE I
+	public static final field CODE_UNKNOWN_ERROR I
+	public static final field CODE_UNKNOWN_METHOD I
+	public static final field CODE_USER_CONFIRM_REQUIRED I
+	public static final field CODE_USER_HAS_NEITHER_PASSWORD_NOR_PHONE I
+	public static final field CODE_USER_VALIDATION_REQUIRED I
+	public static final field CODE_USER_WAS_DELETED_OR_BANNED I
+	public static final field CODE_VIDEO_ALREADY_ADDED I
+	public static final field CODE_VK_PAY_INVALID_AMOUNT I
+	public static final field CODE_VK_PAY_INVALID_PIN I
+	public static final field CODE_VK_PAY_NOT_ENOUGH_MONEY I
+	public static final field EXTRA_ACCESS_TOKEN Ljava/lang/String;
+	public static final field EXTRA_AUTH_ERROR Ljava/lang/String;
+	public static final field EXTRA_CAPTCHA_IMG Ljava/lang/String;
+	public static final field EXTRA_CAPTCHA_IMG_HEIGHT Ljava/lang/String;
+	public static final field EXTRA_CAPTCHA_IMG_WIDTH Ljava/lang/String;
+	public static final field EXTRA_CAPTCHA_KEY Ljava/lang/String;
+	public static final field EXTRA_CAPTCHA_SID Ljava/lang/String;
+	public static final field EXTRA_CONFIRM Ljava/lang/String;
+	public static final field EXTRA_CONFIRMATION_TEXT Ljava/lang/String;
+	public static final field EXTRA_EXTENSION_HASH Ljava/lang/String;
+	public static final field EXTRA_USER_BAN_INFO Ljava/lang/String;
+	public static final field EXTRA_VALIDATION_URL Ljava/lang/String;
+	public static final field EXTRA_VW_LOGIN_ERROR Ljava/lang/String;
+	public static final field INSTANCE Lcom/vk/api/sdk/exceptions/VKApiCodes;
+	public static final field PARAM_BAN_INFO Ljava/lang/String;
+	public static final field PARAM_CONFIRM_TEXT Ljava/lang/String;
+	public static final field PARAM_DEVICE_ID Ljava/lang/String;
+	public static final field PARAM_ERROR Ljava/lang/String;
+	public static final field PARAM_ERROR_CODE Ljava/lang/String;
+	public static final field PARAM_ERROR_MULTI Ljava/lang/String;
+	public static final field PARAM_EXECUTE_ERRORS Ljava/lang/String;
+	public static final field PARAM_LANG Ljava/lang/String;
+	public static final field PARAM_REDIRECT_URI Ljava/lang/String;
+	public static final field SUBCODE_INVALID_BIRTHDAY_TOO_OLD I
+	public static final field SUBCODE_INVALID_BIRTHDAY_TOO_YOUNG I
+	public static final field SUBCODE_NO_AVAILABLE_WAYS_TO_VALIDATE I
+	public static final field SUBCODE_TOO_MANY_COMMUNITIES I
+}
+
+public class com/vk/api/sdk/exceptions/VKApiException : java/lang/Exception {
+	public static final field Companion Lcom/vk/api/sdk/exceptions/VKApiException$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun <init> (Ljava/lang/Throwable;)V
+}
+
+public final class com/vk/api/sdk/exceptions/VKApiException$Companion {
+}
+
+public class com/vk/api/sdk/exceptions/VKApiExecutionException : com/vk/api/sdk/exceptions/VKApiException {
+	public static final field Companion Lcom/vk/api/sdk/exceptions/VKApiExecutionException$Companion;
+	public fun <init> (ILjava/lang/String;ZLjava/lang/String;)V
+	public fun <init> (ILjava/lang/String;ZLjava/lang/String;Landroid/os/Bundle;)V
+	public fun <init> (ILjava/lang/String;ZLjava/lang/String;Landroid/os/Bundle;Ljava/util/List;)V
+	public fun <init> (ILjava/lang/String;ZLjava/lang/String;Landroid/os/Bundle;Ljava/util/List;Ljava/lang/String;)V
+	public fun <init> (ILjava/lang/String;ZLjava/lang/String;Landroid/os/Bundle;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;)V
+	public fun <init> (ILjava/lang/String;ZLjava/lang/String;Landroid/os/Bundle;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;I)V
+	public fun <init> (ILjava/lang/String;ZLjava/lang/String;Landroid/os/Bundle;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ILcom/vk/api/sdk/exceptions/ApiErrorViewType;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLjava/lang/String;Landroid/os/Bundle;Ljava/util/List;Ljava/lang/String;Ljava/util/Map;ILcom/vk/api/sdk/exceptions/ApiErrorViewType;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAccessToken ()Ljava/lang/String;
+	public final fun getApiMethod ()Ljava/lang/String;
+	public final fun getCaptchaHeight ()I
+	public final fun getCaptchaImg ()Ljava/lang/String;
+	public final fun getCaptchaSid ()Ljava/lang/String;
+	public final fun getCaptchaWidth ()I
+	public final fun getCode ()I
+	public final fun getDetailMessage ()Ljava/lang/String;
+	public final fun getErrorMsg ()Ljava/lang/String;
+	public final fun getExecuteErrors ()Ljava/util/List;
+	public final fun getExtensionHash ()Ljava/lang/String;
+	public final fun getExtra ()Landroid/os/Bundle;
+	public final fun getHasLocalizedMessage ()Z
+	public final fun getRequestParams ()Ljava/util/Map;
+	public final fun getSubcode ()I
+	public final fun getUserBanInfo ()Lorg/json/JSONObject;
+	public final fun getUserConfirmText ()Ljava/lang/String;
+	public final fun getValidationUrl ()Ljava/lang/String;
+	public final fun getViewType ()Lcom/vk/api/sdk/exceptions/ApiErrorViewType;
+	public final fun hasError (I)Z
+	public final fun hasExtra ()Z
+	public fun hashCode ()I
+	public final fun isAccessError ()Z
+	public final fun isAccessTokenExpired ()Z
+	public final fun isAnonymTokenExpired ()Z
+	public final fun isAnonymTokenInvalid ()Z
+	public final fun isAppUpdateNeeded ()Z
+	public final fun isCaptchaError ()Z
+	public final fun isChatDoesNotExistError ()Z
+	public final fun isCompositeError ()Z
+	public final fun isCurrentVersionDeprecated ()Z
+	public final fun isInternalServerError ()Z
+	public final fun isInvalidCredentialsError ()Z
+	public final fun isMultiRequestError ()Z
+	public final fun isPasswordConfirmRequired ()Z
+	public final fun isRateLimitReachedError ()Z
+	public final fun isTokenConfirmationRequired ()Z
+	public final fun isTooManyRequestsError ()Z
+	public final fun isUserConfirmRequired ()Z
+	public final fun isValidationRequired ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/exceptions/VKApiExecutionException$Companion {
+	public final fun parse (Lorg/json/JSONObject;)Lcom/vk/api/sdk/exceptions/VKApiExecutionException;
+	public final fun parse (Lorg/json/JSONObject;Ljava/lang/String;)Lcom/vk/api/sdk/exceptions/VKApiExecutionException;
+	public final fun parse (Lorg/json/JSONObject;Ljava/lang/String;Landroid/os/Bundle;)Lcom/vk/api/sdk/exceptions/VKApiExecutionException;
+	public static synthetic fun parse$default (Lcom/vk/api/sdk/exceptions/VKApiExecutionException$Companion;Lorg/json/JSONObject;Ljava/lang/String;Landroid/os/Bundle;ILjava/lang/Object;)Lcom/vk/api/sdk/exceptions/VKApiExecutionException;
+}
+
+public final class com/vk/api/sdk/exceptions/VKApiIllegalResponseException : com/vk/api/sdk/exceptions/VKApiException {
+	public static final field Companion Lcom/vk/api/sdk/exceptions/VKApiIllegalResponseException$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun <init> (Ljava/lang/Throwable;)V
+}
+
+public final class com/vk/api/sdk/exceptions/VKApiIllegalResponseException$Companion {
+}
+
+public final class com/vk/api/sdk/exceptions/VKAuthException : java/lang/Exception {
+	public fun <init> ()V
+	public fun <init> (ILjava/lang/String;)V
+	public synthetic fun <init> (ILjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getAuthError ()Ljava/lang/String;
+	public final fun getWebViewError ()I
+	public final fun isCanceled ()Z
+}
+
+public class com/vk/api/sdk/exceptions/VKInternalServerErrorException : java/lang/Exception {
+	public fun <init> (ILjava/lang/String;)V
+}
+
+public class com/vk/api/sdk/exceptions/VKLargeEntityException : java/lang/Exception {
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public final class com/vk/api/sdk/exceptions/VKLocalIOException : java/io/IOException {
+	public static final field Companion Lcom/vk/api/sdk/exceptions/VKLocalIOException$Companion;
+	public fun <init> (Ljava/lang/Throwable;)V
+}
+
+public final class com/vk/api/sdk/exceptions/VKLocalIOException$Companion {
+}
+
+public final class com/vk/api/sdk/extensions/InputStreamExtKt {
+	public static final fun readString (Ljava/io/InputStream;Ljava/nio/charset/Charset;)Ljava/lang/String;
+	public static synthetic fun readString$default (Ljava/io/InputStream;Ljava/nio/charset/Charset;ILjava/lang/Object;)Ljava/lang/String;
+}
+
+public abstract class com/vk/api/sdk/internal/ApiCommand {
+	public fun <init> ()V
+	public final fun execute (Lcom/vk/api/sdk/VKApiManager;)Ljava/lang/Object;
+	protected abstract fun onExecute (Lcom/vk/api/sdk/VKApiManager;)Ljava/lang/Object;
+}
+
+public final class com/vk/api/sdk/internal/ApiCommandKt {
+	public static final fun await (Lcom/vk/api/sdk/internal/ApiCommand;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun awaitResult (Lcom/vk/api/sdk/internal/ApiCommand;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/vk/api/sdk/internal/HttpMultipartEntry {
+}
+
+public final class com/vk/api/sdk/internal/HttpMultipartEntry$File : com/vk/api/sdk/internal/HttpMultipartEntry {
+	public fun <init> (Landroid/net/Uri;)V
+	public fun <init> (Landroid/net/Uri;Ljava/lang/String;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFileName ()Ljava/lang/String;
+	public final fun getFileUri ()Landroid/net/Uri;
+	public fun hashCode ()I
+	public final fun setFileName (Ljava/lang/String;)V
+	public final fun setFileUri (Landroid/net/Uri;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/internal/HttpMultipartEntry$Text : com/vk/api/sdk/internal/HttpMultipartEntry {
+	public fun <init> (Ljava/lang/String;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTextValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun setTextValue (Ljava/lang/String;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/internal/HttpStatus {
+	public static final field INSTANCE Lcom/vk/api/sdk/internal/HttpStatus;
+	public final fun getDescription (I)Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/internal/JsonUtils {
+	public static final field INSTANCE Lcom/vk/api/sdk/internal/JsonUtils;
+	public final fun containsElement (Ljava/lang/String;Ljava/lang/String;)Z
+}
+
+public final class com/vk/api/sdk/internal/QueryStringGenerator {
+	public static final field INSTANCE Lcom/vk/api/sdk/internal/QueryStringGenerator;
+	public final fun buildNotSignedQueryString (Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;ILjava/util/Map;ZLjava/util/Collection;Z)Ljava/lang/String;
+	public static synthetic fun buildNotSignedQueryString$default (Lcom/vk/api/sdk/internal/QueryStringGenerator;Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;ILjava/util/Map;ZLjava/util/Collection;ZILjava/lang/Object;)Ljava/lang/String;
+	public final fun buildSignedQueryString (Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/util/Map;ZLjava/util/Collection;Z)Ljava/lang/String;
+	public static synthetic fun buildSignedQueryString$default (Lcom/vk/api/sdk/internal/QueryStringGenerator;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/util/Map;ZLjava/util/Collection;ZILjava/lang/Object;)Ljava/lang/String;
+	public final fun buildSignedQueryStringForMethod (Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IZLjava/util/Collection;Z)Ljava/lang/String;
+	public static synthetic fun buildSignedQueryStringForMethod$default (Lcom/vk/api/sdk/internal/QueryStringGenerator;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IZLjava/util/Collection;ZILjava/lang/Object;)Ljava/lang/String;
+	public final fun buildSignedQueryStringForce (Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/util/Map;)Ljava/lang/String;
+	public static synthetic fun buildSignedQueryStringForce$default (Lcom/vk/api/sdk/internal/QueryStringGenerator;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/util/Map;ILjava/lang/Object;)Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/internal/VKErrorUtils {
+	public static final field INSTANCE Lcom/vk/api/sdk/internal/VKErrorUtils;
+	public final fun hasExecuteError (Lorg/json/JSONObject;[I)Z
+	public final fun hasSimpleError (Lorg/json/JSONObject;)Z
+	public final fun parseExecuteError (Lorg/json/JSONObject;Ljava/lang/String;[I)Lcom/vk/api/sdk/exceptions/VKApiException;
+	public final fun parseSimpleError (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/vk/api/sdk/exceptions/VKApiException;
+	public final fun parseSimpleError (Lorg/json/JSONObject;Ljava/lang/String;Ljava/lang/String;)Lcom/vk/api/sdk/exceptions/VKApiException;
+	public static synthetic fun parseSimpleError$default (Lcom/vk/api/sdk/internal/VKErrorUtils;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/vk/api/sdk/exceptions/VKApiException;
+	public static synthetic fun parseSimpleError$default (Lcom/vk/api/sdk/internal/VKErrorUtils;Lorg/json/JSONObject;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/vk/api/sdk/exceptions/VKApiException;
+}
+
+public final class com/vk/api/sdk/internal/VKInitProvider : android/content/ContentProvider {
+	public fun <init> ()V
+	public fun delete (Landroid/net/Uri;Ljava/lang/String;[Ljava/lang/String;)I
+	public fun getType (Landroid/net/Uri;)Ljava/lang/String;
+	public fun insert (Landroid/net/Uri;Landroid/content/ContentValues;)Landroid/net/Uri;
+	public fun onCreate ()Z
+	public fun query (Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
+	public fun update (Landroid/net/Uri;Landroid/content/ContentValues;Ljava/lang/String;[Ljava/lang/String;)I
+}
+
+public final class com/vk/api/sdk/internal/Validation {
+	public static final field INSTANCE Lcom/vk/api/sdk/internal/Validation;
+	public final fun assertAccessTokenValid (Ljava/lang/String;)V
+	public final fun assertCallsPerSecondLimitValid (I)V
+	public final fun assertContextValid (Landroid/content/Context;)V
+	public final fun assertHttpHostValid (Ljava/lang/String;)V
+	public final fun assertLangValid (Ljava/lang/String;)V
+}
+
+public abstract interface class com/vk/api/sdk/listeners/ApiCallListener {
+	public static final field Companion Lcom/vk/api/sdk/listeners/ApiCallListener$Companion;
+	public abstract fun onApiCallFailed (JLjava/lang/Throwable;)V
+	public abstract fun onApiCallStart (JLjava/lang/String;)V
+	public abstract fun onApiCallSuccess (J)V
+}
+
+public final class com/vk/api/sdk/listeners/ApiCallListener$Companion {
+	public final fun getEMPTY ()Lcom/vk/api/sdk/listeners/ApiCallListener;
+}
+
+public final class com/vk/api/sdk/listeners/ApiCallListener$DefaultImpls {
+	public static fun onApiCallFailed (Lcom/vk/api/sdk/listeners/ApiCallListener;JLjava/lang/Throwable;)V
+	public static fun onApiCallStart (Lcom/vk/api/sdk/listeners/ApiCallListener;JLjava/lang/String;)V
+	public static fun onApiCallSuccess (Lcom/vk/api/sdk/listeners/ApiCallListener;J)V
+}
+
+public final class com/vk/api/sdk/listeners/CompositeRequestEventListener : com/vk/api/sdk/listeners/ApiCallListener {
+	public fun <init> ()V
+	public final fun addListener (Lcom/vk/api/sdk/listeners/ApiCallListener;)V
+	public final fun addListeners (Ljava/lang/Iterable;)V
+	public final fun clear ()V
+	public fun onApiCallFailed (JLjava/lang/Throwable;)V
+	public fun onApiCallStart (JLjava/lang/String;)V
+	public fun onApiCallSuccess (J)V
+}
+
+public final class com/vk/api/sdk/okhttp/DefaultLoggingPrefixer : com/vk/api/sdk/okhttp/LoggingPrefixer {
+	public fun <init> ()V
+	public fun getPrefix ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/okhttp/EmojiLoggingPrefixer : com/vk/api/sdk/okhttp/LoggingPrefixer {
+	public static final field Companion Lcom/vk/api/sdk/okhttp/EmojiLoggingPrefixer$Companion;
+	public fun <init> ()V
+	public fun getPrefix ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/okhttp/EmojiLoggingPrefixer$Companion {
+}
+
+public final class com/vk/api/sdk/okhttp/LogLevelRequestTag {
+	public fun <init> (Lcom/vk/api/sdk/utils/log/Logger$LogLevel;)V
+	public final fun component1 ()Lcom/vk/api/sdk/utils/log/Logger$LogLevel;
+	public final fun copy (Lcom/vk/api/sdk/utils/log/Logger$LogLevel;)Lcom/vk/api/sdk/okhttp/LogLevelRequestTag;
+	public static synthetic fun copy$default (Lcom/vk/api/sdk/okhttp/LogLevelRequestTag;Lcom/vk/api/sdk/utils/log/Logger$LogLevel;ILjava/lang/Object;)Lcom/vk/api/sdk/okhttp/LogLevelRequestTag;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLevel ()Lcom/vk/api/sdk/utils/log/Logger$LogLevel;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/vk/api/sdk/okhttp/LoggingInterceptor : okhttp3/Interceptor {
+	public fun <init> (ZLcom/vk/api/sdk/utils/log/Logger;)V
+	public fun <init> (ZLcom/vk/api/sdk/utils/log/Logger;Lcom/vk/api/sdk/okhttp/LoggingPrefixer;)V
+	public fun <init> (ZLjava/util/Collection;Lcom/vk/api/sdk/utils/log/Logger;)V
+	public fun <init> (ZLjava/util/Collection;Lcom/vk/api/sdk/utils/log/Logger;Lcom/vk/api/sdk/okhttp/LoggingPrefixer;)V
+	public fun intercept (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
+	protected fun proceedLoggingChain (Lokhttp3/Interceptor$Chain;Lokhttp3/Interceptor;)Lokhttp3/Response;
+}
+
+public abstract interface class com/vk/api/sdk/okhttp/LoggingPrefixer {
+	public abstract fun getPrefix ()Ljava/lang/String;
+}
+
+public class com/vk/api/sdk/okhttp/OkHttpExecutor {
+	public static final field Companion Lcom/vk/api/sdk/okhttp/OkHttpExecutor$Companion;
+	public static final field MIME_APPLICATION Ljava/lang/String;
+	public fun <init> (Lcom/vk/api/sdk/okhttp/OkHttpExecutorConfig;)V
+	protected final fun checkAccessTokenIsIgnored (Ljava/lang/String;Ljava/lang/String;)V
+	protected fun checkNonSecretMethodCall (Lcom/vk/api/sdk/okhttp/OkHttpMethodCall;)V
+	protected fun createLoggingInterceptor (ZLcom/vk/api/sdk/utils/log/Logger;Lcom/vk/api/sdk/okhttp/LoggingPrefixer;)Lcom/vk/api/sdk/okhttp/LoggingInterceptor;
+	public fun execute (Lcom/vk/api/sdk/okhttp/OkHttpMethodCall;)Lcom/vk/api/sdk/okhttp/OkHttpExecutor$ExecutorResponse;
+	public final fun execute (Lcom/vk/api/sdk/okhttp/OkHttpPostCall;Lcom/vk/api/sdk/VKApiProgressListener;)Lcom/vk/api/sdk/okhttp/OkHttpExecutor$ExecutorResponse;
+	public final fun executeRequest (Lokhttp3/Request;)Lokhttp3/Response;
+	protected fun getActualAccessToken (Lcom/vk/api/sdk/okhttp/OkHttpMethodCall;)Ljava/lang/String;
+	protected fun getActualSecret (Lcom/vk/api/sdk/okhttp/OkHttpMethodCall;)Ljava/lang/String;
+	protected final fun getConfig ()Lcom/vk/api/sdk/okhttp/OkHttpExecutorConfig;
+	protected final fun getContext ()Landroid/content/Context;
+	public final fun getCredentials ()Lkotlin/Lazy;
+	public final fun getHost ()Ljava/lang/String;
+	public final fun getIgnoredAccessToken ()Ljava/lang/String;
+	public final fun getTokenContainsAndValid ()Z
+	public final fun ignoreAccessToken (Ljava/lang/String;)V
+	public final fun isLoggedIn ()Z
+	protected fun makePostCallRequestBuilder (Lcom/vk/api/sdk/okhttp/OkHttpPostCall;Lokhttp3/RequestBody;)Lokhttp3/Request$Builder;
+	public final fun readResponse (Lokhttp3/Response;)Lorg/json/JSONObject;
+	public final fun setCredentials (Ljava/util/List;)V
+	public final fun setCredentials (Lkotlin/Lazy;)V
+	protected final fun validateQueryString (Lcom/vk/api/sdk/okhttp/OkHttpMethodCall;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/okhttp/OkHttpExecutor$Companion {
+}
+
+public final class com/vk/api/sdk/okhttp/OkHttpExecutor$ExecutorResponse {
+	public fun <init> (Lorg/json/JSONObject;Lokhttp3/Headers;Ljava/lang/String;)V
+	public synthetic fun <init> (Lorg/json/JSONObject;Lokhttp3/Headers;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lorg/json/JSONObject;
+	public final fun component2 ()Lokhttp3/Headers;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Lorg/json/JSONObject;Lokhttp3/Headers;Ljava/lang/String;)Lcom/vk/api/sdk/okhttp/OkHttpExecutor$ExecutorResponse;
+	public static synthetic fun copy$default (Lcom/vk/api/sdk/okhttp/OkHttpExecutor$ExecutorResponse;Lorg/json/JSONObject;Lokhttp3/Headers;Ljava/lang/String;ILjava/lang/Object;)Lcom/vk/api/sdk/okhttp/OkHttpExecutor$ExecutorResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExecutorRequestAccessToken ()Ljava/lang/String;
+	public final fun getHeaders ()Lokhttp3/Headers;
+	public final fun getResponseBodyJson ()Lorg/json/JSONObject;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/okhttp/OkHttpExecutorConfig {
+	public fun <init> (Lcom/vk/api/sdk/VKApiConfig;)V
+	public final fun getAppId ()I
+	public final fun getContext ()Landroid/content/Context;
+	public final fun getCredentials ()Ljava/util/List;
+	public final fun getCustomEndpoint ()Ljava/lang/String;
+	public final fun getExpiresInReduceRatio ()D
+	public final fun getHostProvider ()Lkotlin/jvm/functions/Function0;
+	public final fun getLogFilterCredentials ()Z
+	public final fun getLogger ()Lcom/vk/api/sdk/utils/log/Logger;
+	public final fun getLoggingPrefixer ()Lcom/vk/api/sdk/okhttp/LoggingPrefixer;
+	public final fun getOkHttpProvider ()Lcom/vk/api/sdk/VKOkHttpProvider;
+	public final fun getResponseBodyJsonConverter ()Lcom/vk/api/sdk/response/ResponseBodyJsonConverter;
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/vk/api/sdk/okhttp/OkHttpMethodCall {
+	protected fun <init> (Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;)V
+	public final fun getAllowNoAuth ()Z
+	public final fun getArgs ()Ljava/util/Map;
+	public final fun getCustomTag ()Ljava/lang/Object;
+	public final fun getForceAnonymous ()Z
+	public final fun getForceRemoveAuth ()Z
+	public final fun getMethod ()Ljava/lang/String;
+	public final fun getRequestUrl ()Ljava/lang/String;
+	public final fun getRetryCount ()I
+	public final fun getSetEndpointPath ()Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;
+	public final fun getTag ()Lcom/vk/api/sdk/okhttp/RequestTag;
+	public final fun getVersion ()Ljava/lang/String;
+	public final fun isExtended ()Z
+	public final fun isMultipleTokens ()Z
+}
+
+public class com/vk/api/sdk/okhttp/OkHttpMethodCall$Builder {
+	public fun <init> ()V
+	public final fun allowNoAuth (Z)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public final fun args (Ljava/lang/String;)Ljava/lang/String;
+	public fun args (Ljava/lang/String;Ljava/lang/String;)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public fun args (Ljava/util/Map;)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public fun build ()Lcom/vk/api/sdk/okhttp/OkHttpMethodCall;
+	public final fun customTag (Ljava/lang/Object;)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public final fun forceAnonymous (Z)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public final fun forceRemoveAuth (Z)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public fun from (Lcom/vk/api/sdk/VKMethodCall;)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public final fun getAllowNoAuth ()Z
+	public final fun getArgs ()Ljava/util/Map;
+	public final fun getCustomTag ()Ljava/lang/Object;
+	public final fun getEndpointPath ()Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;
+	public final fun getForceAnonymous ()Z
+	public final fun getForceRemoveAuth ()Z
+	public final fun getMethod ()Ljava/lang/String;
+	public final fun getRequestUrl ()Ljava/lang/String;
+	public final fun getRetryCount ()I
+	public final fun getTag ()Lcom/vk/api/sdk/okhttp/RequestTag;
+	public final fun getVersion ()Ljava/lang/String;
+	public final fun isMultipleTokens ()Z
+	public final fun isMultipleTokens (Z)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public fun method (Ljava/lang/String;)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public final fun retryCount (I)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public fun setEndpointPath (Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public final fun tag (Lcom/vk/api/sdk/okhttp/RequestTag;)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public fun url (Ljava/lang/String;)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+	public fun version (Ljava/lang/String;)Lcom/vk/api/sdk/okhttp/OkHttpMethodCall$Builder;
+}
+
+public class com/vk/api/sdk/okhttp/OkHttpPostCall {
+	public fun <init> (Lcom/vk/api/sdk/VKHttpPostCall;)V
+	protected fun <init> (Lcom/vk/api/sdk/okhttp/OkHttpPostCall$Builder;)V
+	public final fun getParts ()Ljava/util/Map;
+	public final fun getTimeoutMs ()J
+	public final fun getUrl ()Ljava/lang/String;
+	public final fun isMultipart ()Z
+}
+
+public class com/vk/api/sdk/okhttp/OkHttpPostCall$Builder {
+	public fun <init> ()V
+	public fun build ()Lcom/vk/api/sdk/okhttp/OkHttpPostCall;
+	public final fun getParts ()Ljava/util/Map;
+	public final fun getTimeoutMs ()J
+	public final fun getUrl ()Ljava/lang/String;
+	public final fun isMultipart ()Z
+	public final fun multipart (Z)Lcom/vk/api/sdk/okhttp/OkHttpPostCall$Builder;
+	public final fun parts (Ljava/util/Map;)Lcom/vk/api/sdk/okhttp/OkHttpPostCall$Builder;
+	public final fun setTimeoutMs (J)V
+	public final fun timeout (J)Lcom/vk/api/sdk/okhttp/OkHttpPostCall$Builder;
+	public final fun url (Ljava/lang/String;)Lcom/vk/api/sdk/okhttp/OkHttpPostCall$Builder;
+}
+
+public final class com/vk/api/sdk/okhttp/ProgressRequestBody : okhttp3/RequestBody {
+	public static final field Companion Lcom/vk/api/sdk/okhttp/ProgressRequestBody$Companion;
+	public fun <init> (Lokhttp3/RequestBody;Lcom/vk/api/sdk/VKApiProgressListener;)V
+	public fun contentLength ()J
+	public fun contentType ()Lokhttp3/MediaType;
+	public fun isDuplex ()Z
+	public fun writeTo (Lokio/BufferedSink;)V
+}
+
+public final class com/vk/api/sdk/okhttp/ProgressRequestBody$Companion {
+}
+
+public final class com/vk/api/sdk/okhttp/RequestTag {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Long;)V
+	public fun <init> (Ljava/lang/Long;Ljava/lang/Boolean;)V
+	public fun <init> (Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;)V
+	public synthetic fun <init> (Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()Ljava/lang/Boolean;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/Integer;
+	public final fun copy (Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;)Lcom/vk/api/sdk/okhttp/RequestTag;
+	public static synthetic fun copy$default (Lcom/vk/api/sdk/okhttp/RequestTag;Ljava/lang/Long;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/vk/api/sdk/okhttp/RequestTag;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAwaitNetwork ()Ljava/lang/Boolean;
+	public final fun getReason ()Ljava/lang/String;
+	public final fun getRetryCount ()Ljava/lang/Integer;
+	public final fun getUid ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public final fun toMap ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/okhttp/UserAgentInterceptor : okhttp3/Interceptor {
+	public fun <init> (Lcom/vk/api/sdk/utils/UserAgentProvider;)V
+	public fun intercept (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
+}
+
+public class com/vk/api/sdk/requests/VKBooleanRequest : com/vk/api/sdk/requests/VKRequest {
+	public fun <init> (Ljava/lang/String;)V
+	public fun parse (Lorg/json/JSONObject;)Ljava/lang/Boolean;
+	public synthetic fun parse (Lorg/json/JSONObject;)Ljava/lang/Object;
+}
+
+public class com/vk/api/sdk/requests/VKRequest : com/vk/api/sdk/internal/ApiCommand, com/vk/api/sdk/VKApiJSONResponseParser {
+	public static final field Companion Lcom/vk/api/sdk/requests/VKRequest$Companion;
+	public static final field ERROR_MALFORMED_RESPONSE I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun addParam (Ljava/lang/CharSequence;Ljava/lang/Iterable;)Lcom/vk/api/sdk/requests/VKRequest;
+	public final fun addParam (Ljava/lang/CharSequence;Ljava/util/List;)Lcom/vk/api/sdk/requests/VKRequest;
+	public final fun addParam (Ljava/lang/CharSequence;[I)Lcom/vk/api/sdk/requests/VKRequest;
+	public final fun addParam (Ljava/lang/CharSequence;[Ljava/lang/Object;)Lcom/vk/api/sdk/requests/VKRequest;
+	public final fun addParam (Ljava/lang/String;F)Lcom/vk/api/sdk/requests/VKRequest;
+	public final fun addParam (Ljava/lang/String;I)Lcom/vk/api/sdk/requests/VKRequest;
+	public final fun addParam (Ljava/lang/String;J)Lcom/vk/api/sdk/requests/VKRequest;
+	public final fun addParam (Ljava/lang/String;Lcom/vk/dto/common/id/UserId;)Lcom/vk/api/sdk/requests/VKRequest;
+	public final fun addParam (Ljava/lang/String;Ljava/lang/String;)Lcom/vk/api/sdk/requests/VKRequest;
+	public final fun addParam (Ljava/lang/String;Z)Lcom/vk/api/sdk/requests/VKRequest;
+	public fun allowNoAuth ()Lcom/vk/api/sdk/requests/VKRequest;
+	protected fun createBaseCallBuilder (Lcom/vk/api/sdk/VKApiConfig;)Lcom/vk/api/sdk/VKMethodCall$Builder;
+	public fun forceAnonymous (Z)Lcom/vk/api/sdk/requests/VKRequest;
+	public fun forceRemoveAuth (Z)Lcom/vk/api/sdk/requests/VKRequest;
+	protected final fun getAllowNoAuth ()Z
+	public final fun getEndpointPath ()Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;
+	public final fun getForceAnonymous ()Z
+	public final fun getForceRemoveAuth ()Z
+	public final fun getMethod ()Ljava/lang/String;
+	public final fun getParams ()Ljava/util/LinkedHashMap;
+	public final fun getRequestApiVersion ()Ljava/lang/String;
+	protected final fun isAnonymous ()Z
+	public final fun isMultipleTokens ()Z
+	protected fun onExecute (Lcom/vk/api/sdk/VKApiManager;)Ljava/lang/Object;
+	public fun parse (Lorg/json/JSONObject;)Ljava/lang/Object;
+	protected final fun setAllowNoAuth (Z)V
+	public fun setAnonymous (Z)Lcom/vk/api/sdk/requests/VKRequest;
+	public fun setEndpointPath (Lcom/vk/api/sdk/VKApiConfig$EndpointPathName;)Lcom/vk/api/sdk/requests/VKRequest;
+	public fun setIsMultipleTokens (Z)Lcom/vk/api/sdk/requests/VKRequest;
+	public final fun setMethod (Ljava/lang/String;)V
+}
+
+public final class com/vk/api/sdk/requests/VKRequest$Companion {
+}
+
+public abstract interface class com/vk/api/sdk/response/JsonResponseTypeConverter {
+	public abstract fun convertResponseBody (Ljava/io/InputStream;)Lorg/json/JSONObject;
+	public abstract fun isSuitableForContentType (Ljava/lang/String;)Z
+}
+
+public final class com/vk/api/sdk/response/ResponseBodyJsonConverter {
+	public static final field Companion Lcom/vk/api/sdk/response/ResponseBodyJsonConverter$Companion;
+	public static final field FALLBACK_RESPONSE_KEY Ljava/lang/String;
+	public fun <init> (Ljava/util/List;)V
+	public final fun convertResponse (Ljava/io/InputStream;Ljava/lang/String;Ljava/lang/String;)Lorg/json/JSONObject;
+	public static synthetic fun convertResponse$default (Lcom/vk/api/sdk/response/ResponseBodyJsonConverter;Ljava/io/InputStream;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lorg/json/JSONObject;
+}
+
+public final class com/vk/api/sdk/response/ResponseBodyJsonConverter$Companion {
+}
+
+public final class com/vk/api/sdk/tokenrefresh/AccessTokenRefreshActionInternal {
+	public fun <init> (Lcom/vk/api/sdk/VKApiManager;)V
+	public final fun activateForce ()V
+	public final fun refresh (Lcom/vk/api/sdk/chain/ChainCall;Lcom/vk/api/sdk/chain/ChainArgs;)Ljava/lang/Object;
+}
+
+public abstract class com/vk/api/sdk/ui/VKBaseAuthActivity : android/app/Activity {
+	public static final field Companion Lcom/vk/api/sdk/ui/VKBaseAuthActivity$Companion;
+	public fun <init> ()V
+	public fun finish ()V
+	protected abstract fun handleRedirectUri (Landroid/net/Uri;)Landroid/content/Intent;
+	protected abstract fun handleStartAuth (Landroid/net/Uri;)Z
+	protected abstract fun isIntentWithAuthRequest (Landroid/content/Intent;)Z
+	protected fun onCreate (Landroid/os/Bundle;)V
+	protected fun onNewIntent (Landroid/content/Intent;)V
+	protected fun onPause ()V
+	protected fun onResume ()V
+	protected fun onSaveInstanceState (Landroid/os/Bundle;)V
+}
+
+public final class com/vk/api/sdk/ui/VKBaseAuthActivity$Companion {
+}
+
+public final class com/vk/api/sdk/ui/VKCaptchaActivity : android/app/Activity {
+	public static final field CAPTCHA_DEFAULT_HEIGHT F
+	public static final field CAPTCHA_DEFAULT_WIDTH F
+	public static final field Companion Lcom/vk/api/sdk/ui/VKCaptchaActivity$Companion;
+	public fun <init> ()V
+	public fun finish ()V
+}
+
+public final class com/vk/api/sdk/ui/VKCaptchaActivity$Companion {
+	public final fun getLastKey ()Ljava/lang/String;
+	public final fun setLastKey (Ljava/lang/String;)V
+	public final fun start (Landroid/content/Context;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;)V
+	public static synthetic fun start$default (Lcom/vk/api/sdk/ui/VKCaptchaActivity$Companion;Landroid/content/Context;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;ILjava/lang/Object;)V
+}
+
+public final class com/vk/api/sdk/ui/VKConfirmationActivity : android/app/Activity {
+	public static final field Companion Lcom/vk/api/sdk/ui/VKConfirmationActivity$Companion;
+	public fun <init> ()V
+	public fun finish ()V
+}
+
+public final class com/vk/api/sdk/ui/VKConfirmationActivity$Companion {
+	public final fun getResult ()Z
+	public final fun setResult (Z)V
+	public final fun start (Landroid/content/Context;Ljava/lang/String;)V
+}
+
+public class com/vk/api/sdk/ui/VKWebViewAuthActivity : android/app/Activity {
+	public static final field Companion Lcom/vk/api/sdk/ui/VKWebViewAuthActivity$Companion;
+	public static final field VK_EXTRA_AUTH_PARAMS Ljava/lang/String;
+	public static final field VK_RESULT_INTENT_NAME Ljava/lang/String;
+	public fun <init> ()V
+	protected fun getUrlParams ()Ljava/util/Map;
+	protected fun onCreate (Landroid/os/Bundle;)V
+	protected fun onDestroy ()V
+}
+
+public final class com/vk/api/sdk/ui/VKWebViewAuthActivity$Companion {
+	public final fun getValidationResult ()Lcom/vk/api/sdk/VKApiValidationHandler$Credentials;
+	public final fun setValidationResult (Lcom/vk/api/sdk/VKApiValidationHandler$Credentials;)V
+	public final fun startForAuth (Landroid/app/Activity;Lcom/vk/api/sdk/auth/VKAuthParams;I)V
+	public final fun startForValidation (Landroid/content/Context;Ljava/lang/String;)V
+}
+
+public final class com/vk/api/sdk/ui/VKWebViewAuthActivity$OAuthWebViewClient : android/webkit/WebViewClient {
+	public fun <init> (Lcom/vk/api/sdk/ui/VKWebViewAuthActivity;)V
+	public fun onPageFinished (Landroid/webkit/WebView;Ljava/lang/String;)V
+	public fun onPageStarted (Landroid/webkit/WebView;Ljava/lang/String;Landroid/graphics/Bitmap;)V
+	public fun onReceivedError (Landroid/webkit/WebView;ILjava/lang/String;Ljava/lang/String;)V
+	public fun onReceivedError (Landroid/webkit/WebView;Landroid/webkit/WebResourceRequest;Landroid/webkit/WebResourceError;)V
+	public fun onReceivedSslError (Landroid/webkit/WebView;Landroid/webkit/SslErrorHandler;Landroid/net/http/SslError;)V
+	public fun shouldOverrideUrlLoading (Landroid/webkit/WebView;Landroid/webkit/WebResourceRequest;)Z
+	public fun shouldOverrideUrlLoading (Landroid/webkit/WebView;Ljava/lang/String;)Z
+}
+
+public final class com/vk/api/sdk/utils/ApiExtKt {
+	public static final fun isOAuthBlank (Landroid/net/Uri;)Z
+	public static final fun set (Landroidx/collection/LongSparseArray;JLjava/lang/Object;)V
+}
+
+public abstract interface class com/vk/api/sdk/utils/ApiMethodPriorityBackoff {
+	public static final field Companion Lcom/vk/api/sdk/utils/ApiMethodPriorityBackoff$Companion;
+	public abstract fun clear ()V
+	public abstract fun isActive ()Z
+	public abstract fun newId ()I
+	public abstract fun onMethodCompleted (Ljava/lang/String;)V
+	public abstract fun onStartUpCompleted ()V
+	public abstract fun processMethod (ILjava/lang/String;)V
+	public abstract fun shouldWait (Ljava/lang/String;)Z
+}
+
+public final class com/vk/api/sdk/utils/ApiMethodPriorityBackoff$Companion {
+	public final fun getDEFAULT ()Lcom/vk/api/sdk/utils/ApiMethodPriorityBackoff;
+}
+
+public final class com/vk/api/sdk/utils/DefaultUserAgent : com/vk/api/sdk/utils/UserAgentProvider {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/graphics/Point;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Landroid/graphics/Point;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/graphics/Point;)Lcom/vk/api/sdk/utils/DefaultUserAgent;
+	public static synthetic fun copy$default (Lcom/vk/api/sdk/utils/DefaultUserAgent;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/graphics/Point;ILjava/lang/Object;)Lcom/vk/api/sdk/utils/DefaultUserAgent;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAppBuild ()Ljava/lang/String;
+	public final fun getAppVersion ()Ljava/lang/String;
+	public final fun getDisplaySize ()Landroid/graphics/Point;
+	public final fun getPrefix ()Ljava/lang/String;
+	public fun getUserAgent ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/vk/api/sdk/utils/ExponentialBackoff {
+	public static final field Companion Lcom/vk/api/sdk/utils/ExponentialBackoff$Companion;
+	public fun <init> ()V
+	public fun <init> (JJFFF)V
+	public synthetic fun <init> (JJFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public static final fun forNetworkWait ()Lcom/vk/api/sdk/utils/ExponentialBackoff;
+	public final fun getDelayMs ()J
+	public final fun getErrorsCount ()I
+	public final fun onCriticalError ()V
+	public final fun onError ()V
+	public final fun reset ()V
+	public final fun shouldWait ()Z
+	public final fun waitIfNeeded ()V
+}
+
+public final class com/vk/api/sdk/utils/ExponentialBackoff$Companion {
+	public final fun forNetworkWait ()Lcom/vk/api/sdk/utils/ExponentialBackoff;
+}
+
+public final class com/vk/api/sdk/utils/SecureInfoStripper {
+	public static final field Companion Lcom/vk/api/sdk/utils/SecureInfoStripper$Companion;
+	public static final field SENSITIVE_VALUE_PATTERN Ljava/lang/String;
+	public fun <init> ()V
+	public final fun strip (Ljava/lang/String;)Ljava/lang/String;
+	public final fun withRule (Lkotlin/text/Regex;Ljava/lang/String;)Lcom/vk/api/sdk/utils/SecureInfoStripper;
+	public final fun withRule (Lkotlin/text/Regex;Lkotlin/jvm/functions/Function1;)Lcom/vk/api/sdk/utils/SecureInfoStripper;
+}
+
+public final class com/vk/api/sdk/utils/SecureInfoStripper$Companion {
+	public final fun generateBaseStripper (Ljava/util/Collection;)Lcom/vk/api/sdk/utils/SecureInfoStripper;
+	public final fun getSIGN_STRIPPER_DEFAULT ()Lcom/vk/api/sdk/utils/SecureInfoStripper;
+}
+
+public final class com/vk/api/sdk/utils/StartUpMethodPriorityBackoffBaseImpl : com/vk/api/sdk/utils/ApiMethodPriorityBackoff {
+	public fun <init> (Ljava/util/Collection;Ljava/util/Collection;Ljava/util/Collection;ZZLcom/vk/api/sdk/utils/log/Logger;)V
+	public fun clear ()V
+	public fun isActive ()Z
+	public fun newId ()I
+	public fun onMethodCompleted (Ljava/lang/String;)V
+	public fun onStartUpCompleted ()V
+	public fun processMethod (ILjava/lang/String;)V
+	public fun shouldWait (Ljava/lang/String;)Z
+}
+
+public final class com/vk/api/sdk/utils/TokenExponentialBackoff {
+	public fun <init> (Lcom/vk/api/sdk/utils/TokenExponentialBackoff$TokenStore;JJFLkotlin/jvm/functions/Function0;)V
+	public synthetic fun <init> (Lcom/vk/api/sdk/utils/TokenExponentialBackoff$TokenStore;JJFLkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun backoff (Ljava/lang/String;)V
+	public final fun reset (Ljava/lang/String;)V
+	public final fun shouldWait (Ljava/lang/String;)Z
+	public final fun waitTime (Ljava/lang/String;)J
+}
+
+public final class com/vk/api/sdk/utils/TokenExponentialBackoff$TokenMemStore : com/vk/api/sdk/utils/TokenExponentialBackoff$TokenStore {
+	public fun <init> ()V
+	public fun has (Ljava/lang/String;)Z
+	public fun reset (Ljava/lang/String;)V
+	public fun restore (Ljava/lang/String;J)Lkotlin/Pair;
+	public fun store (Ljava/lang/String;J)V
+}
+
+public final class com/vk/api/sdk/utils/TokenExponentialBackoff$TokenPrefStore : com/vk/api/sdk/utils/TokenExponentialBackoff$TokenStore {
+	public static final field Companion Lcom/vk/api/sdk/utils/TokenExponentialBackoff$TokenPrefStore$Companion;
+	public fun <init> (Landroid/content/Context;)V
+	public fun has (Ljava/lang/String;)Z
+	public fun reset (Ljava/lang/String;)V
+	public fun restore (Ljava/lang/String;J)Lkotlin/Pair;
+	public fun store (Ljava/lang/String;J)V
+}
+
+public final class com/vk/api/sdk/utils/TokenExponentialBackoff$TokenPrefStore$Companion {
+}
+
+public abstract interface class com/vk/api/sdk/utils/TokenExponentialBackoff$TokenStore {
+	public abstract fun has (Ljava/lang/String;)Z
+	public abstract fun reset (Ljava/lang/String;)V
+	public abstract fun restore (Ljava/lang/String;J)Lkotlin/Pair;
+	public abstract fun store (Ljava/lang/String;J)V
+}
+
+public abstract interface class com/vk/api/sdk/utils/UserAgentProvider {
+	public abstract fun getUserAgent ()Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/utils/VKApiCredentialsExtKt {
+	public static final fun activeAccessToken (Ljava/util/List;)Ljava/lang/String;
+	public static final fun activeCreatedMs (Ljava/util/List;)J
+	public static final fun activeExpiresInSec (Ljava/util/List;)I
+	public static final fun activeSecret (Ljava/util/List;)Ljava/lang/String;
+	public static final fun activeUserId (Ljava/util/List;)Lcom/vk/dto/common/id/UserId;
+}
+
+public final class com/vk/api/sdk/utils/VKUrlResolver {
+	public static final field Companion Lcom/vk/api/sdk/utils/VKUrlResolver$Companion;
+	public final fun open (Landroid/content/Context;Ljava/lang/String;)V
+}
+
+public final class com/vk/api/sdk/utils/VKUrlResolver$Companion {
+}
+
+public final class com/vk/api/sdk/utils/VKUtils {
+	public static final field INSTANCE Lcom/vk/api/sdk/utils/VKUtils;
+	public final fun clearAllCookies ()V
+	public final fun density ()F
+	public final fun dp (I)I
+	public static final fun explodeQueryString (Ljava/lang/String;)Ljava/util/Map;
+	public static final fun getCertificateFingerprint (Landroid/content/Context;Ljava/lang/String;)[Ljava/lang/String;
+	public final fun getDisplayMetrics ()Landroid/util/DisplayMetrics;
+	public final fun getPhysicalDisplaySize (Landroid/content/Context;)Landroid/graphics/Point;
+	public final fun height (Landroid/content/Context;)I
+	public static final fun isAppEnabled (Landroid/content/Context;Ljava/lang/String;)Z
+	public static final fun isAppInstalled (Landroid/content/Context;Ljava/lang/String;)Z
+	public static final fun isIntentAvailable (Landroid/content/Context;Ljava/lang/String;Landroid/net/Uri;Ljava/lang/String;)Z
+	public static final fun toHumanReadableAscii (Ljava/lang/String;)Ljava/lang/String;
+	public final fun width (Landroid/content/Context;)I
+}
+
+public final class com/vk/api/sdk/utils/VKUtils$MD5 {
+	public static final field INSTANCE Lcom/vk/api/sdk/utils/VKUtils$MD5;
+	public static final fun convert (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class com/vk/api/sdk/utils/VKValidationLocker {
+	public static final field INSTANCE Lcom/vk/api/sdk/utils/VKValidationLocker;
+	public final fun await ()V
+	public final fun signal ()V
+}
+
+public class com/vk/api/sdk/utils/log/DefaultApiLogger : com/vk/api/sdk/utils/log/Logger {
+	public fun <init> (Lkotlin/Lazy;Ljava/lang/String;)V
+	public fun getLogLevel ()Lkotlin/Lazy;
+	public fun getTag ()Ljava/lang/String;
+	public fun log (Lcom/vk/api/sdk/utils/log/Logger$LogLevel;Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun setLogLevel (Lkotlin/Lazy;)V
+}
+
+public abstract interface class com/vk/api/sdk/utils/log/Logger {
+	public static final field Companion Lcom/vk/api/sdk/utils/log/Logger$Companion;
+	public static final field LOGGER_ENTRY_MAX_LEN I
+	public abstract fun getLogLevel ()Lkotlin/Lazy;
+	public abstract fun getTag ()Ljava/lang/String;
+	public abstract fun log (Lcom/vk/api/sdk/utils/log/Logger$LogLevel;Ljava/lang/String;Ljava/lang/Throwable;)V
+}
+
+public final class com/vk/api/sdk/utils/log/Logger$Companion {
+	public static final field LOGGER_ENTRY_MAX_LEN I
+}
+
+public final class com/vk/api/sdk/utils/log/Logger$DefaultImpls {
+	public static synthetic fun log$default (Lcom/vk/api/sdk/utils/log/Logger;Lcom/vk/api/sdk/utils/log/Logger$LogLevel;Ljava/lang/String;Ljava/lang/Throwable;ILjava/lang/Object;)V
+}
+
+public final class com/vk/api/sdk/utils/log/Logger$LogLevel : java/lang/Enum {
+	public static final field DEBUG Lcom/vk/api/sdk/utils/log/Logger$LogLevel;
+	public static final field ERROR Lcom/vk/api/sdk/utils/log/Logger$LogLevel;
+	public static final field NONE Lcom/vk/api/sdk/utils/log/Logger$LogLevel;
+	public static final field VERBOSE Lcom/vk/api/sdk/utils/log/Logger$LogLevel;
+	public static final field WARNING Lcom/vk/api/sdk/utils/log/Logger$LogLevel;
+	public final fun getLevel ()I
+	public static fun valueOf (Ljava/lang/String;)Lcom/vk/api/sdk/utils/log/Logger$LogLevel;
+	public static fun values ()[Lcom/vk/api/sdk/utils/log/Logger$LogLevel;
+}
+
+public final class com/vk/api/sdk/utils/tmr/TooManyRequestBackoffEmpty : com/vk/api/sdk/utils/tmr/TooManyRequestLimitBackoff {
+	public static final field INSTANCE Lcom/vk/api/sdk/utils/tmr/TooManyRequestBackoffEmpty;
+	public fun waitBeforeCall (IJ)V
+}
+
+public final class com/vk/api/sdk/utils/tmr/TooManyRequestBackoffGlobal : com/vk/api/sdk/utils/tmr/TooManyRequestLimitBackoff {
+	public static final field INSTANCE Lcom/vk/api/sdk/utils/tmr/TooManyRequestBackoffGlobal;
+	public fun waitBeforeCall (IJ)V
+}
+
+public abstract interface class com/vk/api/sdk/utils/tmr/TooManyRequestLimitBackoff {
+	public abstract fun waitBeforeCall (IJ)V
+}
+

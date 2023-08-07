@@ -28,13 +28,18 @@
 package com.vk.sdk.api.execute
 
 import com.vk.api.sdk.requests.VKRequest
+import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import kotlin.Unit
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import kotlin.Any
 
 class ExecuteService {
     /**
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [Any]
      */
-    fun execute(): VKRequest<Unit> = NewApiRequest("execute") {
+    fun execute(): VKRequest<Any> = NewApiRequest("execute") {
+        GsonHolder.gson.parse<Any>(it)
     }
 }

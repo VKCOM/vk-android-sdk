@@ -5,6 +5,6 @@
     <string name="share_to_wall">Devorga jo‘natish</string>
     <string name="message_hint">Xabaringiz</string>
     <string name="wall_ok">Qayd chop etildi</string>
-    <string name="message_connection_error">Bog\‘lanish xatosi</string>
-    <string name="message_unknown_error">Noma\'lum xato, kechroq qayta urunib ko\‘ring</string>
+    <string name="message_connection_error">Tarmoq xatosi</string>
+    <string name="message_unknown_error">Noma’lum xato, kechroq qayta urunib ko‘ring</string>
 </resources>

@@ -25,6 +25,7 @@
 package com.vk.api.sdk
 
 import com.vk.api.sdk.exceptions.VKApiExecutionException
+import com.vk.dto.common.id.UserId
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.atomic.AtomicReference
 
@@ -64,7 +65,7 @@ interface VKApiValidationHandler {
         }
     }
 
-    class Credentials(val secret: String?, val token: String?, val uid: Int?, val expiresInSec: Int, val createdMs: Long) {
+    class Credentials(val secret: String?, val token: String?, val uid: UserId?, val expiresInSec: Int, val createdMs: Long) {
         val isValid = !token.isNullOrBlank()
 
         companion object {
@@ -91,6 +92,8 @@ interface VKApiValidationHandler {
     data class Captcha(
         val img: String,
         val height: Int?,
-        val width: Int?
+        val width: Int?,
+        val ratio: Double?,
+        val isRefreshEnabled: Boolean
     )
 }

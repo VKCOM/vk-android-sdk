@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiCallback
+import com.vk.api.sdk.VKHost
 import com.vk.sdk.api.friends.FriendsService
 import com.vk.sdk.api.friends.dto.FriendsGetFieldsResponseDto
 import com.vk.sdk.api.users.dto.UsersFieldsDto
@@ -96,7 +97,7 @@ class UserActivity: Activity() {
     }
 
     private fun requestFriends() {
-        val fields = listOf(UsersFieldsDto.PHOTO_200)
+        val fields = listOf(UsersFieldsDto.PHOTO_200, UsersFieldsDto.IS_NFT)
         VK.execute(FriendsService().friendsGet(fields = fields), object: VKApiCallback<FriendsGetFieldsResponseDto> {
             override fun success(result: FriendsGetFieldsResponseDto) {
                 val friends = result.items
@@ -155,7 +156,6 @@ class UserActivity: Activity() {
         }
         VK.execute(VKWallPostCommand(messageField.text.toString(), photos), object: VKApiCallback<Int> {
             override fun success(result: Int) {
-                // TODO Use ToastUtils
                 Toast.makeText(this@UserActivity, R.string.wall_ok, Toast.LENGTH_SHORT).show()
             }
 
@@ -166,7 +166,7 @@ class UserActivity: Activity() {
     }
 
     private fun createOnClickListener(userId: Long) = View.OnClickListener {
-        VK.urlResolver.open(it.context, "https://vk.com/id$userId")
+        VK.urlResolver.open(it.context, "https://${VKHost.host}/id$userId")
     }
 
     inner class FriendsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {

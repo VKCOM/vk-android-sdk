@@ -27,8 +27,8 @@
   ~ THIRD PARTIES FOR ANY DAMAGE IN CONNECTION WITH USE OF THE SOFTWARE.
 -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="vk_retry" tools:ignore="UnusedResources">Retry</string>
-    <string name="vk_captcha_hint">Please enter the code from the picture</string>
-    <string name="vk_confirm">Please confirm</string>
-    <string name="vk_message_login_error">Login error occurred</string>
+    <string name="vk_retry" tools:ignore="UnusedResources">Повторить</string>
+    <string name="vk_captcha_hint">Введите код с картинки</string>
+    <string name="vk_confirm">Подтверждение</string>
+    <string name="vk_message_login_error">Произошла ошибка авторизации</string>
 </resources>

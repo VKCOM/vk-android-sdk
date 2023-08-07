@@ -26,6 +26,7 @@ package com.vk.api.sdk.exceptions
 
 object VKApiCodes {
     const val CODE_COMPOSITE_EXECUTE_ERROR = Int.MIN_VALUE
+    const val CODE_COMPOSITE_MULTI_REQUEST_ERROR = CODE_COMPOSITE_EXECUTE_ERROR + 1
     const val CODE_MALFORMED_RESPONSE = -3
     const val CODE_IGNORED_ACCESS_TOKEN = -2
     const val CODE_IO_ERROR = -1
@@ -55,9 +56,18 @@ object VKApiCodes {
     const val CODE_TOKEN_CONFIRMATION_REQUIRED = 25
     const val CODE_RATE_LIMIT_REACHED = 29
     const val CODE_PRIVATE_PROFILE = 30
+    const val CODE_NOT_IMPLEMENTED = 33
     const val CODE_CLIENT_VERSION_DEPRECATED = 34
     const val CODE_CLIENT_UPDATE_NEEDED = 35
+    const val CODE_SECTION_TEMPORARY_UNAVAILABLE = 43
     const val CODE_REQUIRED_ARG_NOT_FOUND = 100
+    const val SUBCODE_INVALID_BIRTHDAY_TOO_OLD = 1105
+    const val SUBCODE_INVALID_BIRTHDAY_TOO_YOUNG = 1106
+    const val SUBCODE_INVALID_BIRTHDAY_TOO_YOUNG_VERIFICATION = 1136
+    const val SUBCODE_NO_AVAILABLE_WAYS_TO_VALIDATE = 1129
+
+    const val SUBCODE_PASSKEY_AUTH_ERROR = 1130
+
     const val CODE_INVALID_APP_IDENTIFIER = 101
 
     const val CODE_ERROR_LIMITS = 103
@@ -65,6 +75,7 @@ object VKApiCodes {
 
     const val CODE_TOO_MANY_CHAT_USERS = CODE_ERROR_LIMITS
     const val CODE_NOT_FOUND = 104
+    const val CODE_USER_HAS_NEITHER_PASSWORD_NOR_PHONE = 106
     const val CODE_INVALID_USER_IDENTIFIER = 113
     const val CODE_INVALID_PHOTO_FORMAT = 129
     const val CODE_INVALID_TIMESTAMP = 150
@@ -102,12 +113,15 @@ object VKApiCodes {
     const val CODE_MSG_DELETE_FOR_ALL_FAILED = 924
     const val CODE_CHAT_NOT_ADMIN = 925
     const val CODE_CHAT_DOES_NOT_EXIST = 927
+    const val CODE_YOUR_COMMUNITY_CANT_INTERACT_WITH_THIS_PEER = 932
+    const val CODE_CONTACT_NOT_FOUND = 936
+    const val CODE_TOO_MANY_CONTACTS_TO_SYNC = 937
     const val CODE_CHAT_MR_ALREADY_SEND = 939
+    const val CODE_CHAT_WAS_DISABLED = 945
+    const val CODE_CHAT_NOT_SUPPORTED = 946
     const val CODE_ADD_CHAT_MEMBER_ACCESS_TO_GROUP_DENIED = 947
     const val CODE_CALL_HAS_BEEN_FINISHED = 951
     const val CODE_CALL_INVALID_SECRET = 952
-
-    const val CODE_TOO_MANY_CONTACTS_TO_SYNC = 937
 
     const val CODE_INVALID_NAME = 953
     const val CODE_INVALID_JOIN_LINK = 954
@@ -117,6 +131,7 @@ object VKApiCodes {
     const val CODE_CALL_LINK_OUTDATED = 961
     const val CODE_CHAT_ALREADY_IN_ARCHIVE = 964
     const val CODE_CHAT_NOT_IN_ARCHIVE = 965
+    const val CODE_USER_CANT_BE_ADDED_TO_WORK_CHAT_NOT_EMPLOYEE = 967
 
     const val CODE_TRANSLATE_UNSUPPORTED_LANGUAGE = 968
     const val CODE_TRANSLATE_INVALID_MESSAGE = 971
@@ -178,12 +193,21 @@ object VKApiCodes {
 
     const val CODE_CHANNEL_INVITE_LINK_INVALID = 7401
     const val CODE_CHANNEL_USER_ALREADY_JOINED = 7402
+    const val CODE_ERROR_USER_IS_NOT_LINKED = 8201
+    const val CODE_ERROR_USER_IS_DELETED = 8202
+    const val CODE_ERROR_USER_IS_UNTRUSTED = 8203
+    const val CODE_ERROR_INVALID_EXTERNAL_USER_DATA = 8209
+    const val CODE_ERROR_OAUTH_ENTITY_IS_ALREADY_LINKED = 8206
 
     const val EXTRA_CAPTCHA_SID = "captcha_sid"
     const val EXTRA_CAPTCHA_KEY = "captcha_key"
     const val EXTRA_CAPTCHA_IMG = "captcha_img"
     const val EXTRA_CAPTCHA_IMG_HEIGHT = "captcha_height"
     const val EXTRA_CAPTCHA_IMG_WIDTH = "captcha_width"
+    const val EXTRA_CAPTCHA_RATIO = "captcha_ratio"
+    const val EXTRA_CAPTCHA_ATTEMPT = "captcha_attempt"
+    const val EXTRA_CAPTCHA_TIMESTAMP = "captcha_ts"
+    const val EXTRA_CAPTCHA_IS_REFRESH_ENABLED = "is_refresh_enabled"
     const val EXTRA_CONFIRM = "confirm"
     const val EXTRA_VALIDATION_URL = "validation_url"
     const val EXTRA_USER_BAN_INFO = "user_ban_info"
@@ -198,6 +222,7 @@ object VKApiCodes {
     const val PARAM_REDIRECT_URI = "redirect_uri"
     const val PARAM_CONFIRM_TEXT = "confirmation_text"
     const val PARAM_ERROR = "error"
+    const val PARAM_ERROR_MULTI = "errors"
     const val PARAM_ERROR_CODE = "error_code"
     const val PARAM_EXECUTE_ERRORS = "execute_errors"
     const val PARAM_BAN_INFO = "ban_info"

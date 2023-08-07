@@ -62,8 +62,10 @@ class SecureInfoStripper {
     }
 
     companion object {
-        private val DEFAULT_KEYS = listOf("sign", "key", "access_token", "webview_access_token", "webview_refresh_token")
-        const val SENSITIVE_VALUE_PATTERN = "[a-zA-Z0-9._-]+"
+        private val DEFAULT_KEYS = listOf(
+            "sign", "key", "access_token", "webview_access_token", "webview_refresh_token", "exchange_token", "exchange_tokens", "common_token"
+        )
+        const val SENSITIVE_VALUE_PATTERN = "[a-zA-Z0-9._%-]+"
 
         val SIGN_STRIPPER_DEFAULT = generateBaseStripper(DEFAULT_KEYS)
 

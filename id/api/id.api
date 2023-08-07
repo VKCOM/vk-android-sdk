@@ -1,0 +1,56 @@
+public final class com/vk/dto/common/id/UserId : android/os/Parcelable {
+	public static final field CREATOR Landroid/os/Parcelable$Creator;
+	public static final field Companion Lcom/vk/dto/common/id/UserId$Companion;
+	public static final field DEFAULT Lcom/vk/dto/common/id/UserId;
+	public fun <init> (J)V
+	public fun <init> (Landroid/os/Parcel;)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/vk/dto/common/id/UserId;
+	public static synthetic fun copy$default (Lcom/vk/dto/common/id/UserId;JILjava/lang/Object;)Lcom/vk/dto/common/id/UserId;
+	public fun describeContents ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public static final fun fromLegacyValue (I)Lcom/vk/dto/common/id/UserId;
+	public static final fun fromLegacyValues (Ljava/util/Collection;)Ljava/util/List;
+	public final fun getValue ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public fun writeToParcel (Landroid/os/Parcel;I)V
+}
+
+public final class com/vk/dto/common/id/UserId$Companion {
+	public final fun fromLegacyValue (I)Lcom/vk/dto/common/id/UserId;
+	public final fun fromLegacyValues (Ljava/util/Collection;)Ljava/util/List;
+	public final fun removeLegacyGlobalObserver ()V
+	public final fun setLegacyGlobalObserver (Lkotlin/jvm/functions/Function0;)V
+}
+
+public final class com/vk/dto/common/id/UserId$GsonSerializer : com/google/gson/JsonDeserializer, com/google/gson/JsonSerializer {
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun deserialize (Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Lcom/vk/dto/common/id/UserId;
+	public synthetic fun deserialize (Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Ljava/lang/Object;
+	public fun serialize (Lcom/vk/dto/common/id/UserId;Ljava/lang/reflect/Type;Lcom/google/gson/JsonSerializationContext;)Lcom/google/gson/JsonElement;
+	public synthetic fun serialize (Ljava/lang/Object;Ljava/lang/reflect/Type;Lcom/google/gson/JsonSerializationContext;)Lcom/google/gson/JsonElement;
+}
+
+public final class com/vk/dto/common/id/UserIdKt {
+	public static final fun abs (Lcom/vk/dto/common/id/UserId;)Lcom/vk/dto/common/id/UserId;
+	public static final fun isGroupId (Lcom/vk/dto/common/id/UserId;)Z
+	public static final fun isReal (Lcom/vk/dto/common/id/UserId;)Z
+	public static final fun isUserId (Lcom/vk/dto/common/id/UserId;)Z
+	public static final fun legacyValue (Lcom/vk/dto/common/id/UserId;)I
+	public static final fun mapLegacyValues (Ljava/util/List;)Ljava/util/List;
+	public static final fun negative (Lcom/vk/dto/common/id/UserId;)Lcom/vk/dto/common/id/UserId;
+	public static final fun toLegacyUserId (I)Lcom/vk/dto/common/id/UserId;
+	public static final fun toUserId (J)Lcom/vk/dto/common/id/UserId;
+	public static final fun unaryMinus (Lcom/vk/dto/common/id/UserId;)Lcom/vk/dto/common/id/UserId;
+}
+
+public final class com/vk/sdk/id/BuildConfig {
+	public static final field BUILD_TYPE Ljava/lang/String;
+	public static final field DEBUG Z
+	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
+	public fun <init> ()V
+}
+

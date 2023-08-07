@@ -35,6 +35,7 @@ object QueryStringGenerator {
 
     private val strBuilder by threadLocal { StringBuilder() }
 
+    @Suppress("detekt.LongParameterList") // TODO: ANDC-13920
     /**
      * Build signed query for api method (adds sig param if secret is not null).
      *
@@ -44,17 +45,23 @@ object QueryStringGenerator {
         methodName: String,
         methodArgs: Map<String, String>,
         methodVersion: String,
-        accessToken: String?,
+        activeAccessToken: String?,
         secret: String?,
-        appId: Int
+        appId: Int,
+        isMultipleTokens: Boolean = false,
+        accessTokens: Collection<String> = emptySet(),
+        forceAnonymous: Boolean
     ): String {
         return buildSignedQueryString(
             path = "/method/$methodName",
             args = methodArgs,
             version = methodVersion,
-            accessToken = accessToken,
+            activeAccessToken = activeAccessToken,
             secret = secret,
-            appId = appId
+            appId = appId,
+            isMultipleTokens = isMultipleTokens,
+            accessTokens = accessTokens,
+            forceAnonymous = forceAnonymous
         )
     }
 
@@ -69,18 +76,24 @@ object QueryStringGenerator {
     fun buildNotSignedQueryString(
         args: Map<String, String>,
         version: String,
-        accessToken: String? = null,
+        activeAccessToken: String? = null,
         appId: Int = 0,
-        arrayArgs: Map<String, List<String>> = emptyMap()
+        arrayArgs: Map<String, List<String>> = emptyMap(),
+        isMultipleTokens: Boolean = false,
+        accessTokens: Collection<String> = emptySet(),
+        forceAnonymous: Boolean = false
     ): String {
         return buildSignedQueryString(
             path = "",
             args = args,
             version = version,
-            accessToken = accessToken,
+            activeAccessToken = activeAccessToken,
             secret = null,
             appId = appId,
-            arrayArgs = arrayArgs
+            arrayArgs = arrayArgs,
+            isMultipleTokens = isMultipleTokens,
+            accessTokens = accessTokens,
+            forceAnonymous = forceAnonymous
         )
     }
 
@@ -96,20 +109,24 @@ object QueryStringGenerator {
         path: String,
         args: Map<String, String>,
         version: String,
-        accessToken: String? = null,
+        activeAccessToken: String? = null,
         secret: String? = null,
         appId: Int = 0,
-        arrayArgs: Map<String, List<String>> = emptyMap()
+        arrayArgs: Map<String, List<String>> = emptyMap(),
+        isMultipleTokens: Boolean = false,
+        accessTokens: Collection<String> = emptySet(),
+        forceAnonymous: Boolean = false
     ): String {
         // Добавляем параметры, которые нужны всем запросам:
         // Версию api, https=1 (что-то legacy, которое лучше не трогать), AT или api_id
         val actualArgs = args.toMutableMap()
         actualArgs["v"] = version
         actualArgs["https"] = "1"
-        if (!accessToken.isNullOrEmpty()) {
-            actualArgs["access_token"] = accessToken
-        } else if (appId != 0) {
-            actualArgs["api_id"] = appId.toString()
+
+        when {
+            isMultipleTokens -> actualArgs["access_tokens"] = accessTokens.joinToString(separator = ",")
+            !activeAccessToken.isNullOrBlank() && !forceAnonymous -> actualArgs["access_token"] = activeAccessToken
+            appId != 0 -> actualArgs["api_id"] = appId.toString()
         }
 
         return buildSignedQueryStringForce(path, actualArgs, secret, arrayArgs)

@@ -30,11 +30,19 @@ import com.vk.api.sdk.VKApiCredentials
 import com.vk.api.sdk.VKApiProgressListener
 import com.vk.api.sdk.VKHost
 import com.vk.api.sdk.VKOkHttpProvider
-import com.vk.api.sdk.exceptions.*
+import com.vk.api.sdk.exceptions.IgnoredAccessTokenException
+import com.vk.api.sdk.exceptions.VKApiCodes
+import com.vk.api.sdk.exceptions.VKApiException
+import com.vk.api.sdk.exceptions.VKApiExecutionException
+import com.vk.api.sdk.exceptions.VKInternalServerErrorException
+import com.vk.api.sdk.exceptions.VKLargeEntityException
 import com.vk.api.sdk.internal.HttpMultipartEntry
 import com.vk.api.sdk.internal.QueryStringGenerator
+import com.vk.api.sdk.utils.SecureInfoStripper
+import com.vk.api.sdk.utils.activeAccessToken
+import com.vk.api.sdk.utils.activeExpiresInSec
+import com.vk.api.sdk.utils.activeSecret
 import com.vk.api.sdk.utils.log.Logger
-import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -42,6 +50,13 @@ import org.json.JSONObject
 import java.io.IOException
 import java.net.HttpURLConnection.HTTP_ENTITY_TOO_LARGE
 import java.net.URLEncoder
+import okhttp3.CacheControl
+import okhttp3.Headers
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
 
 open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
     protected val context = config.context
@@ -57,34 +72,39 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         get() = config.hostProvider()
 
     @Volatile
-    private var credentialsProvider = VKApiCredentials.lazyFrom(config.accessToken, config.secret, config.expiresInSec, config.createdMs)
+    var credentials: Lazy<List<VKApiCredentials>> = config.credentials
+
+    private val secureInfoStripper = lazy {
+        SecureInfoStripper.generateBaseStripper(
+            setOf("accessToken")
+        )
+    }
 
     private val reducedExpiresInSec: Int
-        get() = (expiresInSec * config.expiresInReduceRatio).toInt() // -x%
-    val accessToken: String
-        get() = credentialsProvider.value.accessToken
-    val secret: String?
-        get() = credentialsProvider.value.secret
-    val expiresInSec: Int
-        get() = credentialsProvider.value.expiresInSec
-    val createdMs: Long
-        get() = credentialsProvider.value.createdMs
+        get() = (credentials.value.activeExpiresInSec() * config.expiresInReduceRatio).toInt() // -x%
     val isLoggedIn: Boolean
-        get() = accessToken.isNotBlank()
+        get() = credentials.value.activeAccessToken().isNotBlank()
     val tokenContainsAndValid: Boolean
-        get() = accessToken.isNotBlank() && (expiresInSec <= 0 || createdMs + reducedExpiresInSec * 1000 > System.currentTimeMillis())
+        get() = credentials.value.all { tokenContainsAndValid(it) }
+    private fun tokenContainsAndValid(credentials: VKApiCredentials): Boolean =
+        credentials.accessToken.isNotBlank() && (credentials.expiresInSec <= 0 || credentials.createdMs + credentials.expiresInSec * config.expiresInReduceRatio * 1000 > System.currentTimeMillis())
 
     private val customEndpoint = config.customEndpoint
 
-    @Volatile var ignoredAccessToken: String? = null
+    @Volatile
+    var ignoredAccessToken: String? = null
         private set
 
-    fun setCredentials(accessToken: String, secret: String?, expiresInSec: Int, createdMs: Long) {
-        this.credentialsProvider = VKApiCredentials.lazyFrom(accessToken, secret, expiresInSec, createdMs)
+    fun setCredentials(credentials: List<VKApiCredentials>) {
+        log(credentials.toString())
+        this.credentials = lazy { credentials }
     }
 
-    internal fun setCredentials(credentialsProvider: Lazy<VKApiCredentials>) {
-        this.credentialsProvider = credentialsProvider
+    internal fun setCredentials(credentials: Lazy<List<VKApiCredentials>>) {
+        if (credentials.isInitialized()) {
+            log(credentials.value.toString())
+        }
+        this.credentials = credentials
     }
 
     fun ignoreAccessToken(accessToken: String?) {
@@ -93,17 +113,21 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
 
     @Throws(InterruptedException::class, IOException::class, VKApiException::class)
     open fun execute(call: OkHttpMethodCall): ExecutorResponse {
-
         val actualAccessToken = getActualAccessToken(call)
-
         checkAccessTokenIsIgnored(call.method, actualAccessToken)
-
         val actualSecret = getActualSecret(call)
-        
         checkNonSecretMethodCall(call)
 
         val queryString = QueryStringGenerator.buildSignedQueryStringForMethod(
-            call.method, call.args, call.version, actualAccessToken, actualSecret, config.appId
+            methodName = call.method,
+            methodArgs = call.args,
+            methodVersion = call.version,
+            activeAccessToken = actualAccessToken,
+            secret = actualSecret,
+            appId = config.appId,
+            isMultipleTokens = call.isMultipleTokens,
+            accessTokens = credentials.value.map { it.accessToken },
+            forceAnonymous = call.forceAnonymous
         )
         val requestBody = validateQueryString(call, queryString).toRequestBody(MIME_APPLICATION.toMediaTypeOrNull())
 
@@ -119,7 +143,7 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         }
 
         val request = requestBuilder.build()
-        val executorAccessToken = accessToken
+        val executorAccessToken = credentials.value.activeAccessToken()
         val okHttpResponse = executeRequest(request)
         return ExecutorResponse(readResponse(okHttpResponse), okHttpResponse.headers, executorAccessToken)
     }
@@ -195,8 +219,8 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
         }
     }
 
-    protected open fun getActualAccessToken(call: OkHttpMethodCall): String? = accessToken
-    protected open fun getActualSecret(call: OkHttpMethodCall): String? = secret
+    protected open fun getActualAccessToken(call: OkHttpMethodCall): String? = credentials.value.activeAccessToken()
+    protected open fun getActualSecret(call: OkHttpMethodCall): String? = credentials.value.activeSecret()
 
     @Throws(IgnoredAccessTokenException::class)
     protected fun checkAccessTokenIsIgnored(method: String, requestAccessToken: String?) {
@@ -251,6 +275,10 @@ open class OkHttpExecutor(protected val config: OkHttpExecutorConfig) {
 
     private fun convertFileNameToSafeValue(fileName: String): String {
         return URLEncoder.encode(fileName.replace("\"", "\\\""), UTF_8)
+    }
+
+    private fun log(message: String) {
+        config.logger.log(Logger.LogLevel.VERBOSE, "[SET CREDENTIALS IN API] ${secureInfoStripper.value.strip(message)}")
     }
 
     data class ExecutorResponse(

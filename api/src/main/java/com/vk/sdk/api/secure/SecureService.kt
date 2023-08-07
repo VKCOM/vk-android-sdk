@@ -27,20 +27,23 @@
 // *********************************************************************
 package com.vk.sdk.api.secure
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseBoolInt
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.secure.dto.SecureGiveEventStickerItem
-import com.vk.sdk.api.secure.dto.SecureLevel
-import com.vk.sdk.api.secure.dto.SecureSmsNotification
-import com.vk.sdk.api.secure.dto.SecureTokenChecked
-import com.vk.sdk.api.secure.dto.SecureTransaction
+import com.vk.sdk.api.base.dto.BaseBoolIntDto
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.secure.dto.SecureGiveEventStickerItemDto
+import com.vk.sdk.api.secure.dto.SecureLevelDto
+import com.vk.sdk.api.secure.dto.SecureSmsNotificationDto
+import com.vk.sdk.api.secure.dto.SecureTokenCheckedDto
+import com.vk.sdk.api.secure.dto.SecureTransactionDto
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -48,23 +51,23 @@ class SecureService {
     /**
      * Adds user activity information to an application
      *
-     * @param userId - ID of a user to save the data
      * @param activityId - there are 2 default activities_ , * 1 - level. Works similar to ,, * 2 -
      * points, saves points amount, Any other value is for saving completed missions
+     * @param userId - ID of a user to save the data
      * @param value - depends on activity_id_ * 1 - number, current level number,, * 2 - number,
      * current user's points amount, , Any other value is ignored
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun secureAddAppEvent(
-        userId: UserId,
         activityId: Int,
+        userId: UserId? = null,
         value: Int? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("secure.addAppEvent") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("secure.addAppEvent") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
-        addParam("user_id", userId, min = 1)
         addParam("activity_id", activityId, min = 0)
+        userId?.let { addParam("user_id", it, min = 1) }
         value?.let { addParam("value", it, min = 0) }
     }
 
@@ -76,11 +79,11 @@ class SecureService {
      * @param ip - user 'ip address'. Note that user may access using the 'ipv6' address, in this
      * case it is required to transmit the 'ipv6' address. If not transmitted, the address will not be
      * checked.
-     * @return [VKRequest] with [SecureTokenChecked]
+     * @return [VKRequest] with [SecureTokenCheckedDto]
      */
-    fun secureCheckToken(token: String? = null, ip: String? = null): VKRequest<SecureTokenChecked> =
-            NewApiRequest("secure.checkToken") {
-        GsonHolder.gson.fromJson(it, SecureTokenChecked::class.java)
+    fun secureCheckToken(token: String? = null, ip: String? = null):
+            VKRequest<SecureTokenCheckedDto> = NewApiRequest("secure.checkToken") {
+        GsonHolder.gson.parse<SecureTokenCheckedDto>(it)
     }
     .apply {
         token?.let { addParam("token", it) }
@@ -93,7 +96,7 @@ class SecureService {
      * @return [VKRequest] with [Int]
      */
     fun secureGetAppBalance(): VKRequest<Int> = NewApiRequest("secure.getAppBalance") {
-        GsonHolder.gson.fromJson(it, Int::class.java)
+        GsonHolder.gson.parse<Int>(it)
     }
 
     /**
@@ -111,9 +114,8 @@ class SecureService {
         dateFrom: Int? = null,
         dateTo: Int? = null,
         limit: Int? = null
-    ): VKRequest<List<SecureSmsNotification>> = NewApiRequest("secure.getSMSHistory") {
-        val typeToken = object: TypeToken<List<SecureSmsNotification>>() {}.type
-        GsonHolder.gson.fromJson<List<SecureSmsNotification>>(it, typeToken)
+    ): VKRequest<List<SecureSmsNotificationDto>> = NewApiRequest("secure.getSMSHistory") {
+        GsonHolder.gson.parseList<SecureSmsNotificationDto>(it)
     }
     .apply {
         userId?.let { addParam("user_id", it, min = 0) }
@@ -140,9 +142,8 @@ class SecureService {
         dateFrom: Int? = null,
         dateTo: Int? = null,
         limit: Int? = null
-    ): VKRequest<List<SecureTransaction>> = NewApiRequest("secure.getTransactionsHistory") {
-        val typeToken = object: TypeToken<List<SecureTransaction>>() {}.type
-        GsonHolder.gson.fromJson<List<SecureTransaction>>(it, typeToken)
+    ): VKRequest<List<SecureTransactionDto>> = NewApiRequest("secure.getTransactionsHistory") {
+        GsonHolder.gson.parseList<SecureTransactionDto>(it)
     }
     .apply {
         type?.let { addParam("type", it) }
@@ -159,13 +160,12 @@ class SecureService {
      * @param userIds
      * @return [VKRequest] with [Unit]
      */
-    fun secureGetUserLevel(userIds: List<UserId>): VKRequest<List<SecureLevel>> =
+    fun secureGetUserLevel(userIds: List<UserId>): VKRequest<List<SecureLevelDto>> =
             NewApiRequest("secure.getUserLevel") {
-        val typeToken = object: TypeToken<List<SecureLevel>>() {}.type
-        GsonHolder.gson.fromJson<List<SecureLevel>>(it, typeToken)
+        GsonHolder.gson.parseList<SecureLevelDto>(it)
     }
     .apply {
-        addParam("user_ids", userIds)
+        addParam("user_ids", userIds, min = 1)
     }
 
     /**
@@ -176,12 +176,12 @@ class SecureService {
      * @return [VKRequest] with [Unit]
      */
     fun secureGiveEventSticker(userIds: List<UserId>, achievementId: Int):
-            VKRequest<List<SecureGiveEventStickerItem>> = NewApiRequest("secure.giveEventSticker") {
-        val typeToken = object: TypeToken<List<SecureGiveEventStickerItem>>() {}.type
-        GsonHolder.gson.fromJson<List<SecureGiveEventStickerItem>>(it, typeToken)
+            VKRequest<List<SecureGiveEventStickerItemDto>> =
+            NewApiRequest("secure.giveEventSticker") {
+        GsonHolder.gson.parseList<SecureGiveEventStickerItemDto>(it)
     }
     .apply {
-        addParam("user_ids", userIds)
+        addParam("user_ids", userIds, min = 1)
         addParam("achievement_id", achievementId, min = 0)
     }
 
@@ -192,20 +192,25 @@ class SecureService {
      * maximum).
      * @param userIds
      * @param userId
+     * @param notificationId
+     * @param promoId
      * @return [VKRequest] with [Unit]
      */
     fun secureSendNotification(
         message: String,
         userIds: List<UserId>? = null,
-        userId: UserId? = null
+        userId: UserId? = null,
+        notificationId: Int? = null,
+        promoId: Int? = null
     ): VKRequest<List<UserId>> = NewApiRequest("secure.sendNotification") {
-        val typeToken = object: TypeToken<List<UserId>>() {}.type
-        GsonHolder.gson.fromJson<List<UserId>>(it, typeToken)
+        GsonHolder.gson.parseList<UserId>(it)
     }
     .apply {
         addParam("message", message)
-        userIds?.let { addParam("user_ids", it) }
+        userIds?.let { addParam("user_ids", it, min = 1) }
         userId?.let { addParam("user_id", it, min = 0) }
+        notificationId?.let { addParam("notification_id", it, min = 0) }
+        promoId?.let { addParam("promo_id", it, min = 0) }
     }
 
     /**
@@ -215,11 +220,11 @@ class SecureService {
      * application to send him/her notifications (, +1).
      * @param message - 'SMS' text to be sent in 'UTF-8' encoding. Only Latin letters and numbers
      * are allowed. Maximum size is '160' characters.
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun secureSendSMSNotification(userId: UserId, message: String): VKRequest<BaseOkResponse> =
+    fun secureSendSMSNotification(userId: UserId, message: String): VKRequest<BaseOkResponseDto> =
             NewApiRequest("secure.sendSMSNotification") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("user_id", userId, min = 1)
@@ -233,20 +238,82 @@ class SecureService {
      * @param userId
      * @param counter - counter value.
      * @param increment
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
     fun secureSetCounter(
         counters: List<String>? = null,
         userId: UserId? = null,
         counter: Int? = null,
         increment: Boolean? = null
-    ): VKRequest<BaseBoolInt> = NewApiRequest("secure.setCounter") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+    ): VKRequest<BaseBoolIntDto> = NewApiRequest("secure.setCounter") {
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         counters?.let { addParam("counters", it) }
         userId?.let { addParam("user_id", it, min = 0) }
         counter?.let { addParam("counter", it) }
         increment?.let { addParam("increment", it) }
+    }
+
+    object SecureAddAppEventRestrictions {
+        const val ACTIVITY_ID_MIN: Long = 0
+
+        const val USER_ID_MIN: Long = 1
+
+        const val VALUE_MIN: Long = 0
+    }
+
+    object SecureGetSMSHistoryRestrictions {
+        const val USER_ID_MIN: Long = 0
+
+        const val DATE_FROM_MIN: Long = 0
+
+        const val DATE_TO_MIN: Long = 0
+
+        const val LIMIT_MIN: Long = 0
+
+        const val LIMIT_MAX: Long = 1000
+    }
+
+    object SecureGetTransactionsHistoryRestrictions {
+        const val UID_FROM_MIN: Long = 1
+
+        const val UID_TO_MIN: Long = 1
+
+        const val DATE_FROM_MIN: Long = 0
+
+        const val DATE_TO_MIN: Long = 0
+
+        const val LIMIT_MIN: Long = 0
+
+        const val LIMIT_MAX: Long = 1000
+    }
+
+    object SecureGetUserLevelRestrictions {
+        const val USER_IDS_MIN: Long = 1
+    }
+
+    object SecureGiveEventStickerRestrictions {
+        const val USER_IDS_MIN: Long = 1
+
+        const val ACHIEVEMENT_ID_MIN: Long = 0
+    }
+
+    object SecureSendNotificationRestrictions {
+        const val USER_IDS_MIN: Long = 1
+
+        const val USER_ID_MIN: Long = 0
+
+        const val NOTIFICATION_ID_MIN: Long = 0
+
+        const val PROMO_ID_MIN: Long = 0
+    }
+
+    object SecureSendSMSNotificationRestrictions {
+        const val USER_ID_MIN: Long = 1
+    }
+
+    object SecureSetCounterRestrictions {
+        const val USER_ID_MIN: Long = 0
     }
 }

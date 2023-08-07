@@ -27,14 +27,16 @@
 // *********************************************************************
 package com.vk.sdk.api.store
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.base.dto.BaseSticker
-import com.vk.sdk.api.store.dto.StoreGetStickersKeywordsResponse
-import com.vk.sdk.api.store.dto.StoreProduct
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.store.dto.StoreGetFavoriteStickersResponseDto
+import com.vk.sdk.api.store.dto.StoreGetProductsResponseDto
+import com.vk.sdk.api.store.dto.StoreGetStickersKeywordsResponseDto
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -45,23 +47,22 @@ class StoreService {
      * Adds given sticker IDs to the list of user's favorite stickers
      *
      * @param stickerIds - Sticker IDs to be added
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun storeAddStickersToFavorite(stickerIds: List<Int>): VKRequest<BaseOkResponse> =
+    fun storeAddStickersToFavorite(stickerIds: List<Int>): VKRequest<BaseOkResponseDto> =
             NewApiRequest("store.addStickersToFavorite") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("sticker_ids", stickerIds)
     }
 
     /**
-     * @return [VKRequest] with [Unit]
+     * @return [VKRequest] with [StoreGetFavoriteStickersResponseDto]
      */
-    fun storeGetFavoriteStickers(): VKRequest<List<BaseSticker>> =
+    fun storeGetFavoriteStickers(): VKRequest<StoreGetFavoriteStickersResponseDto> =
             NewApiRequest("store.getFavoriteStickers") {
-        val typeToken = object: TypeToken<List<BaseSticker>>() {}.type
-        GsonHolder.gson.fromJson<List<BaseSticker>>(it, typeToken)
+        GsonHolder.gson.parse<StoreGetFavoriteStickersResponseDto>(it)
     }
 
     /**
@@ -70,17 +71,18 @@ class StoreService {
      * @param section
      * @param productIds
      * @param filters
-     * @return [VKRequest] with [Unit]
+     * @param extended
+     * @return [VKRequest] with [StoreGetProductsResponseDto]
      */
     fun storeGetProducts(
         type: String? = null,
         merchant: String? = null,
         section: String? = null,
         productIds: List<Int>? = null,
-        filters: List<String>? = null
-    ): VKRequest<List<StoreProduct>> = NewApiRequest("store.getProducts") {
-        val typeToken = object: TypeToken<List<StoreProduct>>() {}.type
-        GsonHolder.gson.fromJson<List<StoreProduct>>(it, typeToken)
+        filters: List<String>? = null,
+        extended: Boolean? = null
+    ): VKRequest<StoreGetProductsResponseDto> = NewApiRequest("store.getProducts") {
+        GsonHolder.gson.parse<StoreGetProductsResponseDto>(it)
     }
     .apply {
         type?.let { addParam("type", it) }
@@ -88,6 +90,7 @@ class StoreService {
         section?.let { addParam("section", it) }
         productIds?.let { addParam("product_ids", it) }
         filters?.let { addParam("filters", it) }
+        extended?.let { addParam("extended", it) }
     }
 
     /**
@@ -96,7 +99,7 @@ class StoreService {
      * @param aliases
      * @param allProducts
      * @param needStickers
-     * @return [VKRequest] with [StoreGetStickersKeywordsResponse]
+     * @return [VKRequest] with [StoreGetStickersKeywordsResponseDto]
      */
     fun storeGetStickersKeywords(
         stickersIds: List<Int>? = null,
@@ -104,8 +107,8 @@ class StoreService {
         aliases: Boolean? = null,
         allProducts: Boolean? = null,
         needStickers: Boolean? = null
-    ): VKRequest<StoreGetStickersKeywordsResponse> = NewApiRequest("store.getStickersKeywords") {
-        GsonHolder.gson.fromJson(it, StoreGetStickersKeywordsResponse::class.java)
+    ): VKRequest<StoreGetStickersKeywordsResponseDto> = NewApiRequest("store.getStickersKeywords") {
+        GsonHolder.gson.parse<StoreGetStickersKeywordsResponseDto>(it)
     }
     .apply {
         stickersIds?.let { addParam("stickers_ids", it) }
@@ -119,11 +122,11 @@ class StoreService {
      * Removes given sticker IDs from the list of user's favorite stickers
      *
      * @param stickerIds - Sticker IDs to be removed
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
-    fun storeRemoveStickersFromFavorite(stickerIds: List<Int>): VKRequest<BaseOkResponse> =
+    fun storeRemoveStickersFromFavorite(stickerIds: List<Int>): VKRequest<BaseOkResponseDto> =
             NewApiRequest("store.removeStickersFromFavorite") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("sticker_ids", stickerIds)

@@ -27,24 +27,26 @@
 // *********************************************************************
 package com.vk.sdk.api.polls
 
-import com.google.gson.reflect.TypeToken
 import com.vk.api.sdk.requests.VKRequest
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.GsonHolder
 import com.vk.sdk.api.NewApiRequest
-import com.vk.sdk.api.base.dto.BaseBoolInt
-import com.vk.sdk.api.base.dto.BaseOkResponse
-import com.vk.sdk.api.base.dto.BaseUploadServer
-import com.vk.sdk.api.polls.dto.PollsBackground
-import com.vk.sdk.api.polls.dto.PollsCreateBackgroundId
-import com.vk.sdk.api.polls.dto.PollsEditBackgroundId
-import com.vk.sdk.api.polls.dto.PollsGetByIdNameCase
-import com.vk.sdk.api.polls.dto.PollsGetVotersNameCase
-import com.vk.sdk.api.polls.dto.PollsPoll
-import com.vk.sdk.api.polls.dto.PollsVoters
-import com.vk.sdk.api.users.dto.UsersFields
+import com.vk.sdk.api.base.dto.BaseBoolIntDto
+import com.vk.sdk.api.base.dto.BaseOkResponseDto
+import com.vk.sdk.api.base.dto.BaseUploadServerDto
+import com.vk.sdk.api.mapToJsonPrimitive
+import com.vk.sdk.api.parse
+import com.vk.sdk.api.parseList
+import com.vk.sdk.api.polls.dto.PollsBackgroundDto
+import com.vk.sdk.api.polls.dto.PollsCreateBackgroundIdDto
+import com.vk.sdk.api.polls.dto.PollsEditBackgroundIdDto
+import com.vk.sdk.api.polls.dto.PollsFieldsVotersDto
+import com.vk.sdk.api.polls.dto.PollsGetByIdNameCaseDto
+import com.vk.sdk.api.polls.dto.PollsPollDto
+import com.vk.sdk.api.users.dto.UsersFieldsDto
 import kotlin.Boolean
 import kotlin.Int
+import kotlin.Long
 import kotlin.String
 import kotlin.collections.List
 
@@ -57,15 +59,15 @@ class PollsService {
      * @param ownerId - ID of the user or community that owns the poll. Use a negative value to
      * designate a community ID.
      * @param isBoard
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
     fun pollsAddVote(
         pollId: Int,
-        answerIds: List<Int>,
+        answerIds: List<Long>,
         ownerId: UserId? = null,
         isBoard: Boolean? = null
-    ): VKRequest<BaseBoolInt> = NewApiRequest("polls.addVote") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+    ): VKRequest<BaseBoolIntDto> = NewApiRequest("polls.addVote") {
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("poll_id", pollId, min = 0)
@@ -90,7 +92,7 @@ class PollsService {
      * @param photoId
      * @param backgroundId
      * @param disableUnvote
-     * @return [VKRequest] with [PollsPoll]
+     * @return [VKRequest] with [PollsPollDto]
      */
     fun pollsCreate(
         question: String? = null,
@@ -101,10 +103,10 @@ class PollsService {
         appId: Int? = null,
         addAnswers: String? = null,
         photoId: Int? = null,
-        backgroundId: PollsCreateBackgroundId? = null,
+        backgroundId: PollsCreateBackgroundIdDto? = null,
         disableUnvote: Boolean? = null
-    ): VKRequest<PollsPoll> = NewApiRequest("polls.create") {
-        GsonHolder.gson.fromJson(it, PollsPoll::class.java)
+    ): VKRequest<PollsPollDto> = NewApiRequest("polls.create") {
+        GsonHolder.gson.parse<PollsPollDto>(it)
     }
     .apply {
         question?.let { addParam("question", it) }
@@ -123,23 +125,20 @@ class PollsService {
      * Deletes the current user's vote from the selected answer in the poll.
      *
      * @param pollId - Poll ID.
-     * @param answerId - Answer ID.
      * @param ownerId - ID of the user or community that owns the poll. Use a negative value to
      * designate a community ID.
      * @param isBoard
-     * @return [VKRequest] with [BaseBoolInt]
+     * @return [VKRequest] with [BaseBoolIntDto]
      */
     fun pollsDeleteVote(
         pollId: Int,
-        answerId: Int,
         ownerId: UserId? = null,
         isBoard: Boolean? = null
-    ): VKRequest<BaseBoolInt> = NewApiRequest("polls.deleteVote") {
-        GsonHolder.gson.fromJson(it, BaseBoolInt::class.java)
+    ): VKRequest<BaseBoolIntDto> = NewApiRequest("polls.deleteVote") {
+        GsonHolder.gson.parse<BaseBoolIntDto>(it)
     }
     .apply {
         addParam("poll_id", pollId, min = 0)
-        addParam("answer_id", answerId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         isBoard?.let { addParam("is_board", it) }
     }
@@ -158,7 +157,7 @@ class PollsService {
      * @param endDate
      * @param photoId
      * @param backgroundId
-     * @return [VKRequest] with [BaseOkResponse]
+     * @return [VKRequest] with [BaseOkResponseDto]
      */
     fun pollsEdit(
         pollId: Int,
@@ -169,9 +168,9 @@ class PollsService {
         deleteAnswers: String? = null,
         endDate: Int? = null,
         photoId: Int? = null,
-        backgroundId: PollsEditBackgroundId? = null
-    ): VKRequest<BaseOkResponse> = NewApiRequest("polls.edit") {
-        GsonHolder.gson.fromJson(it, BaseOkResponse::class.java)
+        backgroundId: PollsEditBackgroundIdDto? = null
+    ): VKRequest<BaseOkResponseDto> = NewApiRequest("polls.edit") {
+        GsonHolder.gson.parse<BaseOkResponseDto>(it)
     }
     .apply {
         addParam("poll_id", pollId, min = 0)
@@ -188,10 +187,9 @@ class PollsService {
     /**
      * @return [VKRequest] with [Unit]
      */
-    fun pollsGetBackgrounds(): VKRequest<List<PollsBackground>> =
+    fun pollsGetBackgrounds(): VKRequest<List<PollsBackgroundDto>> =
             NewApiRequest("polls.getBackgrounds") {
-        val typeToken = object: TypeToken<List<PollsBackground>>() {}.type
-        GsonHolder.gson.fromJson<List<PollsBackground>>(it, typeToken)
+        GsonHolder.gson.parseList<PollsBackgroundDto>(it)
     }
 
     /**
@@ -201,25 +199,28 @@ class PollsService {
      * @param ownerId - ID of the user or community that owns the poll. Use a negative value to
      * designate a community ID.
      * @param isBoard - '1' - poll is in a board, '0' - poll is on a wall. '0' by default.
+     * @param extended
      * @param friendsCount
      * @param fields
      * @param nameCase
-     * @return [VKRequest] with [PollsPoll]
+     * @return [VKRequest] with [PollsPollDto]
      */
     fun pollsGetById(
         pollId: Int,
         ownerId: UserId? = null,
         isBoard: Boolean? = null,
+        extended: Boolean? = null,
         friendsCount: Int? = null,
         fields: List<String>? = null,
-        nameCase: PollsGetByIdNameCase? = null
-    ): VKRequest<PollsPoll> = NewApiRequest("polls.getById") {
-        GsonHolder.gson.fromJson(it, PollsPoll::class.java)
+        nameCase: PollsGetByIdNameCaseDto? = null
+    ): VKRequest<PollsPollDto> = NewApiRequest("polls.getById") {
+        GsonHolder.gson.parse<PollsPollDto>(it)
     }
     .apply {
         addParam("poll_id", pollId, min = 0)
         ownerId?.let { addParam("owner_id", it) }
         isBoard?.let { addParam("is_board", it) }
+        extended?.let { addParam("extended", it) }
         friendsCount?.let { addParam("friends_count", it, min = 0, max = 100) }
         fields?.let { addParam("fields", it) }
         nameCase?.let { addParam("name_case", it.value) }
@@ -227,11 +228,11 @@ class PollsService {
 
     /**
      * @param ownerId
-     * @return [VKRequest] with [BaseUploadServer]
+     * @return [VKRequest] with [BaseUploadServerDto]
      */
-    fun pollsGetPhotoUploadServer(ownerId: UserId? = null): VKRequest<BaseUploadServer> =
+    fun pollsGetPhotoUploadServer(ownerId: UserId? = null): VKRequest<BaseUploadServerDto> =
             NewApiRequest("polls.getPhotoUploadServer") {
-        GsonHolder.gson.fromJson(it, BaseUploadServer::class.java)
+        GsonHolder.gson.parse<BaseUploadServerDto>(it)
     }
     .apply {
         ownerId?.let { addParam("owner_id", it) }
@@ -260,17 +261,16 @@ class PollsService {
      */
     fun pollsGetVoters(
         pollId: Int,
-        answerIds: List<Int>,
+        answerIds: List<Long>,
         ownerId: UserId? = null,
         isBoard: Boolean? = null,
         friendsOnly: Boolean? = null,
         offset: Int? = null,
         count: Int? = null,
-        fields: List<UsersFields>? = null,
-        nameCase: PollsGetVotersNameCase? = null
-    ): VKRequest<List<PollsVoters>> = NewApiRequest("polls.getVoters") {
-        val typeToken = object: TypeToken<List<PollsVoters>>() {}.type
-        GsonHolder.gson.fromJson<List<PollsVoters>>(it, typeToken)
+        fields: List<UsersFieldsDto>? = null,
+        nameCase: String? = null
+    ): VKRequest<List<PollsFieldsVotersDto>> = NewApiRequest("polls.getVoters") {
+        GsonHolder.gson.parseList<PollsFieldsVotersDto>(it)
     }
     .apply {
         addParam("poll_id", pollId, min = 0)
@@ -284,20 +284,58 @@ class PollsService {
             it.value
         }
         fieldsJsonConverted?.let { addParam("fields", it) }
-        nameCase?.let { addParam("name_case", it.value) }
+        nameCase?.let { addParam("name_case", it) }
     }
 
     /**
      * @param photo
      * @param hash
-     * @return [VKRequest] with [PollsBackground]
+     * @return [VKRequest] with [PollsBackgroundDto]
      */
-    fun pollsSavePhoto(photo: String, hash: String): VKRequest<PollsBackground> =
+    fun pollsSavePhoto(photo: String, hash: String): VKRequest<PollsBackgroundDto> =
             NewApiRequest("polls.savePhoto") {
-        GsonHolder.gson.fromJson(it, PollsBackground::class.java)
+        GsonHolder.gson.parse<PollsBackgroundDto>(it)
     }
     .apply {
         addParam("photo", photo)
         addParam("hash", hash)
+    }
+
+    object PollsAddVoteRestrictions {
+        const val POLL_ID_MIN: Long = 0
+    }
+
+    object PollsCreateRestrictions {
+        const val END_DATE_MIN: Long = 1550700000
+
+        const val PHOTO_ID_MIN: Long = 0
+    }
+
+    object PollsDeleteVoteRestrictions {
+        const val POLL_ID_MIN: Long = 0
+    }
+
+    object PollsEditRestrictions {
+        const val POLL_ID_MIN: Long = 0
+
+        const val END_DATE_MIN: Long = 0
+
+        const val PHOTO_ID_MIN: Long = 0
+    }
+
+    object PollsGetByIdRestrictions {
+        const val POLL_ID_MIN: Long = 0
+
+        const val FRIENDS_COUNT_MIN: Long = 0
+
+        const val FRIENDS_COUNT_MAX: Long = 100
+    }
+
+    object PollsGetVotersRestrictions {
+        const val POLL_ID_MIN: Long = 0
+
+        const val OFFSET_MIN: Long = 0
+
+        const val COUNT_MIN: Long = 0
     }
 }
